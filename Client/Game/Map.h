@@ -22,7 +22,7 @@ public:
     void update(Player& player, int x, int y);
     void reset();
     void initialize();
-    bool movementAllowed(int new_x, int new_y, bool is_increasing);
+    bool movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr);
     int getGridSize();
     bool outOfVerticalBounds(int y_pos);
     bool outOfHorizontalBounds(int x_pos);

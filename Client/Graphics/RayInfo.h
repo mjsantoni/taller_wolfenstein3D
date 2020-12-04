@@ -18,6 +18,11 @@ public:
     int horizontal_object_type = 0;
     int vertical_grid_pos = 0;
     int horizontal_grid_pos = 0;
+    double distance = 0;
+    int hit_x = 0;
+    int hit_y = 0;
+    int grid_pos = 0;
+    int object_type = 0;
 };
 
 

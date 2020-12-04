@@ -19,44 +19,28 @@ void EventHandler::handleEvent(SDL_Event event, Player& player, Map &map, bool &
             auto& key_event = (SDL_KeyboardEvent&) event;
             switch (key_event.keysym.sym) {
                 case SDLK_a:
-                    new_angle = player.projectDirection(M_PI/2);
-                    printf("Angulo proyectado: %f\n", new_angle);
-                    calculateMovement(proj_x, proj_y,
-                                      new_angle);
-                    if (map.movementAllowed(proj_x, proj_y, false)) {
+                    if (movementAllowed(proj_x, proj_y, M_PI/2, player, map)) {
                         must_update = true;
                         x = proj_x;
                         y = proj_y;
                     }
                     break;
                 case SDLK_d:
-                    new_angle = player.projectDirection(-M_PI/2);
-                    printf("Angulo proyectado: %f\n", new_angle);
-                    calculateMovement(proj_x, proj_y,
-                                      new_angle);
-                    if (map.movementAllowed(proj_x, proj_y, true)) {
+                    if (movementAllowed(proj_x, proj_y, -M_PI/2, player, map)) {
                         must_update = true;
                         x = proj_x;
                         y = proj_y;
                     }
                     break;
                 case SDLK_w:
-                    new_angle = player.projectDirection(0);
-                    printf("Angulo proyectado: %f\n", new_angle);
-                    calculateMovement(proj_x, proj_y,
-                                      new_angle);
-                    if (map.movementAllowed(proj_x, proj_y, false)) {
+                    if (movementAllowed(proj_x, proj_y, 0, player, map)) {
                         must_update = true;
                         x = proj_x;
                         y = proj_y;
                     }
                     break;
                 case SDLK_s:
-                    new_angle = player.projectDirection(-M_PI);
-                    printf("Angulo proyectado: %f\n", new_angle);
-                    calculateMovement(proj_x, proj_y,
-                                      new_angle);
-                    if (map.movementAllowed(proj_x, proj_y, true)) {
+                    if (movementAllowed(proj_x, proj_y, M_PI, player, map)) {
                         must_update = true;
                         x = proj_x;
                         y = proj_y;
@@ -138,5 +122,20 @@ void EventHandler::calculateMovement(int& x, int& y, double alpha){
     printf("hacia (%d, %d)\n", x, y);
     //printf("X PROYECTADO: %d\n", x);
     //printf("Y PROYECTADO: %d\n", y);
+}
+
+bool EventHandler::movementAllowed(int& proj_x,
+                     int& proj_y,
+                     double angle_turn,
+                     Player& player,
+                     Map& map) {
+    double new_angle = player.projectDirection(angle_turn);
+    printf("Angulo proyectadO: %f\n", new_angle);
+    bool x_incr = (new_angle < M_PI / 2 || new_angle > 3 * M_PI / 2);
+    bool y_incr = (new_angle > M_PI);
+    printf("x incr: %d\n", x_incr);
+    printf("y incr: %d\n", y_incr);
+    calculateMovement(proj_x, proj_y, new_angle);
+    return (map.movementAllowed(proj_x, proj_y, x_incr, y_incr));
 }
 

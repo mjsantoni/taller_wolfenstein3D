@@ -14,6 +14,8 @@ public:
     void handleMouseEvent(SDL_Event event, Player& player, SdlWindow& window);
     void getMousePosition();
     void calculateMovement(int& x, int& y, double alpha);
+    bool movementAllowed(int& proj_x, int& proj_y, double angle_turn,
+    Player& player, Map& map);
 private:
     int mouse_position_x = 0;
     int step_size = 50;

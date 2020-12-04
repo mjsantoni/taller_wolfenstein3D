@@ -13,11 +13,11 @@ public:
     int object_x_pos;
     int object_y_pos;
     int object_type;
-    double object_distance;
     int object_image_height;
     double object_image_width;
     int object_side;
     double hit_distance;
+    int hit_grid_pos;
     int hit_x;
     int hit_y;
 };

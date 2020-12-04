@@ -107,7 +107,7 @@ SDL_Texture* SdlWindow::assembleImageArea(DrawingInfo drawing_info,
             break;
         }
         case 2: {
-            Wall_3d wall("../Resources/wall_3.gif");
+            Wall_3d wall("../Resources/wall_alt.jpg");
             texture = wall.getImageForColumn(renderer, image_area);
             break;
         }

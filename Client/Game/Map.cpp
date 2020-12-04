@@ -91,13 +91,16 @@ void Map::erasePlayerFromOldPosition(std::pair<int, int> old_positions) {
     window.fillSquare(erase_area);
 }
 
-bool Map::movementAllowed(int new_x, int new_y, bool is_increasing) {
+bool Map::movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr) {
     if (new_x < 65 || new_y < 65 || new_x > real_width || new_y > real_height)
         return false;
-    int x_coord = (new_x/grid_size)*grid_size + (int) is_increasing*grid_size;
-    int y_coord = (new_y/grid_size)*grid_size + (int) is_increasing*grid_size;
-    std::pair<int, int> coordinates(x_coord, y_coord);
-    bool is_allowed = info.find(coordinates) == info.end();
+    int x_grid = new_x/grid_size;
+    int y_grid = new_y/grid_size;
+    std::pair<int, int> coordinates{x_grid, y_grid};
+    int x_coord = (new_x/grid_size)*grid_size + (int) x_incr*grid_size;
+    int y_coord = (new_y/grid_size)*grid_size + (int) y_incr*grid_size;
+    //std::pair<int, int> coordinates(x_coord, y_coord);
+    bool is_allowed = !wallAtGrid(coordinates);
     if (! is_allowed)
         printf("El jugador no puede moverse a (%d,%d) porque hay una pared en (%d, %d)\n",
                new_x, new_y, x_coord, y_coord);
