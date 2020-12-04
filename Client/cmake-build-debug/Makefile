@@ -170,6 +170,33 @@ Exceptions/SdlException.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Exceptions/SdlException.cpp.s
 .PHONY : Exceptions/SdlException.cpp.s
 
+Game/Enemy.o: Game/Enemy.cpp.o
+
+.PHONY : Game/Enemy.o
+
+# target to build an object file
+Game/Enemy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o
+.PHONY : Game/Enemy.cpp.o
+
+Game/Enemy.i: Game/Enemy.cpp.i
+
+.PHONY : Game/Enemy.i
+
+# target to preprocess a source file
+Game/Enemy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.i
+.PHONY : Game/Enemy.cpp.i
+
+Game/Enemy.s: Game/Enemy.cpp.s
+
+.PHONY : Game/Enemy.s
+
+# target to generate assembly for a file
+Game/Enemy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.s
+.PHONY : Game/Enemy.cpp.s
+
 Game/EventHandler.o: Game/EventHandler.cpp.o
 
 .PHONY : Game/EventHandler.o
@@ -305,32 +332,32 @@ Game/Positionable.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Positionable.cpp.s
 .PHONY : Game/Positionable.cpp.s
 
-Game/Wall.o: Game/Wall.cpp.o
+Game/PositionableHandler.o: Game/PositionableHandler.cpp.o
 
-.PHONY : Game/Wall.o
+.PHONY : Game/PositionableHandler.o
 
 # target to build an object file
-Game/Wall.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o
-.PHONY : Game/Wall.cpp.o
+Game/PositionableHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o
+.PHONY : Game/PositionableHandler.cpp.o
 
-Game/Wall.i: Game/Wall.cpp.i
+Game/PositionableHandler.i: Game/PositionableHandler.cpp.i
 
-.PHONY : Game/Wall.i
+.PHONY : Game/PositionableHandler.i
 
 # target to preprocess a source file
-Game/Wall.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.i
-.PHONY : Game/Wall.cpp.i
+Game/PositionableHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.i
+.PHONY : Game/PositionableHandler.cpp.i
 
-Game/Wall.s: Game/Wall.cpp.s
+Game/PositionableHandler.s: Game/PositionableHandler.cpp.s
 
-.PHONY : Game/Wall.s
+.PHONY : Game/PositionableHandler.s
 
 # target to generate assembly for a file
-Game/Wall.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.s
-.PHONY : Game/Wall.cpp.s
+Game/PositionableHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.s
+.PHONY : Game/PositionableHandler.cpp.s
 
 Game/Wall_3d.o: Game/Wall_3d.cpp.o
 
@@ -412,6 +439,33 @@ Graphics/DrawingInfo.s: Graphics/DrawingInfo.cpp.s
 Graphics/DrawingInfo.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.s
 .PHONY : Graphics/DrawingInfo.cpp.s
+
+Graphics/ObjectDrawer.o: Graphics/ObjectDrawer.cpp.o
+
+.PHONY : Graphics/ObjectDrawer.o
+
+# target to build an object file
+Graphics/ObjectDrawer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o
+.PHONY : Graphics/ObjectDrawer.cpp.o
+
+Graphics/ObjectDrawer.i: Graphics/ObjectDrawer.cpp.i
+
+.PHONY : Graphics/ObjectDrawer.i
+
+# target to preprocess a source file
+Graphics/ObjectDrawer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.i
+.PHONY : Graphics/ObjectDrawer.cpp.i
+
+Graphics/ObjectDrawer.s: Graphics/ObjectDrawer.cpp.s
+
+.PHONY : Graphics/ObjectDrawer.s
+
+# target to generate assembly for a file
+Graphics/ObjectDrawer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp_wolfenstein.dir/build.make CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.s
+.PHONY : Graphics/ObjectDrawer.cpp.s
 
 Graphics/RayCaster.o: Graphics/RayCaster.cpp.o
 
@@ -641,6 +695,9 @@ help:
 	@echo "... Exceptions/SdlException.o"
 	@echo "... Exceptions/SdlException.i"
 	@echo "... Exceptions/SdlException.s"
+	@echo "... Game/Enemy.o"
+	@echo "... Game/Enemy.i"
+	@echo "... Game/Enemy.s"
 	@echo "... Game/EventHandler.o"
 	@echo "... Game/EventHandler.i"
 	@echo "... Game/EventHandler.s"
@@ -656,9 +713,9 @@ help:
 	@echo "... Game/Positionable.o"
 	@echo "... Game/Positionable.i"
 	@echo "... Game/Positionable.s"
-	@echo "... Game/Wall.o"
-	@echo "... Game/Wall.i"
-	@echo "... Game/Wall.s"
+	@echo "... Game/PositionableHandler.o"
+	@echo "... Game/PositionableHandler.i"
+	@echo "... Game/PositionableHandler.s"
 	@echo "... Game/Wall_3d.o"
 	@echo "... Game/Wall_3d.i"
 	@echo "... Game/Wall_3d.s"
@@ -668,6 +725,9 @@ help:
 	@echo "... Graphics/DrawingInfo.o"
 	@echo "... Graphics/DrawingInfo.i"
 	@echo "... Graphics/DrawingInfo.s"
+	@echo "... Graphics/ObjectDrawer.o"
+	@echo "... Graphics/ObjectDrawer.i"
+	@echo "... Graphics/ObjectDrawer.s"
 	@echo "... Graphics/RayCaster.o"
 	@echo "... Graphics/RayCaster.i"
 	@echo "... Graphics/RayCaster.s"

@@ -90,6 +90,12 @@
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Exceptions/SdlException.h">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.cpp">
+			<Option target="tp_wolfenstein"/>
+		</Unit>
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.h">
+			<Option target="tp_wolfenstein"/>
+		</Unit>
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/EventHandler.cpp">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
@@ -120,10 +126,10 @@
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Positionable.h">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
-		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Wall.cpp">
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.cpp">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
-		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Wall.h">
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.h">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Game/Wall_3d.cpp">
@@ -142,6 +148,12 @@
 			<Option target="tp_wolfenstein"/>
 		</Unit>
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.h">
+			<Option target="tp_wolfenstein"/>
+		</Unit>
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.cpp">
+			<Option target="tp_wolfenstein"/>
+		</Unit>
+		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.h">
 			<Option target="tp_wolfenstein"/>
 		</Unit>
 		<Unit filename="/home/andy/CLionProjects/tp_wolfenstein/Graphics/RayCaster.cpp">

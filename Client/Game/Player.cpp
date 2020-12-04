@@ -5,17 +5,11 @@
 #include <functional>
 #include "Player.h"
 
-Player::Player(std::string name, std::string image_path, int rows, int cols) :
-            Positionable("Player"), name(std::move(name)),
-            image(std::move(image_path), rows, cols) {
+Player::Player(std::string name) :  name(std::move(name)) {
 }
 
 std::string Player::getPlayerName() {
     return std::ref(name);
-}
-
-SDL_Texture* Player::getImage(SDL_Renderer* renderer, Area& src_area) {
-    return image.loadNextTexture(renderer, src_area);
 }
 
 double Player::getDirection() {

@@ -5,7 +5,6 @@
 #include <SDL.h>
 #include "SdlWindow.h"
 #include "../Exceptions/SdlException.h"
-#include "../Game/Wall.h"
 #include "../Game/Wall_3d.h"
 
 #define PROJECTION_PLANE_width 320
@@ -21,6 +20,7 @@ SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
             );
     if (error_code)
         throw SdlException("Error al crear la ventana", SDL_GetError());
+    drawer.setRenderer(renderer, width, height);
 }
 
 SdlWindow::~SdlWindow() {
@@ -87,35 +87,13 @@ void SdlWindow::restore() {
 
 void SdlWindow::put3DColumn(int ray_no, DrawingInfo drawing_info){
     Area image_area;
-    image_area.setX(ray_no*width/PROJECTION_PLANE_width);
-    SDL_Texture* texture = assembleImageArea(drawing_info, image_area);
+    //image_area.setX(ray_no*width/PROJECTION_PLANE_width);
+    SDL_Texture* texture = drawer.drawImage(ray_no, drawing_info, image_area);
     Area screen_area = assembleScreenArea(ray_no, drawing_info);
     putTextureAt(texture, image_area, screen_area);
     drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
     drawCeiling(ray_no, screen_area.getY());
     SDL_DestroyTexture(texture);
-}
-
-SDL_Texture* SdlWindow::assembleImageArea(DrawingInfo drawing_info,
-                                          Area& image_area) {
-    //image_area.setX(drawing_info.object_x_pos);
-    SDL_Texture* texture;
-    switch (drawing_info.object_type) {
-        case 1: {
-            Wall_3d wall("../Resources/wall_3.gif");
-            texture = wall.getImageForColumn(renderer, image_area);
-            break;
-        }
-        case 2: {
-            Wall_3d wall("../Resources/wall_alt.jpg");
-            texture = wall.getImageForColumn(renderer, image_area);
-            break;
-        }
-    }
-    int real_width = 2;
-    image_area.setWidth(real_width);
-    //printf("Se copiara una pared desde: (%d, %d) con ancho de %d y altura de %d\n", image_area.getX(), image_area.getY(), image_area.getWidth(), image_area.getHeight());
-    return texture;
 }
 
 Area SdlWindow::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {

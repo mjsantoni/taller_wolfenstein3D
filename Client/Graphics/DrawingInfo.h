@@ -17,9 +17,12 @@ public:
     double object_image_width;
     int object_side;
     double hit_distance;
-    int hit_grid_pos;
+    double hit_grid_pos;
     int hit_x;
     int hit_y;
+    bool is_sprite;
+    int sprite_image_number;
+    std::string texture_name;
 };
 
 

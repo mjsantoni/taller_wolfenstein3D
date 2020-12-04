@@ -10,17 +10,15 @@
 #include "../Graphics/SdlSprite.h"
 #include "Positionable.h"
 
-class Player : public Positionable {
+class Player {
 public:
-    Player(std::string name, std::string image_path, int rows, int cols);
+    Player(std::string name);
     std::string getPlayerName();
-    SDL_Texture* getImage(SDL_Renderer* renderer, Area& src_area);
     double getDirection();
     void updateDirection(double offset);
     double projectDirection(double direction_change_alpha);
 private:
     std::string name;
-    SdlSprite image;
     double direction = M_PI/4;
 };
 

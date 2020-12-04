@@ -15,10 +15,10 @@ Game::Game(int width, int height) : window(width, height), running(true), map(wi
 void Game::start() {
     displayIntro();
     map.initialize();
-    Player player("crazy_man", "../Resources/crazy_man.png", 4, 3);
+    Player player("Player1");
     int x = 200;
     int y = 170;
-    map.putPositionableAt(player, std::pair<int, int>(x, y));
+    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     //map.update(player, x, y);
     RayCaster ray_caster(window, map);
     event_handler.getMousePosition();
@@ -33,7 +33,7 @@ void Game::start() {
                 must_render = true;
                 break;
             case SDL_MOUSEMOTION:
-                    event_handler.handleMouseEvent(event, player, window);
+                event_handler.handleMouseEvent(event, player, window);
                 must_render = true;
                 break;
             case SDL_QUIT:

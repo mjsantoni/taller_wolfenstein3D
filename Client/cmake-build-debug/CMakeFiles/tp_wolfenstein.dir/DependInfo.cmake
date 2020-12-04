@@ -5,15 +5,17 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/andy/CLionProjects/tp_wolfenstein/Exceptions/SdlException.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Exceptions/SdlException.cpp.o"
+  "/home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/EventHandler.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/EventHandler.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/Game.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Game.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/Map.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Map.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/Player.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Player.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/Positionable.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Positionable.cpp.o"
-  "/home/andy/CLionProjects/tp_wolfenstein/Game/Wall.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o"
+  "/home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Game/Wall_3d.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Graphics/Area.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/Area.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o"
+  "/home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Graphics/RayCaster.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Graphics/RayInfo.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o"
   "/home/andy/CLionProjects/tp_wolfenstein/Graphics/Sdl3DTexture.cpp" "/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o"

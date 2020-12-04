@@ -12,10 +12,8 @@
 class Wall_3d : public Positionable {
 public:
     Wall_3d(std::string image_name);
-    SDL_Texture* getImage(SDL_Renderer* renderer, Area& src_area);
-    SDL_Texture* getImageForColumn(SDL_Renderer* renderer, Area& src_area);
-private:
-    Sdl3DTexture image;
+    //SDL_Texture* getImage(SDL_Renderer* renderer, Area& src_area);
+    //SDL_Texture* getImageForColumn(SDL_Renderer* renderer, Area& src_area);
 };
 
 

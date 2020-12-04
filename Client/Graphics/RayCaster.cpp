@@ -81,12 +81,12 @@ void RayCaster::castProjectionLine_vertical_up(int x,
         if (outOfBounds(map, y-delta_y, true))
             return;
 
-        int x_factor_h = ray_pointing_left ? -1 : 0;
-        int x_factor = ((x+delta_x)%64 == 0) ? x_factor_h : 0;
-        if (map.wallAtGrid(x+delta_x, y-delta_y, x_factor, -1, x, y)) {
+        int x_factor = calculateBorderFactor(ray_pointing_left, x+delta_x);
+        if (map.wallAtGrid(x+delta_x, y-delta_y, x_factor, -1)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia arriba",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, -delta_y, drawing_info, 1);
+            fillRayInfo(beta, x, y, delta_x, -delta_y, drawing_info, x_factor,
+                        -1);
             return;
         }
         delta_y += map.getGridSize();
@@ -107,12 +107,11 @@ void RayCaster::castProjectionLine_vertical_down(int x,
         if (outOfBounds(map, y+delta_y, true))
             return;
 
-        int x_factor_h = ray_pointing_right ? -1 : 0;
-        int x_factor = ((x+delta_x)%64 == 0) ? x_factor_h : 0;
-        if (map.wallAtGrid(x+delta_x, y+delta_y, x_factor, 0, x, y)) {
+        int x_factor = calculateBorderFactor(ray_pointing_right, x+delta_x);
+        if (map.wallAtGrid(x+delta_x, y+delta_y, x_factor, 0)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia abajo",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info, 1);
+            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info, x_factor,0);
             return;
         }
         delta_y += map.getGridSize();
@@ -134,12 +133,12 @@ void RayCaster::castProjectionLine_horizontal_left(int x,
         if (outOfBounds(map, x-delta_x, false))
             return;
 
-        int y_factor_v = ray_pointing_up ? -1 : 0;
-        int y_factor = ((y+delta_y)%64 == 0) ? y_factor_v : 0;
-        if (map.wallAtGrid(x-delta_x, y+delta_y, -1, y_factor, x, y)) {
+        int y_factor = calculateBorderFactor(ray_pointing_up, y+delta_y);
+        if (map.wallAtGrid(x-delta_x, y+delta_y, -1, y_factor)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la izquierda",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo((float) beta, x, y, -delta_x, delta_y, drawing_info, 2);
+            fillRayInfo(beta, x, y, -delta_x, delta_y, drawing_info,
+                        -1, y_factor);
             return;
         }
         delta_x += map.getGridSize();
@@ -160,12 +159,11 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
         if (outOfBounds(map, x+delta_x, false))
             return;
 
-        int y_factor_v = ray_pointing_up ? -1 : 0;
-        int y_factor = ((y+delta_y)%64 == 0) ? y_factor_v : 0;
-        if (map.wallAtGrid(x+delta_x, y+delta_y, 0, y_factor, x, y)) {
+        int y_factor = calculateBorderFactor(ray_pointing_up, y+delta_y);
+        if (map.wallAtGrid(x+delta_x, y+delta_y, 0, y_factor)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la derecha",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info, 2);
+            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info,0, y_factor);
             return;
         }
         delta_x += map.getGridSize();
@@ -198,7 +196,8 @@ void RayCaster::fillRayInfo(double beta,
                             int delta_x,
                             int delta_y,
                             DrawingInfo& drawing_info,
-                            int object_type) {
+                            int x_factor,
+                            int y_factor) {
     double final_distance = calculateDistanceToWall(delta_x, delta_y)*cos(beta);
     if (final_distance >= drawing_info.hit_distance
                                 && drawing_info.hit_distance != 0)
@@ -206,7 +205,15 @@ void RayCaster::fillRayInfo(double beta,
     drawing_info.hit_distance = final_distance;
     drawing_info.hit_x = x_pos+delta_x;
     drawing_info.hit_y = y_pos+delta_y;
-    drawing_info.object_type = object_type;
+    map.getObjectInfo(drawing_info, x_pos+delta_x, y_pos+delta_y, x_factor,
+                      y_factor);
     drawing_info.hit_grid_pos = (drawing_info.hit_x%GRID_SIZE == 0) ?
-            drawing_info.hit_y % GRID_SIZE : drawing_info.hit_x % GRID_SIZE;
+           double (drawing_info.hit_y%GRID_SIZE)/GRID_SIZE :
+           double (drawing_info.hit_x%GRID_SIZE)/GRID_SIZE;
+}
+
+int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
+    if (!should_decrease || position%map.getGridSize() != 0)
+        return 0;
+    return -1;
 }

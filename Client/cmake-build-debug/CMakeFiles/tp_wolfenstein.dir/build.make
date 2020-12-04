@@ -233,22 +233,9 @@ CMakeFiles/tp_wolfenstein.dir/Music/SdlAudioPlayer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Music/SdlAudioPlayer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Music/SdlAudioPlayer.cpp -o CMakeFiles/tp_wolfenstein.dir/Music/SdlAudioPlayer.cpp.s
 
-CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
-CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o: ../Game/Wall.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Game/Wall.cpp
-
-CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andy/CLionProjects/tp_wolfenstein/Game/Wall.cpp > CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.i
-
-CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Game/Wall.cpp -o CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.s
-
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o: ../Graphics/RayCaster.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Graphics/RayCaster.cpp
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.i: cmake_force
@@ -261,7 +248,7 @@ CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.s: cmake_force
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
 CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o: ../Graphics/Sdl3DTexture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Graphics/Sdl3DTexture.cpp
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.i: cmake_force
@@ -274,7 +261,7 @@ CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.s: cmake_force
 
 CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
 CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o: ../Game/Wall_3d.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Game/Wall_3d.cpp
 
 CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.i: cmake_force
@@ -287,7 +274,7 @@ CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.s: cmake_force
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
 CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o: ../Graphics/DrawingInfo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.cpp
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.i: cmake_force
@@ -300,7 +287,7 @@ CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.s: cmake_force
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o: ../Graphics/RayInfo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Graphics/RayInfo.cpp
 
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.i: cmake_force
@@ -310,6 +297,45 @@ CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.i: cmake_force
 CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Graphics/RayInfo.cpp -o CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.s
+
+CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
+CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o: ../Game/PositionableHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.cpp
+
+CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.cpp > CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.i
+
+CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Game/PositionableHandler.cpp -o CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.s
+
+CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
+CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o: ../Game/Enemy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.cpp
+
+CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.cpp > CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.i
+
+CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.cpp -o CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.s
+
+CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o: CMakeFiles/tp_wolfenstein.dir/flags.make
+CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o: ../Graphics/ObjectDrawer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o -c /home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.cpp
+
+CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.cpp > CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.i
+
+CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.cpp -o CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.s
 
 # Object files for target tp_wolfenstein
 tp_wolfenstein_OBJECTS = \
@@ -325,12 +351,14 @@ tp_wolfenstein_OBJECTS = \
 "CMakeFiles/tp_wolfenstein.dir/Game/Game.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Game/EventHandler.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Music/SdlAudioPlayer.cpp.o" \
-"CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o" \
 "CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o" \
-"CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o"
+"CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o" \
+"CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o" \
+"CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o" \
+"CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o"
 
 # External object files for target tp_wolfenstein
 tp_wolfenstein_EXTERNAL_OBJECTS =
@@ -347,17 +375,19 @@ tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/SdlSprite.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/Game.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/EventHandler.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Music/SdlAudioPlayer.cpp.o
-tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/Wall.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/RayCaster.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/Sdl3DTexture.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/Wall_3d.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/DrawingInfo.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/RayInfo.cpp.o
+tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/PositionableHandler.cpp.o
+tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Game/Enemy.cpp.o
+tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/Graphics/ObjectDrawer.cpp.o
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/build.make
 tp_wolfenstein: /usr/lib/x86_64-linux-gnu/libSDL2_mixer.so
 tp_wolfenstein: /usr/lib/x86_64-linux-gnu/libSDL2.so
 tp_wolfenstein: CMakeFiles/tp_wolfenstein.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable tp_wolfenstein"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/andy/CLionProjects/tp_wolfenstein/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX executable tp_wolfenstein"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tp_wolfenstein.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

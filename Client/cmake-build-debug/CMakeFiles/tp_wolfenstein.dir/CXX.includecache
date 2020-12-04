@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.h
+Positionable.h
+/home/andy/CLionProjects/tp_wolfenstein/Game/Positionable.h
+
 /home/andy/CLionProjects/tp_wolfenstein/Game/Map.h
 unordered_map
 -
@@ -53,6 +57,16 @@ Positionable.h
 /home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.h
 ../Game/Positionable.h
 /home/andy/CLionProjects/tp_wolfenstein/Game/Positionable.h
+
+/home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.h
+SDL_render.h
+-
+DrawingInfo.h
+/home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.h
+../Game/Wall_3d.h
+/home/andy/CLionProjects/tp_wolfenstein/Game/Wall_3d.h
+../Game/Enemy.h
+/home/andy/CLionProjects/tp_wolfenstein/Game/Enemy.h
 
 /home/andy/CLionProjects/tp_wolfenstein/Graphics/RayCaster.cpp
 RayCaster.h
@@ -103,6 +117,8 @@ SdlTexture.h
 /home/andy/CLionProjects/tp_wolfenstein/Graphics/SdlTexture.h
 DrawingInfo.h
 /home/andy/CLionProjects/tp_wolfenstein/Graphics/DrawingInfo.h
+ObjectDrawer.h
+/home/andy/CLionProjects/tp_wolfenstein/Graphics/ObjectDrawer.h
 
 /usr/include/SDL2/SDL_blendmode.h
 begin_code.h

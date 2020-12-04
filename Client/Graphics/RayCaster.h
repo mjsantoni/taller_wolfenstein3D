@@ -37,7 +37,9 @@ private:
     double calculateDistanceToWall(int delta_x, int delta_y);
     void renderColumn(int ray_no, DrawingInfo drawing_info);
     void fillRayInfo(double beta, int x_pos, int y_pos, int delta_x,
-                       int delta_y, DrawingInfo& drawing_info, int object_type);
+                       int delta_y, DrawingInfo& drawing_info, int x_factor,
+                       int y_factor);
+    int calculateBorderFactor(bool should_decrease, int position);
 };
 
 

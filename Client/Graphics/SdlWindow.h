@@ -9,6 +9,7 @@
 #include "Area.h"
 #include "SdlTexture.h"
 #include "DrawingInfo.h"
+#include "ObjectDrawer.h"
 
 
 class SdlWindow {
@@ -34,6 +35,7 @@ private:
     int height;
     SDL_Window* window;
     SDL_Renderer* renderer;
+    ObjectDrawer drawer;
 
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
