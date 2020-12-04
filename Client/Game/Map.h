@@ -32,6 +32,8 @@ public:
                                       int y_factor);
     std::pair<int, int> calculateGrid(int x_pos, int y_pos);
     Positionable& getPositionableAt(std::pair<int, int> coordinates);
+    bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor,
+                    int player_x, int player_y);
 private:
     std::map<std::pair<int, int>, Positionable> info;
     std::map<std::string, std::pair<int, int>> positions;

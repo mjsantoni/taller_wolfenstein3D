@@ -21,7 +21,7 @@ public:
 private:
     std::string name;
     SdlSprite image;
-    double direction = M_PI/2;
+    double direction = M_PI/4;
 };
 
 

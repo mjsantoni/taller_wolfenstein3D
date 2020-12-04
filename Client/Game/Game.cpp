@@ -16,8 +16,8 @@ void Game::start() {
     displayIntro();
     map.initialize();
     Player player("crazy_man", "../Resources/crazy_man.png", 4, 3);
-    int x = 250;
-    int y = 250;
+    int x = 200;
+    int y = 170;
     map.putPositionableAt(player, std::pair<int, int>(x, y));
     //map.update(player, x, y);
     RayCaster ray_caster(window, map);

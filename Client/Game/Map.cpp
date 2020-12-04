@@ -77,7 +77,7 @@ void Map::initialize() {
             }
         }
     }
-    putPositionableAt(std::pair<int, int>(3, 4));
+
     putPositionableAt(std::pair<int, int>(4, 3));
     putPositionableAt(std::pair<int, int>(1, 5));
     putPositionableAt(std::pair<int, int>(2, 6));
@@ -92,7 +92,7 @@ void Map::erasePlayerFromOldPosition(std::pair<int, int> old_positions) {
 }
 
 bool Map::movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr) {
-    if (new_x < 65 || new_y < 65 || new_x > real_width || new_y > real_height)
+    if (new_x < 0 || new_y < 0 || new_x > real_width || new_y > real_height)
         return false;
     int x_grid = new_x/grid_size;
     int y_grid = new_y/grid_size;
@@ -155,4 +155,18 @@ std::pair<int, int> Map::calculateGrid(int x_pos, int y_pos) {
 
 Positionable& Map::getPositionableAt(std::pair<int, int> coordinates) {
     return std::ref(info.at(coordinates));
+}
+
+bool Map::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor,
+                     int player_x, int player_y) {
+    if (x_pos < 0 || y_pos < 0 || x_pos > real_width || y_pos > real_height)
+        return false;
+    std::pair<int, int> grid_coordinates =
+            calculateGrid(x_pos, y_pos, x_factor, y_factor);
+    bool wall_at_grid = wallAtGrid(grid_coordinates);
+    if (wall_at_grid)
+        //printf("Se devuelve la grilla (%d, %d)\n", grid_coordinates.first, grid_coordinates.second);
+    //if (!wall_at_grid)
+        //wall_at_grid = checkBorderCase(player_x, player_y, grid_coordinates);
+    return wall_at_grid;
 }
