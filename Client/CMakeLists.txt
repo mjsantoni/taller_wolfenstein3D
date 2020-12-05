@@ -14,6 +14,20 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(tp_wolfenstein main.cpp Game/Map.cpp Game/Map.h Game/Player.cpp Game/Player.h Game/Positionable.cpp Game/Positionable.h Graphics/SdlWindow.cpp Graphics/SdlWindow.h Exceptions/SdlException.cpp Exceptions/SdlException.h Graphics/SdlTexture.cpp Graphics/SdlTexture.h Graphics/Area.cpp Graphics/Area.h Graphics/SdlSprite.cpp Graphics/SdlSprite.h Game/Game.cpp Game/Game.h Game/EventHandler.cpp Game/EventHandler.h Music/SdlAudioPlayer.cpp Music/SdlAudioPlayer.h Graphics/RayCaster.cpp Graphics/RayCaster.h Graphics/Sdl3DTexture.cpp Graphics/Sdl3DTexture.h Game/Wall_3d.cpp Game/Wall_3d.h Graphics/DrawingInfo.cpp Graphics/DrawingInfo.h Graphics/RayInfo.cpp Graphics/RayInfo.h Game/PositionableHandler.cpp Game/PositionableHandler.h Game/Enemy.cpp Game/Enemy.h Graphics/ObjectDrawer.cpp Graphics/ObjectDrawer.h)
+file(GLOB Client_SRC
+    "main.cpp"
+    "Game/*.cpp"
+    "Game/*.h"
+    "Graphics/*.cpp"
+    "Graphics/*.h"
+    "Exceptions/*.cpp"
+    "Exceptions/*.h"
+    "Music/*.cpp"
+    "Music/*.h"
+    "Resources/*.cpp"
+    "Resources/*.h"
+)
+
+add_executable(tp_wolfenstein ${Client_SRC})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer)
