@@ -6,28 +6,31 @@ SET(CMAKE_CXX_FLAGS -pthread)
 
 INCLUDE(FindPkgConfig)
 
+find_package(yaml-cpp REQUIRED)
+find_package(Qt5Widgets)
+
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 pkg_check_modules(SDL2_Mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
 
-INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS})
+
+INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include ${PROJECT_BINARY_DIR} ${YAML_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 11)
 
 file(GLOB Client_SRC
-    "Client/main.cpp"
-    "Client/Game/*.cpp"
-    "Client/Game/*.h"
-    "Client/Graphics/*.cpp"
-    "Client/Graphics/*.h"
-    "Client/Exceptions/*.cpp"
-    "Client/Exceptions/*.h"
-    "Client/Music/*.cpp"
-    "Client/Music/*.h"
-    "Client/Resources/*.cpp"
-    "Client/Resources/*.h"
+    "main.cpp"
+    "client_src/game/*.cpp"
+    "client_src/graphics/*.cpp"
+    "client_src/music/*.cpp"
+    "client_src/exceptions/*.cpp"
+    "client_src/resources/*.cpp"
+    "client_src/editor/*.cpp"
 )
 
-add_executable(tp_wolfenstein ${Client_SRC})
+qt5_wrap_ui(UIS_HEADERS
+        ui/Editor.ui
+        )
+add_executable(tp_wolfenstein ${Client_SRC} ${UIS_HEADERS})
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)
