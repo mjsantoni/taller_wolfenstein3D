@@ -1,4 +1,4 @@
-# Taller Wolfenstein 3D - Grupo 8
+# Taller Wolfenstein 3D - Grupo 8 - 2020c2
 
 ## Requerimientos
 * Tener instalado yml-cpp, tutorial de instalacion en https://github.com/jbeder/yaml-cpp
