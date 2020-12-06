@@ -28,7 +28,7 @@ int main_2( int argc, char* args[] ) {
     catch(SdlException& e) {
         std::cout << e.what() << std::endl;
         return 1;
-    } //prueba
+    }
     return 0;
 }
 */
