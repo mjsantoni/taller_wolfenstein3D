@@ -25,11 +25,11 @@ file(GLOB Client_SRC
     "client_src/music/*.cpp"
     "client_src/exceptions/*.cpp"
     "client_src/resources/*.cpp"
-    "client_src/editor/*.cpp"
+    "editor_src/*.cpp"
 )
 
 qt5_wrap_ui(UIS_HEADERS
-        ui/Editor.ui
+        ui/editor.ui
         )
 add_executable(tp_wolfenstein ${Client_SRC} ${UIS_HEADERS})
 

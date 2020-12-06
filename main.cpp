@@ -1,16 +1,16 @@
 #include <iostream>
 #include <SDL.h>
-#include "client/SdlWindow.h"
-#include "client/SdlTexture.h"
-#include "client/SdlException.h"
-#include "client/Map.h"
-#include "client/Player.h"
-#include "client/Game.h"
+#include "client/sdl_window.h"
+#include "client/sdl_texture.h"
+#include "client/sdl_exception.h"
+#include "client/map.h"
+#include "client/player.h"
+#include "client/game.h"
 
-/* App editor */
+/* App editor_src */
 #include <QApplication>
 #include "yaml-cpp/yaml.h"
-#include "editor/Editor.h"
+#include "editor/editor.h"
 #include <fstream>
 
 /*
@@ -35,7 +35,7 @@ int main_2( int argc, char* args[] ) {
 
 
 int main( int argc, char* args[] ) {
-    try {
+    /*try {
         Game game(960, 600);
         game.start();
     }
@@ -43,16 +43,16 @@ int main( int argc, char* args[] ) {
     catch(SdlException& e) {
         std::cout << e.what() << std::endl;
         return 1;
-    }
+    }*/
 
-    /* App editor *//*
+    /* App editor_src */
     // Clase que contiene el loop principal
     QApplication app(argc, args);
     // Instancio el greeter
     Editor editor;
     editor.show();
     // Arranca el loop de la UI
-    app.exec();*/
+    app.exec();
 
     return 0;
 }
