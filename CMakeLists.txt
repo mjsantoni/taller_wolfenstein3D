@@ -18,7 +18,7 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_
 
 set(CMAKE_CXX_STANDARD 11)
 
-file(GLOB Client_SRC
+file(GLOB All_SRC
     "main.cpp"
     "client_src/game/*.cpp"
     "client_src/graphics/*.cpp"
@@ -26,11 +26,12 @@ file(GLOB Client_SRC
     "client_src/exceptions/*.cpp"
     "client_src/resources/*.cpp"
     "editor_src/*.cpp"
+    "server_src/*.cpp"
 )
 
 qt5_wrap_ui(UIS_HEADERS
         ui/editor.ui
         )
-add_executable(tp_wolfenstein ${Client_SRC} ${UIS_HEADERS})
+add_executable(tp_wolfenstein ${All_SRC} ${UIS_HEADERS})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)

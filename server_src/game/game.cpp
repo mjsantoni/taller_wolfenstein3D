@@ -5,7 +5,7 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/game.h"
+#include "server/game.h"
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
