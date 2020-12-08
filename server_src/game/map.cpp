@@ -1,7 +1,3 @@
-//
-// Created by andy on 25/11/20.
-//
-
 #include <fstream>
 #include <sstream>
 #include <iterator>
@@ -17,6 +13,12 @@ Map::Map(SdlWindow& window, int width, int height) :
     real_width = width*grid_size;
     real_height = height*grid_size;
 }
+
+
+
+
+
+
 
 template <class Container>
 void split(const std::string& str, Container& cont) {

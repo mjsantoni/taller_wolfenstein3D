@@ -27,6 +27,7 @@ file(GLOB All_SRC
     "client_src/resources/*.cpp"
     "editor_src/*.cpp"
     "server_src/*.cpp"
+    "server_src/game/*.cpp"
 )
 
 qt5_wrap_ui(UIS_HEADERS

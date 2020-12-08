@@ -9,8 +9,8 @@
 #include <vector>
 #include <map>
 #include "positionable.h"
-#include "sdl_window.h"
-#include "sdl_texture.h"
+#include "client/sdl_window.h"
+#include "client/sdl_texture.h"
 #include "player.h"
 
 class Map {
