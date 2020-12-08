@@ -6,8 +6,8 @@
 #define TP_WOLFENSTEIN_PLAYER_H
 
 #include <string>
-#include "sdl_texture.h"
-#include "sdl_sprite.h"
+#include "client/sdl_texture.h"
+#include "client/sdl_sprite.h"
 #include "positionable.h"
 
 class Player {

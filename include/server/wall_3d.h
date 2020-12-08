@@ -6,8 +6,8 @@
 #define TP_WOLFENSTEIN_WALL_3D_H
 
 
-#include "positionable.h"
-#include "sdl_3D_texture.h"
+#include "client/positionable.h"
+#include "client/sdl_3D_texture.h"
 
 class Wall_3d : public Positionable {
 public:

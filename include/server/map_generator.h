@@ -8,7 +8,7 @@ class MapGenerator {
 private:
     MapParser mapParser;
 public:
-    MapGenerator();
+    MapGenerator(std::string path);
     ~MapGenerator();
     Map initializeMap();
 

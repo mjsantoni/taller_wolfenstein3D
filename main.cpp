@@ -44,7 +44,6 @@ int main( int argc, char* args[] ) {
         std::cout << e.what() << std::endl;
         return 1;
     }
-
     /* App editor_src */
     /*
     // Clase que contiene el loop principal

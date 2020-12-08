@@ -6,9 +6,9 @@
 #define TP_WOLFENSTEIN_GAME_H
 
 
-#include "map.h"
-#include "event_handler.h"
-#include "sdl_audio_player.h"
+#include "client/map.h"
+#include "client/event_handler.h"
+#include "client/sdl_audio_player.h"
 
 class Game {
 public:

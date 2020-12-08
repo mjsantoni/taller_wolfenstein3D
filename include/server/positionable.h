@@ -8,8 +8,8 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "area.h"
-#include "sdl_texture.h"
+#include "client/area.h"
+#include "client/sdl_texture.h"
 
 class Positionable {
 public:
