@@ -35,9 +35,11 @@ std::string Positionable::getTextureName() {
 
 
 //Mauro
+/*
 Positionable::Positionable(std::string _object_type, std::string _sprite_path,
                            int _id, bool _is_obstructive) :
                            object_type(std::move(_object_type)),
                            sprite_path(std::move(_sprite_path)),
                            id(_id),
                            is_obstructive(_is_obstructive) {}
+*/

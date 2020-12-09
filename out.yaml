@@ -1,0 +1,9 @@
+dimensions:
+  width: 10
+  height: 20
+scenarios:
+  pared: [[1, 2], [3, 4], [5, 6]]
+  puerta: [[2, 4], [5, 7], [6, 6]]
+players:
+  player1: [[1, 2], [3, 4], [5, 6]]
+  bot1: [[2, 4], [5, 7], [6, 6]]
