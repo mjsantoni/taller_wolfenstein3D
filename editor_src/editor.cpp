@@ -5,6 +5,9 @@
 #include "editor/editor.h"
 #include "ui_editor.h"
 
+#define DEF_HEIGHT 7
+#define DEF_WIDTH 7
+
 
 struct Coordinate { int x; int y; Coordinate(int coord_x, int coord_y) : x(coord_x), y(coord_y) {}};
 
@@ -22,16 +25,15 @@ Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
 }
 
 void Editor::createMapGrid() {
-    QPixmap pixmap("../client_src/resources/wall_alt.jpg");
+    QPixmap pixmap("../client_src/resources/empty.png");
     QIcon ButtonIcon(pixmap);
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
+    for (int i = 0; i < DEF_HEIGHT; ++i) {
+        for (int j = 0; j < DEF_WIDTH; ++j) {
             QPushButton* buttonGrid = new QPushButton();
             QMenu* menu = createGridButtonMenu(buttonGrid);
             buttonGrid->setProperty("texture", "empty");
             buttonGrid->setMenu(menu);
-            //QObject::connect(buttonGrid, &QPushButton::clicked, this, &QPushButton::showMenu);
             buttonGrid->setIcon(ButtonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
             mapGrid->addWidget(buttonGrid, i, j);
@@ -112,8 +114,12 @@ void Editor::exportMap() {
     /* Height and width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
-    QString height= QString("%1").arg(inputHeight->text());
-    QString width = QString("%1").arg(inputWidth->text());
+    QString qHeight= QString("%1").arg(inputHeight->text());
+    QString qWidth = QString("%1").arg(inputWidth->text());
+    std::string height = qHeight.toStdString();
+    std::string width = qWidth.toStdString();
+    if (height.empty()) height = "7";
+    if (width.empty()) width = "7";
     std::vector<std::pair<int, int>> woodPositions;
     std::vector<std::pair<int, int>> stonePositions;
     std::vector<std::pair<int, int>> bluePositions;
@@ -145,8 +151,8 @@ void Editor::exportMap() {
 
     out << YAML::Key << "dimensions";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "width" << YAML::Value << height.toStdString();
-    out << YAML::Key << "height" << YAML::Value << width.toStdString();
+    out << YAML::Key << "width" << YAML::Value << width;
+    out << YAML::Key << "height" << YAML::Value << height;
     out << YAML::EndMap;
 
     out << YAML::Key << "scenarios";
@@ -161,6 +167,12 @@ void Editor::exportMap() {
     out << YAML::Value << barrelPositions << YAML::EndSeq;
     out << YAML::Key << "locked door";
     out << YAML::Value << lockedPositions << YAML::EndSeq;
+    out << YAML::Key << "machine gun";
+    out << YAML::Value << machinePositions << YAML::EndSeq;
+    out << YAML::Key << "rpg gun";
+    out << YAML::Value << rpgPositions << YAML::EndSeq;
+    out << YAML::Key << "chain gun";
+    out << YAML::Value << chainPositions << YAML::EndSeq;
     out << YAML::EndMap;
 
     out << YAML::Key << "players";
@@ -192,7 +204,7 @@ void Editor::refreshMapGrid(){
     int rows = gridRows >= newRows? gridRows : newRows;
     int cols = gridCols >= newCols? gridCols : newCols;
 
-    QPixmap pixmap("../client_src/resources/wall_alt.jpg");
+    QPixmap pixmap("../client_src/resources/empty.png");
     QIcon ButtonIcon(pixmap);
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
