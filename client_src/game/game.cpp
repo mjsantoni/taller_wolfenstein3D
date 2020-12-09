@@ -9,12 +9,13 @@
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-Game::Game(int width, int height) : window(width, height), running(true), map(window, 8, 10) {
+Game::Game(int width, int height, int map_width, int map_height) : window(width, height), running(true), map(window, map_width, map_height) {
 }
 
-void Game::start() {
+void Game::start(std::vector<std::pair<int,int>> walls) {
     displayIntro();
     map.initialize();
+    map.addWalls(walls);
     Player player("Player1");
     int x = 200;
     int y = 170;

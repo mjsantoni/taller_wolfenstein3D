@@ -33,6 +33,7 @@ std::unordered_map<std::string,
     return category_map;
 }
 
+/*
 int main() {
     MapParser map_parser("../out.yaml");
 
@@ -50,3 +51,4 @@ int main() {
     }
     return 0;
 }
+*/

@@ -18,6 +18,13 @@ Map::Map(SdlWindow& window, int width, int height) :
     real_height = height*grid_size;
 }
 
+void Map::addWalls(std::vector<std::pair<int,int>> walls) {
+    for (auto& wall : walls) {
+        putPositionableAt(wall, 1, "../client_src/resources/wall_alt.jpg");
+    }
+}
+
+
 template <class Container>
 void split(const std::string& str, Container& cont) {
     std::istringstream iss(str);
@@ -65,10 +72,6 @@ void Map::initialize() {
             }
         }
     }
-
-    putPositionableAt(std::pair<int, int>(3, 5), 1,"../client_src/resources/wall_alt.jpg");
-    putPositionableAt(std::pair<int, int>(2, 5), 1,"../client_src/resources/wall_alt.jpg");
-    putPositionableAt(std::pair<int, int>(2, 6), 1,"../client_src/resources/wall_alt.jpg");
     //window.render();
 }
 

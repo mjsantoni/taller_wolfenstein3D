@@ -6,11 +6,12 @@
 
 class MapGenerator {
 private:
-    MapParser mapParser;
+    MapParser& mapParser;
 public:
-    MapGenerator(std::string path);
+    MapGenerator(MapParser& parser);
     ~MapGenerator();
     Map initializeMap();
+    std::vector<std::pair<int,int>> getWalls();
 
 };
 

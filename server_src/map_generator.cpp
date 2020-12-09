@@ -4,12 +4,11 @@
 
 #include "server/map_generator.h"
 
-MapGenerator::MapGenerator(std::string path) : mapParser(path) {}
+MapGenerator::MapGenerator(MapParser& parser) : mapParser(parser) {}
 
 MapGenerator::~MapGenerator() {}
 
-Map MapGenerator::initializeMap() {
-    //Map map;
 
+std::vector<std::pair<int,int>> MapGenerator::getWalls() {
+     return mapParser.getSpecificCategory("scenarios")["walls"];
 }
-
