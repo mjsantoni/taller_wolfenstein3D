@@ -35,7 +35,7 @@ int main_2( int argc, char* args[] ) {
 
 
 int main( int argc, char* args[] ) {
-    try {
+    /*try {
         Game game(960, 600);
         game.start();
     }
@@ -43,16 +43,15 @@ int main( int argc, char* args[] ) {
     catch(SdlException& e) {
         std::cout << e.what() << std::endl;
         return 1;
-    }
+    }*/
     /* App editor_src */
-    /*
     // Clase que contiene el loop principal
     QApplication app(argc, args);
     // Instancio el greeter
     Editor editor;
     editor.show();
     // Arranca el loop de la UI
-    app.exec();*/
+    app.exec();
 
     return 0;
 }

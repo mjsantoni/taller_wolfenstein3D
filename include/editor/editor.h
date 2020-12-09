@@ -7,7 +7,7 @@
 class Editor : public QMainWindow {
 public:
     explicit Editor(QMainWindow *parent = 0);
-    void updateGridButton(QPushButton *button, QIcon &icon, std::string &texture);
+    void updateGridButton(QPushButton *button, QIcon &icon, const char *texture);
 private:
     void createMapGrid();
     void refreshMapGrid();

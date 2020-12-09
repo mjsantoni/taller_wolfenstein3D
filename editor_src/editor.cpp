@@ -43,21 +43,68 @@ void Editor::createMapGrid() {
 QMenu* Editor::createGridButtonMenu(QPushButton *button) {
     QPixmap woodPix("../client_src/resources/wall_3.gif");
     QPixmap stonePix("../client_src/resources/wall_alt.jpg");
-    std::string stringWood = "Wood wall";
-    std::string stringStone = "Stone wall";
+    QPixmap bluePix("../client_src/resources/blueWall.png");
+    QPixmap rpgPix("../client_src/resources/rpg.png");
+    QPixmap chainPix("../client_src/resources/chainGun.png");
+    QPixmap machinePix("../client_src/resources/machineGun.png");
+    QPixmap lockedPix("../client_src/resources/lockedDoor.png");
+    QPixmap barrelPix("../client_src/resources/barrel.png");
+
+    const char *woodWall = "Wood wall";
+    const char *stoneWall = "Stone wall";
+    const char *blueWall = "Blue wall";
+    const char *rpgGun = "RPG gun";
+    const char *chainGun = "Chain gun";
+    const char *machineGun = "Machine gun";
+    const char *lockedDoor = "Locked door";
+    const char *barrelItem = "Barrel item";
+
     QIcon woodIcon(woodPix);
     QIcon stoneIcon(stonePix);
+    QIcon blueIcon(bluePix);
+    QIcon rpgIcon(rpgPix);
+    QIcon chainIcon(chainPix);
+    QIcon machineIcon(machinePix);
+    QIcon lockedIcon(lockedPix);
+    QIcon barrelIcon(barrelPix);
+
     QMenu* menu = new QMenu();
-    QAction* woodAction = menu->addAction(woodIcon, "Wood wall");
-    QAction* stoneAction = menu->addAction(stoneIcon, "Stone wall");
-    connect(woodAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, woodIcon, stringWood));
-    connect(stoneAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stoneIcon, stringStone));
+    QAction* woodAction = menu->addAction(woodIcon, woodWall);
+    QAction* stoneAction = menu->addAction(stoneIcon, stoneWall);
+    QAction* blueAction = menu->addAction(blueIcon, blueWall);
+    QAction* rpgAction = menu->addAction(rpgIcon, rpgGun);
+    QAction* chainAction = menu->addAction(chainIcon, chainGun);
+    QAction* machineAction = menu->addAction(machineIcon, machineGun);
+    QAction* lockedAction = menu->addAction(lockedIcon, lockedDoor);
+    QAction* barrelAction = menu->addAction(barrelIcon, barrelItem);
+
+    connect(woodAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, woodIcon, woodWall));
+    connect(stoneAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stoneIcon, stoneWall));
+    connect(blueAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blueIcon, blueWall));
+    connect(rpgAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpgIcon, rpgGun));
+    connect(chainAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chainIcon, chainGun));
+    connect(machineAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machineIcon, machineGun));
+    connect(lockedAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, lockedIcon, lockedDoor));
+    connect(barrelAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrelIcon, barrelItem));
     return menu;
 }
 
-void Editor::updateGridButton(QPushButton *button, QIcon &icon, std::string &texture) {
+void Editor::updateGridButton(QPushButton *button, QIcon &icon, const char *texture) {
     button->setIcon(icon);
-    button->setProperty("texture", "Wood wall");
+    button->setProperty("texture", QVariant(texture));
+}
+
+YAML::Emitter& operator << (YAML::Emitter& out, const std::pair<int, int>& pair) {
+    out << YAML::Flow << YAML::BeginSeq << pair.first << pair.second << YAML::EndSeq;
+    return out;
+}
+
+YAML::Emitter& operator << (YAML::Emitter& out, const std::vector<std::pair<int, int>>& v) {
+    out << YAML::Flow << YAML::BeginSeq;
+    for (int i = 0; i < v.size(); ++i) {
+        out << v[i];
+    }
+    return out;
 }
 
 void Editor::exportMap() {
@@ -67,7 +114,14 @@ void Editor::exportMap() {
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
     QString height= QString("%1").arg(inputHeight->text());
     QString width = QString("%1").arg(inputWidth->text());
-    std::vector<int> woodPositions;
+    std::vector<std::pair<int, int>> woodPositions;
+    std::vector<std::pair<int, int>> stonePositions;
+    std::vector<std::pair<int, int>> bluePositions;
+    std::vector<std::pair<int, int>> rpgPositions;
+    std::vector<std::pair<int, int>> chainPositions;
+    std::vector<std::pair<int, int>> machinePositions;
+    std::vector<std::pair<int, int>> lockedPositions;
+    std::vector<std::pair<int, int>> barrelPositions;
 
     /* Map input */
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
@@ -75,7 +129,14 @@ void Editor::exportMap() {
         for (int j = 0; j < mapGrid->columnCount(); ++j) {
             QPushButton* buttonGrid = qobject_cast<QPushButton*>(mapGrid->itemAtPosition(i, j)->widget());
             std::string variantTexture = buttonGrid->property("texture").toString().toStdString();
-            if (variantTexture == "Wood wall") woodPositions.emplace_back(i);
+            if (variantTexture == "Wood wall") woodPositions.emplace_back(i, j);
+            if (variantTexture == "Stone wall") stonePositions.emplace_back(i, j);
+            if (variantTexture == "Blue wall") bluePositions.emplace_back(i, j);
+            if (variantTexture == "RPG gun") rpgPositions.emplace_back(i, j);
+            if (variantTexture == "Chain gun") chainPositions.emplace_back(i, j);
+            if (variantTexture == "Machine gun") machinePositions.emplace_back(i, j);
+            if (variantTexture == "Locked door") lockedPositions.emplace_back(i, j);
+            if (variantTexture == "Barrel item") barrelPositions.emplace_back(i, j);
         }
     }
 
@@ -90,10 +151,16 @@ void Editor::exportMap() {
 
     out << YAML::Key << "scenarios";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "pared";
+    out << YAML::Key << "wood wall";
     out << YAML::Value << woodPositions << YAML::EndSeq;
-    out << YAML::Key << "puerta";
-    out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(2, 4) << Coordinate(5, 7) << Coordinate(6, 6) << YAML::EndSeq;
+    out << YAML::Key << "stone wall";
+    out << YAML::Value << stonePositions << YAML::EndSeq;
+    out << YAML::Key << "blue wall";
+    out << YAML::Value << bluePositions << YAML::EndSeq;
+    out << YAML::Key << "barrel item";
+    out << YAML::Value << barrelPositions << YAML::EndSeq;
+    out << YAML::Key << "locked door";
+    out << YAML::Value << lockedPositions << YAML::EndSeq;
     out << YAML::EndMap;
 
     out << YAML::Key << "players";
