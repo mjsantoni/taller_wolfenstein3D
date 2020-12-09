@@ -1,18 +1,20 @@
-//
-// Created by ubuntu on 9/12/20.
-//
-
 #ifndef TP_WOLFENSTEIN_SERVER_H
 #define TP_WOLFENSTEIN_SERVER_H
 
 #include <string>
+#include "common/thread.h"
+#include <atomic>
 
-class Server {
+class Server : public Thread {
+private:
+    std::string path;
+    std::atomic<bool> playing;
 public:
     Server(std::string path);
+    void run() override;
+    void stop();
     ~Server();
 
 };
-
 
 #endif //TP_WOLFENSTEIN_SERVER_H
