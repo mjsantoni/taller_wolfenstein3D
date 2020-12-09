@@ -1,6 +1,6 @@
 #include "server/blood_puddle.h"
 
-BloodPuddle::BloodPuddle() : hp_given(1), object_type("BloodPuddle") {
+BloodPuddle::BloodPuddle() : HPItem(1, "BloodPuddle") {
 }
 
 BloodPuddle::~BloodPuddle()

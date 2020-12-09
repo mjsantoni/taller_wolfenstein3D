@@ -1,6 +1,6 @@
 #include "server/table.h"
 
-Table::Table() : object_type("Table"), is_obstructive(true) {
+Table::Table() : Positionable("Table", "path", 1, true) {
 }
 
 Table::~Table()

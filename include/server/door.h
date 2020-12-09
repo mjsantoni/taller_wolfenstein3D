@@ -7,7 +7,7 @@ class Door : public Positionable {
 protected:
     bool is_locked;
 public:
-    Door();
+    Door(std::string object_type, bool _is_locked);
     //virtual open()
     ~Door();
 };

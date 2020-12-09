@@ -1,7 +1,7 @@
 #include "server/barrel.h"
 
 
-Barrel::Barrel() : object_type("Barrel"), is_obstructive(true) {
+Barrel::Barrel() : Positionable("Barrel", "path", 1, true) {
 }
 
 Barrel::~Barrel()

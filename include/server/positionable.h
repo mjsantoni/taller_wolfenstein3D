@@ -24,7 +24,8 @@ public:
     virtual std::string getObjectName();
 
     //Mauro
-    Positionable(std::string _object_type, std::string _sprite_path, int _id);
+    Positionable(std::string _object_type, std::string _sprite_path,
+                 int _id, bool _is_obstructive);
 
 protected:
     //Andy stuff

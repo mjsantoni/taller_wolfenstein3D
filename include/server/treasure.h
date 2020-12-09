@@ -8,7 +8,7 @@ protected:
     int points_given;
 
 public:
-    Treasure();
+    Treasure(int _points_given, std::string object_type);
     ~Treasure();
 };
 
