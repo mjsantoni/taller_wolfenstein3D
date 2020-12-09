@@ -34,3 +34,4 @@
 #Folders
 .idea/
 cmake-build-debug/
+.vscode/settings.json

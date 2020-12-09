@@ -1,7 +1,3 @@
-//
-// Created by andy on 25/11/20.
-//
-
 #include <functional>
 #include "server/player.h"
 
@@ -32,3 +28,10 @@ double Player::projectDirection(double direction_change_alpha) {
         return (direction + direction_change_alpha - 2*M_PI);
     return direction+direction_change_alpha;
 }
+
+/*
+void Player::die() {
+    this->lives--;
+    respawnAtOriginalLoc();
+}
+*/
