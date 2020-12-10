@@ -2,12 +2,10 @@
 // Created by andy on 28/11/20.
 //
 
-#include "client/wall_3d.h"
+#include "client/client_wall_3d.h"
 
-Wall_3d::Wall_3d(std::string image_name) : Positionable("Wall", 1, false,
-                                                    std::move(image_name),""){
-
-}
+ClientWall_3d::ClientWall_3d(std::string image_name) :
+            ClientPositionable("Wall", 1, false, std::move(image_name),""){ }
 
 /*
 SDL_Texture* Wall_3d::getImage(SDL_Renderer* renderer, Area& src_area) {

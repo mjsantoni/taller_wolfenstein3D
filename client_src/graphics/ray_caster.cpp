@@ -11,9 +11,10 @@
 #define FOV_ANGLE 60
 #define GRID_SIZE 64
 
-RayCaster::RayCaster(SdlWindow& window, Map& map) : window(window), map(map) {}
+RayCaster::RayCaster(SdlWindow& window, ClientMap& map) : window(window), map(map) {}
 
 void RayCaster::render3DScreen(int x, int y, double alpha) {
+    window.fill();
     double angle = alpha + 0.523599;
     //printf("Ingresa el jugador en pos (%d, %d), con angulo %f\n", x, y, alpha);
     //printf("Se inicia el recorrido en: %f\n", angle);
@@ -174,7 +175,7 @@ int RayCaster::calculateDelta(int delta_coord, double delta_alpha) {
     return (int) (delta_coord/tan(delta_alpha));
 }
 
-bool RayCaster::outOfBounds(Map& map, int pos, bool is_vertical) {
+bool RayCaster::outOfBounds(ClientMap& map, int pos, bool is_vertical) {
     if (is_vertical)
         return map.outOfVerticalBounds(pos);
     return map.outOfHorizontalBounds(pos);

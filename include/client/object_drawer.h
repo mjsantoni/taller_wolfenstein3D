@@ -8,8 +8,8 @@
 
 #include <SDL_render.h>
 #include "drawing_info.h"
-#include "wall_3d.h"
-#include "enemy.h"
+#include "client_wall_3d.h"
+#include "client_enemy.h"
 
 class ObjectDrawer {
 public:
@@ -17,9 +17,9 @@ public:
                      int window_height);
     SDL_Texture* drawImage(int ray_no, DrawingInfo& drawing_info,
                            Area& image_area);
-    SDL_Texture* drawImage(Wall_3d wall, DrawingInfo& drawing_info,
+    SDL_Texture* drawImage(ClientWall_3d wall, DrawingInfo& drawing_info,
                            Area& image_area);
-    SDL_Texture* drawImage(Enemy enemy, DrawingInfo& drawing_info,
+    SDL_Texture* drawImage(ClientEnemy enemy, DrawingInfo& drawing_info,
                                          Area& image_area);
 private:
     SDL_Renderer* renderer;

@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include "client/sdl_window.h"
 #include "client/sdl_exception.h"
-#include "client/wall_3d.h"
+#include "client/client_wall_3d.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200

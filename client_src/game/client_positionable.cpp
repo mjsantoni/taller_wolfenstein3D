@@ -2,9 +2,9 @@
 // Created by andy on 25/11/20.
 //
 
-#include "client/positionable.h"
+#include "client/client_positionable.h"
 
-Positionable::Positionable(std::string name, int object_type, bool is_sprite,
+ClientPositionable::ClientPositionable(std::string name, int object_type, bool is_sprite,
                            std::string image_name, std::string unique_name) :
                            object_name(std::move(name)),
                            object_type(object_type),
@@ -13,22 +13,22 @@ Positionable::Positionable(std::string name, int object_type, bool is_sprite,
                            unique_name(std::move(unique_name)){
 }
 
-std::string Positionable::getObjectName() {
+std::string ClientPositionable::getObjectName() {
     return object_name;
 }
 
-int Positionable::getObjectType() {
+int ClientPositionable::getObjectType() {
     return object_type;
 }
 
-bool Positionable::isSprite() {
+bool ClientPositionable::isSprite() {
     return is_sprite;
 }
 
-int Positionable::getCurrentImageNumber() {
+int ClientPositionable::getCurrentImageNumber() {
     return sprite_image_number;
 }
 
-std::string Positionable::getTextureName() {
+std::string ClientPositionable::getTextureName() {
     return texture_name;
 }

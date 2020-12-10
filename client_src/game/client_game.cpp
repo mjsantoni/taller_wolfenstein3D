@@ -5,24 +5,24 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/game.h"
+#include "client/client_game.h"
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-Game::Game(int width, int height, int map_width, int map_height) : window(width, height), running(true), map(window, map_width, map_height) {
+ClientGame::ClientGame(int width, int height, int map_width, int map_height) :
+window(width, height), running(true), map(window, map_width, map_height) {
 }
 
-void Game::start(std::vector<std::pair<int,int>> walls) {
+void ClientGame::start(std::vector<std::pair<int,int>> walls) {
     displayIntro();
     map.initialize();
     map.addWalls(walls);
-    Player player("Player1");
+    ClientPlayer player("Player1");
     int x = 200;
     int y = 170;
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     //map.update(player, x, y);
     RayCaster ray_caster(window, map);
-    event_handler.getMousePosition();
     ray_caster.render3DScreen(x, y, player.getDirection());
     bool must_render = false;
     while (running) {
@@ -30,11 +30,9 @@ void Game::start(std::vector<std::pair<int,int>> walls) {
         SDL_WaitEvent(&event);
         switch(event.type) {
             case SDL_KEYDOWN:
-                event_handler.handleEvent(event, player, map, running, x, y);
                 must_render = true;
                 break;
             case SDL_MOUSEMOTION:
-                event_handler.handleMouseEvent(event, player, window);
                 must_render = false;
                 break;
             case SDL_QUIT:
@@ -44,25 +42,9 @@ void Game::start(std::vector<std::pair<int,int>> walls) {
         if (must_render)
             ray_caster.render3DScreen(x, y, player.getDirection());
     }
-    /*while (running) {
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        switch(event.type) {
-            case SDL_KEYDOWN:
-                event_handler.handleEvent(event, player, map, running, x, y);
-                break;
-            case SDL_WINDOWEVENT_MINIMIZED:
-                puts("Se minimiza la ventana");
-                SDL_Delay(3000);
-                window.restore();
-            case SDL_QUIT:
-                return;
-        }
-    }
-    */
 }
 
-void Game::displayIntro() {
+void ClientGame::displayIntro() {
     SdlTexture intro_tex("../client_src/resources/intro.jpg");
     window.displayFullImage(intro_tex);
     window.render();

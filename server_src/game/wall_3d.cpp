@@ -4,10 +4,8 @@
 
 #include "server/wall_3d.h"
 
-Wall_3d::Wall_3d(std::string image_name) : Positionable("Wall", 1, false,
-                                                    std::move(image_name),""){
-
-}
+Wall_3d::Wall_3d(std::string image_name) : Positionable("Wall", "path", 1, true)
+{}
 
 /*
 SDL_Texture* Wall_3d::getImage(SDL_Renderer* renderer, Area& src_area) {

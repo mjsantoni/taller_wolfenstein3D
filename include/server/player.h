@@ -33,4 +33,4 @@ private:
 };
 
 
-#endif //TP_WOLFENSTEIN_PLAYER_H
+#endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

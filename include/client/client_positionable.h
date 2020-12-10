@@ -2,8 +2,8 @@
 // Created by andy on 25/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_POSITIONABLE_H
-#define TP_WOLFENSTEIN_POSITIONABLE_H
+#ifndef TP_WOLFENSTEIN_CLIENT_POSITIONABLE_H
+#define TP_WOLFENSTEIN_CLIENT_POSITIONABLE_H
 
 
 #include <SDL_render.h>
@@ -11,15 +11,15 @@
 #include "area.h"
 #include "sdl_texture.h"
 
-class Positionable {
+class ClientPositionable {
 public:
-    Positionable(std::string object_name, int object_type, bool is_sprite,
+    ClientPositionable(std::string object_name, int object_type, bool is_sprite,
                  std::string image_name, std::string unique_name);
     int getObjectType();
     bool isSprite();
     int getCurrentImageNumber();
     std::string getTextureName();
-    Positionable();
+    ClientPositionable();
 
     virtual std::string getObjectName();
 
@@ -33,4 +33,4 @@ protected:
 };
 
 
-#endif //TP_WOLFENSTEIN_POSITIONABLE_H
+#endif //TP_WOLFENSTEIN_CLIENT_POSITIONABLE_H

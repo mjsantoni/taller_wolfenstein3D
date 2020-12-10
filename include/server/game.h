@@ -6,8 +6,8 @@
 #define TP_WOLFENSTEIN_GAME_H
 
 
-#include "client/map.h"
-#include "client/event_handler.h"
+#include "client/client_map.h"
+#include "event_handler.h"
 #include "client/sdl_audio_player.h"
 
 class Game {

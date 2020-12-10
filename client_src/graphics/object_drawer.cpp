@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 #include "client/object_drawer.h"
 #include "client/sdl_exception.h"
-#include "client/enemy.h"
+#include "client/client_enemy.h"
 
 void ObjectDrawer::setRenderer(SDL_Renderer* window_renderer,
                                int window_width,
@@ -21,18 +21,18 @@ SDL_Texture* ObjectDrawer::drawImage(int ray_no, DrawingInfo& drawing_info,
     std::string image_name = drawing_info.texture_name;
     switch (drawing_info.object_type) {
         case 1: {
-            Wall_3d wall(image_name);
+            ClientWall_3d wall(image_name);
             return drawImage(wall, drawing_info, image_area);
         }
         case 2: {
-            Enemy enemy("enemy1", image_name);
+            ClientEnemy enemy("enemy1", image_name);
             return drawImage(enemy, drawing_info, image_area);
         }
     }
     //printf("Se copiara una pared desde: (%d, %d) con ancho de %d y altura de %d\n", image_area.getX(), image_area.getY(), image_area.getWidth(), image_area.getHeight());
 }
 
-SDL_Texture* ObjectDrawer::drawImage(Wall_3d wall,
+SDL_Texture* ObjectDrawer::drawImage(ClientWall_3d wall,
                                     DrawingInfo& drawing_info,
                                     Area& image_area) {
     SdlTexture sdl_texture(wall.getTextureName());
@@ -42,7 +42,7 @@ SDL_Texture* ObjectDrawer::drawImage(Wall_3d wall,
     return image;
 }
 
-SDL_Texture* ObjectDrawer::drawImage(Enemy enemy,
+SDL_Texture* ObjectDrawer::drawImage(ClientEnemy enemy,
                                      DrawingInfo& drawing_info,
                                      Area& image_area) {
     SdlTexture sdl_texture(enemy.getTextureName());

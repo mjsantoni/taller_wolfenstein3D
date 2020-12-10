@@ -1,5 +1,5 @@
 #include "client/client.h"
-#include "client/game.h"
+#include "client/client_game.h"
 #include <iostream>
 
 Client::Client(int width, int height, std::vector<std::pair<int,int>>& _walls) :
@@ -8,7 +8,7 @@ Client::Client(int width, int height, std::vector<std::pair<int,int>>& _walls) :
 
 void Client::run() {
     try {
-        Game game(960, 600, map_width, map_height);
+        ClientGame game(960, 600, map_width, map_height);
         game.start(walls);
     }
     catch(SdlException& e) {
