@@ -10,8 +10,13 @@ private:
 public:
     MapGenerator(MapParser& parser);
     ~MapGenerator();
-    Map initializeMap();
-    std::vector<std::pair<int,int>> getWalls();
+    Map create();
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getWalls();
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getItems();
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getPlayerSpawns();
 
 };
 

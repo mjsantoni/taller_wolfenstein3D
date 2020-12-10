@@ -5,14 +5,13 @@
 #include "common/thread.h"
 #include <atomic>
 
-class Server : public Thread {
+class Server {
 private:
     std::string path;
     std::atomic<bool> playing;
 public:
     Server(std::string path);
-    void run() override;
-    void stop();
+
     ~Server();
 
 };
