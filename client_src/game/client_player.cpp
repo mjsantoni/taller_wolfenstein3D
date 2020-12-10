@@ -3,20 +3,20 @@
 //
 
 #include <functional>
-#include "client/player.h"
+#include "client/client_player.h"
 
-Player::Player(std::string name) :  name(std::move(name)) {
+ClientPlayer::ClientPlayer(std::string name) :  name(std::move(name)) {
 }
 
-std::string Player::getPlayerName() {
+std::string ClientPlayer::getPlayerName() {
     return std::ref(name);
 }
 
-double Player::getDirection() {
+double ClientPlayer::getDirection() {
     return direction;
 }
 
-void Player::updateDirection(double offset) {
+void ClientPlayer::updateDirection(double offset) {
     double new_direction = direction + offset;
     if (new_direction >= 2*M_PI)
         new_direction -= 2*M_PI;
@@ -25,7 +25,7 @@ void Player::updateDirection(double offset) {
     direction = new_direction;
 }
 
-double Player::projectDirection(double direction_change_alpha) {
+double ClientPlayer::projectDirection(double direction_change_alpha) {
     if (direction + direction_change_alpha < 0)
         return (2*M_PI-direction+direction_change_alpha);
     if (direction + direction_change_alpha > 2*M_PI)

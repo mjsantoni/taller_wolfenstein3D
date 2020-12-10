@@ -2,17 +2,17 @@
 // Created by andy on 25/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_PLAYER_H
-#define TP_WOLFENSTEIN_PLAYER_H
+#ifndef TP_WOLFENSTEIN_CLIENT_PLAYER_H
+#define TP_WOLFENSTEIN_CLIENT_PLAYER_H
 
 #include <string>
 #include "sdl_texture.h"
 #include "sdl_sprite.h"
-#include "positionable.h"
+#include "client_positionable.h"
 
-class Player {
+class ClientPlayer {
 public:
-    Player(std::string name);
+    ClientPlayer(std::string name);
     std::string getPlayerName();
     double getDirection();
     void updateDirection(double offset);
@@ -23,4 +23,4 @@ private:
 };
 
 
-#endif //TP_WOLFENSTEIN_PLAYER_H
+#endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

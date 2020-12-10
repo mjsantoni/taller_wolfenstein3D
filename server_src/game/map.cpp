@@ -14,12 +14,6 @@ Map::Map(SdlWindow& window, int width, int height) :
     real_height = height*grid_size;
 }
 
-
-
-
-
-
-
 template <class Container>
 void split(const std::string& str, Container& cont) {
     std::istringstream iss(str);
@@ -171,7 +165,7 @@ void Map::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
 void Map::loadWallInfo(DrawingInfo& drawing_info,
                        std::pair<int, int> grid_coordinates) {
     Positionable positionable = info.at(grid_coordinates);
-    drawing_info.object_type = positionable.getObjectType();
+    //drawing_info.object_type = positionable.getObjectType();
     drawing_info.is_sprite = false;
     drawing_info.texture_name = positionable.getTextureName();
 }
@@ -179,7 +173,7 @@ void Map::loadWallInfo(DrawingInfo& drawing_info,
 void Map::loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos) {
     std::pair<int, int> coordinates{x_pos, y_pos};
     Positionable positionable = floating_info.at(coordinates);
-    drawing_info.object_type = positionable.getObjectType();
+    //drawing_info.object_type = positionable.getObjectType();
     drawing_info.is_sprite = positionable.isSprite();
     drawing_info.texture_name = positionable.getTextureName();
     if (drawing_info.is_sprite)

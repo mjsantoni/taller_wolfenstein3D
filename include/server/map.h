@@ -56,4 +56,4 @@ private:
 };
 
 
-#endif //TP_WOLFENSTEIN_MAP_H
+#endif //TP_WOLFENSTEIN_CLIENT_MAP_H

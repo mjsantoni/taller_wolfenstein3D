@@ -20,9 +20,9 @@ void Game::start() {
     int y = 170;
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     //map.update(player, x, y);
-    RayCaster ray_caster(window, map);
+    //RayCaster ray_caster(window, map);
     event_handler.getMousePosition();
-    ray_caster.render3DScreen(x, y, player.getDirection());
+    //ray_caster.render3DScreen(x, y, player.getDirection());
     bool must_render = false;
     while (running) {
         SDL_Event event;
@@ -40,8 +40,8 @@ void Game::start() {
                 puts("Saliendo");
                 return;
         }
-        if (must_render)
-            ray_caster.render3DScreen(x, y, player.getDirection());
+        //if (must_render)
+            //ray_caster.render3DScreen(x, y, player.getDirection());
     }
     /*while (running) {
         SDL_Event event;

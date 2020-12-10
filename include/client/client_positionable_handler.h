@@ -6,11 +6,11 @@
 #define TP_WOLFENSTEIN_POSITIONABLEHANDLER_H
 
 
-#include "positionable.h"
+#include "client_positionable.h"
 
-class PositionableHandler {
+class ClientPositionableHandler {
 public:
-    static Positionable createPositionableFromType(int object_type,
+    static ClientPositionable createPositionableFromType(int object_type,
                                                    std::string image_name);
 
 };

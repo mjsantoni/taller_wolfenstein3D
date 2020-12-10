@@ -6,7 +6,7 @@
 #define TP_WOLFENSTEIN_DRAWINGINFO_H
 
 
-#include "positionable.h"
+#include "client_positionable.h"
 
 class DrawingInfo {
 public:

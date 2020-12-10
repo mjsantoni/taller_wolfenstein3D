@@ -3,7 +3,7 @@
 //
 
 #include "server/positionable.h"
-
+/*
 Positionable::Positionable(std::string name, int object_type, bool is_sprite,
                            std::string image_name, std::string unique_name) :
                            object_name(std::move(name)),
@@ -12,12 +12,12 @@ Positionable::Positionable(std::string name, int object_type, bool is_sprite,
                            texture_name(std::move(image_name)),
                            unique_name(std::move(unique_name)){
 }
-
+*/
 std::string Positionable::getObjectName() {
     return object_name;
 }
 
-int Positionable::getObjectType() {
+std::string Positionable::getObjectType() {
     return object_type;
 }
 
@@ -35,11 +35,10 @@ std::string Positionable::getTextureName() {
 
 
 //Mauro
-/*
+
 Positionable::Positionable(std::string _object_type, std::string _sprite_path,
                            int _id, bool _is_obstructive) :
                            object_type(std::move(_object_type)),
                            sprite_path(std::move(_sprite_path)),
                            id(_id),
                            is_obstructive(_is_obstructive) {}
-*/

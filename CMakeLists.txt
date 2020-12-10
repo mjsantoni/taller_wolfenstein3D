@@ -23,6 +23,7 @@ file(GLOB All_SRC
     "client_src/*/*.cpp"
     "editor_src/*.cpp"
     "server_src/*.cpp"
+    "server_src/*/*.cpp"
     "client_src/*.cpp"
     "common_src/*.cpp"
 )
