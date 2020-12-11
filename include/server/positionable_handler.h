@@ -9,7 +9,7 @@ public:
 
     Positionable createBlockingItem(std::string type);
     Positionable createItem(std::string type);
-    Positionable createSpawns(std::string type);
+    //Positionable createSpawns(std::string type);
 
     ~PositionableHandler() {}
 };

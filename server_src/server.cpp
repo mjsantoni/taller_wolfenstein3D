@@ -6,7 +6,7 @@
 Server::Server(std::string _path) : path(_path) {
     MapParser parser(path);
     MapGenerator generator(parser);
-    Map map = generator.create();
+    Map map = generator.create(8); // Player max spawn count
     map.show();
 }
 

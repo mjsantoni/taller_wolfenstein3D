@@ -14,7 +14,7 @@
 
 class Map {
 public:
-    Map();
+    Map(int player_max_spawn_count);
     void addBlockingItems(std::unordered_map<std::string,
                             std::vector<std::pair<int, int>>>& obstructives);
     void addItems(std::unordered_map<std::string,
@@ -29,11 +29,10 @@ private:
     int grid_size = 64;
     std::map<std::pair<int, int>, Positionable> board;
     std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
+    std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
     PositionableHandler handler;
 
 };
-
-
 
 
 

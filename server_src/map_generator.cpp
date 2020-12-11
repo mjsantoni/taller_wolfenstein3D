@@ -20,15 +20,15 @@ std::unordered_map<std::string,
     return mapParser.getSpecificCategory("players");
 }
 
-Map MapGenerator::create() {
-    Map map;
+Map MapGenerator::create(int player_max_spawn_count) {
+    Map map(player_max_spawn_count);
     std::unordered_map<std::string,
             std::vector<std::pair<int, int>>> items = getWalls();
     map.addBlockingItems(items);
     items = getItems();
     map.addItems(items);
-    //items = getPlayerSpawns();
-    //map.addPlayerSpawns(items);
+    items = getPlayerSpawns();
+    map.addPlayerSpawns(items);
 
 
     return map;

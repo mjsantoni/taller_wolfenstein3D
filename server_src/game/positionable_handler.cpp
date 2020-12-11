@@ -23,43 +23,20 @@ Positionable PositionableHandler::createBlockingItem(std::string type) {
   else if (type == "blue_wall")  return Wall(type, false);
   else if (type == "rock_wall")  return Wall(type, false);
   else if (type == "barrel")  return Barrel();
-  else {
-    return Table();
-  }
+  else { return Table(); }
 }
 
 Positionable PositionableHandler::createItem(std::string type) {
-  if (type == "food")
-    return Food();
-  else if (type == "medkit")
-    return MediKit();
-  else if (type == "bullets")
-        return Bullets();
-  else if (type == "machine_gun")
-        return MachineGun();
-  else if (type == "chain_gun")
-        return ChainGun();
-  else if (type == "rpg_gun")
-        return RocketLauncher();
-  else if (type == "cross")
-        return Cross();
-  else if (type == "goblet")
-        return Goblet();
-  else if (type == "chest")
-        return Chest();
-  else if (type == "crown")
-        return Crown();
-  else {
-    return Key();
-  }
+  if (type == "food") return Food();
+  else if (type == "medkit") return MediKit();
+  else if (type == "bullets") return Bullets();
+  else if (type == "machine_gun") return MachineGun();
+  else if (type == "chain_gun") return ChainGun();
+  else if (type == "rpg_gun") return RocketLauncher();
+  else if (type == "cross") return Cross();
+  else if (type == "goblet") return Goblet();
+  else if (type == "chest") return Chest();
+  else if (type == "crown") return Crown();
+  else { return Key(); }
 }
-Positionable PositionableHandler::createSpawns(std::string type) {
-  /*
-  switch (type) {
-      case 1:
-          return Wall_3d(image_name);
-      case 2:
-          return Enemy("enemy1", image_name);
-  }
-   */
-}
+
