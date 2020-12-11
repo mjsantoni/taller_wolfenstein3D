@@ -23,6 +23,9 @@ public:
                             std::vector<std::pair<int, int>>>& player_spawns);
 
     void putPositionableAt(std::pair<int, int> coordinates, Positionable positionable);
+    bool isABlockingItem(std::pair<int, int> coordinates);
+    bool isAValidXCoord(std::pair<int, int> coordinates);
+    bool isAValidYCoord(std::pair<int, int> coordinates);
     void show();
 
 private:
@@ -31,6 +34,7 @@ private:
     std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
     std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
     PositionableHandler handler;
+
 
 };
 

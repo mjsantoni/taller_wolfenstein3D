@@ -5,14 +5,15 @@
 
 class Positionable {
 public:
-    Positionable(std::string type, bool _is_obstructive);
+    Positionable(std::string type, bool _is_blocking);
     std::string getType();
+    bool isBlocking();
     ~Positionable() {}
 
 protected:
     std::string type;
     int id;
-    bool is_obstructive;
+    bool is_blocking;
 };
 
 

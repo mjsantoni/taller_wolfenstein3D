@@ -47,6 +47,34 @@ void Map::putPositionableAt(std::pair<int, int> coordinates,
             Positionable>(coordinates,positionable));
 }
 
+bool Map::isABlockingItem(std::pair<int, int> coordinates) {
+    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
+    int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
+    std::pair<int, int> normalize(x_normalize, y_normalize);
+    if(board.find(normalize) != board.end())
+        return !board.at(normalize).isBlocking();
+    return true;
+}
+
+bool Map::isAValidXCoord(std::pair<int, int> coordinates) {
+    int y_normalize = trunc(coordinates.second/ grid_size) * grid_size;
+    std::pair<int, int> normalize(coordinates.first, y_normalize);
+    std::cout << "Normalizado de X" << normalize.first << " - " << normalize.second << "\n";
+    if(board.find(normalize) != board.end())
+        return !board.at(normalize).isBlocking();
+    return true;
+}
+
+bool Map::isAValidYCoord(std::pair<int, int> coordinates) {
+    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
+    int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
+    std::pair<int, int> normalize(x_normalize, y_normalize);
+    std::cout << "Normalizado de Y" << normalize.first << " - " << normalize.second << "\n";
+    if(board.find(normalize) != board.end())
+        return !board.at(normalize).isBlocking();
+    return true;
+}
+
 void Map::show() {
     std::cout << "Board\n";
     for (auto& elem : board) {

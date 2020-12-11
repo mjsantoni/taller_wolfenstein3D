@@ -11,6 +11,7 @@ class ColissionHandler {
 private:
     Map& map;
     int move_size = 10;
+    int safe_distance = 10;
 public:
     ColissionHandler(Map& _map);
     std::pair<int,int> moveToPosition(std::pair<int,int> actual_pos, double angle);

@@ -9,10 +9,10 @@ Server::Server(std::string _path) : path(_path) {
     MapParser parser(path);
     MapGenerator generator(parser);
     Map map = generator.create(8); // Player max spawn count
-    map.show();
+    //map.show();
     ColissionHandler colHandler(map);
     std::pair<int,int> test(80,80);
-    test = colHandler.moveToPosition(test, M_PI/4);
+    test = colHandler.moveToPosition(test, M_PI/2);
     std::cout << test.first << " " << test.second;
 }
 
