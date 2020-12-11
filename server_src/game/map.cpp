@@ -5,8 +5,7 @@
 #include <string>
 
 Map::Map(int player_max_spawn_count)   {
-    player_spawns.reserve(player_max_spawn_count);
-    // Este tamaño viene dado por la cantidad de players
+    player_spawns.resize(player_max_spawn_count);
 }
 
 void Map::addBlockingItems(std::unordered_map<std::string,
@@ -31,11 +30,9 @@ void Map::addItems(std::unordered_map<std::string,
 
 void Map::addPlayerSpawns(std::unordered_map<std::string,
                             std::vector<std::pair<int, int>>>& spawns) {
-    auto it = player_spawns.begin();
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
-            if (type.first.size() != 1) continue;
-            player_spawns.insert(it + std::stoi(type.first), coord);
+            player_spawns[std::stoi(type.first)] = coord;
         }
     }
 }
