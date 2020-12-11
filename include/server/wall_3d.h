@@ -2,7 +2,7 @@
 // Created by andy on 28/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_CLIENT_WALL_3D_H
+#ifndef TP_WOLFENSTEIN_CLIENT_WALL_H
 #define TP_WOLFENSTEIN_WALL_3D_H
 
 #include "client/sdl_3D_texture.h"
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //TP_WOLFENSTEIN_CLIENT_WALL_3D_H
+#endif //TP_WOLFENSTEIN_CLIENT_WALL_H

@@ -2,18 +2,23 @@
 #define TP_WOLFENSTEIN_CLIENT_H
 
 #include <vector>
+#include <atomic>
 #include "common/thread.h"
+#include "client_parser.h"
 
 class Client : public Thread {
 private:
-    std::vector<std::pair<int, int>>& walls;
     int map_width;
     int map_height;
+    ClientParser parser;
+    std::atomic<bool> running;
 
 public:
-    Client(int width, int height, std::vector<std::pair<int,int>>& _walls);
+    Client();
     void run() override;
     ~Client();
+    void stop();
+    bool isRunning();
 };
 
 

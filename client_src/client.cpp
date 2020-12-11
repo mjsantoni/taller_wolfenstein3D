@@ -2,19 +2,25 @@
 #include "client/client_game.h"
 #include <iostream>
 
-Client::Client(int width, int height, std::vector<std::pair<int,int>>& _walls) :
-                map_width(width), map_height(height), walls(_walls) {
-}
+Client::Client() : running(true) {}
 
 void Client::run() {
     try {
-        ClientGame game(960, 600, map_width, map_height);
-        game.start(walls);
+        ClientMap map = parser.parseInfoFromServer();
+        Map real_map(10, 20);
+        ClientGame game(960, 600, map, real_map);
+        game.start();
     }
     catch(SdlException& e) {
         std::cout << e.what() << std::endl;
-        return;
     }
+    running = false;
 }
 
 Client::~Client() {}
+
+void Client::stop() {}
+
+bool Client::isRunning() {
+    return running;
+}

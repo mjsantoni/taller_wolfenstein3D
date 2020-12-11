@@ -2,7 +2,7 @@
 
 
 Door::Door(std::string object_type, bool _is_locked) : 
-           Positionable(object_type, "path", 1, true),
+           Positionable("door", true),
            is_locked(_is_locked) {
 }
 

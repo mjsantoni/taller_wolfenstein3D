@@ -20,6 +20,7 @@ public:
     int getCurrentImageNumber();
     std::string getTextureName();
     ClientPositionable();
+    std::pair<int, int> getPosition();
 
     virtual std::string getObjectName();
 
@@ -30,6 +31,7 @@ protected:
     int sprite_image_number = 0;
     std::string texture_name;
     std::string unique_name;
+    std::pair<int, int> position;
 };
 
 

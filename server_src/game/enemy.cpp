@@ -5,5 +5,5 @@
 #include "server/enemy.h"
 
 Enemy::Enemy(std::string unique_name, std::string image_path):
-        Positionable("Enemy", "path", 1, true) {
+        Positionable("enemy", true) {
 }

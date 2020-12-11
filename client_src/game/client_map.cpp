@@ -7,10 +7,10 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
+#include <client/drawable.h>
 #include "client/client_map.h"
-#include "client/client_positionable_handler.h"
 
-ClientMap::ClientMap(SdlWindow& window, int width, int height) :
+ClientMap::ClientMap(int width, int height, int grid_size) :
                                 width(width), height(height) {
     real_width = width*grid_size;
     real_height = height*grid_size;
@@ -24,8 +24,6 @@ void ClientMap::initialize() {
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             if (i == height-1 || i == 0 || j == width-1 || j == 0) {
-                //putPositionableAt(std::pair<int, int>(j, i), 1, "../client_src/resources/wall_3.gif");
-                //printf("Se coloca una pared en (%d, %d)\n", j, i);
             }
         }
     }
@@ -66,7 +64,7 @@ std::pair<int, int> ClientMap::calculateGrid(int x_pos, int y_pos) {
     return {x_grid, y_grid};
 }
 
-ClientPositionable& ClientMap::getPositionableAt(std::pair<int, int> coordinates) {
+Drawable& ClientMap::getDrawableAt(std::pair<int, int> coordinates) {
     return std::ref(info.at(coordinates));
 }
 
@@ -76,7 +74,7 @@ bool ClientMap::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor) {
     std::pair<int, int> grid_coordinates =
             calculateGrid(x_pos, y_pos, x_factor, y_factor);
     bool wall_at_grid = wallAtGrid(grid_coordinates);
-    if (wall_at_grid)
+    //if (wall_at_grid)
         //printf("Se devuelve la grilla (%d, %d)\n", grid_coordinates.first, grid_coordinates.second);
     return wall_at_grid;
 }
@@ -89,26 +87,12 @@ void ClientMap::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
     std::pair<int, int> grid_coordinates{x_coord, y_coord};
     if (wallAtGrid(x_pos, y_pos, x_factor, y_factor))
         loadWallInfo(drawing_info, grid_coordinates);
-    else
-        loadObjectInfo(drawing_info, x_pos, y_pos);
 }
 
 void ClientMap::loadWallInfo(DrawingInfo& drawing_info,
                        std::pair<int, int> grid_coordinates) {
-    ClientPositionable positionable = info.at(grid_coordinates);
-    drawing_info.object_type = positionable.getObjectType();
-    drawing_info.is_sprite = false;
-    drawing_info.texture_name = positionable.getTextureName();
-}
-
-void ClientMap::loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos) {
-    std::pair<int, int> coordinates{x_pos, y_pos};
-    ClientPositionable positionable = info.at(coordinates);
-    drawing_info.object_type = positionable.getObjectType();
-    drawing_info.is_sprite = positionable.isSprite();
-    drawing_info.texture_name = positionable.getTextureName();
-    if (drawing_info.is_sprite)
-        drawing_info.sprite_image_number = positionable.getCurrentImageNumber();
+    Drawable drawable = info.at(grid_coordinates);
+    drawing_info.object_type = drawable.getObjectType();
 }
 
 void ClientMap::putPlayerAt(std::string player_name, std::pair<int, int> coord) {
@@ -118,18 +102,38 @@ void ClientMap::putPlayerAt(std::string player_name, std::pair<int, int> coord) 
 
 void ClientMap::addWalls(std::vector<std::pair<int,int>> walls) {
     for (auto& wall : walls) {
-        putPositionableAt(wall, 1, "../client_src/resources/wall_alt.jpg");
+        //printf("se pone una pared en : (%d, %d)\n", wall.first, wall.second);
+        putDrawableAt(wall, 0);
     }
+    putDrawableAt(150,150,1);
 }
 
-void ClientMap::putPositionableAt(std::pair<int, int> coordinates,
-                            int object_type,
-                            std::string image_name) {
-    ClientPositionable positionable = ClientPositionableHandler::createPositionableFromType
-            (object_type, image_name);
+void ClientMap::putDrawableAt(std::pair<int, int> coordinates,
+                            int object_type) {
+    Drawable drawable(object_type);
     coordinates.first*= grid_size;
     coordinates.second*= grid_size;
     info.insert(std::pair<std::pair<int, int>,
-            ClientPositionable>(coordinates,positionable));
+            Drawable>(coordinates,drawable));
+}
+
+void ClientMap::putDrawableAt(int x_pos,
+                                  int y_pos,
+                                  int object_type) {
+    Drawable drawable(object_type);
+    drawable.setMapPosition(x_pos, y_pos);
+    objects.push_back(drawable);
+}
+
+int ClientMap::getWidth() {
+    return real_width;
+}
+
+int ClientMap::getHeight() {
+    return real_height;
+}
+
+std::vector<Drawable> ClientMap::getAllObjects() {
+    return objects;
 }
 

@@ -7,24 +7,32 @@
 
 
 #include <SDL_render.h>
+#include <vector>
 #include "drawing_info.h"
-#include "client_wall_3d.h"
-#include "client_enemy.h"
+#include "client_wall.h"
+#include "image_parser.h"
+#include "image_info.h"
 
 class ObjectDrawer {
 public:
+    ObjectDrawer();
     void setRenderer(SDL_Renderer* window_renderer, int window_width,
                      int window_height);
-    SDL_Texture* drawImage(int ray_no, DrawingInfo& drawing_info,
-                           Area& image_area);
-    SDL_Texture* drawImage(ClientWall_3d wall, DrawingInfo& drawing_info,
-                           Area& image_area);
-    SDL_Texture* drawImage(ClientEnemy enemy, DrawingInfo& drawing_info,
-                                         Area& image_area);
+    SDL_Texture* drawImage(DrawingInfo& drawing_info, Area& image_area);
+    void drawFloor(int x_pos, int wall_posY, int wall_height);
+    void drawCeiling(int x_pos, int y_pos);
+    void findObjectProportions(DrawingInfo& drawing_info, double distance,
+                               int max_dist_x, int max_dist_y, double beta, Area& screen_area);
+    void getImageInformation(DrawingInfo& drawing_info);
+    SDL_Texture* drawWall(DrawingInfo& drawing_info, Area& image_area);
 private:
     SDL_Renderer* renderer;
     int window_width;
     int window_height;
+    int floor_starting_point;
+    int floor_height;
+    std::vector<ImageInfo> image_info_vector;
+    ImageParser image_parser;
 };
 
 
