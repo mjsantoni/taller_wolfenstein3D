@@ -4,9 +4,12 @@
 
 #include <SDL_events.h>
 #include <iostream>
-#include "server/event_handler.h"
+#include "client/client_event_handler.h"
 
-void EventHandler::handleEvent(SDL_Event event, Player& player, Map &map, bool &running, int& x, int& y) {
+ClientEventHandler::ClientEventHandler(Map& _map) : map(_map) {
+}
+
+void ClientEventHandler::handleEvent(SDL_Event event, Player& player, bool &running, int& x, int& y) {
     bool must_update = false;
     double delta_alpha;
     std::pair<int, int> new_coordinates;
@@ -70,13 +73,13 @@ void EventHandler::handleEvent(SDL_Event event, Player& player, Map &map, bool &
         std::pair<int, int> grid = map.calculateGrid(x, y);
         map.update(player, x, y);
         grid = map.calculateGrid(x, y);
-        //printf("El jugador se movio hacia: (%d, %d) y mira en direccion %f\n", x, y, player.getDirection());
+        printf("El jugador se movio hacia: (%d, %d) y mira en direccion %f\n", x, y, player.getDirection());
     }
-    //else
-        //puts("El jugador no se movio ni giro\n");
+    else
+        puts("El jugador no se movio ni giro\n");
 }
 
-void EventHandler::handleMouseEvent(SDL_Event event,
+void ClientEventHandler::handleMouseEvent(SDL_Event event,
                                     Player &player,
                                     SdlWindow& window) {
     auto& mouse_event = (SDL_MouseMotionEvent&) event;
@@ -89,11 +92,11 @@ void EventHandler::handleMouseEvent(SDL_Event event,
     mouse_position_x = mouse_event.x;
 }
 
-void EventHandler::getMousePosition() {
+void ClientEventHandler::getMousePosition() {
     SDL_GetMouseState(&mouse_position_x, nullptr);
 }
 
-void EventHandler::calculateMovement(int& x, int& y, double alpha){
+void ClientEventHandler::calculateMovement(int& x, int& y, double alpha){
     double delta_alpha;
     int x_factor;
     int y_factor;
@@ -116,26 +119,31 @@ void EventHandler::calculateMovement(int& x, int& y, double alpha){
     }
     int delta_x = (int) (step_size*cos(delta_alpha)*x_factor);
     int delta_y = (int) (step_size*sin(delta_alpha)*y_factor);
-    //printf("El jugador quiere moverse desde (%d, %d) ", x, y);
+    printf("El jugador quiere moverse desde (%d, %d) ", x, y);
     x += delta_x;
     y += delta_y;
-    //printf("hacia (%d, %d)\n", x, y);
+    printf("hacia (%d, %d)\n", x, y);
     //printf("X PROYECTADO: %d\n", x);
     //printf("Y PROYECTADO: %d\n", y);
 }
 
-bool EventHandler::movementAllowed(int& proj_x,
-                     int& proj_y,
-                     double angle_turn,
-                     Player& player,
-                     Map& map) {
+bool ClientEventHandler::movementAllowed(int& proj_x,
+                                   int& proj_y,
+                                   double angle_turn,
+                                   Player& player,
+                                   Map& map) {
     double new_angle = player.projectDirection(angle_turn);
-    //printf("Angulo proyectadO: %f\n", new_angle);
+    printf("Angulo proyectadO: %f\n", new_angle);
     bool x_incr = (new_angle < M_PI / 2 || new_angle > 3 * M_PI / 2);
     bool y_incr = (new_angle > M_PI);
-    //printf("x incr: %d\n", x_incr);
-    //printf("y incr: %d\n", y_incr);
+    printf("x incr: %d\n", x_incr);
+    printf("y incr: %d\n", y_incr);
     calculateMovement(proj_x, proj_y, new_angle);
     return (map.movementAllowed(proj_x, proj_y, x_incr, y_incr));
+}
+
+void ClientEventHandler::putPlayerAt(std::string player_name,
+                                     std::pair<int, int> position) {
+    map.putPlayerAt(player_name, position);
 }
 

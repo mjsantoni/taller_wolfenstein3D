@@ -15,7 +15,7 @@
 
 class Map {
 public:
-    Map(SdlWindow& window, int width, int height);
+    Map(int width, int height);
     //bool OnLoad(char* File);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);
     void putPositionableAt(std::pair<int, int> coordinates, int object_type,
@@ -40,7 +40,6 @@ private:
     std::map<std::pair<int, int>, Positionable> info;
     std::map<std::pair<int, int>, Positionable> floating_info;
     std::map<std::string, std::pair<int, int>> positions;
-    SdlWindow& window;
     int grid_size = 64;
     int width;
     int height;

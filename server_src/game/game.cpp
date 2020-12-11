@@ -9,7 +9,7 @@
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-Game::Game(int width, int height) : window(width, height), running(true), map(window, 8, 10) {
+Game::Game(int width, int height) : window(width, height), running(true), map(8, 10) {
 }
 
 void Game::start() {

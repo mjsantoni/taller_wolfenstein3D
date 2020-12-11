@@ -32,3 +32,7 @@ int ClientPositionable::getCurrentImageNumber() {
 std::string ClientPositionable::getTextureName() {
     return texture_name;
 }
+
+std::pair<int, int> ClientPositionable::getPosition() {
+    return position;
+}

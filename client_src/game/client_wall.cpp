@@ -2,9 +2,9 @@
 // Created by andy on 28/11/20.
 //
 
-#include "client/client_wall_3d.h"
+#include "client/client_wall.h"
 
-ClientWall_3d::ClientWall_3d(std::string image_name) :
+ClientWall::ClientWall(std::string image_name) :
             ClientPositionable("Wall", 1, false, std::move(image_name),""){ }
 
 /*

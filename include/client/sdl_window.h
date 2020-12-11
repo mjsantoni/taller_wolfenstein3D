@@ -2,14 +2,16 @@
 // Created by andy on 26/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_SDL_WINDOW_H
-#define TP_WOLFENSTEIN_SDL_WINDOW_H
+#ifndef TP_WOLFENSTEIN_SDLWINDOW_H
+#define TP_WOLFENSTEIN_SDLWINDOW_H
 
 #include <SDL_render.h>
 #include "area.h"
 #include "sdl_texture.h"
 #include "drawing_info.h"
 #include "object_drawer.h"
+#include "sdl_exception.h"
+#include "drawable.h"
 
 
 class SdlWindow {
@@ -26,10 +28,10 @@ public:
     void fillSquare(Area area);
     void restore();
     void put3DColumn(int ray_no, DrawingInfo drawing_info);
-    Area assembleScreenArea(int ray_no, DrawingInfo& drawing_info);
+    void put3DObject(double distance, int max_dist_x, int max_dist_y,
+                     double beta, Drawable& object);
     int findColumnStartingPoint(int distance, int& col_height);
     int getWidth();
-    SDL_Texture* assembleImageArea(DrawingInfo drawing_info, Area& image_area);
 private:
     int width;
     int height;
@@ -37,9 +39,12 @@ private:
     SDL_Renderer* renderer;
     ObjectDrawer drawer;
 
-    void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
+    Area assembleScreenArea(int ray_no, DrawingInfo& drawing_info);
+    Area assembleScreenArea(DrawingInfo& drawing_info, double distance,
+                            int max_dist_x, int max_dist_y, double beta);
 };
 
 
-#endif //TP_WOLFENSTEIN_SDL_WINDOW_H
+#endif //TP_WOLFENSTEIN_SDLWINDOW_H
+

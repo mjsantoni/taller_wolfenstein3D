@@ -6,20 +6,9 @@
 #include "server/map.h"
 #include "server/positionable_handler.h"
 
-Map::Map(SdlWindow& window, int width, int height) :
-                                window(window), width(width), height(height) {
-    this->window.fill();
-    this->window.render();
+Map::Map(int width, int height) : width(width), height(height) {
     real_width = width*grid_size;
     real_height = height*grid_size;
-}
-
-template <class Container>
-void split(const std::string& str, Container& cont) {
-    std::istringstream iss(str);
-    std::copy(std::istream_iterator<std::string>(iss),
-              std::istream_iterator<std::string>(),
-              std::back_inserter(cont));
 }
 
 void Map::putPositionableAt(std::pair<int, int> coordinates,
@@ -52,7 +41,6 @@ int Map::getGridSize() {
 }
 
 void Map::initialize() {
-    window.fill();
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             if (i == height-1 || i == 0 || j == width-1 || j == 0) {
@@ -62,17 +50,15 @@ void Map::initialize() {
         }
     }
 
-    putPositionableAt(std::pair<int, int>(3, 5), 1,"../client_src/resources/wall_alt.jpg");
-    putPositionableAt(std::pair<int, int>(2, 5), 1,"../client_src/resources/wall_alt.jpg");
-    putPositionableAt(std::pair<int, int>(2, 6), 1,"../client_src/resources/wall_alt.jpg");
-    //window.render();
+    //putPositionableAt(std::pair<int, int>(3, 5), 1,"../client_src/resources/wall_alt.jpg");
+    //putPositionableAt(std::pair<int, int>(2, 5), 1,"../client_src/resources/wall_alt.jpg");
+    //putPositionableAt(std::pair<int, int>(2, 6), 1,"../client_src/resources/wall_alt.jpg");
 }
 
 void Map::erasePlayerFromOldPosition(std::pair<int, int> old_positions) {
     int pos_x = old_positions.first;
     int pos_y = old_positions.second;
     Area erase_area(pos_x, pos_y, grid_size, grid_size);
-    window.fillSquare(erase_area);
 }
 
 bool Map::movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr) {

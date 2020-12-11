@@ -15,7 +15,7 @@ void Server::run() {
     int width = dimensions.first;
     int height = dimensions.second;
     std::vector<std::pair<int,int>> walls = generator.getWalls();
-    Client* client = new Client(width, height, walls);
+    auto* client = new Client();
     client->start();
     while (playing) {}
     client->join();

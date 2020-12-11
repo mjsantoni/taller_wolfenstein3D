@@ -9,31 +9,29 @@
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-ClientGame::ClientGame(int width, int height, int map_width, int map_height) :
-window(width, height), running(true), map(window, map_width, map_height) {
+ClientGame::ClientGame(int width, int height, ClientMap _map, Map real_map) :
+window(width, height), running(true), map(_map), event_handler(real_map) {
 }
 
-void ClientGame::start(std::vector<std::pair<int,int>> walls) {
+void ClientGame::start() {
     displayIntro();
-    map.initialize();
-    map.addWalls(walls);
-    ClientPlayer player("Player1");
+    Player player("Player1");
     int x = 200;
     int y = 170;
+    event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
-    //map.update(player, x, y);
     RayCaster ray_caster(window, map);
     ray_caster.render3DScreen(x, y, player.getDirection());
-    bool must_render = false;
     while (running) {
+        bool must_render = false;
         SDL_Event event;
         SDL_WaitEvent(&event);
         switch(event.type) {
             case SDL_KEYDOWN:
+                event_handler.handleEvent(event, player, running, x, y);
                 must_render = true;
                 break;
             case SDL_MOUSEMOTION:
-                must_render = false;
                 break;
             case SDL_QUIT:
                 puts("Saliendo");
