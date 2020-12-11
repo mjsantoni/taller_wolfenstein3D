@@ -9,7 +9,6 @@ scenarios:
 players:
   0: [[1, 2]]
   1: [[1, 5]]
-  bot1: [[2, 4], [5, 7], [6, 6]]
 items:
   machine_gun: [[7, 7], [7, 8]]
   rpg_gun: [[8, 7]]

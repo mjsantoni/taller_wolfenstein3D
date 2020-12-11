@@ -1,4 +1,4 @@
-#include "server/server.h"
+#include "server/server_main.h"
 #include "server/map_generator.h"
 #include "server/map_parser.h"
 #include "server/map.h"

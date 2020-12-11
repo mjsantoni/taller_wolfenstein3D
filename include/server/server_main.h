@@ -1,5 +1,5 @@
-#ifndef TP_WOLFENSTEIN_SERVER_H
-#define TP_WOLFENSTEIN_SERVER_H
+#ifndef TP_WOLFENSTEIN_SERVER_MAIN_H
+#define TP_WOLFENSTEIN_SERVER_MAIN_H
 
 #include <string>
 #include "common/thread.h"
@@ -16,4 +16,4 @@ public:
 
 };
 
-#endif //TP_WOLFENSTEIN_SERVER_H
+#endif //TP_WOLFENSTEIN_SERVER_MAIN_H
