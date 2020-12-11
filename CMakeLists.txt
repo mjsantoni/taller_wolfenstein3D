@@ -19,7 +19,7 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_
 set(CMAKE_CXX_STANDARD 11)
 
 file(GLOB All_SRC
-    "server_src/main.cpp"
+    "server_src/server_main.cpp"
     "editor_src/*.cpp"
     "server_src/*.cpp"
     "server_src/*/*.cpp"

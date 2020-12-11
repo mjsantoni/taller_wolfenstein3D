@@ -32,6 +32,8 @@ void Map::addPlayerSpawns(std::unordered_map<std::string,
                             std::vector<std::pair<int, int>>>& spawns) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
+            coord.first *= grid_size;
+            coord.second *= grid_size;
             player_spawns[std::stoi(type.first)] = coord;
         }
     }
@@ -58,3 +60,4 @@ void Map::show() {
         i++;
     }
 }
+
