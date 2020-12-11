@@ -2,10 +2,7 @@
 
 /*
 int main( int argc, char* args[] ) {
-    Server server("../out.yaml");
-    server.start();
-    server.stop();
-    server.join();
+    Server server("../map.yaml");
     return 0;
 }
 */

@@ -2,7 +2,7 @@ dimensions:
   width: 10
   height: 10
 scenarios:
-  walls: [[1, 1],[2,2],[3,3]]
+  walls: [[1, 1], [2, 2], [3, 3]]
   puerta: [[2, 4], [5, 7], [6, 6]]
 players:
   player1: [[1, 2], [3, 4], [5, 6]]
