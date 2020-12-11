@@ -11,9 +11,19 @@ Server::Server(std::string _path) : path(_path) {
     Map map = generator.create(8); // Player max spawn count
     //map.show();
     ColissionHandler colHandler(map);
-    std::pair<int,int> test(80,80);
-    test = colHandler.moveToPosition(test, M_PI/2);
+    /*
+    for (int i = 74; i < 100; i++) {
+        std::pair<int,int> test(i,i);
+        test = colHandler.moveToPosition(test, (3*M_PI)/4);
+        std::cout << "Par: " << i << " - (" << test.first << ", " << test.second << ")\n";
+    }*/
+
+    std::pair<int,int> test(75,81);
+    test = colHandler.moveToPosition(test, 3*M_PI/4);
     std::cout << test.first << " " << test.second;
+
+
+
 }
 
 Server::~Server() {

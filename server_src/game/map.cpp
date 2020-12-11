@@ -48,28 +48,33 @@ void Map::putPositionableAt(std::pair<int, int> coordinates,
 }
 
 bool Map::isABlockingItem(std::pair<int, int> coordinates) {
+    //std::cout << "PreNormalizado: " << coordinates.first << " - " << coordinates.second << "\n";
     int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
     std::pair<int, int> normalize(x_normalize, y_normalize);
+    //std::cout << "Normalizado: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
 }
 
 bool Map::isAValidXCoord(std::pair<int, int> coordinates) {
+    //std::cout << "PreNormalizado de X: " << coordinates.first << " - " << coordinates.second << "\n";
+    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second/ grid_size) * grid_size;
-    std::pair<int, int> normalize(coordinates.first, y_normalize);
-    std::cout << "Normalizado de X" << normalize.first << " - " << normalize.second << "\n";
+    std::pair<int, int> normalize(x_normalize, y_normalize);
+    //std::cout << "Normalizado de X: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
 }
 
 bool Map::isAValidYCoord(std::pair<int, int> coordinates) {
+    //std::cout << "PreNormalizado de Y: " << coordinates.first << " - " << coordinates.second << "\n";
     int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
     std::pair<int, int> normalize(x_normalize, y_normalize);
-    std::cout << "Normalizado de Y" << normalize.first << " - " << normalize.second << "\n";
+    //std::cout << "Normalizado de Y: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
