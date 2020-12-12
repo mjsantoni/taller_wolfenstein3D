@@ -8,7 +8,7 @@
 #include <string>
 #include "sdl_texture.h"
 #include "sdl_sprite.h"
-#include "client_positionable.h"
+#include "positionable_mock.h"
 
 class ClientPlayer {
 public:

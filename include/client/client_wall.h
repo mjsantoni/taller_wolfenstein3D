@@ -6,10 +6,10 @@
 #define TP_WOLFENSTEIN_CLIENT_WALL_H
 
 
-#include "client_positionable.h"
+#include "positionable_mock.h"
 #include "sdl_3D_texture.h"
 
-class ClientWall : public ClientPositionable {
+class ClientWall : public PositionableMock {
 public:
     ClientWall(std::string image_name);
     //SDL_Texture* getImage(SDL_Renderer* renderer, Area& src_area);

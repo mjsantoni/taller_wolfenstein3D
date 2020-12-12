@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
-#include "client_positionable.h"
+#include "positionable_mock.h"
 #include "sdl_window.h"
 #include "sdl_texture.h"
 #include "client_player.h"

@@ -9,13 +9,13 @@
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-ClientGame::ClientGame(int width, int height, ClientMap _map, Map real_map) :
+ClientGame::ClientGame(int width, int height, ClientMap _map, MapMock real_map) :
 window(width, height), running(true), map(_map), event_handler(real_map) {
 }
 
 void ClientGame::start() {
     displayIntro();
-    Player player("Player1");
+    ClientPlayer player("Player1");
     int x = 200;
     int y = 170;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));

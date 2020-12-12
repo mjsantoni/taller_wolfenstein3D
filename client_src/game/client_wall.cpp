@@ -5,7 +5,7 @@
 #include "client/client_wall.h"
 
 ClientWall::ClientWall(std::string image_name) :
-            ClientPositionable("Wall", 1, false, std::move(image_name),""){ }
+        PositionableMock("Wall", 0, false, std::move(image_name), "", 1, 1){ }
 
 /*
 SDL_Texture* Wall_3d::getImage(SDL_Renderer* renderer, Area& src_area) {
