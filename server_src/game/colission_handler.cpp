@@ -11,13 +11,12 @@ std::pair<int, int> ColissionHandler::moveToPosition(std::pair<int, int> actual_
     int x_move = std::round(cos(angle)*move_size);
     int y_move = std::round(sin(angle)*move_size*-1);
 
-
     int x_factor = (x_move < 0) ? -1 : 1;
     int y_factor = (y_move < 0) ? -1 : 1;
 
     int i = 0;
     int j = 0;
-    bool is_y = (angle <= M_PI / 2 || angle >= 3 * M_PI / 2) ? false : true;
+    bool is_y = abs(x_move) > abs(y_move) ? false : true;
     int for_limit = (is_y) ? abs(y_move) : abs(x_move);
     int for_limit_oposite = (is_y) ? abs(x_move) : abs(y_move);
     int coord_base = (is_y) ? actual_pos.second: actual_pos.first;
@@ -46,7 +45,6 @@ std::pair<int, int> ColissionHandler::moveToPosition(std::pair<int, int> actual_
             break;
         }
     }
-    //if ((coord_base + factor*safe_distance + factor*i) % 64 == 0 && i == for_limit) { i--; }
 
     for(; j < for_limit_oposite && j < i; j++) {
 

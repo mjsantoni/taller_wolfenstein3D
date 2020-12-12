@@ -18,8 +18,8 @@ Server::Server(std::string _path) : path(_path) {
         std::cout << "Par: " << i << " - (" << test.first << ", " << test.second << ")\n";
     }*/
 
-    std::pair<int,int> test(80,80);
-    test = colHandler.moveToPosition(test, M_PI/2);
+    std::pair<int,int> test(73,73);
+    test = colHandler.moveToPosition(test, 3*M_PI/4);
     std::cout << test.first << " " << test.second;
 
 
