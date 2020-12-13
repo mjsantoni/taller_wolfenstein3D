@@ -18,7 +18,7 @@ private:
     void connectEvents();
     std::string getYamlPath();
     std::string saveYamlPath();
-
+    void loadMap();
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

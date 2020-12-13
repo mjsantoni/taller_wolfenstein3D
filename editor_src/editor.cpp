@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include "yaml-cpp/yaml.h"
 #include "editor/editor.h"
+#include "server/map_parser.h"
 #include "ui_editor.h"
 
 #define DEF_HEIGHT 7
@@ -32,20 +33,53 @@ Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
     file->addAction(save);
     file->addAction(quit);
     connect(quit, &QAction::triggered, this, QApplication::quit);
-    connect(load, &QAction::triggered, this, QApplication::quit);
+    connect(load, &QAction::triggered, this, &Editor::loadMap);
     connect(save, &QAction::triggered, this, &Editor::exportMap);
     createMapGrid();
     connectEvents();
 }
 
+void Editor::loadMap() {
+    MapParser parser(getYamlPath());
+    QPixmap wood_pix("../client_src/resources/wall_3.gif");
+    QPixmap stone_pix("../client_src/resources/wall_alt.jpg");
+    QPixmap blue_pix("../client_src/resources/blue_wall.png");
+    QPixmap rpg_pix("../client_src/resources/rpg.png");
+    QPixmap chain_pix("../client_src/resources/chainGun.png");
+    QPixmap machine_pix("../client_src/resources/machineGun.png");
+    QPixmap locked_pix("../client_src/resources/locked_door.png");
+    QPixmap barrel_pix("../client_src/resources/barrel.png");
+
+    const char *wood_wall = "wood_wall";
+    const char *stone_wall = "stone_wall";
+    const char *blue_wall = "blue_wall";
+    const char *rpg_gun = "rpg_gun";
+    const char *chain_gun = "chain_gun";
+    const char *machine_gun = "machine_gun";
+    const char *locked_door = "locked_door";
+    const char *barrel = "barrel";
+
+    QIcon wood_icon(wood_pix);
+    QIcon stone_icon(stone_pix);
+    QIcon blue_icon(blue_pix);
+    QIcon rpg_icon(rpg_pix);
+    QIcon chain_icon(chain_pix);
+    QIcon machine_icon(machine_pix);
+    QIcon locked_icon(locked_pix);
+    QIcon barrel_icon(barrel_pix);
+    for(auto vect: parser.getCategory("scenarios")) {
+        std::cout << vect.first;
+    }
+
+}
 
 
 void Editor::createMapGrid() {
     QPixmap pixmap("../client_src/resources/empty.png");
     QIcon ButtonIcon(pixmap);
-    QPixmap woodPix("../client_src/resources/wall_3.gif");
-    const char *woodWall = "Wood wall";
-    QIcon woodIcon(woodPix);
+    QPixmap wood_pix("../client_src/resources/wall_3.gif");
+    const char *wood_wall = "Wood wall";
+    QIcon wood_icon(wood_pix);
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
     for (int i = 0; i < DEF_HEIGHT; ++i) {
         for (int j = 0; j < DEF_WIDTH; ++j) {
@@ -55,7 +89,7 @@ void Editor::createMapGrid() {
             buttonGrid->setMenu(menu);
             buttonGrid->setIcon(ButtonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
-            // connect(buttonGrid, ,this, std::bind(&Editor::updateGridButton, this, buttonGrid, woodIcon, woodWall));
+            // connect(buttonGrid, ,this, std::bind(&Editor::updateGridButton, this, buttonGrid, wood_icon, wood_wall));
             mapGrid->addWidget(buttonGrid, i, j);
         }
     }
@@ -63,51 +97,51 @@ void Editor::createMapGrid() {
 }
 
 QMenu* Editor::createGridButtonMenu(QPushButton *button) {
-    QPixmap woodPix("../client_src/resources/wall_3.gif");
-    QPixmap stonePix("../client_src/resources/wall_alt.jpg");
-    QPixmap bluePix("../client_src/resources/blueWall.png");
-    QPixmap rpgPix("../client_src/resources/rpg.png");
-    QPixmap chainPix("../client_src/resources/chainGun.png");
-    QPixmap machinePix("../client_src/resources/machineGun.png");
-    QPixmap lockedPix("../client_src/resources/lockedDoor.png");
-    QPixmap barrelPix("../client_src/resources/barrel.png");
+    QPixmap wood_pix("../client_src/resources/wall_3.gif");
+    QPixmap stone_pix("../client_src/resources/wall_alt.jpg");
+    QPixmap blue_pix("../client_src/resources/blueWall.png");
+    QPixmap rpg_pix("../client_src/resources/rpg.png");
+    QPixmap chain_pix("../client_src/resources/chainGun.png");
+    QPixmap machine_pix("../client_src/resources/machineGun.png");
+    QPixmap locked_pix("../client_src/resources/lockedDoor.png");
+    QPixmap barrel_pix("../client_src/resources/barrel.png");
 
-    const char *woodWall = "Wood wall";
-    const char *stoneWall = "Stone wall";
-    const char *blueWall = "Blue wall";
-    const char *rpgGun = "RPG gun";
-    const char *chainGun = "Chain gun";
-    const char *machineGun = "Machine gun";
-    const char *lockedDoor = "Locked door";
-    const char *barrelItem = "Barrel item";
+    const char *wood_wall = "wood_wall";
+    const char *stone_wall = "stone_wall";
+    const char *blue_wall = "blue_wall";
+    const char *rpg_gun = "rpg_gun";
+    const char *chain_gun = "chain_gun";
+    const char *machine_gun = "machine_gun";
+    const char *locked_door = "locked_door";
+    const char *barrel = "barrel";
 
-    QIcon woodIcon(woodPix);
-    QIcon stoneIcon(stonePix);
-    QIcon blueIcon(bluePix);
-    QIcon rpgIcon(rpgPix);
-    QIcon chainIcon(chainPix);
-    QIcon machineIcon(machinePix);
-    QIcon lockedIcon(lockedPix);
-    QIcon barrelIcon(barrelPix);
+    QIcon wood_icon(wood_pix);
+    QIcon stone_icon(stone_pix);
+    QIcon blue_icon(blue_pix);
+    QIcon rpg_icon(rpg_pix);
+    QIcon chain_icon(chain_pix);
+    QIcon machine_icon(machine_pix);
+    QIcon locked_icon(locked_pix);
+    QIcon barrel_icon(barrel_pix);
 
     QMenu* menu = new QMenu();
-    QAction* woodAction = menu->addAction(woodIcon, woodWall);
-    QAction* stoneAction = menu->addAction(stoneIcon, stoneWall);
-    QAction* blueAction = menu->addAction(blueIcon, blueWall);
-    QAction* rpgAction = menu->addAction(rpgIcon, rpgGun);
-    QAction* chainAction = menu->addAction(chainIcon, chainGun);
-    QAction* machineAction = menu->addAction(machineIcon, machineGun);
-    QAction* lockedAction = menu->addAction(lockedIcon, lockedDoor);
-    QAction* barrelAction = menu->addAction(barrelIcon, barrelItem);
+    QAction* wood_action = menu->addAction(wood_icon, wood_wall);
+    QAction* stone_action = menu->addAction(stone_icon, stone_wall);
+    QAction* blue_action = menu->addAction(blue_icon, blue_wall);
+    QAction* rpg_action = menu->addAction(rpg_icon, rpg_gun);
+    QAction* chain_action = menu->addAction(chain_icon, chain_gun);
+    QAction* machine_action = menu->addAction(machine_icon, machine_gun);
+    QAction* locked_action = menu->addAction(locked_icon, locked_door);
+    QAction* barrel_action = menu->addAction(barrel_icon, barrel);
 
-    connect(woodAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, woodIcon, woodWall));
-    connect(stoneAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stoneIcon, stoneWall));
-    connect(blueAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blueIcon, blueWall));
-    connect(rpgAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpgIcon, rpgGun));
-    connect(chainAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chainIcon, chainGun));
-    connect(machineAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machineIcon, machineGun));
-    connect(lockedAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, lockedIcon, lockedDoor));
-    connect(barrelAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrelIcon, barrelItem));
+    connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, wood_wall));
+    connect(stone_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stone_icon, stone_wall));
+    connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, blue_wall));
+    connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, rpg_gun));
+    connect(chain_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chain_icon, chain_gun));
+    connect(machine_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machine_icon, machine_gun));
+    connect(locked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, locked_icon, locked_door));
+    connect(barrel_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrel_icon, barrel));
 
     return menu;
 }
@@ -131,7 +165,6 @@ YAML::Emitter& operator << (YAML::Emitter& out, const std::vector<std::pair<int,
 }
 
 void Editor::exportMap() {
-
     /* Height and width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
@@ -142,14 +175,14 @@ void Editor::exportMap() {
     if (height.empty()) height = "7";
     if (width.empty()) width = "7";
 
-    std::vector<std::pair<int, int>> woodPositions;
-    std::vector<std::pair<int, int>> stonePositions;
-    std::vector<std::pair<int, int>> bluePositions;
-    std::vector<std::pair<int, int>> rpgPositions;
-    std::vector<std::pair<int, int>> chainPositions;
-    std::vector<std::pair<int, int>> machinePositions;
-    std::vector<std::pair<int, int>> lockedPositions;
-    std::vector<std::pair<int, int>> barrelPositions;
+    std::vector<std::pair<int, int>> wood_positions;
+    std::vector<std::pair<int, int>> stone_positions;
+    std::vector<std::pair<int, int>> blue_positions;
+    std::vector<std::pair<int, int>> rpg_positions;
+    std::vector<std::pair<int, int>> chain_positions;
+    std::vector<std::pair<int, int>> machine_positions;
+    std::vector<std::pair<int, int>> locked_positions;
+    std::vector<std::pair<int, int>> barrel_positions;
 
     /* Map input */
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
@@ -157,14 +190,14 @@ void Editor::exportMap() {
         for (int j = 0; j < mapGrid->columnCount(); ++j) {
             QPushButton* buttonGrid = qobject_cast<QPushButton*>(mapGrid->itemAtPosition(i, j)->widget());
             std::string variantTexture = buttonGrid->property("texture").toString().toStdString();
-            if (variantTexture == "Wood wall") woodPositions.emplace_back(i, j);
-            if (variantTexture == "Stone wall") stonePositions.emplace_back(i, j);
-            if (variantTexture == "Blue wall") bluePositions.emplace_back(i, j);
-            if (variantTexture == "RPG gun") rpgPositions.emplace_back(i, j);
-            if (variantTexture == "Chain gun") chainPositions.emplace_back(i, j);
-            if (variantTexture == "Machine gun") machinePositions.emplace_back(i, j);
-            if (variantTexture == "Locked door") lockedPositions.emplace_back(i, j);
-            if (variantTexture == "Barrel item") barrelPositions.emplace_back(i, j);
+            if (variantTexture == "wood_wall") wood_positions.emplace_back(i, j);
+            if (variantTexture == "stone_wall") stone_positions.emplace_back(i, j);
+            if (variantTexture == "blue_wall") blue_positions.emplace_back(i, j);
+            if (variantTexture == "rpg_gun") rpg_positions.emplace_back(i, j);
+            if (variantTexture == "chain_gun") chain_positions.emplace_back(i, j);
+            if (variantTexture == "machine_gun") machine_positions.emplace_back(i, j);
+            if (variantTexture == "locked_door") locked_positions.emplace_back(i, j);
+            if (variantTexture == "barrel") barrel_positions.emplace_back(i, j);
         }
     }
 
@@ -179,26 +212,26 @@ void Editor::exportMap() {
 
     out << YAML::Key << "scenarios";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "wood wall";
-    out << YAML::Value << woodPositions << YAML::EndSeq;
-    out << YAML::Key << "stone wall";
-    out << YAML::Value << stonePositions << YAML::EndSeq;
-    out << YAML::Key << "blue wall";
-    out << YAML::Value << bluePositions << YAML::EndSeq;
-    out << YAML::Key << "barrel item";
-    out << YAML::Value << barrelPositions << YAML::EndSeq;
-    out << YAML::Key << "locked door";
-    out << YAML::Value << lockedPositions << YAML::EndSeq;
+    out << YAML::Key << "wood_wall";
+    out << YAML::Value << wood_positions << YAML::EndSeq;
+    out << YAML::Key << "stone_wall";
+    out << YAML::Value << stone_positions << YAML::EndSeq;
+    out << YAML::Key << "blue_wall";
+    out << YAML::Value << blue_positions << YAML::EndSeq;
+    out << YAML::Key << "barrel";
+    out << YAML::Value << barrel_positions << YAML::EndSeq;
+    out << YAML::Key << "locked_door";
+    out << YAML::Value << locked_positions << YAML::EndSeq;
 
 
-    out << YAML::Key << "guns";
+    out << YAML::Key << "items";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "machine gun";
-    out << YAML::Value << machinePositions << YAML::EndSeq;
-    out << YAML::Key << "rpg gun";
-    out << YAML::Value << rpgPositions << YAML::EndSeq;
-    out << YAML::Key << "chain gun";
-    out << YAML::Value << chainPositions << YAML::EndSeq;
+    out << YAML::Key << "machine_gun";
+    out << YAML::Value << machine_positions << YAML::EndSeq;
+    out << YAML::Key << "rpg_gun";
+    out << YAML::Value << rpg_positions << YAML::EndSeq;
+    out << YAML::Key << "chain_gun";
+    out << YAML::Value << chain_positions << YAML::EndSeq;
     out << YAML::EndMap;
 
     out << YAML::Key << "players";

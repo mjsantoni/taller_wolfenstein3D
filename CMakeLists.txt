@@ -26,6 +26,7 @@ file(GLOB All_SRC
     "client_src/exceptions/*.cpp"
     "client_src/resources/*.cpp"
     "editor_src/*.cpp"
+    "server_src/*.cpp"
 )
 
 qt5_wrap_ui(UIS_HEADERS
