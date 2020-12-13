@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QActionGroup>
+#include <QLabel>
 
 class Editor : public QMainWindow {
 public:
@@ -14,6 +16,9 @@ private:
     QMenu* createGridButtonMenu(QPushButton* button);
     void exportMap();
     void connectEvents();
+    std::string getYamlPath();
+    std::string saveYamlPath();
+
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

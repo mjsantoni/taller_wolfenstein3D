@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <QFileDialog>
 #include "yaml-cpp/yaml.h"
 #include "editor/editor.h"
 #include "ui_editor.h"
@@ -20,13 +21,31 @@ YAML::Emitter& operator << (YAML::Emitter& out, const Coordinate& coord) {
 Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
     Ui::Editor editor;
     editor.setupUi(this);
+    auto *load = new QAction("Load map", this);
+    auto *save = new QAction("Save Map", this);
+    auto *quit = new QAction("Quit", this);
+    save->setShortcuts(QKeySequence::Save);
+    load->setShortcuts(QKeySequence::Open);
+    quit->setShortcuts(QKeySequence::Quit);
+    QMenu *file = menuBar()->addMenu("File");
+    file->addAction(load);
+    file->addAction(save);
+    file->addAction(quit);
+    connect(quit, &QAction::triggered, this, QApplication::quit);
+    connect(load, &QAction::triggered, this, QApplication::quit);
+    connect(save, &QAction::triggered, this, &Editor::exportMap);
     createMapGrid();
     connectEvents();
 }
 
+
+
 void Editor::createMapGrid() {
     QPixmap pixmap("../client_src/resources/empty.png");
     QIcon ButtonIcon(pixmap);
+    QPixmap woodPix("../client_src/resources/wall_3.gif");
+    const char *woodWall = "Wood wall";
+    QIcon woodIcon(woodPix);
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
     for (int i = 0; i < DEF_HEIGHT; ++i) {
         for (int j = 0; j < DEF_WIDTH; ++j) {
@@ -36,6 +55,7 @@ void Editor::createMapGrid() {
             buttonGrid->setMenu(menu);
             buttonGrid->setIcon(ButtonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
+            // connect(buttonGrid, ,this, std::bind(&Editor::updateGridButton, this, buttonGrid, woodIcon, woodWall));
             mapGrid->addWidget(buttonGrid, i, j);
         }
     }
@@ -88,6 +108,7 @@ QMenu* Editor::createGridButtonMenu(QPushButton *button) {
     connect(machineAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machineIcon, machineGun));
     connect(lockedAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, lockedIcon, lockedDoor));
     connect(barrelAction, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrelIcon, barrelItem));
+
     return menu;
 }
 
@@ -120,6 +141,7 @@ void Editor::exportMap() {
     std::string width = qWidth.toStdString();
     if (height.empty()) height = "7";
     if (width.empty()) width = "7";
+
     std::vector<std::pair<int, int>> woodPositions;
     std::vector<std::pair<int, int>> stonePositions;
     std::vector<std::pair<int, int>> bluePositions;
@@ -167,6 +189,10 @@ void Editor::exportMap() {
     out << YAML::Value << barrelPositions << YAML::EndSeq;
     out << YAML::Key << "locked door";
     out << YAML::Value << lockedPositions << YAML::EndSeq;
+
+
+    out << YAML::Key << "guns";
+    out << YAML::Value << YAML::BeginMap;
     out << YAML::Key << "machine gun";
     out << YAML::Value << machinePositions << YAML::EndSeq;
     out << YAML::Key << "rpg gun";
@@ -184,9 +210,11 @@ void Editor::exportMap() {
     out << YAML::EndMap;
 
     out << YAML::EndMap;
-    std::fstream file("../map.yaml", std::ios::out);
+
+    std::fstream file(saveYamlPath(), std::ios::out);
     file << out.c_str();
     file.close();
+    this->close();
 }
 
 void Editor::refreshMapGrid(){
@@ -219,15 +247,23 @@ void Editor::refreshMapGrid(){
     } // TODO Agregar sacar celdas
 }
 
+std::string Editor::saveYamlPath() {
+    return QFileDialog::getSaveFileName(this,
+                                        tr("Save map"), ".yaml",
+                                        tr("YAML file (*.yaml)")).toStdString();
+}
+
+std::string Editor::getYamlPath() {
+    return QFileDialog::getOpenFileName(this,
+                                        tr("Load map"), "",
+                                        tr("YAML file (*.yaml)")).toStdString();
+}
+
+
 void Editor::connectEvents() {
-    // Conecto el evento del boton
     QPushButton* buttonExport = findChild<QPushButton*>("buttonExport");
-    //exportMap();
-    QObject::connect(buttonExport, &QPushButton::clicked,
-                     this, &Editor::exportMap);
+    connect(buttonExport, &QPushButton::clicked,this, &Editor::exportMap);
     QPushButton* buttonRefresh = findChild<QPushButton*>("buttonRefresh");
-    //exportMap();
-    QObject::connect(buttonRefresh, &QPushButton::clicked,
-                     this, &Editor::refreshMapGrid);
+    connect(buttonRefresh, &QPushButton::clicked,this, &Editor::refreshMapGrid);
 }
 

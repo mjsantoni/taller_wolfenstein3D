@@ -1,15 +1,16 @@
 dimensions:
-  width: 8
-  height: 8
+  width: 7
+  height: 7
 scenarios:
-  wood wall: [[5, 0], [6, 0], [7, 0], [7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7]]
-  stone wall: []
+  wood wall: []
+  stone wall: [[4, 6], [5, 6], [6, 6]]
   blue wall: []
-  barrel item: [[3, 2], [3, 4]]
-  locked door: [[5, 6]]
-  machine gun: []
-  rpg gun: [[5, 3], [6, 6]]
-  chain gun: [[2, 4]]
-players:
-  player1: [[1, 2], [3, 4], [5, 6]]
-  bot1: [[2, 4], [5, 7], [6, 6]]
+  barrel item: []
+  locked door: []
+  scenarios:
+    machine gun: []
+    rpg gun: []
+    chain gun: []
+  players:
+    player1: [[1, 2], [3, 4], [5, 6]]
+    bot1: [[2, 4], [5, 7], [6, 6]]

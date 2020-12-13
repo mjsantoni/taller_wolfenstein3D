@@ -118,13 +118,17 @@
      <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
+        <x>0</x>
+        <y>0</y>
         <width>421</width>
         <height>461</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="mapGrid"/>
+      <layout class="QGridLayout" name="mapGrid">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+      </layout>
      </widget>
     </widget>
    </widget>
