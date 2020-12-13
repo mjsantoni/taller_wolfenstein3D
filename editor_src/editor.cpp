@@ -41,13 +41,14 @@ Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
 
 void Editor::loadMap() {
     MapParser parser(getYamlPath());
-    QPixmap wood_pix("../client_src/resources/wall_3.gif");
-    QPixmap stone_pix("../client_src/resources/wall_alt.jpg");
-    QPixmap blue_pix("../client_src/resources/blue_wall.png");
+    std::vector<std::string> categories;
+    QPixmap wood_pix("../client_src/resources/walls/wall_3.gif");
+    QPixmap stone_pix("../client_src/resources/walls/grey_wall.jpg");
+    QPixmap blue_pix("../client_src/resources/blueWall.png");
     QPixmap rpg_pix("../client_src/resources/rpg.png");
     QPixmap chain_pix("../client_src/resources/chainGun.png");
     QPixmap machine_pix("../client_src/resources/machineGun.png");
-    QPixmap locked_pix("../client_src/resources/locked_door.png");
+    QPixmap locked_pix("../client_src/resources/lockedDoor.png");
     QPixmap barrel_pix("../client_src/resources/barrel.png");
 
     const char *wood_wall = "wood_wall";
@@ -67,10 +68,28 @@ void Editor::loadMap() {
     QIcon machine_icon(machine_pix);
     QIcon locked_icon(locked_pix);
     QIcon barrel_icon(barrel_pix);
-    for(auto vect: parser.getCategory("scenarios")) {
-        std::cout << vect.first;
-    }
 
+    QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+    categories.push_back("scenarios");
+    categories.push_back("items");
+    categories.push_back("players");
+
+    for(auto &category: categories){
+        for(auto &items: parser.getCategory(category)){
+            for(auto &positions: items.second){
+                QPushButton* button = qobject_cast<QPushButton*>(map_grid->itemAtPosition(positions.first, positions.second)->widget());
+                if (items.first == "wood_wall") updateGridButton(button, wood_icon, wood_wall);
+                if (items.first == "stone_wall") updateGridButton(button, stone_icon, stone_wall);
+                if (items.first == "blue_wall") updateGridButton(button, blue_icon, blue_wall);
+                if (items.first == "rpg_gun") updateGridButton(button, rpg_icon, rpg_gun);
+                if (items.first == "chain_gun") updateGridButton(button, chain_icon, chain_gun);
+                if (items.first == "machine_gun") updateGridButton(button, machine_icon, machine_gun);
+                if (items.first == "locked_door") updateGridButton(button, locked_icon, locked_door);
+                if (items.first == "barrel") updateGridButton(button, barrel_icon, barrel);
+
+            }
+        }
+    }
 }
 
 
@@ -97,8 +116,8 @@ void Editor::createMapGrid() {
 }
 
 QMenu* Editor::createGridButtonMenu(QPushButton *button) {
-    QPixmap wood_pix("../client_src/resources/wall_3.gif");
-    QPixmap stone_pix("../client_src/resources/wall_alt.jpg");
+    QPixmap wood_pix("../client_src/resources/walls/wall_3.gif");
+    QPixmap stone_pix("../client_src/resources/walls/grey_wall.jpg");
     QPixmap blue_pix("../client_src/resources/blueWall.png");
     QPixmap rpg_pix("../client_src/resources/rpg.png");
     QPixmap chain_pix("../client_src/resources/chainGun.png");
@@ -222,6 +241,7 @@ void Editor::exportMap() {
     out << YAML::Value << barrel_positions << YAML::EndSeq;
     out << YAML::Key << "locked_door";
     out << YAML::Value << locked_positions << YAML::EndSeq;
+    out << YAML::EndMap;
 
 
     out << YAML::Key << "items";
@@ -239,7 +259,7 @@ void Editor::exportMap() {
     out << YAML::Key << "player1";
     out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(1, 2) << Coordinate(3, 4) << Coordinate(5, 6) << YAML::EndSeq;
     out << YAML::Key << "bot1";
-    out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(2, 4) << Coordinate(5, 7) << Coordinate(6, 6) << YAML::EndSeq;
+    out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(2, 4) << Coordinate(5, 0) << Coordinate(6, 6) << YAML::EndSeq;
     out << YAML::EndMap;
 
     out << YAML::EndMap;
