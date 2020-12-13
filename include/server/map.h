@@ -32,15 +32,12 @@ public:
 
     void putPositionableAt(std::pair<int, int> coordinates, Positionable positionable);
     bool isABlockingItem(std::pair<int, int> coordinates);
-    //bool isAValidXCoord(std::pair<int, int> coordinates);
-    //bool isAValidYCoord(std::pair<int, int> coordinates);
     void show();
 
     std::pair<int, int> closePositionable(int units, std::pair<int, int> coord);
     Positionable getPositionableAt(std::pair<int, int> coordinates);
 
-
-
+    void erasePositionableAt(std::pair<int, int> coord);
 };
 
 

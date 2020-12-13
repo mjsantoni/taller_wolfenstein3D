@@ -3,6 +3,9 @@
 #include "server/knife.h"
 #include "server/pistol.h"
 #include "server/machine_gun.h"
+#include <iostream>
+#include <typeinfo>
+#include "server/treasure.h"
 
 Player::Player(std::string name) :  name(std::move(name)){
                                     //knife(Knife()),
@@ -30,6 +33,12 @@ bool Player::useKey() {
 
 bool Player::areAnyKeysLeft() {
     return !keys.empty();
+}
+
+void Player::pickUp(Positionable item) {
+    std::cout << "Player pickeo: " << item.getType() << "\n";
+    //MachineGun& gun = dynamic_cast<MachineGun &>(item);
+    //gun.shoot();
 }
 /*
 void Player::equipWeapon(std::string type) {

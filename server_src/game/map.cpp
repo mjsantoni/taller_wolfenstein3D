@@ -58,40 +58,6 @@ bool Map::isABlockingItem(std::pair<int, int> coordinates) {
     return true;
 }
 
-
-/*
-bool Map::isAValidXCoord(std::pair<int, int> coordinates) {
-    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
-    int y_normalize = trunc(coordinates.second/ grid_size) * grid_size;
-    std::pair<int, int> normalize(x_normalize, y_normalize);
-    if(board.find(normalize) != board.end())
-        return !board.at(normalize).isBlocking();
-    return true;
-}
-
-bool Map::isAValidYCoord(std::pair<int, int> coordinates) {
-    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
-    int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
-    std::pair<int, int> normalize(x_normalize, y_normalize);
-    if(board.find(normalize) != board.end())
-        return !board.at(normalize).isBlocking();
-    return true;
-}*/
-
-void Map::show() {
-    std::cout << "Board\n";
-    for (auto& elem : board) {
-        std::cout << "Coord: (" << elem.first.first << ", " << elem.first.second
-        << ") - Elem: " << elem.second.getType() << "\n";
-    }
-    std::cout << "Player Spawns\n";
-    int i = 0;
-    for (auto& spawn : player_spawns) {
-        std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
-        i++;
-    }
-}
-
 std::pair<int, int> Map::closePositionable(int units, std::pair<int,int> coord) {
     for (int i = coord.first-units; i <= coord.first+units; i++) {
         for (int j = coord.second-units; j <= coord.second+units; j++) {
@@ -101,10 +67,35 @@ std::pair<int, int> Map::closePositionable(int units, std::pair<int,int> coord) 
             }
         }
     }
-    return std::pair<int, int>(0,0);
+    return std::make_pair(0,0);
 }
 
 Positionable Map::getPositionableAt(std::pair<int, int> coordinates) {
     return board.at(coordinates);
 }
 
+void Map::erasePositionableAt(std::pair<int,int> coord) {
+    if (board.find(coord) != board.end()) {
+        //no deberia dar error, esto deberia borrar de una
+        //gasta recursos chequear esto
+        board.erase(coord);
+        std::cout << "Borro en: (" << coord.first << ", " << coord.second << ")\n";
+    } else {
+        std::cout << "No habia nada, error en la posicion recibida\n";
+    }
+}
+
+
+void Map::show() {
+    std::cout << "Board\n";
+    for (auto& elem : board) {
+        std::cout << "Coord: (" << elem.first.first << ", " << elem.first.second
+                  << ") - Elem: " << elem.second.getType() << "\n";
+    }
+    std::cout << "Player Spawns\n";
+    int i = 0;
+    for (auto& spawn : player_spawns) {
+        std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
+        i++;
+    }
+}

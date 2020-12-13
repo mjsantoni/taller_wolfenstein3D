@@ -13,7 +13,9 @@ public:
     std::pair<int, int> moveToPosition(std::pair<int,int> actual_pos, double angle);
     bool isValid(std::pair<int,int> new_position);
 
-    Positionable getCloseItems(std::pair<int, int> old_pos, std::pair<int, int> new_pos);
+    Positionable getCloseItems(std::pair<int, int> old_pos,
+                               std::pair<int, int> new_pos,
+                               std::pair<int, int>& pos_positionable);
 
     std::vector<std::pair<int, int>> walkedPositions(std::pair<int, int> old_pos,
                                                      std::pair<int, int> new_pos);

@@ -11,6 +11,7 @@ Server::Server(std::string _path) : path(_path) {
     Map map = generator.create(8); // Player max spawn count
     //map.show();
     ColissionHandler colHandler(map);
+    Player player("player_one");
 /*
     for (int i = 74; i < 100; i++) {
         std::pair<int,int> test(i,i);
@@ -25,13 +26,15 @@ Server::Server(std::string _path) : path(_path) {
 
     std::pair<int,int> pos1(120,120);
     std::pair<int,int> pos2(130,130);
-    Positionable item = colHandler.getCloseItems(pos1, pos2);
+    std::pair<int,int> pos_positionable(0,0);
+    Positionable item = colHandler.getCloseItems(pos1, pos2, pos_positionable);
     if (!(item.getType() == "wood_wall")) {
         std::cout << item.getType() << "\n";
         //logica del pickup
-        //player.pickup(item)
-        //map.erasePositionableAt(pos)
+        player.pickUp(item);
+        map.erasePositionableAt(pos_positionable);
     }
+    //map.show();
     //no pickupear nada
 
 }

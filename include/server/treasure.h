@@ -10,6 +10,8 @@ protected:
 public:
     Treasure(int _points_given, std::string object_type);
     ~Treasure();
+
+    int getPoints();
 };
 
 

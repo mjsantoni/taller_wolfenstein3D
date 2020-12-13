@@ -34,6 +34,8 @@ public:
     void pickUpKey(Key key);
 
     void equipWeapon(std::string type);
+
+    void pickUp(Positionable item);
 };
 
 /*

@@ -64,7 +64,10 @@ std::pair<int, int> ColissionHandler::moveToPosition(std::pair<int, int> actual_
     return position;
 }
 
-Positionable ColissionHandler::getCloseItems(std::pair<int,int> old_pos, std::pair<int,int> new_pos) {
+Positionable
+ColissionHandler::getCloseItems(std::pair<int, int> old_pos,
+                                std::pair<int, int> new_pos,
+                                std::pair<int, int>& pos_positionable) {
     std::pair<int, int> no_item_pos(0,0);
     std::pair<int,int> item_in_pos;
     std::vector<std::pair<int, int>> walked_positions = walkedPositions(old_pos, new_pos);
@@ -73,6 +76,8 @@ Positionable ColissionHandler::getCloseItems(std::pair<int,int> old_pos, std::pa
         item_in_pos = map.closePositionable(2, pos);
         if (item_in_pos != no_item_pos) break;
     }
+    pos_positionable.first = item_in_pos.first;
+    pos_positionable.second = item_in_pos.second;
     return map.getPositionableAt(item_in_pos);
 }
 
@@ -92,23 +97,21 @@ ColissionHandler::walkedPositions(std::pair<int, int> old_pos, std::pair<int, in
             items.push_back(pos);
         }
     } else {
-        double m = (abs(y_new - y_old) < abs(x_new - x_old)) ?
-                   ((double) (y_new - y_old) / (x_new - x_old)) :
-                   ((double) (x_new - x_old) / (y_new - y_old));
+        bool it_on_x = abs(y_new - y_old) < abs(x_new - x_old);
+        double m = (it_on_x) ? ((double) (y_new - y_old) / (x_new - x_old)) :
+                               ((double) (x_new - x_old) / (y_new - y_old));
         double b = (double) y_old - (m * x_old);
+        int axis_old = it_on_x ? x_old : y_old;
+        int axis_new = it_on_x ? x_new : y_new;
         //Si se quiere algo mucho mas aproximado no hacer el for del else
         //y solo hacer el primer for. Esto es mucho mas overfiteado.
-        if (abs(y_new - y_old) < abs(x_new - x_old)) {
-            for (int i = x_old; (x_old < x_new) ? i <= x_new : i >= x_new; (x_old < x_new) ? i++ : i--) {
-                std::pair<int, int> pos(i, std::round(m * i + b));
-                items.push_back(pos);
-            }
-        } else {
-            for (int i = y_old; (y_old < y_new) ? i <= y_new : i >= y_new; (y_old < y_new) ? i++ : i--) {
-                std::pair<int, int> pos(std::round(m * i + b),i);
-                items.push_back(pos);
-            }
+        for (int i = axis_old; (axis_old < axis_new) ? i <= axis_new : i >= axis_new; (axis_old < axis_new) ? i++ : i--) {
+            std::pair<int, int> pos;
+            if (it_on_x) pos = std::make_pair(i, std::round(m * i + b));
+            else pos = std::make_pair(std::round(m * i + b), i);
+            items.push_back(pos);
         }
     }
     return items;
 }
+

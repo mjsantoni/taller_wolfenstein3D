@@ -9,6 +9,7 @@ public:
     std::string getType();
     bool isBlocking();
     ~Positionable() {}
+    virtual void foo() {}
 
 protected:
     std::string type;
