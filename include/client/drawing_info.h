@@ -6,15 +6,17 @@
 #define TP_WOLFENSTEIN_DRAWINGINFO_H
 
 
-#include "positionable.h"
+#include "positionable_mock.h"
 
 class DrawingInfo {
 public:
     int object_x_pos;
     int object_y_pos;
     int object_type;
-    int object_image_height;
-    double object_image_width;
+    int image_height;
+    int image_width;
+    int object_height;
+    int object_width;
     int object_side;
     double hit_distance;
     double hit_grid_pos;

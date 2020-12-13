@@ -16,6 +16,8 @@ class MapParser {
 
         std::unordered_map<std::string, std::vector<std::pair<int, int>>> getCategory(std::string node);
         std::pair<int, int> getDimensions();
+        std::unordered_map<std::string,
+            std::vector<std::pair<int, int>>> getSpecificCategory(std::string category);
 
         ~MapParser();
 };

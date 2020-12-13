@@ -9,24 +9,54 @@
 #include <vector>
 #include <map>
 #include "positionable.h"
-#include "client/sdl_window.h"
-#include "client/sdl_texture.h"
 #include "player.h"
+#include "positionable_handler.h"
 
 class Map {
+private:
+    int grid_size = 64;
+    std::map<std::pair<int, int>, Positionable> board;
+    std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
+    std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
+    PositionableHandler handler;
+    //TDA que guarde modif y eventos
+
 public:
-    Map(SdlWindow& window, int width, int height);
+    Map(int player_max_spawn_count);
+    void addBlockingItems(std::unordered_map<std::string,
+                            std::vector<std::pair<int, int>>>& obstructives);
+    void addItems(std::unordered_map<std::string,
+                            std::vector<std::pair<int, int>>>& non_obstructives);
+    void addPlayerSpawns(std::unordered_map<std::string,
+                            std::vector<std::pair<int, int>>>& player_spawns);
+
+    void putPositionableAt(std::pair<int, int> coordinates, Positionable positionable);
+    bool isABlockingItem(std::pair<int, int> coordinates);
+    //bool isAValidXCoord(std::pair<int, int> coordinates);
+    //bool isAValidYCoord(std::pair<int, int> coordinates);
+    void show();
+
+    std::pair<int, int> closePositionable(int units, std::pair<int, int> coord);
+    Positionable getPositionableAt(std::pair<int, int> coordinates);
+
+
+
+};
+
+
+
+
+    /*
+    Map(int width, int height);
     //bool OnLoad(char* File);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);
     void putPositionableAt(std::pair<int, int> coordinates, int object_type,
                            std::string image_name);
     void update(Player& player, int x, int y);
-    void reset();
     void initialize();
     bool movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr);
     int getGridSize();
-    bool outOfVerticalBounds(int y_pos);
-    bool outOfHorizontalBounds(int x_pos);
+
     bool wallAtGrid(std::pair<int, int> grid_coordinates);
     int getMaxDistance();
     std::pair<int, int> calculateGrid(int x_pos, int y_pos, int x_factor,
@@ -37,10 +67,8 @@ public:
     void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
                        int x_factor, int y_factor);
 private:
-    std::map<std::pair<int, int>, Positionable> info;
-    std::map<std::pair<int, int>, Positionable> floating_info;
-    std::map<std::string, std::pair<int, int>> positions;
-    SdlWindow& window;
+
+
     int grid_size = 64;
     int width;
     int height;
@@ -53,7 +81,8 @@ private:
     void loadWallInfo(DrawingInfo& drawing_info,
                       std::pair<int, int> grid_coordinates);
     void loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos);
-};
+     */
+
 
 
 #endif //TP_WOLFENSTEIN_MAP_H

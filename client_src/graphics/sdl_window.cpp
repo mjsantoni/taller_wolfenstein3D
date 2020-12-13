@@ -4,8 +4,6 @@
 
 #include <SDL.h>
 #include "client/sdl_window.h"
-#include "client/sdl_exception.h"
-#include "client/wall_3d.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200
@@ -17,7 +15,7 @@ SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
         throw SdlException("Error en la inicializacion: ", SDL_GetError());
     error_code = SDL_CreateWindowAndRenderer(
             width, height, SDL_RENDERER_ACCELERATED, &window, &renderer
-            );
+    );
     if (error_code)
         throw SdlException("Error al crear la ventana", SDL_GetError());
     drawer.setRenderer(renderer, width, height);
@@ -88,11 +86,11 @@ void SdlWindow::restore() {
 void SdlWindow::put3DColumn(int ray_no, DrawingInfo drawing_info){
     Area image_area;
     //image_area.setX(ray_no*width/PROJECTION_PLANE_width);
-    SDL_Texture* texture = drawer.drawImage(ray_no, drawing_info, image_area);
+    SDL_Texture* texture = drawer.drawWall(drawing_info, image_area);
     Area screen_area = assembleScreenArea(ray_no, drawing_info);
     putTextureAt(texture, image_area, screen_area);
-    drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
-    drawCeiling(ray_no, screen_area.getY());
+    drawer.drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
+    drawer.drawCeiling(ray_no, screen_area.getY());
     SDL_DestroyTexture(texture);
 }
 
@@ -103,9 +101,9 @@ Area SdlWindow::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {
     int col_starting_point = findColumnStartingPoint(distance, col_height);
     Area screen_area(
             ray_no*width_factor,col_starting_point, width_factor, col_height
-            );
+    );
     //printf("Rayo %d:Se coloca una pared a distancia %d, en (%d, %d), con un ancho de %d y altura de %d\n",
-           //ray_no, distance, ray_no*width_factor, col_starting_point, width_factor, col_height);
+    //ray_no, distance, ray_no*width_factor, col_starting_point, width_factor, col_height);
     return screen_area;
 }
 
@@ -121,23 +119,31 @@ int SdlWindow::getWidth() {
     return width;
 }
 
-void SdlWindow::drawFloor(int x_pos, int wall_posY, int wall_height) {
-    int width_factor = width/PROJECTION_PLANE_width;
-    int floor_starting_point = wall_posY + wall_height;
-    int floor_height = height - floor_starting_point;
-    SDL_Rect floor_rect = {
-            x_pos*width_factor, floor_starting_point, width_factor, floor_height
-    };
-    SDL_SetRenderDrawColor(renderer, 123, 123, 123, 0);
-    SDL_RenderFillRect(renderer, &floor_rect);
+void SdlWindow::put3DObject(double distance,
+                            int max_dist_x,
+                            int max_dist_y,
+                            double beta,
+                            Drawable& object){
+    Area image_area;
+    DrawingInfo drawing_info;
+    drawing_info.hit_distance = distance;
+    drawing_info.object_type = object.getObjectType();
+    drawing_info.hit_grid_pos = 0;
+    SDL_Texture* texture = drawer.drawImage(drawing_info, image_area);
+    Area screen_area = assembleScreenArea(drawing_info, distance, max_dist_x,
+                                          max_dist_y, beta);
+    putTextureAt(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
 }
 
-void SdlWindow::drawCeiling(int x_pos, int y_pos) {
-    int width_factor = width/PROJECTION_PLANE_width;
-    SDL_Rect ceiling_rect = {
-            x_pos*width_factor, 0, width_factor, y_pos
-    };
-    SDL_SetRenderDrawColor(renderer, 60, 60, 60, 0);
-    SDL_RenderFillRect(renderer, &ceiling_rect);
+Area SdlWindow::assembleScreenArea(DrawingInfo& drawing_info,
+                                   double distance,
+                                   int max_dist_x,
+                                   int max_dist_y,
+                                   double beta) {
+    Area screen_area;
+    drawer.findObjectProportions(drawing_info,distance, max_dist_x, max_dist_y,
+                                 beta, screen_area);
+    return screen_area;
 }
 

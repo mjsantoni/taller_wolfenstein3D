@@ -6,11 +6,17 @@
 
 class MapGenerator {
 private:
-    MapParser mapParser;
+    MapParser& mapParser;
 public:
-    MapGenerator(std::string path);
+    MapGenerator(MapParser& parser);
     ~MapGenerator();
-    Map initializeMap();
+    Map create(int player_max_spawn_count);
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getWalls();
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getItems();
+    std::unordered_map<std::string,
+        std::vector<std::pair<int, int>>> getPlayerSpawns();
 
 };
 

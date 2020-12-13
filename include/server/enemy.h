@@ -13,4 +13,4 @@ public:
 };
 
 
-#endif //TP_WOLFENSTEIN_ENEMY_H
+#endif //TP_WOLFENSTEIN_CLIENT_ENEMY_H

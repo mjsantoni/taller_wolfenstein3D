@@ -11,16 +11,17 @@
 #define FOV_ANGLE 60
 #define GRID_SIZE 64
 
-RayCaster::RayCaster(SdlWindow& window, Map& map) : window(window), map(map) {}
+RayCaster::RayCaster(SdlWindow& window, ClientMap& map) : window(window), map(map) {}
 
 void RayCaster::render3DScreen(int x, int y, double alpha) {
+    window.fill();
+    double original_angle = alpha;
     double angle = alpha + 0.523599;
     //printf("Ingresa el jugador en pos (%d, %d), con angulo %f\n", x, y, alpha);
     //printf("Se inicia el recorrido en: %f\n", angle);
-    std::pair<int, int> grid = map.calculateGrid(x, y);
     for (int i = 0; i < PROJECTION_PLANE_WIDTH; ++i) {
         //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
-        //printf("Se lanza el rayo %d, con el angulo %f\n", i, angle);
+        printf("Se lanza el rayo %d, con el angulo %f\n", i, angle);
         castProjectionLine(i, x, y, angle, angle - alpha);
         angle -= 0.0032724;
         if (angle < 0) {
@@ -28,6 +29,7 @@ void RayCaster::render3DScreen(int x, int y, double alpha) {
             alpha += 2*M_PI;
         }
     }
+    loadObjects(x, y, original_angle);
     //printf("Se finaliza el recorrido en: %f\n", angle);
     window.render();
 }
@@ -41,7 +43,7 @@ void RayCaster::castProjectionLine(int col,
     castProjectionLine_vertical(x, y, alpha, beta, drawing_info);
     //printf("Distancia vertical encontrada: %f\n", drawing_info.hit_distance);
     castProjectionLine_horizontal(x, y, alpha, beta, drawing_info);
-    //printf("Distancia horizontal encontrada: %f\n", drawing_infow.hit_distance);
+    //printf("Distancia horizontal encontrada: %f\n", drawing_info.hit_distance);
     //printf("Para el rayo %d se devuelve la distancia: %f\n",col, drawing_info.hit_distance);
     renderColumn(col, drawing_info);
 }
@@ -85,8 +87,9 @@ void RayCaster::castProjectionLine_vertical_up(int x,
         if (map.wallAtGrid(x+delta_x, y-delta_y, x_factor, -1)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia arriba",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, -delta_y, drawing_info, x_factor,
-                        -1);
+            fillDrawingInfo(beta, x, y, delta_x, -delta_y, drawing_info,
+                            x_factor,
+                            -1);
             return;
         }
         delta_y += map.getGridSize();
@@ -111,7 +114,8 @@ void RayCaster::castProjectionLine_vertical_down(int x,
         if (map.wallAtGrid(x+delta_x, y+delta_y, x_factor, 0)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia abajo",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info, x_factor,0);
+            fillDrawingInfo(beta, x, y, delta_x, delta_y, drawing_info,
+                            x_factor, 0);
             return;
         }
         delta_y += map.getGridSize();
@@ -137,8 +141,8 @@ void RayCaster::castProjectionLine_horizontal_left(int x,
         if (map.wallAtGrid(x-delta_x, y+delta_y, -1, y_factor)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la izquierda",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, -delta_x, delta_y, drawing_info,
-                        -1, y_factor);
+            fillDrawingInfo(beta, x, y, -delta_x, delta_y, drawing_info,
+                            -1, y_factor);
             return;
         }
         delta_x += map.getGridSize();
@@ -163,7 +167,8 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
         if (map.wallAtGrid(x+delta_x, y+delta_y, 0, y_factor)) {
             //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la derecha",
                    //grid_coordinates.first, grid_coordinates.second);
-            fillRayInfo(beta, x, y, delta_x, delta_y, drawing_info,0, y_factor);
+            fillDrawingInfo(beta, x, y, delta_x, delta_y, drawing_info, 0,
+                            y_factor);
             return;
         }
         delta_x += map.getGridSize();
@@ -174,13 +179,13 @@ int RayCaster::calculateDelta(int delta_coord, double delta_alpha) {
     return (int) (delta_coord/tan(delta_alpha));
 }
 
-bool RayCaster::outOfBounds(Map& map, int pos, bool is_vertical) {
+bool RayCaster::outOfBounds(ClientMap& map, int pos, bool is_vertical) {
     if (is_vertical)
         return map.outOfVerticalBounds(pos);
     return map.outOfHorizontalBounds(pos);
 }
 
-double RayCaster::calculateDistanceToWall(int delta_x, int delta_y) {
+double RayCaster::calculateDistance(int delta_x, int delta_y) {
     //printf("val x: %d\n", delta_x);
     //printf("val y:%d\n", delta_y);
     return sqrt(pow(delta_x, 2)+pow(delta_y, 2));
@@ -190,15 +195,15 @@ void RayCaster::renderColumn(int ray_no, DrawingInfo drawing_info) {
     window.put3DColumn(ray_no, drawing_info);
 }
 
-void RayCaster::fillRayInfo(double beta,
-                            int x_pos,
-                            int y_pos,
-                            int delta_x,
-                            int delta_y,
-                            DrawingInfo& drawing_info,
-                            int x_factor,
-                            int y_factor) {
-    double final_distance = calculateDistanceToWall(delta_x, delta_y)*cos(beta);
+void RayCaster::fillDrawingInfo(double beta,
+                                int x_pos,
+                                int y_pos,
+                                int delta_x,
+                                int delta_y,
+                                DrawingInfo& drawing_info,
+                                int x_factor,
+                                int y_factor) {
+    double final_distance = calculateDistance(delta_x, delta_y) * cos(beta);
     if (final_distance >= drawing_info.hit_distance
                                 && drawing_info.hit_distance != 0)
         return;
@@ -216,4 +221,62 @@ int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
     if (!should_decrease || position%map.getGridSize() != 0)
         return 0;
     return -1;
+}
+
+void RayCaster::loadObjects(int x, int y, double player_angle) {
+    //puts("Cargando objetos");
+    std::vector<Drawable> objects_vector = map.getAllObjects();
+    for (auto& object : objects_vector) {
+        double object_angle = getObjectAngle(x, y, object.getMapPosition());
+        //printf("El jugador mira en angulo %f\n", player_angle);
+        //printf("Se encuentra objeto en angulo respecto del jugador %f\n", object_angle);
+        if (shouldDraw(player_angle, object_angle))
+            renderObject(x, y, player_angle, player_angle-object_angle, object);
+    }
+}
+
+bool RayCaster::shouldDraw(double alpha,  double object_angle) {
+    double fov_starting_angle = normalize(alpha + 0.523599);
+    double fov_finishing_angle = normalize(alpha - 0.523599);
+    if (fov_finishing_angle > fov_starting_angle)
+        return object_angle >= fov_finishing_angle ||
+               object_angle <= fov_starting_angle;
+    return object_angle >= fov_finishing_angle &&
+           object_angle <= fov_starting_angle;
+}
+
+double RayCaster::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos) {
+    int o_x = o_pos.first;
+    int o_y = o_pos.second;
+    int delta_x = o_x - p_x;
+    int delta_y = o_y - p_y;
+    double beta = atan2(delta_y, delta_x);
+    double alpha;
+    if (o_x > p_x && o_y > p_y) // primer cuadrante
+        alpha = beta;
+    else if (o_x <= p_x && o_y > p_y) // segundo
+        alpha = normalize(M_PI - beta);
+    else if (o_x <= p_x && o_y <= p_y) // tercero
+        alpha = normalize(M_PI + beta);
+    else // cuarto
+        alpha = normalize(2*M_PI - beta);
+    return alpha;
+}
+
+double RayCaster::normalize(double alpha) {
+    if (alpha >= 2*M_PI)
+        return alpha - 2*M_PI;
+    if (alpha < 0)
+        return alpha + 2*M_PI;
+    return alpha;
+}
+
+void RayCaster::renderObject(int x_pos, int y_pos, double player_angle,
+                             double beta, Drawable& object) {
+    //puts("Se dibujara el objeto");
+    std::pair<int, int> object_position = object.getMapPosition();
+    int object_x = object_position.first;
+    int object_y = object_position.second;
+    double distance = calculateDistance(x_pos - object_x, y_pos - object_y);
+    window.put3DObject(distance, map.getWidth(), map.getHeight(), beta, object);
 }

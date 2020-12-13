@@ -1,0 +1,3 @@
+path:../client_src/resources/walls/grey_wall.jpg, obj_width:1, obj_height:1, img_width:64, img_height:64
+path:../client_src/resources/weapons/bazooka.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64
+
