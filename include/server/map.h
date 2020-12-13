@@ -13,6 +13,14 @@
 #include "positionable_handler.h"
 
 class Map {
+private:
+    int grid_size = 64;
+    std::map<std::pair<int, int>, Positionable> board;
+    std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
+    std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
+    PositionableHandler handler;
+    //TDA que guarde modif y eventos
+
 public:
     Map(int player_max_spawn_count);
     void addBlockingItems(std::unordered_map<std::string,
@@ -24,16 +32,13 @@ public:
 
     void putPositionableAt(std::pair<int, int> coordinates, Positionable positionable);
     bool isABlockingItem(std::pair<int, int> coordinates);
-    bool isAValidXCoord(std::pair<int, int> coordinates);
-    bool isAValidYCoord(std::pair<int, int> coordinates);
+    //bool isAValidXCoord(std::pair<int, int> coordinates);
+    //bool isAValidYCoord(std::pair<int, int> coordinates);
     void show();
 
-private:
-    int grid_size = 64;
-    std::map<std::pair<int, int>, Positionable> board;
-    std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
-    std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
-    PositionableHandler handler;
+    std::pair<int, int> closePositionable(int units, std::pair<int, int> coord);
+    Positionable getPositionableAt(std::pair<int, int> coordinates);
+
 
 
 };

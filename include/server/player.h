@@ -2,35 +2,43 @@
 #define TP_WOLFENSTEIN_PLAYER_H
 
 #include <string>
-#include "client/sdl_texture.h"
-#include "client/sdl_sprite.h"
 #include "positionable.h"
-
-//Mauro
+#include "gun.h"
 #include "key.h"
 #include <queue>
+#include <vector>
+#include "default_weapon.h"
 
 class Player {
-public:
-    Player(std::string name);
-    std::string getPlayerName();
-    double getDirection();
-    void updateDirection(double offset);
-    double projectDirection(double direction_change_alpha);
-
 private:
     std::string name;
-    double direction = M_PI/4;
-
-    //Mauro
-    //std::string name;
     int bullets;
     int hp;
     int points;
     int lives;
-    //WeaponInventory ?;
+    std::vector<Gun> dropable;
+    //DefaultWeapon knife;
+    //DefaultWeapon pistol;
     std::queue<Key> keys;
+    //DefaultWeapon& equipped_weapon;
+    //Gun& equipped_dropable_weapon;
+
+
+    //double direction = M_PI/4;
+
+public:
+    Player(std::string name);
+    std::string getPlayerName();
+    bool areAnyKeysLeft();
+    bool useKey();
+    void pickUpKey(Key key);
+
+    void equipWeapon(std::string type);
 };
 
-
+/*
+      double getDirection();
+      void updateDirection(double offset);
+      double projectDirection(double direction_change_alpha);
+      */
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

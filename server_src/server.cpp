@@ -18,13 +18,21 @@ Server::Server(std::string _path) : path(_path) {
         std::cout << "Par: " << i << " - (" << test.first << ", " << test.second << ")\n";
     }*/
 
-    std::pair<int,int> test(73,73);
-    test = colHandler.moveToPosition(test, 3*M_PI/4);
-    std::cout << test.first << " " << test.second;
+    std::pair<int,int> start(122,122);
+    std::cout << "Muevo de: (" << start.first << ", " << start.second << ")\n";
+    std::pair<int,int> end = colHandler.moveToPosition(start, 3*M_PI/8);
+    std::cout << "Hasta: (" << end.first << ", " << end.second << ")\n";
 
-
-
-
+    std::pair<int,int> pos1(120,120);
+    std::pair<int,int> pos2(130,130);
+    Positionable item = colHandler.getCloseItems(pos1, pos2);
+    if (!(item.getType() == "wood_wall")) {
+        std::cout << item.getType() << "\n";
+        //logica del pickup
+        //player.pickup(item)
+        //map.erasePositionableAt(pos)
+    }
+    //no pickupear nada
 
 }
 

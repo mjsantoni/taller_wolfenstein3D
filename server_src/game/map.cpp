@@ -3,6 +3,8 @@
 #include "server/positionable.h"
 #include <iostream>
 #include <string>
+#include <cmath>
+#include <functional>
 
 Map::Map(int player_max_spawn_count)   {
     player_spawns.resize(player_max_spawn_count);
@@ -48,37 +50,33 @@ void Map::putPositionableAt(std::pair<int, int> coordinates,
 }
 
 bool Map::isABlockingItem(std::pair<int, int> coordinates) {
-    //std::cout << "PreNormalizado: " << coordinates.first << " - " << coordinates.second << "\n";
     int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
     std::pair<int, int> normalize(x_normalize, y_normalize);
-    //std::cout << "Normalizado: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
 }
 
+
+/*
 bool Map::isAValidXCoord(std::pair<int, int> coordinates) {
-    //std::cout << "PreNormalizado de X: " << coordinates.first << " - " << coordinates.second << "\n";
     int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second/ grid_size) * grid_size;
     std::pair<int, int> normalize(x_normalize, y_normalize);
-    //std::cout << "Normalizado de X: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
 }
 
 bool Map::isAValidYCoord(std::pair<int, int> coordinates) {
-    //std::cout << "PreNormalizado de Y: " << coordinates.first << " - " << coordinates.second << "\n";
     int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
     std::pair<int, int> normalize(x_normalize, y_normalize);
-    //std::cout << "Normalizado de Y: " << normalize.first << " - " << normalize.second << "\n";
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
-}
+}*/
 
 void Map::show() {
     std::cout << "Board\n";
@@ -92,5 +90,21 @@ void Map::show() {
         std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
         i++;
     }
+}
+
+std::pair<int, int> Map::closePositionable(int units, std::pair<int,int> coord) {
+    for (int i = coord.first-units; i <= coord.first+units; i++) {
+        for (int j = coord.second-units; j <= coord.second+units; j++) {
+            std::pair<int, int> pos(i,j);
+            if(board.find(pos) != board.end() && !board.at(pos).isBlocking()) {
+                return pos;
+            }
+        }
+    }
+    return std::pair<int, int>(0,0);
+}
+
+Positionable Map::getPositionableAt(std::pair<int, int> coordinates) {
+    return board.at(coordinates);
 }
 
