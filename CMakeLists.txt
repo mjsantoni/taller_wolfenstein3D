@@ -52,7 +52,7 @@ qt5_wrap_ui(UIS_HEADERS
 add_executable(tp_wolfenstein ${All_SRC} ${UIS_HEADERS})
 add_executable(server ${SERVER_SRC})
 add_executable(client ${CLIENT_SRC})
-add_executable(editor ${EDITOR_SRC})
+add_executable(editor ${EDITOR_SRC} ${UIS_HEADERS})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)
 TARGET_LINK_LIBRARIES(server ${YAML_CPP_LIBRARIES})

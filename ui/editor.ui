@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1025</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="palette">
@@ -80,12 +80,21 @@
   <property name="windowTitle">
    <string>Editor</string>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Triangular</enum>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="buttonExport">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>510</y>
+      <x>930</x>
+      <y>640</y>
       <width>89</width>
       <height>25</height>
      </rect>
@@ -99,8 +108,8 @@
      <rect>
       <x>19</x>
       <y>49</y>
-      <width>431</width>
-      <height>471</height>
+      <width>461</width>
+      <height>531</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -111,8 +120,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>429</width>
-       <height>469</height>
+       <width>459</width>
+       <height>529</height>
       </rect>
      </property>
      <widget class="QWidget" name="gridLayoutWidget">
@@ -120,8 +129,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>421</width>
-        <height>461</height>
+        <width>451</width>
+        <height>521</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="mapGrid">
@@ -137,19 +146,25 @@
      <rect>
       <x>490</x>
       <y>10</y>
-      <width>301</width>
-      <height>491</height>
+      <width>521</width>
+      <height>581</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
-      <number>100</number>
+      <number>1</number>
      </property>
      <property name="sizeConstraint">
-      <enum>QLayout::SetNoConstraint</enum>
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
       <layout class="QGridLayout" name="gridDimensions">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <item row="1" column="0">
         <widget class="QLabel" name="labelWidth">
          <property name="text">
@@ -157,15 +172,28 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="inputHeight">
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="inputWidth">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="inputWidth">
+       <item row="2" column="1">
+        <widget class="QPushButton" name="buttonRefresh">
+         <property name="text">
+          <string>Refresh</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="inputHeight">
          <property name="text">
           <string/>
          </property>
@@ -178,21 +206,20 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="buttonRefresh">
-         <property name="text">
-          <string>Refresh</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="layoutTypesButtons">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <item>
         <widget class="QPushButton" name="buttonWalls">
          <property name="text">
           <string>Walls</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -201,22 +228,32 @@
          <property name="text">
           <string>Items</string>
          </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
          <property name="autoDefault">
           <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="buttonPlayers">
          <property name="text">
           <string>Players</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridTextures"/>
+      <layout class="QGridLayout" name="texturesGrid">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -226,7 +263,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1025</width>
      <height>22</height>
     </rect>
    </property>
