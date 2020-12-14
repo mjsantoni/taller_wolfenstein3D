@@ -75,6 +75,7 @@ ColissionHandler::getCloseItems(std::pair<int, int> old_pos,
         //std::cout << "Pos walked: (" << pos.first << ", " << pos.second << ")\n";
         item_in_pos = map.closePositionable(2, pos);
         if (item_in_pos != no_item_pos) break;
+        //falta preguntar si es un charco de agua q no hace nada (dentro de ese if)
     }
     pos_positionable.first = item_in_pos.first;
     pos_positionable.second = item_in_pos.second;

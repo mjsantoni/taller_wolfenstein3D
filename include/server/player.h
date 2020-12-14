@@ -23,19 +23,24 @@ private:
     //DefaultWeapon& equipped_weapon;
     //Gun& equipped_dropable_weapon;
 
-
     //double direction = M_PI/4;
 
 public:
-    Player(std::string name);
+    Player(std::string name); //parametros de config como hp faltan
     std::string getPlayerName();
     bool areAnyKeysLeft();
     bool useKey();
     void pickUpKey(Key key);
 
-    void equipWeapon(std::string type);
+    void addHp(int hp_given);
+    void addPoints(int points_given);
+    void addGun(Gun gun);
+    void addBullets(int added_bullets);
+    void addKey(Key key);
 
-    void pickUp(Positionable item);
+    void equipWeapon(std::string id);
+    void pickUpItem(Positionable item);
+
 };
 
 /*

@@ -8,9 +8,10 @@ protected:
     int hp_given;
     
 public:
-    HPItem(int _hp_given, std::string object_type);
-    //giveHP()
+    HPItem(int _hp_given, std::string id);
     ~HPItem();
+
+    int getHP();
 };
 
 #endif // HP_ITEM_H

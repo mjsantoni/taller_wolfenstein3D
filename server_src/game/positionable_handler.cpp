@@ -17,26 +17,26 @@
 #include "server/table.h"
 #include "server/wall.h"
 
-Positionable PositionableHandler::createBlockingItem(std::string type) {
-  if (type == "stone_wall") return Wall(type, false);
-  else if (type == "wood_wall")  return Wall(type, false);
-  else if (type == "blue_wall")  return Wall(type, false);
-  else if (type == "rock_wall")  return Wall(type, false);
-  else if (type == "barrel")  return Barrel();
+Positionable PositionableHandler::createBlockingItem(std::string id) {
+  if (id == "stone_wall") return Wall(id, false);
+  else if (id == "wood_wall")  return Wall(id, false);
+  else if (id == "blue_wall")  return Wall(id, false);
+  else if (id == "rock_wall")  return Wall(id, false);
+  else if (id == "barrel")  return Barrel();
   else { return Table(); }
 }
 
-Positionable PositionableHandler::createItem(std::string type) {
-  if (type == "food") return Food();
-  else if (type == "medkit") return MediKit();
-  else if (type == "bullets") return Bullets();
-  else if (type == "machine_gun") return MachineGun();
-  else if (type == "chain_gun") return ChainGun();
-  else if (type == "rpg_gun") return RocketLauncher();
-  else if (type == "cross") return Cross();
-  else if (type == "goblet") return Goblet();
-  else if (type == "chest") return Chest();
-  else if (type == "crown") return Crown();
+Positionable PositionableHandler::createItem(std::string id) {
+  if (id == "food") return Food();
+  else if (id == "medkit") return MediKit();
+  else if (id == "bullets") return Bullets(id);
+  else if (id == "machine_gun") return MachineGun();
+  else if (id == "chain_gun") return ChainGun();
+  else if (id == "rpg_gun") return RocketLauncher();
+  else if (id == "cross") return Cross();
+  else if (id == "goblet") return Goblet();
+  else if (id == "chest") return Chest();
+  else if (id == "crown") return Crown();
   else { return Key(); }
 }
 

@@ -4,6 +4,8 @@
 #include "server/map.h"
 #include "server/colission_handler.h"
 #include <iostream>
+#include "server/pickup_handler.h"
+#include "server/player.h"
 
 Server::Server(std::string _path) : path(_path) {
     MapParser parser(path);
@@ -11,6 +13,7 @@ Server::Server(std::string _path) : path(_path) {
     Map map = generator.create(8); // Player max spawn count
     //map.show();
     ColissionHandler colHandler(map);
+    PickUpHandler pickup_handler;
     Player player("player_one");
 /*
     for (int i = 74; i < 100; i++) {
@@ -28,10 +31,10 @@ Server::Server(std::string _path) : path(_path) {
     std::pair<int,int> pos2(130,130);
     std::pair<int,int> pos_positionable(0,0);
     Positionable item = colHandler.getCloseItems(pos1, pos2, pos_positionable);
-    if (!(item.getType() == "wood_wall")) {
-        std::cout << item.getType() << "\n";
+    if (!(item.getType() == "wall")) {
+        std::cout << item.getId() << "\n";
         //logica del pickup
-        player.pickUp(item);
+        pickup_handler.pickUp(item, player);
         map.erasePositionableAt(pos_positionable);
     }
     //map.show();

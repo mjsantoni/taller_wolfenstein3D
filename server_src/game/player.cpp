@@ -7,9 +7,13 @@
 #include <typeinfo>
 #include "server/treasure.h"
 
-Player::Player(std::string name) :  name(std::move(name)){
+Player::Player(std::string name) :
+                                name(std::move(name))
+                                 {
                                     //knife(Knife()),
                                     //pistol(Pistol()) {
+    //handler.setPlayer(this);
+
     //dropable.resize(3);
     //equipped_weapon = pistol;
     //Gun asd = MachineGun();
@@ -35,11 +39,34 @@ bool Player::areAnyKeysLeft() {
     return !keys.empty();
 }
 
-void Player::pickUp(Positionable item) {
+void Player::pickUpItem(Positionable item) {
     std::cout << "Player pickeo: " << item.getType() << "\n";
-    //MachineGun& gun = dynamic_cast<MachineGun &>(item);
-    //gun.shoot();
 }
+
+void Player::addHp(int hp_given) {
+    hp += hp_given;
+    std::cout << "Mi nueva hp es: " << hp << "\n";
+}
+
+void Player::addPoints(int points_given) {
+    points += points_given;
+    std::cout << "Mis nuevos puntos son: " << points << "\n";
+}
+
+void Player::addGun(Gun gun) {
+    dropable.push_back(gun); //hay que ver donde va, deberia ser en [id]
+    std::cout << "Agregue una: " << gun.getId() << "\n";
+}
+
+void Player::addBullets(int added_bullets) {
+    bullets += added_bullets;
+    std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
+}
+
+void Player::addKey(Key key) {
+    keys.push(key);
+}
+
 /*
 void Player::equipWeapon(std::string type) {
     if (type == "knife") {

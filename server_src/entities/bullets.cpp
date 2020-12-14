@@ -1,7 +1,7 @@
 #include "server/bullets.h"
 
 
-Bullets::Bullets() : Positionable("bullets", false),
+Bullets::Bullets(std::string id) : Positionable("bullets", id, false),
                      bullets_given(5) {
 }
 
