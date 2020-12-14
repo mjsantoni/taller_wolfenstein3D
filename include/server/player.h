@@ -43,9 +43,4 @@ public:
 
 };
 
-/*
-      double getDirection();
-      void updateDirection(double offset);
-      double projectDirection(double direction_change_alpha);
-      */
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H
