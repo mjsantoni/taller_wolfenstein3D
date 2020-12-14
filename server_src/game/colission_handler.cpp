@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 
+
 ColissionHandler::ColissionHandler(Map &_map) : map(_map) {}
 
 std::pair<int, int> ColissionHandler::moveToPosition(std::pair<int, int> actual_pos, double angle) {
@@ -114,5 +115,9 @@ ColissionHandler::walkedPositions(std::pair<int, int> old_pos, std::pair<int, in
         }
     }
     return items;
+}
+
+void ColissionHandler::setMap(Map& _map) {
+    map = _map;
 }
 

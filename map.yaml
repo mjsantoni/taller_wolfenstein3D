@@ -2,14 +2,14 @@ dimensions:
   width: 10
   height: 10
 scenarios:
-  wood_wall: [[0, 0], [0, 3], [0, 4], [0, 5], [0, 6], [1, 0], [1, 6], [2, 0], [3, 0]]
+  wood_wall: [[0,0],[3,3]]
   stone_wall: []
-  blue_wall: [[0, 1]]
-  barrel: [[3, 4]]
+  blue_wall: []
+  barrel: []
 players:
   0: [[1, 2]]
   1: [[1, 5]]
 items:
-  goblet: [[2, 2], [7, 8]]
+  goblet: [[2, 2], [2, 1]]
   rpg_gun: [[8, 7]]
   chain_gun: [[3, 3]]

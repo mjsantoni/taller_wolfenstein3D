@@ -9,9 +9,9 @@ private:
     int move_size = 10;
     int safe_distance = 10;
 public:
-    ColissionHandler(Map& _map);
+    explicit ColissionHandler(Map &_map);
     std::pair<int, int> moveToPosition(std::pair<int,int> actual_pos, double angle);
-    bool isValid(std::pair<int,int> new_position);
+    //bool isValid(std::pair<int,int> new_position);
 
     Positionable getCloseItems(std::pair<int, int> old_pos,
                                std::pair<int, int> new_pos,
@@ -19,6 +19,8 @@ public:
 
     std::vector<std::pair<int, int>> walkedPositions(std::pair<int, int> old_pos,
                                                      std::pair<int, int> new_pos);
+
+    void setMap(Map& map);
 };
 
 

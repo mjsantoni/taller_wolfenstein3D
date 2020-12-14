@@ -7,9 +7,7 @@
 #include <typeinfo>
 #include "server/treasure.h"
 
-Player::Player(std::string name) :
-                                name(std::move(name))
-                                 {
+Player::Player(std::string _name) : name(_name) {
                                     //knife(Knife()),
                                     //pistol(Pistol()) {
     //handler.setPlayer(this);

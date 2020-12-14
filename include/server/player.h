@@ -26,7 +26,7 @@ private:
     //double direction = M_PI/4;
 
 public:
-    Player(std::string name); //parametros de config como hp faltan
+    Player(std::string _name); //parametros de config como hp faltan
     std::string getPlayerName();
     bool areAnyKeysLeft();
     bool useKey();

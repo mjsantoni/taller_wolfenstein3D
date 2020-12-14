@@ -6,8 +6,11 @@
 #include <cmath>
 #include <functional>
 
+Map::Map() {}
+
 Map::Map(int player_max_spawn_count)   {
     player_spawns.resize(player_max_spawn_count);
+    player_positions.resize(player_max_spawn_count);
 }
 
 void Map::addBlockingItems(std::unordered_map<std::string,
@@ -15,7 +18,7 @@ void Map::addBlockingItems(std::unordered_map<std::string,
     for (auto& type : blocking) {
         for (auto& coord : type.second) {
             Positionable positionable = handler.createBlockingItem(type.first);
-            putPositionableAt(coord, positionable);
+            putBlockingItemAt(coord, positionable);
         }
     }
 }
@@ -34,17 +37,24 @@ void Map::addPlayerSpawns(std::unordered_map<std::string,
                             std::vector<std::pair<int, int>>>& spawns) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
-            coord.first *= grid_size;
-            coord.second *= grid_size;
+            coord.first = (coord.first * grid_size) + (int) grid_size/2;
+            coord.second = (coord.second * grid_size) + (int) grid_size/2;
             player_spawns[std::stoi(type.first)] = coord;
         }
     }
 }
 
-void Map::putPositionableAt(std::pair<int, int> coordinates,
+void Map::putBlockingItemAt(std::pair<int, int> coordinates,
                             Positionable positionable) {
     coordinates.first *= grid_size;
     coordinates.second *= grid_size;
+    board.insert(std::pair<std::pair<int, int>,
+            Positionable>(coordinates,positionable));
+}
+
+void Map::putPositionableAt(std::pair<int, int> coordinates, Positionable positionable) {
+    coordinates.first = (coordinates.first * grid_size) + (int) grid_size/2;
+    coordinates.second = (coordinates.second * grid_size) + (int) grid_size/2;
     board.insert(std::pair<std::pair<int, int>,
             Positionable>(coordinates,positionable));
 }
@@ -98,4 +108,16 @@ void Map::show() {
         std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
         i++;
     }
+}
+
+void Map::addPlayer(int i) {
+    player_positions[i] = player_spawns[i];
+}
+
+std::pair<int,int> Map::getPlayerPosition(int id) {
+    return player_positions[id];
+}
+
+void Map::setPlayerPosition(int i, std::pair<int, int> coord) {
+    player_positions[i] = coord;
 }
