@@ -5,9 +5,11 @@
 
 class Bullets : public Positionable {
 private:
+
+
     int bullets_given;
 public:
-    Bullets();
+    Bullets(std::string id);
     ~Bullets();
 };
 #endif // BULLETS_H

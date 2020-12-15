@@ -1,0 +1,6 @@
+#ifndef TP_WOLFENSTEIN_PLAYER_FWD_H
+#define TP_WOLFENSTEIN_PLAYER_FWD_H
+
+#pragma once
+class Player;
+#endif //TP_WOLFENSTEIN_PLAYER_FWD_H

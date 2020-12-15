@@ -6,6 +6,7 @@ private:
     //algun delay despues de cada disparo
 public:
     MachineGun();
+
     ~MachineGun();
 };
 
