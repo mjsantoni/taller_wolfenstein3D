@@ -1,14 +1,13 @@
 #include "server/game_handler.h"
 
-GameHandler::GameHandler(std::string path) : game(path), eh(eq) {
-}
+GameHandler::GameHandler(std::string path) : game(path), eh(eq), ep(eq) {}
 
 void GameHandler::run() {
     //eh.start();
     //ep.start();
-    proccess();
+    //proccess();
 }
-
+/*
 void GameHandler::proccess() {
     while (game.isNotOver()) {
         while (eq.isNotEmpty()) {
@@ -25,3 +24,4 @@ void GameHandler::stop() {
     //eh.join();
     //ep.join();
 }
+*/

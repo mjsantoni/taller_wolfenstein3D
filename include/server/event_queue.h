@@ -18,9 +18,4 @@ public:
     ~EventQueue();
 };
 
-#endif
-
-};
-
-
 #endif //TP_WOLFENSTEIN_EVENTS_QUEUE_H

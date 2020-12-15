@@ -8,9 +8,7 @@ private:
     EventQueue& eq;
 public:
     EventProccesor(EventQueue& _eq);
-    void
 
 };
-
 
 #endif //TP_WOLFENSTEIN_EVENT_PROCCESOR_H

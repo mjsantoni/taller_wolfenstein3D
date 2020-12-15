@@ -11,3 +11,5 @@ Event EventQueue::pop() {
     events.pop();
     return event;
 }
+
+EventQueue::~EventQueue() {}

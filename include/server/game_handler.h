@@ -5,15 +5,14 @@
 #include "event_queue.h"
 #include "event_handler.h"
 #include "server/game.h"
-#include "event_proccesor.h"
+#include "server/event_proccesor.h"
 
 class GameHandler {
 private:
     Game game;
     EventQueue eq;
     EventHandler eh;
-    EventProcessor ep;
-    std::vector<ClientHandler*> clients;
+    EventProccesor ep;
 public:
     GameHandler(std::string path);
     void run();
