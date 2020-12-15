@@ -105,7 +105,7 @@ void ClientMap::addWalls(std::vector<std::pair<int,int>> walls) {
         //printf("se pone una pared en : (%d, %d)\n", wall.first, wall.second);
         putDrawableAt(wall, 0);
     }
-    putDrawableAt(150,150,1);
+    putDrawableAt(250,128,1);
 }
 
 void ClientMap::putDrawableAt(std::pair<int, int> coordinates,

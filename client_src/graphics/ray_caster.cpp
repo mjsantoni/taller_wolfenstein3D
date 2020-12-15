@@ -228,10 +228,10 @@ void RayCaster::loadObjects(int x, int y, double player_angle) {
     std::vector<Drawable> objects_vector = map.getAllObjects();
     for (auto& object : objects_vector) {
         double object_angle = getObjectAngle(x, y, object.getMapPosition());
-        //printf("El jugador mira en angulo %f\n", player_angle);
-        //printf("Se encuentra objeto en angulo respecto del jugador %f\n", object_angle);
+        printf("El jugador mira en angulo %f\n", player_angle);
+        printf("Se encuentra objeto en angulo respecto del jugador %f\n", object_angle);
         if (shouldDraw(player_angle, object_angle))
-            renderObject(x, y, player_angle, player_angle-object_angle, object);
+            renderObject(x, y, player_angle, object_angle, object);
     }
 }
 
@@ -249,18 +249,8 @@ double RayCaster::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos) {
     int o_x = o_pos.first;
     int o_y = o_pos.second;
     int delta_x = o_x - p_x;
-    int delta_y = o_y - p_y;
-    double beta = atan2(delta_y, delta_x);
-    double alpha;
-    if (o_x > p_x && o_y > p_y) // primer cuadrante
-        alpha = beta;
-    else if (o_x <= p_x && o_y > p_y) // segundo
-        alpha = normalize(M_PI - beta);
-    else if (o_x <= p_x && o_y <= p_y) // tercero
-        alpha = normalize(M_PI + beta);
-    else // cuarto
-        alpha = normalize(2*M_PI - beta);
-    return alpha;
+    int delta_y = p_y - o_y;
+    return atan2(delta_y, delta_x);
 }
 
 double RayCaster::normalize(double alpha) {

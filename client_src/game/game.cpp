@@ -5,19 +5,19 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/client_game.h"
+#include "client/game.h"
 #include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
-ClientGame::ClientGame(int width, int height, ClientMap _map, MapMock real_map) :
+Game::Game(int width, int height, ClientMap _map, MapMock real_map) :
 window(width, height), running(true), map(_map), event_handler(real_map) {
 }
 
-void ClientGame::start() {
+void Game::start() {
     displayIntro();
     ClientPlayer player("Player1");
-    int x = 200;
-    int y = 170;
+    int x = 192;
+    int y = 128;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     RayCaster ray_caster(window, map);
@@ -42,7 +42,7 @@ void ClientGame::start() {
     }
 }
 
-void ClientGame::displayIntro() {
+void Game::displayIntro() {
     SdlTexture intro_tex("../client_src/resources/intro.jpg");
     window.displayFullImage(intro_tex);
     window.render();

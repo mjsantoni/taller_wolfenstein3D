@@ -2,8 +2,8 @@
 // Created by andy on 27/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_CLIENT_GAME_H
-#define TP_WOLFENSTEIN_CLIENT_GAME_H
+#ifndef TP_WOLFENSTEIN_GAME_H
+#define TP_WOLFENSTEIN_GAME_H
 
 #include <SDL.h>
 #include "client/sdl_window.h"
@@ -14,9 +14,9 @@
 #include "sdl_audio_player.h"
 #include <vector>
 
-class ClientGame {
+class Game {
 public:
-    ClientGame(int map_width, int map_height, ClientMap _map, MapMock real_map);
+    Game(int map_width, int map_height, ClientMap _map, MapMock real_map);
     void start();
 private:
     bool running;
@@ -30,4 +30,4 @@ private:
 };
 
 
-#endif //TP_WOLFENSTEIN_CLIENT_GAME_H
+#endif //TP_WOLFENSTEIN_GAME_H
