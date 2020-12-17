@@ -19,9 +19,4 @@ void GameHandler::proccess() {
     }
     stop();
 }
-
-void GameHandler::stop() {
-    //eh.join();
-    //ep.join();
-}
 */

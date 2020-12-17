@@ -23,6 +23,7 @@ public:
     void movePlayer(Player& player, double angle);
     ~Game();
 
+    void show();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

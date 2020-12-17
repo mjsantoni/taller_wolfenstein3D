@@ -2,7 +2,7 @@ dimensions:
   width: 10
   height: 10
 scenarios:
-  wood_wall: [[0,0],[3,3]]
+  wood_wall: [[0,0],[3,3],[1,0]]
   stone_wall: []
   blue_wall: []
   barrel: []

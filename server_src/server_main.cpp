@@ -18,6 +18,6 @@ int main( int argc, char* args[] ) {
     game.movePlayer(player, M_PI/2);
     game.movePlayer(player, 3*M_PI/4);
     game.movePlayer(player, M_PI/2);
-
+    game.show();
     return 0;
 }

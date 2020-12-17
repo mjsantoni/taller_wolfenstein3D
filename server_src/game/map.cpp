@@ -97,6 +97,7 @@ void Map::erasePositionableAt(std::pair<int,int> coord) {
 
 
 void Map::show() {
+    std::cout << "---------------------------------------------------------------" << "\n";
     std::cout << "Board\n";
     for (auto& elem : board) {
         std::cout << "Coord: (" << elem.first.first << ", " << elem.first.second
@@ -106,8 +107,9 @@ void Map::show() {
     int i = 0;
     for (auto& spawn : player_spawns) {
         std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
-        i++;
+        break;
     }
+    std::cout << "---------------------------------------------------------------" << "\n";
 }
 
 void Map::addPlayer(int i) {

@@ -19,12 +19,19 @@ void Game::movePlayer(Player& player, double angle) {
 
     std::pair<int,int> pos_positionable(0,0);
     Positionable item = ch.getCloseItems(old_pos, new_pos, pos_positionable);
+
+
     if (!(item.getType() == "wall")) {
+        std::cout << "################################################################\n";
         std::cout << item.getId() << "\n";
         ph.pickUp(item, player);
         map.erasePositionableAt(pos_positionable);
+        std::cout << "################################################################\n";
     }
     map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
+
 }
+void Game::show() { map.show();}
+
 
 Game::~Game() {}
