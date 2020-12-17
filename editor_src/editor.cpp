@@ -6,6 +6,7 @@
 #include "editor/editor.h"
 #include "server/map_parser.h"
 #include "ui_editor.h"
+#include "editor/QGridButton.h"
 
 #define DEF_HEIGHT 7
 #define DEF_WIDTH 7
@@ -22,6 +23,7 @@ YAML::Emitter& operator << (YAML::Emitter& out, const Coordinate& coord) {
 Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
     Ui::Editor editor;
     editor.setupUi(this);
+    setAcceptDrops(true);
     auto *load = new QAction("Load map", this);
     auto *save = new QAction("Save Map", this);
     auto *quit = new QAction("Quit", this);
@@ -33,15 +35,44 @@ Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
     file->addAction(save);
     file->addAction(quit);
     connect(quit, &QAction::triggered, this, QApplication::quit);
-    connect(load, &QAction::triggered, this, &Editor::loadMap);
+    connect(load, &QAction::triggered, this, std::bind(&Editor::loadMap, this, ""));
     connect(save, &QAction::triggered, this, &Editor::exportMap);
     createMapGrid();
     createTextureGrid();
     connectEvents();
 }
 
-void Editor::loadMap() {
-    MapParser parser(getYamlPath());
+void Editor::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+
+void Editor::dropEvent(QDropEvent *e){
+    const QMimeData* mimeData = e->mimeData();
+            foreach (const QUrl &url, mimeData->urls()) {
+            QString fileName = url.toLocalFile();
+            loadMap(fileName.toStdString());
+        }
+    
+}
+
+
+void Editor::dragMoveEvent(QDragMoveEvent* event)
+{
+    // if some actions should not be usable, like move, this code must be adopted
+    event->acceptProposedAction();
+}
+
+void Editor::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    event->accept();
+}
+
+void Editor::loadMap(std::string path) {
+    if(path.empty()) MapParser parser(getYamlPath());
+    MapParser parser(path);
     std::vector<std::string> categories;
     QPixmap wood_pix("../client_src/resources/walls/wall_3.gif");
     QPixmap stone_pix("../client_src/resources/walls/grey_wall.jpg");
@@ -221,6 +252,8 @@ void Editor::exportMap() {
         }
     }
 
+
+
     YAML::Emitter out;
     out << YAML::BeginMap;
 
@@ -384,10 +417,10 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
 
     int i = 0;
     for (auto &icon: icons) {
-        QPushButton* button = new QPushButton();
+        QGridButton* button = new QGridButton();
         button->setIcon(icon);
         button->setFlat(true);
-        connect(button, &QPushButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.pixmap(30)));
+        connect(button, &QGridButton::rightClicked,this, std::bind(&Editor::changeCursor,this, icon.pixmap(30)));
         texture_grid->addWidget(button, 0, i);
         ++i;
     }

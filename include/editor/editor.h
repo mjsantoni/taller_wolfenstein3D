@@ -6,6 +6,9 @@
 #include <QActionGroup>
 #include <QLabel>
 #include <QGridLayout>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 
 class Editor : public QMainWindow {
 public:
@@ -19,7 +22,7 @@ private:
     void connectEvents();
     std::string getYamlPath();
     std::string saveYamlPath();
-    void loadMap();
+    void loadMap(std::string path);
     void updateTextureGrid(std::string texture_type);
 
     void createTextureGrid();
@@ -31,6 +34,14 @@ private:
     void renderPlayersGrid(QGridLayout *texture_grid);
 
     void changeCursor(QPixmap pix);
+
+    void dragEnterEvent(QDragEnterEvent *e);
+
+    void dropEvent(QDropEvent *e);
+
+    void dragMoveEvent(QDragMoveEvent *event);
+
+    void dragLeaveEvent(QDragLeaveEvent *event);
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H
