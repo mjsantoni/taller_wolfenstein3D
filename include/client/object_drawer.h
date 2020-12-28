@@ -24,16 +24,19 @@ public:
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
     void findObjectProportions(DrawingInfo& drawing_info, double distance,
-                               int dist_to_perimeter, double pl_ob_angle,
-                               Area& screen_area);
+                               double pl_ob_angle, Area& screen_area);
     void getImageInformation(DrawingInfo& drawing_info);
     SDL_Texture* drawWall(DrawingInfo& drawing_info, Area& image_area);
     int findXPosForObject(double pl_ob_beta, int object_width);
-    int findYPosForObject(int ray_no, double distance, double max_distance,
-                          int object_height);
+    int findYPosForObject(int ray_no, double distance, int object_height);
     int findObjectHeight(double distance, DrawingInfo& drawing_info);
     int findObjectWidth(double distance, DrawingInfo& drawing_info);
     int findRayNumberForAngle(double beta);
+    Area assembleScreenArea(int ray_no, DrawingInfo& drawing_info);
+    Area assembleScreenArea(DrawingInfo& drawing_info, double distance,
+                            double pl_ob_angle);
+    int findColumnStartingPoint(int col_height);
+    int findColumnHeight(int distance);
 private:
     SDL_Renderer* renderer;
     int window_width;

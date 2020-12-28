@@ -74,7 +74,7 @@ void RayCaster::castProjectionLine(int x,
     //printf("Distancia vertical encontrada: %f\n", drawing_info.hit_distance);
     castProjectionLine_horizontal(x, y, alpha, beta, drawing_info);
     //printf("Distancia horizontal encontrada: %f\n", drawing_info.hit_distance);
-    printf("Para el angulo %f se devuelve la distancia: %f\n",beta, drawing_info.hit_distance);
+    //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, drawing_info.hit_distance);
     saveRayInformation(beta, drawing_info.hit_distance);
 }
 
@@ -321,16 +321,16 @@ bool RayCaster::blockedByWall(double angle, double distance) {
             }
         }
     }
-    printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
+    //printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
     nearest_distance /= cos(angle_found);
-    printf("Distancia mas cercana final: %f\n", nearest_distance);
+    //printf("Distancia mas cercana final: %f\n", nearest_distance);
     bool object_blocked = nearest_distance < distance;
     if (object_blocked) {
-        printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
-        printf("Distancia del objeto: %f\n", distance);
-        printf("Angulo del objeto: %f\n", angle);
-        printf("Angulo usado: %f\n", angle_found);
-        printf("No se dibuja el objeto\n");
+        //printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
+        //printf("Distancia del objeto: %f\n", distance);
+        //printf("Angulo del objeto: %f\n", angle);
+        //printf("Angulo usado: %f\n", angle_found);
+        //printf("No se dibuja el objeto\n");
     }
     return object_blocked;
 }
@@ -351,9 +351,8 @@ void RayCaster::renderObject(int x_pos, int y_pos, double player_angle,
     double beta = convertToBeta(pl_ob_angle);
     if (blockedByWall(beta, distance))
         return;
-    puts("Se dibuja el objeto");
-    int dist_to_perimeter = calculateDistanceToPerimeter(x_pos, y_pos, object_angle);
-    window.put3DObject(distance, dist_to_perimeter, pl_ob_angle, object);
+    //puts("Se dibuja el objeto");
+    window.put3DObject(distance, pl_ob_angle, object);
 }
 
 void RayCaster::saveRayInformation(double ray_angle, double distance) {

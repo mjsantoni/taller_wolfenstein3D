@@ -16,8 +16,8 @@ window(width, height), running(true), map(_map), event_handler(real_map) {
 void Game::start() {
     displayIntro();
     ClientPlayer player("Player1");
-    int x = 110;
-    int y = 257;
+    int x = 700;
+    int y = 500;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     RayCaster ray_caster(window, map);

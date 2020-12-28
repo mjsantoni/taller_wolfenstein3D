@@ -19,7 +19,7 @@ public:
     double projectDirection(double direction_change_alpha);
 private:
     std::string name;
-    double direction = 6.200582;
+    double direction = M_PI/2;
 };
 
 

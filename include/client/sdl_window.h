@@ -30,9 +30,8 @@ public:
     void restore();
     void putWall(int ray_no, DrawingInfo& drawing_info);
     void putFloorAndCeiling(int ray_no, DrawingInfo& drawing_info);
-    void put3DObject(double distance, int dist_to_perimeter, double pl_ob_angle,
+    void put3DObject(double distance, double pl_ob_angle,
                      Drawable& object);
-    int findColumnStartingPoint(int distance, int& col_height);
     int getWidth();
 private:
     int width;
@@ -40,10 +39,6 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     ObjectDrawer drawer;
-
-    Area assembleScreenArea(int ray_no, DrawingInfo& drawing_info);
-    Area assembleScreenArea(DrawingInfo& drawing_info, double distance,
-                            int dist_to_perimeter, double pl_ob_angle);
 };
 
 

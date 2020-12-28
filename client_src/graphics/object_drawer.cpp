@@ -68,15 +68,13 @@ void ObjectDrawer::drawCeiling(int x_pos, int y_pos) {
 
 void ObjectDrawer::findObjectProportions(DrawingInfo& drawing_info,
                                          double distance,
-                                         int dist_to_perimeter,
                                          double pl_ob_angle,
                                          Area& screen_area) {
     distance *= cos(pl_ob_angle);
     int x_pos = findXPosForObject(pl_ob_angle, drawing_info.object_width);
     int object_height = findObjectHeight(distance, drawing_info);
     int ray_no = findRayNumberForAngle(pl_ob_angle);
-    int y_pos = findYPosForObject(ray_no, distance, dist_to_perimeter,
-                                  object_height);
+    int y_pos = findYPosForObject(ray_no, distance, object_height);
     int object_width = findObjectWidth(distance, drawing_info);
     printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
     //printf("Se dibuja al objeto en la pos x: %d\n", x_pos);
@@ -100,24 +98,23 @@ int ObjectDrawer::findXPosForObject(double pl_ob_beta, int object_width) {
 
 int ObjectDrawer::findYPosForObject(int ray_no,
                                     double distance,
-                                    double max_distance,
                                     int object_height){
     std::pair<int, int> ray_floor_info = floor_info.at(ray_no);
     int floor_starting_point = ray_floor_info.first;
     int floor_height = ray_floor_info.second;
-    auto y_floor_proportion = (double) object_height/distance;
-    int y_floor_position = int (y_floor_proportion * floor_height);
-    int screen_position = floor_starting_point + y_floor_position;
-    int centered_screen_pos = screen_position - object_height;
-    return centered_screen_pos;
+    //auto y_floor_proportion = (double) object_height/floor_height;
+    //int y_floor_position = int (y_floor_proportion * floor_height);
+    //int screen_position = floor_starting_point + object_height;
+    //int centered_screen_pos = screen_position - object_height;
+    return floor_starting_point + ((floor_height - object_height)/floor_height)*floor_height;
 }
 
 int ObjectDrawer::findObjectHeight(double distance, DrawingInfo& drawing_info) {
-    double object_height_prop = (double) drawing_info.object_height/GRID_SIZE;
-    int wall_height_for_distance = (int) ((double) 100/distance * 55);
-    double object_raw_height = object_height_prop*wall_height_for_distance;
-    int object_screen_height = (int) (height_prop*object_raw_height);
-    return object_screen_height;
+    double object_wall_prop = (double) (drawing_info.object_height)/GRID_SIZE;
+    double distance_prop = (double) GRID_SIZE/distance;
+    double object_raw_height = object_wall_prop * distance_prop * 255;
+    //int object_screen_height = (int) (height_prop*object_raw_height);
+    return (int) object_raw_height;
 }
 
 int ObjectDrawer::findObjectWidth(double distance, DrawingInfo& drawing_info) {
@@ -150,3 +147,33 @@ int ObjectDrawer::findRayNumberForAngle(double beta) {
     return counter;
 }
 
+Area ObjectDrawer::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {
+    int width_factor = window_width/PROJECTION_PLANE_width;
+    int distance = (int) drawing_info.hit_distance;
+    int col_height = findColumnHeight(distance);
+    int col_starting_point = findColumnStartingPoint(col_height);
+    Area screen_area(
+            ray_no*width_factor,col_starting_point, width_factor, col_height
+    );
+    //printf("Rayo %d:Se coloca una pared a distancia %d, en (%d, %d), con un ancho de %d y altura de %d\n",
+    //ray_no, distance, ray_no*width_factor, col_starting_point, width_factor, col_height);
+    return screen_area;
+}
+
+int ObjectDrawer::findColumnHeight(int distance) {
+    auto height_proportion = (double) GRID_SIZE/distance;
+    return (int) (height_proportion*255);
+}
+
+
+int ObjectDrawer::findColumnStartingPoint(int col_height) {
+    return (window_height - col_height)/2;
+}
+
+Area ObjectDrawer::assembleScreenArea(DrawingInfo& drawing_info,
+                                   double distance,
+                                   double pl_ob_angle) {
+    Area screen_area;
+    findObjectProportions(drawing_info, distance, pl_ob_angle, screen_area);
+    return screen_area;
+}
