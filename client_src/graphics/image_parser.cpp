@@ -35,6 +35,11 @@ std::string getCorrectValue(std::string complete_value) {
     return aux.substr(0, aux.length()-1);
 }
 
+std::string getStringValue(std::string complete_value) {
+    std::string aux = complete_value.substr(complete_value.find(':')+1);
+    return aux.substr(0, aux.length());
+}
+
 ImageInfo ImageParser::processLine(std::string line) {
     ImageInfo image_info;
     std::vector<std::string> aux;
@@ -44,6 +49,7 @@ ImageInfo ImageParser::processLine(std::string line) {
     image_info.object_height = stof(getCorrectValue(aux[2]));
     image_info.image_width = stoi(getCorrectValue(aux[3]));
     image_info.image_height = stoi(getCorrectValue(aux[4]));
+    image_info.object_name = getStringValue(aux[5]);
     return image_info;
 }
 

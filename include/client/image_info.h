@@ -14,6 +14,7 @@ public:
     double object_height;
     int image_width;
     int image_height;
+    std::string object_name;
     std::string image_path;
     int sprite_animation_no;
 

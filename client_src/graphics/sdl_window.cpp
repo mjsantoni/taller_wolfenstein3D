@@ -7,6 +7,7 @@
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200
+#define GRID_SIZE 64
 
 SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
     int error_code;
@@ -83,15 +84,18 @@ void SdlWindow::restore() {
     SDL_RestoreWindow(window);
 }
 
-void SdlWindow::put3DColumn(int ray_no, DrawingInfo drawing_info){
+void SdlWindow::putWall(int ray_no, DrawingInfo& drawing_info) {
     Area image_area;
-    //image_area.setX(ray_no*width/PROJECTION_PLANE_width);
     SDL_Texture* texture = drawer.drawWall(drawing_info, image_area);
     Area screen_area = assembleScreenArea(ray_no, drawing_info);
     putTextureAt(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+}
+
+void SdlWindow::putFloorAndCeiling(int ray_no, DrawingInfo& drawing_info) {
+    Area screen_area = assembleScreenArea(ray_no, drawing_info);
     drawer.drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
     drawer.drawCeiling(ray_no, screen_area.getY());
-    SDL_DestroyTexture(texture);
 }
 
 Area SdlWindow::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {
@@ -108,7 +112,7 @@ Area SdlWindow::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {
 }
 
 int SdlWindow::findColumnStartingPoint(int distance, int& col_height) {
-    auto slice_proportion = (double) 64/distance;
+    auto slice_proportion = (double) GRID_SIZE/distance;
     int slice_projection = (int) (slice_proportion*255);
     int col_starting_point = (height - slice_projection)/2;
     col_height = slice_projection;
@@ -120,9 +124,8 @@ int SdlWindow::getWidth() {
 }
 
 void SdlWindow::put3DObject(double distance,
-                            int max_dist_x,
-                            int max_dist_y,
-                            double beta,
+                            int dist_to_perimeter,
+                            double pl_ob_angle,
                             Drawable& object){
     Area image_area;
     DrawingInfo drawing_info;
@@ -130,20 +133,25 @@ void SdlWindow::put3DObject(double distance,
     drawing_info.object_type = object.getObjectType();
     drawing_info.hit_grid_pos = 0;
     SDL_Texture* texture = drawer.drawImage(drawing_info, image_area);
-    Area screen_area = assembleScreenArea(drawing_info, distance, max_dist_x,
-                                          max_dist_y, beta);
+    Area screen_area = assembleScreenArea(drawing_info, distance,
+                                          dist_to_perimeter, pl_ob_angle);
+    printf("Nombre de objeto: %s\n", drawing_info.object_name.c_str());
+    printf("Distancia: %f\n", distance);
+    printf("Pos x: %d\n", screen_area.getX());
+    printf("Pos y: %d\n", screen_area.getY());
+    printf("Altura: %d\n", screen_area.getHeight());
+    printf("Ancho: %d\n", screen_area.getWidth());
     putTextureAt(texture, image_area, screen_area);
     SDL_DestroyTexture(texture);
 }
 
 Area SdlWindow::assembleScreenArea(DrawingInfo& drawing_info,
                                    double distance,
-                                   int max_dist_x,
-                                   int max_dist_y,
-                                   double beta) {
+                                   int dist_to_perimeter,
+                                   double pl_ob_angle) {
     Area screen_area;
-    drawer.findObjectProportions(drawing_info,distance, max_dist_x, max_dist_y,
-                                 beta, screen_area);
+    drawer.findObjectProportions(drawing_info, distance, dist_to_perimeter,
+                                 pl_ob_angle, screen_area);
     return screen_area;
 }
 

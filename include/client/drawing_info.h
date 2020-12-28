@@ -25,6 +25,7 @@ public:
     bool is_sprite;
     int sprite_image_number;
     std::string texture_name;
+    std::string object_name;
 };
 
 

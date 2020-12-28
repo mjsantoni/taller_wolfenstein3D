@@ -27,7 +27,7 @@ void ClientPlayer::updateDirection(double offset) {
 
 double ClientPlayer::projectDirection(double direction_change_alpha) {
     if (direction + direction_change_alpha < 0)
-        return (2*M_PI-direction+direction_change_alpha);
+        return (2*M_PI+(direction+direction_change_alpha));
     if (direction + direction_change_alpha > 2*M_PI)
         return (direction + direction_change_alpha - 2*M_PI);
     return direction+direction_change_alpha;

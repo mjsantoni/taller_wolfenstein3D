@@ -7,7 +7,7 @@ Client::Client() : running(true) {}
 void Client::run() {
     try {
         ClientMap map = parser.parseInfoFromServer();
-        MapMock real_map(10, 20);
+        MapMock real_map(15, 20);
         Game game(960, 600, map, real_map);
         game.start();
     }

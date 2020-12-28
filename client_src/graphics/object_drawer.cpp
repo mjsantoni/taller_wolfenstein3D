@@ -6,7 +6,9 @@
 #include "client/object_drawer.h"
 
 #define PROJECTION_PLANE_width 320
+#define PROJECTION_PLANE_height 200
 #define GRID_SIZE 64
+#define MAX_OBJECT_HEIGHT 300
 
 ObjectDrawer::ObjectDrawer() {
     image_parser.fillImageVector(image_info_vector);
@@ -18,6 +20,8 @@ void ObjectDrawer::setRenderer(SDL_Renderer* window_renderer,
     renderer = window_renderer;
     this->window_width = window_width;
     this->window_height = window_height;
+    this->width_prop = double (window_width) / PROJECTION_PLANE_width;
+    this->height_prop = double (window_height) / PROJECTION_PLANE_height;
 }
 
 SDL_Texture* ObjectDrawer::drawImage(DrawingInfo& drawing_info,
@@ -31,22 +35,23 @@ SDL_Texture* ObjectDrawer::drawImage(DrawingInfo& drawing_info,
 
 SDL_Texture* ObjectDrawer::drawWall(DrawingInfo& drawing_info,
                                      Area& image_area) {
-
     getImageInformation(drawing_info);
     SdlTexture sdl_texture(drawing_info.texture_name);
     SDL_Texture* image = sdl_texture.loadTexture(renderer, image_area);
     image_area.setX((int) (drawing_info.hit_grid_pos*image_area.getWidth()));
-    image_area.setWidth(image_area.getWidth()/64);
+    image_area.setWidth(image_area.getWidth()/GRID_SIZE);
     return image;
     //printf("Se copiara una pared desde: (%d, %d) con ancho de %d y altura de %d\n", image_area.getX(), image_area.getY(), image_area.getWidth(), image_area.getHeight());
 }
 
 void ObjectDrawer::drawFloor(int x_pos, int wall_posY, int wall_height) {
     int width_factor = window_width/PROJECTION_PLANE_width;
-    floor_starting_point = wall_posY + wall_height;
-    floor_height = window_height - floor_starting_point;
+    int fsp_for_column = wall_posY + wall_height;
+    int fh_for_column = window_height - fsp_for_column;
+    std::pair<int, int> ray_floor_info {fsp_for_column, fh_for_column};
+    floor_info.insert(std::pair<int,std::pair<int,int>>(x_pos, ray_floor_info));
     SDL_Rect floor_rect = {
-            x_pos*width_factor, floor_starting_point, width_factor, floor_height
+            x_pos*width_factor, fsp_for_column, width_factor, fh_for_column
     };
     SDL_SetRenderDrawColor(renderer, 123, 123, 123, 0);
     SDL_RenderFillRect(renderer, &floor_rect);
@@ -63,24 +68,64 @@ void ObjectDrawer::drawCeiling(int x_pos, int y_pos) {
 
 void ObjectDrawer::findObjectProportions(DrawingInfo& drawing_info,
                                          double distance,
-                                         int max_distance_x,
-                                         int max_distance_y,
-                                         double beta,
+                                         int dist_to_perimeter,
+                                         double pl_ob_angle,
                                          Area& screen_area) {
-    int delta_x = (int) (distance*sin(beta));
-    double x_proportion = double (delta_x)/max_distance_x;
-    int delta_y = (int) (distance*cos(beta));
-    double y_proportion = double (delta_y)/max_distance_y;
-    int x_pos = 160 + (int) (x_proportion*320);
-    int y_pos = floor_height + (floor_height - (int) (y_proportion*floor_height));
+    distance *= cos(pl_ob_angle);
+    int x_pos = findXPosForObject(pl_ob_angle, drawing_info.object_width);
+    int object_height = findObjectHeight(distance, drawing_info);
+    int ray_no = findRayNumberForAngle(pl_ob_angle);
+    int y_pos = findYPosForObject(ray_no, distance, dist_to_perimeter,
+                                  object_height);
+    int object_width = findObjectWidth(distance, drawing_info);
+    printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
+    //printf("Se dibuja al objeto en la pos x: %d\n", x_pos);
+    //printf("Se dibuja al objeto en la pos y: %d", y_pos);
+    //printf(" con el piso empezando en la pos %d\n", floor_starting_point);
+    //printf("Distancia del objeto: %f\n", distance);
     screen_area.setX(x_pos);
     screen_area.setY(y_pos);
-    auto height_proportion = (double) drawing_info.object_height/distance;
-    auto width_proportion = (double) drawing_info.object_width/distance;
-    int height_projection = (int) (height_proportion*175);
-    int width_projection = (int) (width_proportion*255);
-    screen_area.setWidth(width_projection);
-    screen_area.setHeight(height_projection);
+    screen_area.setWidth(object_width);
+    screen_area.setHeight(object_height);
+    //printf("Altura del objeto: %d\n", drawing_info.object_height);
+}
+
+int ObjectDrawer::findXPosForObject(double pl_ob_beta, int object_width) {
+    double fov_x_pos = double(pl_ob_beta + 0.523599) / 1.0472;
+    double proj_plane_x_pos = fov_x_pos* PROJECTION_PLANE_width;
+    double proj_plane_centered  = proj_plane_x_pos - double (object_width)/2;
+    int screen_pos = int (proj_plane_centered * width_prop);
+    return screen_pos;
+}
+
+int ObjectDrawer::findYPosForObject(int ray_no,
+                                    double distance,
+                                    double max_distance,
+                                    int object_height){
+    std::pair<int, int> ray_floor_info = floor_info.at(ray_no);
+    int floor_starting_point = ray_floor_info.first;
+    int floor_height = ray_floor_info.second;
+    auto y_floor_proportion = (double) object_height/distance;
+    int y_floor_position = int (y_floor_proportion * floor_height);
+    int screen_position = floor_starting_point + y_floor_position;
+    int centered_screen_pos = screen_position - object_height;
+    return centered_screen_pos;
+}
+
+int ObjectDrawer::findObjectHeight(double distance, DrawingInfo& drawing_info) {
+    double object_height_prop = (double) drawing_info.object_height/GRID_SIZE;
+    int wall_height_for_distance = (int) ((double) 100/distance * 55);
+    double object_raw_height = object_height_prop*wall_height_for_distance;
+    int object_screen_height = (int) (height_prop*object_raw_height);
+    return object_screen_height;
+}
+
+int ObjectDrawer::findObjectWidth(double distance, DrawingInfo& drawing_info) {
+    double object_width_prop = (double) drawing_info.object_width/GRID_SIZE;
+    int wall_height_for_distance = (int) ((double) 100/distance * 188);
+    double object_raw_width = object_width_prop*wall_height_for_distance;
+    int object_screen_width = (int) (width_prop*object_raw_width);
+    return object_screen_width;
 }
 
 void ObjectDrawer::getImageInformation(DrawingInfo& drawing_info) {
@@ -91,4 +136,17 @@ void ObjectDrawer::getImageInformation(DrawingInfo& drawing_info) {
     drawing_info.image_width = image_info.image_width;
     drawing_info.image_height = image_info.image_height;
     drawing_info.texture_name = image_info.image_path;
+    drawing_info.object_name = image_info.object_name;
 }
+
+int ObjectDrawer::findRayNumberForAngle(double beta) {
+    int counter = 0;
+    while (true) {
+        beta += 0.00327249;
+        if (beta > 0.523599)
+            break;
+        ++counter;
+    }
+    return counter;
+}
+

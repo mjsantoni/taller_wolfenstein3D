@@ -31,6 +31,7 @@ public:
     std::pair<int, int> calculateGrid(int x_pos, int y_pos);
     Drawable& getDrawableAt(std::pair<int, int> coordinates);
     bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
+    bool wallAtPerimeter(int x_pos, int y_pos, int x_factor, int y_factor);
     void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
                        int x_factor, int y_factor);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);

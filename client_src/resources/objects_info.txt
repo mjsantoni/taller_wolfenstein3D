@@ -1,3 +1,7 @@
-path:../client_src/resources/walls/grey_wall.jpg, obj_width:1, obj_height:1, img_width:64, img_height:64
-path:../client_src/resources/weapons/bazooka.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64
-
+path:../client_src/resources/walls/grey_wall.jpg, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall
+path:../client_src/resources/items/bazooka.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:bazooka
+path:../client_src/resources/items/bazooka_alt.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:bazooka_alt
+path:../client_src/resources/items/cup.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64, name:copa
+path:../client_src/resources/items/life.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64, name:vida
+path:../client_src/resources/items/machine_gun.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64, name:machine gun
+path:../client_src/resources/items/medical_kit.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64, name:medical kit
