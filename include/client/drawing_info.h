@@ -15,8 +15,8 @@ public:
     int object_type;
     int image_height;
     int image_width;
-    int object_height;
-    int object_width;
+    double object_height;
+    double object_width;
     int object_side;
     double hit_distance;
     double hit_grid_pos;
@@ -26,7 +26,11 @@ public:
     int sprite_image_number;
     std::string texture_name;
     std::string object_name;
+    int sprite_number = 0;
+    int sprite_rows;
+    int sprite_cols;
+    int sprite_h_padding;
+    int sprite_v_padding;
 };
-
 
 #endif //TP_WOLFENSTEIN_DRAWINGINFO_H

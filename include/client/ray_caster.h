@@ -14,7 +14,7 @@
 class RayCaster {
 public:
     RayCaster(SdlWindow& window, ClientMap& map);
-    void render3DScreen(int x, int y, double alpha);
+    void renderScreen(int x, int y, ClientPlayer& player);
     void loadObjects(int x, int y, double alpha);
 private:
     SdlWindow window;
@@ -44,15 +44,23 @@ private:
                          int delta_y, DrawingInfo& drawing_info, int x_factor,
                          int y_factor);
     int calculateBorderFactor(bool should_decrease, int position);
-    bool shouldDraw(double player_angle, double object_angle);
+    bool shouldDraw(double player_angle, double os_angle, double of_angle,
+                    double& diff_angle);
+    bool shouldDraw_borderCase(double os_angle, double of_angle,
+                  double fov_starting_angle, double fov_finishing_angle,
+                     double& diff_angle);
     double getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos);
     double normalize(double alpha);
-    void renderObject(int x_pos, int y_pos, double player_angle, double object_angle,
-                      Drawable& object);
+    void renderObject(int x_pos, int y_pos, double player_angle,
+                      double object_angle, double x_prop, Drawable& object);
     void saveRayInformation(double ray_angle, double distance);
-    void renderFloorAndCeiling(int x, int y, double alpha);
-    void renderWalls(int x, int y, double alpha);
     bool blockedByWall(double angle, double distance);
+    std::pair<int, int> projectObjectOnMap(Drawable& object,
+                                           double player_angle);
+    double calculateObjectStartingXPos(double os_angle, double of_angle,
+                                       double diff_angle);
+    void renderBackground(int x, int y, double alpha);
+    void loadPlayerWeapon(int weapon_number);
 };
 
 

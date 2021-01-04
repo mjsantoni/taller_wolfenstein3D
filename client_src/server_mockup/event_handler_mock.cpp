@@ -89,23 +89,6 @@ void EventHandlerMock::handleEvent(SDL_Event event, ClientPlayer& player, bool &
         puts("El jugador no se movio ni giro\n");
 }
 
-void EventHandlerMock::handleMouseEvent(SDL_Event event,
-                                        ClientPlayer &player,
-                                        SdlWindow& window) {
-    auto& mouse_event = (SDL_MouseMotionEvent&) event;
-    int x_position = mouse_event.x;
-    if (x_position == 0)
-        player.updateDirection(-M_PI/8);
-    if (x_position == window.getWidth()-1)
-        player.updateDirection(M_PI/8);
-    //player.updateDirection(alpha_offset);
-    mouse_position_x = mouse_event.x;
-}
-
-void EventHandlerMock::getMousePosition() {
-    SDL_GetMouseState(&mouse_position_x, nullptr);
-}
-
 void EventHandlerMock::calculateMovement(int& x, int& y, double alpha){
     int x_move = std::round(cos(alpha)*step_size);
     int y_move = std::round(sin(alpha)*step_size*-1);

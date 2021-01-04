@@ -17,9 +17,21 @@ public:
     double getDirection();
     void updateDirection(double offset);
     double projectDirection(double direction_change_alpha);
+    int getEquippedWeapon();
+    int getLevel();
+    int getScore();
+    int getLives();
+    int getHealth();
+    int getAmmo();
 private:
     std::string name;
-    double direction = M_PI/2;
+    double direction = 5.934119;
+    int equipped_weapon = 14;
+    int level = 6;
+    int score = 10000;
+    int lives = 5;
+    int health = 100;
+    int ammo = 200;
 };
 
 

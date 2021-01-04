@@ -9,9 +9,9 @@
 #include <vector>
 #include <map>
 #include "positionable_mock.h"
-#include "sdl_window.h"
-#include "sdl_texture.h"
 #include "client_player.h"
+#include "drawing_info.h"
+
 
 class MapMock {
 public:

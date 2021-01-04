@@ -18,7 +18,23 @@ std::pair<int, int> Drawable::getMapPosition() {
     return map_position;
 }
 
+int Drawable::getMapWidth() {
+    return map_width;
+}
+
+std::string Drawable::getObjectName() {
+    return object_name;
+}
+
+void Drawable::setMapWidth(int width) {
+    map_width = width;
+}
+
 void Drawable::setMapPosition(int x_pos, int y_pos) {
     std::pair<int, int> new_position{x_pos, y_pos};
     map_position = new_position;
+}
+
+void Drawable::setObjectName(std::string name) {
+    object_name = name;
 }

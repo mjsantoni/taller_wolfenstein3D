@@ -16,8 +16,12 @@ public:
     int image_height;
     std::string object_name;
     std::string image_path;
-    int sprite_animation_no;
-
+    int sprite_animation_no = 0;
+    int sprite_rows;
+    int sprite_cols;
+    int sprite_h_padding;
+    int sprite_v_padding;
+    bool is_sprite;
 };
 
 

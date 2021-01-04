@@ -10,6 +10,7 @@
 #include <SDL_render.h>
 #include "area.h"
 
+
 class SdlTexture {
 public:
     SdlTexture(std::string file_name);

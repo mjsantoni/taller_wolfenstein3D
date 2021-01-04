@@ -7,6 +7,7 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
+#include <client/client_wall.h>
 #include "client/map_mock.h"
 
 MapMock::MapMock(int width, int height) : width(width), height(height) {
@@ -152,9 +153,9 @@ bool MapMock::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor) {
     std::pair<int, int> grid_coordinates =
             calculateGrid(x_pos, y_pos, x_factor, y_factor);
     bool wall_at_grid = wallAtGrid(grid_coordinates);
-    if (wall_at_grid)
+    //if (wall_at_grid)
         //printf("Se devuelve la grilla (%d, %d)\n", grid_coordinates.first, grid_coordinates.second);
-        return wall_at_grid;
+    return wall_at_grid;
 }
 
 void MapMock::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,

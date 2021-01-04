@@ -2,6 +2,7 @@
 #include "client/game.h"
 #include <iostream>
 
+
 Client::Client() : running(true) {}
 
 void Client::run() {

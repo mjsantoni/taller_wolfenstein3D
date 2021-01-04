@@ -32,3 +32,28 @@ double ClientPlayer::projectDirection(double direction_change_alpha) {
         return (direction + direction_change_alpha - 2*M_PI);
     return direction+direction_change_alpha;
 }
+
+int ClientPlayer::getEquippedWeapon() {
+    return equipped_weapon;
+}
+
+int ClientPlayer::getLevel() {
+    return level;
+}
+
+int ClientPlayer::getScore() {
+    return score;
+}
+
+int ClientPlayer::getLives() {
+    return lives;
+}
+
+int ClientPlayer::getHealth() {
+    return health;
+}
+
+int ClientPlayer::getAmmo() {
+    return ammo;
+}
+

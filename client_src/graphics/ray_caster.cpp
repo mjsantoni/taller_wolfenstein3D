@@ -13,16 +13,19 @@
 
 RayCaster::RayCaster(SdlWindow& window, ClientMap& map) : window(window), map(map) {}
 
-void RayCaster::render3DScreen(int x, int y, double alpha) {
-    //printf("Ingresa el jugador en pos (%d, %d), con angulo %f\n", x, y, alpha);
-    //printf("Se inicia el recorrido en: %f\n", angle);
+void RayCaster::renderScreen(int x, int y, ClientPlayer& player) {
     window.fill();
-    renderFloorAndCeiling(x, y, alpha);
-    renderWalls(x, y, alpha);
-    loadObjects(x, y, alpha);
+    renderBackground(x, y, player.getDirection());
+    loadObjects(x, y, player.getDirection());
+    loadPlayerWeapon(player.getEquippedWeapon());
+    window.drawPlayerUI(player);
     window.render();
     ray_information.clear();
     angles_list.clear();
+}
+
+void RayCaster::loadPlayerWeapon(int weapon_number) {
+    window.drawPlayersWeapon(weapon_number);
 }
 
 double calculateBeta(double new_angle, double original_angle) {
@@ -31,7 +34,7 @@ double calculateBeta(double new_angle, double original_angle) {
     return 2*M_PI + (new_angle - original_angle);
 }
 
-void RayCaster::renderFloorAndCeiling(int x, int y, double alpha) {
+void RayCaster::renderBackground(int x, int y, double alpha) {
     double angle = normalize(alpha + 0.523599);
     for (int ray = 0; ray < PROJECTION_PLANE_WIDTH; ++ray) {
         //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
@@ -40,22 +43,6 @@ void RayCaster::renderFloorAndCeiling(int x, int y, double alpha) {
         double beta = calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, drawing_info);
         window.putFloorAndCeiling(ray, drawing_info);
-        angle -= ray_angle_delta;
-        if (angle < 0) {
-            angle += 2*M_PI;
-            alpha += 2*M_PI;
-        }
-    }
-}
-
-void RayCaster::renderWalls(int x, int y, double alpha) {
-    double angle = normalize(alpha + 0.523599);
-    for (int ray = 0; ray < PROJECTION_PLANE_WIDTH; ++ray) {
-        //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
-        //printf("Se lanza el rayo %d, con el angulo %f\n", i, angle);
-        DrawingInfo drawing_info{};
-        double beta = calculateBeta(angle, alpha);
-        castProjectionLine(x, y, angle, beta, drawing_info);
         window.putWall(ray, drawing_info);
         angle -= ray_angle_delta;
         if (angle < 0) {
@@ -252,34 +239,100 @@ int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
 
 void RayCaster::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
+    window.setDistanceInfo(ray_information, angles_list);
     std::vector<Drawable> objects_vector = map.getAllObjects();
     for (auto& object : objects_vector) {
-        double object_angle = getObjectAngle(x, y, object.getMapPosition());
-        printf("El jugador mira en angulo %f\n", player_angle);
-        printf("Se encuentra objeto %d en angulo respecto del jugador %f\n", object.getObjectType(), object_angle);
-        if (shouldDraw(player_angle, object_angle)) {
-            renderObject(x, y, player_angle, object_angle, object);
+        printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
+        double object_starting_angle =
+                getObjectAngle(x, y, object.getMapPosition());
+        std::pair<int, int> object_final_pos = projectObjectOnMap(object,
+                                                                  player_angle);
+        printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
+        double object_final_angle = getObjectAngle(x, y, object_final_pos);
+        printf("El jugador mira en direccion: %f\n", player_angle);
+        printf("Se encuentra objeto %s en angulo %f respecto de la posicion del jugador\n", object.getObjectName().c_str(), object_starting_angle);
+        double diff_angle = 0;
+        if (shouldDraw(player_angle,object_starting_angle, object_final_angle,
+            diff_angle)){
+            printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
+            double x_prop = calculateObjectStartingXPos(object_starting_angle,
+                                        object_final_angle, diff_angle);
+            renderObject(x, y, player_angle, object_starting_angle, x_prop,
+                         object);
         }
         else
-            puts("No se dibuja el objeto");
+            puts("No se dibuja el objeto: no entra en el angulo de vision");
     }
 }
 
-bool RayCaster::shouldDraw(double player_angle, double object_angle) {
+double RayCaster::calculateObjectStartingXPos(double os_angle,
+                                              double of_angle,
+                                              double diff_angle) {
+    return std::abs(diff_angle/(of_angle-os_angle));
+}
+
+std::pair<int, int> RayCaster::projectObjectOnMap(Drawable& object,
+                                                  double player_angle) {
+    double starting_fov_angle = normalize(player_angle + 0.523599);
+    std::pair<int, int> object_starting_position = object.getMapPosition();
+    int object_starting_x = object_starting_position.first;
+    int object_starting_y = object_starting_position.second;
+    int object_width = object.getMapWidth();
+    double phi = normalize(starting_fov_angle + 3*M_PI/2);
+    int delta_x = std::round(cos(phi)*object_width);
+    int delta_y = std::round(sin(phi)*object_width*-1);
+    int object_final_x = object_starting_x + delta_x;
+    int object_final_y = object_starting_y + delta_y;
+    return std::pair<int, int>{object_final_x, object_final_y};
+}
+
+bool RayCaster::shouldDraw(double player_angle,
+                           double os_angle,
+                           double of_angle,
+                           double& diff_angle) {
+    printf("El objeto empieza en angulo: %f\n", os_angle);
+    printf("El objeto finaliza en angulo: %f\n", of_angle);
     double fov_starting_angle = normalize(player_angle + 0.523599);
     double fov_finishing_angle = normalize(player_angle - 0.523599);
-    if (fov_finishing_angle > fov_starting_angle)
-        return object_angle >= fov_finishing_angle ||
-               object_angle <= fov_starting_angle;
-    return object_angle >= fov_finishing_angle &&
-           object_angle <= fov_starting_angle;
+    if (fov_finishing_angle >= fov_starting_angle)
+        return shouldDraw_borderCase(os_angle, of_angle, fov_starting_angle,
+                          fov_finishing_angle, diff_angle);
+    double sc_angle = (fov_starting_angle > fov_finishing_angle) ?
+                      fov_finishing_angle : fov_starting_angle;
+    double fc_angle = (fov_starting_angle > fov_finishing_angle) ?
+                      fov_starting_angle: fov_finishing_angle;
+    printf("La FOV se chequea desde: %f\n", sc_angle);
+    printf("La FOV se chequea hasta: %f\n", fc_angle);
+    bool sa_included = (os_angle >= sc_angle && os_angle <= fc_angle);
+    bool fa_included = (of_angle >= sc_angle && of_angle <= fc_angle);
+    if (sa_included)
+        diff_angle = 0;
+    else
+        diff_angle = std::abs(fc_angle - os_angle);
+    return sa_included || fa_included;
+}
+
+bool RayCaster::shouldDraw_borderCase(double os_angle,
+                           double of_angle,
+                           double fov_starting_angle,
+                           double fov_finishing_angle,
+                           double& diff_angle) {
+    bool sa_included = (os_angle >= fov_finishing_angle ||
+            os_angle <= fov_starting_angle);
+    bool fa_included = (of_angle >= fov_finishing_angle ||
+            of_angle <= fov_starting_angle);
+    if (sa_included)
+        diff_angle = 0;
+    else
+        diff_angle = std::abs(os_angle - fov_finishing_angle);
+    return sa_included || fa_included;
 }
 
 double RayCaster::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos) {
     int o_x = o_pos.first;
     int o_y = o_pos.second;
-    printf("Objeto en: (%d, %d)\n", o_x, o_y);
-    printf("Jugador en: (%d, %d)\n", p_x, p_y);
+    //printf("Objeto en: (%d, %d)\n", o_x, o_y);
+    //printf("Jugador en: (%d, %d)\n", p_x, p_y);
     int delta_x = o_x - p_x;
     int delta_y = p_y - o_y;
     return normalize(atan2(delta_y, delta_x));
@@ -293,7 +346,8 @@ double RayCaster::normalize(double alpha) {
     return alpha;
 }
 
-double getObjectAngleRelativeToPlayer(double player_angle, double object_angle){
+double getObjectAngleRelativeToPlayersViewAngle(double player_angle,
+                                                double object_angle) {
     if (std::abs(player_angle-object_angle) <= 0.523599)
         return player_angle - object_angle;
     if (player_angle > object_angle)
@@ -326,8 +380,8 @@ bool RayCaster::blockedByWall(double angle, double distance) {
     //printf("Distancia mas cercana final: %f\n", nearest_distance);
     bool object_blocked = nearest_distance < distance;
     if (object_blocked) {
-        //printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
-        //printf("Distancia del objeto: %f\n", distance);
+        printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
+        printf("Distancia del objeto: %f\n", distance);
         //printf("Angulo del objeto: %f\n", angle);
         //printf("Angulo usado: %f\n", angle_found);
         //printf("No se dibuja el objeto\n");
@@ -340,19 +394,21 @@ double convertToBeta(double pl_ob_angle) {
 }
 
 void RayCaster::renderObject(int x_pos, int y_pos, double player_angle,
-                             double object_angle, Drawable& object) {
+                             double object_angle, double x_prop,
+                             Drawable& object) {
     //puts("Se dibujara el objeto");
     std::pair<int, int> object_position = object.getMapPosition();
     int object_x = object_position.first;
     int object_y = object_position.second;
     double pl_ob_angle =
-            getObjectAngleRelativeToPlayer(player_angle, object_angle);
+            getObjectAngleRelativeToPlayersViewAngle(player_angle, object_angle);
+    printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
     double distance = calculateDistance(x_pos - object_x, y_pos - object_y);
     double beta = convertToBeta(pl_ob_angle);
     if (blockedByWall(beta, distance))
         return;
-    //puts("Se dibuja el objeto");
-    window.put3DObject(distance, pl_ob_angle, object);
+    printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
+    window.put3DObject(distance, pl_ob_angle, x_prop, object);
 }
 
 void RayCaster::saveRayInformation(double ray_angle, double distance) {

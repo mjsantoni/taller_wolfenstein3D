@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <atomic>
+#include <client/map_mock.h>
 #include "common/thread.h"
 #include "client_parser.h"
+
 
 class Client : public Thread {
 private:

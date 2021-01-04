@@ -6,7 +6,6 @@
 #include <iostream>
 #include <SDL_timer.h>
 #include "client/game.h"
-#include "client/ray_caster.h"
 #include <SDL_mixer.h>
 
 Game::Game(int width, int height, ClientMap _map, MapMock real_map) :
@@ -16,16 +15,16 @@ window(width, height), running(true), map(_map), event_handler(real_map) {
 void Game::start() {
     displayIntro();
     ClientPlayer player("Player1");
-    int x = 700;
-    int y = 500;
+    int x = 257;
+    int y = 329;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     RayCaster ray_caster(window, map);
-    ray_caster.render3DScreen(x, y, player.getDirection());
+    ray_caster.renderScreen(x, y, player);
     while (running) {
         bool must_render = false;
         SDL_Event event;
-        SDL_WaitEvent(&event);
+        SDL_PollEvent(&event);
         switch(event.type) {
             case SDL_KEYDOWN:
                 event_handler.handleEvent(event, player, running, x, y);
@@ -38,7 +37,7 @@ void Game::start() {
                 return;
         }
         if (must_render)
-            ray_caster.render3DScreen(x, y, player.getDirection());
+            ray_caster.renderScreen(x, y, player);
     }
 }
 

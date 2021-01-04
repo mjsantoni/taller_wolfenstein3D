@@ -5,11 +5,14 @@
 #ifndef TP_WOLFENSTEIN_GAME_H
 #define TP_WOLFENSTEIN_GAME_H
 
+#include "map_mock.h"
 #include <SDL.h>
-#include "client/sdl_window.h"
-#include "client/sdl_texture.h"
-#include "client/sdl_exception.h"
-#include "client/event_handler_mock.h"
+#include "ray_caster.h"
+#include "sdl_window.h"
+#include "sdl_texture.h"
+#include "sdl_exception.h"
+
+#include "event_handler_mock.h"
 #include "client_map.h"
 #include "sdl_audio_player.h"
 #include <vector>

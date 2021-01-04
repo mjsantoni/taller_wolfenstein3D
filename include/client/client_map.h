@@ -12,6 +12,8 @@
 #include "sdl_window.h"
 #include "sdl_texture.h"
 #include "client_player.h"
+#include "object_info_provider.h"
+
 
 class ClientMap {
 public:
@@ -35,7 +37,7 @@ public:
     void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
                        int x_factor, int y_factor);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);
-    void addWalls(std::vector<std::pair<int,int>> walls);
+    void addWalls(std::vector<std::pair<int,int>> walls,std::vector<int> types);
     void putDrawableAt(std::pair<int, int> coordinates, int object_type);
     void putDrawableAt(int x_pos, int y_pos, int object_type);
     std::vector<Drawable> getAllObjects();
@@ -53,6 +55,7 @@ private:
 
     void loadWallInfo(DrawingInfo& drawing_info,
                       std::pair<int, int> grid_coordinates);
+    ObjectInfoProvider info_provider;
 };
 
 

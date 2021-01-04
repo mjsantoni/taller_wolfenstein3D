@@ -7,7 +7,6 @@
 
 
 #include "positionable_mock.h"
-#include "sdl_3D_texture.h"
 
 class ClientWall : public PositionableMock {
 public:

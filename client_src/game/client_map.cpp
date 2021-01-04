@@ -116,23 +116,30 @@ void ClientMap::putPlayerAt(std::string player_name, std::pair<int, int> coord) 
                                                                  coord));
 }
 
-void ClientMap::addWalls(std::vector<std::pair<int,int>> walls) {
+void ClientMap::addWalls(std::vector<std::pair<int,int>> walls,
+                         std::vector<int> types) {
+    int counter = 0;
     for (auto& wall : walls) {
         //printf("se pone una pared en : (%d, %d)\n", wall.first, wall.second);
-        putDrawableAt(wall, 0);
+        int type = types[counter];
+        putDrawableAt(wall, type);
+        ++counter;
     }
     //putDrawableAt(std::pair<int, int>(4,2), 0);
-    putDrawableAt(150,128,1);
-    putDrawableAt(150,192,2);
-    putDrawableAt(400,350,3);
-    putDrawableAt(100,600,5);
-    //putDrawableAt(750,100,6);
-    putDrawableAt(700,250,8);
+    putDrawableAt(150,128,4);
+    putDrawableAt(150,192,8);
+    putDrawableAt(400,350,6);
+    //putDrawableAt(100,600,8);
+    //putDrawableAt(750,100,9);
+    //putDrawableAt(700,250,11);
 }
 
 void ClientMap::putDrawableAt(std::pair<int, int> coordinates,
                             int object_type) {
     Drawable drawable(object_type);
+    ImageInfo object_info = info_provider.getObjectInfo(object_type);
+    drawable.setMapWidth((int) (object_info.object_width * grid_size));
+    drawable.setObjectName(object_info.object_name);
     coordinates.first*= grid_size;
     coordinates.second*= grid_size;
     info.insert(std::pair<std::pair<int, int>,
@@ -143,6 +150,9 @@ void ClientMap::putDrawableAt(int x_pos,
                                   int y_pos,
                                   int object_type) {
     Drawable drawable(object_type);
+    ImageInfo object_info = info_provider.getObjectInfo(object_type);
+    drawable.setMapWidth((int) (object_info.object_width * grid_size));
+    drawable.setObjectName(object_info.object_name);
     drawable.setMapPosition(x_pos, y_pos);
     objects.push_back(drawable);
 }
