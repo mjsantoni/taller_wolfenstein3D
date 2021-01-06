@@ -109,15 +109,15 @@ void Map::show() {
     int i = 0;
     for (auto& spawn : player_spawns) {
         std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
-        break;
+        i++;
     }
     std::cout << "Player Positions\n";
     i = 0;
     for (auto& spawn : player_positions) {
         std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
-        break;
+        i++;
     }
-    std::cout << "---------------------------------------------------------------" << "\n";
+    std::cout << "---------------------------------------------------------------\n";
 }
 
 void Map::addPlayer(int i) {
@@ -130,4 +130,11 @@ Coordinate Map::getPlayerPosition(int id) {
 
 void Map::setPlayerPosition(int i, Coordinate coord) {
     player_positions[i] = coord;
+}
+
+bool Map::isAPlayerAt(Coordinate &coordinate) {
+    for (auto& coord : player_positions) {
+        if (coord == coordinate) return true;
+    }
+    return false;
 }

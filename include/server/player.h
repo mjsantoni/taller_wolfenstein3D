@@ -41,6 +41,8 @@ public:
     void equipWeapon(std::string id);
     void pickUpItem(Positionable item);
 
+
+
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

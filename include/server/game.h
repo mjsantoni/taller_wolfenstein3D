@@ -21,6 +21,7 @@ private:
 public:
     Game(std::string path);
     void movePlayer(Player& player, double angle);
+    void shoot(Player& player, double angle);
     ~Game();
 
     void show();

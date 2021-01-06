@@ -1,7 +1,3 @@
-//
-// Created by andy on 25/11/20.
-//
-
 #ifndef TP_WOLFENSTEIN_MAP_H
 #define TP_WOLFENSTEIN_MAP_H
 
@@ -47,48 +43,8 @@ public:
     Coordinate getPlayerPosition(int id);
 
     void setPlayerPosition(int i, Coordinate pair);
+
+    bool isAPlayerAt(Coordinate &coordinate);
 };
-
-
-
-
-    /*
-    Map(int width, int height);
-    //bool OnLoad(char* File);
-    void putPlayerAt(std::string player_name, Coordinate coord);
-    void putPositionableAt(Coordinate coordinates, int object_type,
-                           std::string image_name);
-    void update(Player& player, int x, int y);
-    void initialize();
-    bool movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr);
-    int getGridSize();
-
-    bool wallAtGrid(Coordinate grid_coordinates);
-    int getMaxDistance();
-    Coordinate calculateGrid(int x_pos, int y_pos, int x_factor,
-                                      int y_factor);
-    Coordinate calculateGrid(int x_pos, int y_pos);
-    Positionable& getPositionableAt(Coordinate coordinates);
-    bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
-    void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
-                       int x_factor, int y_factor);
-private:
-
-
-    int grid_size = 64;
-    int width;
-    int height;
-    int real_width;
-    int real_height;
-
-    void erasePlayerFromOldPosition(Coordinate old_positions);
-    void updatePositions(Player& player, Coordinate old_position,
-                         Coordinate new_position);
-    void loadWallInfo(DrawingInfo& drawing_info,
-                      Coordinate grid_coordinates);
-    void loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos);
-     */
-
-
 
 #endif //TP_WOLFENSTEIN_MAP_H

@@ -73,7 +73,7 @@ ColissionHandler::getCloseItems(Coordinate old_pos,
     Coordinate item_in_pos(-1, -1);
     std::vector<Coordinate> walked_positions = walkedPositions(old_pos, new_pos);
     for (auto& pos : walked_positions) {
-        std::cout << "Pos walked: (" << pos.x << ", " << pos.y << ")\n";
+        //std::cout << "Pos walked: (" << pos.x << ", " << pos.y << ")\n";
         Coordinate item_pos_aux = map.closePositionable(2, pos);
         item_in_pos.x = item_pos_aux.x;
         item_in_pos.y = item_pos_aux.y;
@@ -88,9 +88,6 @@ ColissionHandler::getCloseItems(Coordinate old_pos,
 std::vector<Coordinate>
 ColissionHandler::walkedPositions(Coordinate old_pos, Coordinate new_pos) {
     std::vector<Coordinate> items;
-    std::cout << "walked\n";
-    std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
-    std::cout << "New: x: " << new_pos.x << " - y: " << new_pos.y << "\n";
     int x_old = old_pos.x; int y_old = old_pos.y;
     int x_new = new_pos.x; int y_new = new_pos.y;
     if (x_new == x_old) {
@@ -119,14 +116,12 @@ ColissionHandler::walkedPositions(Coordinate old_pos, Coordinate new_pos) {
                 pos.x = i;
                 pos.y = std::round(m * i + b);
                 //std::cout << "DespsITX: " << pos.x << " - Y: " << pos.y << "\n";
-                //pos = std::make_pair(i, std::round(m * i + b));
             }
             else {
                 //std::cout << "AntesX: " << pos.x << " - Y: " << pos.y << "\n";
                 pos.x = std::round(m * i + b); // esto esta roto
                 pos.y = i;
                 //std::cout << "DespsX: " << pos.x << " - Y: " << pos.y << "\n";
-                //pos = std::make_pair(std::round(m * i + b), i);
             }
             items.push_back(pos);
         }

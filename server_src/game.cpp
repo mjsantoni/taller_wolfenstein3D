@@ -2,22 +2,24 @@
 #include "server/map_generator.h"
 #include "server/map_parser.h"
 #include <iostream>
+#include <server/shoot_handler.h>
 #include "server/player.h"
 
 Game::Game(std::string _path) : path(_path), ch(map) {
     MapParser parser(path);
     MapGenerator generator(parser);
-    map = generator.create(8); // Player max spawn count
+    map = generator.create(2); // Player max spawn count
     ch.setMap(map);
     map.addPlayer(0);
-    map.show();
+    map.addPlayer(1);
+    //map.show();
 }
 
 void Game::movePlayer(Player& player, double angle) {
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = ch.moveToPosition(old_pos, angle);
-    std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
-    std::cout << "New: x: " << new_pos.x << " - y: " << new_pos.y << "\n";
+    //std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
+    //std::cout << "New: x: " << new_pos.x << " - y: " << new_pos.y << "\n";
 
     Coordinate pos_positionable(0,0);
     Positionable item = ch.getCloseItems(old_pos, new_pos, pos_positionable);
@@ -37,5 +39,9 @@ void Game::movePlayer(Player& player, double angle) {
 }
 void Game::show() { map.show();}
 
+void Game::shoot(Player& player, double angle) {
+    ShootHandler sh(map);
+    sh.algo(player,angle);
+}
 
 Game::~Game() {}
