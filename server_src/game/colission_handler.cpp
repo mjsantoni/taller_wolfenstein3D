@@ -1,6 +1,7 @@
 #include "server/colission_handler.h"
 #include <iostream>
 #include <cmath>
+#include "server/positions_calculator.h"
 
 
 ColissionHandler::ColissionHandler(Map &_map) : map(_map) {}
@@ -10,8 +11,7 @@ Coordinate ColissionHandler::moveToPosition(Coordinate actual_pos, double angle)
     int y_move = std::round(sin(angle)*move_size*-1);
     int x_factor = (x_move < 0) ? -1 : 1;
     int y_factor = (y_move < 0) ? -1 : 1;
-    int i = 0;
-    int j = 0;
+    int i = 0; int j = 0;
     bool is_y = abs(x_move) > abs(y_move) ? false : true;
     int for_limit = (is_y) ? abs(y_move) : abs(x_move);
     int for_limit_oposite = (is_y) ? abs(x_move) : abs(y_move);
@@ -71,7 +71,8 @@ ColissionHandler::getCloseItems(Coordinate old_pos,
                                 Coordinate& pos_positionable) {
     Coordinate no_item_pos(0,0);
     Coordinate item_in_pos(-1, -1);
-    std::vector<Coordinate> walked_positions = walkedPositions(old_pos, new_pos);
+    PositionsCalculator ph;
+    std::vector<Coordinate> walked_positions = ph.straightLine(old_pos, new_pos);
     for (auto& pos : walked_positions) {
         //std::cout << "Pos walked: (" << pos.x << ", " << pos.y << ")\n";
         Coordinate item_pos_aux = map.closePositionable(2, pos);
@@ -85,49 +86,6 @@ ColissionHandler::getCloseItems(Coordinate old_pos,
     return map.getPositionableAt(item_in_pos);
 }
 
-std::vector<Coordinate>
-ColissionHandler::walkedPositions(Coordinate old_pos, Coordinate new_pos) {
-    std::vector<Coordinate> items;
-    int x_old = old_pos.x; int y_old = old_pos.y;
-    int x_new = new_pos.x; int y_new = new_pos.y;
-    if (x_new == x_old) {
-        for (int i = y_old; (y_old < y_new) ? i <= y_new : i >= y_new; (y_old < y_new) ? i++ : i--) {
-            Coordinate pos(x_old,i);
-            items.push_back(pos);
-        }
-    } else if (y_new == y_old) {
-        for (int i = x_old; (x_old < x_new) ? i <= x_new : i >= x_new; (x_old < x_new) ? i++ : i--) {
-            Coordinate pos(i,y_old);
-            items.push_back(pos);
-        }
-    } else {
-        bool it_on_x = abs(y_new - y_old) < abs(x_new - x_old);
-        double m = (it_on_x) ? ((double) (y_new - y_old) / (x_new - x_old)) :
-                               ((double) (x_new - x_old) / (y_new - y_old));
-        double b = (double) y_old - (m * x_old);
-        int axis_old = it_on_x ? x_old : y_old;
-        int axis_new = it_on_x ? x_new : y_new;
-        //Si se quiere algo mucho mas aproximado no hacer el for del else
-        //y solo hacer el primer for. Esto es mucho mas overfiteado.
-        for (int i = axis_old; (axis_old < axis_new) ? i <= axis_new : i >= axis_new; (axis_old < axis_new) ? i++ : i--) {
-            Coordinate pos(-1, -1);
-            if (it_on_x) {
-                //std::cout << "AntesITX: " << pos.x << " - Y: " << pos.y << "\n";
-                pos.x = i;
-                pos.y = std::round(m * i + b);
-                //std::cout << "DespsITX: " << pos.x << " - Y: " << pos.y << "\n";
-            }
-            else {
-                //std::cout << "AntesX: " << pos.x << " - Y: " << pos.y << "\n";
-                pos.x = std::round(m * i + b); // esto esta roto
-                pos.y = i;
-                //std::cout << "DespsX: " << pos.x << " - Y: " << pos.y << "\n";
-            }
-            items.push_back(pos);
-        }
-    }
-    return items;
-}
 
 void ColissionHandler::setMap(Map& _map) {
     map = _map;

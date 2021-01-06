@@ -20,13 +20,13 @@ private:
 public:
     Map();
     Map(int player_max_spawn_count);
+
     void addBlockingItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& obstructives);
     void addItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& non_obstructives);
     void addPlayerSpawns(std::unordered_map<std::string,
                             std::vector<Coordinate>>& player_spawns);
-
 
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
     void putPositionableAt(Coordinate coordinates, Positionable positionable);
@@ -35,15 +35,11 @@ public:
 
     Coordinate closePositionable(int units, Coordinate coord);
     Positionable getPositionableAt(Coordinate coordinates);
-
     void erasePositionableAt(Coordinate coord);
 
     void addPlayer(int i);
-
     Coordinate getPlayerPosition(int id);
-
     void setPlayerPosition(int i, Coordinate pair);
-
     bool isAPlayerAt(Coordinate &coordinate);
 };
 
