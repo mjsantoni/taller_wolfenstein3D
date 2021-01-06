@@ -5,7 +5,7 @@
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <unordered_map>
-
+#include "server/coordinate.h"
 class MapParser {
     private:
 
@@ -14,10 +14,10 @@ class MapParser {
         YAML::Node config;
         explicit MapParser(std::string path);
 
-        std::unordered_map<std::string, std::vector<std::pair<int, int>>> getCategory(std::string node);
-        std::pair<int, int> getDimensions();
+        std::unordered_map<std::string, std::vector<Coordinate>> getCategory(std::string node);
+        Coordinate getDimensions();
         std::unordered_map<std::string,
-            std::vector<std::pair<int, int>>> getSpecificCategory(std::string category);
+            std::vector<Coordinate>> getSpecificCategory(std::string category);
 
         ~MapParser();
 };

@@ -11,13 +11,13 @@
 #include "positionable.h"
 #include "player.h"
 #include "positionable_handler.h"
-
+#include "coordinate.h"
 class Map {
 private:
     int grid_size = 64;
-    std::map<std::pair<int, int>, Positionable> board;
-    std::vector<std::pair<int, int>> player_positions; //player[0] = pos_player_0
-    std::vector<std::pair<int, int>> player_spawns; //player[0] = spawn_player_0
+    std::map<Coordinate, Positionable> board;
+    std::vector<Coordinate> player_positions; //player[0] = pos_player_0
+    std::vector<Coordinate> player_spawns; //player[0] = spawn_player_0
     PositionableHandler handler;
     //TDA que guarde modif y eventos
 
@@ -25,28 +25,28 @@ public:
     Map();
     Map(int player_max_spawn_count);
     void addBlockingItems(std::unordered_map<std::string,
-                            std::vector<std::pair<int, int>>>& obstructives);
+                            std::vector<Coordinate>>& obstructives);
     void addItems(std::unordered_map<std::string,
-                            std::vector<std::pair<int, int>>>& non_obstructives);
+                            std::vector<Coordinate>>& non_obstructives);
     void addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<std::pair<int, int>>>& player_spawns);
+                            std::vector<Coordinate>>& player_spawns);
 
 
-    void putBlockingItemAt(std::pair<int, int> coordinate, Positionable positionable);
-    void putPositionableAt(std::pair<int, int> coordinates, Positionable positionable);
-    bool isABlockingItem(std::pair<int, int> coordinates);
+    void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
+    void putPositionableAt(Coordinate coordinates, Positionable positionable);
+    bool isABlockingItem(Coordinate coordinates);
     void show();
 
-    std::pair<int, int> closePositionable(int units, std::pair<int, int> coord);
-    Positionable getPositionableAt(std::pair<int, int> coordinates);
+    Coordinate closePositionable(int units, Coordinate coord);
+    Positionable getPositionableAt(Coordinate coordinates);
 
-    void erasePositionableAt(std::pair<int, int> coord);
+    void erasePositionableAt(Coordinate coord);
 
     void addPlayer(int i);
 
-    std::pair<int,int> getPlayerPosition(int id);
+    Coordinate getPlayerPosition(int id);
 
-    void setPlayerPosition(int i, std::pair<int, int> pair);
+    void setPlayerPosition(int i, Coordinate pair);
 };
 
 
@@ -55,20 +55,20 @@ public:
     /*
     Map(int width, int height);
     //bool OnLoad(char* File);
-    void putPlayerAt(std::string player_name, std::pair<int, int> coord);
-    void putPositionableAt(std::pair<int, int> coordinates, int object_type,
+    void putPlayerAt(std::string player_name, Coordinate coord);
+    void putPositionableAt(Coordinate coordinates, int object_type,
                            std::string image_name);
     void update(Player& player, int x, int y);
     void initialize();
     bool movementAllowed(int new_x, int new_y, bool x_incr, bool y_incr);
     int getGridSize();
 
-    bool wallAtGrid(std::pair<int, int> grid_coordinates);
+    bool wallAtGrid(Coordinate grid_coordinates);
     int getMaxDistance();
-    std::pair<int, int> calculateGrid(int x_pos, int y_pos, int x_factor,
+    Coordinate calculateGrid(int x_pos, int y_pos, int x_factor,
                                       int y_factor);
-    std::pair<int, int> calculateGrid(int x_pos, int y_pos);
-    Positionable& getPositionableAt(std::pair<int, int> coordinates);
+    Coordinate calculateGrid(int x_pos, int y_pos);
+    Positionable& getPositionableAt(Coordinate coordinates);
     bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
     void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
                        int x_factor, int y_factor);
@@ -81,11 +81,11 @@ private:
     int real_width;
     int real_height;
 
-    void erasePlayerFromOldPosition(std::pair<int, int> old_positions);
-    void updatePositions(Player& player, std::pair<int, int> old_position,
-                         std::pair<int, int> new_position);
+    void erasePlayerFromOldPosition(Coordinate old_positions);
+    void updatePositions(Player& player, Coordinate old_position,
+                         Coordinate new_position);
     void loadWallInfo(DrawingInfo& drawing_info,
-                      std::pair<int, int> grid_coordinates);
+                      Coordinate grid_coordinates);
     void loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos);
      */
 

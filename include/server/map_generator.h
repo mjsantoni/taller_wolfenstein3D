@@ -12,11 +12,11 @@ public:
     ~MapGenerator();
     Map create(int player_max_spawn_count);
     std::unordered_map<std::string,
-        std::vector<std::pair<int, int>>> getWalls();
+        std::vector<Coordinate>> getWalls();
     std::unordered_map<std::string,
-        std::vector<std::pair<int, int>>> getItems();
+        std::vector<Coordinate>> getItems();
     std::unordered_map<std::string,
-        std::vector<std::pair<int, int>>> getPlayerSpawns();
+        std::vector<Coordinate>> getPlayerSpawns();
 
 };
 

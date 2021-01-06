@@ -15,3 +15,14 @@ bool Positionable::isBlocking() {
     return is_blocking;
 }
 
+Positionable::Positionable(const Positionable& other) {
+    this->type = other.type;
+    this->id = other.id;
+    this->is_blocking = other.is_blocking;
+}
+Positionable& Positionable::operator=(const Positionable& other) {
+    this->type = other.type;
+    this->id = other.id;
+    this->is_blocking = other.is_blocking;
+    return *this;
+}

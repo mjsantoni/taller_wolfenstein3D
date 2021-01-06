@@ -10,7 +10,9 @@ public:
     std::string getId();
     bool isBlocking();
     ~Positionable() {}
-    virtual void foo() {}
+    Positionable() {}
+    Positionable(const Positionable& other);
+    Positionable& operator=(const Positionable& other);
 
 protected:
     std::string type;

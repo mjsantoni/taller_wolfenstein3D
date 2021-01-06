@@ -14,7 +14,7 @@ private:
     std::string name;
     int bullets;
     int hp;
-    int points;
+    int points = 0;
     int lives;
     std::vector<Gun> dropable;
     //DefaultWeapon knife;

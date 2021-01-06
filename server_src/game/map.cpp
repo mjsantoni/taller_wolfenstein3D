@@ -14,7 +14,7 @@ Map::Map(int player_max_spawn_count)   {
 }
 
 void Map::addBlockingItems(std::unordered_map<std::string,
-                            std::vector<std::pair<int, int>>>& blocking) {
+                            std::vector<Coordinate>>& blocking) {
     for (auto& type : blocking) {
         for (auto& coord : type.second) {
             Positionable positionable = handler.createBlockingItem(type.first);
@@ -24,7 +24,7 @@ void Map::addBlockingItems(std::unordered_map<std::string,
 }
 
 void Map::addItems(std::unordered_map<std::string,
-                    std::vector<std::pair<int, int>>>& items) {
+                    std::vector<Coordinate>>& items) {
     for (auto& type : items) {
         for (auto& coord : type.second) {
             Positionable positionable = handler.createItem(type.first);
@@ -34,62 +34,64 @@ void Map::addItems(std::unordered_map<std::string,
 }
 
 void Map::addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<std::pair<int, int>>>& spawns) {
+                            std::vector<Coordinate>>& spawns) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
-            coord.first = (coord.first * grid_size) + (int) grid_size/2;
-            coord.second = (coord.second * grid_size) + (int) grid_size/2;
+            coord.x = (coord.x * grid_size) + (int) grid_size/2;
+            coord.y = (coord.y * grid_size) + (int) grid_size/2;
             player_spawns[std::stoi(type.first)] = coord;
         }
     }
 }
 
-void Map::putBlockingItemAt(std::pair<int, int> coordinates,
+void Map::putBlockingItemAt(Coordinate coordinates,
                             Positionable positionable) {
-    coordinates.first *= grid_size;
-    coordinates.second *= grid_size;
-    board.insert(std::pair<std::pair<int, int>,
-            Positionable>(coordinates,positionable));
+    coordinates.x *= grid_size;
+    coordinates.y *= grid_size;
+    board[coordinates] = positionable;
+    //board.insert(std::pair<Coordinate,
+    //        Positionable>(coordinates,positionable));
 }
 
-void Map::putPositionableAt(std::pair<int, int> coordinates, Positionable positionable) {
-    coordinates.first = (coordinates.first * grid_size) + (int) grid_size/2;
-    coordinates.second = (coordinates.second * grid_size) + (int) grid_size/2;
-    board.insert(std::pair<std::pair<int, int>,
-            Positionable>(coordinates,positionable));
+void Map::putPositionableAt(Coordinate coordinates, Positionable positionable) {
+    coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
+    coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
+    board[coordinates] = positionable;
+    //board.insert(std::pair<Coordinate,
+    //        Positionable>(coordinates,positionable));
 }
 
-bool Map::isABlockingItem(std::pair<int, int> coordinates) {
-    int x_normalize = trunc(coordinates.first / grid_size) * grid_size;
-    int y_normalize = trunc(coordinates.second / grid_size) * grid_size;
-    std::pair<int, int> normalize(x_normalize, y_normalize);
+bool Map::isABlockingItem(Coordinate coordinates) {
+    int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
+    int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
+    Coordinate normalize(x_normalize, y_normalize);
     if(board.find(normalize) != board.end())
         return !board.at(normalize).isBlocking();
     return true;
 }
 
-std::pair<int, int> Map::closePositionable(int units, std::pair<int,int> coord) {
-    for (int i = coord.first-units; i <= coord.first+units; i++) {
-        for (int j = coord.second-units; j <= coord.second+units; j++) {
-            std::pair<int, int> pos(i,j);
+Coordinate Map::closePositionable(int units, Coordinate coord) {
+    for (int i = coord.x-units; i <= coord.x+units; i++) {
+        for (int j = coord.y-units; j <= coord.y+units; j++) {
+            Coordinate pos(i,j);
             if(board.find(pos) != board.end() && !board.at(pos).isBlocking()) {
                 return pos;
             }
         }
     }
-    return std::make_pair(0,0);
+    return Coordinate(0,0);
 }
 
-Positionable Map::getPositionableAt(std::pair<int, int> coordinates) {
+Positionable Map::getPositionableAt(Coordinate coordinates) {
     return board.at(coordinates);
 }
 
-void Map::erasePositionableAt(std::pair<int,int> coord) {
+void Map::erasePositionableAt(Coordinate coord) {
     if (board.find(coord) != board.end()) {
         //no deberia dar error, esto deberia borrar de una
         //gasta recursos chequear esto
         board.erase(coord);
-        std::cout << "Borro en: (" << coord.first << ", " << coord.second << ")\n";
+        std::cout << "Borro en: (" << coord.x << ", " << coord.y << ")\n";
     } else {
         std::cout << "No habia nada, error en la posicion recibida\n";
     }
@@ -100,13 +102,19 @@ void Map::show() {
     std::cout << "---------------------------------------------------------------" << "\n";
     std::cout << "Board\n";
     for (auto& elem : board) {
-        std::cout << "Coord: (" << elem.first.first << ", " << elem.first.second
+        std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
                   << ") - Elem: " << elem.second.getType() << "\n";
     }
     std::cout << "Player Spawns\n";
     int i = 0;
     for (auto& spawn : player_spawns) {
-        std::cout << "Player " << i << " -> (" << spawn.first << ", " << spawn.second << ")\n";
+        std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
+        break;
+    }
+    std::cout << "Player Positions\n";
+    i = 0;
+    for (auto& spawn : player_positions) {
+        std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
         break;
     }
     std::cout << "---------------------------------------------------------------" << "\n";
@@ -116,10 +124,10 @@ void Map::addPlayer(int i) {
     player_positions[i] = player_spawns[i];
 }
 
-std::pair<int,int> Map::getPlayerPosition(int id) {
+Coordinate Map::getPlayerPosition(int id) {
     return player_positions[id];
 }
 
-void Map::setPlayerPosition(int i, std::pair<int, int> coord) {
+void Map::setPlayerPosition(int i, Coordinate coord) {
     player_positions[i] = coord;
 }

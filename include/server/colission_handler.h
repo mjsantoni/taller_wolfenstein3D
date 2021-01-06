@@ -2,6 +2,7 @@
 #define TP_WOLFENSTEIN_COLISSION_HANDLER_H
 
 #include "server/map.h"
+#include "server/coordinate.h"
 
 class ColissionHandler {
 private:
@@ -10,15 +11,15 @@ private:
     int safe_distance = 10;
 public:
     explicit ColissionHandler(Map &_map);
-    std::pair<int, int> moveToPosition(std::pair<int,int> actual_pos, double angle);
-    //bool isValid(std::pair<int,int> new_position);
+    Coordinate moveToPosition(Coordinate actual_pos, double angle);
+    //bool isValid(Coordinate new_position);
 
-    Positionable getCloseItems(std::pair<int, int> old_pos,
-                               std::pair<int, int> new_pos,
-                               std::pair<int, int>& pos_positionable);
+    Positionable getCloseItems(Coordinate old_pos,
+                               Coordinate new_pos,
+                               Coordinate& pos_positionable);
 
-    std::vector<std::pair<int, int>> walkedPositions(std::pair<int, int> old_pos,
-                                                     std::pair<int, int> new_pos);
+    std::vector<Coordinate> walkedPositions(Coordinate old_pos,
+                                                     Coordinate new_pos);
 
     void setMap(Map& map);
 };
