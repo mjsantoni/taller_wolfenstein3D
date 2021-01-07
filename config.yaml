@@ -1,0 +1,14 @@
+hp_items:
+  blood_puddle: 1
+  food: 10
+  medkit: 20
+bullets: 5
+treasure:
+  cross: 10
+  goblet: 50
+  chest: 100
+  crown: 200
+gun:
+  chain_gun: [1, 0.1, 0.8]
+  machine_gun: [5, 0.3, 0.6]
+  rpg_gun: [5, 1, 1]

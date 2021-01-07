@@ -2,7 +2,7 @@
 #include "server/map_generator.h"
 #include "server/map_parser.h"
 #include <iostream>
-#include <server/shoot_handler.h>
+#include "server/shoot_handler.h"
 #include "server/player.h"
 
 Game::Game(std::string _path) : path(_path), ch(map) {
