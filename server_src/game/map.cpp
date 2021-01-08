@@ -132,6 +132,13 @@ void Map::setPlayerPosition(int i, Coordinate coord) {
     player_positions[i] = coord;
 }
 
+int Map::getPlayerIDAtPosition(Coordinate coord) {
+    for(int i = 0; i < player_positions.size(); i++) {
+        if (player_positions[i] == coord) return i;
+    }
+    return -1;
+}
+
 bool Map::isAPlayerAt(Coordinate &coordinate) {
     for (auto& coord : player_positions) {
         if (coord == coordinate) return true;

@@ -7,7 +7,7 @@
 #include <typeinfo>
 #include "server/treasure.h"
 
-Player::Player(std::string _name) : name(_name) {
+Player::Player(std::string _name, int _id) : name(_name), id(_id) {
                                     //knife(Knife()),
                                     //pistol(Pistol()) {
     //handler.setPlayer(this);
@@ -24,6 +24,10 @@ std::string Player::getPlayerName() {
 
 void Player::pickUpKey(Key key) {
     keys.push(key);
+}
+
+int Player::getID() {
+    return id;
 }
 
 bool Player::useKey() {
@@ -63,6 +67,21 @@ void Player::addBullets(int added_bullets) {
 
 void Player::addKey(Key key) {
     keys.push(key);
+}
+
+void Player::reduceAmmo() {
+    std::cout << "Soy el player: " << id << "\n";
+    std::cout << "Tenia (balas): " << bullets << "\n";
+    bullets--;
+    std::cout << "Ahora tengo (balas): " << bullets << "\n";
+
+}
+
+void Player::reduceHP(int damage) {
+    std::cout << "Soy el player: " << id << "\n";
+    std::cout << "Tenia (hp): " << hp << "\n";
+    hp = hp - damage;
+    std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
 }
 
 /*

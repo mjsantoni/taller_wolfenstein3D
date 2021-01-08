@@ -12,8 +12,9 @@
 class Player {
 private:
     std::string name;
-    int bullets;
-    int hp;
+    int id;
+    int bullets = 100;
+    int hp = 100;
     int points = 0;
     int lives;
     std::vector<Gun> dropable;
@@ -26,7 +27,7 @@ private:
     //double direction = M_PI/4;
 
 public:
-    Player(std::string _name); //parametros de config como hp faltan
+    Player(std::string _name, int _id); //parametros de config como hp faltan
     std::string getPlayerName();
     bool areAnyKeysLeft();
     bool useKey();
@@ -38,11 +39,15 @@ public:
     void addBullets(int added_bullets);
     void addKey(Key key);
 
+    int getID();
+
     void equipWeapon(std::string id);
     void pickUpItem(Positionable item);
 
 
+    void reduceAmmo();
 
+    void reduceHP(int i);
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

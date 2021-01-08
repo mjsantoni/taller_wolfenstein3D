@@ -9,13 +9,18 @@ Game::Game(std::string _path) : path(_path), ch(map) {
     MapParser parser(path);
     MapGenerator generator(parser);
     map = generator.create(2); // Player max spawn count
+    Player p1("0",0);
+    Player p2("1",1);
     ch.setMap(map);
     map.addPlayer(0);
     map.addPlayer(1);
+    players.push_back(p1);
+    players.push_back(p2);
     //map.show();
 }
 
-void Game::movePlayer(Player& player, double angle) {
+void Game::movePlayer(int id, double angle) {
+    Player player = players[id];
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = ch.moveToPosition(old_pos, angle);
     //std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
@@ -39,9 +44,10 @@ void Game::movePlayer(Player& player, double angle) {
 }
 void Game::show() { map.show();}
 
-void Game::shoot(Player& player, double angle) {
+void Game::shoot(int id, double angle) {
+    Player player = players[id];
     ShootHandler sh(map);
-    sh.algo(player,angle);
+    sh.shoot(player,angle,players);
 }
 
 Game::~Game() {}

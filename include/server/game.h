@@ -16,12 +16,13 @@ private:
     Map map;
     PickUpHandler ph;
     ColissionHandler ch;
+    std::vector<Player> players;
     //ShootHandler sh;
 
 public:
     Game(std::string path);
-    void movePlayer(Player& player, double angle);
-    void shoot(Player& player, double angle);
+    void movePlayer(int id, double angle);
+    void shoot(int id, double angle);
     ~Game();
 
     void show();

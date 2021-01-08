@@ -41,6 +41,8 @@ public:
     Coordinate getPlayerPosition(int id);
     void setPlayerPosition(int i, Coordinate pair);
     bool isAPlayerAt(Coordinate &coordinate);
+
+    int getPlayerIDAtPosition(Coordinate coord);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H
