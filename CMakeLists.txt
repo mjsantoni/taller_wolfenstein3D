@@ -38,6 +38,7 @@ file(GLOB CLIENT_SRC
 file(GLOB SERVER_SRC
         "server_src/*.cpp"
         "server_src/*/*.cpp"
+        "common_src/*.cpp"
         )
 
 qt5_wrap_ui(UIS_HEADERS
