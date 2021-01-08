@@ -1,4 +1,4 @@
-#include "server/game_handler.h"
+#include "server/game/game_handler.h"
 
 GameHandler::GameHandler(std::string path) : game(path), eh(eq), ep(eq) {}
 

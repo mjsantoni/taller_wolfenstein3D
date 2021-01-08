@@ -1,4 +1,4 @@
-#include "server/positions_calculator.h"
+#include "server/game/positions_calculator.h"
 #include <math.h>
 
 std::vector<Coordinate>

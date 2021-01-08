@@ -1,28 +1,23 @@
-#include "server/pickup_handler.h"
-#include "server/barrel.h"
-#include "server/bullets.h"
-#include "server/chain_gun.h"
-#include "server/chest.h"
-#include "server/cross.h"
-#include "server/crown.h"
-#include "server/food.h"
-#include "server/goblet.h"
-#include "server/key.h"
-#include "server/machine_gun.h"
-#include "server/medikit.h"
-#include "server/rocket_launcher.h"
-#include "server/table.h"
-#include "server/wall.h"
+#include "server/game/pickup_handler.h"
+#include "server/entities/barrel.h"
+#include "server/entities/bullets.h"
+#include "server/entities/treasure.h"
+#include "server/entities/hp_item.h"
+#include "server/entities/gun.h"
+#include "server/entities/key.h"
+
+#include "server/entities/table.h"
+#include "server/entities/wall.h"
 
 PickUpHandler::PickUpHandler() {}
 PickUpHandler::~PickUpHandler() {}
 
 void PickUpHandler::pickUp(Positionable& item, Player& player) {
-    if (item.getType() == "treasure") pickUpTreasure(item.getId(), player);
-    else if (item.getType() == "hp_item") pickUpHpItem(item.getId(), player);
-    else if (item.getType() == "gun") pickUpGun(item.getId(), player);
-    else if (item.getType() == "bullets") pickUpBullets(item.getId(), player);
-    else if (item.getType() == "key") pickUpKey(item.getId(), player);
+    if (item.getCategory() == "treasure") pickUpTreasure(item.getId(), player);
+    else if (item.getCategory() == "hp_item") pickUpHpItem(item.getId(), player);
+    else if (item.getCategory() == "gun") pickUpGun(item.getId(), player);
+    else if (item.getCategory() == "bullets") pickUpBullets(item.getId(), player);
+    else if (item.getCategory() == "key") pickUpKey(item.getId(), player);
 }
 
 void PickUpHandler::pickUpTreasure(std::string id, Player &player) {

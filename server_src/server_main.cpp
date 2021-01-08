@@ -1,4 +1,4 @@
-#include "server/game.h"
+#include "server/game/game.h"
 #include <cmath>
 #include <iostream>
 #include <fstream>

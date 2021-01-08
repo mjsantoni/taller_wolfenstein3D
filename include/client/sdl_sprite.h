@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include <server/map.h>
+#include <server/game/map.h>
 #include "sdl_texture.h"
 
 class SdlSprite : public SdlTexture {

@@ -1,4 +1,4 @@
-#include "server/default_weapon.h"
+#include "server/game/default_weapon.h"
 
 
 DefaultWeapon::DefaultWeapon(int _bullets_per_spray, double _fire_rate,

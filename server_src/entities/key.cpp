@@ -1,8 +1,5 @@
-#include "server/key.h"
+#include "server/entities/key.h"
 
-Key::Key() : Positionable("key", "key", false) {
-}
+Key::Key() : Positionable("key", "key", "id", false) {}
 
-Key::~Key()
-{
-}
+Key::~Key() {}

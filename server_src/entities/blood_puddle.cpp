@@ -1,6 +1,6 @@
-#include "server/blood_puddle.h"
+#include "server/entities/blood_puddle.h"
 
-BloodPuddle::BloodPuddle() : HPItem(1, "BloodPuddle") {
+BloodPuddle::BloodPuddle() : HPItem("blood_puddle", "id", 1) {
 }
 
 BloodPuddle::~BloodPuddle()

@@ -1,9 +1,9 @@
-#include "server/shoot_handler.h"
-#include "server/coordinate.h"
-#include "server/player.h"
+#include "server/game/shoot_handler.h"
+#include "server/game/coordinate.h"
+#include "server/game/player.h"
 #include <vector>
 #include <tgmath.h>
-#include "server/positions_calculator.h"
+#include "server/game/positions_calculator.h"
 
 void ShootHandler::shoot(Player& player, double angle, std::vector<Player> players){
     int range = 15; //player.getEquippedWeapon().getRange();
@@ -24,7 +24,8 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player> playe
         }
     }
 }
-
+//hit deberia ser parte del game, que se encargue de restar vidas y eso,
+// el shoot handler solo devuelve player q recibe daño y el daño
 void ShootHandler::hit(Player& player, Player& enemy, int damage) {
     player.reduceAmmo();
     enemy.reduceHP(damage);

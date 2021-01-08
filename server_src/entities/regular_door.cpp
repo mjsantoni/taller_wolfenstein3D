@@ -1,4 +1,4 @@
-#include "server/regular_door.h"
+#include "server/entities/regular_door.h"
 
 RegularDoor::RegularDoor() : Door("RegularDoor", false) {
 }

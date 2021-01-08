@@ -1,6 +1,6 @@
 #include <iterator>
-#include "server/map.h"
-#include "server/positionable.h"
+#include "server/game/map.h"
+#include "server/game/positionable.h"
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -103,7 +103,8 @@ void Map::show() {
     std::cout << "Board\n";
     for (auto& elem : board) {
         std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
-                  << ") - Elem: " << elem.second.getType() << "\n";
+                  << ") - Elem: " << elem.second.getCategory() << " - "
+                                  << elem.second.getType() << "\n";
     }
     std::cout << "Player Spawns\n";
     int i = 0;

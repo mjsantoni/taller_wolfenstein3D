@@ -1,7 +1,7 @@
-#include "server/colission_handler.h"
+#include "server/game/colission_handler.h"
 #include <iostream>
 #include <cmath>
-#include "server/positions_calculator.h"
+#include "server/game/positions_calculator.h"
 
 
 ColissionHandler::ColissionHandler(Map &_map) : map(_map) {}

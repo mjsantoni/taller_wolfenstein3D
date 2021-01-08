@@ -1,4 +1,4 @@
-#include "server/event_handler.h"
+#include "server/game/event_handler.h"
 
 EventHandler::EventHandler(EventQueue& _eq) : eq(_eq) {}
 

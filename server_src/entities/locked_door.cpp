@@ -1,4 +1,4 @@
-#include "server/locked_door.h"
+#include "server/game/locked_door.h"
 
 LockedDoor::LockedDoor() : Door("LockedDoor", true) {
 }

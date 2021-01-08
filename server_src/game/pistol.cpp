@@ -1,4 +1,4 @@
-#include "server/pistol.h"
+#include "server/entities/pistol.h"
 
 Pistol::Pistol() : DefaultWeapon(1, 1, 0.55, "Pistol") {
 

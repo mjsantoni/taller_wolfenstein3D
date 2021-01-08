@@ -1,4 +1,4 @@
-#include "server/map_generator.h"
+#include "server/game/map_generator.h"
 
 MapGenerator::MapGenerator(MapParser& parser) : mapParser(parser) {}
 

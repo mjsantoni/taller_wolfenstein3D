@@ -1,11 +1,10 @@
 #include <functional>
-#include "server/player.h"
-#include "server/knife.h"
-#include "server/pistol.h"
-#include "server/machine_gun.h"
+#include "server/game/player.h"
+#include "server/entities/knife.h"
+#include "server/entities/pistol.h"
 #include <iostream>
 #include <typeinfo>
-#include "server/treasure.h"
+#include "server/entities/treasure.h"
 
 Player::Player(std::string _name, int _id) : name(_name), id(_id) {
                                     //knife(Knife()),
@@ -42,7 +41,7 @@ bool Player::areAnyKeysLeft() {
 }
 
 void Player::pickUpItem(Positionable item) {
-    std::cout << "Player pickeo: " << item.getType() << "\n";
+    std::cout << "Player pickeo: " << item.getCategory() << "\n";
 }
 
 void Player::addHp(int hp_given) {

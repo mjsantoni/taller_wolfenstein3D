@@ -1,6 +1,6 @@
-#include "server/table.h"
+#include "server/entities/table.h"
 
-Table::Table() : Positionable("table", "table", true) {
+Table::Table() : Positionable("table", "table", "id", true) {
 }
 
 Table::~Table()

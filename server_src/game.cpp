@@ -1,9 +1,9 @@
-#include "server/game.h"
-#include "server/map_generator.h"
-#include "server/map_parser.h"
+#include "server/game/game.h"
+#include "server/game/map_generator.h"
+#include "server/game/map_parser.h"
 #include <iostream>
-#include "server/shoot_handler.h"
-#include "server/player.h"
+#include "server/game/shoot_handler.h"
+#include "server/game/player.h"
 
 Game::Game(std::string _path) : path(_path), ch(map) {
     MapParser parser(path);
@@ -31,10 +31,9 @@ void Game::movePlayer(int id, double angle) {
     // falta que haga el get close items desde la pos q encontro el objeto hasta
     // la nueva pos final final, porq si encuentra en el medio del camino
     // corta el camino ahi y aparece en la nueva pos
-
-    if (!(item.getType() == "wall")) {
+    if (!(item.getCategory() == "wall")) {
         std::cout << "################################################################\n";
-        std::cout << item.getId() << "\n";
+        std::cout << item.getType() << "\n";
         ph.pickUp(item, player);
         map.erasePositionableAt(pos_positionable);
         std::cout << "################################################################\n";
