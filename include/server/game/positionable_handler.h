@@ -7,8 +7,8 @@ class PositionableHandler {
 public:
     PositionableHandler() {}
 
-    Positionable createBlockingItem(std::string type);
-    Positionable createItem(std::string type);
+    Positionable createBlockingItem(std::string type, int id);
+    Positionable createItem(std::string type, int id);
     //Positionable createSpawns(std::string type);
 
     ~PositionableHandler() {}

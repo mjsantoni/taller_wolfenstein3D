@@ -1,8 +1,8 @@
 #include "server/entities/door.h"
 
 
-Door::Door(std::string id, bool _is_locked) :
-           Positionable("door", "door", id, true),
+Door::Door(std::string type, int id, bool _is_locked) :
+           Positionable("door", type, id, true),
            is_locked(_is_locked) {
 }
 

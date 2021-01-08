@@ -8,7 +8,7 @@ protected:
     int hp_given;
     
 public:
-    HPItem(std::string type, std::string id, int _hp_given);
+    HPItem(std::string type, int id, int _hp_given);
     ~HPItem();
 
     int getHP();

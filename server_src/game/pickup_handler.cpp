@@ -13,11 +13,11 @@ PickUpHandler::PickUpHandler() {}
 PickUpHandler::~PickUpHandler() {}
 
 void PickUpHandler::pickUp(Positionable& item, Player& player) {
-    if (item.getCategory() == "treasure") pickUpTreasure(item.getId(), player);
-    else if (item.getCategory() == "hp_item") pickUpHpItem(item.getId(), player);
-    else if (item.getCategory() == "gun") pickUpGun(item.getId(), player);
-    else if (item.getCategory() == "bullets") pickUpBullets(item.getId(), player);
-    else if (item.getCategory() == "key") pickUpKey(item.getId(), player);
+    if (item.getCategory() == "treasure") pickUpTreasure(item.getType(), player);
+    else if (item.getCategory() == "hp_item") pickUpHpItem(item.getType(), player);
+    else if (item.getCategory() == "gun") pickUpGun(item.getType(), player);
+    else if (item.getCategory() == "bullets") pickUpBullets(item.getType(), player);
+    else if (item.getCategory() == "key") pickUpKey(item.getType(), player);
 }
 
 void PickUpHandler::pickUpTreasure(std::string id, Player &player) {

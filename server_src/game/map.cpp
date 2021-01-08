@@ -17,7 +17,8 @@ void Map::addBlockingItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& blocking) {
     for (auto& type : blocking) {
         for (auto& coord : type.second) {
-            Positionable positionable = handler.createBlockingItem(type.first);
+            Positionable positionable = handler.createBlockingItem(type.first, global_id);
+            global_id++;
             putBlockingItemAt(coord, positionable);
         }
     }
@@ -27,7 +28,8 @@ void Map::addItems(std::unordered_map<std::string,
                     std::vector<Coordinate>>& items) {
     for (auto& type : items) {
         for (auto& coord : type.second) {
-            Positionable positionable = handler.createItem(type.first);
+            Positionable positionable = handler.createItem(type.first, global_id);
+            global_id++;
             putPositionableAt(coord, positionable);
         }
     }
@@ -104,7 +106,7 @@ void Map::show() {
     for (auto& elem : board) {
         std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
                   << ") - Elem: " << elem.second.getCategory() << " - "
-                                  << elem.second.getType() << "\n";
+                                  << elem.second.getType() << " - " << elem.second.getId() << "\n";
     }
     std::cout << "Player Spawns\n";
     int i = 0;

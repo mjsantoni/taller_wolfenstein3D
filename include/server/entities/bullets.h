@@ -8,7 +8,7 @@ private:
     int bullets_given;
 
 public:
-    Bullets(std::string id, int _bullets_given);
+    Bullets(int id, int _bullets_given);
     ~Bullets();
 };
 #endif // BULLETS_H

@@ -7,7 +7,7 @@ class Wall : public Positionable {
 private:
     bool is_fake;
 public:
-    Wall(std::string _wall_type, bool _is_fake);
+    Wall(std::string _wall_type, int id, bool _is_fake);
     ~Wall();
 };
 

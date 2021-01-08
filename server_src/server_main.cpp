@@ -8,7 +8,18 @@ int main( int argc, char* args[] ) {
 
     game.movePlayer(1, M_PI/4);
     game.shoot(0,M_PI/4);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.movePlayer(0,0);
+    game.show();
     return 0;
+
 }
 
 /* GENERADOR DEL CONFIG.YAML */ /*

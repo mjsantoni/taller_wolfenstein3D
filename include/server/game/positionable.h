@@ -5,11 +5,11 @@
 
 class Positionable {
 public:
-    Positionable(std::string _category, std::string _type, std::string _id, bool _is_blocking);
+    Positionable(std::string _category, std::string _type, int _id, bool _is_blocking);
 
     std::string getCategory();
     std::string getType();
-    std::string getId();
+    int getId();
     bool isBlocking();
     ~Positionable() {}
     Positionable() {}
@@ -19,7 +19,7 @@ public:
 protected:
     std::string category;
     std::string type;
-    std::string id;
+    int id;
     bool is_blocking;
 };
 

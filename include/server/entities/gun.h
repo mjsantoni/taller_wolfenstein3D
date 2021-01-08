@@ -11,7 +11,7 @@ protected:
     double precision;
 
 public:
-    Gun(std::string type, std::string id, int _bullets_per_spray, double _fire_rate,
+    Gun(std::string type, int id, int _bullets_per_spray, double _fire_rate,
         double _precision);
 
     ~Gun();

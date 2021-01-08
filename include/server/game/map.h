@@ -15,6 +15,7 @@ private:
     std::vector<Coordinate> player_positions; //player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; //player[0] = spawn_player_0
     PositionableHandler handler;
+    int global_id = 0;
     //TDA que guarde modif y eventos
 
 public:
