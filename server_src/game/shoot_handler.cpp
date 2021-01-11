@@ -16,7 +16,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player> playe
     straight_line = std::vector<Coordinate>(straight_line.begin() + 1, straight_line.end());
 
     for (auto& pos : straight_line) {
-        if (!map.isABlockingItem(pos)) break;
+        if (map.isABlockingItem(pos)) break;
         if (map.isAPlayerAt(pos)) {
             int id = map.getPlayerIDAtPosition(pos);
             Player enemy = players[id];

@@ -68,8 +68,8 @@ bool Map::isABlockingItem(Coordinate coordinates) {
     int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
     Coordinate normalize(x_normalize, y_normalize);
     if(board.find(normalize) != board.end())
-        return !board.at(normalize).isBlocking();
-    return true;
+        return board.at(normalize).isBlocking();
+    return false;
 }
 
 Coordinate Map::closePositionable(int units, Coordinate coord) {
