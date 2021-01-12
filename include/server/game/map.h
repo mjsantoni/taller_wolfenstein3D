@@ -16,20 +16,19 @@ private:
     std::map<Coordinate, Positionable> board;
     std::vector<Coordinate> player_positions; //player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; //player[0] = spawn_player_0
-    PositionableHandler handler;
     int global_id = 0;
-    //TDA que guarde modif y eventos
 
 public:
     Map();
-    Map(int player_max_spawn_count, std::string _config_path);
+
+    Map(int player_max_spawn_count);
 
     void addBlockingItems(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& obstructives);
+                            std::vector<Coordinate>>& obstructives, PositionableHandler handler);
     void addItems(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& non_obstructives);
+                            std::vector<Coordinate>>& non_obstructives, PositionableHandler handler);
     void addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& player_spawns);
+                            std::vector<Coordinate>>& player_spawns, PositionableHandler handler);
 
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
     void putPositionableAt(Coordinate coordinates, Positionable positionable);

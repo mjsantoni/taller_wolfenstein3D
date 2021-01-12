@@ -85,9 +85,3 @@ ColissionHandler::getCloseItems(Coordinate old_pos,
     pos_positionable.y = item_in_pos.y;
     return map.getPositionableAt(item_in_pos);
 }
-
-
-void ColissionHandler::setMap(Map& _map) {
-    map = _map;
-}
-

@@ -17,8 +17,6 @@ public:
     Positionable getCloseItems(Coordinate old_pos,
                                Coordinate new_pos,
                                Coordinate& pos_positionable);
-    
-    void setMap(Map& map);
 };
 
 

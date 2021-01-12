@@ -6,15 +6,15 @@
 #include <cmath>
 #include <functional>
 
-Map::Map() : handler("../config.yaml") {}
+Map::Map() {}
 
-Map::Map(int player_max_spawn_count, std::string _config_path) : handler(_config_path) {
+Map::Map(int player_max_spawn_count) {
     player_spawns.resize(player_max_spawn_count);
     player_positions.resize(player_max_spawn_count);
 }
 
 void Map::addBlockingItems(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& blocking) {
+                            std::vector<Coordinate>>& blocking, PositionableHandler handler) {
     for (auto& type : blocking) {
         for (auto& coord : type.second) {
             Positionable positionable = handler.createBlockingItem(type.first, global_id);
@@ -25,7 +25,7 @@ void Map::addBlockingItems(std::unordered_map<std::string,
 }
 
 void Map::addItems(std::unordered_map<std::string,
-                    std::vector<Coordinate>>& items) {
+                    std::vector<Coordinate>>& items, PositionableHandler handler) {
     for (auto& type : items) {
         for (auto& coord : type.second) {
             Positionable positionable = handler.createItem(type.first, global_id);
@@ -36,7 +36,7 @@ void Map::addItems(std::unordered_map<std::string,
 }
 
 void Map::addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& spawns) {
+                            std::vector<Coordinate>>& spawns, PositionableHandler handler) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
             coord.x = (coord.x * grid_size) + (int) grid_size/2;
