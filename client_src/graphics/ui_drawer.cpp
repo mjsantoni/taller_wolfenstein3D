@@ -28,11 +28,13 @@ void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     drawPlayersImage();
     drawPlayersHealth(player.getHealth());
     drawPlayersAmmo(player.getAmmo());
+    drawPlayersWeapon(player.getEquippedWeapon());
     /*
-    drawPlayersGun();
+
      */
     TTF_Quit();
     box_starting_point = 0;
+    text_starting_point = 0;
 }
 
 void UIDrawer::drawPlayersLevel(int players_level) {
@@ -56,34 +58,47 @@ void UIDrawer::drawPlayersAmmo(int players_ammo) {
 }
 
 void UIDrawer::drawPlayersImage() {
-    box_starting_point += h_padding;
+    text_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
                    width/10, height - 20);
-    fillArea(rect_area, 8, 2, 175, 0);
-    Area screen_area(box_starting_point, starting_point + 15, width/10,
-                     height - 30);
+    fillAreaWithBorder(rect_area, 8, 2, 175, 0);
+    Area screen_area(text_starting_point, starting_point + 15,
+                     width/10 - 2*h_padding, height - 30);
     Area img_area;
-
     SDL_Texture* player_image = player_face.loadTexture(renderer, img_area, 0);
-
     putTextureAt(player_image, img_area, screen_area);
     box_starting_point += width / 10;
+    text_starting_point += width / 10 - h_padding;
+}
+
+void UIDrawer::drawPlayersWeapon(int players_weapon) {
+    box_starting_point += 2 * h_padding;
+    Area rect_area(box_starting_point, starting_point + 10,
+                   width/5, height - 20);
+    fillAreaWithBorder(rect_area, 8, 2, 175, 0);
+    ImageInfo image_info = info_provider.getObjectInfo(players_weapon + 5);
+    SdlTexture weapon_icon(image_info.image_path);
+    Area image_area;
+    SDL_Texture* weapon_texture = weapon_icon.loadTexture(renderer, image_area);
+    Area screen_area(text_starting_point,starting_point+15, width/5-2*h_padding,
+                     height - 30);
+    putTextureAt(weapon_texture, image_area, screen_area);
 }
 
 void UIDrawer::drawBox(const std::string& message, int value) {
-    box_starting_point += h_padding;
+    text_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
                    width/10, height - 20);
-    fillArea(rect_area, 8, 2, 175, 0);
+    fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     Area msg_area;
-    Area header_screen_area(box_starting_point, starting_point + 15,
-                            width/10, height / 2 - 10);
+    Area header_screen_area(text_starting_point, starting_point + 15,
+                            width/10 - 2*h_padding, height / 2 - 10);
     SDL_Texture* head_message = createMessage(message, msg_area,
                                               header_screen_area, false);
 
     putTextureAt(head_message, msg_area, header_screen_area);
-    Area sub_screen_area(box_starting_point, starting_point + 15 +
-                                             height / 2 - 10, width / 10, height / 2 - 10);
+    Area sub_screen_area(text_starting_point, starting_point + 15 +
+                     height / 2 - 10, width / 10 - 2*h_padding,height / 2 - 10);
     SDL_Texture* sub_message = createMessage(std::to_string(value),
                                              msg_area, sub_screen_area, true);
 
@@ -91,6 +106,7 @@ void UIDrawer::drawBox(const std::string& message, int value) {
     SDL_DestroyTexture(head_message);
     SDL_DestroyTexture(sub_message);
     box_starting_point += width / 10;
+    text_starting_point += width / 10 - h_padding;
 }
 
 SDL_Texture* UIDrawer::createMessage(const std::string& message,
@@ -121,6 +137,20 @@ void UIDrawer::fillArea(Area area, int r, int g, int b, int a) {
     SDL_Rect rect = {
             area.getX(), area.getY(), area.getWidth(), area.getHeight()
     };
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+void UIDrawer::fillAreaWithBorder(Area area, int r, int g, int b, int a) {
+    SDL_Rect rect = {
+            area.getX()-1, area.getY()-1, area.getWidth()-1, area.getHeight()-1
+    };
+    SDL_Rect border = {
+            area.getX(), area.getY(), area.getWidth(), area.getHeight()
+    };
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderFillRect(renderer, &border);
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
     SDL_RenderFillRect(renderer, &rect);
 }

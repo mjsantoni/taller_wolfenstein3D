@@ -39,7 +39,7 @@ std::string getCorrectValue(std::string complete_value) {
 
 std::string getStringValue(std::string complete_value) {
     std::string aux = complete_value.substr(complete_value.find(':')+1);
-    return aux.substr(0, aux.length());
+    return aux.substr(0, aux.length()-1);
 }
 
 void getSpriteInfo(ImageInfo& image_info,

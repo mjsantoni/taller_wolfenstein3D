@@ -6,12 +6,17 @@ path:../client_src/resources/items/bazooka.png, obj_width:0.3, obj_height:0.25, 
 path:../client_src/resources/items/bazooka_alt.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:bazooka_alt, is_sprite:0
 path:../client_src/resources/items/cup.png, obj_width:0.3, obj_height:0.3, img_width:64, img_height:64, name:copa, is_sprite:0
 path:../client_src/resources/items/life.png, obj_width:0.5, obj_height:0.5, img_width:64, img_height:64, name:vida, is_sprite:0
-path:../client_src/resources/items/machine_gun.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:machine_gun, is_sprite:0
+path:../client_src/resources/items/machine_gun.png, obj_width:0.3, obj_height:0.2, img_width:54, img_height:22, name:machine_gun, is_sprite:0
 path:../client_src/resources/items/medical_kit.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:medical_kit, is_sprite:0
 path:../client_src/resources/enemies/guard.png, obj_width:0.2, obj_height:0.5, img_width:64, img_height:64, name:guard, is_sprite:0
 path:../client_src/resources/enemies/ss.png, obj_width:0.2, obj_height:0.5, img_width:64, img_height:64, name:ss_officer, is_sprite:0
-path:../client_src/resources/weapons/chain_cannon.png, obj_width:0.2, obj_height:0.2, img_width:207, img_height:52, name:chain_cannon, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
 path:../client_src/resources/weapons/knife.png, obj_width:0.2, obj_height:0.2, img_width:140, img_height:43, name:knife, is_sprite:1, sprite_dim:1x4, sprite_padding:0x15
-path:../client_src/resources/weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_height:53, name:machine_gun, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
 path:../client_src/resources/weapons/pistol.png, obj_width:0.2, obj_height:0.2, img_width:182, img_height:67, name:pistol, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
+path:../client_src/resources/weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_height:53, name:machine_gun, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
 path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
+path:../client_src/resources/weapons/chain_cannon.png, obj_width:0.2, obj_height:0.2, img_width:207, img_height:52, name:chain_cannon, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
+path:../client_src/resources/ui/knife_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:kninfe_icon, is_sprite:0
+path:../client_src/resources/ui/pistol_icon.png, obj_width:0.2, obj_height:0.2, img_width:83, img_height:64, name:pistol_icon, is_sprite:0
+path:../client_src/resources/ui/machine_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:machine_gun_icon, is_sprite:0
+path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
+path:../client_src/resources/ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:chain_gun_icon, is_sprite:0

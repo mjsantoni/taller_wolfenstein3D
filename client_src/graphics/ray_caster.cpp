@@ -255,10 +255,11 @@ void RayCaster::loadObjects(int x, int y, double player_angle) {
         if (shouldDraw(player_angle,object_starting_angle, object_final_angle,
             diff_angle)){
             printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
+            printf("Diff angle: %f\n", diff_angle);
             double x_prop = calculateObjectStartingXPos(object_starting_angle,
                                         object_final_angle, diff_angle);
-            renderObject(x, y, player_angle, object_starting_angle, x_prop,
-                         object);
+            renderObject(x, y, player_angle, object_starting_angle + diff_angle,
+                         x_prop, object);
         }
         else
             puts("No se dibuja el objeto: no entra en el angulo de vision");
@@ -348,10 +349,10 @@ double RayCaster::normalize(double alpha) {
 
 double getObjectAngleRelativeToPlayersViewAngle(double player_angle,
                                                 double object_angle) {
-    if (std::abs(player_angle-object_angle) <= 0.523599)
+    if (std::abs(player_angle-object_angle) <= M_PI)
         return player_angle - object_angle;
     if (player_angle > object_angle)
-        return player_angle - object_angle - 2*M_PI;
+        return (player_angle - object_angle) - 2*M_PI;
     return 2*M_PI - (object_angle - player_angle);
 }
 
@@ -375,6 +376,8 @@ bool RayCaster::blockedByWall(double angle, double distance) {
             }
         }
     }
+    if (nearest_distance == 0 && angle_found == 0)
+        return false;
     //printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
     nearest_distance /= cos(angle_found);
     //printf("Distancia mas cercana final: %f\n", nearest_distance);

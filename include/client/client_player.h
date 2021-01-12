@@ -25,7 +25,7 @@ public:
     int getAmmo();
 private:
     std::string name;
-    double direction = 5.934119;
+    double direction = 2.268926;
     int equipped_weapon = 14;
     int level = 6;
     int score = 10000;

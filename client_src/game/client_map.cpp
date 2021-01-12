@@ -126,9 +126,9 @@ void ClientMap::addWalls(std::vector<std::pair<int,int>> walls,
         ++counter;
     }
     //putDrawableAt(std::pair<int, int>(4,2), 0);
-    putDrawableAt(150,128,4);
+    //putDrawableAt(150,128,4);
     putDrawableAt(150,192,8);
-    putDrawableAt(400,350,6);
+    //putDrawableAt(400,350,6);
     //putDrawableAt(100,600,8);
     //putDrawableAt(750,100,9);
     //putDrawableAt(700,250,11);

@@ -77,6 +77,7 @@ void ObjectDrawer::findObjectProportions(DrawingInfo& drawing_info,
                                          double pl_ob_angle,
                                          Area& screen_area) {
     distance *= cos(pl_ob_angle);
+    printf("Distancia del objeto: %f\n", distance);
     int x_pos = findXPosForObject(pl_ob_angle, drawing_info.object_width);
     int object_height = findObjectHeight(distance, drawing_info);
     int ray_no = findRayNumberForAngle(pl_ob_angle);
@@ -129,7 +130,7 @@ int ObjectDrawer::findYPosForObject(int ray_no,
     double object_to_wall_distance = wall_distance - distance;
     double dist_proportion = object_to_wall_distance/wall_distance;
     int floor_position = (int) (dist_proportion * floor_height);
-    int y_pos = floor_starting_point + floor_position;
+    int y_pos = floor_starting_point + floor_position - object_height;
     return y_pos;
 }
 
@@ -168,7 +169,7 @@ int ObjectDrawer::findRayNumberForAngle(double beta) {
             break;
         ++counter;
     }
-    return counter;
+    return (counter <= 319) ? counter : 319;
 }
 
 Area ObjectDrawer::assembleScreenArea(int ray_no, DrawingInfo& drawing_info) {
@@ -260,7 +261,9 @@ double ObjectDrawer::findWallDistanceForAngle(double angle) {
             }
         }
     }
-    nearest_distance /= cos(angle_found);
+    if (nearest_distance == 0 && angle_found == 0)
+        nearest_distance = distance_info.at(angles_list[0]);
     printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
+    printf("Primera distancia: %f\n", distance_info.at(angles_list[0]));
     return nearest_distance;
 }
