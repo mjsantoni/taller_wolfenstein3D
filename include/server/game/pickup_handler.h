@@ -1,13 +1,16 @@
 #ifndef TP_WOLFENSTEIN_PICKUP_HANDLER_H
 #define TP_WOLFENSTEIN_PICKUP_HANDLER_H
+
 #include "positionable.h"
 #include "player.h"
+#include "config_parser.h"
 
 class PickUpHandler {
 private:
+    ConfigParser configParser;
 
 public:
-    PickUpHandler();
+    PickUpHandler(std::string config_path);
 
     void pickUp(Positionable& item, Player& player);
     void pickUpTreasure(std::string id, Player& player);

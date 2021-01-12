@@ -17,37 +17,48 @@ private:
     int hp = 100;
     int points = 0;
     int lives;
-    std::vector<Gun> dropable;
-    //DefaultWeapon knife;
-    //DefaultWeapon pistol;
+    std::vector<Gun> guns;
+    Gun knife;
+    Gun pistol;
     std::queue<Key> keys;
-    //DefaultWeapon& equipped_weapon;
-    //Gun& equipped_dropable_weapon;
-
-    //double direction = M_PI/4;
+    Gun equipped_weapon;
 
 public:
     Player(std::string _name, int _id); //parametros de config como hp faltan
-    std::string getPlayerName();
-    bool areAnyKeysLeft();
-    bool useKey();
-    void pickUpKey(Key key);
 
+    /* Getters */
+    std::string getPlayerName();
+    int getID();
+    Gun getGun();
+
+    /* Stats ADD */
     void addHp(int hp_given);
     void addPoints(int points_given);
     void addGun(Gun gun);
     void addBullets(int added_bullets);
     void addKey(Key key);
 
-    int getID();
+    /* Stats SUB */
+    void reduceAmmo();
+    void reduceHP(int i);
 
+    /* Others */
+    bool areAnyKeysLeft();
+    bool useKey();
+    void pickUpKey(Key key);
     void equipWeapon(std::string id);
     void pickUpItem(Positionable item);
 
+    void changeGun(int hotkey);
 
-    void reduceAmmo();
 
-    void reduceHP(int i);
+    /* Prohibe construccion y asignacion por copia. */
+    //Player(const Player&) = delete;
+    //Player& operator=(const Player&) = delete;
+
+    /* Prohibe construccion y asignacion por movimiento. */
+    //Player(Player&&) = delete;
+    //Player& operator=(Player&&) = delete;
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

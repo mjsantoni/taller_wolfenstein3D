@@ -1,33 +1,33 @@
 #include <functional>
 #include "server/game/player.h"
-#include "server/entities/knife.h"
-#include "server/entities/pistol.h"
+#include "server/entities/gun.h"
 #include <iostream>
-#include <typeinfo>
-#include "server/entities/treasure.h"
 
-Player::Player(std::string _name, int _id) : name(_name), id(_id) {
-                                    //knife(Knife()),
-                                    //pistol(Pistol()) {
-    //handler.setPlayer(this);
 
-    //dropable.resize(3);
-    //equipped_weapon = pistol;
-    //Gun asd = MachineGun();
-    //equipped_dropable_weapon = asd;
+Player::Player(std::string _name, int _id) :
+                                    name(_name),
+                                    id(_id),
+                                    knife(Gun("knifebienturro",0,0,0,100)),
+                                    pistol(Gun("pistol",0,1,2,75)),
+                                    equipped_weapon(pistol) {
+    guns.push_back(knife);
+    guns.push_back(pistol);
 }
 
-std::string Player::getPlayerName() {
-    return std::ref(name);
+std::string Player::getPlayerName() {return std::ref(name);}
+
+Gun Player::getGun() {return equipped_weapon;}
+
+void Player::changeGun(int hotkey) {
+    equipped_weapon = guns[hotkey];
+    std::cout << "Cambie de arme a: " << equipped_weapon.getType() << "\n";
 }
 
-void Player::pickUpKey(Key key) {
-    keys.push(key);
-}
 
-int Player::getID() {
-    return id;
-}
+
+void Player::pickUpKey(Key key) {keys.push(key);}
+
+int Player::getID() {return id;}
 
 bool Player::useKey() {
     if (!areAnyKeysLeft()) return false;
@@ -55,7 +55,7 @@ void Player::addPoints(int points_given) {
 }
 
 void Player::addGun(Gun gun) {
-    dropable.push_back(gun); //hay que ver donde va, deberia ser en [id]
+    guns.push_back(gun); //hay que ver donde va, deberia ser en [id]
     std::cout << "Agregue una: " << gun.getId() << "\n";
 }
 
@@ -79,7 +79,7 @@ void Player::reduceAmmo() {
 void Player::reduceHP(int damage) {
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (hp): " << hp << "\n";
-    hp = hp - damage;
+    hp -= damage;
     std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
 }
 

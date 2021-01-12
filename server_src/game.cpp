@@ -10,7 +10,8 @@ Game::Game(std::string map_path, std::string config_path) :
             mapParser(map_path),
             mapGenerator(mapParser, MAX_PLAYERS, config_path),
             map(mapGenerator.create()),
-            colHandler(map) {
+            colHandler(map),
+            pickUpHandler(config_path) {
 
     Player p1("0",0);
     Player p2("1",1);
@@ -22,7 +23,7 @@ Game::Game(std::string map_path, std::string config_path) :
 }
 
 void Game::movePlayer(int id, double angle) {
-    Player player = players[id];
+    Player& player = players[id];
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
     //std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
@@ -36,7 +37,7 @@ void Game::movePlayer(int id, double angle) {
     if (!(item.getCategory() == "wall")) {
         std::cout << "################################################################\n";
         std::cout << item.getType() << "\n";
-        ph.pickUp(item, player);
+        pickUpHandler.pickUp(item, player);
         map.erasePositionableAt(pos_positionable);
         std::cout << "################################################################\n";
     }
@@ -46,9 +47,9 @@ void Game::movePlayer(int id, double angle) {
 void Game::show() { map.show(); }
 
 void Game::shoot(int id, double angle) {
-    Player player = players[id];
+    Player& shooter = players[id];
     ShootHandler sh(map);
-    sh.shoot(player,angle,players);
+    sh.shoot(shooter,angle,players);
 }
 
 Game::~Game() {}

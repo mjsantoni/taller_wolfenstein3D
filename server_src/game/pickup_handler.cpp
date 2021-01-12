@@ -9,7 +9,7 @@
 #include "server/entities/table.h"
 #include "server/entities/wall.h"
 
-PickUpHandler::PickUpHandler() {}
+PickUpHandler::PickUpHandler(std::string config_path) : configParser(config_path) {}
 PickUpHandler::~PickUpHandler() {}
 
 void PickUpHandler::pickUp(Positionable& item, Player& player) {

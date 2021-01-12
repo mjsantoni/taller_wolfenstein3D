@@ -5,8 +5,9 @@
 #include <tgmath.h>
 #include "server/game/positions_calculator.h"
 
-void ShootHandler::shoot(Player& player, double angle, std::vector<Player> players){
-    int range = 15; //player.getEquippedWeapon().getRange();
+void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players){
+    int damage = player.getGun().getDamage();
+    int range = player.getGun().getRange();
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
     Coordinate player_pos = map.getPlayerPosition(0);
@@ -19,8 +20,8 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player> playe
         if (map.isABlockingItemAt(pos)) break;
         if (map.isAPlayerAt(pos)) {
             int id = map.getPlayerIDAtPosition(pos);
-            Player enemy = players[id];
-            hit(player,enemy,15);
+            Player& enemy = players[id];
+            hit(player,enemy,damage);
         }
     }
 }

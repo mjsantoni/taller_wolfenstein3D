@@ -12,15 +12,18 @@ int main( int argc, char* args[] ) {
 
     game.movePlayer(1, M_PI/4);
     game.shoot(0,M_PI/4);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
-    game.movePlayer(0,0);
+    std::cout << "\n";
+    std::cout << "\n";
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    //game.movePlayer(0,0);
+    game.shoot(0,M_PI/4);
     game.show();
     return 0;
 

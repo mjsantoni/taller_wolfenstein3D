@@ -19,8 +19,8 @@ private:
     MapParser mapParser;
     MapGenerator mapGenerator;
     Map map;
-    PickUpHandler ph;
     ColissionHandler colHandler;
+    PickUpHandler pickUpHandler;
 
     //ShootHandler sh;
 
