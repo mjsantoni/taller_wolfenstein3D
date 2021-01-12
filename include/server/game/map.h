@@ -8,6 +8,8 @@
 #include "player.h"
 #include "positionable_handler.h"
 #include "coordinate.h"
+#include "config_parser.h"
+
 class Map {
 private:
     int grid_size = 64;
@@ -20,7 +22,7 @@ private:
 
 public:
     Map();
-    Map(int player_max_spawn_count);
+    Map(int player_max_spawn_count, std::string _config_path);
 
     void addBlockingItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& obstructives);
@@ -31,7 +33,7 @@ public:
 
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
     void putPositionableAt(Coordinate coordinates, Positionable positionable);
-    bool isABlockingItem(Coordinate coordinates);
+    bool isABlockingItemAt(Coordinate coordinates);
     void show();
 
     Coordinate closePositionable(int units, Coordinate coord);

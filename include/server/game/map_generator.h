@@ -10,7 +10,7 @@ private:
 public:
     MapGenerator(MapParser& parser);
     ~MapGenerator();
-    Map create(int player_max_spawn_count);
+    Map create(int player_max_spawn_count, std::string _config_path);
     std::unordered_map<std::string,
         std::vector<Coordinate>> getWalls();
     std::unordered_map<std::string,

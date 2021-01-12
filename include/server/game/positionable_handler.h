@@ -2,10 +2,13 @@
 #define TP_WOLFENSTEIN_POSITIONABLEHANDLER_H
 
 #include "positionable.h"
+#include "config_parser.h"
 
 class PositionableHandler {
+private:
+    ConfigParser cp;
 public:
-    PositionableHandler() {}
+    PositionableHandler(std::string _config_path);
 
     Positionable createBlockingItem(std::string type, int id);
     Positionable createItem(std::string type, int id);

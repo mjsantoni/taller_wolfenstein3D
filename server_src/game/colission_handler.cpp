@@ -31,7 +31,7 @@ Coordinate ColissionHandler::moveToPosition(Coordinate actual_pos, double angle)
             new_position.x = move_temp;
             new_position.y = coord_oposite;
         }
-        if (!map.isABlockingItem(new_position)) continue;
+        if (!map.isABlockingItemAt(new_position)) continue;
         else {
             i--;
             break;
@@ -48,7 +48,7 @@ Coordinate ColissionHandler::moveToPosition(Coordinate actual_pos, double angle)
             new_position.x = coord_base;
             new_position.y = move_temp;
         }
-        if (!map.isABlockingItem(new_position)) continue;
+        if (!map.isABlockingItemAt(new_position)) continue;
         else {
             j--;
             break;

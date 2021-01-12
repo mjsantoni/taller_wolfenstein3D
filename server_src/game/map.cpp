@@ -6,9 +6,9 @@
 #include <cmath>
 #include <functional>
 
-Map::Map() {}
+Map::Map() : handler("../config.yaml") {}
 
-Map::Map(int player_max_spawn_count)   {
+Map::Map(int player_max_spawn_count, std::string _config_path) : handler(_config_path) {
     player_spawns.resize(player_max_spawn_count);
     player_positions.resize(player_max_spawn_count);
 }
@@ -63,7 +63,7 @@ void Map::putPositionableAt(Coordinate coordinates, Positionable positionable) {
     //        Positionable>(coordinates,positionable));
 }
 
-bool Map::isABlockingItem(Coordinate coordinates) {
+bool Map::isABlockingItemAt(Coordinate coordinates) {
     int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
     Coordinate normalize(x_normalize, y_normalize);

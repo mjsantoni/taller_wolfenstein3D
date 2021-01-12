@@ -1,6 +1,6 @@
 #include "server/game/game_handler.h"
 
-GameHandler::GameHandler(std::string path) : game(path), eh(eq), ep(eq) {}
+GameHandler::GameHandler(std::string path) : game(path, path), eh(eq), ep(eq) {}
 
 void GameHandler::run() {
     //eh.start();

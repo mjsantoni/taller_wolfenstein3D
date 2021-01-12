@@ -11,6 +11,9 @@
 #include "server/entities/gun.h"
 #include "server/entities/hp_item.h"
 
+PositionableHandler::PositionableHandler(std::string _config_path) :
+                                           cp(_config_path) {}
+
 Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
   if (type == "stone_wall") return Wall(type, id, false);
   else if (type == "wood_wall")  return Wall(type, id, false);

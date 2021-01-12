@@ -5,10 +5,11 @@
 #include "server/game/shoot_handler.h"
 #include "server/game/player.h"
 
-Game::Game(std::string _path) : path(_path), ch(map) {
-    MapParser parser(path);
+Game::Game(std::string _map_path, std::string _config_path) :
+            map_path(_map_path), ch(map) {
+    MapParser parser(map_path);
     MapGenerator generator(parser);
-    map = generator.create(2); // Player max spawn count
+    map = generator.create(2, _config_path); // Player max spawn count
     Player p1("0",0);
     Player p2("1",1);
     ch.setMap(map);
@@ -41,7 +42,7 @@ void Game::movePlayer(int id, double angle) {
     map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
 
 }
-void Game::show() { map.show();}
+void Game::show() { map.show(); }
 
 void Game::shoot(int id, double angle) {
     Player player = players[id];
