@@ -19,6 +19,7 @@ public:
 
     ~Gun();
 
+    double getPrecision();
 };
 
 #endif // GUN_H

@@ -1,10 +1,11 @@
 #include "server/game/map_generator.h"
 
 
-MapGenerator::MapGenerator(MapParser& parser, int _max_players, std::string& config_path) :
-                                                                    max_players(_max_players),
-                                                                    mapParser(parser),
-                                                                    handler(config_path) {}
+MapGenerator::MapGenerator(MapParser& parser, int _max_players,
+                           std::string& config_path) :
+                           max_players(_max_players),
+                           mapParser(parser),
+                           handler(config_path) {}
 
 MapGenerator::~MapGenerator() {}
 

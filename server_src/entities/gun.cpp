@@ -10,6 +10,8 @@ Gun::Gun(std::string type, int id, int _bullets_per_spray,
 
 int Gun::getDamage() {return damage;} // falta calcular bien el resto
 
+double Gun::getPrecision() { return precision; }
+
 Gun::~Gun() {}
 
 int Gun::getRange() {return 15;}

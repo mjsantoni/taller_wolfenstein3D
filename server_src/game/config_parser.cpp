@@ -20,9 +20,12 @@ std::unordered_map<std::string, std::vector<double>> ConfigParser::getGuns() {
     return category;
 }
 
-std::unordered_map<std::string, int>
-        ConfigParser::getSpecificCategory(std::string category) {
-    return getCategory(category);
+std::vector<double> ConfigParser::getSpecificGun(std::string type) {
+    return getGuns()[type];
+}
+
+int ConfigParser::getSpecificCategory(std::string category, std::string type) {
+    return getCategory(category)[type];
 }
 
 std::unordered_map<std::string, int> ConfigParser::getCategory(std::string node) {

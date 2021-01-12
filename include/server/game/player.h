@@ -17,11 +17,12 @@ private:
     int hp = 100;
     int points = 0;
     int lives;
+
     std::vector<Gun> guns;
     Gun knife;
     Gun pistol;
-    std::queue<Key> keys;
     Gun equipped_weapon;
+    std::queue<Key> keys;
 
 public:
     Player(std::string _name, int _id); //parametros de config como hp faltan
@@ -47,7 +48,6 @@ public:
     bool useKey();
     void pickUpKey(Key key);
     void equipWeapon(std::string id);
-    void pickUpItem(Positionable item);
 
     void changeGun(int hotkey);
 
