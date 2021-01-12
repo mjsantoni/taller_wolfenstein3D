@@ -6,6 +6,9 @@
 #include "server/game/positions_calculator.h"
 
 void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players){
+    //return std::vector<std::pair<int,int>>
+    // el primero es el id del hiteado y el segundo el daño recibido.
+    // si alguno se muere pongo que recibio daño -1.
     int damage = player.getGun().getDamage();
     int range = player.getGun().getRange();
     int x_move = std::round(cos(angle)*range);

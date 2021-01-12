@@ -1,0 +1,12 @@
+#ifndef TP_WOLFENSTEIN_EVENTS_H
+#define TP_WOLFENSTEIN_EVENTS_H
+
+#define CONNECT_PLAYER 0
+#define MOVE_PLAYER 1
+#define SHOOT 2
+#define OPEN_DOOR 3
+#define PUSH_WALL 4
+#define TURN_CAMERA 5
+#define CHANGE_GUN 6
+
+#endif //TP_WOLFENSTEIN_EVENTS_H

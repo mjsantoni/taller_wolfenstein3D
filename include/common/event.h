@@ -1,16 +1,15 @@
 #ifndef TP_WOLFENSTEIN_EVENT_H
 #define TP_WOLFENSTEIN_EVENT_H
 
+#include "common/events.h"
 
 class Event {
 private:
-    int player_id;
     int event_id;
-    double angle;
+    int player_id;
+    int value;
 public:
-    Event(int _player_id, int _event_id, double _angle);
-
+    Event(int _player_id, int _event_id, int _value);
 };
-
 
 #endif //TP_WOLFENSTEIN_EVENT_H

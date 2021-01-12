@@ -1,13 +1,16 @@
 #ifndef TP_WOLFENSTEIN_EVENT_PROCCESOR_H
 #define TP_WOLFENSTEIN_EVENT_PROCCESOR_H
 
-#include "server/event_queue.h"
+#include "event_queue.h"
+#include "server/game/game.h"
 
 class EventProccesor {
 private:
+    Game& game;
     EventQueue& eq;
 public:
-    EventProccesor(EventQueue& _eq);
+    EventProccesor(Game& _game, EventQueue& _eq);
+    void process(Event& event);
 
 };
 

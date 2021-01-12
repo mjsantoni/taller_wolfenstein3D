@@ -2,10 +2,10 @@
 #define TP_WOLFENSTEIN_GAME_HANDLER_H
 
 #include <string>
-#include "event_queue.h"
-#include "event_handler.h"
+#include "common/event_queue.h"
+#include "common/event_handler.h"
 #include "game.h"
-#include "event_proccesor.h"
+#include "common/event_proccesor.h"
 
 class GameHandler {
 private:

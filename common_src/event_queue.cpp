@@ -1,4 +1,4 @@
-#include "server/game/event_queue.h"
+#include "common/event_queue.h"
 
 EventQueue::EventQueue() : is_closed(false) {}
 
