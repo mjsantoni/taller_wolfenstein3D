@@ -21,7 +21,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
         if (map.isAPlayerAt(pos)) {
             int id = map.getPlayerIDAtPosition(pos);
             Player& enemy = players[id];
-            hit(player,enemy,damage);
+            hit(player,enemy, damage);
         }
     }
 }

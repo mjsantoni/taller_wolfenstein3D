@@ -5,6 +5,8 @@
 
 class Gun : public Positionable {
 protected:
+
+
     int damage = 20;
     int bullets_per_spray;
     double fire_rate;
@@ -16,10 +18,15 @@ public:
 
     int getDamage();
     int getRange();
+    double getPrecision();
 
     ~Gun();
 
-    double getPrecision();
+    Gun(const Gun& other);
+    Gun& operator=(const Gun& other);
+
+    Gun(Gun &&other);
+    Gun& operator=(Gun&& other);
 };
 
 #endif // GUN_H

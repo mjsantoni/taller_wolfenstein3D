@@ -30,7 +30,7 @@ public:
     /* Getters */
     std::string getPlayerName();
     int getID();
-    Gun getGun();
+    Gun& getGun();
 
     /* Stats ADD */
     void addHp(int hp_given);

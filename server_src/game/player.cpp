@@ -16,11 +16,12 @@ Player::Player(std::string _name, int _id) :
 
 std::string Player::getPlayerName() {return std::ref(name);}
 
-Gun Player::getGun() { return equipped_weapon; }
+Gun& Player::getGun() { return equipped_weapon; }
 
 void Player::changeGun(int hotkey) {
     equipped_weapon = guns[hotkey];
     std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
+    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() << "\n";
 }
 
 

@@ -50,6 +50,7 @@ void Game::shoot(int id, double angle) {
     Player& shooter = players[id];
     ShootHandler sh(map);
     sh.shoot(shooter,angle,players);
+    shooter.changeGun(1);
 }
 
 Game::~Game() {}
