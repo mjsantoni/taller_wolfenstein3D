@@ -18,11 +18,11 @@ public:
                 value2(_value2),
                 is_global(_is_global) {}
 
-    int Change::getChangeID() {return change_id;}
-    int Change::getPlayerID() {return player_id;}
-    int Change::getFirstValue() {return value1;}
-    int Change::getSecondValue() {return value2;}
-    bool Change::isGlobal() {return is_global;}
+    int getChangeID() {return change_id;}
+    int getPlayerID() {return player_id;}
+    int getFirstValue() {return value1;}
+    int getSecondValue() {return value2;}
+    bool isGlobal() {return is_global;}
 };
 
 
