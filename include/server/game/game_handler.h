@@ -10,7 +10,9 @@
 class GameHandler {
 private:
     Game game;
-    EventQueue eq;
+    SharedQueue<Events> sharedQueue;
+    BlockingQueue<Change>  blockingQueue;
+    std::vector<ClientUpdater>
     EventHandler eh;
     EventProccesor ep;
 public:
