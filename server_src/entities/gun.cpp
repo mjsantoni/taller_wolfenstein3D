@@ -13,6 +13,8 @@ int Gun::getDamage() {return damage;} // falta calcular bien el resto
 
 double Gun::getPrecision() { return precision; }
 
+int Gun::getBulletsPerSpray() { return bullets_per_spray; }
+
 Gun::~Gun() {}
 
 int Gun::getRange() {return 15;}

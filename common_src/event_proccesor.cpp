@@ -10,7 +10,7 @@ std::vector<Change> EventProccesor::process(Event& event) {
 
     switch (id) {
         case (CONNECT_PLAYER):
-            int id_new_player = game.addPlayer();
+            int id_new_player = game.connectPlayer();
             changes.push_back(Change(ADD_PLAYER, 000, id_new_player, 000, true));
             break;
 

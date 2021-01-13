@@ -6,12 +6,14 @@
 #include "common/event_handler.h"
 #include "game.h"
 #include "common/event_proccesor.h"
+#include "common/shared_queue.h"
+#include "common/blocking_queue.h"
 
 class GameHandler {
 private:
     Game game;
-    SharedQueue<Events> sharedQueue;
-    BlockingQueue<Change>  blockingQueue;
+    SharedQueue<Event> sharedQueue;
+    BlockingQueue<Change> blockingQueue;
     std::vector<ClientUpdater>
     EventHandler eh;
     EventProccesor ep;

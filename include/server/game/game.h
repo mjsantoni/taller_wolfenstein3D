@@ -21,16 +21,19 @@ private:
     Map map;
     ColissionHandler colHandler;
     PickUpHandler pickUpHandler;
+    int players_ids = 0;
 
     //ShootHandler sh;
 
 public:
     Game(std::string map_path, std::string config_path);
-    void movePlayer(int id, double angle);
+    Coordinate movePlayer(int id, double angle);
     void shoot(int id, double angle);
     ~Game();
 
     void show();
+
+    int connectPlayer();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

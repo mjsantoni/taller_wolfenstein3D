@@ -67,7 +67,7 @@ void Player::addKey(Key key) {
 void Player::reduceAmmo() {
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (balas): " << bullets << "\n";
-    bullets--;
+    bullets -= equipped_weapon.getBulletsPerSpray();
     std::cout << "Ahora tengo (balas): " << bullets << "\n";
 }
 

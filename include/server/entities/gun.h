@@ -27,6 +27,8 @@ public:
 
     Gun(Gun &&other);
     Gun& operator=(Gun&& other);
+
+    int getBulletsPerSpray();
 };
 
 #endif // GUN_H

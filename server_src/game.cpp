@@ -22,7 +22,14 @@ Game::Game(std::string map_path, std::string config_path) :
     //map.show();
 }
 
-void Game::movePlayer(int id, double angle) {
+int Game::connectPlayer() {
+    Player player(std::to_string(players_ids), players_ids);
+    map.addPlayer(players_ids);
+    players.push_back(player);
+    players_ids++;
+}
+
+Coordinate Game::movePlayer(int id, double angle) {
     Player& player = players[id];
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
@@ -43,6 +50,7 @@ void Game::movePlayer(int id, double angle) {
     }
     map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
 
+    return new_pos;
 }
 void Game::show() { map.show(); }
 
