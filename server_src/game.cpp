@@ -7,11 +7,11 @@
 #define MAX_PLAYERS 2
 
 Game::Game(std::string map_path, std::string config_path) :
-            mapParser(map_path),
-            mapGenerator(mapParser, MAX_PLAYERS, config_path),
-            map(mapGenerator.create()),
-            colHandler(map),
-            pickUpHandler(config_path) {
+           mapParser(map_path),
+           mapGenerator(mapParser, MAX_PLAYERS, config_path),
+           map(mapGenerator.create()),
+           colHandler(map),
+           pickUpHandler(config_path) {
 
     Player p1("0",0);
     Player p2("1",1);
@@ -27,31 +27,28 @@ int Game::connectPlayer() {
     map.addPlayer(players_ids);
     players.push_back(player);
     players_ids++;
+    return player.getID(); // return players_ids - 1;
 }
 
 Coordinate Game::movePlayer(int id, double angle) {
     Player& player = players[id];
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
-    //std::cout << "Old: x: " << old_pos.x << " - y: " << old_pos.y << "\n";
-    //std::cout << "New: x: " << new_pos.x << " - y: " << new_pos.y << "\n";
 
-    Coordinate pos_positionable(0,0);
-    Positionable item = colHandler.getCloseItems(old_pos, new_pos, pos_positionable);
-    // falta que haga el get close items desde la pos q encontro el objeto hasta
-    // la nueva pos final final, porq si encuentra en el medio del camino
-    // corta el camino ahi y aparece en la nueva pos
-    if (!(item.getCategory() == "wall")) {
-        std::cout << "################################################################\n";
-        std::cout << item.getType() << "\n";
-        pickUpHandler.pickUp(item, player);
-        map.erasePositionableAt(pos_positionable);
-        std::cout << "################################################################\n";
+    std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
+    for (auto& item : items) {
+        if(item.second.getCategory() != "wall") {
+            std::cout << "################################################################\n";
+            std::cout << item.second.getType() << "\n";
+            pickUpHandler.pickUp(item.second, player);
+            map.erasePositionableAt(item.first);
+            std::cout << "################################################################\n";
+        }
     }
     map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
-
     return new_pos;
 }
+
 void Game::show() { map.show(); }
 
 void Game::shoot(int id, double angle) {
@@ -60,6 +57,7 @@ void Game::shoot(int id, double angle) {
     sh.shoot(shooter,angle,players);
     shooter.changeGun(1);
 }
+
 /*
 void Game::passTime() {
     if (map.isARPGMoving()) {
@@ -68,4 +66,5 @@ void Game::passTime() {
     }
 }
 */
+
 Game::~Game() {}

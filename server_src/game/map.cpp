@@ -11,6 +11,10 @@ Map::Map() {}
 Map::Map(int player_max_spawn_count) {
     player_spawns.resize(player_max_spawn_count);
     player_positions.resize(player_max_spawn_count);
+    // Lo de aca abajo vuela, es solo para test
+    Coordinate c(164, 160);
+    Positionable pos("treasure", "goblet", -4, false);
+    board[c] = pos;
 }
 
 void Map::addBlockingItems(std::unordered_map<std::string,
@@ -72,11 +76,14 @@ bool Map::isABlockingItemAt(Coordinate coordinates) {
     return false;
 }
 
-Coordinate Map::closePositionable(int units, Coordinate coord) {
+Coordinate Map::closePositionable(int units, Coordinate coord,
+                                  std::set<Coordinate>& found_positionables) {
     for (int i = coord.x-units; i <= coord.x+units; i++) {
         for (int j = coord.y-units; j <= coord.y+units; j++) {
             Coordinate pos(i,j);
-            if(board.find(pos) != board.end() && !board.at(pos).isBlocking()) {
+            if(board.find(pos) != board.end() && !board.at(pos).isBlocking()
+                && found_positionables.find(pos) == found_positionables.end()) {
+                found_positionables.insert(pos);
                 return pos;
             }
         }

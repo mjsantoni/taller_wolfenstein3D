@@ -2,7 +2,7 @@
 #include <math.h>
 
 std::vector<Coordinate>
-PositionsCalculator::straightLine(Coordinate old_pos, Coordinate new_pos) {
+PositionsCalculator::straightLine(const Coordinate& old_pos, const Coordinate& new_pos) {
     std::vector<Coordinate> items;
     int x_old = old_pos.x; int y_old = old_pos.y;
     int x_new = new_pos.x; int y_new = new_pos.y;

@@ -5,7 +5,7 @@
 
 class PositionsCalculator {
 public:
-    std::vector<Coordinate> straightLine(Coordinate old_pos, Coordinate new_pos);
+    std::vector<Coordinate> straightLine(const Coordinate& old_pos, const Coordinate& new_pos);
 };
 
 

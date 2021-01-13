@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
+#include <set>
 #include "positionable.h"
 #include "player.h"
 #include "positionable_handler.h"
@@ -35,7 +36,8 @@ public:
     bool isABlockingItemAt(Coordinate coordinates);
     void show();
 
-    Coordinate closePositionable(int units, Coordinate coord);
+    Coordinate closePositionable(int units, Coordinate coord,
+                                 std::set<Coordinate>& found_positionables);
     Positionable getPositionableAt(Coordinate coordinates);
     void erasePositionableAt(Coordinate coord);
 
