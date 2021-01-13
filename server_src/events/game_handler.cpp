@@ -17,6 +17,7 @@ void GameHandler::proccess() {
                 BloquinChnageQueue.push(change)
             }
         }
+        //game.passTime();
         sleep(20);
     }
     stop();

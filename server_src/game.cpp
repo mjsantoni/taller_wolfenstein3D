@@ -52,5 +52,12 @@ void Game::shoot(int id, double angle) {
     sh.shoot(shooter,angle,players);
     shooter.changeGun(1);
 }
-
+/*
+void Game::passTime() {
+    if (map.isARPGMoving()) {
+        map.moveRpg();
+        events.push(Event(REMOV,......))
+    }
+}
+*/
 Game::~Game() {}
