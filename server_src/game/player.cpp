@@ -9,6 +9,7 @@ Player::Player(std::string _name, int _id) :
                                     id(_id),
                                     knife(Gun("knife",-1,0,0,1)),
                                     pistol(Gun("pistol",-1,1,2,0.75)),
+                                    angle(0),
                                     equipped_weapon(pistol) {
     guns.push_back(knife);
     guns.push_back(pistol);
@@ -77,6 +78,10 @@ void Player::reduceHP(int damage) {
     hp -= damage;
     std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
 }
+
+double Player::getAngle() {return angle;}
+
+void Player::addAngle(double _angle) {angle += _angle;}
 
 /*
 void Player::equipWeapon(std::string type) {

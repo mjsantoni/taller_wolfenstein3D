@@ -30,8 +30,9 @@ int Game::connectPlayer() {
     return player.getID(); // return players_ids - 1;
 }
 
-Coordinate Game::movePlayer(int id, double angle) {
+Coordinate Game::movePlayer(int id) {
     Player& player = players[id];
+    double angle = player.getAngle();
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
 
@@ -51,11 +52,17 @@ Coordinate Game::movePlayer(int id, double angle) {
 
 void Game::show() { map.show(); }
 
-void Game::shoot(int id, double angle) {
+void Game::shoot(int id) {
     Player& shooter = players[id];
+    double angle = shooter.getAngle();
     ShootHandler sh(map);
     sh.shoot(shooter,angle,players);
     shooter.changeGun(1);
+}
+
+void Game::rotate(int id, double angle) {
+    Player& player = players[id];
+    player.addAngle(angle);
 }
 
 /*

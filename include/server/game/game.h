@@ -27,13 +27,14 @@ private:
 
 public:
     Game(std::string map_path, std::string config_path);
-    Coordinate movePlayer(int id, double angle);
-    void shoot(int id, double angle);
+    Coordinate movePlayer(int id);
+    void shoot(int id);
+    int connectPlayer();
+    void rotate(int id, double angle);
+
     ~Game();
 
     void show();
-
-    int connectPlayer();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

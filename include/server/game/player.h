@@ -17,6 +17,7 @@ private:
     int hp = 100;
     int points = 0;
     int lives;
+    double angle;
 
     std::vector<Gun> guns;
     Gun knife;
@@ -31,6 +32,7 @@ public:
     std::string getPlayerName();
     int getID();
     Gun& getGun();
+    double getAngle();
 
     /* Stats ADD */
     void addHp(int hp_given);
@@ -38,6 +40,7 @@ public:
     void addGun(Gun gun);
     void addBullets(int added_bullets);
     void addKey(Key key);
+    void addAngle(double _angle);
 
     /* Stats SUB */
     void reduceAmmo();
