@@ -6,8 +6,6 @@
 class Gun : public Positionable {
 protected:
 
-
-    int damage = 20;
     int bullets_per_spray;
     double fire_rate;
     double precision;

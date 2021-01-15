@@ -8,9 +8,10 @@
 
 void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
     std::vector<std::pair<int,int>> enemy_dmg_done;
-    int damage = player.getGun().getDamage();
+
     int range = player.getGun().getRange();
     int bullets_shot = player.getGun().getBulletsPerSpray();
+
 
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
@@ -28,6 +29,8 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
         if (map.isAPlayerAt(pos)) {
             int id = map.getPlayerIDAtPosition(pos);
             Player& enemy = players[id];
+            int damage = player.getGun().getDamage();
+            std::cout << "Shooteo con (daño random): " << damage << "\n";
             hit(player,enemy, damage);
             //std::pair<int, int> enemy_dmg(enemy.getID(), damage);
             //enemy_dmg_done.push_back(enemy_dmg);
