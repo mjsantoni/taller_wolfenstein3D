@@ -12,12 +12,12 @@ private:
 public:
     PickUpHandler(std::string config_path);
 
-    void pickUp(Positionable& item, Player& player);
-    void pickUpTreasure(std::string id, Player& player);
-    void pickUpHpItem(std::string id, Player& player);
-    void pickUpGun(std::string id, Player& player);
-    void pickUpBullets(std::string id, Player& player);
-    void pickUpKey(std::string id, Player& player);
+    bool pickUp(Positionable& item, Player& player);
+    bool pickUpTreasure(std::string type, Player& player);
+    bool pickUpHpItem(std::string type, Player& player);
+    bool pickUpGun(std::string type, Player& player);
+    bool pickUpBullets(std::string type, Player& player);
+    bool pickUpKey(std::string id, Player& player);
 
     ~PickUpHandler();
 

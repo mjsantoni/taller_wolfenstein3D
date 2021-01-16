@@ -12,3 +12,7 @@ gun:
   chain_gun: [1, 0.1, 0.8]
   machine_gun: [5, 0.3, 0.6]
   rpg_gun: [5, 1, 1]
+player:
+  bullets: 8
+  max_bullets: 100
+  max_hp: 100

@@ -4,13 +4,17 @@
 #include <iostream>
 #include <ctgmath>
 
-Player::Player(std::string _name, int _id) :
+Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets) :
                                     name(_name),
                                     id(_id),
                                     knife(Gun("knife",-1,0,0,1)),
                                     pistol(Gun("pistol",-1,1,2,0.75)),
                                     angle(0),
-                                    equipped_weapon(pistol) {
+                                    equipped_weapon(pistol),
+                                    max_hp(_max_hp),
+                                    hp(_max_hp),
+                                    max_bullets(_max_bullets),
+                                    bullets(_bullets) {
     guns.push_back(knife);
     guns.push_back(pistol);
 }
@@ -42,7 +46,8 @@ bool Player::areAnyKeysLeft() {
 }
 
 void Player::addHp(int hp_given) {
-    hp += hp_given;
+    if (hp + hp_given >= max_hp) hp = max_hp;
+    else hp += hp_given;
     std::cout << "Agregue hp, ahora tengo: " << hp << "\n";
 }
 
@@ -57,7 +62,8 @@ void Player::addGun(Gun gun) {
 }
 
 void Player::addBullets(int added_bullets) {
-    bullets += added_bullets;
+    if (bullets + added_bullets >= max_bullets) bullets = max_bullets;
+    else bullets += added_bullets;
     std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
 }
 
@@ -90,6 +96,25 @@ void Player::addAngle(double _angle) {
     } else {
         angle += _angle;
     }
+}
+
+bool Player::isFullHP() {
+    return hp == max_hp;
+}
+
+bool Player::canPickUpBlood() {
+    return hp < 11;
+}
+
+bool Player::hasMaxBullets() {
+    return bullets >= max_bullets;
+}
+
+bool Player::hasGun(std::string gun_type) {
+    for (auto& gun : guns) {
+        if (gun.getType() == gun_type) return true;
+    }
+    return false;
 }
 
 /*

@@ -13,8 +13,10 @@ class Player {
 private:
     std::string name;
     int id;
-    int bullets = 100;
-    int hp = 100;
+    int max_bullets;
+    int max_hp;
+    int bullets;
+    int hp;
     int points = 0;
     int lives;
     double angle;
@@ -26,7 +28,7 @@ private:
     std::queue<Key> keys;
 
 public:
-    Player(std::string _name, int _id); //parametros de config como hp faltan
+    Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets); //parametros de config como hp faltan
 
     /* Getters */
     std::string getPlayerName();
@@ -62,6 +64,13 @@ public:
     /* Prohibe construccion y asignacion por movimiento. */
     //Player(Player&&) = delete;
     //Player& operator=(Player&&) = delete;
+    bool isFullHP();
+
+    bool canPickUpBlood();
+
+    bool hasMaxBullets();
+
+    bool hasGun(std::string gun_type);
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

@@ -21,6 +21,7 @@ private:
     Map map;
     ColissionHandler colHandler;
     PickUpHandler pickUpHandler;
+    ConfigParser configParser;
     int players_ids = 0;
     int players_alive = 0;
 

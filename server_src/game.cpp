@@ -11,19 +11,21 @@ Game::Game(std::string map_path, std::string config_path) :
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
            colHandler(map),
-           pickUpHandler(config_path) {
+           pickUpHandler(config_path),
+           configParser(config_path) {
 
-    Player p1("0",0);
-    Player p2("1",1);
-    map.addPlayer(0);
-    map.addPlayer(1);
-    players.push_back(p1);
-    players.push_back(p2);
-    //map.show();
+    int id1 = connectPlayer();
+    int id2 = connectPlayer();
+    std::cout << "Player " << id1 << " connected to game.\n";
+    std::cout << "Player " << id2 << " connected to game.\n\n";
+
 }
 
 int Game::connectPlayer() {
-    Player player(std::to_string(players_ids), players_ids);
+    Player player(std::to_string(players_ids), players_ids,
+       configParser.getSpecificCategory("player", "max_bullets"),
+          configParser.getSpecificCategory("player", "max_hp"),
+           configParser.getSpecificCategory("player", "bullets"));
     map.addPlayer(players_ids);
     players.push_back(player);
     players_ids++;
@@ -42,8 +44,9 @@ Coordinate Game::movePlayer(int id) {
         if(item.second.getCategory() != "wall") {
             std::cout << "################################################################\n";
             std::cout << item.second.getType() << "\n";
-            pickUpHandler.pickUp(item.second, player);
-            map.erasePositionableAt(item.first);
+            if (pickUpHandler.pickUp(item.second, player)) {
+                map.erasePositionableAt(item.first);
+            }
             std::cout << "################################################################\n";
         }
     }
