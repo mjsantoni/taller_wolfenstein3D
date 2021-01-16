@@ -57,12 +57,17 @@ void Game::shoot(int id) {
     double angle = shooter.getAngle();
     ShootHandler sh(map);
     sh.shoot(shooter,angle,players);
-    shooter.changeGun(1);
+    //recibir el hit y contabilizar el daño total a cada player (lo hace el Hit?)
+    shooter.changeGun(1); // esto no va
 }
 
 void Game::rotate(int id, double angle) {
     Player& player = players[id];
     player.addAngle(angle);
+}
+
+void Game::changeGun(int id, int hotkey) {
+    players[id].changeGun(hotkey);
 }
 
 /*

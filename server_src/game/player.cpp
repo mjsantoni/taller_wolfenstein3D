@@ -68,15 +68,16 @@ void Player::addKey(Key key) {
 void Player::reduceAmmo() {
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (balas): " << bullets << "\n";
-    bullets -= equipped_weapon.getBulletsPerSpray();
+    bullets--;
     std::cout << "Ahora tengo (balas): " << bullets << "\n";
 }
 
-void Player::reduceHP(int damage) {
+bool Player::reduceHP(int damage) {
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (hp): " << hp << "\n";
     hp -= damage;
     std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
+    return hp > 0;
 }
 
 double Player::getAngle() {return angle;}

@@ -44,7 +44,7 @@ public:
 
     /* Stats SUB */
     void reduceAmmo();
-    void reduceHP(int i);
+    bool reduceHP(int i);
 
     /* Others */
     bool areAnyKeysLeft();

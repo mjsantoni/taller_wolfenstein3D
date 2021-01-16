@@ -35,6 +35,8 @@ public:
     ~Game();
 
     void show();
+
+    void changeGun(int id, int hotkey);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

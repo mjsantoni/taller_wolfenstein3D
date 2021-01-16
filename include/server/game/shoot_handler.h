@@ -11,7 +11,12 @@ public:
 
     void shoot(Player& player, double angle, std::vector<Player>& players);
 
-    void hit(Player& player, Player& enemy, int damage);
+    int hit(Player& player, Player& enemy, int damage);
+
+    std::pair<Coordinate, Coordinate> getAdjacents(Coordinate &pos, double angle);
+
+    bool hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
+                  std::vector<std::pair<int, int>> &enemy_dmg_done);
 };
 
 
