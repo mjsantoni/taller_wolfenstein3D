@@ -33,7 +33,7 @@ bool PickUpHandler::pickUpHpItem(std::string type, Player &player) {
 bool PickUpHandler::pickUpGun(std::string type, Player &player) {
     if (player.hasGun(type)) return false;
     std::vector<double> gun_stats = configParser.getSpecificGun(type);
-    Gun gun(type, -1, gun_stats[0], gun_stats[1], gun_stats[2]);
+    Gun gun(type, -1, gun_stats[0], gun_stats[1], gun_stats[2], gun_stats[3]);
     player.addGun(gun);
     return true;
 }

@@ -3,11 +3,12 @@
 #include <random>
 
 Gun::Gun(std::string type, int id, int _bullets_per_spray,
-         double _fire_rate, double _precision) :
+         double _fire_rate, double _precision, int _range) :
          Positionable("gun", type, id, false),
          bullets_per_spray(_bullets_per_spray),
          fire_rate(_fire_rate), 
-         precision(_precision) {
+         precision(_precision),
+         range(_range) {
 }
 
 int Gun::getDamage() {

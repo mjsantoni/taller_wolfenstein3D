@@ -7,8 +7,8 @@
 Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets) :
                                     name(_name),
                                     id(_id),
-                                    knife(Gun("knife",-1,0,0,1)),
-                                    pistol(Gun("pistol",-1,1,2,0.75)),
+                                    knife(Gun("knife", -1, 0, 0, 1, 25)),
+                                    pistol(Gun("pistol", -1, 1, 2, 0.75, 100)),
                                     angle(0),
                                     equipped_weapon(pistol),
                                     max_hp(_max_hp),
