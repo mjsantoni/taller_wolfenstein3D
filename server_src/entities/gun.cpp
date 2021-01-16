@@ -13,10 +13,9 @@ Gun::Gun(std::string type, int id, int _bullets_per_spray,
 int Gun::getDamage() {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist10(1,10); // distribution in range [1, 10]
-    //return dist10(rng);
-    return 10; //dejo esto por ahora para test
-} // falta calcular bien el resto
+    std::uniform_int_distribution<std::mt19937::result_type> dist10(1,10);
+    return dist10(rng);
+}
 
 double Gun::getPrecision() { return precision; }
 
@@ -24,7 +23,7 @@ int Gun::getBulletsPerSpray() { return bullets_per_spray; }
 
 Gun::~Gun() {}
 
-int Gun::getRange() {return 15;}
+int Gun::getRange() { return 100; } //rango viene por config
 
 
 

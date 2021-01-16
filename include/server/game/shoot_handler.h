@@ -6,6 +6,7 @@
 class ShootHandler {
 private:
     Map& map;
+
 public:
     ShootHandler(Map& _map) : map(_map) {}
 
@@ -15,8 +16,9 @@ public:
 
     std::pair<Coordinate, Coordinate> getAdjacents(Coordinate &pos, double angle);
 
-    bool hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
-                  std::vector<std::pair<int, int>> &enemy_dmg_done);
+    bool hitAtPos(Coordinate& pos, std::vector<Player>& players, Player& player,
+                  std::vector<std::pair<int, int>>& enemy_dmg_done, int pos_travelled,
+                  bool is_adjacent);
 };
 
 

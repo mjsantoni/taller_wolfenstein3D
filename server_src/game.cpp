@@ -27,6 +27,7 @@ int Game::connectPlayer() {
     map.addPlayer(players_ids);
     players.push_back(player);
     players_ids++;
+    players_alive++;
     return player.getID(); // return players_ids - 1;
 }
 
@@ -58,7 +59,7 @@ void Game::shoot(int id) {
     ShootHandler sh(map);
     sh.shoot(shooter,angle,players);
     //recibir el hit y contabilizar el daño total a cada player (lo hace el Hit?)
-    shooter.changeGun(1); // esto no va
+    changeGun(shooter.getID(), 1); //esto pa test noma
 }
 
 void Game::rotate(int id, double angle) {
@@ -70,6 +71,15 @@ void Game::changeGun(int id, int hotkey) {
     players[id].changeGun(hotkey);
 }
 
+bool Game::isNotOver() {
+    if (players_alive <= 1) return false;
+    //if (se termino el tiempo) return false;
+    return true;
+}
+
+void Game::playerDies() {
+    players_alive--;
+}
 /*
 void Game::passTime() {
     if (map.isARPGMoving()) {

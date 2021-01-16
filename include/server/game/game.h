@@ -22,6 +22,7 @@ private:
     ColissionHandler colHandler;
     PickUpHandler pickUpHandler;
     int players_ids = 0;
+    int players_alive = 0;
 
     //ShootHandler sh;
 
@@ -37,6 +38,11 @@ public:
     void show();
 
     void changeGun(int id, int hotkey);
+
+    bool isNotOver();
+
+    void playerDies();
+
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

@@ -2,9 +2,10 @@
 #include "server/game/coordinate.h"
 #include "server/game/player.h"
 #include <vector>
-#include <tgmath.h>
+#include <ctgmath>
 #include "server/game/positions_calculator.h"
 #include "server/game/hit.h"
+#include "server/game/damage_calculator.h"
 #include <cfloat>
 
 void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
@@ -14,7 +15,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
     bool wall_at_pos = false;
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
-    Coordinate player_pos = map.getPlayerPosition(0);
+    Coordinate player_pos = map.getPlayerPosition(player.getID());
     Coordinate new_pos(player_pos.x + x_move, player_pos.y + y_move);
 
     PositionsCalculator ph;
@@ -22,6 +23,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
     straight_line = std::vector<Coordinate>(straight_line.begin() + 1, straight_line.end());
 
     for (int i = 0; i < bullets_shot; i++) {
+        int pos_travelled = 1;
         if (wall_at_pos) break;
         for (auto& pos : straight_line) {
             if (map.isABlockingItemAt(pos)) {
@@ -30,11 +32,12 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
             }
             //std::cout << "Pos pa shootear: (" << pos.x << ", " << pos.y << ")\n";
             std::pair<Coordinate, Coordinate> adj = getAdjacents(pos, angle);
-            if (hitAtPos(pos, players, player, enemy_dmg_done) ||
-                hitAtPos(adj.first, players, player, enemy_dmg_done) ||
-                hitAtPos(adj.second, players, player, enemy_dmg_done)) {
+            if (hitAtPos(pos, players, player, enemy_dmg_done, pos_travelled, false) ||
+                hitAtPos(adj.first, players, player, enemy_dmg_done, pos_travelled, true) ||
+                hitAtPos(adj.second, players, player, enemy_dmg_done, pos_travelled, true)) {
                 break;
             }
+            pos_travelled++;
         }
     }
     //if (wall_at_pos) return Hit(-1, -1, enemy_dmg_done);
@@ -42,6 +45,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
     // el primero es el id del hiteado y el segundo el daño recibido. (enemy_dmg_done)
     // si alguno se muere pongo que recibio daño -1.
 }
+
 //hit deberia ser parte del game, que se encargue de restar vidas y eso,
 // el shoot handler solo devuelve player q recibe daño y el daño
 int ShootHandler::hit(Player& player, Player& enemy, int damage) {
@@ -49,6 +53,24 @@ int ShootHandler::hit(Player& player, Player& enemy, int damage) {
     bool enemy_dies = enemy.reduceHP(damage);
     if (enemy_dies) return -1;
     return damage;
+}
+
+bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
+                            std::vector<std::pair<int, int>> &enemy_dmg_done, int pos_travelled,
+                            bool is_adjacent) {
+    if (!map.isAPlayerAt(pos)) return false;
+
+    int id = map.getPlayerIDAtPosition(pos);
+    Player& enemy = players[id];
+    int damage = player.getGun().getDamage();
+    std::cout << "Intento shootear con (daño random): " << damage << "\n";
+    DamageCalculator dmg_calculator;
+    damage = dmg_calculator.calculate_dmg(player, damage, pos_travelled, is_adjacent);
+    int damage_done = hit(player,enemy, damage);
+
+    std::pair<int, int> enemy_dmg(enemy.getID(), damage_done);
+    enemy_dmg_done.push_back(enemy_dmg);
+    return true;
 }
 
 std::pair<Coordinate, Coordinate> ShootHandler::getAdjacents(Coordinate& pos, double angle) {
@@ -76,21 +98,4 @@ std::pair<Coordinate, Coordinate> ShootHandler::getAdjacents(Coordinate& pos, do
         adj.second = Coordinate(pos.x, pos.y + 1);
     } else { std::cout << "No hay ninguna posicion alrededor, algo raro paso.\n"; }
     return adj;
-}
-
-bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
-                            std::vector<std::pair<int, int>> &enemy_dmg_done) {
-    //std::cout << "Verifico ";
-    //pos.show();
-    if (!map.isAPlayerAt(pos)) return false;
-
-    int id = map.getPlayerIDAtPosition(pos);
-    Player& enemy = players[id];
-    int damage = player.getGun().getDamage();
-    std::cout << "Shooteo con (daño random): " << damage << "\n";
-    //damage calculator aca -> damage = calculate_dmg(player, damage);
-    int damage_done = hit(player,enemy, damage);
-    //std::pair<int, int> enemy_dmg(enemy.getID(), damage_done);
-    //enemy_dmg_done.push_back(enemy_dmg);
-    return true;
 }

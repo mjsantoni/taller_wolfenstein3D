@@ -2,7 +2,7 @@
 #include "server/game/player.h"
 #include "server/entities/gun.h"
 #include <iostream>
-
+#include <ctgmath>
 
 Player::Player(std::string _name, int _id) :
                                     name(_name),
@@ -66,6 +66,7 @@ void Player::addKey(Key key) {
 }
 
 void Player::reduceAmmo() {
+    std::cout << "----------------\n";
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (balas): " << bullets << "\n";
     bullets--;
@@ -73,6 +74,7 @@ void Player::reduceAmmo() {
 }
 
 bool Player::reduceHP(int damage) {
+    std::cout << "----------------\n";
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (hp): " << hp << "\n";
     hp -= damage;
@@ -82,7 +84,13 @@ bool Player::reduceHP(int damage) {
 
 double Player::getAngle() {return angle;}
 
-void Player::addAngle(double _angle) {angle += _angle;}
+void Player::addAngle(double _angle) {
+    if ((angle + _angle) > (2*M_PI)) {
+        angle = (angle + _angle - 2*M_PI);
+    } else {
+        angle += _angle;
+    }
+}
 
 /*
 void Player::equipWeapon(std::string type) {
