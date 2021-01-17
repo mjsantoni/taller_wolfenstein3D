@@ -8,6 +8,7 @@
 #include <queue>
 #include <vector>
 #include "default_weapon.h"
+#include "server/game/gun_hotkeys.h"
 
 class Player {
 private:
@@ -20,16 +21,17 @@ private:
     int points = 0;
     int lives;
     double angle;
-    std::string previous_weapon;
+    int previous_weapon;
 
     std::vector<Gun> guns;
-    Gun knife;
-    Gun pistol;
     Gun equipped_weapon;
     std::queue<Key> keys;
 
+    static int getGunHotkey(const std::string& type);
+
 public:
-    Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets); //parametros de config como hp faltan
+    Player(std::string _name, int _id, int _max_bullets,
+           int _max_hp, int _bullets); //parametros de config de las default gun falta
 
     /* Getters */
     std::string getPlayerName();
@@ -50,13 +52,17 @@ public:
     bool reduceHP(int value);
 
     /* Others */
+    void changeGun(int hotkey);
+    bool isFullHP() const;
+    bool canPickUpBlood() const;
+    bool hasMaxBullets() const;
+    bool hasGun(std::string gun_type);
+    bool noAmmoLeft() const;
+
+    /* Keys */
     bool areAnyKeysLeft();
     bool useKey();
     void pickUpKey(Key key);
-    void equipWeapon(std::string id);
-
-    void changeGun(int hotkey);
-
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player&) = delete;
@@ -65,15 +71,7 @@ public:
     /* Prohibe construccion y asignacion por movimiento. */
     //Player(Player&&) = delete;
     //Player& operator=(Player&&) = delete;
-    bool isFullHP();
 
-    bool canPickUpBlood();
-
-    bool hasMaxBullets();
-
-    bool hasGun(std::string gun_type);
-
-    bool noAmmoLeft();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

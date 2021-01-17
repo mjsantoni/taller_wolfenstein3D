@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 
+Gun::Gun() {}
+
 Gun::Gun(std::string type, int id, int _bullets_per_spray,
          double _fire_rate, double _precision, int _range) :
          Positionable("gun", type, id, false),
@@ -24,7 +26,7 @@ int Gun::getBulletsPerSpray() { return bullets_per_spray; }
 
 Gun::~Gun() {}
 
-int Gun::getRange() { return 100; } //rango viene por config
+int Gun::getRange() { return range; } //rango viene por config
 
 
 
@@ -36,6 +38,7 @@ Gun::Gun(const Gun& other) {
     this->type = other.type;
     this->id = other.id;
     this->is_blocking = other.is_blocking;
+    this->range = other.range;
 }
 Gun& Gun::operator=(const Gun& other) {
     this->bullets_per_spray = other.bullets_per_spray;
@@ -45,6 +48,7 @@ Gun& Gun::operator=(const Gun& other) {
     this->type = other.type;
     this->id = other.id;
     this->is_blocking = other.is_blocking;
+    this->range = other.range;
     return *this;
 }
 

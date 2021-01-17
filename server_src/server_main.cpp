@@ -14,9 +14,18 @@ int main( int argc, char* args[] ) {
     game.rotate(0, 3*M_PI/8);
     game.movePlayer(1);
     game.shoot(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.shoot(0);
+    game.addBulletsTo(0, 5);
+    //game.movePlayer(1);
+    //game.movePlayer(1);
+    //game.movePlayer(1);
     //game.movePlayer(0);
     //game.movePlayer(0);
     //game.movePlayer(0);
@@ -27,7 +36,7 @@ int main( int argc, char* args[] ) {
     //game.movePlayer(0);
     //game.movePlayer(0,7*M_PI/4);
     game.shoot(0);
-    //game.show();
+    game.show();
     return 0;
 
 }

@@ -62,7 +62,7 @@ Hit Game::shoot(int id) {
     ShootHandler sh(map);
     Hit hit_event = sh.shoot(shooter, angle, players);
     if (hit_event.playerDied()) playerDies(hit_event);
-    changeGun(shooter.getID(), 1); //esto pa test noma
+    //changeGun(shooter.getID(), 1); //esto pa test noma
     return hit_event;
 }
 
@@ -84,6 +84,10 @@ bool Game::isNotOver() {
 void Game::playerDies(Hit& hit) {
     // logica de quien muere y respawnearlo si fuese necesario
     players_alive--;
+}
+
+void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
+    players[id].addBullets(bullets);
 }
 /*
 void Game::passTime() {

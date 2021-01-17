@@ -45,6 +45,7 @@ public:
 
     void playerDies(Hit& hit);
 
+    void addBulletsTo(int id, int bullets);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

@@ -1,0 +1,12 @@
+#ifndef TP_WOLFENSTEIN_GUN_HOTKEYS_H
+#define TP_WOLFENSTEIN_GUN_HOTKEYS_H
+
+#define KNIFE 1
+#define PISTOL 2
+#define MACHINE_GUN 3
+#define CHAIN_GUN 4
+#define RPG_GUN 5
+#define TOTAL_GUNS 5
+
+
+#endif //TP_WOLFENSTEIN_GUN_HOTKEYS_H

@@ -4,48 +4,41 @@
 #include <iostream>
 #include <ctgmath>
 
+#define EXTRA_GUN_VECTOR_SIZE 1
+
 Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets) :
                                     name(_name),
                                     id(_id),
-                                    knife(Gun("knife", -1, 0, 0, 1, 25)),
-                                    pistol(Gun("pistol", -1, 1, 2, 0.75, 100)),
                                     angle(0),
-                                    equipped_weapon(pistol),
                                     max_hp(_max_hp),
                                     hp(_max_hp),
                                     max_bullets(_max_bullets),
                                     bullets(_bullets) {
-    guns.push_back(knife);
-    guns.push_back(pistol);
+    // Los parametros de las guns default deberian venir por config (parametro)
+    guns.resize(TOTAL_GUNS + EXTRA_GUN_VECTOR_SIZE);
+    guns[KNIFE] = Gun("knife", -1, 1, 0, 1, 25);
+    guns[PISTOL] = Gun("pistol", -1, 1, 2, 0.75, 100);
+    equipped_weapon = guns[PISTOL];
 }
 
-std::string Player::getPlayerName() { return std::ref(name); }
+/* GETTERS */
+std::string Player::getPlayerName() { return name; }
 
 Gun& Player::getGun() { return equipped_weapon; }
 
-void Player::changeGun(int hotkey) {
-    previous_weapon = equipped_weapon.getType();
-    equipped_weapon = guns[hotkey];
-    std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
-    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() << "\n";
-}
-
-
-void Player::pickUpKey(Key key) { keys.push(key); }
-
 int Player::getID() { return id; }
 
-bool Player::useKey() {
-    if (!areAnyKeysLeft()) return false;
-    Key key = keys.front();
-    keys.pop();
-    return true;
+double Player::getAngle() { return angle; }
+
+void Player::changeGun(int hotkey) {
+    previous_weapon = getGunHotkey(equipped_weapon.getType());
+    equipped_weapon = guns[hotkey];
+    std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
+    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
+    " y tiene rango: " << equipped_weapon.getRange() << "\n";
 }
 
-bool Player::areAnyKeysLeft() {
-    return !keys.empty();
-}
-
+/* ADDERS */
 void Player::addHp(int hp_given) {
     if (hp + hp_given >= max_hp) hp = max_hp;
     else hp += hp_given;
@@ -58,14 +51,15 @@ void Player::addPoints(int points_given) {
 }
 
 void Player::addGun(Gun gun) {
-    guns.push_back(gun); //hay que ver donde va, deberia ser en [id]
+    guns[getGunHotkey(gun.getType())] = gun;
     std::cout << "Agregue arma, una: " << gun.getType() << "\n";
 }
 
 void Player::addBullets(int added_bullets) {
     if (bullets == 0) {
-        // constantes globales de hotkeys por arma
-        // changeGun(previous_weapon)
+        std::cout << "Tenia 0 balas, y un " << equipped_weapon.getType()
+        << " equipado. Vuelvo a arma anterior.\n";
+        changeGun(previous_weapon);
     }
     if (bullets + added_bullets >= max_bullets) bullets = max_bullets;
     else bullets += added_bullets;
@@ -76,6 +70,15 @@ void Player::addKey(Key key) {
     keys.push(key);
 }
 
+void Player::addAngle(double _angle) {
+    if ((angle + _angle) > (2*M_PI)) {
+        angle = (angle + _angle - 2*M_PI);
+    } else {
+        angle += _angle;
+    }
+}
+
+/* REDUCERS */
 void Player::reduceAmmo() {
     if (equipped_weapon.getType() == "knife") {
         std::cout << "Tengo equipado un knife, no resto balas\n";
@@ -88,10 +91,8 @@ void Player::reduceAmmo() {
     std::cout << "Ahora tengo (balas): " << bullets << "\n";
     if (bullets == 0) {
         std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
-        previous_weapon = equipped_weapon.getType();
-        changeGun(0); // cambio a knife si me quedo sin balas
-
-        // Falta generar el evento correspondiente. Hay q ver como se avisa
+        previous_weapon = getGunHotkey(equipped_weapon.getType());
+        changeGun(KNIFE);
     }
 }
 
@@ -104,27 +105,14 @@ bool Player::reduceHP(int damage) {
     return hp <= 0;
 }
 
-double Player::getAngle() {return angle;}
+/* OTHERS (CHECKERS) */
+bool Player::isFullHP() const { return hp == max_hp; }
 
-void Player::addAngle(double _angle) {
-    if ((angle + _angle) > (2*M_PI)) {
-        angle = (angle + _angle - 2*M_PI);
-    } else {
-        angle += _angle;
-    }
-}
+bool Player::canPickUpBlood() const { return hp < 11; }
 
-bool Player::isFullHP() {
-    return hp == max_hp;
-}
+bool Player::hasMaxBullets() const { return bullets >= max_bullets; }
 
-bool Player::canPickUpBlood() {
-    return hp < 11;
-}
-
-bool Player::hasMaxBullets() {
-    return bullets >= max_bullets;
-}
+bool Player::noAmmoLeft() const { return bullets <= 0; }
 
 bool Player::hasGun(std::string gun_type) {
     for (auto& gun : guns) {
@@ -133,25 +121,28 @@ bool Player::hasGun(std::string gun_type) {
     return false;
 }
 
-bool Player::noAmmoLeft() {
-    return bullets <= 0;
+/* KEYS */
+void Player::pickUpKey(Key key) { keys.push(key); }
+
+bool Player::useKey() {
+    if (!areAnyKeysLeft()) return false;
+    Key key = keys.front();
+    keys.pop();
+    return true;
 }
 
-/*
-void Player::equipWeapon(std::string type) {
-    if (type == "knife") {
-        equipped_weapon = knife;
-    } else if (type == "pistol") {
-        equipped_weapon = pistol;
-    } else if (type == "machine_gun"){
-        equipped_dropable_weapon = dropable[0];
-    } else if (type == "chain_gun"){
-        equipped_dropable_weapon = dropable[1];
-    } else {
-        equipped_dropable_weapon = dropable[2]; //rpg
-    }
-}*/
+bool Player::areAnyKeysLeft() {
+    return !keys.empty();
+}
 
+int Player::getGunHotkey(const std::string& type) {
+    if (type == "chain_gun") return CHAIN_GUN;
+    else if (type == "machine_gun") return MACHINE_GUN;
+    else if (type == "rpg_gun") return RPG_GUN;
+    else if (type == "pistol") return PISTOL;
+    else if (type == "knife") return KNIFE;
+    else return 0; // Aca explotaria
+}
 
 /*
 bool Player::die() {
