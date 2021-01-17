@@ -18,7 +18,6 @@ Game::Game(std::string map_path, std::string config_path) :
     int id2 = connectPlayer();
     std::cout << "Player " << id1 << " connected to game.\n";
     std::cout << "Player " << id2 << " connected to game.\n\n";
-
 }
 
 int Game::connectPlayer() {
@@ -46,23 +45,25 @@ Coordinate Game::movePlayer(int id) {
             std::cout << item.second.getType() << "\n";
             if (pickUpHandler.pickUp(item.second, player)) {
                 map.erasePositionableAt(item.first);
+                // erased_positionables.push_back(item.first);
             }
             std::cout << "################################################################\n";
         }
     }
     map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
-    return new_pos;
+    return new_pos; // return par <nueva pos del player, vector<positionables> deleta2>
 }
 
 void Game::show() { map.show(); }
 
-void Game::shoot(int id) {
+Hit Game::shoot(int id) {
     Player& shooter = players[id];
     double angle = shooter.getAngle();
     ShootHandler sh(map);
-    sh.shoot(shooter,angle,players);
-    //recibir el hit y contabilizar el daño total a cada player (lo hace el Hit?)
+    Hit hit_event = sh.shoot(shooter, angle, players);
+    if (hit_event.playerDied()) playerDies(hit_event);
     changeGun(shooter.getID(), 1); //esto pa test noma
+    return hit_event;
 }
 
 void Game::rotate(int id, double angle) {
@@ -80,7 +81,8 @@ bool Game::isNotOver() {
     return true;
 }
 
-void Game::playerDies() {
+void Game::playerDies(Hit& hit) {
+    // logica de quien muere y respawnearlo si fuese necesario
     players_alive--;
 }
 /*

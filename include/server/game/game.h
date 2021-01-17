@@ -10,6 +10,7 @@
 #include "config_parser.h"
 #include "server/game/map_generator.h"
 #include "server/game/map_parser.h"
+#include "hit.h"
 
 class Game {
 
@@ -30,7 +31,7 @@ private:
 public:
     Game(std::string map_path, std::string config_path);
     Coordinate movePlayer(int id);
-    void shoot(int id);
+    Hit shoot(int id);
     int connectPlayer();
     void rotate(int id, double angle);
 
@@ -42,7 +43,7 @@ public:
 
     bool isNotOver();
 
-    void playerDies();
+    void playerDies(Hit& hit);
 
 };
 

@@ -20,8 +20,11 @@ std::vector<Change> EventProccesor::process(Event& event) {
             break;
 
         case (SHOOT):
-            esoquedije = game.shoot();
-            for (cada shoot) {
+            Hit hit_event = game.shoot();
+            HitEventHandler hit_handler;
+            hit_handler.processHit(hit_event, changes);
+            //lo de abajo no iria
+            for (each shoot) {
                 changes.push_back(Change(CHANGE_AMMO, player_id, balas_gastadas, false));
                 changes.push_back(Change(CHANGE_HP, cada
                 shoot.enemy, daño
@@ -29,6 +32,7 @@ std::vector<Change> EventProccesor::process(Event& event) {
                 come, 0, false));
                 // Si detecto que el daño recibido es -1, entonces:
                 // changes.push_back(Change(PLAYER_DEATH, player_id,0,0,0)
+                // changes.push_back(Change(PLAYER_RESPAWN, ....)
             }
 
         case (OPEN_DOOR):
@@ -48,6 +52,7 @@ std::vector<Change> EventProccesor::process(Event& event) {
             break;
 
         case (CHANGE_GUN):
+            // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changePlayerGun(player_id, value);
             changes.push_back(Change(CHANGE_WEAPON, player_id, 0, 0, true));
     }

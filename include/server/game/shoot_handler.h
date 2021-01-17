@@ -2,6 +2,7 @@
 #define TP_WOLFENSTEIN_SHOOT_HANDLER_H
 
 #include "map.h"
+#include "hit.h"
 
 class ShootHandler {
 private:
@@ -10,7 +11,7 @@ private:
 public:
     ShootHandler(Map& _map) : map(_map) {}
 
-    void shoot(Player& player, double angle, std::vector<Player>& players);
+    Hit shoot(Player& player, double angle, std::vector<Player>& players);
 
     int hit(Player& player, Player& enemy, int damage);
 

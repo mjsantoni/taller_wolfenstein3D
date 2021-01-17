@@ -20,6 +20,7 @@ private:
     int points = 0;
     int lives;
     double angle;
+    std::string previous_weapon;
 
     std::vector<Gun> guns;
     Gun knife;
@@ -71,6 +72,8 @@ public:
     bool hasMaxBullets();
 
     bool hasGun(std::string gun_type);
+
+    bool noAmmoLeft();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

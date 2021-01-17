@@ -19,11 +19,12 @@ Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _b
     guns.push_back(pistol);
 }
 
-std::string Player::getPlayerName() {return std::ref(name);}
+std::string Player::getPlayerName() { return std::ref(name); }
 
 Gun& Player::getGun() { return equipped_weapon; }
 
 void Player::changeGun(int hotkey) {
+    previous_weapon = equipped_weapon.getType();
     equipped_weapon = guns[hotkey];
     std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
     std::cout << "Tiene precision: " << equipped_weapon.getPrecision() << "\n";
@@ -62,6 +63,10 @@ void Player::addGun(Gun gun) {
 }
 
 void Player::addBullets(int added_bullets) {
+    if (bullets == 0) {
+        // constantes globales de hotkeys por arma
+        // changeGun(previous_weapon)
+    }
     if (bullets + added_bullets >= max_bullets) bullets = max_bullets;
     else bullets += added_bullets;
     std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
@@ -72,11 +77,22 @@ void Player::addKey(Key key) {
 }
 
 void Player::reduceAmmo() {
+    if (equipped_weapon.getType() == "knife") {
+        std::cout << "Tengo equipado un knife, no resto balas\n";
+        return;
+    }
     std::cout << "----------------\n";
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (balas): " << bullets << "\n";
     bullets--;
     std::cout << "Ahora tengo (balas): " << bullets << "\n";
+    if (bullets == 0) {
+        std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
+        previous_weapon = equipped_weapon.getType();
+        changeGun(0); // cambio a knife si me quedo sin balas
+
+        // Falta generar el evento correspondiente. Hay q ver como se avisa
+    }
 }
 
 bool Player::reduceHP(int damage) {
@@ -85,7 +101,7 @@ bool Player::reduceHP(int damage) {
     std::cout << "Tenia (hp): " << hp << "\n";
     hp -= damage;
     std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
-    return hp > 0;
+    return hp <= 0;
 }
 
 double Player::getAngle() {return angle;}
@@ -115,6 +131,10 @@ bool Player::hasGun(std::string gun_type) {
         if (gun.getType() == gun_type) return true;
     }
     return false;
+}
+
+bool Player::noAmmoLeft() {
+    return bullets <= 0;
 }
 
 /*

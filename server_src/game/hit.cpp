@@ -1,12 +1,16 @@
+#include <utility>
+
 #include "server/game/hit.h"
 
 Hit::Hit(int _player_id, int _bullets_shot,
-         std::vector<std::pair<int, int>> _enemy_dmg_done) :
+         std::vector<std::pair<int, int>> _enemy_dmg_done,
+         bool _used_all_ammo) :
                     player_id(_player_id),
                     bullets_shot(_bullets_shot),
-                    enemy_dmg_done(_enemy_dmg_done) {}
+                    enemy_dmg_done(std::move(_enemy_dmg_done)),
+                    used_all_ammo(_used_all_ammo) {}
 
-Hit::~Hit() {}
+Hit::~Hit() {};
 
 int Hit::getPlayerId() const {
     return player_id;
@@ -16,6 +20,9 @@ int Hit::getBulletsShot() const {
     return bullets_shot;
 }
 
+bool Hit::usedAllAmmo() const {
+    return used_all_ammo;
+}
 //Esta funcion podria ser mejorada para no recorrer muchas veces el vector de daño
 //en caso de que hitee mucha gente (poco probable)
 std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
@@ -29,4 +36,26 @@ std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
         total = 0;
     }
     return total_dmg;
+}
+
+Hit::Hit(const Hit& other) {
+    this->player_id = other.player_id;
+    this->bullets_shot = other.bullets_shot;
+    this->enemy_dmg_done = other.enemy_dmg_done;
+    this->used_all_ammo = other.used_all_ammo;
+}
+
+Hit& Hit::operator=(const Hit& other) {
+    this->player_id = other.player_id;
+    this->bullets_shot = other.bullets_shot;
+    this->enemy_dmg_done = other.enemy_dmg_done;
+    this->used_all_ammo = other.used_all_ammo;
+    return *this;
+}
+
+bool Hit::playerDied() {
+    for (auto& dmg : enemy_dmg_done) {
+        if (dmg.second == -1) return true;
+    }
+    return false;
 }

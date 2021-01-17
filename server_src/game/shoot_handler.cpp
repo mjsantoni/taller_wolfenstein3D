@@ -8,10 +8,12 @@
 #include "server/game/damage_calculator.h"
 #include <cfloat>
 
-void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
+#define ENEMY_DIES -1
+
+Hit ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
     std::vector<std::pair<int,int>> enemy_dmg_done;
     int range = player.getGun().getRange();
-    int bullets_shot = player.getGun().getBulletsPerSpray();
+    int bullets_to_shoot = player.getGun().getBulletsPerSpray();
     bool wall_at_pos = false;
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
@@ -21,10 +23,10 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
     PositionsCalculator ph;
     std::vector<Coordinate> straight_line = ph.straightLine(player_pos, new_pos);
     straight_line = std::vector<Coordinate>(straight_line.begin() + 1, straight_line.end());
-
-    for (int i = 0; i < bullets_shot; i++) {
+    int bullets_shot = 0;
+    for (; bullets_shot < bullets_to_shoot; bullets_shot++) {
         int pos_travelled = 1;
-        if (wall_at_pos) break;
+        if (wall_at_pos || player.noAmmoLeft()) break;
         for (auto& pos : straight_line) {
             if (map.isABlockingItemAt(pos)) {
                 wall_at_pos = true;
@@ -40,10 +42,12 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
             pos_travelled++;
         }
     }
-    //if (wall_at_pos) return Hit(-1, -1, enemy_dmg_done);
-    //return Hit(player.getID(), bullets_shot, enemy_dmg_done);
-    // el primero es el id del hiteado y el segundo el daño recibido. (enemy_dmg_done)
-    // si alguno se muere pongo que recibio daño -1.
+    if (wall_at_pos) return Hit(player.getID(), 0, enemy_dmg_done, false);
+    if (player.noAmmoLeft()) {
+        return Hit(player.getID(), bullets_shot, enemy_dmg_done, true);
+    } else {
+        return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);
+    }
 }
 
 //hit deberia ser parte del game, que se encargue de restar vidas y eso,
@@ -51,7 +55,7 @@ void ShootHandler::shoot(Player& player, double angle, std::vector<Player>& play
 int ShootHandler::hit(Player& player, Player& enemy, int damage) {
     player.reduceAmmo();
     bool enemy_dies = enemy.reduceHP(damage);
-    if (enemy_dies) return -1;
+    if (enemy_dies) return ENEMY_DIES;
     return damage;
 }
 
