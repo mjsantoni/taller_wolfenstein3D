@@ -15,13 +15,17 @@ std::vector<Change> EventProccesor::process(Event& event) {
             break;
 
         case (MOVE_PLAYER):
-            Coordiante position = game.movePlayer(player_id);
+            std::pair<Coordinate,
+                    std::vector<Positionable>> move_changes = game.movePlayer(player_id);
             changes.push_back(Change(MOVE_PLAYER, player_id, position.x, position.y, true));
+            for (auto& item : move_changes.second) {
+                changes.push_back(Change(REMOVE_POSITIONABLE, ....))
+            }
             break;
 
         case (SHOOT):
             Hit hit_event = game.shoot();
-            HitEventHandler hit_handler;
+            HitHandler hit_handler;
             hit_handler.processHit(hit_event, changes);
             //lo de abajo no iria
             for (each shoot) {

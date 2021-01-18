@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 
-Gun::Gun() {}
+Gun::Gun() : Positionable("gun", "null", -1, false) {}
 
 Gun::Gun(std::string type, int id, int _bullets_per_spray,
          double _fire_rate, double _precision, int _range) :

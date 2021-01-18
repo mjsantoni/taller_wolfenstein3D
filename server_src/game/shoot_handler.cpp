@@ -44,6 +44,7 @@ Hit ShootHandler::shoot(Player& player, double angle, std::vector<Player>& playe
     }
     if (wall_at_pos) return Hit(player.getID(), 0, enemy_dmg_done, false);
     if (player.noAmmoLeft()) {
+        std::cout << "No ammo left aviso\n";
         return Hit(player.getID(), bullets_shot, enemy_dmg_done, true);
     } else {
         return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);

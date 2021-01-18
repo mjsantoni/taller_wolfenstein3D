@@ -19,7 +19,7 @@ private:
     int bullets;
     int hp;
     int points = 0;
-    int lives;
+    int lives = 3; // add to config
     double angle;
     int previous_weapon;
 
@@ -61,8 +61,7 @@ public:
 
     /* Keys */
     bool areAnyKeysLeft();
-    bool useKey();
-    void pickUpKey(Key key);
+    int useKey();
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player&) = delete;
@@ -72,6 +71,9 @@ public:
     //Player(Player&&) = delete;
     //Player& operator=(Player&&) = delete;
 
+    bool dieAndRespawn();
+
+    std::pair<std::pair<std::string, int>, int> getDrops();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

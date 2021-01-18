@@ -67,6 +67,10 @@ void Map::putPositionableAt(Coordinate coordinates, Positionable positionable) {
     //        Positionable>(coordinates,positionable));
 }
 
+void Map::putPositionableAtExact(Positionable item, Coordinate pos) {
+    board[pos] = item;
+}
+
 bool Map::isABlockingItemAt(Coordinate coordinates) {
     int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
@@ -106,10 +110,17 @@ void Map::erasePositionableAt(Coordinate coord) {
     }
 }
 
+void Map::addGlobalID() {
+    global_id++;
+}
+
+int Map::getGlobalID() {
+    return global_id;
+}
 
 void Map::show() {
     std::cout << "---------------------------------------------------------------" << "\n";
-    std::cout << "Board\n";
+    std::cout << "Board\nCurrent Global ID: " << global_id << "\n";
     for (auto& elem : board) {
         std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
                   << ") - Elem: " << elem.second.getCategory() << " - "
@@ -128,6 +139,10 @@ void Map::show() {
         i++;
     }
     std::cout << "---------------------------------------------------------------\n";
+}
+
+void Map::respawnPlayer(int id) {
+    addPlayer(id);
 }
 
 void Map::addPlayer(int i) {
@@ -155,3 +170,9 @@ bool Map::isAPlayerAt(Coordinate &coordinate) {
     }
     return false;
 }
+
+void Map::removePlayer(int &i) {
+    player_positions[i] = Coordinate(-1, -1);
+
+}
+

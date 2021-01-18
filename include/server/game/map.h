@@ -47,6 +47,16 @@ public:
     bool isAPlayerAt(Coordinate &coordinate);
 
     int getPlayerIDAtPosition(Coordinate coord);
+
+    void respawnPlayer(int id);
+
+    void removePlayer(int &i);
+
+    void putPositionableAtExact(Positionable item, Coordinate pos);
+
+    void addGlobalID();
+
+    int getGlobalID();
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

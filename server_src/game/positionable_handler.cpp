@@ -37,6 +37,6 @@ Positionable PositionableHandler::createItem(std::string type, int id) {
   else if (type == "goblet") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
   else if (type == "chest") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
   else if (type == "crown") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
-  else { return Key(); }
+  else { return Key(id); }
 }
 

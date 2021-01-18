@@ -15,4 +15,4 @@ gun:
 player:
   bullets: 8
   max_bullets: 100
-  max_hp: 100
+  max_hp: 8

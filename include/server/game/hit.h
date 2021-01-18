@@ -8,6 +8,9 @@ private:
     int bullets_shot;
     std::vector<std::pair<int, int>> enemy_dmg_done;
     bool used_all_ammo;
+    std::vector<std::pair<int, bool>> player_respawns;
+public:
+    const std::vector<std::pair<int, bool>> &getPlayerRespawns() const;
 
 public:
     Hit(int _player_id, int _bullets_shot,
@@ -30,6 +33,10 @@ public:
 
 
     bool playerDied();
+
+    std::vector<int> getDeadPlayers();
+
+    void setPlayerRespawns(std::vector<std::pair<int, bool>> vector);
 };
 
 

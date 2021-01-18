@@ -7,7 +7,7 @@ class Key : public Positionable {
 private:
     
 public:
-    Key();
+    Key(int id);
     //pickUp() // unlocks
     ~Key();
 };

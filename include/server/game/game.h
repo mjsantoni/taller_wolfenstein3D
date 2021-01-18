@@ -10,6 +10,7 @@
 #include "config_parser.h"
 #include "server/game/map_generator.h"
 #include "server/game/map_parser.h"
+#include "server/game/drop_handler.h"
 #include "hit.h"
 
 class Game {
@@ -23,6 +24,7 @@ private:
     ColissionHandler colHandler;
     PickUpHandler pickUpHandler;
     ConfigParser configParser;
+    DropHandler dropHandler;
     int players_ids = 0;
     int players_alive = 0;
 
@@ -30,7 +32,7 @@ private:
 
 public:
     Game(std::string map_path, std::string config_path);
-    Coordinate movePlayer(int id);
+    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id);
     Hit shoot(int id);
     int connectPlayer();
     void rotate(int id, double angle);
@@ -46,6 +48,12 @@ public:
     void playerDies(Hit& hit);
 
     void addBulletsTo(int id, int bullets);
+
+    void respawnPlayer(int &player);
+
+    void killPlayerDefinitely(int &player);
+
+    void dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops, Coordinate coordinate);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

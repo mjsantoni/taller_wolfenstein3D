@@ -67,6 +67,7 @@ void Player::addBullets(int added_bullets) {
 }
 
 void Player::addKey(Key key) {
+    std::cout << "Levanto una llave, id: " << key.getId() << "\n";
     keys.push(key);
 }
 
@@ -122,13 +123,11 @@ bool Player::hasGun(std::string gun_type) {
 }
 
 /* KEYS */
-void Player::pickUpKey(Key key) { keys.push(key); }
-
-bool Player::useKey() {
-    if (!areAnyKeysLeft()) return false;
+int Player::useKey() {
+    if (!areAnyKeysLeft()) return -1;
     Key key = keys.front();
     keys.pop();
-    return true;
+    return key.getId();
 }
 
 bool Player::areAnyKeysLeft() {
@@ -144,12 +143,33 @@ int Player::getGunHotkey(const std::string& type) {
     else return 0; // Aca explotaria
 }
 
-/*
-bool Player::die() {
+
+bool Player::dieAndRespawn() {
     lives--;
-    if (lives > 0) return true; // respawnAtOriginalLoc()
-    else return false;
+    if (lives > 0) {
+        std::cout << "I, player " << id << " die and respawn\n";
+        hp = max_hp;
+        return true; // respawnAtOriginalLoc()
+    }
+    else {
+        std::cout << "I, player " << id << " die and not respawn\n";
+        return false;
+    }
 }
-*/
+
+std::pair<std::pair<std::string, int>, int> Player::getDrops() {
+    std::pair<std::pair<std::string, int>, int>
+            drops(std::make_pair("pistol", -1),-1);
+    for (auto& gun : guns) {
+        if (gun.getType() != "null" && gun.getType() != "knife" &&
+            gun.getType() != "pistol") {
+            drops.first.first = gun.getType();
+            drops.first.second = gun.getId();
+        }
+    }
+    drops.second = useKey();
+    return drops;
+}
+
 
 

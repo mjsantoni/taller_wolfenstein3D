@@ -38,6 +38,13 @@ std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
     return total_dmg;
 }
 
+bool Hit::playerDied() {
+    for (auto& dmg : enemy_dmg_done) {
+        if (dmg.second == -1) return true;
+    }
+    return false;
+}
+
 Hit::Hit(const Hit& other) {
     this->player_id = other.player_id;
     this->bullets_shot = other.bullets_shot;
@@ -53,9 +60,18 @@ Hit& Hit::operator=(const Hit& other) {
     return *this;
 }
 
-bool Hit::playerDied() {
+std::vector<int> Hit::getDeadPlayers() {
+    std::vector<int> dead_players;
     for (auto& dmg : enemy_dmg_done) {
-        if (dmg.second == -1) return true;
+        if (dmg.second == -1) dead_players.push_back(dmg.first);
     }
-    return false;
+    return dead_players;
+}
+
+void Hit::setPlayerRespawns(std::vector<std::pair<int, bool>> _player_respawns) {
+    player_respawns = std::move(_player_respawns);
+}
+
+const std::vector<std::pair<int, bool>>& Hit::getPlayerRespawns() const {
+    return player_respawns;
 }

@@ -13,11 +13,11 @@ public:
     PickUpHandler(std::string config_path);
 
     bool pickUp(Positionable& item, Player& player);
-    bool pickUpTreasure(std::string type, Player& player);
-    bool pickUpHpItem(std::string type, Player& player);
-    bool pickUpGun(std::string type, Player& player);
-    bool pickUpBullets(std::string type, Player& player);
-    bool pickUpKey(std::string id, Player& player);
+    bool pickUpTreasure(std::string type, int id, Player &player);
+    bool pickUpHpItem(std::string type, int id, Player &player);
+    bool pickUpGun(std::string type, int id, Player &player);
+    bool pickUpBullets(Player &player);
+    bool pickUpKey(int id, Player& player);
 
     ~PickUpHandler();
 

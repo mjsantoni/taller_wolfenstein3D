@@ -12,7 +12,8 @@ Game::Game(std::string map_path, std::string config_path) :
            map(mapGenerator.create()),
            colHandler(map),
            pickUpHandler(config_path),
-           configParser(config_path) {
+           configParser(config_path),
+           dropHandler(config_path) {
 
     int id1 = connectPlayer();
     int id2 = connectPlayer();
@@ -32,7 +33,8 @@ int Game::connectPlayer() {
     return player.getID(); // return players_ids - 1;
 }
 
-Coordinate Game::movePlayer(int id) {
+std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
+    std::vector<Positionable> erased_positionables;
     Player& player = players[id];
     double angle = player.getAngle();
     Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
@@ -45,13 +47,13 @@ Coordinate Game::movePlayer(int id) {
             std::cout << item.second.getType() << "\n";
             if (pickUpHandler.pickUp(item.second, player)) {
                 map.erasePositionableAt(item.first);
-                // erased_positionables.push_back(item.first);
+                erased_positionables.push_back(item.second);
             }
             std::cout << "################################################################\n";
         }
     }
-    map.setPlayerPosition(std::stoi(player.getPlayerName()), new_pos);
-    return new_pos; // return par <nueva pos del player, vector<positionables> deleta2>
+    map.setPlayerPosition(player.getID(), new_pos);
+    return std::make_pair(new_pos, erased_positionables);
 }
 
 void Game::show() { map.show(); }
@@ -62,7 +64,6 @@ Hit Game::shoot(int id) {
     ShootHandler sh(map);
     Hit hit_event = sh.shoot(shooter, angle, players);
     if (hit_event.playerDied()) playerDies(hit_event);
-    //changeGun(shooter.getID(), 1); //esto pa test noma
     return hit_event;
 }
 
@@ -82,8 +83,34 @@ bool Game::isNotOver() {
 }
 
 void Game::playerDies(Hit& hit) {
-    // logica de quien muere y respawnearlo si fuese necesario
-    players_alive--;
+    std::vector<std::pair<int, bool>> dead_respawn_players;
+    for (auto& dead_player : hit.getDeadPlayers()) {
+        if (players[dead_player].dieAndRespawn()) {
+            dropPlayerItems(players[dead_player].getDrops(),
+                            map.getPlayerPosition(dead_player));
+            respawnPlayer(dead_player);
+            dead_respawn_players.emplace_back(dead_player, true);
+        }
+        else {
+            killPlayerDefinitely(dead_player);
+            players_alive--;
+            dead_respawn_players.emplace_back(dead_player, false);
+        }
+    }
+    hit.setPlayerRespawns(dead_respawn_players);
+}
+
+void Game::dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops,
+                           Coordinate coordinate) {
+    dropHandler.processDrops(drops, map, coordinate);
+}
+
+void Game::respawnPlayer(int& player) {
+    map.respawnPlayer(player);
+}
+
+void Game::killPlayerDefinitely(int &player) {
+    map.removePlayer(player);
 }
 
 void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
@@ -99,3 +126,7 @@ void Game::passTime() {
 */
 
 Game::~Game() {}
+
+
+
+
