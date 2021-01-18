@@ -101,7 +101,7 @@ void Game::playerDies(Hit& hit) {
 }
 
 void Game::dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops,
-                           Coordinate coordinate) {
+                           const Coordinate& coordinate) {
     dropHandler.processDrops(drops, map, coordinate);
 }
 

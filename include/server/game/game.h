@@ -53,7 +53,7 @@ public:
 
     void killPlayerDefinitely(int &player);
 
-    void dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops, Coordinate coordinate);
+    void dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops, const Coordinate& coordinate);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

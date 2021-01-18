@@ -15,7 +15,7 @@ public:
 
     bool openDoor() const;
 
-    bool unlock();
+    void unlock();
 };
 
 

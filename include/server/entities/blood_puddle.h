@@ -7,7 +7,7 @@ class BloodPuddle : public HPItem {
 private:
     
 public:
-    BloodPuddle();
+    BloodPuddle(int id);
     ~BloodPuddle();
 };
 
