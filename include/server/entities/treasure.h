@@ -11,6 +11,10 @@ public:
     Treasure(std::string type, int id, int _points_given);
     ~Treasure();
 
+    Treasure(const Treasure& other);
+    Treasure& operator=(const Treasure& other);
+
+
     int getPoints();
 };
 

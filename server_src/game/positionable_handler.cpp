@@ -19,8 +19,8 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
   else if (type == "wood_wall")  return Wall(type, id, false);
   else if (type == "blue_wall")  return Wall(type, id, false);
   else if (type == "rock_wall")  return Wall(type, id, false);
-  else if (type == "barrel")  return Barrel();
-  else { return Table(); }
+  else if (type == "barrel")  return Barrel(id);
+  else { return Table(id); }
 }
 
 Positionable PositionableHandler::createItem(std::string type, int id) {

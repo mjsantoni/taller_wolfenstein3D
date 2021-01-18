@@ -7,7 +7,7 @@ class Table : public Positionable {
 private:
     
 public:
-    Table();
+    Table(int id);
     ~Table();
 };
 

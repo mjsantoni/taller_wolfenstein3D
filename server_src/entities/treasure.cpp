@@ -9,4 +9,13 @@ int Treasure::getPoints() {
     return points_given;
 }
 
+Treasure::Treasure(const Treasure& other) {
+    this->points_given = other.points_given;
+}
+
+Treasure& Treasure::operator=(const Treasure& other) {
+    this->points_given = other.points_given;
+    return *this;
+}
+
 Treasure::~Treasure() {}

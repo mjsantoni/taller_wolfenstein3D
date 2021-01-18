@@ -8,8 +8,14 @@ protected:
     bool is_locked;
 public:
     Door(std::string type, int id, bool _is_locked);
-    //virtual open()
     ~Door();
+
+    Door(const Door& other);
+    Door& operator=(const Door& other);
+
+    bool openDoor() const;
+
+    bool unlock();
 };
 
 

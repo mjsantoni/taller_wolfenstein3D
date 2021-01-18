@@ -7,7 +7,7 @@ class Barrel : public Positionable {
 private:
     
 public:
-    Barrel();
+    Barrel(int id);
     ~Barrel();
 };
 

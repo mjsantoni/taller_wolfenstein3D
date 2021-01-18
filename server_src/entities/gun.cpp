@@ -26,7 +26,7 @@ int Gun::getBulletsPerSpray() { return bullets_per_spray; }
 
 Gun::~Gun() {}
 
-int Gun::getRange() { return range; } //rango viene por config
+int Gun::getRange() { return range; }
 
 
 

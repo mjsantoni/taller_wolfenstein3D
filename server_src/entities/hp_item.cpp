@@ -8,4 +8,14 @@ HPItem::HPItem(std::string type, int id, int _hp_given) :
 int HPItem::getHP() {
     return hp_given;
 }
+
+HPItem::HPItem(const HPItem& other) {
+    this->hp_given = other.hp_given;
+}
+
+HPItem& HPItem::operator=(const HPItem& other) {
+    this->hp_given = other.hp_given;
+    return *this;
+}
+
 HPItem::~HPItem() {}

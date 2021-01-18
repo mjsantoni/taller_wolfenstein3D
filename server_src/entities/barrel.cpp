@@ -1,7 +1,7 @@
 #include "server/entities/barrel.h"
 
 
-Barrel::Barrel() : Positionable("barrel", "barrel", 45689, true) {
+Barrel::Barrel(int id) : Positionable("barrel", "barrel", id, true) {
 }
 
 Barrel::~Barrel()
