@@ -3,14 +3,17 @@
 
 #include "event_queue.h"
 #include "server/game/game.h"
+#include "common/change.h"
+#include "common/event.h"
 
 class EventProccesor {
 private:
     Game& game;
     EventQueue& eq;
+
 public:
     EventProccesor(Game& _game, EventQueue& _eq);
-    void process(Event& event);
+    std::vector<Change> process(Event& event);
 
 };
 

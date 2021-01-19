@@ -49,7 +49,7 @@ public:
 
     /* Stats SUB */
     void reduceAmmo();
-    bool reduceHP(int value);
+    int reduceHP(int value);
 
     /* Others */
     void changeGun(int hotkey);
@@ -74,6 +74,8 @@ public:
     bool dieAndRespawn();
 
     std::pair<std::pair<std::string, int>, int> getDrops();
+
+    bool isDead();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

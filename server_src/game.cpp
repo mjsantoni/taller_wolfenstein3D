@@ -64,6 +64,7 @@ Hit Game::shoot(int id) {
     ShootHandler sh(map);
     Hit hit_event = sh.shoot(shooter, angle, players);
     if (hit_event.playerDied()) playerDies(hit_event);
+    hit_event.getEnemyDmgDone(2); //TEST USE
     return hit_event;
 }
 

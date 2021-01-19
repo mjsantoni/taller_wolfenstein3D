@@ -1,6 +1,6 @@
 #include <utility>
-
 #include "server/game/hit.h"
+#include <iostream>
 
 Hit::Hit(int _player_id, int _bullets_shot,
          std::vector<std::pair<int, int>> _enemy_dmg_done,
@@ -28,10 +28,17 @@ bool Hit::usedAllAmmo() const {
 std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
     std::vector<std::pair<int, int>> total_dmg;
     int total = 0;
+    std::cout << "----------------\n";
     for (int i = 0; i < max_players; i++) {
         for (auto& dmg : enemy_dmg_done) {
-            if (dmg.first == i) total += dmg.second;
+            if (dmg.first == i) {
+                if (dmg.second == -1) continue;
+                std::cout << "Sumo " << dmg.second << " dmg\n";
+                total += dmg.second;
+            }
         }
+        if (total == 0) continue;
+        std::cout << "Daño total hecho a player " << i << ": " << total << "\n";
         total_dmg.emplace_back(i, total);
         total = 0;
     }
@@ -43,21 +50,6 @@ bool Hit::playerDied() {
         if (dmg.second == -1) return true;
     }
     return false;
-}
-
-Hit::Hit(const Hit& other) {
-    this->player_id = other.player_id;
-    this->bullets_shot = other.bullets_shot;
-    this->enemy_dmg_done = other.enemy_dmg_done;
-    this->used_all_ammo = other.used_all_ammo;
-}
-
-Hit& Hit::operator=(const Hit& other) {
-    this->player_id = other.player_id;
-    this->bullets_shot = other.bullets_shot;
-    this->enemy_dmg_done = other.enemy_dmg_done;
-    this->used_all_ammo = other.used_all_ammo;
-    return *this;
 }
 
 std::vector<int> Hit::getDeadPlayers() {
@@ -74,4 +66,19 @@ void Hit::setPlayerRespawns(std::vector<std::pair<int, bool>> _player_respawns) 
 
 const std::vector<std::pair<int, bool>>& Hit::getPlayerRespawns() const {
     return player_respawns;
+}
+
+Hit::Hit(const Hit& other) {
+    this->player_id = other.player_id;
+    this->bullets_shot = other.bullets_shot;
+    this->enemy_dmg_done = other.enemy_dmg_done;
+    this->used_all_ammo = other.used_all_ammo;
+}
+
+Hit& Hit::operator=(const Hit& other) {
+    this->player_id = other.player_id;
+    this->bullets_shot = other.bullets_shot;
+    this->enemy_dmg_done = other.enemy_dmg_done;
+    this->used_all_ammo = other.used_all_ammo;
+    return *this;
 }

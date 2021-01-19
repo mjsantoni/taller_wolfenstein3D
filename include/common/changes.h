@@ -11,6 +11,7 @@
 #define ADD_WEAPON 7
 #define LOSE_LIFE 8
 #define DEATH_PLAYER 9
-#define RPG_SHOOT 10
-
+#define DEATH_RESPAWN_PLAYER 10
+#define RPG_SHOOT 11
+#define ADD_PLAYER 12
 #endif //TP_WOLFENSTEIN_CHANGES_H

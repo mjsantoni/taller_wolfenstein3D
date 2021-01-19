@@ -8,7 +8,7 @@
 #include "server/game/damage_calculator.h"
 #include <cfloat>
 
-#define ENEMY_DIES -1
+#define ENEMY_DIES (-1)
 
 Hit ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
     std::vector<std::pair<int,int>> enemy_dmg_done;
@@ -26,13 +26,13 @@ Hit ShootHandler::shoot(Player& player, double angle, std::vector<Player>& playe
     int bullets_shot = 0;
     for (; bullets_shot < bullets_to_shoot; bullets_shot++) {
         int pos_travelled = 1;
+        std::cout << "Shooteo bala nro " << bullets_shot << "\n";
         if (wall_at_pos || player.noAmmoLeft()) break;
         for (auto& pos : straight_line) {
             if (map.isABlockingItemAt(pos)) {
                 wall_at_pos = true;
                 break;
             }
-            //std::cout << "Pos pa shootear: (" << pos.x << ", " << pos.y << ")\n";
             std::pair<Coordinate, Coordinate> adj = getAdjacents(pos, angle);
             if (hitAtPos(pos, players, player, enemy_dmg_done, pos_travelled, false) ||
                 hitAtPos(adj.first, players, player, enemy_dmg_done, pos_travelled, true) ||
@@ -51,30 +51,32 @@ Hit ShootHandler::shoot(Player& player, double angle, std::vector<Player>& playe
     }
 }
 
-//hit deberia ser parte del game, que se encargue de restar vidas y eso,
-// el shoot handler solo devuelve player q recibe daño y el daño
-int ShootHandler::hit(Player& player, Player& enemy, int damage) {
+int ShootHandler::hit(Player &player, Player &enemy, int damage, bool &enemy_dies) {
     player.reduceAmmo();
-    bool enemy_dies = enemy.reduceHP(damage);
-    if (enemy_dies) return ENEMY_DIES;
-    return damage;
+    int reduced_hp = enemy.reduceHP(damage);
+    enemy_dies = enemy.isDead();
+    return reduced_hp;
 }
 
 bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
                             std::vector<std::pair<int, int>> &enemy_dmg_done, int pos_travelled,
                             bool is_adjacent) {
     if (!map.isAPlayerAt(pos)) return false;
-
-    int id = map.getPlayerIDAtPosition(pos);
-    Player& enemy = players[id];
+    Player& enemy = players[map.getPlayerIDAtPosition(pos)];
+    if (enemy.isDead()) {
+        std::cout << "El enemigo ha muerto, no le hago mas daño y busco otro\n";
+        return false;
+    }
     int damage = player.getGun().getDamage();
-    std::cout << "Intento shootear con (daño random): " << damage << "\n";
+    bool enemy_dies = false;
+    std::cout << "----------------\n";
+    std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
     DamageCalculator dmg_calculator;
     damage = dmg_calculator.calculate_dmg(player, damage, pos_travelled, is_adjacent);
-    int damage_done = hit(player,enemy, damage);
+    int damage_done = hit(player, enemy, damage, enemy_dies);
 
-    std::pair<int, int> enemy_dmg(enemy.getID(), damage_done);
-    enemy_dmg_done.push_back(enemy_dmg);
+    enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
+    if (enemy_dies) enemy_dmg_done.emplace_back(enemy.getID(), ENEMY_DIES);
     return true;
 }
 

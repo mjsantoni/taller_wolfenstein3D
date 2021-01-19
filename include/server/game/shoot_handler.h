@@ -13,7 +13,7 @@ public:
 
     Hit shoot(Player& player, double angle, std::vector<Player>& players);
 
-    int hit(Player& player, Player& enemy, int damage);
+    int hit(Player &player, Player &enemy, int damage, bool &enemy_dies);
 
     std::pair<Coordinate, Coordinate> getAdjacents(Coordinate &pos, double angle);
 

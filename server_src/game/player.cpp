@@ -17,7 +17,7 @@ Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _b
     // Los parametros de las guns default deberian venir por config (parametro)
     guns.resize(TOTAL_GUNS + EXTRA_GUN_VECTOR_SIZE);
     guns[KNIFE] = Gun("knife", -1, 1, 0, 1, 25);
-    guns[PISTOL] = Gun("pistol", -1, 1, 2, 0.75, 100);
+    guns[PISTOL] = Gun("pistol", -1, 5, 2, 0.75, 100);
     equipped_weapon = guns[PISTOL];
 }
 
@@ -97,13 +97,21 @@ void Player::reduceAmmo() {
     }
 }
 
-bool Player::reduceHP(int damage) {
+int Player::reduceHP(int damage) {
     std::cout << "----------------\n";
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (hp): " << hp << "\n";
-    hp -= damage;
+    int hp_reduced = 0;
+    if (hp - damage <= 0) {
+        hp_reduced = hp; //return hp
+        hp = 0;
+    }
+    else {
+        hp_reduced = damage;
+        hp -= damage;
+    }
     std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
-    return hp <= 0;
+    return hp_reduced;
 }
 
 /* OTHERS (CHECKERS) */
@@ -120,6 +128,10 @@ bool Player::hasGun(std::string gun_type) {
         if (gun.getType() == gun_type) return true;
     }
     return false;
+}
+
+bool Player::isDead() {
+    return hp <= 0;
 }
 
 /* KEYS */
@@ -170,6 +182,8 @@ std::pair<std::pair<std::string, int>, int> Player::getDrops() {
     drops.second = useKey();
     return drops;
 }
+
+
 
 
 
