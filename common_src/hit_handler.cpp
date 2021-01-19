@@ -19,6 +19,12 @@ void HitHandler::processHit(Hit& hit_event, std::vector<Change>& changes) {
         if (respawn.second) changes.push_back(Change(DEATH_RESPAWN_PLAYER, respawn.first, -1, -1, true));
         else changes.push_back(Change(DEATH_PLAYER, respawn.first, -1, -1, true));
     }
+    for (auto& drops : hit_event.getDrops()) {
+        if (drops.first == -1) {
+            changes.push_back(Change(ADD_BULLETS_AT, -1, drops.second.x, drops.second.y, true));
+        }
+        changes.push_back(Change(ADD_POSITIONABLE, -1, drops.second.x, drops.second.y, true));
+    }
 }
 
 HitHandler::~HitHandler() {}

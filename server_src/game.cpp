@@ -87,7 +87,10 @@ void Game::playerDies(Hit& hit) {
     std::vector<std::pair<int, bool>> dead_respawn_players;
     for (auto& dead_player : hit.getDeadPlayers()) {
         if (players[dead_player].dieAndRespawn()) {
-            dropPlayerItems(players[dead_player].getDrops(),
+            std::pair<std::pair<std::string, int>, int>
+                    drops = players[dead_player].getDrops();
+            addDropsToHitEvent(drops, hit, map.getPlayerPosition(dead_player));
+            dropPlayerItems(drops,
                             map.getPlayerPosition(dead_player));
             respawnPlayer(dead_player);
             dead_respawn_players.emplace_back(dead_player, true);
@@ -101,7 +104,7 @@ void Game::playerDies(Hit& hit) {
     hit.setPlayerRespawns(dead_respawn_players);
 }
 
-void Game::dropPlayerItems(std::pair<std::pair<std::string, int>, int> drops,
+void Game::dropPlayerItems(const std::pair<std::pair<std::string, int>, int>& drops,
                            const Coordinate& coordinate) {
     dropHandler.processDrops(drops, map, coordinate);
 }
@@ -117,6 +120,21 @@ void Game::killPlayerDefinitely(int &player) {
 void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
     players[id].addBullets(bullets);
 }
+
+void Game::addDropsToHitEvent(const std::pair<std::pair<std::string, int>, int>& drops,
+                              Hit &hit, const Coordinate& pos) {
+    if (drops.first.second != -1) {
+        Coordinate gun_pos(pos.x, pos.y - 2);
+        hit.addDrops(drops.first.second, gun_pos);
+    }
+    if (drops.second != -1) {
+        Coordinate key_pos(pos.x, pos.y + 2);
+        hit.addDrops(drops.second, key_pos);
+    }
+    Coordinate bullets_pos(pos.x + 2, pos.y);
+    hit.addDrops(-1, bullets_pos);
+}
+
 /*
 void Game::passTime() {
     if (map.isARPGMoving()) {
@@ -127,6 +145,7 @@ void Game::passTime() {
 */
 
 Game::~Game() {}
+
 
 
 

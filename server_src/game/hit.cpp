@@ -73,6 +73,8 @@ Hit::Hit(const Hit& other) {
     this->bullets_shot = other.bullets_shot;
     this->enemy_dmg_done = other.enemy_dmg_done;
     this->used_all_ammo = other.used_all_ammo;
+    this->player_respawns = other.player_respawns;
+    this->drops = other.drops;
 }
 
 Hit& Hit::operator=(const Hit& other) {
@@ -80,5 +82,17 @@ Hit& Hit::operator=(const Hit& other) {
     this->bullets_shot = other.bullets_shot;
     this->enemy_dmg_done = other.enemy_dmg_done;
     this->used_all_ammo = other.used_all_ammo;
+    this->player_respawns = other.player_respawns;
+    this->drops = other.drops;
     return *this;
 }
+
+void Hit::addDrops(int id, Coordinate pos) {
+    drops.emplace_back(id, pos);
+}
+
+const std::vector<std::pair<int, Coordinate>>& Hit::getDrops() const {
+    return drops;
+}
+
+
