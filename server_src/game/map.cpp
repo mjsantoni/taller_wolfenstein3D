@@ -79,6 +79,10 @@ bool Map::isABlockingItemAt(const Coordinate& coordinates) {
     return false;
 }
 
+void Map::putBlockingAtExact(Positionable blocking, Coordinate coordinates) {
+    board[getNormalizedCoordinate(coordinates)] = blocking;
+}
+
 Positionable Map::getBlockingItemAt(Coordinate coordinates) {
     return board.at(getNormalizedCoordinate(coordinates));
 }

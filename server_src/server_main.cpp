@@ -37,6 +37,8 @@ int main( int argc, char* args[] ) {
     //game.shoot(0);
     game.show();
     //game.movePlayer(0);
+    game.closeDoor();
+    game.show();
     return 0;
 
 }

@@ -10,13 +10,17 @@ class BlockingItemHandler {
 private:
     ConfigParser configParser;
     Map& map;
-    std::queue<Coordinate> current_opened_doors;
+    std::queue<std::pair<Coordinate, int>> current_opened_doors;
 
 public:
     BlockingItemHandler(std::string config_path, Map& _map);
     ~BlockingItemHandler();
 
     std::pair<bool, int> openDoor(Coordinate coordinate, Player &player);
+
+    bool pushWall(Coordinate coordinate);
+
+    std::pair<Coordinate, int> closeDoor();
 };
 
 

@@ -60,6 +60,8 @@ public:
     std::pair<Coordinate, int> openDoor(int id);
 
     Coordinate pushWall(int id);
+
+    std::pair<Coordinate, int> closeDoor();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

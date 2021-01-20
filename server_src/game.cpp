@@ -20,6 +20,7 @@ Game::Game(std::string map_path, std::string config_path) :
     int id2 = connectPlayer();
     std::cout << "Player " << id1 << " connected to game.\n";
     std::cout << "Player " << id2 << " connected to game.\n\n";
+    players[id1].addKey(Key(50)); // TEST ONLY
 }
 
 int Game::connectPlayer() {
@@ -148,19 +149,31 @@ void Game::passTime() {
 Game::~Game() {}
 
 std::pair<Coordinate, int> Game::openDoor(int id) {
-    Coordinate door_to_open = colHandler.getCloseDoor(map.getPlayerPosition(id),
-                                                      players[id].getAngle());
+    Coordinate door_to_open = colHandler.getCloseBlocking(map.getPlayerPosition(id),
+                                                          players[id].getAngle(), "door");
     Coordinate not_opened(-1, -1);
     if (!door_to_open.isValid()) return std::make_pair(not_opened, -1);
 
     std::pair<bool, int> opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
     if (!opened_door.first) return std::make_pair(not_opened, opened_door.second);
+    std::cout << "Abro una puerta con llave id: " << opened_door.second << " en ";
+    map.getNormalizedCoordinate(door_to_open).show();
+
     return std::make_pair(map.getNormalizedCoordinate(door_to_open),
                           opened_door.second);
 }
 
 Coordinate Game::pushWall(int id) {
-    return Coordinate();
+    Coordinate wall_to_push = colHandler.getCloseBlocking(map.getPlayerPosition(id),
+                                                          players[id].getAngle(), "wall");
+    Coordinate not_pushed(-1, -1);
+    if (!wall_to_push.isValid()) return not_pushed;
+    if (!blockingItemHandler.pushWall(wall_to_push)) return not_pushed;
+    return map.getNormalizedCoordinate(wall_to_push);
+}
+
+std::pair<Coordinate, int> Game::closeDoor() {
+    return blockingItemHandler.closeDoor();
 }
 
 

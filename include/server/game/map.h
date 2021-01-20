@@ -63,6 +63,8 @@ public:
     Coordinate getNormalizedCoordinate(Coordinate coordinates);
 
     void removeBlockingItemAt(Coordinate coordinates);
+
+    void putBlockingAtExact(Positionable blocking, Coordinate coordinates);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

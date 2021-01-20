@@ -13,6 +13,7 @@ std::vector<Change> EventProccesor::process(Event& event) {
         case (CONNECT_PLAYER): {
             int id_new_player = game.connectPlayer();
             changes.push_back(Change(ADD_PLAYER, id_new_player, -1, -1, true));
+            // Falta evento de enviar el mapa entero al conectarse
             break;
         }
         case (MOVE_PLAYER): {
@@ -33,18 +34,22 @@ std::vector<Change> EventProccesor::process(Event& event) {
         }
         case (OPEN_DOOR): {
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
-            // antes de mandar el evento
+            // antes de mandar el evento (para no gastar mucho recurso)
             std::pair<Coordinate, int> opened_door = game.openDoor(player_id);
             if (!opened_door.first.isValid()) break;
             changes.push_back(Change(REMOVE_POSITIONABLE, -1, opened_door.first.x,
                                      opened_door.first.y, true));
+            if (opened_door.second != -1) {
+                changes.push_back(Change(PLAYER_USE_KEY, player_id, opened_door.second,
+                                         -1, false));
+            }
             break;
         }
         case (PUSH_WALL): {
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
-            // antes de mandar el evento
+            // antes de mandar el evento (para no gastar mucho recurso)
             Coordinate pushed_wall = game.pushWall(player_id);
-            if (pushed_wall.x == -1 || pushed_wall.y == -1) break;
+            if (!pushed_wall.isValid()) break;
             changes.push_back(Change(REMOVE_POSITIONABLE, -1, pushed_wall.x, pushed_wall.y, true));
             break;
         }

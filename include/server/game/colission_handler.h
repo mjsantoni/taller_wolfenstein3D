@@ -17,7 +17,7 @@ public:
     std::vector<std::pair<Coordinate, Positionable>>
         getCloseItems(const Coordinate& old_pos, const Coordinate& new_pos);
 
-    Coordinate getCloseDoor(Coordinate pos, double angle);
+    Coordinate getCloseBlocking(Coordinate pos, double angle, std::string category);
 };
 
 #endif //TP_WOLFENSTEIN_COLISSION_HANDLER_H
