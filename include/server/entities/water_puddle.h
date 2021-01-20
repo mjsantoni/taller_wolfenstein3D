@@ -7,7 +7,7 @@ class WaterPuddle : public Positionable {
 private:
     
 public:
-    WaterPuddle();
+    WaterPuddle(int id);
     ~WaterPuddle();
 };
 

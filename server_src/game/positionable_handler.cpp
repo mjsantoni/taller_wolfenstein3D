@@ -11,6 +11,7 @@
 #include "server/entities/gun.h"
 #include "server/entities/hp_item.h"
 #include "server/entities/door.h"
+#include "server/entities/water_puddle.h"
 
 PositionableHandler::PositionableHandler(std::string _config_path) :
                                            cp(_config_path) {}
@@ -40,6 +41,7 @@ Positionable PositionableHandler::createItem(std::string type, int id) {
   else if (type == "goblet") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
   else if (type == "chest") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
   else if (type == "crown") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
+  else if (type == "water_puddle") return WaterPuddle(id);
   else { return Key(id); }
 }
 

@@ -5,7 +5,7 @@
 #include "common/event_queue.h"
 #include "common/event_handler.h"
 #include "game.h"
-#include "common/event_proccesor.h"
+#include "common/event_processor.h"
 #include "common/shared_queue.h"
 #include "common/blocking_queue.h"
 #include "common/change.h"
@@ -18,7 +18,7 @@ private:
     //std::vector<ClientUpdater>
     EventQueue eq;
     EventHandler eh;
-    EventProccesor ep;
+    EventProcessor ep;
 public:
     GameHandler(std::string path);
     void run();

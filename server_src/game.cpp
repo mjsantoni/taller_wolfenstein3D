@@ -44,7 +44,7 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
 
     std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
     for (auto& item : items) {
-        if(item.second.getCategory() != "wall") {
+        if(item.second.getCategory() != "wall") { // Este if no es necesario
             std::cout << "################################################################\n";
             std::cout << item.second.getType() << "\n";
             if (pickUpHandler.pickUp(item.second, player)) {

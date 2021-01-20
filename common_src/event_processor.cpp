@@ -1,9 +1,9 @@
-#include "common/event_proccesor.h"
+#include "common/event_processor.h"
 #include "common/hit_handler.h"
 
-EventProccesor::EventProccesor(Game& _game, EventQueue &_eq) : game(_game), eq(_eq) {}
+EventProcessor::EventProcessor(Game& _game, EventQueue &_eq) : game(_game), eq(_eq) {}
 
-std::vector<Change> EventProccesor::process(Event& event) {
+std::vector<Change> EventProcessor::process(Event& event) {
     int id = event.event_id;
     int player_id = event.player_id;
     int value = event.value;
