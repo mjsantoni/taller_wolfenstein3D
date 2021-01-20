@@ -2,12 +2,14 @@ dimensions:
   width: 10
   height: 10
 scenarios:
-  wood_wall: [[0,0],[3,3],[1,0]]
+  wood_wall: [[0,0],[0,1],[3,3],[1,0]]
   stone_wall: []
   blue_wall: []
   barrel: []
+  unlocked_door: [[5,5]]
+  locked_door: [[7,8]]
 players:
-  0: [[1, 2]]
+  0: [[1, 1]]
   1: [[1, 2]]
 items:
   crown: [[2, 2], [2, 1]]

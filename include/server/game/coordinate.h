@@ -24,6 +24,9 @@ public:
     void show() {
         std::cout << "Coord: (" << x << ", " << y << ")\n";
     }
+    bool isValid() const {
+        return x != -1 && y != -1;
+    }
 
 };
 

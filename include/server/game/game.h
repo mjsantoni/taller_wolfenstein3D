@@ -11,10 +11,10 @@
 #include "server/game/map_generator.h"
 #include "server/game/map_parser.h"
 #include "server/game/drop_handler.h"
+#include "server/game/blocking_item_handler.h"
 #include "hit.h"
 
 class Game {
-
 private:
     std::atomic<bool> playing;
     std::vector<Player> players;
@@ -25,10 +25,10 @@ private:
     PickUpHandler pickUpHandler;
     ConfigParser configParser;
     DropHandler dropHandler;
+    BlockingItemHandler blockingItemHandler;
+
     int players_ids = 0;
     int players_alive = 0;
-
-    //ShootHandler sh;
 
 public:
     Game(std::string map_path, std::string config_path);
@@ -56,6 +56,10 @@ public:
     void dropPlayerItems(const std::pair<std::pair<std::string, int>, int>& drops, const Coordinate& coordinate);
 
     void addDropsToHitEvent(const std::pair<std::pair<std::string, int>, int>& drops, Hit &hit, const Coordinate& coordinate);
+
+    std::pair<Coordinate, int> openDoor(int id);
+
+    Coordinate pushWall(int id);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

@@ -29,11 +29,11 @@ public:
     void addItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& non_obstructives, PositionableHandler handler);
     void addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& player_spawns, PositionableHandler handler);
+                         std::vector<Coordinate>>& spawns);
 
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
     void putPositionableAt(Coordinate coordinates, Positionable positionable);
-    bool isABlockingItemAt(Coordinate coordinates);
+    bool isABlockingItemAt(const Coordinate& coordinates);
     void show();
 
     Coordinate closePositionable(int units, Coordinate coord,
@@ -56,7 +56,13 @@ public:
 
     void addGlobalID();
 
-    int getGlobalID();
+    int getGlobalID() const;
+
+    Positionable getBlockingItemAt(Coordinate coordinates);
+
+    Coordinate getNormalizedCoordinate(Coordinate coordinates);
+
+    void removeBlockingItemAt(Coordinate coordinates);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

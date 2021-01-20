@@ -68,6 +68,14 @@ const std::vector<std::pair<int, bool>>& Hit::getPlayerRespawns() const {
     return player_respawns;
 }
 
+void Hit::addDrops(int id, Coordinate pos) {
+    drops.emplace_back(id, pos); // id = -1 -> bullets
+}
+
+const std::vector<std::pair<int, Coordinate>>& Hit::getDrops() const {
+    return drops;
+}
+
 Hit::Hit(const Hit& other) {
     this->player_id = other.player_id;
     this->bullets_shot = other.bullets_shot;
@@ -87,12 +95,5 @@ Hit& Hit::operator=(const Hit& other) {
     return *this;
 }
 
-void Hit::addDrops(int id, Coordinate pos) {
-    drops.emplace_back(id, pos);
-}
-
-const std::vector<std::pair<int, Coordinate>>& Hit::getDrops() const {
-    return drops;
-}
 
 

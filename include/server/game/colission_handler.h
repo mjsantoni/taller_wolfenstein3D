@@ -16,6 +16,8 @@ public:
 
     std::vector<std::pair<Coordinate, Positionable>>
         getCloseItems(const Coordinate& old_pos, const Coordinate& new_pos);
+
+    Coordinate getCloseDoor(Coordinate pos, double angle);
 };
 
 #endif //TP_WOLFENSTEIN_COLISSION_HANDLER_H

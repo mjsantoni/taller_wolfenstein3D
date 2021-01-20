@@ -88,3 +88,20 @@ ColissionHandler::getCloseItems(const Coordinate& old_pos,
     }
     return positionables;
 }
+
+Coordinate ColissionHandler::getCloseDoor(Coordinate pos, double angle) {
+    int x_move = std::round(cos(angle)*move_size);
+    int y_move = std::round(sin(angle)*move_size*-1);
+    int x_factor = (x_move < 0) ? -1 : 1;
+    int y_factor = (y_move < 0) ? -1 : 1;
+    int new_x = pos.x + x_move + (safe_distance * x_factor);
+    int new_y = pos.y + y_move + (safe_distance * y_factor);
+    Coordinate pos_to_check(new_x, new_y);
+    if (map.isABlockingItemAt(pos_to_check)) {
+        if (map.getBlockingItemAt(pos_to_check).getCategory() == "door") {
+            std::cout << "Hay un: " << map.getBlockingItemAt(pos_to_check).getCategory() << "\n";
+            return pos_to_check;
+        }
+    }
+    return Coordinate(-1, -1);
+}

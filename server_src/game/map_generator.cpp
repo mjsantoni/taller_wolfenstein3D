@@ -35,7 +35,7 @@ Map MapGenerator::create() {
     map.addItems(positionables, handler);
 
     positionables = getPlayerSpawns();
-    map.addPlayerSpawns(positionables, handler);
+    map.addPlayerSpawns(positionables);
     return map;
 }
 

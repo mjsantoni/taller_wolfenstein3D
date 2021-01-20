@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath>
 #include <functional>
+#include <algorithm>
 
 Map::Map() {}
 
@@ -40,7 +41,7 @@ void Map::addItems(std::unordered_map<std::string,
 }
 
 void Map::addPlayerSpawns(std::unordered_map<std::string,
-                            std::vector<Coordinate>>& spawns, PositionableHandler handler) {
+                          std::vector<Coordinate>>& spawns) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
             coord.x = (coord.x * grid_size) + (int) grid_size/2;
@@ -71,14 +72,28 @@ void Map::putPositionableAtExact(Positionable item, Coordinate pos) {
     board[pos] = item;
 }
 
-bool Map::isABlockingItemAt(Coordinate coordinates) {
-    int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
-    int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
-    Coordinate normalize(x_normalize, y_normalize);
+bool Map::isABlockingItemAt(const Coordinate& coordinates) {
+    Coordinate normalize = getNormalizedCoordinate(coordinates);
     if(board.find(normalize) != board.end())
         return board.at(normalize).isBlocking();
     return false;
 }
+
+Positionable Map::getBlockingItemAt(Coordinate coordinates) {
+    return board.at(getNormalizedCoordinate(coordinates));
+}
+
+void Map::removeBlockingItemAt(Coordinate coordinates) {
+    board.erase(getNormalizedCoordinate(coordinates));
+}
+
+Coordinate Map::getNormalizedCoordinate(Coordinate coordinates) {
+    int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
+    int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
+    Coordinate normalize(x_normalize, y_normalize);
+    return normalize;
+}
+
 
 Coordinate Map::closePositionable(int units, Coordinate coord,
                                   std::set<Coordinate>& found_positionables) {
@@ -114,7 +129,7 @@ void Map::addGlobalID() {
     global_id++;
 }
 
-int Map::getGlobalID() {
+int Map::getGlobalID() const {
     return global_id;
 }
 
@@ -173,6 +188,5 @@ bool Map::isAPlayerAt(Coordinate &coordinate) {
 
 void Map::removePlayer(int &i) {
     player_positions[i] = Coordinate(-1, -1);
-
 }
 

@@ -10,6 +10,7 @@
 #include "server/entities/treasure.h"
 #include "server/entities/gun.h"
 #include "server/entities/hp_item.h"
+#include "server/entities/door.h"
 
 PositionableHandler::PositionableHandler(std::string _config_path) :
                                            cp(_config_path) {}
@@ -19,6 +20,8 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
   else if (type == "wood_wall")  return Wall(type, id, false);
   else if (type == "blue_wall")  return Wall(type, id, false);
   else if (type == "rock_wall")  return Wall(type, id, false);
+  else if (type == "locked_door") return Door(type, id, true);
+  else if (type == "unlocked_door") return Door(type, id, false);
   else if (type == "barrel")  return Barrel(id);
   else { return Table(id); }
 }

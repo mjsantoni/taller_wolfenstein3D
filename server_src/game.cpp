@@ -13,7 +13,8 @@ Game::Game(std::string map_path, std::string config_path) :
            colHandler(map),
            pickUpHandler(config_path),
            configParser(config_path),
-           dropHandler(config_path) {
+           dropHandler(config_path),
+           blockingItemHandler(config_path, map) {
 
     int id1 = connectPlayer();
     int id2 = connectPlayer();
@@ -145,6 +146,22 @@ void Game::passTime() {
 */
 
 Game::~Game() {}
+
+std::pair<Coordinate, int> Game::openDoor(int id) {
+    Coordinate door_to_open = colHandler.getCloseDoor(map.getPlayerPosition(id),
+                                                      players[id].getAngle());
+    Coordinate not_opened(-1, -1);
+    if (!door_to_open.isValid()) return std::make_pair(not_opened, -1);
+
+    std::pair<bool, int> opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
+    if (!opened_door.first) return std::make_pair(not_opened, opened_door.second);
+    return std::make_pair(map.getNormalizedCoordinate(door_to_open),
+                          opened_door.second);
+}
+
+Coordinate Game::pushWall(int id) {
+    return Coordinate();
+}
 
 
 
