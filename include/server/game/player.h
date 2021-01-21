@@ -64,8 +64,8 @@ public:
     int useKey();
 
     /* Prohibe construccion y asignacion por copia. */
-    //Player(const Player&) = delete;
-    //Player& operator=(const Player&) = delete;
+    //Player(const Player& other) = delete;
+    //Player& operator=(const Player& other) = delete;
 
     /* Prohibe construccion y asignacion por movimiento. */
     //Player(Player&&) = delete;

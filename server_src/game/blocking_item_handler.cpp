@@ -1,8 +1,7 @@
 #include "server/game/blocking_item_handler.h"
 #include "server/entities/door.h"
 
-BlockingItemHandler::BlockingItemHandler(std::string config_path, Map& _map) :
-                                        configParser(config_path),
+BlockingItemHandler::BlockingItemHandler(Map &_map) :
                                         map(_map) {}
 
 BlockingItemHandler::~BlockingItemHandler() {}
@@ -24,7 +23,7 @@ std::pair<bool, int> BlockingItemHandler::openDoor(Coordinate coordinate, Player
     return std::make_pair(true, key_id);
 }
 
-bool BlockingItemHandler::pushWall(Coordinate coordinate) {
+bool BlockingItemHandler::pushWall(const Coordinate& coordinate) {
     if (map.getBlockingItemAt(coordinate).getType() != "fake_wall") {
         return false;
     }

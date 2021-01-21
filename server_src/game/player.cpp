@@ -177,7 +177,7 @@ std::pair<std::pair<std::string, int>, int> Player::getDrops() {
             gun.getType() != "pistol") {
             drops.first.first = gun.getType();
             drops.first.second = gun.getId();
-        }
+        } // Asi como esta devuelve la ultima arma q tiene en este orden(machine,chain,rpg)
     }
     drops.second = useKey();
     return drops;

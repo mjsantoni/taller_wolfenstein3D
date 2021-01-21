@@ -3,7 +3,7 @@
 
 #include <string>
 #include "common/event_queue.h"
-#include "common/event_handler.h"
+#include "common/event_factory.h"
 #include "game.h"
 #include "common/event_processor.h"
 #include "common/shared_queue.h"
@@ -13,12 +13,13 @@
 class GameHandler {
 private:
     Game game;
-    SharedQueue<Event> sharedQueue;
+    SharedQueue<Event> eventQueue;
     //BlockingQueue<Change> blockingQueue;
     //std::vector<ClientUpdater>
     EventQueue eq;
-    EventHandler eh;
+    EventFactory ef;
     EventProcessor ep;
+
 public:
     GameHandler(std::string path);
     void run();

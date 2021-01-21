@@ -1,17 +1,19 @@
 #include "server/game/game_handler.h"
 
-GameHandler::GameHandler(std::string path) : game(path, path), eh(eq), ep(game,eq) {}
+GameHandler::GameHandler(std::string path) : game(path, path),
+                                             ef(eventQueue),
+                                             ep(game,eq) {}
 
 void GameHandler::run() {
-    //eh.start();
+    //ef.start();
     //ep.start();
     //proccess();
 }
 /*
 void GameHandler::proccess() {
     while (game.isNotOver()) {
-        while (eq.isNotEmpty()) {
-            Event event = eq.pop();
+        while (eventQueue.isNotEmpty()) {
+            Event event = eventQueue.pop();
             std::vector<Change> changes = ep.proccess(event);
             for (auto& change : changes) {
                 BloquinChnageQueue.push(change)

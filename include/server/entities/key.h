@@ -8,8 +8,8 @@ private:
     
 public:
     Key(int id);
-    //pickUp() // unlocks
     ~Key();
+
 };
 
 
