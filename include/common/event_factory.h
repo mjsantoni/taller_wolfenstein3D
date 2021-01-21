@@ -1,8 +1,8 @@
 #ifndef TP_WOLFENSTEIN_EVENT_FACTORY_H
 #define TP_WOLFENSTEIN_EVENT_FACTORY_H
 
-#include "event_queue.h"
 #include "shared_queue.h"
+#include "event.h"
 
 class EventFactory {
 private:
@@ -10,7 +10,7 @@ private:
     // Es de Event* o Event?
 
 public:
-    EventFactory(SharedQueue<Event>& _event_queue);
+    explicit EventFactory(SharedQueue<Event>& _event_queue);
     Event createAndPushFromInts(std::vector<int> event_ints);
 
     std::vector<int> convertToInts(std::vector<uint8_t> bytes);

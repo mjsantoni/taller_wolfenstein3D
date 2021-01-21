@@ -19,6 +19,13 @@ public:
                 value2(_value2),
                 is_global(_is_global) {}
 
+    Change() : change_id(INVALID),
+               player_id(INVALID),
+               value1(INVALID),
+               value2(INVALID),
+               is_global(false) {}
+
+    bool isInvalid() const { return change_id == INVALID; }
     int getChangeID() const { return change_id; }
     int getPlayerID() const { return player_id; }
     int getFirstValue() const { return value1; }

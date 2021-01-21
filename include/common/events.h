@@ -1,6 +1,7 @@
 #ifndef TP_WOLFENSTEIN_EVENTS_H
 #define TP_WOLFENSTEIN_EVENTS_H
 
+#define INVALID (-1)
 #define CONNECT_PLAYER 0
 #define MOVE_PLAYER 1
 #define SHOOT 2

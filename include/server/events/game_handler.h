@@ -2,26 +2,26 @@
 #define TP_WOLFENSTEIN_GAME_HANDLER_H
 
 #include <string>
-#include "common/event_queue.h"
+#include <vector>
 #include "common/event_factory.h"
-#include "game.h"
+#include "server/game/game.h"
 #include "common/event_processor.h"
 #include "common/shared_queue.h"
 #include "common/blocking_queue.h"
 #include "common/change.h"
+#include "server/events/client_handler.h"
 
 class GameHandler {
 private:
     Game game;
     SharedQueue<Event> eventQueue;
-    //BlockingQueue<Change> blockingQueue;
-    //std::vector<ClientUpdater>
-    EventQueue eq;
-    EventFactory ef;
+    BlockingQueue<Change> changeQueue;
+    //std::vector<ClientUpdater*> client_updaters;
+    std::vector<ClientHandler*> client_handlers;
     EventProcessor ep;
 
 public:
-    GameHandler(std::string path);
+    GameHandler(std::string map_path, std::string config_path);
     void run();
 
 };

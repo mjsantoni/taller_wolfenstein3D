@@ -12,7 +12,11 @@ public:
             player_id(_player_id),
             event_id(_event_id),
             value(_value) {}
+    Event() : event_id(INVALID),
+               player_id(INVALID),
+               value(INVALID) {}
 
+    bool isInvalid() const { return event_id == INVALID; }
     int getEventID() const { return event_id; }
     int getPlayerID() const { return player_id; }
     int getValue() const { return value; }
