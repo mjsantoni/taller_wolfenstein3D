@@ -19,7 +19,7 @@ private:
     //SharedQueue<Event> eventQueue;
     std::vector<ClientUpdater*> clients_updater;
     std::vector<ClientHandler*> clients_handler;
-    std::vector<NetworkConnection> sockets;
+    std::vector<int> sockets;
     EventProcessor eventProcessor;
     bool alive = true;
 
@@ -29,7 +29,7 @@ public:
     GameHandler(std::string map_path, std::string config_path);
     void run();
 
-    void addNewPlayer(NetworkConnection socket);
+    void addNewPlayer(int fd);
 
     void stop();
 };

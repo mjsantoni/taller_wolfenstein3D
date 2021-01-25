@@ -145,10 +145,12 @@ NetworkConnection& NetworkConnection::operator=(NetworkConnection&& other) {
     return *this;
 }
 
-NetworkConnection::~NetworkConnection() { 
+NetworkConnection::~NetworkConnection() {
+    /*
     if (isValid()) {
         shutdown(this->file_descriptor, SHUT_RDWR);
         close(this->file_descriptor);
         this->file_descriptor = -1;
     }
+     */
 }

@@ -15,8 +15,7 @@ int main( int argc, char* args[] ) {
         // Spawn clients
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-            std::cout << "EN EL MAIN: " << socket.file_descriptor << "\n";
-            gameHandler.addNewPlayer(std::move(socket));
+            gameHandler.addNewPlayer(socket.file_descriptor);
             total_connected++;
         } catch (const NetworkError& e) {
             continue;

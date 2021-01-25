@@ -1,8 +1,8 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(NetworkConnection& _socket, int id) :
-                            skt(_socket),
+ClientUpdater::ClientUpdater(int fd, int id) :
+                            skt(fd),
                             change_queue(Change()),
                             player_id(id),
                             alive(true) {
@@ -14,9 +14,11 @@ ClientUpdater::~ClientUpdater() {}
 void ClientUpdater::run() {
     while (alive) {
         Change change = change_queue.pop();
-        std::cout << "PLAYER " << player_id << "Popie un change de id: " << change.getChangeID() << "\n";
-        std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
-        skt.sendMsg(change.serialize());
+        if (change.isGlobal() || change.getPlayerID() == player_id) {
+            std::cout << "PLAYER " << player_id << "Popie un change de id: " << change.getChangeID() << "\n";
+            std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
+            skt.sendMsg(change.serialize());
+        }
     }
 }
 

@@ -31,12 +31,11 @@ void GameHandler::run() {
     }
 }
 
-void GameHandler::addNewPlayer(NetworkConnection socket) {
-    sockets.push_back(std::move(socket));
+void GameHandler::addNewPlayer(int fd) {
+    sockets.push_back(fd);
     int id = game.connectPlayer();
-    NetworkConnection& reference = sockets[sockets.size() - 1];
     ClientHandler* handler = new ClientHandler(eventQueue,id);
-    ClientUpdater* updater = new ClientUpdater(reference, id);
+    ClientUpdater* updater = new ClientUpdater(fd, id);
     handler->start();
     updater->start();
     clients_handler.push_back(handler);
