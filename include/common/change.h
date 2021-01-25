@@ -3,6 +3,8 @@
 
 #include "common/changes.h"
 
+#include <sstream>
+
 class Change {
 private:
     int change_id;
@@ -31,7 +33,12 @@ public:
     int getFirstValue() const { return value1; }
     int getSecondValue() const { return value2; }
     bool isGlobal() const { return is_global; }
-};
 
+    std::string serialize() {
+        std::ostringstream string;
+        string << change_id << "/" << id << "/" << value1 << "/" << value2;
+        return string.str();
+    }
+};
 
 #endif //TP_WOLFENSTEIN_CHANGE_H
