@@ -10,7 +10,7 @@
 #include <map>
 #include "positionable_mock.h"
 #include "client_player.h"
-#include "drawing_info.h"
+#include "map_info.h"
 
 
 class MapMock {
@@ -35,7 +35,7 @@ public:
     std::pair<int, int> calculateGrid(int x_pos, int y_pos);
     PositionableMock& getPositionableAt(std::pair<int, int> coordinates);
     bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
-    void getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
+    void getObjectInfo(MapInfo& drawing_info, int x_pos, int y_pos,
                        int x_factor, int y_factor);
     std::vector<PositionableMock> getAllObjects();
     int getWidth();
@@ -54,9 +54,9 @@ private:
     void erasePlayerFromOldPosition(std::pair<int, int> old_positions);
     void updatePositions(ClientPlayer& player, std::pair<int, int> old_position,
                          std::pair<int, int> new_position);
-    void loadWallInfo(DrawingInfo& drawing_info,
+    void loadWallInfo(MapInfo& drawing_info,
                       std::pair<int, int> grid_coordinates);
-    //void loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos);
+    //void loadObjectInfo(MapInfo& drawing_info, int x_pos, int y_pos);
 };
 
 

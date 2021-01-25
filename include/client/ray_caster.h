@@ -9,58 +9,54 @@
 #include "area.h"
 #include "client_wall.h"
 #include "ray_info.h"
-#include "drawing_info.h"
+#include "map_info.h"
+#include "sdl_window.h"
+#include "calculator.h"
 
 class RayCaster {
 public:
-    RayCaster(SdlWindow& window, ClientMap& map);
-    void renderScreen(int x, int y, ClientPlayer& player);
-    void loadObjects(int x, int y, double alpha);
+    RayCaster(SdlWindow& window, ClientMap& map, std::map<double, double>&
+          wall_distance_info,std::map<int, std::pair<int, int>>& _floor_info,
+          ObjectInfoProvider& info_provider, std::vector<double>& _angles_list);
+    void renderBackground(int x, int y, double alpha);
 private:
     SdlWindow window;
     ClientMap& map;
-    std::map<double, double> ray_information;
-    std::vector<double> angles_list;
+    int window_width;
+    int window_height;
+    int width_prop;
+    int height_prop;
+    int map_grid_size;
+    ObjectInfoProvider& info_provider;
+    std::map<double, double>& wall_distance_info;
+    std::vector<double>& angles_list;
+    std::map<int, std::pair<int, int>>& floor_info;
     double ray_angle_delta = (double)60/320*2*M_PI/360;
 
-    void castProjectionLine(int x,int y, double alpha, double beta,
-                            DrawingInfo& drawing_info);
+    void castProjectionLine(int x, int y, double alpha, double beta,
+                            ObjectInfo& drawing_info);
     void castProjectionLine_vertical(int x, int y, double alpha, double beta,
-                                       DrawingInfo& drawing_info);
+                                     ObjectInfo& drawing_info);
     void castProjectionLine_vertical_up(int x, int y, double alpha,
-                                        double beta, DrawingInfo& drawing_info);
+                                        double beta, ObjectInfo& drawing_info);
     void castProjectionLine_vertical_down(int x, int y, double alpha,
-                                        double beta, DrawingInfo& drawing_info);
+                                          double beta, ObjectInfo& drawing_info);
     void castProjectionLine_horizontal(int x, int y, double alpha, double beta,
-                                         DrawingInfo& drawing_info);
+                                       ObjectInfo& drawing_info);
     void castProjectionLine_horizontal_right(int x, int y, double alpha,
-                                        double beta, DrawingInfo& drawing_info);
+                                             double beta, ObjectInfo& drawing_info);
     void castProjectionLine_horizontal_left(int x, int y, double alpha,
-                                        double beta, DrawingInfo& drawing_info);
-    int calculateDelta(int delta_coord, double delta_alpha);
+                                            double beta, ObjectInfo& drawing_info);
     bool outOfBounds(ClientMap& map, int x_pos, bool is_vertical);
-    double calculateDistance(int delta_x, int delta_y);
-    void fillDrawingInfo(double beta, int x_pos, int y_pos, int delta_x,
-                         int delta_y, DrawingInfo& drawing_info, int x_factor,
-                         int y_factor);
+    void fillRayInfo(double beta, int x_pos, int y_pos, int delta_x,
+                     int delta_y, ObjectInfo& object_info, int x_factor,
+                     int y_factor);
+    ObjectInfo fillObjectInfo(ObjectInfo& map_info);
     int calculateBorderFactor(bool should_decrease, int position);
-    bool shouldDraw(double player_angle, double os_angle, double of_angle,
-                    double& diff_angle);
-    bool shouldDraw_borderCase(double os_angle, double of_angle,
-                  double fov_starting_angle, double fov_finishing_angle,
-                     double& diff_angle);
-    double getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos);
-    double normalize(double alpha);
-    void renderObject(int x_pos, int y_pos, double player_angle,
-                      double object_angle, double x_prop, Drawable& object);
     void saveRayInformation(double ray_angle, double distance);
-    bool blockedByWall(double angle, double distance);
-    std::pair<int, int> projectObjectOnMap(Drawable& object,
-                                           double player_angle);
-    double calculateObjectStartingXPos(double os_angle, double of_angle,
-                                       double diff_angle);
-    void renderBackground(int x, int y, double alpha);
-    void loadPlayerWeapon(int weapon_number);
+    void drawCeiling(int x_pos, int y_pos);
+    void drawFloor(int x_pos, int wall_posY, int wall_height);
+    void setDimensions(int width, int height);
 };
 
 

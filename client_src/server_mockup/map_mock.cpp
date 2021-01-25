@@ -7,7 +7,6 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
-#include <client/client_wall.h>
 #include "client/map_mock.h"
 
 MapMock::MapMock(int width, int height) : width(width), height(height) {
@@ -158,7 +157,7 @@ bool MapMock::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor) {
     return wall_at_grid;
 }
 
-void MapMock::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
+void MapMock::getObjectInfo(MapInfo& drawing_info, int x_pos, int y_pos,
                             int x_factor, int y_factor) {
 
     int x_coord = x_pos/grid_size*grid_size + x_factor*grid_size;
@@ -167,7 +166,7 @@ void MapMock::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
     loadWallInfo(drawing_info, grid_coordinates);
 }
 
-void MapMock::loadWallInfo(DrawingInfo& drawing_info,
+void MapMock::loadWallInfo(MapInfo& drawing_info,
                            std::pair<int, int> grid_coordinates) {
     PositionableMock positionable = info.at(grid_coordinates);
     drawing_info.object_type = positionable.getObjectType();
@@ -179,7 +178,7 @@ std::vector<PositionableMock> MapMock::getAllObjects() {
     return objects;
 }
 /*
-void MapMock::loadObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos) {
+void MapMock::loadObjectInfo(MapInfo& drawing_info, int x_pos, int y_pos) {
     std::pair<int, int> coordinates{x_pos, y_pos};
     Positionable positionable = floating_info.at(coordinates);
     drawing_info.object_type = positionable.getObjectType();

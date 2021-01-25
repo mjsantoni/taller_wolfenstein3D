@@ -4,12 +4,6 @@
 
 #include "client/positionable_mock.h"
 
-//
-// Created by andy on 25/11/20.
-//
-
-#include "client/positionable_mock.h"
-
 PositionableMock::PositionableMock(std::string name, int object_type, bool is_sprite,
                                    std::string image_name, std::string unique_name,
                                    int object_width, int object_height) :

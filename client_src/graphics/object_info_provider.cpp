@@ -8,6 +8,8 @@ ObjectInfoProvider::ObjectInfoProvider() {
     image_parser.fillImageVector(image_info_vector);
 }
 
-ImageInfo ObjectInfoProvider::getObjectInfo(int object_type) {
+ObjectInfo ObjectInfoProvider::getObjectInfo(int object_type) {
     return image_info_vector[object_type];
 }
+
+

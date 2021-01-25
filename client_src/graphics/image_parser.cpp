@@ -6,10 +6,9 @@
 #include <sstream>
 #include <iterator>
 #include <fstream>
-#include <client/file_exception.h>
 #include "client/image_parser.h"
 
-void ImageParser::fillImageVector(std::vector<ImageInfo>& vector) {
+void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
     std::ifstream infile("../client_src/resources/objects_info.txt");
     if (!infile)
         throw FileException("Archivo de imagenes no encontrado");
@@ -17,8 +16,8 @@ void ImageParser::fillImageVector(std::vector<ImageInfo>& vector) {
     while (std::getline(infile, line)) {
         if (line.empty())
             return;
-        ImageInfo image_info = processLine(line);
-        vector.push_back(std::move(image_info));
+        ObjectInfo object_info = processLine(line);
+        vector.push_back(std::move(object_info));
     }
 }
 
@@ -42,17 +41,17 @@ std::string getStringValue(std::string complete_value) {
     return aux.substr(0, aux.length()-1);
 }
 
-void getSpriteInfo(ImageInfo& image_info,
+void getSpriteInfo(ObjectInfo& object_info,
                    std::string dimensions,
                    std::string padding) {
-    image_info.sprite_rows = stoi(dimensions.substr(dimensions.find(':')
-            +1, dimensions.find('x')));
-    image_info.sprite_cols = stoi(dimensions.substr(dimensions.find('x')
-            + 1));
-    image_info.sprite_v_padding = stoi(padding.substr(padding.find(':')
-                                                    +1, padding.find('x')));
-    image_info.sprite_h_padding = stoi(padding.substr(padding.find('x')
-                                                    + 1));
+    object_info.setSpriteRows(stoi(dimensions.substr(dimensions.find(':')
+            +1, dimensions.find('x'))));
+    object_info.setSpriteCols(stoi(dimensions.substr(dimensions.find('x')
+            + 1)));
+    object_info.setSpriteVPadding(stoi(padding.substr(padding.find(':')
+            +1, padding.find('x'))));
+    object_info.setSpriteHPadding(stoi(padding.substr(padding.find('x')
+            + 1)));
 }
 
 void cleanVector(std::vector<std::string> vector) {
@@ -62,20 +61,19 @@ void cleanVector(std::vector<std::string> vector) {
     }
 }
 
-ImageInfo ImageParser::processLine(std::string line) {
-    ImageInfo image_info;
+ObjectInfo ImageParser::processLine(std::string line) {
+    ObjectInfo object_info;
     std::vector<std::string> aux;
     split(line, aux);
-    image_info.image_path = getCorrectValue(aux[0]);
-    image_info.object_width = stof(getCorrectValue(aux[1]));
-    image_info.object_height = stof(getCorrectValue(aux[2]));
-    image_info.image_width = stoi(getCorrectValue(aux[3]));
-    image_info.image_height = stoi(getCorrectValue(aux[4]));
-    image_info.object_name = getStringValue(aux[5]);
-    image_info.is_sprite = stoi(getCorrectValue(aux[6]));
-    if (image_info.is_sprite)
-        getSpriteInfo(image_info, aux[7], aux[8]);
-    return image_info;
+    object_info.setImagePath(getCorrectValue(aux[0]));
+    object_info.setImageWidth(stoi(getCorrectValue(aux[3])));
+    object_info.setImageHeight(stoi(getCorrectValue(aux[4])));
+    object_info.setObjectName(getStringValue(aux[5]));
+    object_info.setIsSprite(stoi(getCorrectValue(aux[6])));
+    if (object_info.isSprite())
+        getSpriteInfo(object_info, aux[7], aux[8]);
+    object_info.setObjectWidth(stof(getCorrectValue(aux[1])));
+    return object_info;
 }
 
 

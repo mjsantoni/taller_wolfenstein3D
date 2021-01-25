@@ -11,23 +11,22 @@
 
 #include "area.h"
 #include "sdl_texture.h"
-#include "drawing_info.h"
-#include "object_drawer.h"
+#include "map_info.h"
 #include "sdl_exception.h"
 #include "drawable.h"
-
 #include "client_player.h"
-#include "ui_drawer.h"
+#include "window_drawer.h"
 
 
 class SdlWindow {
 private:
     int width;
     int height;
+    double width_prop;
+    double height_prop;
     SDL_Window* window;
     SDL_Renderer* renderer;
-    ObjectDrawer object_drawer;
-    UIDrawer ui_drawer;
+    WindowDrawer window_drawer;
 public:
     SdlWindow(int width, int height);
     ~SdlWindow();
@@ -37,18 +36,19 @@ public:
     SDL_Renderer* getRenderer() const;
     SDL_Surface* getSurface() const;
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
+    void putWall(int ray_no, ObjectInfo& object_info);
+    void putFloorAndCeiling(int ray_no, ObjectInfo& object_info);
     void displayFullImage(SdlTexture& texture);
     void fillArea(Area area, int r, int g, int b, int a);
     void restore();
-    void putWall(int ray_no, DrawingInfo& drawing_info);
-    void putFloorAndCeiling(int ray_no, DrawingInfo& drawing_info);
     void put3DObject(double distance, double pl_ob_angle, double x_prop,
                      Drawable& object);
-    void drawPlayersWeapon(int weapon_number);
+    void drawPlayersWeapon(ObjectInfo& object_info);
     int getWidth();
     void drawPlayerUI(ClientPlayer& player);
     void setDistanceInfo(std::map<double, double> ray_information,
                          std::vector<double> angles_list);
+    void drawRectangle(Area& area, int r, int g, int b, int a);
 };
 
 

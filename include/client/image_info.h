@@ -10,8 +10,27 @@
 class ImageInfo {
 private:
 public:
-    double object_width;
-    double object_height;
+    int getImageWidth() const;
+    void setImageWidth(int imageWidth);
+    int getImageHeight() const;
+    void setImageHeight(int imageHeight);
+    std::string getObjectName() const;
+    void setObjectName(std::string objectName);
+    std::string getImagePath() const;
+    void setImagePath(std::string imagePath);
+    int getSpriteAnimationNo() const;
+    void setSpriteAnimationNo(int spriteAnimationNo);
+    int getSpriteRows() const;
+    void setSpriteRows(int spriteRows);
+    int getSpriteCols() const;
+    void setSpriteCols(int spriteCols);
+    int getSpriteHPadding() const;
+    void setSpriteHPadding(int spriteHPadding);
+    int getSpriteVPadding() const;
+    void setSpriteVPadding(int spriteVPadding);
+    bool isSprite() const;
+    void setIsSprite(bool isSprite);
+private:
     int image_width;
     int image_height;
     std::string object_name;

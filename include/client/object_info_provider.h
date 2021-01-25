@@ -9,14 +9,15 @@
 #include <vector>
 #include "image_info.h"
 #include "image_parser.h"
+#include "object_info.h"
 
 class ObjectInfoProvider {
 private:
-    std::vector<ImageInfo> image_info_vector;
+    std::vector<ObjectInfo> image_info_vector;
     ImageParser image_parser;
 public:
     ObjectInfoProvider();
-    ImageInfo getObjectInfo(int object_type);
+    ObjectInfo getObjectInfo(int object_type);
 };
 
 

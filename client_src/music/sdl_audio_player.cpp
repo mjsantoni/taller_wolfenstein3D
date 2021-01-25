@@ -4,7 +4,6 @@
 
 #include <SDL_mixer.h>
 #include "client/sdl_audio_player.h"
-#include "client/sdl_exception.h"
 
 SdlAudioPlayer::SdlAudioPlayer() {
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )

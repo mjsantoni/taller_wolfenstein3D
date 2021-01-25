@@ -3,7 +3,6 @@
 //
 
 #include "client/sdl_texture.h"
-#include "client/sdl_exception.h"
 #include <SDL_image.h>
 
 SdlTexture::SdlTexture(std::string file_name) : file_name(file_name){

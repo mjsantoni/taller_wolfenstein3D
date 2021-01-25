@@ -19,9 +19,8 @@ SdlWindow::SdlWindow(int width, int height) : width(width), height(height) {
     );
     if (error_code)
         throw SdlException("Error al crear la ventana", SDL_GetError());
-    object_drawer.initialize(renderer, width, (int) (0.8 * height));
-    ui_drawer.initialize(renderer, (int) (0.8 * height), (int) (0.2 * height),
-                         width);
+    width_prop = double (width)/320;
+    height_prop = double (height)/200;
 }
 
 SdlWindow::~SdlWindow() {
@@ -33,6 +32,20 @@ SdlWindow::~SdlWindow() {
         SDL_DestroyWindow(window);
         this->window = nullptr;
     }
+}
+
+void SdlWindow::putFloorAndCeiling(int ray_no, ObjectInfo& object_info) {
+    Area screen_area = window_drawer.assembleScreenArea(ray_no, object_info);
+    window_drawer.drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
+    window_drawer.drawCeiling(ray_no, screen_area.getY());
+}
+
+void SdlWindow::putWall(int ray_no, ObjectInfo& object_info) {
+    Area image_area;
+    SDL_Texture* texture = window_drawer.drawWall(object_info, image_area);
+    Area screen_area = window_drawer.assembleScreenArea(ray_no, object_info);
+    putTextureAt(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
 }
 
 void SdlWindow::fill(int r, int g, int b, int alpha) {
@@ -86,23 +99,32 @@ void SdlWindow::restore() {
     SDL_RestoreWindow(window);
 }
 
-void SdlWindow::putWall(int ray_no, DrawingInfo& drawing_info) {
+int SdlWindow::getWidth() {
+    return width;
+}
+
+void SdlWindow::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
     Area image_area;
-    SDL_Texture* texture = object_drawer.drawWall(drawing_info, image_area);
-    Area screen_area = object_drawer.assembleScreenArea(ray_no, drawing_info);
+    SDL_Texture* texture = window_drawer.drawImage(object_info, image_area);
+    image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
+    Area screen_area = window_drawer.assembleScreenArea(object_info,
+                                                        pl_ob_angle);
+    printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
+    //printf("Distancia: %f\n", distance);
+    //printf("Pos x: %d\n", screen_area.getX());
+    //printf("Pos y: %d\n", screen_area.getY());
+    //printf("Altura: %d\n", screen_area.getHeight());
+    //printf("Ancho: %d\n", screen_area.getWidth());
     putTextureAt(texture, image_area, screen_area);
     SDL_DestroyTexture(texture);
 }
 
-void SdlWindow::putFloorAndCeiling(int ray_no, DrawingInfo& drawing_info) {
-    Area screen_area = object_drawer.assembleScreenArea(ray_no, drawing_info);
-    object_drawer.drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
-    object_drawer.drawCeiling(ray_no, screen_area.getY());
-}
-
-
-int SdlWindow::getWidth() {
-    return width;
+Area ObjectDrawer::assembleScreenArea(DrawingInfo& drawing_info,
+                                      double distance,
+                                      double pl_ob_angle) {
+    Area screen_area;
+    findObjectProportions(drawing_info, distance, pl_ob_angle, screen_area);
+    return screen_area;
 }
 
 void SdlWindow::put3DObject(double distance,
@@ -110,13 +132,13 @@ void SdlWindow::put3DObject(double distance,
                             double x_prop,
                             Drawable& object){
     Area image_area;
-    DrawingInfo drawing_info;
+    MapInfo drawing_info;
     drawing_info.hit_distance = distance;
     drawing_info.object_type = object.getObjectType();
     drawing_info.hit_grid_pos = 0;
-    SDL_Texture* texture = object_drawer.drawImage(drawing_info, image_area);
+    SDL_Texture* texture = window_drawer.drawImage(drawing_info, image_area);
     image_area.setX((int) x_prop*image_area.getWidth());
-    Area screen_area = object_drawer.assembleScreenArea(drawing_info, distance,
+    Area screen_area = window_drawer.assembleScreenArea(drawing_info, distance,
                                                         pl_ob_angle);
     printf("Nombre de objeto: %s\n", drawing_info.object_name.c_str());
     //printf("Distancia: %f\n", distance);
@@ -128,15 +150,6 @@ void SdlWindow::put3DObject(double distance,
     SDL_DestroyTexture(texture);
 }
 
-void SdlWindow::drawPlayersWeapon(int weapon_number) {
-    DrawingInfo drawing_info;
-    Area image_area;
-    drawing_info.object_type = weapon_number;
-    SDL_Texture* texture = object_drawer.drawPlayersWeapon(drawing_info, image_area);
-    Area screen_area = object_drawer.assembleScreenWeaponArea(drawing_info);
-    putTextureAt(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
-}
 void SdlWindow::drawPlayerUI(ClientPlayer& player) {
     ui_drawer.drawPlayerUI(player);
 }
@@ -144,6 +157,23 @@ void SdlWindow::drawPlayerUI(ClientPlayer& player) {
 void SdlWindow::setDistanceInfo(std::map<double, double> ray_information,
                                 std::vector<double> angles_list) {
     object_drawer.setDistanceInfo(std::move(ray_information), angles_list);
+}
+
+void SdlWindow::drawPlayersWeapon(ObjectInfo& object_info) {
+    Area image_area;
+    SDL_Texture* texture =
+            window_drawer.drawPlayersWeapon(object_info, image_area);
+    Area screen_area = window_drawer.assembleScreenWeaponArea(object_info);
+    putTextureAt(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+}
+
+void SdlWindow::drawRectangle(Area& area, int r, int g, int b, int a) {
+    SDL_Rect floor_rect = {
+            area.getX(), area.getY(), area.getWidth(), area.getHeight()
+    };
+    SDL_SetRenderDrawColor(renderer, 123, 123, 123, 0);
+    SDL_RenderFillRect(renderer, &floor_rect);
 }
 
 

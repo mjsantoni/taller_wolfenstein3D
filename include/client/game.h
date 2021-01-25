@@ -15,21 +15,23 @@
 #include "event_handler_mock.h"
 #include "client_map.h"
 #include "sdl_audio_player.h"
+#include "game_screen.h"
+#include "client_parser.h"
 #include <vector>
 
 class Game {
 public:
-    Game(int map_width, int map_height, ClientMap _map, MapMock real_map);
+    Game(int map_width, int map_height, MapMock real_map);
     void start();
 private:
     bool running;
-    SdlWindow window;
     SdlAudioPlayer audio_player;
     ClientMap map;
     EventHandlerMock event_handler;
-
+    ObjectInfoProvider info_provider;
+    GameScreen screen;
+    ClientParser client_parser;
     void displayIntro();
-
 };
 
 

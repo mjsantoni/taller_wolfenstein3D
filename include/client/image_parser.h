@@ -8,12 +8,14 @@
 
 #include <vector>
 #include "image_info.h"
+#include "object_info.h"
+#include "file_exception.h"
 
 class ImageParser {
 private:
-    ImageInfo processLine(std::string line);
+    ObjectInfo processLine(std::string line);
 public:
-    void fillImageVector(std::vector<ImageInfo>& vector);
+    void fillImageVector(std::vector<ObjectInfo>& vector);
 };
 
 

@@ -1,10 +1,4 @@
 //
-// Created by andy on 11/12/20.
-//
-
-#include "client/event_handler_mock.h"
-
-//
 // Created by andy on 27/11/20.
 //
 

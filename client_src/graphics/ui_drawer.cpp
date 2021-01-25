@@ -5,20 +5,19 @@
 #include <SDL_ttf.h>
 #include "client/ui_drawer.h"
 
-UIDrawer::UIDrawer() : player_face("../client_src/resources/ui/player_face.png",
-                                  184, 124, 4, 2, 0, 0) {}
+UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
+                       player_face("../client_src/resources/ui/player_face.png",
+                       184, 124, 4, 2, 0, 0), info_provider(_info_provider),
+                       window(_window) {}
 
-void UIDrawer::initialize(SDL_Renderer *_renderer,
-                   int _starting_point,
-                   int _height,
-                   int _width) {
-    renderer = _renderer;
+void UIDrawer::setDimensions(int _starting_point, int _height, int _width) {
     starting_point = _starting_point;
     height = _height;
     width = _width;
 }
 
 void UIDrawer::drawPlayerUI(ClientPlayer& player) {
+    drawPlayersEquippedWeapon(player.getEquippedWeapon());
     TTF_Init();
     Area ui_rect_area(0, starting_point, width, height);
     fillArea(ui_rect_area, 3, 69, 64, 0);
@@ -28,7 +27,7 @@ void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     drawPlayersImage();
     drawPlayersHealth(player.getHealth());
     drawPlayersAmmo(player.getAmmo());
-    drawPlayersWeapon(player.getEquippedWeapon());
+    drawPlayersWeaponIcon(player.getEquippedWeapon());
     /*
 
      */
@@ -71,13 +70,13 @@ void UIDrawer::drawPlayersImage() {
     text_starting_point += width / 10 - h_padding;
 }
 
-void UIDrawer::drawPlayersWeapon(int players_weapon) {
+void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     box_starting_point += 2 * h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
                    width/5, height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
-    ImageInfo image_info = info_provider.getObjectInfo(players_weapon + 5);
-    SdlTexture weapon_icon(image_info.image_path);
+    ObjectInfo object_info = info_provider.getObjectInfo(players_weapon + 5);
+    SdlTexture weapon_icon(object_info.getImagePath());
     Area image_area;
     SDL_Texture* weapon_texture = weapon_icon.loadTexture(renderer, image_area);
     Area screen_area(text_starting_point,starting_point+15, width/5-2*h_padding,
@@ -174,6 +173,11 @@ void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
             dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
     };
     SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
+}
+
+void UIDrawer::drawPlayersEquippedWeapon(int weapon_number) {
+    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number);
+    window.drawPlayersWeapon(object_info);
 }
 
 

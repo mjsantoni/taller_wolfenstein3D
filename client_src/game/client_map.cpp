@@ -7,11 +7,10 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
-#include <client/drawable.h>
 #include "client/client_map.h"
 
-ClientMap::ClientMap(int width, int height, int grid_size) :
-                                width(width), height(height) {
+ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
+                    height(height) {
     real_width = width*grid_size;
     real_height = height*grid_size;
 }
@@ -95,23 +94,27 @@ bool ClientMap::wallAtPerimeter(int x_pos,
     return is_at_horizontal_perimeter || is_at_vertical_perimeter;
 }
 
-void ClientMap::getObjectInfo(DrawingInfo& drawing_info, int x_pos, int y_pos,
-                        int x_factor, int y_factor) {
+void ClientMap::getMapInfoForObject(ObjectInfo& object_info,
+                                    int x_pos,
+                                    int y_pos,
+                                    int x_factor,
+                                    int y_factor) {
 
     int x_coord = x_pos/grid_size*grid_size + x_factor*grid_size;
     int y_coord = y_pos/grid_size*grid_size + y_factor*grid_size;
     std::pair<int, int> grid_coordinates{x_coord, y_coord};
     if (wallAtGrid(x_pos, y_pos, x_factor, y_factor))
-        loadWallInfo(drawing_info, grid_coordinates);
+        loadWallInfo(object_info, grid_coordinates);
 }
 
-void ClientMap::loadWallInfo(DrawingInfo& drawing_info,
-                       std::pair<int, int> grid_coordinates) {
+void ClientMap::loadWallInfo(ObjectInfo& object_info,
+                             std::pair<int, int> grid_coordinates) {
     Drawable drawable = info.at(grid_coordinates);
-    drawing_info.object_type = drawable.getObjectType();
+    object_info.setObjectType(drawable.getObjectType());
+    object_info.setMapStartingPos(drawable.getMapPosition());
 }
 
-void ClientMap::putPlayerAt(std::string player_name, std::pair<int, int> coord) {
+void ClientMap::putPlayerAt(std::string player_name, std::pair<int, int> coord){
     positions.insert(std::pair<std::string, std::pair<int, int>>(player_name,
                                                                  coord));
 }
@@ -137,9 +140,6 @@ void ClientMap::addWalls(std::vector<std::pair<int,int>> walls,
 void ClientMap::putDrawableAt(std::pair<int, int> coordinates,
                             int object_type) {
     Drawable drawable(object_type);
-    ImageInfo object_info = info_provider.getObjectInfo(object_type);
-    drawable.setMapWidth((int) (object_info.object_width * grid_size));
-    drawable.setObjectName(object_info.object_name);
     coordinates.first*= grid_size;
     coordinates.second*= grid_size;
     info.insert(std::pair<std::pair<int, int>,
@@ -150,9 +150,6 @@ void ClientMap::putDrawableAt(int x_pos,
                                   int y_pos,
                                   int object_type) {
     Drawable drawable(object_type);
-    ImageInfo object_info = info_provider.getObjectInfo(object_type);
-    drawable.setMapWidth((int) (object_info.object_width * grid_size));
-    drawable.setObjectName(object_info.object_name);
     drawable.setMapPosition(x_pos, y_pos);
     objects.push_back(drawable);
 }

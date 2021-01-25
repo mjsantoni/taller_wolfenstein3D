@@ -6,21 +6,20 @@
 #include <iostream>
 #include <SDL_timer.h>
 #include "client/game.h"
-#include <SDL_mixer.h>
 
-Game::Game(int width, int height, ClientMap _map, MapMock real_map) :
-window(width, height), running(true), map(_map), event_handler(real_map) {
-}
+Game::Game(int width, int height, MapMock real_map) :
+                            running(true), event_handler(real_map),
+                            screen(width, height, info_provider, map) {}
 
 void Game::start() {
     displayIntro();
+    map = client_parser.parseInfoFromServer();
     ClientPlayer player("Player1");
     int x = 235;
     int y = 329;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
-    RayCaster ray_caster(window, map);
-    ray_caster.renderScreen(x, y, player);
+    screen.render();
     while (running) {
         bool must_render = false;
         SDL_Event event;
@@ -37,15 +36,13 @@ void Game::start() {
                 return;
         }
         if (must_render)
-            ray_caster.renderScreen(x, y, player);
+            screen.render();
     }
 }
 
 void Game::displayIntro() {
-    SdlTexture intro_tex("../client_src/resources/intro.jpg");
-    window.displayFullImage(intro_tex);
-    window.render();
     audio_player.playSong("../client_src/resources/music.wav");
+    screen.displayIntro();
     bool run_intro = true;
     while (run_intro) {
         SDL_Delay(1);

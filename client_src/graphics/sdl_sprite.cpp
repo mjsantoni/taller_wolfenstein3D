@@ -4,7 +4,6 @@
 
 #include <SDL_image.h>
 #include "client/sdl_sprite.h"
-#include "client/sdl_exception.h"
 
 SdlSprite::SdlSprite(std::string file_name, int width, int height, int cols,
                      int rows, int h_padding, int v_padding) : whole_width(width),
@@ -63,9 +62,4 @@ void SdlSprite::fillDimensions(Area& source_area, Area& empty_area) {
     empty_area.setY(source_area.getY());
     empty_area.setWidth(source_area.getWidth());
     empty_area.setHeight(source_area.getHeight());
-}
-
-void SdlSprite::setPadding(int horizontal_padding, int vertical_padding) {
-    h_padding = horizontal_padding;
-    v_padding = vertical_padding;
 }

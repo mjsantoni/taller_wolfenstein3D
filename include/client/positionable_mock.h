@@ -7,8 +7,6 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "client/area.h"
-#include "client/sdl_texture.h"
 
 class PositionableMock {
 public:
