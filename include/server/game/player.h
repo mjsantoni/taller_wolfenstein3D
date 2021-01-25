@@ -7,7 +7,6 @@
 #include "server/entities/key.h"
 #include <queue>
 #include <vector>
-#include "default_weapon.h"
 #include "server/game/gun_hotkeys.h"
 
 class Player {

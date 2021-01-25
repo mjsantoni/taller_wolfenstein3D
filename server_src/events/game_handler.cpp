@@ -33,11 +33,11 @@ void GameHandler::run() {
 void GameHandler::addNewPlayer() {
     int id = game.connectPlayer();
     ClientHandler* handler = new ClientHandler(eventQueue,id);
-    //ClientUpdater* updater = new ClientUpdater(id);
+    ClientUpdater* updater = new ClientUpdater(id);
     handler->start();
-    //updater->start();
+    updater->start();
     clients_handler.push_back(handler);
-    //clients_updater.push_back(updater);
+    clients_updater.push_back(updater);
 }
 
 void GameHandler::stop() {

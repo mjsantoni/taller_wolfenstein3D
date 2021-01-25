@@ -1,4 +1,5 @@
 #include "server/events/client_updater.h"
+#include <unistd.h>
 
 ClientUpdater::ClientUpdater(int id) :
                              change_queue(Change()),
@@ -13,10 +14,11 @@ ClientUpdater::~ClientUpdater() {
 void ClientUpdater::run() {
     while (alive) {
         Change change = change_queue.pop();
-        std::cout << change.getChangeID() << "\n";
+        std::cout << "PLAYER " << player_id << "Popie un change de id: " << change.getChangeID() << "\n";
         //if ((change.id == mi id && !isglobal) || isglobal) sendIntsBigEndian
         //else continue
         //Send changes.serialize()
+        sleep(3);
     }
 
 }

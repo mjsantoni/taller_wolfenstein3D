@@ -132,7 +132,6 @@ void Map::erasePositionableAt(Coordinate coord) {
 int Map::getGlobalID() {
     int id = global_id;
     global_id++;
-    std::cout << "RETURNIN: " << id << "\n";
     return id;
 }
 

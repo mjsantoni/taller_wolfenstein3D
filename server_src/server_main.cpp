@@ -19,16 +19,6 @@ int main( int argc, char* args[] ) {
     return 0;
 
 }
-/*
-int main(int argc, char* args[]) {
-    ConfigParser cp("../config.yaml");
-    //std::unordered_map<std::string, std::vector<double>> vect = cp.getGuns();
-    std::unordered_map<std::string, int> vect = cp.getSpecificCategory("treasure");
-    for (auto& elem : vect) {
-        std::cout << "Key: " << elem.first << " - Value: " << elem.second << "\n";
-    }
-    std::cout << "Bullets: " << cp.getBullets() << "\n";
-}*/
 
 /* GENERADOR DEL CONFIG.YAML */ /*
 #include "yaml-cpp/yaml.h"
