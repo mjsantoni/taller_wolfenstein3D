@@ -30,12 +30,14 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (SHOOT): {
+            std::cout << "Disparo\n";
             Hit hit_event = game.shoot(player_id);
             HitHandler hit_handler;
             hit_handler.processHit(hit_event, changes);
             break;
         }
         case (OPEN_DOOR): {
+            std::cout << "Intento abrir puerta\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             std::pair<Coordinate, int> opened_door = game.openDoor(player_id);
@@ -49,6 +51,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (PUSH_WALL): {
+            std::cout << "Push wall!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             Coordinate pushed_wall = game.pushWall(player_id);
@@ -57,12 +60,14 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (TURN_CAMERA): {
+            std::cout << "TURN CAMERA!\n";
             // por ahora los demas no ven el cambio de angulo del resto
             // POR AHORA ES ASINCROCNICO, HACEMOS LA MISMA SUMA EN EL CLIENTE Y SV
             game.rotate(player_id, value);
             break;
         }
         case (CHANGE_GUN): {
+            std::cout << "Chnage gun!\n";
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changeGun(player_id, value); // value == hotkey
             changes.push_back(Change(CHANGE_WEAPON, player_id, value, -1, true));

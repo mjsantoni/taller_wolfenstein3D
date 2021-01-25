@@ -15,10 +15,10 @@ Game::Game(std::string map_path, std::string config_path) :
            dropHandler(config_path, map),
            blockingItemHandler(map) {
 
-    int id1 = connectPlayer();
-    int id2 = connectPlayer();
-    std::cout << "Player " << id1 << " connected to game.\n";
-    std::cout << "Player " << id2 << " connected to game.\n\n";
+    //int id1 = connectPlayer();
+    //int id2 = connectPlayer();
+    //std::cout << "Player " << id1 << " connected to game.\n";
+    //std::cout << "Player " << id2 << " connected to game.\n\n";
     //players[id2].addKey(Key(50)); // TEST ONLY
 }
 
@@ -31,6 +31,7 @@ int Game::connectPlayer() {
     players.push_back(player);
     players_ids++;
     players_alive++;
+    std::cout << "Player " << player.getID() << " connected to game.\n";
     return player.getID(); // return players_ids - 1;
 }
 
@@ -79,6 +80,7 @@ void Game::changeGun(int id, int hotkey) {
 }
 
 bool Game::isNotOver() {
+    return true;
     if (players_alive <= 1) return false;
     //if (se termino el tiempo) return false;
     return true;

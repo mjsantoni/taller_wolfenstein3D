@@ -14,11 +14,11 @@
 
 class GameHandler : public Thread {
 private:
-
     //SharedQueue<Event> eventQueue;
     std::vector<ClientUpdater*> clients_updater;
     std::vector<ClientHandler*> clients_handler;
     EventProcessor eventProcessor;
+    bool alive = true;
 
 public:
     Game game;
@@ -26,6 +26,9 @@ public:
     GameHandler(std::string map_path, std::string config_path);
     void run();
 
+    void addNewPlayer();
+
+    void stop();
 };
 
 

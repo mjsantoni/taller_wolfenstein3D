@@ -1,7 +1,7 @@
 #include "server/events/client_updater.h"
 
-ClientUpdater::ClientUpdater(BlockingQueue<Change>& _change_queue, int id) :
-                             change_queue(_change_queue),
+ClientUpdater::ClientUpdater(int id) :
+                             change_queue(Change()),
                              player_id(id),
                              alive(true) {
 }

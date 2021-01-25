@@ -31,6 +31,7 @@ int Player::getID() { return id; }
 double Player::getAngle() { return angle; }
 
 void Player::changeGun(int hotkey) {
+    if (hotkey == 0) return;
     previous_weapon = getGunHotkey(equipped_weapon.getType());
     equipped_weapon = guns[hotkey];
     std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
