@@ -1,23 +1,31 @@
 #include "server/events/game_handler.h"
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include "server/game/config_parser.h"
-#include <string>
-#include <unordered_map>
-#include <vector>
+
 #include <unistd.h>
+#include "common/network_acceptor.h"
+#include "common/network_error.h"
+
 
 int main( int argc, char* args[] ) {
     GameHandler gameHandler("../map.yaml", "../config.yaml");
     gameHandler.start();
-    gameHandler.addNewPlayer();
-    gameHandler.addNewPlayer();
+    NetworkAcceptor networkAcceptor("8080");
+
+    int total_connected = 0;
+    while (total_connected < 2) {
+        // Spawn clients
+        try {
+            NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
+            std::cout << "EN EL MAIN: " << socket.file_descriptor << "\n";
+            gameHandler.addNewPlayer(std::move(socket));
+            total_connected++;
+        } catch (const NetworkError& e) {
+            continue;
+        }
+    }
     sleep(60);
     gameHandler.stop();
     gameHandler.join();
     return 0;
-
 }
 
 /* GENERADOR DEL CONFIG.YAML */ /*

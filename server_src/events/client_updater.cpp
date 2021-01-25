@@ -1,31 +1,27 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(int id) :
-                             change_queue(Change()),
-                             player_id(id),
-                             alive(true) {
+ClientUpdater::ClientUpdater(NetworkConnection& _socket, int id) :
+                            skt(_socket),
+                            change_queue(Change()),
+                            player_id(id),
+                            alive(true) {
+    std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
 }
 
-ClientUpdater::~ClientUpdater() {
-
-}
+ClientUpdater::~ClientUpdater() {}
 
 void ClientUpdater::run() {
     while (alive) {
         Change change = change_queue.pop();
         std::cout << "PLAYER " << player_id << "Popie un change de id: " << change.getChangeID() << "\n";
-        //if ((change.id == mi id && !isglobal) || isglobal) sendIntsBigEndian
-        //else continue
-        //Send changes.serialize()
-        sleep(3);
+        std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
+        skt.sendMsg(change.serialize());
     }
-
 }
 
-void ClientUpdater::update(Change change) {
-    change_queue.push(change);
-}
+void ClientUpdater::update(Change change) {change_queue.push(change);}
+
 
 void ClientUpdater::stop() {
     alive = false;

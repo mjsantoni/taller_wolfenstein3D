@@ -1,6 +1,7 @@
 #include "server/events/game_handler.h"
 #include <unistd.h>
 
+
 GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
         game(map_path, config_path),
@@ -24,16 +25,18 @@ void GameHandler::run() {
             event = eventQueue.pop();
             total_events++;
         }
-        game.show();
+        //game.show();
         sleep(5);
 
     }
 }
 
-void GameHandler::addNewPlayer() {
+void GameHandler::addNewPlayer(NetworkConnection socket) {
+    sockets.push_back(std::move(socket));
     int id = game.connectPlayer();
+    NetworkConnection& reference = sockets[sockets.size() - 1];
     ClientHandler* handler = new ClientHandler(eventQueue,id);
-    ClientUpdater* updater = new ClientUpdater(id);
+    ClientUpdater* updater = new ClientUpdater(reference, id);
     handler->start();
     updater->start();
     clients_handler.push_back(handler);
@@ -42,6 +45,10 @@ void GameHandler::addNewPlayer() {
 
 void GameHandler::stop() {
     for (auto& client : clients_handler) {
+        client->stop();
+        client->join();
+    }
+    for (auto& client : clients_updater) {
         client->stop();
         client->join();
     }

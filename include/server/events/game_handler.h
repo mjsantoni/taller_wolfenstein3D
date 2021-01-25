@@ -12,11 +12,14 @@
 #include "server/events/client_handler.h"
 #include "server/events/client_updater.h"
 
+#include "common/network_connection.h"
+
 class GameHandler : public Thread {
 private:
     //SharedQueue<Event> eventQueue;
     std::vector<ClientUpdater*> clients_updater;
     std::vector<ClientHandler*> clients_handler;
+    std::vector<NetworkConnection> sockets;
     EventProcessor eventProcessor;
     bool alive = true;
 
@@ -26,7 +29,7 @@ public:
     GameHandler(std::string map_path, std::string config_path);
     void run();
 
-    void addNewPlayer();
+    void addNewPlayer(NetworkConnection socket);
 
     void stop();
 };

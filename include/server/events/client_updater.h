@@ -6,16 +6,17 @@
 #include "common/change.h"
 #include <queue>
 #include "common/blocking_queue.h"
+#include "common/network_connection.h"
 
 class ClientUpdater : public Thread {
 private:
-    //NetworkConnection& skt;
+    NetworkConnection& skt;
     BlockingQueue<Change> change_queue;
     std::atomic<bool> alive;
     int player_id;
 
 public:
-    explicit ClientUpdater(int id);
+    explicit ClientUpdater(NetworkConnection& socket, int i);
     ~ClientUpdater();
 
     void run() override;
