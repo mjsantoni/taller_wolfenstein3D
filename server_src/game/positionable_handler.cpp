@@ -28,21 +28,18 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
 }
 
 Positionable PositionableHandler::createItem(std::string type, int id) {
-  if (type == "food") return HPItem(type, id, cp.getSpecificCategory("hp_item", type));
-  else if (type == "medkit") return HPItem(type, id, cp.getSpecificCategory("hp_item", type));
-  else if (type == "bullets") return Bullets(id, cp.getSpecificCategory("bullets", type), type);
-  else if (type == "machine_gun") return Gun(type, id, cp.getSpecificGun(type)[0], cp.getSpecificGun(type)[1],
-                                             cp.getSpecificGun(type)[2], cp.getSpecificGun(type)[3]);
-  else if (type == "chain_gun") return Gun(type, id, cp.getSpecificGun(type)[0], cp.getSpecificGun(type)[1],
-                                           cp.getSpecificGun(type)[2], cp.getSpecificGun(type)[3]);
-  else if (type == "rpg_gun") return Gun(type, id, cp.getSpecificGun(type)[0], cp.getSpecificGun(type)[1],
-                                         cp.getSpecificGun(type)[2], cp.getSpecificGun(type)[3]);
-  else if (type == "cross") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
-  else if (type == "goblet") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
-  else if (type == "chest") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
-  else if (type == "crown") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
-  else if (type == "water_puddle") return WaterPuddle(id);
-  else { return Key(id); }
-  // return Positionable(
+  if (type == "food" || type == "medkit")
+      return Positionable("hp_item", type, id, false);
+  else if (type == "bullets")
+      return Positionable("bullets", type, id, false);
+  else if (type == "machine_gun" || type == "chain_gun" || type == "rpg_gun")
+      return Positionable("gun", type, id, false);
+  else if (type == "cross" || type == "goblet" || type == "chest" || type == "crown")
+      return Positionable("treasure", type, id, false);
+  else if (type == "water_puddle")
+      return Positionable("water_puddle", "water_puddle", id, false);
+  else
+      return Positionable("key", "key", id, false);
+
 }
 
