@@ -5,16 +5,17 @@
 #include <atomic>
 #include "common/change.h"
 #include <queue>
+#include "common/blocking_queue.h"
 
 class ClientUpdater : public Thread {
 private:
     //NetworkConnection& skt;
+    BlockingQueue<Change>& change_queue;
     std::atomic<bool> alive;
     int player_id;
-    std::queue<Change> changes;
 
 public:
-    explicit ClientUpdater();
+    ClientUpdater(BlockingQueue<Change>& _change_queue, int id);
     ~ClientUpdater();
 
     void run() override;

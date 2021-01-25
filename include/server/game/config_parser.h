@@ -17,8 +17,6 @@ public:
     std::unordered_map<std::string, int> getCategory(std::string node);
     std::unordered_map<std::string, std::vector<double>> getGuns();
 
-    /* Getters publicos */
-    int getBullets();
     int getSpecificCategory(std::string category, std::string type);
     std::vector<double> getSpecificGun(std::string type);
 

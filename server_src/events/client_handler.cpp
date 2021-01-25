@@ -1,8 +1,9 @@
 #include "server/events/client_handler.h"
 
-ClientHandler::ClientHandler(SharedQueue<Event> &event_queue) :
+ClientHandler::ClientHandler(SharedQueue<Event> &event_queue, int id) :
                              eventFactory(event_queue),
-                             alive(true) {
+                             alive(true),
+                             player_id(id) {
 
 }
 
@@ -14,7 +15,7 @@ void ClientHandler::run() {
     /*
     while (connection is not closed) {
         std::vector<uint8_t> bytes_recv = skt.recv();
-        createAndPushFromBytes(bytes_recv);
+        eventFactory.createAndPushFromBytes(bytes_recv);
     }
     */
 }

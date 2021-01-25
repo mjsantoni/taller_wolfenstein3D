@@ -11,12 +11,14 @@
 #define ADD_KEY 6
 #define ADD_WEAPON 7
 #define LOSE_LIFE 8
-#define DEATH_PLAYER 9
-#define DEATH_RESPAWN_PLAYER 10
+#define KILL_PLAYER 9
+#define RESPAWN_PLAYER 10
 #define RPG_SHOOT 11
 #define ADD_PLAYER 12
 #define ADD_POSITIONABLE 13
 #define ADD_BULLETS_AT 14
-#define PLAYER_USE_KEY 15
+#define ADD_KEY_AT 15
+#define ADD_GUN_AT 16
+#define PLAYER_USE_KEY 17
 
 #endif //TP_WOLFENSTEIN_CHANGES_H

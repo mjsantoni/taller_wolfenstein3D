@@ -169,17 +169,16 @@ bool Player::dieAndRespawn() {
     }
 }
 
-std::pair<std::pair<std::string, int>, int> Player::getDrops() {
-    std::pair<std::pair<std::string, int>, int>
-            drops(std::make_pair("pistol", -1),-1);
+std::pair<std::string, bool> Player::getDrops() {
+    std::pair<std::string, bool> drops(std::make_pair("pistol",false));
+    // el string es el arma y el bool es si tiene llave o no
     for (auto& gun : guns) {
         if (gun.getType() != "null" && gun.getType() != "knife" &&
             gun.getType() != "pistol") {
-            drops.first.first = gun.getType();
-            drops.first.second = gun.getId();
+            drops.first = gun.getType();
         } // Asi como esta devuelve la ultima arma q tiene en este orden(machine,chain,rpg)
     }
-    drops.second = useKey();
+    drops.second = (useKey() != -1);
     return drops;
 }
 

@@ -4,8 +4,7 @@ GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
         game(map_path, config_path),
         ep(game),
-        eventQueue(Event()),
-        changeQueue(Change()) {}
+        eventQueue(Event()) {}
 
 void GameHandler::run() {
     //ef.start();
@@ -19,7 +18,10 @@ void GameHandler::proccess() {
         if (event.isNotValid()) continue;
         std::vector<Change> changes = ep.proccess(event);
         for (auto& change : changes) {
-            changeQueue.push(change)
+            for (clientupdater in all clientsupdater) {
+                clientupdater.update(change);
+            }
+            //changeQueue.push(change)
         //}
 
         //game.passTime();

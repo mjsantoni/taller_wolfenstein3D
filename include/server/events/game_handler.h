@@ -10,13 +10,13 @@
 #include "common/blocking_queue.h"
 #include "common/change.h"
 #include "server/events/client_handler.h"
+#include "server/events/client_updater.h"
 
 class GameHandler {
 private:
     Game game;
     SharedQueue<Event> eventQueue;
-    BlockingQueue<Change> changeQueue;
-    //std::vector<ClientUpdater*> client_updaters;
+    std::vector<ClientUpdater*> client_updaters;
     std::vector<ClientHandler*> client_handlers;
     EventProcessor ep;
 

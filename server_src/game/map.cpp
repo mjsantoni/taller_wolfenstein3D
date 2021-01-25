@@ -35,7 +35,7 @@ void Map::addItems(std::unordered_map<std::string,
         for (auto& coord : type.second) {
             Positionable positionable = handler.createItem(type.first, global_id);
             global_id++;
-            putPositionableAt(coord, positionable);
+            putPositionableAtCenter(coord, positionable);
         }
     }
 }
@@ -60,7 +60,7 @@ void Map::putBlockingItemAt(Coordinate coordinates,
     //        Positionable>(coordinates,positionable));
 }
 
-void Map::putPositionableAt(Coordinate coordinates, Positionable positionable) {
+void Map::putPositionableAtCenter(Coordinate coordinates, Positionable positionable) {
     coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
     coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
     board[coordinates] = positionable;
@@ -68,7 +68,7 @@ void Map::putPositionableAt(Coordinate coordinates, Positionable positionable) {
     //        Positionable>(coordinates,positionable));
 }
 
-void Map::putPositionableAtExact(Positionable item, Coordinate pos) {
+void Map::putPositionableAt(Positionable item, Coordinate pos) {
     board[pos] = item;
 }
 
@@ -129,12 +129,11 @@ void Map::erasePositionableAt(Coordinate coord) {
     }
 }
 
-void Map::addGlobalID() {
+int Map::getGlobalID() {
+    int id = global_id;
     global_id++;
-}
-
-int Map::getGlobalID() const {
-    return global_id;
+    std::cout << "RETURNIN: " << id << "\n";
+    return id;
 }
 
 void Map::show() {

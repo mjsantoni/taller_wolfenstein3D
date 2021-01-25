@@ -30,7 +30,7 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
 Positionable PositionableHandler::createItem(std::string type, int id) {
   if (type == "food") return HPItem(type, id, cp.getSpecificCategory("hp_item", type));
   else if (type == "medkit") return HPItem(type, id, cp.getSpecificCategory("hp_item", type));
-  else if (type == "bullets") return Bullets(id, cp.getBullets());
+  else if (type == "bullets") return Bullets(id, cp.getSpecificCategory("bullets", type), type);
   else if (type == "machine_gun") return Gun(type, id, cp.getSpecificGun(type)[0], cp.getSpecificGun(type)[1],
                                              cp.getSpecificGun(type)[2], cp.getSpecificGun(type)[3]);
   else if (type == "chain_gun") return Gun(type, id, cp.getSpecificGun(type)[0], cp.getSpecificGun(type)[1],
@@ -43,5 +43,6 @@ Positionable PositionableHandler::createItem(std::string type, int id) {
   else if (type == "crown") return Treasure(type, id, cp.getSpecificCategory("treasure", type));
   else if (type == "water_puddle") return WaterPuddle(id);
   else { return Key(id); }
+  // return Positionable(
 }
 

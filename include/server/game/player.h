@@ -73,7 +73,7 @@ public:
 
     bool dieAndRespawn();
 
-    std::pair<std::pair<std::string, int>, int> getDrops();
+    std::pair<std::string, bool> getDrops();
 
     bool isDead();
 };

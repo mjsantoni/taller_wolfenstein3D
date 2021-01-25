@@ -22,7 +22,9 @@ std::vector<Change> EventProcessor::process(Event& event) {
             changes.push_back(Change(MOVE_PLAYER, player_id,
                                      move_changes.first.x, move_changes.first.y, true));
             for (auto &item : move_changes.second) {
-                changes.push_back(Change(REMOVE_POSITIONABLE, -1, item.getId(), -1, true));
+                changes.push_back(Change(REMOVE_POSITIONABLE, item.getId(), -1, -1, true));
+                changes.push_back(Change(CHANGE_POINTS, player_id, 999, -1, false));
+                // Reemplazar el 999 por configParser.getPoints(item);
             }
             break;
         }

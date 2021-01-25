@@ -4,9 +4,9 @@
 HitHandler::HitHandler() {}
 
 void HitHandler::processHit(Hit& hit_event, std::vector<Change>& changes) {
-    std::vector<std::pair<int, int>> dmg_done = hit_event.getEnemyDmgDone(2);
+    std::vector<std::pair<int, int>> dmg_done = hit_event.getEnemyDmgDone(2); // maxplayers viene por parametro
     changes.push_back(Change(CHANGE_AMMO, hit_event.getPlayerId(),
-                             hit_event.getBulletsShot(), -1, false));
+                             -hit_event.getBulletsShot(), -1, false));
     if (hit_event.usedAllAmmo()) {
         changes.push_back(Change(CHANGE_WEAPON, hit_event.getPlayerId(),
                                  KNIFE, -1, false));
@@ -16,14 +16,27 @@ void HitHandler::processHit(Hit& hit_event, std::vector<Change>& changes) {
                                  -hit.second, -1, false));
     }
     for (auto& respawn : hit_event.getPlayerRespawns()) {
-        if (respawn.second) changes.push_back(Change(DEATH_RESPAWN_PLAYER, respawn.first, -1, -1, true));
-        else changes.push_back(Change(DEATH_PLAYER, respawn.first, -1, -1, true));
+        if (respawn.second) changes.push_back(Change(RESPAWN_PLAYER, respawn.first, -1, -1, true));
+        else changes.push_back(Change(KILL_PLAYER, respawn.first, -1, -1, true));
     }
-    for (auto& drops : hit_event.getDrops()) {
-        if (drops.first == -1) {
-            changes.push_back(Change(ADD_BULLETS_AT, -1, drops.second.x, drops.second.y, true));
+    for (auto& drop : hit_event.getDrops()) {
+        switch (drop.drop_id) {
+            case (GUN): {
+                changes.push_back(Change(ADD_GUN_AT, drop.id, drop.pos.x, drop.pos.y, true));
+                break;
+            }
+            case (KEY): {
+                changes.push_back(Change(ADD_KEY_AT, drop.id, drop.pos.x, drop.pos.y, true));
+                break;
+            }
+            case (BULLETS): {
+                changes.push_back(Change(ADD_BULLETS_AT, drop.id, drop.pos.x, drop.pos.y, true));
+                break;
+            }
+            default: {
+                break;
+            }
         }
-        changes.push_back(Change(ADD_POSITIONABLE, -1, drops.second.x, drops.second.y, true));
     }
 }
 

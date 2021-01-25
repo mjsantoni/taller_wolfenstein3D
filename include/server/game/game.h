@@ -49,13 +49,7 @@ public:
 
     void addBulletsTo(int id, int bullets);
 
-    void respawnPlayer(int &player);
-
-    void killPlayerDefinitely(int &player);
-
-    void dropPlayerItems(const std::pair<std::pair<std::string, int>, int>& drops, const Coordinate& coordinate);
-
-    void addDropsToHitEvent(const std::pair<std::pair<std::string, int>, int>& drops, Hit &hit, const Coordinate& coordinate);
+    void addDropsToHitEvent(const std::pair<std::string, bool> &drops, Hit &hit, const Coordinate& pos);
 
     std::pair<Coordinate, int> openDoor(int id);
 

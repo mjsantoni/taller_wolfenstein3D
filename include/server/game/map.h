@@ -32,7 +32,7 @@ public:
                          std::vector<Coordinate>>& spawns);
 
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
-    void putPositionableAt(Coordinate coordinates, Positionable positionable);
+    void putPositionableAtCenter(Coordinate coordinates, Positionable positionable);
     bool isABlockingItemAt(const Coordinate& coordinates);
     void show();
 
@@ -52,11 +52,9 @@ public:
 
     void removePlayer(int &i);
 
-    void putPositionableAtExact(Positionable item, Coordinate pos);
+    void putPositionableAt(Positionable item, Coordinate pos);
 
-    void addGlobalID();
-
-    int getGlobalID() const;
+    int getGlobalID();
 
     Positionable getBlockingItemAt(Coordinate coordinates);
 

@@ -37,6 +37,3 @@ std::unordered_map<std::string, int> ConfigParser::getCategory(std::string node)
     return category;
 }
 
-int ConfigParser::getBullets() {
-    return this->config["bullets"].as<int>();
-}

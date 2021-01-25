@@ -26,7 +26,7 @@ bool Hit::usedAllAmmo() const {
 //Esta funcion podria ser mejorada para no recorrer muchas veces el vector de daño
 //en caso de que hitee mucha gente (poco probable)
 std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
-    std::vector<std::pair<int, int>> total_dmg;
+    std::vector<std::pair<int, int>> total_dmg; //Vector de (id, dañototal)
     int total = 0;
     std::cout << "----------------\n";
     for (int i = 0; i < max_players; i++) {
@@ -60,7 +60,7 @@ std::vector<int> Hit::getDeadPlayers() {
     return dead_players;
 }
 
-void Hit::setPlayerRespawns(std::vector<std::pair<int, bool>> _player_respawns) {
+void Hit::setPlayersDeaths(std::vector<std::pair<int, bool>> _player_respawns) {
     player_respawns = std::move(_player_respawns);
 }
 
@@ -68,11 +68,11 @@ const std::vector<std::pair<int, bool>>& Hit::getPlayerRespawns() const {
     return player_respawns;
 }
 
-void Hit::addDrops(int id, Coordinate pos) {
-    drops.emplace_back(id, pos); // id = -1 -> bullets
+void Hit::addDrops(std::string type, Coordinate pos, int id, int drop_id) {
+    drops.push_back(Drop(type, id, pos, drop_id));
 }
 
-const std::vector<std::pair<int, Coordinate>>& Hit::getDrops() const {
+const std::vector<Drop>& Hit::getDrops() const {
     return drops;
 }
 

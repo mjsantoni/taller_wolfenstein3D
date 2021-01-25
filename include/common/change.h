@@ -6,28 +6,28 @@
 class Change {
 private:
     int change_id;
-    int player_id;
+    int id;
     int value1;
     int value2;
     bool is_global;
 
 public:
-    Change(int _change_id, int _player_id, int _value1, int _value2, bool _is_global) :
-                change_id(_change_id),
-                player_id(_player_id),
-                value1(_value1),
-                value2(_value2),
-                is_global(_is_global) {}
+    Change(int _change_id, int _id, int _value1, int _value2, bool _is_global) :
+            change_id(_change_id),
+            id(_id),
+            value1(_value1),
+            value2(_value2),
+            is_global(_is_global) {}
 
     Change() : change_id(INVALID),
-               player_id(INVALID),
+               id(INVALID),
                value1(INVALID),
                value2(INVALID),
                is_global(false) {}
 
     bool isInvalid() const { return change_id == INVALID; }
     int getChangeID() const { return change_id; }
-    int getPlayerID() const { return player_id; }
+    int getPlayerID() const { return id; }
     int getFirstValue() const { return value1; }
     int getSecondValue() const { return value2; }
     bool isGlobal() const { return is_global; }

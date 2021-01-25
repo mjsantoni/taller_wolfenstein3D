@@ -3,7 +3,6 @@
 #include <iostream>
 #include "server/game/shoot_handler.h"
 
-
 #define MAX_PLAYERS 2
 
 Game::Game(std::string map_path, std::string config_path) :
@@ -13,7 +12,7 @@ Game::Game(std::string map_path, std::string config_path) :
            colHandler(map),
            pickUpHandler(config_path),
            configParser(config_path),
-           dropHandler(config_path),
+           dropHandler(config_path, map),
            blockingItemHandler(map) {
 
     int id1 = connectPlayer();
@@ -86,55 +85,44 @@ bool Game::isNotOver() {
 }
 
 void Game::playerDies(Hit& hit) {
-    std::vector<std::pair<int, bool>> dead_respawn_players;
+    std::vector<std::pair<int, bool>> dead_respawn_players; //(id, muere y respawnea o no) (para clientes)
     for (auto& dead_player : hit.getDeadPlayers()) {
         if (players[dead_player].dieAndRespawn()) {
-            std::pair<std::pair<std::string, int>, int>
-                    drops = players[dead_player].getDrops();
+            std::pair<std::string, bool> drops = players[dead_player].getDrops();
             addDropsToHitEvent(drops, hit, map.getPlayerPosition(dead_player));
-            dropPlayerItems(drops,
-                            map.getPlayerPosition(dead_player));
-            respawnPlayer(dead_player);
+            // carga todos los drops de la muerte del player enemigo para enviar a clientes
+
+            map.respawnPlayer(dead_player); // respawnea en el sv
             dead_respawn_players.emplace_back(dead_player, true);
         }
         else {
-            killPlayerDefinitely(dead_player);
+            map.removePlayer(dead_player); // le pone pos = -1,-1 en el sv
             players_alive--;
             dead_respawn_players.emplace_back(dead_player, false);
         }
     }
-    hit.setPlayerRespawns(dead_respawn_players);
-}
+    dropHandler.processDrops(hit.getDrops());
+    // carga en el mapa del sv esos drops
 
-void Game::dropPlayerItems(const std::pair<std::pair<std::string, int>, int>& drops,
-                           const Coordinate& coordinate) {
-    dropHandler.processDrops(drops, map, coordinate);
-}
-
-void Game::respawnPlayer(int& player) {
-    map.respawnPlayer(player);
-}
-
-void Game::killPlayerDefinitely(int &player) {
-    map.removePlayer(player);
+    hit.setPlayersDeaths(dead_respawn_players);
 }
 
 void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
     players[id].addBullets(bullets);
 }
 
-void Game::addDropsToHitEvent(const std::pair<std::pair<std::string, int>, int>& drops,
+void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
                               Hit &hit, const Coordinate& pos) {
-    if (drops.first.second != -1) {
+    if (drops.first != "pistol") {
         Coordinate gun_pos(pos.x, pos.y - 2);
-        hit.addDrops(drops.first.second, gun_pos);
+        hit.addDrops(drops.first, gun_pos, map.getGlobalID(), GUN);
     }
-    if (drops.second != -1) {
+    if (drops.second) {
         Coordinate key_pos(pos.x, pos.y + 2);
-        hit.addDrops(drops.second, key_pos);
+        hit.addDrops("key", key_pos, map.getGlobalID(), KEY);
     }
     Coordinate bullets_pos(pos.x + 2, pos.y);
-    hit.addDrops(-1, bullets_pos);
+    hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS);
 }
 
 /*

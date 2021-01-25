@@ -2,6 +2,7 @@
 #define TP_WOLFENSTEIN_HIT_H
 #include <vector>
 #include "server/game/coordinate.h"
+#include "server/game/drop.h"
 
 class Hit {
 private:
@@ -10,7 +11,7 @@ private:
     std::vector<std::pair<int, int>> enemy_dmg_done;
     bool used_all_ammo;
     std::vector<std::pair<int, bool>> player_respawns;
-    std::vector<std::pair<int, Coordinate>> drops;
+    std::vector<Drop> drops;
 
 public:
     Hit(int _player_id, int _bullets_shot,
@@ -27,13 +28,13 @@ public:
 
     std::vector<int> getDeadPlayers();
     const std::vector<std::pair<int, bool>> &getPlayerRespawns() const;
-    const std::vector<std::pair<int, Coordinate>> &getDrops() const;
+    const std::vector<Drop>& getDrops() const;
 
     bool playerDied();
 
-    void setPlayerRespawns(std::vector<std::pair<int, bool>> vector);
+    void setPlayersDeaths(std::vector<std::pair<int, bool>> _player_respawns);
 
-    void addDrops(int id, Coordinate pos);
+    void addDrops(std::string type, Coordinate pos, int id, int drop_id);
     ~Hit();
     Hit(const Hit& other);
     Hit& operator=(const Hit& other);

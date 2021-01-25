@@ -1,24 +1,38 @@
 #include "server/game/drop_handler.h"
 #include "server/entities/bullets.h"
+#include <iostream>
 
-DropHandler::DropHandler(std::string config_path) : configParser(config_path) {}
+DropHandler::DropHandler(std::string config_path, Map &_map) :
+                            configParser(config_path),
+                            map(_map) {}
 
 DropHandler::~DropHandler() {}
 
-void DropHandler::processDrops(const std::pair<std::pair<std::string, int>, int>& drops,
-                               Map &map, const Coordinate& pos) {
-    if (drops.second != -1) {
-        map.putPositionableAtExact(Key(drops.second),
-                                   Coordinate(pos.x, pos.y + 2));
+void DropHandler::processDrops(const std::vector<Drop> &drops) {
+    for (auto& drop : drops) {
+        switch (drop.drop_id) {
+            case (GUN): {
+                std::vector<double> gun_stats = configParser.getSpecificGun(drop.type);
+                Gun gun(drop.type, drop.id, gun_stats[0], gun_stats[1], gun_stats[2], gun_stats[3]);
+                map.putPositionableAt(gun, drop.pos);
+                break;
+            }
+            case (KEY): {
+                map.putPositionableAt(Key(drop.id), drop.pos);
+                break;
+            }
+            case (BULLETS): {
+                map.putPositionableAt(Bullets(drop.id,
+                                              configParser.getSpecificCategory("bullets", "dropped_bullets"),
+                                              "dropped_bullets"),
+                                               drop.pos);
+                break;
+            }
+            default: {
+                break;
+            }
+
+        }
     }
-    if (drops.first.first != "pistol") {
-        std::vector<double> gun_stats = configParser.getSpecificGun(drops.first.first);
-        Gun gun(drops.first.first, drops.first.second,
-                gun_stats[0], gun_stats[1], gun_stats[2], gun_stats[3]);
-        map.putPositionableAtExact(gun, Coordinate(pos.x, pos.y - 2));
-    }
-    map.putPositionableAtExact(Bullets(map.getGlobalID(), configParser.getBullets() * 2),
-                               Coordinate(pos.x + 2, pos.y));
-    map.addGlobalID();
 }
 

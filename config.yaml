@@ -2,7 +2,9 @@ hp_items:
   blood_puddle: 1
   food: 10
   medkit: 20
-bullets: 5
+bullets:
+  bullets: 5
+  dropped_bullets: 10
 treasure:
   cross: 10
   goblet: 50

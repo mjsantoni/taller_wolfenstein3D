@@ -13,7 +13,7 @@ private:
     int player_id;
 
 public:
-    explicit ClientHandler(SharedQueue<Event> &event_queue);
+    explicit ClientHandler(SharedQueue<Event> &event_queue, int id);
     ~ClientHandler();
 
     void run() override;

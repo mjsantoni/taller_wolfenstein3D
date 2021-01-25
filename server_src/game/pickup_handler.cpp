@@ -40,7 +40,7 @@ bool PickUpHandler::pickUpGun(std::string type, int id, Player &player) {
 
 bool PickUpHandler::pickUpBullets(Player &player) {
     if (player.hasMaxBullets()) return false;
-    player.addBullets(configParser.getBullets());
+    player.addBullets(configParser.getSpecificCategory("bullets", "bullets"));
     return true;
 }
 
