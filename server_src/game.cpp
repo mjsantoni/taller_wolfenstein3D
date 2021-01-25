@@ -19,7 +19,7 @@ Game::Game(std::string map_path, std::string config_path) :
     int id2 = connectPlayer();
     std::cout << "Player " << id1 << " connected to game.\n";
     std::cout << "Player " << id2 << " connected to game.\n\n";
-    players[id2].addKey(Key(50)); // TEST ONLY
+    //players[id2].addKey(Key(50)); // TEST ONLY
 }
 
 int Game::connectPlayer() {

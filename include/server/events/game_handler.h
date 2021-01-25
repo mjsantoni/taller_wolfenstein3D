@@ -12,15 +12,17 @@
 #include "server/events/client_handler.h"
 #include "server/events/client_updater.h"
 
-class GameHandler {
+class GameHandler : public Thread {
 private:
-    Game game;
-    SharedQueue<Event> eventQueue;
-    std::vector<ClientUpdater*> client_updaters;
-    std::vector<ClientHandler*> client_handlers;
-    EventProcessor ep;
+
+    //SharedQueue<Event> eventQueue;
+    std::vector<ClientUpdater*> clients_updater;
+    std::vector<ClientHandler*> clients_handler;
+    EventProcessor eventProcessor;
 
 public:
+    Game game;
+    SharedQueue<Event> eventQueue;
     GameHandler(std::string map_path, std::string config_path);
     void run();
 

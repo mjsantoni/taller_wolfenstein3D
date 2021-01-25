@@ -17,6 +17,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (MOVE_PLAYER): {
+            std::cout << "Muevo player!\n";
             std::pair<Coordinate,
                     std::vector<Positionable>> move_changes = game.movePlayer(player_id);
             changes.push_back(Change(MOVE_PLAYER, player_id,

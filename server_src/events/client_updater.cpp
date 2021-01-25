@@ -12,7 +12,8 @@ ClientUpdater::~ClientUpdater() {
 
 void ClientUpdater::run() {
     while (alive) {
-        //Change change = change_queue.pop();
+        Change change = change_queue.pop();
+        std::cout << change.getChangeID() << "\n";
         //if ((change.id == mi id && !isglobal) || isglobal) sendIntsBigEndian
         //else continue
         //Send changes.serialize()

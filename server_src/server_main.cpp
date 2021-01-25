@@ -1,4 +1,4 @@
-#include "server/game/game.h"
+#include "server/events/game_handler.h"
 #include <cmath>
 #include <iostream>
 #include <fstream>
@@ -6,15 +6,31 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <unistd.h>
 
 int main( int argc, char* args[] ) {
-    Game game("../map.yaml", "../config.yaml");
+    GameHandler gameHandler("../map.yaml", "../config.yaml");
+    gameHandler.start();
+    gameHandler.game.show();
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
+    //sleep(10); // para que procese todo bien
+    gameHandler.game.show();
+    gameHandler.join();
+    //Game game("../map.yaml", "../config.yaml");
     //game.show();
-    game.rotate(1, 3*M_PI/8);
-    game.rotate(0, 3*M_PI/8);
-    game.movePlayer(1);
-    game.show();
-    game.shoot(0);
+    //game.rotate(1, 3*M_PI/8);
+    //game.rotate(0, 3*M_PI/8);
+    //game.movePlayer(1);
+    //game.show();
+    //game.shoot(0);
     //game.shoot(0);
     //game.shoot(0);
     //game.shoot(0);
@@ -35,10 +51,10 @@ int main( int argc, char* args[] ) {
     //game.movePlayer(0,7*M_PI/4);
 
     //game.shoot(0);
-    game.show();
-    game.movePlayer(0);
+    //game.show();
+    //game.movePlayer(0);
     //game.closeDoor();
-    game.show();
+    //game.show();
     return 0;
 
 }
