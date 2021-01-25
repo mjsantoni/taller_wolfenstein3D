@@ -4,6 +4,7 @@
 #include "server/game/shoot_handler.h"
 
 #define MAX_PLAYERS 2
+#define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
            mapParser(map_path),
@@ -129,28 +130,42 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
 
 /*
 void Game::passTime() {
-    if (map.isARPGMoving()) {
-        map.moveRpg();
-        events.push(Event(REMOV,......))
+    for (auto& door : doors_to_close) {
+        if (doors_to_close[door] == 0) {
+            /*
+             if (map.APlayerIsInNormalizedCOord(coords)
+                continue;
+            else {
+                map.putPositionableAt(coordinate, unlocked_door)
+                }
+
+        }
     }
 }
 */
 
+
 Game::~Game() {}
 
-std::pair<Coordinate, int> Game::openDoor(int id) {
+std::pair<bool, int> Game::openDoor(int id) {
+
+    /* El bool indica si uso llave, el int el id de la puerta */
     Coordinate door_to_open = colHandler.getCloseBlocking(map.getPlayerPosition(id),
                                                           players[id].getAngle(), "door");
-    Coordinate not_opened(-1, -1);
-    if (!door_to_open.isValid()) return std::make_pair(not_opened, -1);
+    /* No hay puertas cerca */
+    if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
-    std::pair<bool, int> opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
-    if (!opened_door.first) return std::make_pair(not_opened, opened_door.second);
-    std::cout << "Abro una puerta con llave id: " << opened_door.second << " en ";
-    map.getNormalizedCoordinate(door_to_open).show();
 
-    return std::make_pair(map.getNormalizedCoordinate(door_to_open),
-                          opened_door.second);
+    int player_keys_before = players[id].getKeys();
+
+    /* No tengo llave para abrir la puerta */
+    int opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
+    if (opened_door == -1) return std::make_pair(false, -1);
+
+    /* Exito al abrir la puerta (estaba abierta o gaste llave) */
+    doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
+    bool player_use_key = (player_keys_before == players[id].getKeys());
+    return std::make_pair(player_use_key,map.getBlockingItemAt(door_to_open).getId());
 }
 
 Coordinate Game::pushWall(int id) {
@@ -162,9 +177,6 @@ Coordinate Game::pushWall(int id) {
     return map.getNormalizedCoordinate(wall_to_push);
 }
 
-std::pair<Coordinate, int> Game::closeDoor() {
-    return blockingItemHandler.closeDoor();
-}
 
 
 

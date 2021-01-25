@@ -21,10 +21,10 @@ private:
     int lives = 3; // add to config
     double angle;
     int previous_weapon;
+    int total_keys;
 
     std::vector<Gun> guns;
     Gun equipped_weapon;
-    std::queue<Key> keys;
 
     static int getGunHotkey(const std::string& type);
 
@@ -35,6 +35,7 @@ public:
     /* Getters */
     std::string getPlayerName();
     int getID();
+    int getKeys();
     Gun& getGun();
     double getAngle();
 
@@ -59,8 +60,7 @@ public:
     bool noAmmoLeft() const;
 
     /* Keys */
-    bool areAnyKeysLeft();
-    int useKey();
+    bool useKey();
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player& other) = delete;
@@ -75,6 +75,8 @@ public:
     std::pair<std::string, bool> getDrops();
 
     bool isDead();
+
+
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

@@ -40,14 +40,15 @@ std::vector<Change> EventProcessor::process(Event& event) {
             std::cout << "Intento abrir puerta\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
-            std::pair<Coordinate, int> opened_door = game.openDoor(player_id);
-            if (!opened_door.first.isValid()) break;
-            changes.push_back(Change(REMOVE_POSITIONABLE, -1, opened_door.first.x,
-                                     opened_door.first.y, true));
-            if (opened_door.second != -1) {
-                changes.push_back(Change(PLAYER_USE_KEY, player_id, opened_door.second,
-                                         -1, false));
-            }
+            std::pair<bool,int> opened_door = game.openDoor(player_id);
+            bool use_key = opened_door.first;
+            int door_id = opened_door.second;
+
+            if (door_id == -1) break;
+
+            changes.emplace_back(REMOVE_POSITIONABLE, door_id, -1, -1, true);
+            if (use_key)
+                changes.emplace_back(PLAYER_USE_KEY, player_id, -1,-1, false);
             break;
         }
         case (PUSH_WALL): {

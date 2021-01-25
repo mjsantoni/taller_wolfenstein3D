@@ -13,7 +13,8 @@ Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _b
                                     max_hp(_max_hp),
                                     hp(_max_hp),
                                     max_bullets(_max_bullets),
-                                    bullets(_bullets) {
+                                    bullets(_bullets),
+                                    total_keys(0) {
     // Los parametros de las guns default deberian venir por config (parametro)
     guns.resize(TOTAL_GUNS + EXTRA_GUN_VECTOR_SIZE);
     guns[KNIFE] = Gun("knife", -1, 1, 0, 1, 25);
@@ -29,6 +30,10 @@ Gun& Player::getGun() { return equipped_weapon; }
 int Player::getID() { return id; }
 
 double Player::getAngle() { return angle; }
+
+int Player::getKeys() {
+    return total_keys;
+}
 
 void Player::changeGun(int hotkey) {
     if (hotkey == 0) return;
@@ -69,7 +74,7 @@ void Player::addBullets(int added_bullets) {
 
 void Player::addKey(Key key) {
     std::cout << "Levanto una llave, id: " << key.getId() << "\n";
-    keys.push(key);
+    total_keys++;
 }
 
 void Player::addAngle(double _angle) {
@@ -136,15 +141,10 @@ bool Player::isDead() {
 }
 
 /* KEYS */
-int Player::useKey() {
-    if (!areAnyKeysLeft()) return -1;
-    Key key = keys.front();
-    keys.pop();
-    return key.getId();
-}
-
-bool Player::areAnyKeysLeft() {
-    return !keys.empty();
+bool Player::useKey() {
+    if (total_keys == 0) return false;
+    total_keys--;
+    return true;
 }
 
 int Player::getGunHotkey(const std::string& type) {
@@ -182,6 +182,7 @@ std::pair<std::string, bool> Player::getDrops() {
     drops.second = (useKey() != -1);
     return drops;
 }
+
 
 
 

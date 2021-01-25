@@ -26,6 +26,8 @@ private:
     ConfigParser configParser;
     DropHandler dropHandler;
     BlockingItemHandler blockingItemHandler;
+    std::map<Coordinate,int> rpgs;
+    std::map<Coordinate,int> doors_to_close;
 
     int players_ids = 0;
     int players_alive = 0;
@@ -51,11 +53,10 @@ public:
 
     void addDropsToHitEvent(const std::pair<std::string, bool> &drops, Hit &hit, const Coordinate& pos);
 
-    std::pair<Coordinate, int> openDoor(int id);
+    std::pair<bool, int> openDoor(int id);
 
     Coordinate pushWall(int id);
 
-    std::pair<Coordinate, int> closeDoor();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H
