@@ -11,14 +11,18 @@
 #include "common/change.h"
 #include "server/events/client_handler.h"
 #include "server/events/client_updater.h"
+#include <atomic>
+
+#include "common/network_connection.h"
 
 class GameHandler : public Thread {
 private:
-
     //SharedQueue<Event> eventQueue;
     std::vector<ClientUpdater*> clients_updater;
     std::vector<ClientHandler*> clients_handler;
+    std::vector<int> sockets;
     EventProcessor eventProcessor;
+    std::atomic<bool> alive;
 
 public:
     Game game;
@@ -26,6 +30,11 @@ public:
     GameHandler(std::string map_path, std::string config_path);
     void run();
 
+    void addNewPlayer(int fd);
+
+    void stop();
+
+    void notifyClients(std::vector<Change> &changes);
 };
 
 

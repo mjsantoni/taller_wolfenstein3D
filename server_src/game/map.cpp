@@ -132,7 +132,6 @@ void Map::erasePositionableAt(Coordinate coord) {
 int Map::getGlobalID() {
     int id = global_id;
     global_id++;
-    std::cout << "RETURNIN: " << id << "\n";
     return id;
 }
 
@@ -188,8 +187,16 @@ bool Map::isAPlayerAt(Coordinate &coordinate) {
     }
     return false;
 }
+bool Map::isAPlayerInACell(Coordinate coordinate) {
+    Coordinate normalize_coordinate = getNormalizedCoordinate(coordinate);
+    for (auto& coord : player_positions) {
+        if (getNormalizedCoordinate(coord) == coordinate) return true;
+    }
+    return false;
+}
 
 void Map::removePlayer(int &i) {
     player_positions[i] = Coordinate(-1, -1);
 }
+
 

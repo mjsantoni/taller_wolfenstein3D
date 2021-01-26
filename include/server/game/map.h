@@ -62,6 +62,8 @@ public:
 
     void removeBlockingItemAt(Coordinate coordinates);
 
+    bool isAPlayerInACell(Coordinate coordinate);
+
     void putBlockingAtExact(Positionable blocking, Coordinate coordinates);
 };
 

@@ -1,18 +1,27 @@
 #include "common/event_factory.h"
 
+#include <string>
+
+#define EVENT_ID 0
+#define PLAYER_ID 1
+#define VALUE 2
+
 EventFactory::EventFactory(SharedQueue<Event> &_event_queue) :
                                     eventQueue(_event_queue) {}
 
-Event EventFactory::createAndPushFromInts(std::vector<int> event_ints) {
-    Event new_event(event_ints[0], event_ints[1], event_ints[2]);
-    eventQueue.push(new_event);
-    return new_event;
+void EventFactory::createAndPushFromBytes(char* bytes) {
+    std::vector<int> buffer;
+    std::stringstream ss(bytes);
+    std::string s;
+    while (std::getline(ss, s, '/')) {
+        if (s.size() == 0) continue;
+        buffer.push_back(std::stoi(s));
+    }
+    Event event(buffer[EVENT_ID], buffer[PLAYER_ID], buffer[VALUE]);
+    eventQueue.push(event);
 }
 
-Event EventFactory::createAndPushFromBytes(std::vector<uint8_t> bytes) {
-    return createAndPushFromInts(convertToInts(bytes));
-}
-
-std::vector<int> EventFactory::convertToInts(std::vector<uint8_t> bytes) {
-    return std::vector<int>(); // pendiente
+/* test only */
+void EventFactory::pushNewEvent(Event& event) {
+    eventQueue.push(event);
 }

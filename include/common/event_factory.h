@@ -11,11 +11,8 @@ private:
 
 public:
     explicit EventFactory(SharedQueue<Event>& _event_queue);
-    Event createAndPushFromInts(std::vector<int> event_ints);
-
-    std::vector<int> convertToInts(std::vector<uint8_t> bytes);
-
-    Event createAndPushFromBytes(std::vector<uint8_t> bytes);
+    void createAndPushFromBytes(char* bytes);
+    void pushNewEvent(Event &event);
 };
 
 

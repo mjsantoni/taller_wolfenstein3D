@@ -1,5 +1,8 @@
 #include "server/events/client_handler.h"
 
+#include <random>
+#include <unistd.h>
+
 ClientHandler::ClientHandler(SharedQueue<Event> &event_queue, int id) :
                              eventFactory(event_queue),
                              alive(true),
@@ -11,20 +14,35 @@ ClientHandler::~ClientHandler() {
     //skt.closeSocket();
 }
 
+bool probability(float prob) {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist10(0,100); // distribution in range [1, 10]
+    return dist10(rng) < (prob * 100);
+}
+
+
 void ClientHandler::run() {
-    /*
-    while (connection is not closed) {
-        std::vector<uint8_t> bytes_recv = skt.recv();
-        eventFactory.createAndPushFromBytes(bytes_recv);
+    while (alive) {
+        /* Es un simulador de eventos para testear */
+        bool create_random_event = probability(0.5);
+        if (create_random_event) {
+            std::cout << "Se creo un evento del player: " << player_id << " !!!\n";
+            std::random_device dev;
+            std::mt19937 rng(dev());
+            std::uniform_int_distribution<std::mt19937::result_type> dist10(1,6);
+            Event event(dist10(rng),player_id,0);
+            eventFactory.pushNewEvent(event);
+        }
+        sleep(1);
+
     }
-    */
+
 }
 
 void ClientHandler::stop() {
-    /*
     alive = false;
-    socket.closeSocket();
-    */
+    //socket.closeSocket();
 }
 
 int ClientHandler::getPlayerId() const {

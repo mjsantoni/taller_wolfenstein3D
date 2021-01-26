@@ -1,73 +1,31 @@
 #include "server/events/game_handler.h"
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include "server/game/config_parser.h"
-#include <string>
-#include <unordered_map>
-#include <vector>
+
 #include <unistd.h>
+#include "common/network_acceptor.h"
+#include "common/network_error.h"
+
 
 int main( int argc, char* args[] ) {
     GameHandler gameHandler("../map.yaml", "../config.yaml");
     gameHandler.start();
-    gameHandler.game.show();
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    gameHandler.eventQueue.push(Event(MOVE_PLAYER,1,0));
-    //sleep(10); // para que procese todo bien
-    gameHandler.game.show();
-    gameHandler.join();
-    //Game game("../map.yaml", "../config.yaml");
-    //game.show();
-    //game.rotate(1, 3*M_PI/8);
-    //game.rotate(0, 3*M_PI/8);
-    //game.movePlayer(1);
-    //game.show();
-    //game.shoot(0);
-    //game.shoot(0);
-    //game.shoot(0);
-    //game.shoot(0);
+    NetworkAcceptor networkAcceptor("8080");
 
-    //game.addBulletsTo(0, 5);
-    //game.movePlayer(1);
-    //game.movePlayer(1);
-    //game.movePlayer(1);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.movePlayer(0);
-    //game.openDoor(0);
-    //game.rotate(0,7*M_PI/4);
-    //game.movePlayer(0);
-    //game.movePlayer(0,7*M_PI/4);
-
-    //game.shoot(0);
-    //game.show();
-    //game.movePlayer(0);
-    //game.closeDoor();
-    //game.show();
-    return 0;
-
-}
-/*
-int main(int argc, char* args[]) {
-    ConfigParser cp("../config.yaml");
-    //std::unordered_map<std::string, std::vector<double>> vect = cp.getGuns();
-    std::unordered_map<std::string, int> vect = cp.getSpecificCategory("treasure");
-    for (auto& elem : vect) {
-        std::cout << "Key: " << elem.first << " - Value: " << elem.second << "\n";
+    int total_connected = 0;
+    while (total_connected < 2) {
+        // Spawn clients
+        try {
+            NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
+            gameHandler.addNewPlayer(socket.file_descriptor);
+            total_connected++;
+        } catch (const NetworkError& e) {
+            continue;
+        }
     }
-    std::cout << "Bullets: " << cp.getBullets() << "\n";
-}*/
+    sleep(60);
+    gameHandler.stop();
+    gameHandler.join();
+    return 0;
+}
 
 /* GENERADOR DEL CONFIG.YAML */ /*
 #include "yaml-cpp/yaml.h"

@@ -7,8 +7,8 @@
 #include "server/entities/key.h"
 #include <queue>
 #include <vector>
-#include "default_weapon.h"
 #include "server/game/gun_hotkeys.h"
+#include "server/game/config_parser.h"
 
 class Player {
 private:
@@ -19,23 +19,24 @@ private:
     int bullets;
     int hp;
     int points = 0;
-    int lives = 3; // add to config
+    int lives;
     double angle;
     int previous_weapon;
+    int total_keys;
 
     std::vector<Gun> guns;
     Gun equipped_weapon;
-    std::queue<Key> keys;
 
     static int getGunHotkey(const std::string& type);
 
 public:
-    Player(std::string _name, int _id, int _max_bullets,
-           int _max_hp, int _bullets); //parametros de config de las default gun falta
+    Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives,
+           ConfigParser &cp);
 
     /* Getters */
     std::string getPlayerName();
     int getID();
+    int getKeys();
     Gun& getGun();
     double getAngle();
 
@@ -60,8 +61,7 @@ public:
     bool noAmmoLeft() const;
 
     /* Keys */
-    bool areAnyKeysLeft();
-    int useKey();
+    bool useKey();
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player& other) = delete;
@@ -76,6 +76,8 @@ public:
     std::pair<std::string, bool> getDrops();
 
     bool isDead();
+
+
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

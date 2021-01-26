@@ -4,6 +4,7 @@
 #include "server/game/shoot_handler.h"
 
 #define MAX_PLAYERS 2
+#define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
            mapParser(map_path),
@@ -15,22 +16,25 @@ Game::Game(std::string map_path, std::string config_path) :
            dropHandler(config_path, map),
            blockingItemHandler(map) {
 
-    int id1 = connectPlayer();
-    int id2 = connectPlayer();
-    std::cout << "Player " << id1 << " connected to game.\n";
-    std::cout << "Player " << id2 << " connected to game.\n\n";
+    //int id1 = connectPlayer();
+    //int id2 = connectPlayer();
+    //std::cout << "Player " << id1 << " connected to game.\n";
+    //std::cout << "Player " << id2 << " connected to game.\n\n";
     //players[id2].addKey(Key(50)); // TEST ONLY
 }
 
 int Game::connectPlayer() {
     Player player(std::to_string(players_ids), players_ids,
-       configParser.getSpecificCategory("player", "max_bullets"),
-          configParser.getSpecificCategory("player", "max_hp"),
-           configParser.getSpecificCategory("player", "bullets"));
+                  configParser.getSpecificCategory("player", "max_bullets"),
+                  configParser.getSpecificCategory("player", "max_hp"),
+                  configParser.getSpecificCategory("player", "bullets"),
+                  configParser.getSpecificCategory("player", "max_lives"),
+                  configParser);
     map.addPlayer(players_ids);
     players.push_back(player);
     players_ids++;
     players_alive++;
+    std::cout << "Player " << player.getID() << " connected to game.\n";
     return player.getID(); // return players_ids - 1;
 }
 
@@ -65,7 +69,7 @@ Hit Game::shoot(int id) {
     ShootHandler sh(map);
     Hit hit_event = sh.shoot(shooter, angle, players);
     if (hit_event.playerDied()) playerDies(hit_event);
-    hit_event.getEnemyDmgDone(2); //TEST USE
+    //hit_event.getEnemyDmgDone(2); //TEST USE
     return hit_event;
 }
 
@@ -79,6 +83,7 @@ void Game::changeGun(int id, int hotkey) {
 }
 
 bool Game::isNotOver() {
+    return true;
     if (players_alive <= 1) return false;
     //if (se termino el tiempo) return false;
     return true;
@@ -111,6 +116,10 @@ void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
     players[id].addBullets(bullets);
 }
 
+int Game::getPlayersAlive() {
+    return players_alive;
+}
+
 void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
                               Hit &hit, const Coordinate& pos) {
     if (drops.first != "pistol") {
@@ -125,44 +134,65 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
     hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS);
 }
 
-/*
-void Game::passTime() {
-    if (map.isARPGMoving()) {
-        map.moveRpg();
-        events.push(Event(REMOV,......))
+
+std::vector<Change> Game::passTime() {
+    std::vector<Change> changes;
+    closeDoors(changes);
+    //moveRPGS();
+    return changes;
+}
+
+void Game::closeDoors(std::vector<Change>& changes) {
+    for (auto &door : doors_to_close) {
+        if (doors_to_close[door.first] == 0) {
+            if (!map.isAPlayerInACell(door.first)) {
+                int id = map.getGlobalID();
+                map.putPositionableAt(Positionable("door", "unlocked_door", id, true), door.first);
+                doors_to_close.erase(door.first);
+                changes.emplace_back(ADD_UNLOCKED_DOOR, id, door.first.x, door.first.y, true);
+            }
+        } else {
+            doors_to_close[door.first]--;
+        }
     }
 }
-*/
+
 
 Game::~Game() {}
 
-std::pair<Coordinate, int> Game::openDoor(int id) {
+std::pair<bool, int> Game::openDoor(int id) {
+
+    /* El bool indica si uso llave, el int el id de la puerta */
     Coordinate door_to_open = colHandler.getCloseBlocking(map.getPlayerPosition(id),
                                                           players[id].getAngle(), "door");
-    Coordinate not_opened(-1, -1);
-    if (!door_to_open.isValid()) return std::make_pair(not_opened, -1);
+    /* No hay puertas cerca */
+    if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
-    std::pair<bool, int> opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
-    if (!opened_door.first) return std::make_pair(not_opened, opened_door.second);
-    std::cout << "Abro una puerta con llave id: " << opened_door.second << " en ";
-    map.getNormalizedCoordinate(door_to_open).show();
+    int player_keys_before = players[id].getKeys();
+    /* No tengo llave para abrir la puerta */
+    int opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
+    if (opened_door == -1) return std::make_pair(false, -1);
 
-    return std::make_pair(map.getNormalizedCoordinate(door_to_open),
-                          opened_door.second);
+    /* Exito al abrir la puerta (estaba abierta o gaste llave) */
+    doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
+    bool player_use_key = (player_keys_before == players[id].getKeys());
+    return std::make_pair(player_use_key,map.getBlockingItemAt(door_to_open).getId());
 }
 
-Coordinate Game::pushWall(int id) {
+int Game::pushWall(int id) {
     Coordinate wall_to_push = colHandler.getCloseBlocking(map.getPlayerPosition(id),
                                                           players[id].getAngle(), "wall");
-    Coordinate not_pushed(-1, -1);
-    if (!wall_to_push.isValid()) return not_pushed;
-    if (!blockingItemHandler.pushWall(wall_to_push)) return not_pushed;
-    return map.getNormalizedCoordinate(wall_to_push);
+    /* No hay pared cerca */
+    if (!wall_to_push.isValid()) return -1;
+
+    /* No hay pared falsa en esa posicion */
+    if (!blockingItemHandler.pushWall(wall_to_push)) return -1;
+
+    /* Exito, hay pared falsa, devuelvo ID */
+    return map.getBlockingItemAt(wall_to_push).getId();
 }
 
-std::pair<Coordinate, int> Game::closeDoor() {
-    return blockingItemHandler.closeDoor();
-}
+
 
 
 
