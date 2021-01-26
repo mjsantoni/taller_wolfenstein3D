@@ -13,11 +13,13 @@ void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
     if (!infile)
         throw FileException("Archivo de imagenes no encontrado");
     std::string line;
+    int counter = 0;
     while (std::getline(infile, line)) {
         if (line.empty())
             return;
-        ObjectInfo object_info = processLine(line);
+        ObjectInfo object_info = processLine(line, counter);
         vector.push_back(std::move(object_info));
+        counter++;
     }
 }
 
@@ -61,7 +63,7 @@ void cleanVector(std::vector<std::string> vector) {
     }
 }
 
-ObjectInfo ImageParser::processLine(std::string line) {
+ObjectInfo ImageParser::processLine(std::string line, int object_type) {
     ObjectInfo object_info;
     std::vector<std::string> aux;
     split(line, aux);
@@ -73,6 +75,7 @@ ObjectInfo ImageParser::processLine(std::string line) {
     if (object_info.isSprite())
         getSpriteInfo(object_info, aux[7], aux[8]);
     object_info.setObjectWidth(stof(getCorrectValue(aux[1])));
+    object_info.setObjectType(object_type);
     return object_info;
 }
 

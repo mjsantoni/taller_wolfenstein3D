@@ -13,7 +13,7 @@
 
 class ImageParser {
 private:
-    ObjectInfo processLine(std::string line);
+    ObjectInfo processLine(std::string line, int object_type);
 public:
     void fillImageVector(std::vector<ObjectInfo>& vector);
 };

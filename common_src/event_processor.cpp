@@ -1,6 +1,6 @@
 #include "common/event_processor.h"
 #include "common/hit_handler.h"
-
+/*
 EventProcessor::EventProcessor(Game &_game, std::string config_path) :
                               game(_game), configParser(config_path) {}
 
@@ -81,3 +81,4 @@ std::vector<Change> EventProcessor::process(Event& event) {
     }
     return changes;
 }
+*/

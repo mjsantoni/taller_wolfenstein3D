@@ -15,7 +15,8 @@ class UIDrawer {
 private:
     SdlWindow& window;
     int starting_point;
-    int height;
+    int window_height;
+    int ui_height;
     int width;
     int box_starting_point = 0;
     int text_starting_point = 0;

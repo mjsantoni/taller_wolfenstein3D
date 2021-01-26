@@ -28,9 +28,9 @@ void GameScreen::displayIntro() {
 
 void GameScreen::render(int x, int y, ClientPlayer& player) {
     window.fill();
-    ui_drawer.drawPlayerUI(player);
     ray_caster.renderBackground(x, y, player.getDirection());
     object_handler.loadObjects(x, y, player.getDirection());
+    ui_drawer.drawPlayerUI(player);
     window.render();
     wall_distance_info.clear();
     angles_list.clear();

@@ -10,16 +10,19 @@ UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
                        184, 124, 4, 2, 0, 0), info_provider(_info_provider),
                        window(_window) {}
 
-void UIDrawer::setDimensions(int _starting_point, int _height, int _width) {
+void UIDrawer::setDimensions(int _starting_point,
+                             int _ui_height,
+                             int _width) {
     starting_point = _starting_point;
-    height = _height;
+    ui_height = _ui_height;
+    window_height = starting_point + _ui_height;
     width = _width;
 }
 
 void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     drawPlayersEquippedWeapon(player.getEquippedWeapon());
     TTF_Init();
-    Area ui_rect_area(0, starting_point, width, height);
+    Area ui_rect_area(0, starting_point, width, ui_height);
     fillArea(ui_rect_area, 3, 69, 64, 0);
     drawPlayersLevel(player.getLevel());
     drawPlayersScore(player.getScore());
@@ -59,10 +62,10 @@ void UIDrawer::drawPlayersAmmo(int players_ammo) {
 void UIDrawer::drawPlayersImage() {
     text_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
-                   width/10, height - 20);
+                   width/10, ui_height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     Area screen_area(text_starting_point, starting_point + 15,
-                     width/10 - 2*h_padding, height - 30);
+                     width/10 - 2*h_padding, ui_height - 30);
     Area img_area;
     SDL_Texture* player_image = player_face.loadTexture(window.getRenderer(), img_area, 0);
     putTextureAt(player_image, img_area, screen_area);
@@ -73,31 +76,31 @@ void UIDrawer::drawPlayersImage() {
 void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     box_starting_point += 2 * h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
-                   width/5, height - 20);
+                   width/5, ui_height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     ObjectInfo object_info = info_provider.getObjectInfo(players_weapon + 5);
     SdlTexture weapon_icon(object_info.getImagePath());
     Area image_area;
     SDL_Texture* weapon_texture = weapon_icon.loadTexture(window.getRenderer(), image_area);
     Area screen_area(text_starting_point,starting_point+15, width/5-2*h_padding,
-                     height - 30);
+                     ui_height - 30);
     putTextureAt(weapon_texture, image_area, screen_area);
 }
 
 void UIDrawer::drawBox(const std::string& message, int value) {
     text_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
-                   width/10, height - 20);
+                   width/10, ui_height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     Area msg_area;
     Area header_screen_area(text_starting_point, starting_point + 15,
-                            width/10 - 2*h_padding, height / 2 - 10);
+                            width/10 - 2*h_padding, ui_height / 2 - 10);
     SDL_Texture* head_message = createMessage(message, msg_area,
                                               header_screen_area, false);
 
     putTextureAt(head_message, msg_area, header_screen_area);
     Area sub_screen_area(text_starting_point, starting_point + 15 +
-                     height / 2 - 10, width / 10 - 2*h_padding,height / 2 - 10);
+                                              ui_height / 2 - 10, width / 10 - 2 * h_padding, ui_height / 2 - 10);
     SDL_Texture* sub_message = createMessage(std::to_string(value),
                                              msg_area, sub_screen_area, true);
 
@@ -196,12 +199,45 @@ SDL_Texture* UIDrawer::getWeaponSprite(ObjectInfo& o_i, Area& image_area) {
 
 Area UIDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
     int weapon_window_width = (int) (object_info.getObjectWidth() * width);
-    int weapon_window_height = (int) (object_info.getObjectHeight() * height);
-    int starting_y_pos = height - weapon_window_height;
+    int weapon_window_height = (int) (object_info.getObjectHeight()
+            * window_height);
+    int starting_y_pos = starting_point - weapon_window_height;
     int starting_x_pos = (width - weapon_window_width) / 2;
     Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
                      weapon_window_height);
     return screen_area;
 }
+/*
+void SdlWindow::drawPlayersWeapon(int weapon_number) {
+    DrawingInfo drawing_info;
+    Area image_area;
+    drawing_info.object_type = weapon_number;
+    SDL_Texture* texture = object_drawer.drawPlayersWeapon(drawing_info, image_area);
+    Area screen_area = object_drawer.assembleScreenWeaponArea(drawing_info);
+    putTextureAt(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+}
 
+SDL_Texture* ObjectDrawer::drawPlayersWeapon(DrawingInfo& d_i,
+                                             Area& image_area) {
+    getSpriteInformation(d_i);
+    SdlSprite sdl_sprite(d_i.texture_name, d_i.image_width, d_i.image_height,
+                         d_i.sprite_cols,  d_i.sprite_rows,
+                         d_i.sprite_h_padding, d_i.sprite_v_padding);
+    sdl_sprite.setPadding(d_i.sprite_h_padding, d_i.sprite_v_padding);
+    SDL_Texture* image = sdl_sprite.loadTexture(renderer, image_area,
+                                                d_i.sprite_image_number);
+    return image;
+}
+
+Area ObjectDrawer::assembleScreenWeaponArea(DrawingInfo& drawing_info) {
+    int weapon_window_width = (int) (drawing_info.object_width * window_width);
+    int weapon_window_height = (int) (drawing_info.object_height*window_height);
+    int starting_y_pos = window_height - weapon_window_height;
+    int starting_x_pos = (window_width - weapon_window_width) / 2;
+    Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
+                     weapon_window_height);
+    return screen_area;
+}
+*/
 

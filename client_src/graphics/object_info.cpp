@@ -17,7 +17,7 @@ int ObjectInfo::getImageHeight() const {
 }
 
 void ObjectInfo::setImageHeight(int image_height) {
-    image_info.setImageWidth(image_height);
+    image_info.setImageHeight(image_height);
 }
 
 std::string ObjectInfo::getObjectName() const {

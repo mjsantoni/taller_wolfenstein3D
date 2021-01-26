@@ -85,7 +85,7 @@ void Editor::exportMap() {
     out << YAML::Key << "dimensions";
     out << YAML::Value << YAML::BeginMap;
     out << YAML::Key << "width" << YAML::Value << height.toStdString();
-    out << YAML::Key << "height" << YAML::Value << width.toStdString();
+    out << YAML::Key << "ui_height" << YAML::Value << width.toStdString();
     out << YAML::EndMap;
 
     out << YAML::Key << "scenarios";
