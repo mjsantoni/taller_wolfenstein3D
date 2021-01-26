@@ -8,6 +8,7 @@
 #include <queue>
 #include <vector>
 #include "server/game/gun_hotkeys.h"
+#include "server/game/config_parser.h"
 
 class Player {
 private:
@@ -18,7 +19,7 @@ private:
     int bullets;
     int hp;
     int points = 0;
-    int lives = 3; // add to config
+    int lives;
     double angle;
     int previous_weapon;
     int total_keys;
@@ -29,8 +30,8 @@ private:
     static int getGunHotkey(const std::string& type);
 
 public:
-    Player(std::string _name, int _id, int _max_bullets,
-           int _max_hp, int _bullets); //parametros de config de las default gun falta
+    Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives,
+           ConfigParser &cp);
 
     /* Getters */
     std::string getPlayerName();

@@ -12,32 +12,32 @@ std::vector<Change> EventProcessor::process(Event& event) {
     switch (id) {
         case (CONNECT_PLAYER): {
             int id_new_player = game.connectPlayer();
-            changes.push_back(Change(ADD_PLAYER, id_new_player, -1, -1, true));
+            changes.emplace_back(ADD_PLAYER, id_new_player, -1, -1, true);
             // Falta evento de enviar el mapa entero al conectarse
             break;
         }
         case (MOVE_PLAYER): {
-            std::cout << "Muevo player!\n";
+            std::cout << "MUEVO PLAYER!\n";
             std::pair<Coordinate,
                     std::vector<Positionable>> move_changes = game.movePlayer(player_id);
-            changes.push_back(Change(MOVE_PLAYER, player_id,
-                                     move_changes.first.x, move_changes.first.y, true));
+            changes.emplace_back(MOVE_PLAYER, player_id,
+                                     move_changes.first.x, move_changes.first.y, true);
             for (auto &item : move_changes.second) {
-                changes.push_back(Change(REMOVE_POSITIONABLE, item.getId(), -1, -1, true));
-                changes.push_back(Change(CHANGE_POINTS, player_id, 999, -1, false));
+                changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), -1, -1, true);
+                changes.emplace_back(CHANGE_POINTS, player_id, 999, -1, false);
                 // Reemplazar el 999 por configParser.getPoints(item);
             }
             break;
         }
         case (SHOOT): {
-            std::cout << "Disparo\n";
+            std::cout << "DISPARO!\n";
             Hit hit_event = game.shoot(player_id);
             HitHandler hit_handler;
-            hit_handler.processHit(hit_event, changes);
+            hit_handler.processHit(hit_event, changes, game.getPlayersAlive());
             break;
         }
         case (OPEN_DOOR): {
-            std::cout << "Intento abrir puerta\n";
+            std::cout << "INTENTO ABRIR PUERTA!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             std::pair<bool,int> opened_door = game.openDoor(player_id);
@@ -52,12 +52,12 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (PUSH_WALL): {
-            std::cout << "Push wall!\n";
+            std::cout << "PUSH WALL!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
-            Coordinate pushed_wall = game.pushWall(player_id);
-            if (!pushed_wall.isValid()) break;
-            changes.push_back(Change(REMOVE_POSITIONABLE, -1, pushed_wall.x, pushed_wall.y, true));
+            int pushed_wall_id = game.pushWall(player_id);
+            if (pushed_wall_id == -1) break;
+            changes.emplace_back(REMOVE_POSITIONABLE, pushed_wall_id, -1, -1, true);
             break;
         }
         case (TURN_CAMERA): {
@@ -68,10 +68,10 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (CHANGE_GUN): {
-            std::cout << "Chnage gun!\n";
+            std::cout << "CHANGE GUN!\n";
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changeGun(player_id, value); // value == hotkey
-            changes.push_back(Change(CHANGE_WEAPON, player_id, value, -1, true));
+            changes.emplace_back(CHANGE_WEAPON, player_id, value, -1, true);
         }
         default: {
             break;

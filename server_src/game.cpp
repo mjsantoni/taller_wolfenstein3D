@@ -25,9 +25,11 @@ Game::Game(std::string map_path, std::string config_path) :
 
 int Game::connectPlayer() {
     Player player(std::to_string(players_ids), players_ids,
-       configParser.getSpecificCategory("player", "max_bullets"),
-          configParser.getSpecificCategory("player", "max_hp"),
-           configParser.getSpecificCategory("player", "bullets"));
+                  configParser.getSpecificCategory("player", "max_bullets"),
+                  configParser.getSpecificCategory("player", "max_hp"),
+                  configParser.getSpecificCategory("player", "bullets"),
+                  configParser.getSpecificCategory("player", "max_lives"),
+                  configParser);
     map.addPlayer(players_ids);
     players.push_back(player);
     players_ids++;
@@ -67,7 +69,7 @@ Hit Game::shoot(int id) {
     ShootHandler sh(map);
     Hit hit_event = sh.shoot(shooter, angle, players);
     if (hit_event.playerDied()) playerDies(hit_event);
-    hit_event.getEnemyDmgDone(2); //TEST USE
+    //hit_event.getEnemyDmgDone(2); //TEST USE
     return hit_event;
 }
 
@@ -114,6 +116,10 @@ void Game::addBulletsTo(int id, int bullets) { // SOLO PARA TEST
     players[id].addBullets(bullets);
 }
 
+int Game::getPlayersAlive() {
+    return players_alive;
+}
+
 void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
                               Hit &hit, const Coordinate& pos) {
     if (drops.first != "pistol") {
@@ -155,9 +161,7 @@ std::pair<bool, int> Game::openDoor(int id) {
     /* No hay puertas cerca */
     if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
-
     int player_keys_before = players[id].getKeys();
-
     /* No tengo llave para abrir la puerta */
     int opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
     if (opened_door == -1) return std::make_pair(false, -1);
@@ -168,14 +172,19 @@ std::pair<bool, int> Game::openDoor(int id) {
     return std::make_pair(player_use_key,map.getBlockingItemAt(door_to_open).getId());
 }
 
-Coordinate Game::pushWall(int id) {
+int Game::pushWall(int id) {
     Coordinate wall_to_push = colHandler.getCloseBlocking(map.getPlayerPosition(id),
                                                           players[id].getAngle(), "wall");
-    Coordinate not_pushed(-1, -1);
-    if (!wall_to_push.isValid()) return not_pushed;
-    if (!blockingItemHandler.pushWall(wall_to_push)) return not_pushed;
-    return map.getNormalizedCoordinate(wall_to_push);
+    /* No hay pared cerca */
+    if (!wall_to_push.isValid()) return -1;
+
+    /* No hay pared falsa en esa posicion */
+    if (!blockingItemHandler.pushWall(wall_to_push)) return -1;
+
+    /* Exito, hay pared falsa, devuelvo ID */
+    return map.getBlockingItemAt(wall_to_push).getId();
 }
+
 
 
 

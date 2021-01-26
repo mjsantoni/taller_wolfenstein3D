@@ -8,7 +8,7 @@ private:
 public:
     HitHandler();
 
-    void processHit(Hit& hit_event, std::vector<Change>& changes);
+    void processHit(Hit &hit_event, std::vector<Change> &changes, int players_alive);
     ~HitHandler();
 };
 

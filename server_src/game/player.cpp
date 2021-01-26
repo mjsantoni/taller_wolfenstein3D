@@ -6,19 +6,17 @@
 
 #define EXTRA_GUN_VECTOR_SIZE 1
 
-Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets) :
-                                    name(_name),
-                                    id(_id),
-                                    angle(0),
-                                    max_hp(_max_hp),
-                                    hp(_max_hp),
-                                    max_bullets(_max_bullets),
-                                    bullets(_bullets),
-                                    total_keys(0) {
-    // Los parametros de las guns default deberian venir por config (parametro)
+Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp,
+               int _bullets, int _max_lives, ConfigParser &cp) :
+               name(_name), id(_id), angle(0),
+               max_hp(_max_hp), hp(_max_hp), max_bullets(_max_bullets),
+               bullets(_bullets), total_keys(0), lives(_max_lives) {
+
     guns.resize(TOTAL_GUNS + EXTRA_GUN_VECTOR_SIZE);
-    guns[KNIFE] = Gun("knife", -1, 1, 0, 1, 25);
-    guns[PISTOL] = Gun("pistol", -1, 5, 2, 0.75, 100);
+    std::vector<double> knife_stats = cp.getSpecificGun("knife");
+    std::vector<double> pistol_stats = cp.getSpecificGun("pistol");
+    guns[KNIFE] = Gun("knife", -1, knife_stats[0], knife_stats[1], knife_stats[2], knife_stats[3]);
+    guns[PISTOL] = Gun("pistol", -1, pistol_stats[0], pistol_stats[1], pistol_stats[2], pistol_stats[3]);
     equipped_weapon = guns[PISTOL];
 }
 

@@ -15,7 +15,7 @@ void ClientUpdater::run() {
     while (alive) {
         Change change = change_queue.pop();
         if (change.isGlobal() || change.getPlayerID() == player_id) {
-            std::cout << "PLAYER " << player_id << "Popie un change de id: " << change.getChangeID() << "\n";
+            std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
             std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
             skt.sendMsg(change.serialize());
         }

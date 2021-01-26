@@ -55,8 +55,9 @@ public:
 
     std::pair<bool, int> openDoor(int id);
 
-    Coordinate pushWall(int id);
+    int pushWall(int id);
 
+    int getPlayersAlive();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H
