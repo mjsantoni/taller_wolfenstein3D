@@ -6,7 +6,7 @@
 GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
         game(map_path, config_path),
-        eventProcessor(game),
+        eventProcessor(game, config_path),
         eventQueue(Event()),
         alive(true) {}
 

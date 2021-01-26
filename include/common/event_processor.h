@@ -4,13 +4,15 @@
 #include "server/game/game.h"
 #include "common/change.h"
 #include "common/event.h"
+#include "server/game/config_parser.h"
 
 class EventProcessor {
 private:
     Game& game;
+    ConfigParser configParser;
 
 public:
-    EventProcessor(Game &_game);
+    EventProcessor(Game &_game, std::string config_path);
     std::vector<Change> process(Event& event);
 
 };

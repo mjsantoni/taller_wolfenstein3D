@@ -14,15 +14,52 @@
 class Map {
 private:
     int grid_size = 64;
-    std::map<Coordinate, Positionable> board;
-    std::vector<Coordinate> player_positions; //player[0] = pos_player_0
-    std::vector<Coordinate> player_spawns; //player[0] = spawn_player_0
     int global_id = 0;
+
+    std::map<Coordinate, Positionable> board;
+    std::vector<Coordinate> player_positions; // player[0] = pos_player_0
+    std::vector<Coordinate> player_spawns; // player[0] = spawn_player_0
 
 public:
     Map();
-
+    ~Map();
     Map(int player_max_spawn_count);
+
+    /* ADDERS */
+
+    void putPositionableAt(Positionable item, Coordinate pos);
+    void putBlockingAtExact(Positionable blocking, Coordinate coordinates);
+    void addPlayer(int i);
+
+    /* VERIFIERS */
+
+    bool isABlockingItemAt(const Coordinate& coordinates);
+    bool isAPlayerAt(Coordinate &coordinate);
+    bool isAPlayerInACell(Coordinate coordinate);
+
+    /* GETTERS */
+
+    Positionable getBlockingItemAt(Coordinate coordinates);
+    Coordinate getNormalizedCoordinate(Coordinate coordinates);
+    Positionable getPositionableAt(Coordinate coordinates);
+    int getGlobalID();
+    Coordinate getPlayerPosition(int id);
+    int getPlayerIDAtPosition(Coordinate coord);
+
+    /* ERASERS */
+
+    void removeBlockingItemAt(Coordinate coordinates);
+    void erasePositionableAt(Coordinate coord);
+    void removePlayer(int &i);
+
+    /* OTHERS */
+
+    Coordinate closePositionable(int units, Coordinate coord,
+                                 std::set<Coordinate>& found_positionables);
+    void respawnPlayer(int id);
+    void setPlayerPosition(int i, Coordinate coordinate);
+
+    /* MAP INITIALIZER FUNCTIONS */
 
     void addBlockingItems(std::unordered_map<std::string,
                             std::vector<Coordinate>>& obstructives, PositionableHandler handler);
@@ -30,41 +67,12 @@ public:
                             std::vector<Coordinate>>& non_obstructives, PositionableHandler handler);
     void addPlayerSpawns(std::unordered_map<std::string,
                          std::vector<Coordinate>>& spawns);
-
     void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
+
     void putPositionableAtCenter(Coordinate coordinates, Positionable positionable);
-    bool isABlockingItemAt(const Coordinate& coordinates);
+
+    /* MAP PRINT */
     void show();
-
-    Coordinate closePositionable(int units, Coordinate coord,
-                                 std::set<Coordinate>& found_positionables);
-    Positionable getPositionableAt(Coordinate coordinates);
-    void erasePositionableAt(Coordinate coord);
-
-    void addPlayer(int i);
-    Coordinate getPlayerPosition(int id);
-    void setPlayerPosition(int i, Coordinate pair);
-    bool isAPlayerAt(Coordinate &coordinate);
-
-    int getPlayerIDAtPosition(Coordinate coord);
-
-    void respawnPlayer(int id);
-
-    void removePlayer(int &i);
-
-    void putPositionableAt(Positionable item, Coordinate pos);
-
-    int getGlobalID();
-
-    Positionable getBlockingItemAt(Coordinate coordinates);
-
-    Coordinate getNormalizedCoordinate(Coordinate coordinates);
-
-    void removeBlockingItemAt(Coordinate coordinates);
-
-    bool isAPlayerInACell(Coordinate coordinate);
-
-    void putBlockingAtExact(Positionable blocking, Coordinate coordinates);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

@@ -4,8 +4,7 @@
 #include "common/network_acceptor.h"
 #include "common/network_error.h"
 
-
-int main( int argc, char* args[] ) {
+int main(int argc, char* args[]) {
     GameHandler gameHandler("../map.yaml", "../config.yaml");
     gameHandler.start();
     NetworkAcceptor networkAcceptor("8080");

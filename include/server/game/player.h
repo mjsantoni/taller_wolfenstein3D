@@ -35,10 +35,10 @@ public:
 
     /* Getters */
     std::string getPlayerName();
-    int getID();
-    int getKeys();
     Gun& getGun();
+    int getID();
     double getAngle();
+    int getKeys();
 
     /* Stats ADD */
     void addHp(int hp_given);
@@ -52,16 +52,21 @@ public:
     void reduceAmmo();
     int reduceHP(int value);
 
-    /* Others */
-    void changeGun(int hotkey);
+    /* CHECKERS */
     bool isFullHP() const;
     bool canPickUpBlood() const;
     bool hasMaxBullets() const;
-    bool hasGun(std::string gun_type);
     bool noAmmoLeft() const;
+    bool isDead();
+    bool hasGun(std::string gun_type);
 
     /* Keys */
     bool useKey();
+
+    /* OTHERS */
+    void changeGun(int hotkey);
+    bool dieAndRespawn();
+    std::pair<std::string, bool> getDrops();
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player& other) = delete;
@@ -70,14 +75,6 @@ public:
     /* Prohibe construccion y asignacion por movimiento. */
     //Player(Player&&) = delete;
     //Player& operator=(Player&&) = delete;
-
-    bool dieAndRespawn();
-
-    std::pair<std::string, bool> getDrops();
-
-    bool isDead();
-
-
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

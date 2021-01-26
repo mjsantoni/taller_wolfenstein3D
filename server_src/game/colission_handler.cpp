@@ -89,6 +89,9 @@ ColissionHandler::getCloseItems(const Coordinate& old_pos,
     return positionables;
 }
 
+/* Verifica en linea recta hacia donde mira el jugador una cantidad
+ * move size + safe distance de distancia total si existe una pared
+ */
 Coordinate ColissionHandler::getCloseBlocking(Coordinate pos, double angle, std::string category) {
     int x_move = std::round(cos(angle)*move_size);
     int y_move = std::round(sin(angle)*move_size*-1);

@@ -1,7 +1,8 @@
 #include "common/event_processor.h"
 #include "common/hit_handler.h"
 
-EventProcessor::EventProcessor(Game &_game) : game(_game) {}
+EventProcessor::EventProcessor(Game &_game, std::string config_path) :
+                              game(_game), configParser(config_path) {}
 
 std::vector<Change> EventProcessor::process(Event& event) {
     int id = event.event_id;
@@ -24,8 +25,9 @@ std::vector<Change> EventProcessor::process(Event& event) {
                                      move_changes.first.x, move_changes.first.y, true);
             for (auto &item : move_changes.second) {
                 changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), -1, -1, true);
-                changes.emplace_back(CHANGE_POINTS, player_id, 999, -1, false);
-                // Reemplazar el 999 por configParser.getPoints(item);
+                changes.emplace_back(CHANGE_POINTS, player_id,
+                                     configParser.getSpecificCategory(item.getCategory(), item.getType()),
+                                     -1, false);
             }
             break;
         }

@@ -1,6 +1,5 @@
 #include <functional>
 #include "server/game/player.h"
-#include "server/entities/gun.h"
 #include <iostream>
 #include <ctgmath>
 
@@ -21,6 +20,7 @@ Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp,
 }
 
 /* GETTERS */
+
 std::string Player::getPlayerName() { return name; }
 
 Gun& Player::getGun() { return equipped_weapon; }
@@ -33,16 +33,8 @@ int Player::getKeys() {
     return total_keys;
 }
 
-void Player::changeGun(int hotkey) {
-    if (hotkey == 0) return;
-    previous_weapon = getGunHotkey(equipped_weapon.getType());
-    equipped_weapon = guns[hotkey];
-    std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
-    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
-    " y tiene rango: " << equipped_weapon.getRange() << "\n";
-}
-
 /* ADDERS */
+
 void Player::addHp(int hp_given) {
     if (hp + hp_given >= max_hp) hp = max_hp;
     else hp += hp_given;
@@ -83,7 +75,8 @@ void Player::addAngle(double _angle) {
     }
 }
 
-/* REDUCERS */
+/* STATS SUB */
+
 void Player::reduceAmmo() {
     if (equipped_weapon.getType() == "knife") {
         std::cout << "Tengo equipado un knife, no resto balas\n";
@@ -118,7 +111,8 @@ int Player::reduceHP(int damage) {
     return hp_reduced;
 }
 
-/* OTHERS (CHECKERS) */
+/* CHECKERS */
+
 bool Player::isFullHP() const { return hp == max_hp; }
 
 bool Player::canPickUpBlood() const { return hp < 11; }
@@ -127,6 +121,8 @@ bool Player::hasMaxBullets() const { return bullets >= max_bullets; }
 
 bool Player::noAmmoLeft() const { return bullets <= 0; }
 
+bool Player::isDead() { return hp <= 0; }
+
 bool Player::hasGun(std::string gun_type) {
     for (auto& gun : guns) {
         if (gun.getType() == gun_type) return true;
@@ -134,15 +130,23 @@ bool Player::hasGun(std::string gun_type) {
     return false;
 }
 
-bool Player::isDead() {
-    return hp <= 0;
-}
-
 /* KEYS */
+
 bool Player::useKey() {
     if (total_keys == 0) return false;
     total_keys--;
     return true;
+}
+
+/* OTHERS */
+
+void Player::changeGun(int hotkey) {
+    if (hotkey == 0) return;
+    previous_weapon = getGunHotkey(equipped_weapon.getType());
+    equipped_weapon = guns[hotkey];
+    std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
+    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
+    " y tiene rango: " << equipped_weapon.getRange() << "\n";
 }
 
 int Player::getGunHotkey(const std::string& type) {
@@ -153,7 +157,6 @@ int Player::getGunHotkey(const std::string& type) {
     else if (type == "knife") return KNIFE;
     else return 0; // Aca explotaria
 }
-
 
 bool Player::dieAndRespawn() {
     lives--;
@@ -170,7 +173,7 @@ bool Player::dieAndRespawn() {
 
 std::pair<std::string, bool> Player::getDrops() {
     std::pair<std::string, bool> drops(std::make_pair("pistol",false));
-    // el string es el arma y el bool es si tiene llave o no
+    // Par: String = tipo de arma y bool es si tiene llave o no
     for (auto& gun : guns) {
         if (gun.getType() != "null" && gun.getType() != "knife" &&
             gun.getType() != "pistol") {
