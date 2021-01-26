@@ -27,6 +27,7 @@ void ClientUpdater::update(Change change) {change_queue.push(change);}
 
 void ClientUpdater::stop() {
     alive = false;
+    change_queue.close();
     //socket.closeSocket();
 }
 

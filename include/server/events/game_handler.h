@@ -11,6 +11,7 @@
 #include "common/change.h"
 #include "server/events/client_handler.h"
 #include "server/events/client_updater.h"
+#include <atomic>
 
 #include "common/network_connection.h"
 
@@ -21,7 +22,7 @@ private:
     std::vector<ClientHandler*> clients_handler;
     std::vector<int> sockets;
     EventProcessor eventProcessor;
-    bool alive = true;
+    std::atomic<bool> alive;
 
 public:
     Game game;

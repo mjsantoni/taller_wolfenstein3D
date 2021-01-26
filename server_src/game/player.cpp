@@ -158,7 +158,7 @@ int Player::getGunHotkey(const std::string& type) {
 bool Player::dieAndRespawn() {
     lives--;
     if (lives > 0) {
-        std::cout << "I, player " << id << " die and respawn\n";
+        std::cout << "I, player " << id << " die and respawn with " << lives << "\n";
         hp = max_hp;
         return true; // respawnAtOriginalLoc()
     }

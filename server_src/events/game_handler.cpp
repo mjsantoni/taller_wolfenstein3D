@@ -6,7 +6,8 @@ GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
         game(map_path, config_path),
         eventProcessor(game),
-        eventQueue(Event()) {}
+        eventQueue(Event()),
+        alive(true) {}
 
 void GameHandler::run() {
     // tiene que ciclar hasta vacia o algo asi, no hacer 1 y dormir
