@@ -135,18 +135,21 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
 }
 
 
-void Game::passTime() {
-    closeDoors();
+std::vector<Change> Game::passTime() {
+    std::vector<Change> changes;
+    closeDoors(changes);
     //moveRPGS();
+    return changes;
 }
 
-void Game::closeDoors() {
+void Game::closeDoors(std::vector<Change>& changes) {
     for (auto &door : doors_to_close) {
         if (doors_to_close[door.first] == 0) {
             if (!map.isAPlayerInACell(door.first)) {
-                map.putPositionableAt(Positionable("door", "unlocked_door", map.getGlobalID(), true), door.first);
+                int id = map.getGlobalID();
+                map.putPositionableAt(Positionable("door", "unlocked_door", id, true), door.first);
                 doors_to_close.erase(door.first);
-                //eventQueue.push(Event(ADD_DOOR,blablablalblalaa))
+                changes.emplace_back(ADD_UNLOCKED_DOOR, id, door.first.x, door.first.y, true);
             }
         } else {
             doors_to_close[door.first]--;

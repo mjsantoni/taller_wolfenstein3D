@@ -20,5 +20,6 @@
 #define ADD_KEY_AT 15
 #define ADD_GUN_AT 16
 #define PLAYER_USE_KEY 17
+#define ADD_UNLOCKED_DOOR 18
 
 #endif //TP_WOLFENSTEIN_CHANGES_H

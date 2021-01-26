@@ -13,6 +13,7 @@
 #include "server/game/drop_handler.h"
 #include "server/game/blocking_item_handler.h"
 #include "hit.h"
+#include "common/change.h"
 
 class Game {
 private:
@@ -59,9 +60,9 @@ public:
 
     int getPlayersAlive();
 
-    void passTime();
+    std::vector<Change> passTime();
 
-    void closeDoors();
+    void closeDoors(std::vector<Change>& vector);
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H

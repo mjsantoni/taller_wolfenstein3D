@@ -33,6 +33,8 @@ public:
     void addNewPlayer(int fd);
 
     void stop();
+
+    void notifyClients(std::vector<Change> &changes);
 };
 
 
