@@ -1,6 +1,6 @@
 #include "common/event_processor.h"
 #include "common/hit_handler.h"
-/*
+
 EventProcessor::EventProcessor(Game &_game) : game(_game) {}
 
 std::vector<Change> EventProcessor::process(Event& event) {
@@ -79,4 +79,3 @@ std::vector<Change> EventProcessor::process(Event& event) {
     }
     return changes;
 }
-*/
