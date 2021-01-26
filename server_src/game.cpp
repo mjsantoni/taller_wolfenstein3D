@@ -134,21 +134,25 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
     hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS);
 }
 
-/*
-void Game::passTime() {
-    for (auto& door : doors_to_close) {
-        if (doors_to_close[door] == 0) {
-            /*
-             if (map.APlayerIsInNormalizedCOord(coords)
-                continue;
-            else {
-                map.putPositionableAt(coordinate, unlocked_door)
-                }
 
+void Game::passTime() {
+    closeDoors();
+    //moveRPGS();
+}
+
+void Game::closeDoors() {
+    for (auto &door : doors_to_close) {
+        if (doors_to_close[door.first] == 0) {
+            if (!map.isAPlayerInACell(door.first)) {
+                map.putPositionableAt(Positionable("door", "unlocked_door", map.getGlobalID(), true), door.first);
+                doors_to_close.erase(door.first);
+                //eventQueue.push(Event(ADD_DOOR,blablablalblalaa))
+            }
+        } else {
+            doors_to_close[door.first]--;
         }
     }
 }
-*/
 
 
 Game::~Game() {}

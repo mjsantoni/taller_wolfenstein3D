@@ -58,6 +58,10 @@ public:
     int pushWall(int id);
 
     int getPlayersAlive();
+
+    void passTime();
+
+    void closeDoors();
 };
 
 #endif //TP_WOLFENSTEIN_GAME_H
