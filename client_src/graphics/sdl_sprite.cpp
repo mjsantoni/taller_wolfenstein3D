@@ -45,7 +45,8 @@ void SdlSprite::loadIndividualDimensions() {
     }
 }
 
-SDL_Texture* SdlSprite::loadTexture(SDL_Renderer *renderer, Area &srcArea,
+SDL_Texture* SdlSprite::loadTexture(SDL_Renderer *renderer,
+                                    Area &srcArea,
                                     int sprite_number) {
     SDL_Texture* new_texture = IMG_LoadTexture(renderer, file_name.c_str());
     if (!new_texture)

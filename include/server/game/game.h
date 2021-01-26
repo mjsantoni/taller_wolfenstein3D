@@ -1,4 +1,4 @@
-#ifndef TP_WOLFENSTEIN_GAME_H
+#ifndef TP_WOLFENSTEIN_CLIENT_GAME_H
 #define TP_WOLFENSTEIN_GAME_H
 
 #include <string>
@@ -58,4 +58,4 @@ public:
     std::pair<Coordinate, int> closeDoor();
 };
 
-#endif //TP_WOLFENSTEIN_GAME_H
+#endif //TP_WOLFENSTEIN_CLIENT_GAME_H

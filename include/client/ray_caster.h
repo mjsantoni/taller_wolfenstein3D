@@ -19,20 +19,20 @@ public:
           wall_distance_info,std::map<int, std::pair<int, int>>& _floor_info,
           ObjectInfoProvider& info_provider, std::vector<double>& _angles_list);
     void renderBackground(int x, int y, double alpha);
+    void setDimensions(int width, int height);
 private:
     SdlWindow window;
     ClientMap& map;
     int window_width;
     int window_height;
-    int width_prop;
-    int height_prop;
+    int width_factor;
+    int height_factor;
     int map_grid_size;
     ObjectInfoProvider& info_provider;
     std::map<double, double>& wall_distance_info;
     std::vector<double>& angles_list;
     std::map<int, std::pair<int, int>>& floor_info;
     double ray_angle_delta = (double)60/320*2*M_PI/360;
-
     void castProjectionLine(int x, int y, double alpha, double beta,
                             ObjectInfo& drawing_info);
     void castProjectionLine_vertical(int x, int y, double alpha, double beta,
@@ -56,7 +56,12 @@ private:
     void saveRayInformation(double ray_angle, double distance);
     void drawCeiling(int x_pos, int y_pos);
     void drawFloor(int x_pos, int wall_posY, int wall_height);
-    void setDimensions(int width, int height);
+    void putFloorAndCeiling(int ray_no, ObjectInfo& object_info);
+    Area assembleScreenArea(int ray_no, ObjectInfo& object_info);
+    int findColumnHeight(int distance);
+    int findColumnStartingPoint(int col_height);
+    SDL_Texture* loadWallTexture(ObjectInfo& object_info, Area& image_area);
+    void putWall(int ray_no, ObjectInfo& object_info);
 };
 
 

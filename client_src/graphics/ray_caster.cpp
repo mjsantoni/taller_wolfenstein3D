@@ -32,8 +32,9 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);
         object_info = fillObjectInfo(object_info);
-        window.putFloorAndCeiling(ray, object_info);
-        window.putWall(ray, object_info);
+        printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
+        putFloorAndCeiling(ray, object_info);
+        putWall(ray, object_info);
         angle -= ray_angle_delta;
         if (angle < 0) {
             angle += 2*M_PI;
@@ -42,11 +43,30 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
     }
 }
 
+void RayCaster::putFloorAndCeiling(int ray_no, ObjectInfo& object_info) {
+    Area screen_area = assembleScreenArea(ray_no, object_info);
+    drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
+    drawCeiling(ray_no, screen_area.getY());
+}
+
+Area RayCaster::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
+    int distance = (int) object_info.getHitDistance();
+    int col_height = findColumnHeight(distance);
+    int col_starting_point = findColumnStartingPoint(col_height);
+    Area screen_area(
+            ray_no*width_factor,col_starting_point, width_factor, col_height
+    );
+    //printf("Rayo %d:Se coloca una pared a distancia %d, en (%d, %d), con un ancho de %d y altura de %d\n",
+    //ray_no, distance, ray_no*width_factor, col_starting_point, width_factor, col_height);
+    return screen_area;
+}
+
 ObjectInfo RayCaster::fillObjectInfo(ObjectInfo& map_info) {
     ObjectInfo object_info =
             info_provider.getObjectInfo(map_info.getObjectType());
     object_info.setHitDistance(map_info.getHitDistance());
     object_info.setHitGridPos(map_info.getHitGridPos());
+    return object_info;
 }
 
 void RayCaster::castProjectionLine(int x,
@@ -58,7 +78,6 @@ void RayCaster::castProjectionLine(int x,
     //printf("Distancia vertical encontrada: %f\n", object_info.hit_distance);
     castProjectionLine_horizontal(x, y, alpha, beta, object_info);
     //printf("Distancia horizontal encontrada: %f\n", object_info.hit_distance);
-    //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.hit_distance);
     saveRayInformation(beta, object_info.getHitDistance());
 }
 
@@ -88,7 +107,7 @@ void RayCaster::castProjectionLine_vertical_up(int x,
                                                double alpha,
                                                double beta,
                                                ObjectInfo& object_info) {
-    int delta_y = y%map.getGridSize();
+    int delta_y = y % map.getGridSize();
     double lambda = (alpha > M_PI/2) ? M_PI - alpha : alpha;
     bool ray_pointing_left = alpha >= M_PI/2;
     int x_inverter = (ray_pointing_left) ? -1 : 1;
@@ -190,8 +209,6 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
     }
 }
 
-
-
 bool RayCaster::outOfBounds(ClientMap& map, int pos, bool is_vertical) {
     if (is_vertical)
         return map.outOfVerticalBounds(pos);
@@ -233,7 +250,6 @@ void RayCaster::saveRayInformation(double ray_angle, double distance) {
 }
 
 void RayCaster::drawFloor(int x_pos, int wall_posY, int wall_height) {
-    int width_factor = window_width/320;
     int fsp_for_column = wall_posY + wall_height;
     int fh_for_column = window_height - fsp_for_column;
     std::pair<int, int> ray_floor_info {fsp_for_column, fh_for_column};
@@ -243,17 +259,40 @@ void RayCaster::drawFloor(int x_pos, int wall_posY, int wall_height) {
 }
 
 void RayCaster::drawCeiling(int x_pos, int y_pos) {
-    int width_factor = window_width/320;
-    SDL_Rect ceiling_rect = {
-            x_pos*width_factor, 0, width_factor, y_pos
-    };
-    SDL_SetRenderDrawColor(renderer, 60, 60, 60, 0);
-    SDL_RenderFillRect(renderer, &ceiling_rect);
+    Area area(x_pos*width_factor, 0, width_factor, y_pos);
+    window.drawRectangle(area, 60, 60, 60, 0);
 }
 
 void RayCaster::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
-    width_prop = width/320;
-    height_prop = (int) (height/(0.8*200));
+    width_factor = width / 320;
+    height_factor = (int) (height / (0.8 * 200));
+}
+
+int RayCaster::findColumnHeight(int distance) {
+    auto height_proportion = (double) map_grid_size/distance;
+    return (int) (height_proportion*255);
+}
+
+int RayCaster::findColumnStartingPoint(int col_height) {
+    return (window_height - col_height)/2;
+}
+
+void RayCaster::putWall(int ray_no, ObjectInfo& object_info) {
+    Area image_area;
+    SDL_Texture* texture = loadWallTexture(object_info, image_area);
+    Area screen_area = assembleScreenArea(ray_no, object_info);
+    window.loadImage(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+}
+
+SDL_Texture* RayCaster::loadWallTexture(ObjectInfo& object_info,
+                                        Area& image_area) {
+    SdlTexture sdl_texture(object_info.getImagePath());
+    SDL_Texture* image = sdl_texture.loadTexture(window.getRenderer(),
+                                                 image_area);
+    image_area.setX((int) (object_info.getHitGridPos() *image_area.getWidth()));
+    image_area.setWidth(image_area.getWidth()/map_grid_size);
+    return image;
 }

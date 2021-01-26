@@ -36,19 +36,12 @@ public:
     SDL_Renderer* getRenderer() const;
     SDL_Surface* getSurface() const;
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-    void putWall(int ray_no, ObjectInfo& object_info);
-    void putFloorAndCeiling(int ray_no, ObjectInfo& object_info);
     void displayFullImage(SdlTexture& texture);
     void fillArea(Area area, int r, int g, int b, int a);
     void restore();
-    void put3DObject(double distance, double pl_ob_angle, double x_prop,
-                     Drawable& object);
-    void drawPlayersWeapon(ObjectInfo& object_info);
     int getWidth();
-    void drawPlayerUI(ClientPlayer& player);
-    void setDistanceInfo(std::map<double, double> ray_information,
-                         std::vector<double> angles_list);
     void drawRectangle(Area& area, int r, int g, int b, int a);
+    void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
 };
 
 

@@ -20,18 +20,15 @@ public:
                   std::map<double, double>& wall_distance_info,
                   std::map<int, std::pair<int, int>>& _floor_info,
                   std::vector<double>& angles_list, ClientMap& map);
-    void findObjectProportions(MapInfo& drawing_info, double distance,
-                               double pl_ob_angle, Area& screen_area);
-
+    Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
     int findXPosForObject(double pl_ob_beta, int object_width);
     int findYPosForObject(int ray_no, double pl_ob_angle, double distance,
                           int object_height);
-    int findObjectHeight(double distance, MapInfo& drawing_info);
-    int findObjectWidth(double distance, MapInfo& drawing_info);
+    int findObjectHeight(double distance, int object_height);
+    int findObjectWidth(double distance, int object_width);
     int findRayNumberForAngle(double beta);
 
-    Area assembleScreenArea(MapInfo& drawing_info, double distance,
-                            double pl_ob_angle);
+    Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
     void loadObjects(int x, int y, double player_angle);
     void setDimensions(int width, int height);
 private:
@@ -63,6 +60,7 @@ private:
     double findWallDistanceForAngle(double angle);
     double getGammaAngle(double player_angle, double object_angle);
     bool blockedByWall(double angle, double distance);
+    void put3DObject(ObjectInfo& object_info, double pl_ob_angle);
 };
 
 

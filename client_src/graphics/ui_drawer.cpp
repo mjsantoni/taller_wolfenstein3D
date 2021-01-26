@@ -64,7 +64,7 @@ void UIDrawer::drawPlayersImage() {
     Area screen_area(text_starting_point, starting_point + 15,
                      width/10 - 2*h_padding, height - 30);
     Area img_area;
-    SDL_Texture* player_image = player_face.loadTexture(renderer, img_area, 0);
+    SDL_Texture* player_image = player_face.loadTexture(window.getRenderer(), img_area, 0);
     putTextureAt(player_image, img_area, screen_area);
     box_starting_point += width / 10;
     text_starting_point += width / 10 - h_padding;
@@ -78,7 +78,7 @@ void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     ObjectInfo object_info = info_provider.getObjectInfo(players_weapon + 5);
     SdlTexture weapon_icon(object_info.getImagePath());
     Area image_area;
-    SDL_Texture* weapon_texture = weapon_icon.loadTexture(renderer, image_area);
+    SDL_Texture* weapon_texture = weapon_icon.loadTexture(window.getRenderer(), image_area);
     Area screen_area(text_starting_point,starting_point+15, width/5-2*h_padding,
                      height - 30);
     putTextureAt(weapon_texture, image_area, screen_area);
@@ -117,8 +117,8 @@ SDL_Texture* UIDrawer::createMessage(const std::string& message,
     SDL_Color color = {255, 255, 255};
     SDL_Surface* message_surf = TTF_RenderText_Solid(font,message.c_str(),
                                                      color);
-    SDL_Texture* message_text = SDL_CreateTextureFromSurface(renderer,
-                                                             message_surf);
+    SDL_Texture* message_text =
+            SDL_CreateTextureFromSurface(window.getRenderer(), message_surf);
     int m_width;
     int m_height;
     SDL_QueryTexture(message_text, nullptr, nullptr, &m_width, &m_height);
@@ -136,8 +136,8 @@ void UIDrawer::fillArea(Area area, int r, int g, int b, int a) {
     SDL_Rect rect = {
             area.getX(), area.getY(), area.getWidth(), area.getHeight()
     };
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(window.getRenderer(), r, g, b, a);
+    SDL_RenderFillRect(window.getRenderer(), &rect);
 }
 
 void UIDrawer::fillAreaWithBorder(Area area, int r, int g, int b, int a) {
@@ -148,10 +148,10 @@ void UIDrawer::fillAreaWithBorder(Area area, int r, int g, int b, int a) {
             area.getX(), area.getY(), area.getWidth(), area.getHeight()
     };
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-    SDL_RenderFillRect(renderer, &border);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(window.getRenderer(), 0, 0, 0, 0);
+    SDL_RenderFillRect(window.getRenderer(), &border);
+    SDL_SetRenderDrawColor(window.getRenderer(), r, g, b, a);
+    SDL_RenderFillRect(window.getRenderer(), &rect);
 }
 
 void UIDrawer::fillTextArea(TTF_Font* font,
@@ -172,12 +172,36 @@ void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
     SDL_Rect sdlDest = {
             dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
     };
-    SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
+    SDL_RenderCopy(window.getRenderer(), texture, &sdlSrc, &sdlDest);
 }
 
 void UIDrawer::drawPlayersEquippedWeapon(int weapon_number) {
     ObjectInfo object_info = info_provider.getObjectInfo(weapon_number);
-    window.drawPlayersWeapon(object_info);
+    Area image_area;
+    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
+    Area screen_area = assembleScreenWeaponArea(object_info);
+    window.loadImage(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+}
+
+SDL_Texture* UIDrawer::getWeaponSprite(ObjectInfo& o_i, Area& image_area) {
+    SdlSprite sdl_sprite(o_i.getImagePath(), o_i.getImageWidth(),
+                         o_i.getImageHeight(), o_i.getSpriteCols(),
+                         o_i.getSpriteRows(), o_i.getSpriteHPadding(),
+                         o_i.getSpriteVPadding());
+    SDL_Texture* image = sdl_sprite.loadTexture(window.getRenderer(), image_area,
+                                                o_i.getSpriteAnimationNo());
+    return image;
+}
+
+Area UIDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
+    int weapon_window_width = (int) (object_info.getObjectWidth() * width);
+    int weapon_window_height = (int) (object_info.getObjectHeight() * height);
+    int starting_y_pos = height - weapon_window_height;
+    int starting_x_pos = (width - weapon_window_width) / 2;
+    Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
+                     weapon_window_height);
+    return screen_area;
 }
 
 

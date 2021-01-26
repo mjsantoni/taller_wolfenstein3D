@@ -2,8 +2,8 @@
 // Created by andy on 27/11/20.
 //
 
-#ifndef TP_WOLFENSTEIN_GAME_H
-#define TP_WOLFENSTEIN_GAME_H
+#ifndef TP_WOLFENSTEIN_CLIENT_GAME_H
+#define TP_WOLFENSTEIN_CLIENT_GAME_H
 
 #include "map_mock.h"
 #include <SDL.h>
@@ -19,9 +19,10 @@
 #include "client_parser.h"
 #include <vector>
 
-class Game {
+class ClientGame {
 public:
-    Game(int map_width, int map_height, MapMock real_map);
+    ClientGame(int map_width, int map_height, MapMock real_map,
+               ClientMap& _map);
     void start();
 private:
     bool running;
@@ -35,4 +36,4 @@ private:
 };
 
 
-#endif //TP_WOLFENSTEIN_GAME_H
+#endif //TP_WOLFENSTEIN_CLIENT_GAME_H

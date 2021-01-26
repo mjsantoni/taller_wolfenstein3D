@@ -157,21 +157,20 @@ bool MapMock::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor) {
     return wall_at_grid;
 }
 
-void MapMock::getObjectInfo(MapInfo& drawing_info, int x_pos, int y_pos,
+void MapMock::getObjectInfo(ObjectInfo& object_info, int x_pos, int y_pos,
                             int x_factor, int y_factor) {
 
     int x_coord = x_pos/grid_size*grid_size + x_factor*grid_size;
     int y_coord = y_pos/grid_size*grid_size + y_factor*grid_size;
     std::pair<int, int> grid_coordinates{x_coord, y_coord};
-    loadWallInfo(drawing_info, grid_coordinates);
+    loadWallInfo(object_info, grid_coordinates);
 }
 
-void MapMock::loadWallInfo(MapInfo& drawing_info,
+void MapMock::loadWallInfo(ObjectInfo& object_info,
                            std::pair<int, int> grid_coordinates) {
     PositionableMock positionable = info.at(grid_coordinates);
-    drawing_info.object_type = positionable.getObjectType();
-    drawing_info.is_sprite = false;
-    drawing_info.texture_name = positionable.getTextureName();
+    object_info.setObjectType(positionable.getObjectType());
+    object_info.setMapStartingPos(positionable.getPosition());
 }
 
 std::vector<PositionableMock> MapMock::getAllObjects() {

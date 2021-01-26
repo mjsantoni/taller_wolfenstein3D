@@ -6,7 +6,7 @@
 #include "common/thread.h"
 #include "client_parser.h"
 #include "map_mock.h"
-#include "game.h"
+#include "client_game.h"
 
 class Client : public Thread {
 private:

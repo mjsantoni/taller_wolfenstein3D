@@ -21,7 +21,6 @@ private:
     int text_starting_point = 0;
     int h_padding = 10;
     int v_padding = 0;
-    SDL_Renderer* renderer;
     SdlSprite player_face;
     ObjectInfoProvider& info_provider;
     SDL_Texture* createMessage(const std::string& message, Area& msg_area,
@@ -40,11 +39,13 @@ private:
     void fillTextArea(TTF_Font* font, const std::string& message,
                       Area& screen_area);
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
+    Area assembleScreenWeaponArea(ObjectInfo& object_info);
+    SDL_Texture* getWeaponSprite(ObjectInfo& o_i, Area& image_area);
 public:
     UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window);
     void setDimensions(int _starting_point, int _height, int _width);
     void drawPlayerUI(ClientPlayer& player);
-
+    void drawPlayersWeapon(int weapon_number);
 
 };
 

@@ -22,7 +22,6 @@ ObjectHandler::ObjectHandler(SdlWindow& _window,
 
 void ObjectHandler::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
-    window.setDistanceInfo(wall_distance_info, angles_list);
     std::vector<Drawable> objects_vector = map.getAllObjects();
     for (auto& object : objects_vector) {
         printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
@@ -49,26 +48,26 @@ void ObjectHandler::loadObjects(int x, int y, double player_angle) {
     }
 }
 
-void ObjectHandler::findObjectProportions(MapInfo& drawing_info,
-                                          double distance,
-                                          double pl_ob_angle,
-                                          Area& screen_area) {
+Area ObjectHandler::findObjectProportions(ObjectInfo& object_info,
+                                          double pl_ob_angle) {
+    double distance = object_info.getHitDistance();
     distance *= cos(pl_ob_angle);
     printf("Distancia del objeto: %f\n", distance);
-    int x_pos = findXPosForObject(pl_ob_angle, drawing_info.object_width);
-    int object_height = findObjectHeight(distance, drawing_info);
+    int x_pos = findXPosForObject(pl_ob_angle,
+                          (int) (object_info.getObjectWidth() * map_grid_size));
+    int object_height = findObjectHeight(distance,
+                         (int) (object_info.getObjectHeight() * map_grid_size));
+    int object_width = findObjectWidth(distance,
+                          (int) (object_info.getObjectWidth() * map_grid_size));
     int ray_no = findRayNumberForAngle(pl_ob_angle);
     int y_pos = findYPosForObject(ray_no, pl_ob_angle, distance, object_height);
-    int object_width = findObjectWidth(distance, drawing_info);
     printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
     //printf("Se dibuja al objeto en la pos x: %d\n", x_pos);
     //printf("Se dibuja al objeto en la pos y: %d", y_pos);
     //printf(" con el piso empezando en la pos %d\n", floor_starting_point);
     //printf("Distancia del objeto: %f\n", distance);
-    screen_area.setX(x_pos);
-    screen_area.setY(y_pos);
-    screen_area.setWidth(object_width);
-    screen_area.setHeight(object_height);
+    Area area(x_pos, y_pos, object_width, object_height);
+    return area;
     //printf("Altura del objeto: %d\n", drawing_info.object_height);
 }
 
@@ -111,16 +110,16 @@ int ObjectHandler::findYPosForObject(int ray_no,
     return y_pos;
 }
 
-int ObjectHandler::findObjectHeight(double distance, MapInfo& drawing_info) {
-    double object_wall_prop = (double) (drawing_info.object_height)/map_grid_size;
+int ObjectHandler::findObjectHeight(double distance, int object_height) {
+    double object_wall_prop = (double) object_height / map_grid_size;
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
-    //int object_screen_height = (int) (height_prop*object_raw_height);
+    //int object_screen_height = (int) (height_factor*object_raw_height);
     return (int) object_raw_height;
 }
 
-int ObjectHandler::findObjectWidth(double distance, MapInfo& drawing_info) {
-    double object_width_prop = (double) drawing_info.object_width / map_grid_size;
+int ObjectHandler::findObjectWidth(double distance, int object_width) {
+    double object_width_prop = (double) object_width / map_grid_size;
     int wall_width_for_distance = (int) ((double) 100/distance * 188);
     double object_raw_width = object_width_prop*wall_width_for_distance;
     int object_screen_width = (int) (width_prop*object_raw_width);
@@ -138,11 +137,10 @@ int ObjectHandler::findRayNumberForAngle(double beta) {
     return (counter <= 319) ? counter : 319;
 }
 
-Area ObjectHandler::assembleScreenArea(MapInfo& drawing_info,
-                                       double distance,
+Area ObjectHandler::assembleScreenArea(ObjectInfo& object_info,
                                        double pl_ob_angle) {
-    Area screen_area;
-    findObjectProportions(drawing_info, distance, pl_ob_angle, screen_area);
+    Area screen_area =
+            findObjectProportions(object_info, pl_ob_angle);
     return screen_area;
 }
 
@@ -198,7 +196,7 @@ void ObjectHandler::renderObject(int x_pos, int y_pos, double player_angle,
             object_info_provider.getObjectInfo(object.getObjectType());
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
-    window.put3DObject(object_info, pl_ob_angle);
+    put3DObject(object_info, pl_ob_angle);
 }
 
 double ObjectHandler::calculateObjectStartingXPos(double os_angle,
@@ -324,6 +322,23 @@ void ObjectHandler::setDimensions(int width, int height) {
     window_height = height;
     width_prop = width/320;
     height_prop = (int) (height/(0.8*200));
+}
+
+void ObjectHandler::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
+    Area image_area;
+    SdlTexture sdl_texture(object_info.getImagePath());
+    SDL_Texture* texture =
+            sdl_texture.loadTexture(window.getRenderer(), image_area);
+    image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
+    Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
+    window.loadImage(texture, image_area, screen_area);
+    SDL_DestroyTexture(texture);
+    printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
+    //printf("Distancia: %f\n", distance);
+    //printf("Pos x: %d\n", screen_area.getX());
+    //printf("Pos y: %d\n", screen_area.getY());
+    //printf("Altura: %d\n", screen_area.getHeight());
+    //printf("Ancho: %d\n", screen_area.getWidth());
 }
 
 

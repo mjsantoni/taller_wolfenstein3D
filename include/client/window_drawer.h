@@ -21,15 +21,8 @@ private:
     std::map<int, std::pair<int, int>> floor_info;
     SDL_Renderer* renderer;
 public:
-    void initialize(SDL_Renderer* window_renderer, int window_width,
-                    int window_height);
-    SDL_Texture* drawPlayersWeapon(ObjectInfo& o_i, Area& image_area);
     SDL_Texture* drawWall(ObjectInfo& drawing_info, Area& image_area);
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-    Area assembleScreenWeaponArea(ObjectInfo& object_info);
-    Area assembleScreenArea(int ray_no, ObjectInfo& drawing_info);
-    int findColumnStartingPoint(int col_height);
-    int findColumnHeight(int distance);
     SDL_Texture* drawImage(ObjectInfo& object_info, Area& image_area);
 };
 

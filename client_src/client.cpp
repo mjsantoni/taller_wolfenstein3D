@@ -10,7 +10,7 @@ void Client::run() {
     try {
         ClientMap map = parser.parseInfoFromServer();
         MapMock real_map(15, 20);
-        Game game(960, 600,real_map);
+        ClientGame game(960, 600, real_map, map);
         game.start();
     }
     catch(SdlException& e) {

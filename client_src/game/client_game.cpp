@@ -5,21 +5,23 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/game.h"
+#include "client/client_game.h"
 
-Game::Game(int width, int height, MapMock real_map) :
-                            running(true), event_handler(real_map),
-                            screen(width, height, info_provider, map) {}
+ClientGame::ClientGame(int width, int height, MapMock real_map,
+                       ClientMap& _map) :
+                            running(true), event_handler(real_map), map(_map),
+                            screen(width, height, info_provider, _map) {
 
-void Game::start() {
+}
+
+void ClientGame::start() {
     displayIntro();
-    map = client_parser.parseInfoFromServer();
     ClientPlayer player("Player1");
     int x = 235;
     int y = 329;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
-    screen.render();
+    screen.render(x, y, player);
     while (running) {
         bool must_render = false;
         SDL_Event event;
@@ -36,11 +38,11 @@ void Game::start() {
                 return;
         }
         if (must_render)
-            screen.render();
+            screen.render(x, y, player);
     }
 }
 
-void Game::displayIntro() {
+void ClientGame::displayIntro() {
     audio_player.playSong("../client_src/resources/music.wav");
     screen.displayIntro();
     bool run_intro = true;

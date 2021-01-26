@@ -121,7 +121,7 @@ double ObjectInfo::getHitDistance() const {
 }
 
 void ObjectInfo::setHitDistance(double hit_distance) {
-    map_info.setObjectWidth(hit_distance);
+    map_info.setHitDistance(hit_distance);
 }
 
 double ObjectInfo::getHitGridPos() const {
