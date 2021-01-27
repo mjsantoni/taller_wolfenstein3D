@@ -58,6 +58,8 @@ public:
 
     /* GAME PRINT */
     void show();
+
+    void shootRPG(int id);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

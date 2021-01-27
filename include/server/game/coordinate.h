@@ -27,6 +27,9 @@ public:
     bool isValid() const {
         return x != -1 && y != -1;
     }
+    int distanceTo(Coordinate other) {
+        return (x - other.x) + (y - other.y);
+    }
 
 };
 

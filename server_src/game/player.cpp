@@ -29,9 +29,9 @@ int Player::getID() { return id; }
 
 double Player::getAngle() { return angle; }
 
-int Player::getKeys() {
-    return total_keys;
-}
+int Player::getKeys() { return total_keys; }
+
+int Player::getBullets() { return bullets; }
 
 /* ADDERS */
 
@@ -77,7 +77,7 @@ void Player::addAngle(double _angle) {
 
 /* STATS SUB */
 
-void Player::reduceAmmo() {
+void Player::reduceAmmo(int _bullets) {
     if (equipped_weapon.getType() == "knife") {
         std::cout << "Tengo equipado un knife, no resto balas\n";
         return;
@@ -85,7 +85,7 @@ void Player::reduceAmmo() {
     std::cout << "----------------\n";
     std::cout << "Soy el player: " << id << "\n";
     std::cout << "Tenia (balas): " << bullets << "\n";
-    bullets--;
+    bullets -= _bullets;
     std::cout << "Ahora tengo (balas): " << bullets << "\n";
     if (bullets == 0) {
         std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
@@ -183,6 +183,7 @@ std::pair<std::string, bool> Player::getDrops() {
     drops.second = (useKey() != -1);
     return drops;
 }
+
 
 
 

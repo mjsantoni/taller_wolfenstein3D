@@ -39,6 +39,7 @@ public:
     int getID();
     double getAngle();
     int getKeys();
+    int getBullets();
 
     /* Stats ADD */
     void addHp(int hp_given);
@@ -49,7 +50,7 @@ public:
     void addAngle(double _angle);
 
     /* Stats SUB */
-    void reduceAmmo();
+    void reduceAmmo(int bullets);
     int reduceHP(int value);
 
     /* CHECKERS */
@@ -75,6 +76,7 @@ public:
     /* Prohibe construccion y asignacion por movimiento. */
     //Player(Player&&) = delete;
     //Player& operator=(Player&&) = delete;
+
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_H

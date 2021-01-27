@@ -1,6 +1,6 @@
 #include "common/hit_handler.h"
 #include "server/game/gun_hotkeys.h"
-/*
+
 HitHandler::HitHandler() {}
 
 void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int players_alive) {
@@ -44,4 +44,3 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
 }
 
 HitHandler::~HitHandler() {}
-*/

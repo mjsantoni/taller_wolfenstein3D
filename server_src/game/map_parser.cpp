@@ -20,7 +20,7 @@ std::unordered_map<std::string, std::vector<Coordinate>> MapParser::getCategory(
 }
 
 Coordinate MapParser::getDimensions() {
-    Coordinate dimensions(this->config["dimensions"]["width"].as<int>(), this->config["dimensions"]["ui_height"].as<int>());
+    Coordinate dimensions(this->config["dimensions"]["width"].as<int>(), this->config["dimensions"]["height"].as<int>());
     return dimensions;
 }
 
