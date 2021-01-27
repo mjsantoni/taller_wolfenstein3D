@@ -10,13 +10,13 @@
 
 class ClientUpdater : public Thread {
 private:
-    NetworkConnection skt;
+    NetworkConnection& skt;
     BlockingQueue<Change> change_queue;
     std::atomic<bool> alive;
     int player_id;
 
 public:
-    explicit ClientUpdater(int fd, int i);
+    explicit ClientUpdater(NetworkConnection& _sk, int i);
     ~ClientUpdater();
 
     void run() override;

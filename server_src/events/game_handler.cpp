@@ -30,31 +30,22 @@ void GameHandler::run() {
 
 void GameHandler::notifyClients(std::vector<Change>& changes) {
     for (auto& change : changes) {
-        for (auto &client : clients_updater)
+        for (auto &client : clients)
             client->update(change);
     }
 }
 
 
-void GameHandler::addNewPlayer(int fd) {
-    sockets.push_back(fd);
+void GameHandler::addNewPlayer(NetworkConnection socket) {
     int id = game.connectPlayer();
-    ClientHandler* handler = new ClientHandler(eventQueue,id);
-    ClientUpdater* updater = new ClientUpdater(fd, id);
-    handler->start();
-    updater->start();
-    clients_handler.push_back(handler);
-    clients_updater.push_back(updater);
+    Client* client = new Client(std::move(socket),eventQueue,id);
+    clients.push_back(client);
 }
 
 void GameHandler::stop() {
-    for (auto& client : clients_handler) {
+    for(auto& client : clients) {
         client->stop();
-        client->join();
-    }
-    for (auto& client : clients_updater) {
-        client->stop();
-        client->join();
+        delete client;
     }
     alive = false;
 }

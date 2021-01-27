@@ -14,13 +14,12 @@
 #include <atomic>
 
 #include "common/network_connection.h"
+#include "server/game/client.h"
 
 class GameHandler : public Thread {
 private:
     //SharedQueue<Event> eventQueue;
-    std::vector<ClientUpdater*> clients_updater;
-    std::vector<ClientHandler*> clients_handler;
-    std::vector<int> sockets;
+    std::vector<Client*> clients;
     EventProcessor eventProcessor;
     std::atomic<bool> alive;
 
@@ -30,7 +29,7 @@ public:
     GameHandler(std::string map_path, std::string config_path);
     void run();
 
-    void addNewPlayer(int fd);
+    void addNewPlayer(NetworkConnection fd);
 
     void stop();
 

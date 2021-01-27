@@ -14,13 +14,13 @@ int main(int argc, char* args[]) {
         // Spawn clients
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-            gameHandler.addNewPlayer(socket.file_descriptor);
+            gameHandler.addNewPlayer(std::move(socket));
             total_connected++;
         } catch (const NetworkError& e) {
             continue;
         }
     }
-    sleep(60);
+    sleep(30);
     gameHandler.stop();
     gameHandler.join();
     return 0;

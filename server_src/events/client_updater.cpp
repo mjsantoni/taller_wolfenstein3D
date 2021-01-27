@@ -1,8 +1,8 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(int fd, int id) :
-                            skt(fd),
+ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id) :
+                            skt(_sk),
                             change_queue(Change()),
                             player_id(id),
                             alive(true) {
