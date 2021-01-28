@@ -9,5 +9,6 @@
 #define PUSH_WALL 4
 #define TURN_CAMERA 5
 #define CHANGE_GUN 6
+#define PLAYER_READY 7
 
 #endif //TP_WOLFENSTEIN_EVENTS_H

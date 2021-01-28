@@ -76,6 +76,10 @@ std::vector<Change> EventProcessor::process(Event& event) {
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changeGun(player_id, value); // value == hotkey
             changes.emplace_back(CHANGE_WEAPON, player_id, value, -1, true);
+            break;
+        }
+        case (PLAYER_READY): {
+            game.playerIsReady(event.getPlayerID());
         }
         default: {
             break;

@@ -192,3 +192,9 @@ std::vector<Change> Game::passTime() {
 /* GAME PRINT */
 
 void Game::show() { map.show(); }
+
+void Game::playerIsReady(int id) { players_ready.insert(id); }
+
+bool Game::isReady() {
+    return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.8));
+}

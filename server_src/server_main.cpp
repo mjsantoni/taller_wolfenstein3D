@@ -3,14 +3,14 @@
 #include <unistd.h>
 #include "common/network_acceptor.h"
 #include "common/network_error.h"
-/*
+
 int main(int argc, char* args[]) {
     GameHandler gameHandler("../map.yaml", "../config.yaml");
     gameHandler.start();
     NetworkAcceptor networkAcceptor("8080");
 
     int total_connected = 0;
-    while (total_connected < 2) {
+    while (total_connected < 3) {
         // Spawn clients
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
@@ -24,8 +24,8 @@ int main(int argc, char* args[]) {
     gameHandler.stop();
     gameHandler.join();
     return 0;
-}*/
-
+}
+/*
 int main() {
     Game game("../map.yaml", "../config.yaml");
     game.connectPlayer();
@@ -47,7 +47,7 @@ int main() {
     game.passTime();
     game.passTime();
 }
-
+*/
 /* GENERADOR DEL CONFIG.YAML */ /*
 #include "yaml-cpp/yaml.h"
 int main() {

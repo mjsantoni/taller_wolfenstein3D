@@ -27,11 +27,11 @@ void ClientHandler::run() {
         /* Es un simulador de eventos para testear */
         bool create_random_event = probability(0.5);
         if (create_random_event) {
-            std::cout << "Se creo un evento del player: " << player_id << " !!!\n";
             std::random_device dev;
             std::mt19937 rng(dev());
-            std::uniform_int_distribution<std::mt19937::result_type> dist10(1,6);
+            std::uniform_int_distribution<std::mt19937::result_type> dist10(1,7);
             Event event(dist10(rng),player_id,0);
+            std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
             eventFactory.pushNewEvent(event);
         }
         sleep(1);

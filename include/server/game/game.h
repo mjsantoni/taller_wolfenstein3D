@@ -33,6 +33,7 @@ private:
     std::map<Coordinate,int> rpgs;
     std::map<Coordinate,int> doors_to_close;
 
+    std::set<int> players_ready;
     int players_ids = 0;
     int players_alive = 0;
 
@@ -48,10 +49,12 @@ public:
     int pushWall(int id);
     void rotate(int id, double angle);
     void changeGun(int id, int hotkey);
+    void playerIsReady(int i);
 
     /* GAME CHECK */
     bool isNotOver();
     int getPlayersAlive();
+    bool isReady();
 
     /* GAME CHANGERS */
     void playerDies(Hit& hit);
@@ -63,7 +66,6 @@ public:
     /* GAME PRINT */
     void show();
 
-    void shootRPG(int id);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

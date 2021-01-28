@@ -11,6 +11,15 @@ GameHandler::GameHandler(std::string map_path,
         alive(true) {}
 
 void GameHandler::run() {
+    while (!game.isReady()) {
+        Event event = eventQueue.pop();
+        if (event.isInvalid()) continue;
+        if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
+        std::vector<Change> changes = eventProcessor.process(event);
+        notifyClients(changes);
+    }
+    std::cout << "Termino el lobby\n";
+    //sleep(3); // para cargar los HUDs y eso ?
     while (game.isNotOver() && alive) {
         int total_events = 0;
         Event event = eventQueue.pop();
@@ -34,7 +43,6 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
             client->update(change);
     }
 }
-
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     int id = game.connectPlayer();
