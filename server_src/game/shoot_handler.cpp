@@ -60,6 +60,7 @@ Hit ShootHandler::shootRPG(int bullets_to_shoot, Player &player, std::vector<Coo
         changes.emplace_back(RPG_EXPLODE_AT, rpg_shot.getRpgId(), current_pos.x, current_pos.y, true);
     } else {
         rpgs.insert(std::make_pair(new_rpg_id, rpg_shot));
+        map.putPositionableAt(Positionable("gun","rpg",new_rpg_id,false), current_pos);
     }
 
     return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, player.noAmmoLeft());
@@ -70,13 +71,17 @@ Hit ShootHandler::travelAndExplodeAllRPGS(std::vector<Player> &players, std::vec
     std::vector<int> exploded_rpgs;
     for (auto& rpg_item : rpgs) {
         RPG& rpg = rpg_item.second;
+        Coordinate previous_pos(rpg.getCurrentCoord());
         travelAndExplodeRPG(rpg, 0, enemy_dmg_done, players);
         Coordinate current_pos(rpg.getCurrentCoord());
+
+        map.erasePositionableAt(previous_pos);
         if (rpg.exploded()) {
             exploded_rpgs.push_back(rpg.getRpgId());
             changes.emplace_back(RPG_EXPLODE_AT, rpg.getRpgId(), current_pos.x, current_pos.y, true);
         } else {
             changes.emplace_back(RPG_MOVE_TO, rpg.getRpgId(), current_pos.x, current_pos.y, true);
+            map.putPositionableAt(Positionable("gun","rpg",rpg.getRpgId(),false),current_pos);
         }
     }
 
@@ -101,10 +106,14 @@ Hit ShootHandler::travelAndExplodeRPG(RPG &rpg, int bullets_to_shoot,
             std::cout << "Encontre alguien en la position " << position << "\n";
             std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS);
             hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
-
             rpg.explode();
             break;
         }
+    }
+    if (position == rpg_path.size() && !rpg.exploded()) {
+        std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS);
+        hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
+        rpg.explode();
     }
     rpg.setCurrentPosition(position);
     rpg.setCurrentCoordinate(rpg_path[position]);
