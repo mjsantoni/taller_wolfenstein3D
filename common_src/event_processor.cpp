@@ -33,9 +33,11 @@ std::vector<Change> EventProcessor::process(Event& event) {
         }
         case (SHOOT): {
             std::cout << "DISPARO!\n";
-            Hit hit_event = game.shoot(player_id);
+            std::pair<Hit, std::vector<Change>> hit_event = game.shoot(player_id);
+            for (auto& change : hit_event.second) changes.push_back(change);
+
             HitHandler hit_handler;
-            hit_handler.processHit(hit_event, changes, game.getPlayersAlive());
+            hit_handler.processHit(hit_event.first, changes, game.getPlayersAlive());
             break;
         }
         case (OPEN_DOOR): {

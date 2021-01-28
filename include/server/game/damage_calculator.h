@@ -11,8 +11,11 @@ public:
 
     ~DamageCalculator() {}
 
-    int calculate_dmg(Player& player, int base_damage,
-                      int pos_travelled, bool is_adjacent);
+    int calculateDmg(Player& player, int base_damage,
+                     int pos_travelled, bool is_adjacent);
+
+    int calculateDamageRPG(Player &player, int base_damage, Coordinate &explosion_center, Coordinate &player_position,
+                           int explosion_radius);
 };
 
 

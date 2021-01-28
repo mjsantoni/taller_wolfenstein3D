@@ -10,7 +10,7 @@
 #define CHANGE_WEAPON 5
 #define KILL_PLAYER 6
 #define RESPAWN_PLAYER 7
-#define RPG_SHOOT 8
+#define RPG_SHOOT_TO 8
 #define ADD_PLAYER 9
 #define ADD_BULLETS_AT 10
 #define ADD_KEY_AT 11
@@ -18,5 +18,7 @@
 #define PLAYER_USE_KEY 13
 #define ADD_UNLOCKED_DOOR 14
 #define ADD_ROCKET_AT 15
+#define RPG_MOVE_TO 16
+#define RPG_EXPLODE_AT 17
 
 #endif //TP_WOLFENSTEIN_CHANGES_H

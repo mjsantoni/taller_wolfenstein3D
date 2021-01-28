@@ -14,6 +14,8 @@
 #include "server/game/drop_handler.h"
 #include "server/game/map_generator.h"
 #include "server/game/map_parser.h"
+#include "server/game/shoot_handler.h"
+#include "common/hit_handler.h"
 
 class Game {
 private:
@@ -26,6 +28,8 @@ private:
     ConfigParser configParser;
     DropHandler dropHandler;
     BlockingItemHandler blockingItemHandler;
+    ShootHandler shootHandler;
+    HitHandler hitHandler;
     std::map<Coordinate,int> rpgs;
     std::map<Coordinate,int> doors_to_close;
 
@@ -39,7 +43,7 @@ public:
     /* RECEIVED EVENTS */
     int connectPlayer();
     std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id);
-    Hit shoot(int id);
+    std::pair<Hit, std::vector<Change>> shoot(int id);
     std::pair<bool, int> openDoor(int id);
     int pushWall(int id);
     void rotate(int id, double angle);

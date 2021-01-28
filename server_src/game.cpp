@@ -1,9 +1,9 @@
 #include "server/game/game.h"
-#include "server/game/shoot_handler.h"
+
 
 #include <iostream>
 
-#define MAX_PLAYERS 2
+#define MAX_PLAYERS 3
 #define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
@@ -14,8 +14,8 @@ Game::Game(std::string map_path, std::string config_path) :
            pickUpHandler(config_path),
            configParser(config_path),
            dropHandler(config_path, map),
-           blockingItemHandler(map) {
-    //players[id2].addKey(Key(50)); // TEST ONLY
+           blockingItemHandler(map),
+           shootHandler(map) {
 }
 
 Game::~Game() {}
@@ -62,18 +62,15 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
 }
 
 
-Hit Game::shoot(int id) {
+std::pair<Hit, std::vector<Change>> Game::shoot(int id) {
     Player& shooter = players[id];
     double angle = shooter.getAngle();
-    ShootHandler sh(map);
-    Hit hit_event = sh.shoot(shooter, angle, players);
-    if (hit_event.playerDied()) playerDies(hit_event);
-    //hit_event.getEnemyDmgDone(2); //TEST USE
+    std::pair<Hit, std::vector<Change>> hit_event = shootHandler.shoot(shooter, angle, players);
+    if (hit_event.first.playerDied()) playerDies(hit_event.first);
     return hit_event;
 }
 
 std::pair<bool, int> Game::openDoor(int id) {
-
     /* El bool indica si uso llave, el int el id de la puerta */
     Coordinate door_to_open = colHandler.getCloseBlocking(map.getPlayerPosition(id),
                                                           players[id].getAngle(), "door");
@@ -110,6 +107,7 @@ void Game::rotate(int id, double angle) {
 }
 
 void Game::changeGun(int id, int hotkey) {
+    pickUpHandler.pickUpGun("rpg_gun", id, players[id]); // TEST ONLY
     players[id].changeGun(hotkey);
 }
 
@@ -184,7 +182,10 @@ void Game::closeDoors(std::vector<Change>& changes) {
 std::vector<Change> Game::passTime() {
     std::vector<Change> changes;
     closeDoors(changes);
-    //moveRPGS();
+    std::cout << "PASSING TIME\n";
+    Hit rpg_explosions = shootHandler.travelAndExplodeAllRPGS(players, changes);
+    if (rpg_explosions.playerDied()) playerDies(rpg_explosions);
+    hitHandler.processHit(rpg_explosions, changes, getPlayersAlive());
     return changes;
 }
 

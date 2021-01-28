@@ -6,9 +6,11 @@ HitHandler::HitHandler() {}
 void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int players_alive) {
     // Obtengo vector de (enemy_id, daño hecho) //
     std::vector<std::pair<int, int>> dmg_done = hit_event.getEnemyDmgDone(players_alive);
-    changes.emplace_back(CHANGE_AMMO, hit_event.getPlayerId(),
+    if (hit_event.getPlayerId() != -1) {
+        changes.emplace_back(CHANGE_AMMO, hit_event.getPlayerId(),
                              -hit_event.getBulletsShot(), -1, false);
-    if (hit_event.usedAllAmmo()) {
+    }
+    if (hit_event.usedAllAmmo() && hit_event.getPlayerId() != -1) {
         changes.emplace_back(CHANGE_WEAPON, hit_event.getPlayerId(),
                                  KNIFE, -1, false);
     }
