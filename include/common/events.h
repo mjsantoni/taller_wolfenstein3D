@@ -1,14 +1,14 @@
 #ifndef TP_WOLFENSTEIN_EVENTS_H
 #define TP_WOLFENSTEIN_EVENTS_H
 
-#define INVALID (-1)
-#define CONNECT_PLAYER 0
-#define MOVE_PLAYER 1
-#define SHOOT 2
-#define OPEN_DOOR 3
-#define PUSH_WALL 4
-#define TURN_CAMERA 5
-#define CHANGE_GUN 6
-#define PLAYER_READY 7
+#define INVALID 0
+#define CONNECT_PLAYER 1
+#define MOVE_PLAYER 2
+#define SHOOT 3
+#define OPEN_DOOR 4
+#define PUSH_WALL 5
+#define TURN_CAMERA 6
+#define CHANGE_GUN 7
+#define PLAYER_READY 8
 
 #endif //TP_WOLFENSTEIN_EVENTS_H

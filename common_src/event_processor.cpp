@@ -13,7 +13,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
     switch (id) {
         case (CONNECT_PLAYER): {
             int id_new_player = game.connectPlayer();
-            changes.emplace_back(ADD_PLAYER, id_new_player, -1, -1, true);
+            changes.emplace_back(ADD_PLAYER, id_new_player, INVALID, INVALID, true);
             // Falta evento de enviar el mapa entero al conectarse
             break;
         }
@@ -41,9 +41,9 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
             if (door_id == -1) break;
 
-            changes.emplace_back(REMOVE_POSITIONABLE, door_id, -1, -1, true);
+            changes.emplace_back(REMOVE_POSITIONABLE, door_id, INVALID, INVALID, true);
             if (use_key)
-                changes.emplace_back(CHANGE_KEY, player_id, -1,-1, false);
+                changes.emplace_back(CHANGE_KEY, player_id, INVALID,INVALID, false);
             break;
         }
         case (PUSH_WALL): {
@@ -52,7 +52,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             // antes de mandar el evento (para no gastar mucho recurso)
             int pushed_wall_id = game.pushWall(player_id);
             if (pushed_wall_id == -1) break;
-            changes.emplace_back(REMOVE_POSITIONABLE, pushed_wall_id, -1, -1, true);
+            changes.emplace_back(REMOVE_POSITIONABLE, pushed_wall_id, INVALID, INVALID, true);
             break;
         }
         case (TURN_CAMERA): {
@@ -66,7 +66,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             std::cout << "CHANGE GUN!\n";
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changeGun(player_id, value); // value == hotkey
-            changes.emplace_back(CHANGE_WEAPON, player_id, value, -1, true);
+            changes.emplace_back(CHANGE_WEAPON, player_id, value, INVALID, true);
             break;
         }
         case (PLAYER_READY): {
@@ -85,17 +85,17 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
     changes.emplace_back(MOVE_PLAYER, player_id,
                          move_changes.first.x, move_changes.first.y, true);
     for (auto &item : move_changes.second) {
-        changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), -1, -1, true);
+        changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), INVALID, INVALID, true);
 
         if (item.getCategory() == "treasure")  {
             changes.emplace_back(CHANGE_POINTS, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
-                                 -1, false);
+                                 INVALID, false);
         }
         else if (item.getCategory() == "hp_item")  {
             changes.emplace_back(CHANGE_HP, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
-                                 -1, false);
+                                 INVALID, false);
         }
         /* MOSTRAMOS EN EL HUD LAS ARMAS QUE TIENE????????????!?!!?!?!?!?!?
         else if (item.getCategory() == "gun")  {
@@ -106,10 +106,10 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
         else if (item.getCategory() == "bullets")  {
             changes.emplace_back(CHANGE_AMMO, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
-                                 -1, false);
+                                 INVALID, false);
         }
         else if (item.getCategory() == "key")  {
-            changes.emplace_back(CHANGE_KEY, player_id, 1, -1, false);
+            changes.emplace_back(CHANGE_KEY, player_id, 1, INVALID, false);
         }
     }
 }
