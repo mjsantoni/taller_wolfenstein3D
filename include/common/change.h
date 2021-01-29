@@ -6,14 +6,13 @@
 #include <sstream>
 
 class Change {
-private:
+public:
     int change_id;
     int id;
     int value1;
     int value2;
     bool is_global;
 
-public:
     Change(int _change_id, int _id, int _value1, int _value2, bool _is_global) :
             change_id(_change_id),
             id(_id),

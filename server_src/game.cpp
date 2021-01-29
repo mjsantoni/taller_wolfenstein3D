@@ -154,14 +154,14 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
     /* Par: tipo de arma, si tiene llave para dropear o no */
     if (drops.first != "pistol") {
         Coordinate gun_pos(pos.x, pos.y - 2);
-        hit.addDrops(drops.first, gun_pos, map.getGlobalID(), GUN);
+        hit.addDrops(drops.first, gun_pos, map.getGlobalID(), GUN_DROP);
     }
     if (drops.second) {
         Coordinate key_pos(pos.x, pos.y + 2);
-        hit.addDrops("key", key_pos, map.getGlobalID(), KEY);
+        hit.addDrops("key", key_pos, map.getGlobalID(), KEY_DROP);
     }
     Coordinate bullets_pos(pos.x + 2, pos.y);
-    hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS);
+    hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS_DROP);
 }
 
 void Game::closeDoors(std::vector<Change>& changes) {

@@ -26,15 +26,23 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
     // Drop: Objeto con (tipo, id del item, pos, id del drop) //
     for (auto& drop : hit_event.getDrops()) {
         switch (drop.drop_id) {
-            case (GUN): {
-                changes.emplace_back(ADD_GUN_AT, drop.id, drop.pos.x, drop.pos.y, true);
+            case (GUN_DROP): {
+                if (drop.type == "machine_gun") {
+                    changes.emplace_back(ADD_MACHINE_GUN_AT, drop.id, drop.pos.x, drop.pos.y, true);
+                } else if (drop.type == "chain_gun") {
+                    changes.emplace_back(ADD_CHAIN_GUN_AT, drop.id, drop.pos.x, drop.pos.y, true);
+                } else if (drop.type == "rpg_gun") {
+                    changes.emplace_back(ADD_RPG_GUN_AT, drop.id, drop.pos.x, drop.pos.y, true);
+                } else {
+                    break;
+                }
                 break;
             }
-            case (KEY): {
+            case (KEY_DROP): {
                 changes.emplace_back(ADD_KEY_AT, drop.id, drop.pos.x, drop.pos.y, true);
                 break;
             }
-            case (BULLETS): {
+            case (BULLETS_DROP): {
                 changes.emplace_back(ADD_BULLETS_AT, drop.id, drop.pos.x, drop.pos.y, true);
                 break;
             }

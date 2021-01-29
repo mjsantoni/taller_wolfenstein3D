@@ -28,7 +28,7 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
 }
 
 Positionable PositionableHandler::createItem(std::string type, int id) {
-  if (type == "food" || type == "medkit")
+  if (type == "food" || type == "medkit" || type == "blood_puddle")
       return Positionable("hp_item", type, id, false);
   else if (type == "bullets")
       return Positionable("bullets", type, id, false);

@@ -3,9 +3,9 @@
 
 #include "coordinate.h"
 
-#define GUN 0
-#define KEY 1
-#define BULLETS 2
+#define GUN_DROP 0
+#define KEY_DROP 1
+#define BULLETS_DROP 2
 
 class Drop {
 public:
