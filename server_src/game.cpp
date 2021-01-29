@@ -115,7 +115,12 @@ void Game::changeGun(int id, int hotkey) {
 
 bool Game::isNotOver() {
     if (players_alive <= 1) return false;
-    //if (se termino el tiempo) return false;
+
+    /* Se termina por tiempo */
+    auto current_time = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = current_time - time_start;
+    if (elapsed_seconds.count() / 60 >= 1) return false;
+
     return true;
 }
 
@@ -195,5 +200,6 @@ void Game::show() { map.show(); }
 void Game::playerIsReady(int id) { players_ready.insert(id); }
 
 bool Game::isReady() {
+    time_start = std::chrono::system_clock::now();
     return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.8));
 }

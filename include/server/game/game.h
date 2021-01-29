@@ -3,6 +3,9 @@
 
 #include <atomic>
 #include <string>
+#include <chrono>
+#include <ctime>
+
 #include "colission_handler.h"
 #include "config_parser.h"
 #include "hit.h"
@@ -32,6 +35,7 @@ private:
     HitHandler hitHandler;
     std::map<Coordinate,int> rpgs;
     std::map<Coordinate,int> doors_to_close;
+    std::chrono::time_point<std::chrono::system_clock> time_start;
 
     std::set<int> players_ready;
     int players_ids = 0;

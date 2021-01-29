@@ -20,7 +20,7 @@ int main(int argc, char* args[]) {
             continue;
         }
     }
-    sleep(30);
+    sleep(80);
     gameHandler.stop();
     gameHandler.join();
     return 0;
