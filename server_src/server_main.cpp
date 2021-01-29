@@ -10,7 +10,7 @@ int main(int argc, char* args[]) {
     NetworkAcceptor networkAcceptor("8080");
 
     int total_connected = 0;
-    while (total_connected < 3) {
+    while (total_connected < 2) {
         // Spawn clients
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());

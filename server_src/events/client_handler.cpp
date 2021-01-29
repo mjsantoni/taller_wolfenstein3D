@@ -29,7 +29,7 @@ void ClientHandler::run() {
         if (create_random_event) {
             std::random_device dev;
             std::mt19937 rng(dev());
-            std::uniform_int_distribution<std::mt19937::result_type> dist10(1,7);
+            std::uniform_int_distribution<std::mt19937::result_type> dist10(2,8);
             Event event(dist10(rng),player_id,0);
             std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
             eventFactory.pushNewEvent(event);

@@ -36,9 +36,6 @@ void GameHandler::run() {
         sleep(5);
     }
     std::cout << "Termino la partida!!!!\n";
-    while (alive) {
-        sleep(1);
-    }
 }
 
 void GameHandler::notifyClients(std::vector<Change>& changes) {

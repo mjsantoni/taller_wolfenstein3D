@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define MAX_PLAYERS 3
+#define MAX_PLAYERS 2
 #define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
@@ -107,7 +107,7 @@ void Game::rotate(int id, double angle) {
 }
 
 void Game::changeGun(int id, int hotkey) {
-    pickUpHandler.pickUpGun("rpg_gun", id, players[id]); // TEST ONLY
+    //pickUpHandler.pickUpGun("rpg_gun", id, players[id]); // TEST ONLY
     players[id].changeGun(hotkey);
 }
 
@@ -119,7 +119,7 @@ bool Game::isNotOver() {
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-    if (elapsed_seconds.count() / 60 >= 1) return false;
+    if (elapsed_seconds.count() / 60 >= 1) return false; // debe ser >= minutos que dura el game
 
     return true;
 }
