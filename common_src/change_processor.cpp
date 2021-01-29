@@ -30,10 +30,16 @@ void ChangeProcessor::process(Change &change) {
         }
         case (CHANGE_HP): {
             // id: player_id - value1: hp to change (puede ser + o -)
+            // HUD: hay que verificar que no sobrepase el max_hp del player
             break;
         }
         case (CHANGE_AMMO): {
             // id: player_id - value1: ammo to change (puede ser + o -)
+            // HUD: hay que verificar que no sobrepase el max_bullets del player
+            break;
+        }
+        case (CHANGE_KEY): {
+            // id: player_id -> value1: cantidad (suma o resta keys)
             break;
         }
         case (KILL_PLAYER): {
@@ -68,10 +74,6 @@ void ChangeProcessor::process(Change &change) {
         }
         case (ADD_RPG_GUN_AT): {
             // id: nuevo id_gun - value1: new_x - value2: new_y
-            break;
-        }
-        case (PLAYER_USE_KEY): {
-            // id: player_id -> restarle en el hud una llave
             break;
         }
         case (ADD_UNLOCKED_DOOR): {

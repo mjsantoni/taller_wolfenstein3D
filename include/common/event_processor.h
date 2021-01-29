@@ -15,6 +15,7 @@ public:
     EventProcessor(Game &_game, std::string config_path);
     std::vector<Change> process(Event& event);
 
+    void movePlayer(int player_id, int value, std::vector<Change> &changes);
 };
 
 #endif //TP_WOLFENSTEIN_EVENT_PROCESSOR_H

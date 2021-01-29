@@ -19,16 +19,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
         }
         case (MOVE_PLAYER): {
             std::cout << "MUEVO PLAYER!\n";
-            std::pair<Coordinate,
-                    std::vector<Positionable>> move_changes = game.movePlayer(player_id);
-            changes.emplace_back(MOVE_PLAYER, player_id,
-                                     move_changes.first.x, move_changes.first.y, true);
-            for (auto &item : move_changes.second) {
-                changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), -1, -1, true);
-                changes.emplace_back(CHANGE_POINTS, player_id,
-                                     configParser.getSpecificCategory(item.getCategory(), item.getType()),
-                                     -1, false);
-            }
+            movePlayer(player_id, value, changes);
             break;
         }
         case (SHOOT): {
@@ -52,7 +43,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
             changes.emplace_back(REMOVE_POSITIONABLE, door_id, -1, -1, true);
             if (use_key)
-                changes.emplace_back(PLAYER_USE_KEY, player_id, -1,-1, false);
+                changes.emplace_back(CHANGE_KEY, player_id, -1,-1, false);
             break;
         }
         case (PUSH_WALL): {
@@ -86,4 +77,39 @@ std::vector<Change> EventProcessor::process(Event& event) {
         }
     }
     return changes;
+}
+
+void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &changes) {
+    std::pair<Coordinate,
+            std::vector<Positionable>> move_changes = game.movePlayer(player_id);
+    changes.emplace_back(MOVE_PLAYER, player_id,
+                         move_changes.first.x, move_changes.first.y, true);
+    for (auto &item : move_changes.second) {
+        changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), -1, -1, true);
+
+        if (item.getCategory() == "treasure")  {
+            changes.emplace_back(CHANGE_POINTS, player_id,
+                                 configParser.getSpecificCategory(item.getCategory(), item.getType()),
+                                 -1, false);
+        }
+        else if (item.getCategory() == "hp_item")  {
+            changes.emplace_back(CHANGE_HP, player_id,
+                                 configParser.getSpecificCategory(item.getCategory(), item.getType()),
+                                 -1, false);
+        }
+        /* MOSTRAMOS EN EL HUD LAS ARMAS QUE TIENE????????????!?!!?!?!?!?!?
+        else if (item.getCategory() == "gun")  {
+            changes.emplace_back(ADD_GUN_TO_PLAYER, player_id,
+                                 configParser.getSpecificCategory(item.getCategory(), item.getType()),
+                                 -1, false);
+        }*/
+        else if (item.getCategory() == "bullets")  {
+            changes.emplace_back(CHANGE_AMMO, player_id,
+                                 configParser.getSpecificCategory(item.getCategory(), item.getType()),
+                                 -1, false);
+        }
+        else if (item.getCategory() == "key")  {
+            changes.emplace_back(CHANGE_KEY, player_id, 1, -1, false);
+        }
+    }
 }
