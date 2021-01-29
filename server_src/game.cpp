@@ -114,7 +114,6 @@ void Game::changeGun(int id, int hotkey) {
 /* GAME CHECK */
 
 bool Game::isNotOver() {
-    return true;
     if (players_alive <= 1) return false;
     //if (se termino el tiempo) return false;
     return true;
