@@ -125,12 +125,12 @@ void ClientMap::addWalls(std::vector<std::pair<int,int>> walls,
     for (auto& wall : walls) {
         //printf("se pone una pared en : (%d, %d)\n", wall.first, wall.second);
         int type = types[counter];
-        putDrawableAt(wall, type);
+        putDrawableAt(wall, type, counter);
         ++counter;
     }
     //putDrawableAt(std::pair<int, int>(4,2), 0);
     //putDrawableAt(150,128,4);
-    putDrawableAt(150,192,8);
+    putDrawableAt(150,192,8, counter);
     //putDrawableAt(400,350,6);
     //putDrawableAt(100,600,8);
     //putDrawableAt(750,100,9);
@@ -138,20 +138,25 @@ void ClientMap::addWalls(std::vector<std::pair<int,int>> walls,
 }
 
 void ClientMap::putDrawableAt(std::pair<int, int> coordinates,
-                            int object_type) {
+                            int object_type,
+                            int object_id) {
     Drawable drawable(object_type);
     coordinates.first*= grid_size;
     coordinates.second*= grid_size;
     info.insert(std::pair<std::pair<int, int>,
             Drawable>(coordinates,drawable));
+    objects.erase(object_id);
+    objects.insert(std::pair<int, Drawable>(object_id, drawable));
 }
 
 void ClientMap::putDrawableAt(int x_pos,
                                   int y_pos,
-                                  int object_type) {
+                                  int object_type,
+                                  int object_id) {
     Drawable drawable(object_type);
     drawable.setMapPosition(x_pos, y_pos);
-    objects.push_back(drawable);
+    objects.erase(object_id);
+    objects.insert(std::pair<int, Drawable>(object_id, drawable));
 }
 
 int ClientMap::getWidth() {
@@ -163,6 +168,10 @@ int ClientMap::getHeight() {
 }
 
 std::vector<Drawable> ClientMap::getAllObjects() {
-    return objects;
+    std::vector<Drawable> objects_vector;
+    for (auto& pair : objects) {
+        objects_vector.push_back(pair.second);
+    }
+    return objects_vector;
 }
 

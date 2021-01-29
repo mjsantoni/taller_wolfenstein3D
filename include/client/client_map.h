@@ -34,19 +34,20 @@ public:
                              int x_factor, int y_factor);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);
     void addWalls(std::vector<std::pair<int,int>> walls,std::vector<int> types);
-    void putDrawableAt(std::pair<int, int> coordinates, int object_type);
-    void putDrawableAt(int x_pos, int y_pos, int object_type);
+    void putDrawableAt(std::pair<int, int> coordinates, int object_type,
+                       int object_id);
+    void putDrawableAt(int x_pos, int y_pos, int object_type, int object_id);
     std::vector<Drawable> getAllObjects();
 
 private:
     std::map<std::pair<int, int>, Drawable> info;
+    std::map<std::string, std::pair<int, int>> positions;
+    std::map<int, Drawable> objects;
     int grid_size = 64;
     int width;
     int height;
     int real_width;
     int real_height;
-    std::vector<Drawable> objects;
-    std::map<std::string, std::pair<int, int>> positions;
     void loadWallInfo(ObjectInfo& object_info,
                       std::pair<int, int> grid_coordinates);
 };

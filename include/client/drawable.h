@@ -16,6 +16,12 @@ private:
     int sprite_animation_no;
     std::pair<int, int> map_position;
     int map_width;
+    int id;
+public:
+    int getId() const;
+
+    void setId(int id);
+
 public:
     explicit Drawable(int _object_type);
     Drawable(int _object_type, int _sprite_animation_no);

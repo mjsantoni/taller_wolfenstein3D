@@ -38,3 +38,11 @@ void Drawable::setMapPosition(int x_pos, int y_pos) {
 void Drawable::setObjectName(std::string name) {
     object_name = name;
 }
+
+int Drawable::getId() const {
+    return id;
+}
+
+void Drawable::setId(int _id) {
+    id = _id;
+}
