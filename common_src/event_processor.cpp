@@ -1,5 +1,5 @@
 #include "common/event_processor.h"
-#include "common/hit_handler.h"
+#include "server/events/hit_handler.h"
 
 EventProcessor::EventProcessor(Game &_game, std::string config_path) :
                               game(_game), configParser(config_path) {}

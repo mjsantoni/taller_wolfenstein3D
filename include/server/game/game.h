@@ -15,7 +15,7 @@
 #include "server/game/map_generator.h"
 #include "server/game/map_parser.h"
 #include "server/game/shoot_handler.h"
-#include "common/hit_handler.h"
+#include "server/events/hit_handler.h"
 
 class Game {
 private:
