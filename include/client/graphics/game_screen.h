@@ -7,7 +7,7 @@
 
 
 #include "image_parser.h"
-#include "object_info_provider.h"
+#include "client/object_info_provider.h"
 #include "sdl_window.h"
 #include "ray_caster.h"
 #include "object_handler.h"

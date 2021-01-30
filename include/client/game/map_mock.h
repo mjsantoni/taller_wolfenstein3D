@@ -8,8 +8,8 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
-#include "object_info.h"
-#include "client_wall.h"
+#include "client/object_info.h"
+#include "client/client_wall.h"
 #include "client_player.h"
 #include "positionable_mock.h"
 

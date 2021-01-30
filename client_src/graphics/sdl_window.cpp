@@ -3,7 +3,7 @@
 //
 
 #include <SDL.h>
-#include "client/sdl_window.h"
+#include "client/graphics/sdl_window.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200

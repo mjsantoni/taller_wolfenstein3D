@@ -7,7 +7,7 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
-#include "client/client_map.h"
+#include "client/game/client_map.h"
 
 ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
                     height(height) {

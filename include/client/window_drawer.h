@@ -8,9 +8,9 @@
 
 #include <SDL_render.h>
 #include "object_info.h"
-#include "area.h"
-#include "sdl_texture.h"
-#include "sdl_sprite.h"
+#include "client/graphics/area.h"
+#include "client/graphics/sdl_texture.h"
+#include "client/graphics/sdl_sprite.h"
 #include <map>
 
 class WindowDrawer {

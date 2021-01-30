@@ -6,7 +6,7 @@
 #define TP_WOLFENSTEIN_OBJECT_INFO_H
 
 
-#include "image_info.h"
+#include "client/graphics/image_info.h"
 #include "map_info.h"
 
 class ObjectInfo {

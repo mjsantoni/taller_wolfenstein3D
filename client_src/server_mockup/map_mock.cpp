@@ -7,7 +7,7 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
-#include "client/map_mock.h"
+#include "client/game/map_mock.h"
 
 MapMock::MapMock(int width, int height) : width(width), height(height) {
     real_width = width*grid_size;

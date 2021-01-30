@@ -7,13 +7,13 @@
 
 #include <SDL.h>
 #include "event_handler_mock.h"
-#include "ray_caster.h"
-#include "sdl_window.h"
-#include "sdl_texture.h"
-#include "sdl_exception.h"
+#include "client/graphics/ray_caster.h"
+#include "client/graphics/sdl_window.h"
+#include "client/graphics/sdl_texture.h"
+#include "client/sdl_exception.h"
 #include "client_map.h"
 #include "sdl_audio_player.h"
-#include "game_screen.h"
+#include "client/graphics/game_screen.h"
 #include "client_parser.h"
 
 #include <vector>

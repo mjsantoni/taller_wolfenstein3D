@@ -2,7 +2,7 @@
 // Created by andy on 27/11/20.
 //
 
-#include "client/ray_caster.h"
+#include "client/graphics/ray_caster.h"
 
 #include <thread>
 

@@ -9,7 +9,7 @@
 #include <vector>
 #include <server/game/map.h>
 #include "sdl_texture.h"
-#include "sdl_exception.h"
+#include "client/sdl_exception.h"
 
 class SdlSprite : public SdlTexture {
 public:

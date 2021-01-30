@@ -7,8 +7,8 @@
 
 
 #include <vector>
-#include "image_info.h"
-#include "image_parser.h"
+#include "client/graphics/image_info.h"
+#include "client/graphics/image_parser.h"
 #include "object_info.h"
 
 class ObjectInfoProvider {

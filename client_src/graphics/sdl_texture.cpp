@@ -2,7 +2,7 @@
 // Created by andy on 26/11/20.
 //
 
-#include "client/sdl_texture.h"
+#include "client/graphics/sdl_texture.h"
 #include <SDL_image.h>
 
 SdlTexture::SdlTexture(std::string file_name) : file_name(file_name){

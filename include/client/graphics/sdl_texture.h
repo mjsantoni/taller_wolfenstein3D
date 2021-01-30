@@ -9,7 +9,7 @@
 #include <string>
 #include <SDL_render.h>
 #include "area.h"
-#include "sdl_exception.h"
+#include "client/sdl_exception.h"
 
 
 class SdlTexture {

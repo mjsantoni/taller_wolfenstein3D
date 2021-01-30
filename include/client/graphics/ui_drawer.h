@@ -5,10 +5,13 @@
 #ifndef TP_WOLFENSTEIN_UI_DRAWER_H
 #define TP_WOLFENSTEIN_UI_DRAWER_H
 
+#define EQ_WEAPON_DELTA 20
+#define WEAPON_ICON_DELTA 25
+
 #include <string>
 #include "area.h"
-#include "client_player.h"
-#include "object_info_provider.h"
+#include "client/game/client_player.h"
+#include "client/object_info_provider.h"
 #include "sdl_window.h"
 
 class UIDrawer {
@@ -46,8 +49,6 @@ public:
     UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window);
     void setDimensions(int _starting_point, int _height, int _width);
     void drawPlayerUI(ClientPlayer& player);
-    void drawPlayersWeapon(int weapon_number);
-
 };
 
 

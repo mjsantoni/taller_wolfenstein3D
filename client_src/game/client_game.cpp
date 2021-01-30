@@ -5,7 +5,7 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/client_game.h"
+#include "client/game/client_game.h"
 
 ClientGame::ClientGame(int width, int height, MapMock real_map,
                        ClientMap& _map) :

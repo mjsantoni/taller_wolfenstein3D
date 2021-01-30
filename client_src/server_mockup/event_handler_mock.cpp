@@ -4,7 +4,7 @@
 
 #include <SDL_events.h>
 #include <iostream>
-#include "client/event_handler_mock.h"
+#include "client/game/event_handler_mock.h"
 
 EventHandlerMock::EventHandlerMock(MapMock &map) : map(map) {
 }

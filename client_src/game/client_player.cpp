@@ -3,7 +3,7 @@
 //
 
 #include <functional>
-#include "client/client_player.h"
+#include "client/game/client_player.h"
 
 ClientPlayer::ClientPlayer(std::string name) :  name(std::move(name)) {
 }
@@ -92,4 +92,10 @@ void ClientPlayer::updateKeys(int keys_delta) {
 
 void ClientPlayer::respawn() {
     map_position = respawn_position;
+}
+
+void ClientPlayer::changeWeapon(int weapon_number) {
+    if (!weapons[weapon_number-1])
+        return;
+    equipped_weapon = weapon_number;
 }

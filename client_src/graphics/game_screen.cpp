@@ -2,7 +2,7 @@
 // Created by andy on 22/1/21.
 //
 
-#include "client/game_screen.h"
+#include "client/graphics/game_screen.h"
 
 GameScreen::GameScreen(int width,
                        int height,

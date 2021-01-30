@@ -5,9 +5,11 @@
 #ifndef TP_WOLFENSTEIN_CLIENT_PLAYER_H
 #define TP_WOLFENSTEIN_CLIENT_PLAYER_H
 
+#define TURN_VALUE 0.15708
+
 #include <string>
-#include "sdl_texture.h"
-#include "sdl_sprite.h"
+#include "client/graphics/sdl_texture.h"
+#include "client/graphics/sdl_sprite.h"
 #include "positionable_mock.h"
 
 class ClientPlayer {
@@ -31,11 +33,12 @@ public:
     void updateAmmo(int ammo_delta);
     void updateKeys(int keys_delta);
     void respawn();
+    void changeWeapon(int weapon_number);
 private:
     int id;
     std::string name;
     double direction = 2.268926;
-    int equipped_weapon = 14;
+    int equipped_weapon = 2;
     int level = 6;
     int score = 10000;
     int lives = 5;
@@ -44,6 +47,7 @@ private:
     int max_health;
     int max_ammo;
     int keys = 0;
+    int weapons[5] = {1, 1, 0, 0, 0};
     std::pair<int, int> map_position;
     std::pair<int, int> respawn_position;
 };

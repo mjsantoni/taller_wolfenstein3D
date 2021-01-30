@@ -11,8 +11,8 @@
 #include <limits>
 #include "image_parser.h"
 #include "image_info.h"
-#include "calculator.h"
-#include "client_map.h"
+#include "client/calculator.h"
+#include "client/game/client_map.h"
 
 class ObjectHandler {
 public:

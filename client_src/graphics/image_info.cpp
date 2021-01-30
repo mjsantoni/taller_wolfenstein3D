@@ -2,7 +2,7 @@
 // Created by andy on 10/12/20.
 //
 
-#include "client/image_info.h"
+#include "client/graphics/image_info.h"
 
 int ImageInfo::getImageWidth() const {
     return image_width;

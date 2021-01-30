@@ -5,7 +5,7 @@
 #ifndef TP_WOLFENSTEIN_CLIENT_PARSER_H
 #define TP_WOLFENSTEIN_CLIENT_PARSER_H
 
-#include <client/client_map.h>
+#include <client/game/client_map.h>
 
 class ClientParser {
 private:

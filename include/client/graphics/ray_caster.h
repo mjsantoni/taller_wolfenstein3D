@@ -5,13 +5,13 @@
 #ifndef TP_WOLFENSTEIN_RAYCASTER_H
 #define TP_WOLFENSTEIN_RAYCASTER_H
 
-#include "client_map.h"
+#include "client/game/client_map.h"
 #include "area.h"
-#include "client_wall.h"
+#include "client/client_wall.h"
 #include "ray_info.h"
-#include "map_info.h"
+#include "client/map_info.h"
 #include "sdl_window.h"
-#include "calculator.h"
+#include "client/calculator.h"
 
 class RayCaster {
 public:

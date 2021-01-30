@@ -2,7 +2,7 @@
 // Created by andy on 26/11/20.
 //
 
-#include "client/area.h"
+#include "client/graphics/area.h"
 
 Area::Area(int x, int y, int width, int height) :
         x(x), y(y), width(width), height(height){

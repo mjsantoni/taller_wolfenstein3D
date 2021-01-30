@@ -9,9 +9,9 @@
 #include <vector>
 #include <map>
 #include "positionable_mock.h"
-#include "object_info_provider.h"
-#include "drawable.h"
-#include "images.h"
+#include "client/object_info_provider.h"
+#include "client/drawable.h"
+#include "client/graphics/images.h"
 
 class ClientMap {
 public:

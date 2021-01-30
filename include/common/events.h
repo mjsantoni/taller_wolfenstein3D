@@ -11,4 +11,11 @@
 #define CHANGE_GUN 7
 #define PLAYER_READY 8
 
+#define MOVE_LEFT 0
+#define MOVE_RIGHT 1
+#define MOVE_UP 2
+#define MOVE_DOWN 3
+#define CAMERA_LEFT 1
+#define CAMERA_RIGHT -1
+
 #endif //TP_WOLFENSTEIN_EVENTS_H

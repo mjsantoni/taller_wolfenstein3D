@@ -2,7 +2,7 @@
 // Created by andy on 10/12/20.
 //
 
-#include "client/client_parser.h"
+#include "client/game/client_parser.h"
 
 ClientMap ClientParser::parseInfoFromServer() {
     ClientMap map(15, 20, 64);
@@ -44,21 +44,21 @@ std::vector<int> ClientParser::createTypes(int width, int height) {
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
             if (i == 0 || i == width-1 || j == 0 || j == height-1)
-                vector.push_back(0);
-        }
-    }
-
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height-2; ++j) {
-            if (i == width/2)
                 vector.push_back(1);
         }
     }
 
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height-2; ++j) {
-            if (i == 3*width/4)
+            if (i == width/2)
                 vector.push_back(2);
+        }
+    }
+
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height-2; ++j) {
+            if (i == 3*width/4)
+                vector.push_back(3);
         }
     }
 

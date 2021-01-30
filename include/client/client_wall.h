@@ -6,7 +6,7 @@
 #define TP_WOLFENSTEIN_CLIENT_WALL_H
 
 
-#include "positionable_mock.h"
+#include "client/game/positionable_mock.h"
 
 class ClientWall : public PositionableMock {
 public:

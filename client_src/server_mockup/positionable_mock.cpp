@@ -2,7 +2,7 @@
 // Created by andy on 11/12/20.
 //
 
-#include "client/positionable_mock.h"
+#include "client/game/positionable_mock.h"
 
 PositionableMock::PositionableMock(std::string name, int object_type, bool is_sprite,
                                    std::string image_name, std::string unique_name,

@@ -11,11 +11,11 @@
 
 #include "area.h"
 #include "sdl_texture.h"
-#include "map_info.h"
-#include "sdl_exception.h"
-#include "drawable.h"
-#include "client_player.h"
-#include "window_drawer.h"
+#include "client/map_info.h"
+#include "client/sdl_exception.h"
+#include "client/drawable.h"
+#include "client/game/client_player.h"
+#include "client/window_drawer.h"
 
 
 class SdlWindow {

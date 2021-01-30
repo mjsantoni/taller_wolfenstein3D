@@ -6,7 +6,7 @@
 #define TP_WOLFENSTEIN_SDLAUDIOPLAYER_H
 
 #include <string>
-#include "sdl_exception.h"
+#include "client/sdl_exception.h"
 
 class SdlAudioPlayer {
 public:

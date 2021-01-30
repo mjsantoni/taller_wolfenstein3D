@@ -2,7 +2,7 @@
 // Created by andy on 4/12/20.
 //
 
-#include "client/object_handler.h"
+#include "client/graphics/object_handler.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200

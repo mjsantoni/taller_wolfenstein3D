@@ -6,7 +6,12 @@
 #include <sstream>
 #include <iterator>
 #include <fstream>
-#include "client/image_parser.h"
+#include "client/graphics/image_parser.h"
+
+void addFakeObject(std::vector<ObjectInfo>& vector) {
+    ObjectInfo object_info;
+    vector.push_back(object_info);
+}
 
 void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
     std::ifstream infile("../client_src/resources/objects_info.txt");
@@ -16,9 +21,11 @@ void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
     int counter = 0;
     while (std::getline(infile, line)) {
         if (line.empty())
-            return;
-        ObjectInfo object_info = processLine(line, counter);
-        vector.push_back(std::move(object_info));
+            continue;
+        if (counter == 0)
+            addFakeObject(vector);
+        else
+            processLine(vector, line, counter);
         counter++;
     }
 }
@@ -63,7 +70,9 @@ void cleanVector(std::vector<std::string> vector) {
     }
 }
 
-ObjectInfo ImageParser::processLine(std::string line, int object_type) {
+void ImageParser::processLine(std::vector<ObjectInfo>& vector,
+                                    std::string line,
+                                    int object_type) {
     ObjectInfo object_info;
     std::vector<std::string> aux;
     split(line, aux);
@@ -76,7 +85,7 @@ ObjectInfo ImageParser::processLine(std::string line, int object_type) {
         getSpriteInfo(object_info, aux[7], aux[8]);
     object_info.setObjectWidth(stof(getCorrectValue(aux[1])));
     object_info.setObjectType(object_type);
-    return object_info;
+    vector.push_back(std::move(object_info));
 }
 
 

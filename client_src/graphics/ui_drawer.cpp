@@ -3,7 +3,7 @@
 //
 
 #include <SDL_ttf.h>
-#include "client/ui_drawer.h"
+#include "client/graphics/ui_drawer.h"
 
 UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
                        player_face("../client_src/resources/ui/player_face.png",
@@ -78,7 +78,8 @@ void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     Area rect_area(box_starting_point, starting_point + 10,
                    width/5, ui_height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
-    ObjectInfo object_info = info_provider.getObjectInfo(players_weapon + 5);
+    ObjectInfo object_info = info_provider.getObjectInfo(players_weapon
+            + WEAPON_ICON_DELTA);
     SdlTexture weapon_icon(object_info.getImagePath());
     Area image_area;
     SDL_Texture* weapon_texture = weapon_icon.loadTexture(window.getRenderer(), image_area);
@@ -179,7 +180,8 @@ void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
 }
 
 void UIDrawer::drawPlayersEquippedWeapon(int weapon_number) {
-    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number);
+    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
+            + EQ_WEAPON_DELTA);
     Area image_area;
     SDL_Texture* texture = getWeaponSprite(object_info, image_area);
     Area screen_area = assembleScreenWeaponArea(object_info);

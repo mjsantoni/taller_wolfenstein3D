@@ -1,11 +1,11 @@
 #ifndef TP_WOLFENSTEIN_CHANGE_PROCESSOR_H
 #define TP_WOLFENSTEIN_CHANGE_PROCESSOR_H
 
-#include <client/client_map.h>
-#include <client/client_player.h>
-#include <client/game_screen.h>
+#include <client/game/client_map.h>
+#include <client/game/client_player.h>
+#include <client/graphics/game_screen.h>
 #include "common/change.h"
-#include "client/images.h"
+#include "client/graphics/images.h"
 
 class ChangeProcessor {
 private:

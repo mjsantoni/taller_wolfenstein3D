@@ -3,7 +3,7 @@
 //
 
 #include <SDL_image.h>
-#include "client/sdl_sprite.h"
+#include "client/graphics/sdl_sprite.h"
 
 SdlSprite::SdlSprite(std::string file_name, int width, int height, int cols,
                      int rows, int h_padding, int v_padding) : whole_width(width),
