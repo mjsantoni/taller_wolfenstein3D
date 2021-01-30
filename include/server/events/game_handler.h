@@ -5,7 +5,7 @@
 #include <vector>
 #include "common/event_factory.h"
 #include "server/game/game.h"
-#include "common/event_processor.h"
+#include "event_processor.h"
 #include "common/shared_queue.h"
 #include "common/blocking_queue.h"
 #include "common/change.h"

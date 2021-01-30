@@ -1,6 +1,6 @@
-#include "common/event_processor.h"
+#include "server/events/event_processor.h"
 #include "server/events/hit_handler.h"
-/*
+
 EventProcessor::EventProcessor(Game &_game, std::string config_path) :
                               game(_game), configParser(config_path) {}
 
@@ -97,12 +97,12 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
                                  INVALID, false);
         }
-        // MOSTRAMOS EN EL HUD LAS ARMAS QUE TIENE????????????!?!!?!?!?!?!?
+        /* MOSTRAMOS EN EL HUD LAS ARMAS QUE TIENE????????????!?!!?!?!?!?!?
         else if (item.getCategory() == "gun")  {
             changes.emplace_back(ADD_GUN_TO_PLAYER, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
                                  -1, false);
-        }
+        }*/
         else if (item.getCategory() == "bullets")  {
             changes.emplace_back(CHANGE_AMMO, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
@@ -113,4 +113,3 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
         }
     }
 }
-*/

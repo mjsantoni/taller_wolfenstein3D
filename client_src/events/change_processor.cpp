@@ -1,4 +1,4 @@
-#include "common/change_processor.h"
+#include "client/events/change_processor.h"
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
