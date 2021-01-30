@@ -11,6 +11,7 @@
 #include "positionable_mock.h"
 #include "object_info_provider.h"
 #include "drawable.h"
+#include "images.h"
 
 class ClientMap {
 public:
@@ -38,6 +39,13 @@ public:
                        int object_id);
     void putDrawableAt(int x_pos, int y_pos, int object_type, int object_id);
     std::vector<Drawable> getAllObjects();
+    void removeObject(int object_id);
+    void moveObject(int object_id, int new_x, int new_y);
+    Drawable& getObjectById(int object_id);
+    void addObjectAt(int object_id, int object_code, int x_pos, int y_pos);
+    void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
+    void updateRPGMissile(int object_id, int new_x, int new_y);
+    void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
 
 private:
     std::map<std::pair<int, int>, Drawable> info;

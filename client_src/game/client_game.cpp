@@ -16,7 +16,6 @@ ClientGame::ClientGame(int width, int height, MapMock real_map,
 
 void ClientGame::start() {
     displayIntro();
-    ClientPlayer player("Player1");
     int x = 235;
     int y = 329;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
@@ -57,4 +56,14 @@ void ClientGame::displayIntro() {
         }
     }
     audio_player.stopSong();
+}
+
+void ClientGame::killPlayer() {
+    //event_generator.stop();
+    screen.renderDeadScreen();
+}
+
+void ClientGame::respawnPlayer() {
+    player.respawn();
+    screen.renderRespawnScreen();
 }

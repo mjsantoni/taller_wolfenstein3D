@@ -175,3 +175,45 @@ std::vector<Drawable> ClientMap::getAllObjects() {
     return objects_vector;
 }
 
+void ClientMap::removeObject(int object_id) {
+    if (objects.find(object_id) == objects.end())
+        return;
+    Drawable object = objects.at(object_id);
+    objects.erase(object_id);
+    std::pair<int, int> object_position = object.getMapPosition();
+    info.erase(object_position);
+}
+
+void ClientMap::moveObject(int object_id, int new_x, int new_y) {
+    if (objects.find(object_id) == objects.end())
+        return;
+    Drawable& object = getObjectById(object_id);
+    object.setMapPosition(new_x, new_y);
+}
+
+Drawable& ClientMap::getObjectById(int object_id) {
+    return objects.at(object_id);
+}
+
+void ClientMap::addObjectAt(int object_id,
+                            int object_type,
+                            int x_pos,
+                            int y_pos) {
+    putDrawableAt(x_pos, y_pos, object_type, object_id);
+
+}
+
+void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
+    removeObject(object_id);
+}
+
+void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
+}
+
+void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
+    removeObject(object_id);
+    putDrawableAt(exp_x, exp_y, EFFECT_EXPLOSION, object_id);
+}
+
+
+

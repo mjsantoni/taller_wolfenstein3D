@@ -5,8 +5,8 @@
 #ifndef TP_WOLFENSTEIN_EVENT_HANDLER_MOCK_H
 #define TP_WOLFENSTEIN_EVENT_HANDLER_MOCK_H
 
-#include <SDL_events.h>
 #include "map_mock.h"
+#include <SDL_events.h>
 
 class EventHandlerMock {
 public:

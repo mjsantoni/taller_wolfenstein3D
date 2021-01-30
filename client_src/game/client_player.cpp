@@ -57,3 +57,39 @@ int ClientPlayer::getAmmo() {
     return ammo;
 }
 
+void ClientPlayer::updatePosition(int new_x, int new_y) {
+    map_position = {new_x, new_y};
+}
+
+int ClientPlayer::getId() {
+    return id;
+}
+
+void ClientPlayer::setId(int new_id) {
+    id = new_id;
+}
+
+void ClientPlayer::updateScore(int extra_points) {
+    score += extra_points;
+}
+
+void ClientPlayer::updateHealth(int health_delta) {
+    health += health_delta;
+    health = (health < 0) ? 0 : health;
+    health = (health > max_health) ? max_health : health;
+}
+
+void ClientPlayer::updateAmmo(int ammo_delta) {
+    ammo += ammo_delta;
+    ammo = (ammo < 0) ? 0 : ammo;
+    ammo = (ammo > max_ammo) ? max_ammo : ammo;
+}
+
+void ClientPlayer::updateKeys(int keys_delta) {
+    keys += keys_delta;
+    keys = (keys < 0) ? 0 : keys;
+}
+
+void ClientPlayer::respawn() {
+    map_position = respawn_position;
+}

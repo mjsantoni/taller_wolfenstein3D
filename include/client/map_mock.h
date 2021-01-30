@@ -8,10 +8,10 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
-#include "positionable_mock.h"
-#include "client_player.h"
 #include "object_info.h"
 #include "client_wall.h"
+#include "client_player.h"
+#include "positionable_mock.h"
 
 class MapMock {
 public:

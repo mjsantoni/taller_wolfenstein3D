@@ -23,7 +23,16 @@ public:
     int getLives();
     int getHealth();
     int getAmmo();
+    void updatePosition(int new_x, int new_y);
+    int getId();
+    void setId(int new_id);
+    void updateScore(int extra_points);
+    void updateHealth(int health_delta);
+    void updateAmmo(int ammo_delta);
+    void updateKeys(int keys_delta);
+    void respawn();
 private:
+    int id;
     std::string name;
     double direction = 2.268926;
     int equipped_weapon = 14;
@@ -32,6 +41,11 @@ private:
     int lives = 5;
     int health = 100;
     int ammo = 200;
+    int max_health;
+    int max_ammo;
+    int keys = 0;
+    std::pair<int, int> map_position;
+    std::pair<int, int> respawn_position;
 };
 
 

@@ -19,6 +19,8 @@ public:
                ClientMap& _map);
     void render(int x, int y, ClientPlayer& player);
     void displayIntro();
+    void renderDeadScreen();
+    void renderRespawnScreen();
 
 private:
     SdlWindow window;

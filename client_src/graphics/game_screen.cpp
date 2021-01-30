@@ -36,3 +36,8 @@ void GameScreen::render(int x, int y, ClientPlayer& player) {
     angles_list.clear();
 }
 
+void GameScreen::renderDeadScreen() {}
+
+void GameScreen::renderRespawnScreen() {}
+
+
