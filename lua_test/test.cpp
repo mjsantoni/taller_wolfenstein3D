@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     //lua_register(L, "HostFunction", lua_HostFunction);
 
     // Load File
-    if(!CheckLua(L, luaL_dofile(L, "../test.lua"))) return 1;
+    if(!CheckLua(L, luaL_dofile(L, "../lua_test/test.lua"))) return 1;
 
 
     // Stage 3: Call Lua Function
