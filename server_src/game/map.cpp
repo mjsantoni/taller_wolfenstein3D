@@ -83,6 +83,8 @@ int Map::getPlayerIDAtPosition(Coordinate coord) {
     return -1;
 }
 
+std::map<Coordinate, Positionable>& Map::getBoard() { return board; }
+
 /* ERASERS */
 
 void Map::removeBlockingItemAt(Coordinate coordinates) {
@@ -201,3 +203,4 @@ void Map::show() {
     }
     std::cout << "---------------------------------------------------------------\n";
 }
+

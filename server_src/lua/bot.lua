@@ -4,7 +4,7 @@ players = {}
 function addToMap(r1, r2, r3, r4)
 	io.write("[LUA] Executing addToMap("..r1..", "..r2..", "..r3..", "..r4..")\n")
 	local coord_table = {r3, r4}
-	mapa[r1] = {type = r2, coord = coord_table}
+	mapa[coord_table] = {type = r2, id = r1}
 	--return r1 * r2
 end
 
@@ -12,7 +12,7 @@ function printMap()
 	print("[LUA] Executing printMap()")
 	print("Tengo en mi mapa:")
 	for k, v in pairs(mapa) do
-		print(string.format("Id: %s -> Tipo: %s, Coord: (%s, %s)", k, v.type, v.coord[1], v.coord[2]))
+		print(string.format("Coord X: %s Coord Y: %s, Tipo: %s - ID: %s", k[1], k[2], v.type, v.id))
 	end
 end
 

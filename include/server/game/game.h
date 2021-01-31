@@ -19,6 +19,7 @@
 #include "server/game/map_parser.h"
 #include "server/game/shoot_handler.h"
 #include "server/events/hit_handler.h"
+#include "server/entities/lua_bot.h"
 
 class Game {
 private:
@@ -33,11 +34,12 @@ private:
     BlockingItemHandler blockingItemHandler;
     ShootHandler shootHandler;
     HitHandler hitHandler;
-    std::map<Coordinate,int> rpgs;
     std::map<Coordinate,int> doors_to_close;
     std::chrono::time_point<std::chrono::system_clock> time_start;
 
+
     std::set<int> players_ready;
+    std::vector<LuaBot*> bots;
     int players_ids = 0;
     int players_alive = 0;
 
@@ -70,6 +72,9 @@ public:
     /* GAME PRINT */
     void show();
 
+    void addBot();
+
+    void sendMapToBot(LuaBot *bot);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

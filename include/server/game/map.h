@@ -15,7 +15,6 @@ class Map {
 private:
     int grid_size = 64;
     int global_id = 0;
-
     std::map<Coordinate, Positionable> board;
     std::vector<Coordinate> player_positions; // player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; // player[0] = spawn_player_0
@@ -45,6 +44,7 @@ public:
     int getGlobalID();
     Coordinate getPlayerPosition(int id);
     int getPlayerIDAtPosition(Coordinate coord);
+    std::map<Coordinate, Positionable>& getBoard();
 
     /* ERASERS */
 
