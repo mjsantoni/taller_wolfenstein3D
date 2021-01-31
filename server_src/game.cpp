@@ -210,14 +210,25 @@ void Game::sendMapToBot(LuaBot* bot) {
     for (auto& item : map.getBoard()) {
         Coordinate coord = item.first;
         Positionable& positionable = item.second;
-        bot->addToMap(positionable.getId(), coord, positionable.getType());
+        if (positionable.getCategory() == "wall" ||
+            positionable.getCategory() == "door" ||
+            positionable.getCategory() == "barrel" ||
+            positionable.getCategory() == "table") {
+            bot->addBlocking(coord, positionable.getType());
+        } else {
+            bot->addPositionable(coord, positionable.getType());
+        }
+    }
+    for (auto& player : players) {
+        std::cout << "PLAYERSSSSSSS: " << player.getID() << "\n";
+        bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
     }
 
     bot->printMap();
 }
 
 void Game::addBot() {
-    LuaBot* bot = new LuaBot("pepe", "../server_src/lua/bot.lua");
+    LuaBot* bot = new LuaBot("pepe", "../server_src/lua/bot.lua", 10);
     bots.push_back(bot);
     sendMapToBot(bot);
 }

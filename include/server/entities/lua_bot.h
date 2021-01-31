@@ -18,13 +18,18 @@ private:
     bool checkLua(lua_State* L, int r);
     std::string name;
     lua_State* L;
+    int id;
 
 public:
-    LuaBot(std::string _name, std::string lua_path);
+    LuaBot(std::string _name, std::string lua_path, int _id);
     const std::string &getName() const;
     void popStack(int stack_elem_count);
 
-    void addToMap(int id, Coordinate coord, std::string type);
+    void addPositionable(Coordinate coord, std::string type);
+    void addBlocking(Coordinate coord, std::string type);
+    void addPlayer(Coordinate coord, int id);
+    void setId(int id);
+
     void printMap();
 
 };
