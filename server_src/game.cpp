@@ -208,28 +208,16 @@ bool Game::isReady() {
 
 void Game::sendMapToBot(LuaBot* bot) {
     for (auto& item : map.getBoard()) {
-        lua_getglobal(bot->L, "addToMap");
         Coordinate coord = item.first;
         Positionable& positionable = item.second;
-        lua_pushnumber(bot->L, positionable.getId());
-        lua_pushstring(bot->L, positionable.getType().c_str()); //podria ser mas generico (getCategory)
-        lua_pushnumber(bot->L, coord.x);
-        lua_pushnumber(bot->L, coord.y);
-        lua_pcall(bot->L, 4, 0, 0); // Al ejecutar la funcion se popea todo del stack (si no devuelve nada)
+        bot->addToMap(positionable.getId(), coord, positionable.getType());
     }
-    // std::cout << "[CPP] Calling 'addToMap'\n";
-    // Lua pcall recibe: L, cant argumentos de la funcion, cant cosas que devuelve, how to handle error
 
-    std::cout << "[CPP] Get printMap\n";
-    lua_getglobal(bot->L, "printMap");
-
-    std::cout << "[CPP] Calling 'addToMap'\n";
-    lua_pcall(bot->L, 0, 0, 0);
+    bot->printMap();
 }
 
 void Game::addBot() {
-    LuaBot* bot = new LuaBot("pepe");
+    LuaBot* bot = new LuaBot("pepe", "../server_src/lua/bot.lua");
     bots.push_back(bot);
-    std::cout << bot->name << "\n";
     sendMapToBot(bot);
 }

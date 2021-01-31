@@ -12,7 +12,7 @@ function printMap()
 	print("[LUA] Executing printMap()")
 	print("Tengo en mi mapa:")
 	for k, v in pairs(mapa) do
-		print(string.format("Coord X: %s Coord Y: %s, Tipo: %s - ID: %s", k[1], k[2], v.type, v.id))
+		print(string.format("Coord (%s, %s) -> Type: %s - ID: %s", k[1], k[2], v.type, v.id))
 	end
 end
 

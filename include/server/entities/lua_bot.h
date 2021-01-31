@@ -11,22 +11,22 @@
   #include <lua5.3/lauxlib.h>
 #endif
 
+#include "server/game/coordinate.h"
+
 class LuaBot {
-public:
-    lua_State* L;
+private:
+    bool checkLua(lua_State* L, int r);
     std::string name;
-    LuaBot(std::string _name) : L(luaL_newstate()), name(_name) {
+    lua_State* L;
 
-        luaL_openlibs(L);
-        if(!CheckLua(L, luaL_dofile(L, "../server_src/lua/bot.lua"))) return; // carga el script
-    }
+public:
+    LuaBot(std::string _name, std::string lua_path);
+    const std::string &getName() const;
+    void popStack(int stack_elem_count);
 
-    bool CheckLua(lua_State *L, int r) {
-        if (r == LUA_OK) return true;
-        std::string errormsg = lua_tostring(L, -1);
-        std::cout << errormsg << std::endl;
-        return false;
-    }
+    void addToMap(int id, Coordinate coord, std::string type);
+    void printMap();
+
 };
 
 
