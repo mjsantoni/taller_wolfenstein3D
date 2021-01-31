@@ -34,8 +34,6 @@ SdlWindow::~SdlWindow() {
     }
 }
 
-
-
 void SdlWindow::fill(int r, int g, int b, int alpha) {
     SDL_SetRenderDrawColor(renderer, r, g, b, alpha);
     SDL_RenderClear(renderer);
@@ -89,6 +87,10 @@ void SdlWindow::restore() {
 
 int SdlWindow::getWidth() {
     return width;
+}
+
+int SdlWindow::getHeight() {
+    return height;
 }
 
 void SdlWindow::drawRectangle(Area& area, int r, int g, int b, int a) {

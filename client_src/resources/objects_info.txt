@@ -3,11 +3,11 @@ path:../client_src/resources/walls/blue_wall.png, obj_width:1, obj_height:1, img
 path:../client_src/resources/walls/brown_wall.png, obj_width:1, obj_height:1, img_width:29, img_height:30, name:wall, is_sprite:0
 path:../client_src/resources/walls/stone_wall.png, obj_width:1, obj_height:1, img_width:31, img_height:28, name:wall, is_sprite:0
 
-path:../client_src/resources/items/chain_cannon.png, obj_width:0.3, obj_height:0.25, img_width:64, img_height:64, name:chain_cannon, is_sprite:0
-path:../client_src/resources/items/rocket_launcher.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:rocket_launcher, is_sprite:0
+path:../client_src/resources/items/chain_cannon.png, obj_width:0.2, obj_height:0.15, img_width:64, img_height:64, name:chain_cannon, is_sprite:0
+path:../client_src/resources/items/rocket_launcher.png, obj_width:0.2, obj_height:0.15, img_width:64, img_height:64, name:rocket_launcher, is_sprite:0
 path:../client_src/resources/items/machine_gun.png, obj_width:0.3, obj_height:0.2, img_width:54, img_height:22, name:machine_gun, is_sprite:0
 path:../client_src/resources/items/key.png, obj_width:0.1, obj_height:0.1, img_width:27, img_height:14, name:key, is_sprite:0
-path:../client_src/resources/items/cup.png, obj_width:0.3, obj_height:0.3, img_width:64, img_height:64, name:cup, is_sprite:0
+path:../client_src/resources/items/cup.png, obj_width:0.15, obj_height:0.15, img_width:64, img_height:64, name:cup, is_sprite:0
 path:../client_src/resources/items/crown.png, obj_width:0.3, obj_height:0.3, img_width:22, img_height:19, name:cup, is_sprite:0
 path:../client_src/resources/items/chest.png, obj_width:0.4, obj_height:0.4, img_width:33, img_height:22, name:cup, is_sprite:0
 path:../client_src/resources/items/cross.png, obj_width:0.2, obj_height:0.2, img_width:26, img_height:17, name:life, is_sprite:0

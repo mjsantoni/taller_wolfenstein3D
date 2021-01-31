@@ -14,16 +14,12 @@ GameScreen::GameScreen(int width,
    map(_map),
    ray_caster(window, _map, wall_distance_info, floor_info,
                          object_info_provider, angles_list),
-   ui_drawer(object_info_provider, window) {
+   ui_drawer(object_info_provider, window),
+   menus_drawer(window) {
     ray_caster.setDimensions(width, (int) (0.8 * height));
     object_handler.setDimensions(width, (int) (0.8 * height));
     ui_drawer.setDimensions((int) (0.8 * height), (int) (0.2 * height), width);
-}
-
-void GameScreen::displayIntro() {
-    SdlTexture intro_tex("../client_src/resources/intro.jpg");
-    window.displayFullImage(intro_tex);
-    window.render();
+    TTF_Init();
 }
 
 void GameScreen::render(int x, int y, ClientPlayer& player) {
@@ -34,10 +30,27 @@ void GameScreen::render(int x, int y, ClientPlayer& player) {
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
+    close();
 }
 
 void GameScreen::renderDeadScreen() {}
 
 void GameScreen::renderRespawnScreen() {}
+
+void GameScreen::close() {
+    TTF_Quit();
+}
+
+void GameScreen::displayIntro() {
+    menus_drawer.displayIntro();
+}
+
+void GameScreen::displayMatchModeMenu() {
+    menus_drawer.displayMatchModeMenu();
+}
+
+std::vector<Area> GameScreen::getKeyScreenAreas() {
+    return menus_drawer.getKeyAreas();
+}
 
 

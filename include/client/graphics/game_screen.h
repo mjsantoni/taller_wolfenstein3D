@@ -12,25 +12,30 @@
 #include "ray_caster.h"
 #include "object_handler.h"
 #include "ui_drawer.h"
+#include "menus_drawer.h"
 
 class GameScreen {
-public:
-    GameScreen(int width, int height, ObjectInfoProvider& object_info_provider,
-               ClientMap& _map);
-    void render(int x, int y, ClientPlayer& player);
-    void displayIntro();
-    void renderDeadScreen();
-    void renderRespawnScreen();
-
 private:
     SdlWindow window;
     ObjectHandler object_handler;
     RayCaster ray_caster;
     UIDrawer ui_drawer;
+    MenusDrawer menus_drawer;
     ClientMap& map;
     std::map<double, double> wall_distance_info;
     std::vector<double> angles_list;
     std::map<int, std::pair<int, int>> floor_info;
+public:
+    GameScreen(int width, int height, ObjectInfoProvider& object_info_provider,
+               ClientMap& _map);
+    void render(int x, int y, ClientPlayer& player);
+    void renderDeadScreen();
+    void renderRespawnScreen();
+    void close();
+    void displayIntro();
+    void displayMatchModeMenu();
+
+    std::vector<Area> getKeyScreenAreas();
 };
 
 

@@ -40,6 +40,7 @@ public:
     void fillArea(Area area, int r, int g, int b, int a);
     void restore();
     int getWidth();
+    int getHeight();
     void drawRectangle(Area& area, int r, int g, int b, int a);
     void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
 };

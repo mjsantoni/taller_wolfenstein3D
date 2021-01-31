@@ -15,6 +15,7 @@
 #include "sdl_audio_player.h"
 #include "client/graphics/game_screen.h"
 #include "client_parser.h"
+#include "client_event_handler.h"
 
 #include <vector>
 
@@ -35,7 +36,9 @@ private:
     ObjectInfoProvider info_provider;
     GameScreen screen;
     ClientParser client_parser;
+    ClientEventHandler client_event_handler = ClientEventHandler(player,screen);
     void displayIntro();
+    int displayMatchModeMenu();
 };
 
 

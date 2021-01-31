@@ -24,27 +24,27 @@ void ObjectHandler::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjects();
     for (auto& object : objects_vector) {
-        printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
+        //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());
         std::pair<int, int> object_final_pos = projectObjectOnMap(object,
                                                                   player_angle);
-        printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
+        //printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
         double object_final_angle = getObjectAngle(x, y, object_final_pos);
-        printf("El jugador mira en direccion: %f\n", player_angle);
-        printf("Se encuentra objeto %s en angulo %f respecto de la posicion del jugador\n", object.getObjectName().c_str(), object_starting_angle);
+        //printf("El jugador mira en direccion: %f\n", player_angle);
+        //printf("Se encuentra objeto %s en angulo %f respecto de la posicion del jugador\n", object.getObjectName().c_str(), object_starting_angle);
         double diff_angle = 0;
         if (shouldDraw(player_angle,object_starting_angle, object_final_angle,
                        diff_angle)){
-            printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
-            printf("Diff angle: %f\n", diff_angle);
+            //printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
+            //printf("Diff angle: %f\n", diff_angle);
             double x_prop = calculateObjectStartingXPos(object_starting_angle,
                                                         object_final_angle, diff_angle);
             renderObject(x, y, player_angle, object_starting_angle + diff_angle,
                          x_prop, object);
         }
-        else
-            puts("No se dibuja el objeto: no entra en el angulo de vision");
+        //else
+            //puts("No se dibuja el objeto: no entra en el angulo de vision");
     }
 }
 
@@ -86,7 +86,7 @@ int ObjectHandler::findYPosForObject(int ray_no,
     std::pair<int, int> ray_floor_info = floor_info.at(ray_no);
     int floor_starting_point = ray_floor_info.first;
     int floor_height = ray_floor_info.second;
-    printf("El suelo empieza en %d\n", floor_starting_point);
+    //printf("El suelo empieza en %d\n", floor_starting_point);
     //auto y_floor_proportion = (double) object_height/floor_height;
     //int y_floor_position = int (y_floor_proportion * floor_height);
     //int screen_position = floor_starting_point + object_height;
@@ -167,8 +167,8 @@ double ObjectHandler::findWallDistanceForAngle(double angle) {
     }
     if (nearest_distance == 0 && angle_found == 0)
         nearest_distance = wall_distance_info.at(angles_list[0]);
-    printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
-    printf("Primera distancia: %f\n", wall_distance_info.at(angles_list[0]));
+    //printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
+    //printf("Primera distancia: %f\n", wall_distance_info.at(angles_list[0]));
     return nearest_distance;
 }
 
@@ -185,13 +185,13 @@ void ObjectHandler::renderObject(int x_pos, int y_pos, double player_angle,
     int object_y = object_position.second;
     double pl_ob_angle =
             getGammaAngle(player_angle,object_angle);
-    printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
+    //printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
     double distance = Calculator::calculateDistance(x_pos - object_x,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
     if (blockedByWall(beta, distance))
         return;
-    printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
+    //printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
     ObjectInfo object_info =
             object_info_provider.getObjectInfo(object.getObjectType());
     object_info.setHitDistance(distance);
@@ -224,8 +224,8 @@ bool ObjectHandler::shouldDraw(double player_angle,
                                double os_angle,
                                double of_angle,
                                double& diff_angle) {
-    printf("El objeto empieza en angulo: %f\n", os_angle);
-    printf("El objeto finaliza en angulo: %f\n", of_angle);
+    //printf("El objeto empieza en angulo: %f\n", os_angle);
+    //printf("El objeto finaliza en angulo: %f\n", of_angle);
     double fov_starting_angle = Calculator::normalize(player_angle + 0.523599);
     double fov_finishing_angle = Calculator::normalize(player_angle - 0.523599);
     if (fov_finishing_angle >= fov_starting_angle)
@@ -235,8 +235,8 @@ bool ObjectHandler::shouldDraw(double player_angle,
                       fov_finishing_angle : fov_starting_angle;
     double fc_angle = (fov_starting_angle > fov_finishing_angle) ?
                       fov_starting_angle: fov_finishing_angle;
-    printf("La FOV se chequea desde: %f\n", sc_angle);
-    printf("La FOV se chequea hasta: %f\n", fc_angle);
+    //printf("La FOV se chequea desde: %f\n", sc_angle);
+    //printf("La FOV se chequea hasta: %f\n", fc_angle);
     bool sa_included = (os_angle >= sc_angle && os_angle <= fc_angle);
     bool fa_included = (of_angle >= sc_angle && of_angle <= fc_angle);
     if (sa_included)

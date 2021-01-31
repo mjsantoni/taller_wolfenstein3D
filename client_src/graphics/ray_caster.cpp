@@ -32,7 +32,7 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);
         object_info = fillObjectInfo(object_info);
-        printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
+        //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
         putFloorAndCeiling(ray, object_info);
         putWall(ray, object_info);
         angle -= ray_angle_delta;
