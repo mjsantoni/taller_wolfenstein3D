@@ -33,7 +33,7 @@ public:
     void setId(int id);
 
     static int isInSight(lua_State* L);
-    void executeClosestTarget(int x1, int x2, int x3, int x4);
+    void closestTarget(int x1, int x2, int x3, int x4);
 
     void printMap();
 

@@ -232,5 +232,5 @@ void Game::addBot() {
     bots.push_back(bot);
     sendMapToBot(bot);
 
-    bot->executeClosestTarget(220, 220, 250, 240);
+    bot->closestTarget(220, 220, 250, 240);
 }

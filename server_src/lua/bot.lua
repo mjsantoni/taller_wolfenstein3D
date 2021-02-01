@@ -10,6 +10,7 @@ in_sight = {}
 in_sight_len = 0
 angle = 0
 angle_turn = 0
+position = {x = 160, y = 160}
 
 function addPositionable(x, y, _type)
 	io.write("[LUA] Executing addPositionable("..x..", "..y..", ".._type..")\n")
@@ -81,15 +82,14 @@ function isInTable(tab, x, y)
 end
 
 function normalizedCoordinate(i)
-	local normalized = (i / grid_size) * grid_size
+	local normalized = (math.floor(i / grid_size)) * grid_size
 	return normalized
 end
 
 function isABlockingItemAt(x, y)
-	local x_norm = math.floor(normalizedCoordinate(x))
-	local y_norm = math.floor(normalizedCoordinate(y))
-	--print(x_norm)
-	--print(y_norm)
+	local x_norm = (normalizedCoordinate(x))
+	local y_norm = (normalizedCoordinate(y))
+	--io.write("[LUA] Coord: ("..x_norm..", "..y_norm..")\n")
 	local coord_table = {x_norm, y_norm }
 	return isInTable(blockings, x_norm, y_norm)
 end
@@ -100,6 +100,7 @@ function getDiff(x_old, y_old, x_new, y_new)
 	return (x_diff + y_diff)
 end
 
+
 function executeClosestTarget(x_old, y_old, x_new, y_new)
 	io.write("[LUA] Calling isInSight("..x_old..", "..y_old..", "..x_new..", "..y_new..")\n")
 	return_value = isInSight(x_old,y_old,x_new,y_new)
@@ -109,41 +110,50 @@ function executeClosestTarget(x_old, y_old, x_new, y_new)
 	else
 		io.write("[LUA] isInSight returned NOOO\n")
 	end
+	getDiff(1,2,3,4)
 end
 
 
---[[
-function closestTarget(x_old, y_old, x_new, y_new)
+function closestTarget()
 	in_sight_len = 0
-	min_difference = math.huge
+	local min_difference = math.huge
+	io.write("[LUA] Executing closestTarget\n")
 
-	for coord, player in pair(players):
+	for coord, player in pairs(players) do
+		io.write("[LUA] Calling isInSight("..coord[1]..", "..coord[2]..", "..position.x..", "..position.y..")\n")
+		found_in_sight = math.floor(isInSight(coord[1],coord[2],position.x,position.y))
+		io.write("[LUA] isInSight returned "..found_in_sight.."\n")
 
-		io.write("[LUA] Calling isInSight("..coord.x..", "..coord.y..", "..position.x..", "..position.y..")\n")
-		return_value = isInSight(coord.x,coord.y,position.x,position.y)
-		io.write("[LUA] isInSight returned "..return_value.."\n")
-		--boolean = isInSight(coord.x,coord.y,position.x,position.y)
-
-
-		if (boolean) then
-			table.insert(in_sight,coord)
-			in_sight_len += 1
+		if (found_in_sight == 1) then
+			in_sight[coord] = true
+			in_sight_len = in_sight_len + 1
 		end
-
-	if in_sight_len > 0:
-		for coord, _ in pair(in_sight()):
-			difference = getDiff(coord, position)
-			if difference < min_difference:
+	end
+	if in_sight_len > 0 then
+		for coord, _ in pairs(in_sight) do
+			print("Calling getDiff")
+			difference = getDiff(coord[1], coord[2], position.x, position.y)
+			print(string.format("For de in sight con diff: %s", difference))
+			if difference < min_difference then -- Aca muere, no hace mas nada
+				io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].."\n")
 				min_difference = difference
 				closest_target = coord
+			end
+		end
 	else
-		for coord, _ in pair(players):
-			difference = getDiff(coord, position)
-			if difference < min_difference:
+		for coord, _ in pairs(players) do
+			print("No veo gente llamo con players a getDiff")
+			difference = getDiff(coord[1], coord[2], position.x, position.y)
+			if difference < min_difference then
 				min_difference = difference
 				closest_target = coord
+			end
+		end
+	end
+
+	io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]", "..coord[2].."\n")
 end
---]]
+
 
 
 --[[

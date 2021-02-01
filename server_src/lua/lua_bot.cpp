@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <cmath>
 #include "server/entities/lua_bot.h"
 
 LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
@@ -82,22 +83,17 @@ int LuaBot::isInSight(lua_State *L) {
         lua_pushnumber(L, coord.y);
         lua_pcall(L,2,1,0);
         bool is_blocking = lua_toboolean(L, 5);
-        std::cout << "[CPP] Is blocking: " << (is_blocking ? 1 : 0) << "\n";
         lua_pop(L, 1);
         if (is_blocking) {
-            lua_pushnumber(L, 1); // cargo un 1 para indicar q encontre un blocking
+            lua_pushnumber(L, 0); // cargo un 0 para indicar q encontre un blocking
             return 1;
         }
     }
-    lua_pushnumber(L, 0); // no hay paredes en el medio
+    lua_pushnumber(L, 1); // no hay paredes en el medio
     return 1;
 }
 
-void LuaBot::executeClosestTarget(int x1, int x2, int x3, int x4) {
-    lua_getglobal(L, "executeClosestTarget"); // Get function to stack
-    lua_pushnumber(L, x1);
-    lua_pushnumber(L, x2);
-    lua_pushnumber(L, x3);
-    lua_pushnumber(L, x4);
-    lua_pcall(L, 4, 0, 0);
+void LuaBot::closestTarget(int x1, int x2, int x3, int x4) {
+    lua_getglobal(L, "closestTarget"); // Get function to stack
+    lua_pcall(L, 0, 0, 0);
 }
