@@ -231,4 +231,6 @@ void Game::addBot() {
     LuaBot* bot = new LuaBot("pepe", "../server_src/lua/bot.lua", 10);
     bots.push_back(bot);
     sendMapToBot(bot);
+
+    bot->executeClosestTarget(220, 220, 250, 240);
 }

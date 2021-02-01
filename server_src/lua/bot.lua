@@ -50,6 +50,7 @@ function printMap()
 		print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
 	end
 	-- PRUEBA DE BLOCKING PAPA --
+	--[[
 	for k, v in pairs(players) do
 		if isABlockingItemAt(k[1], k[2]) then
 			print("SI HAY BLOKING ITEM EN PLAYER")
@@ -65,7 +66,7 @@ function printMap()
 			print("NO HAY BLOCKING ITEM EN BLOKIN")
 		end
 	end
-
+	--]]
 end
 
 ------------------------------- Calculos -------------------------------
@@ -87,17 +88,27 @@ end
 function isABlockingItemAt(x, y)
 	local x_norm = math.floor(normalizedCoordinate(x))
 	local y_norm = math.floor(normalizedCoordinate(y))
-	print(x_norm)
-	print(y_norm)
+	--print(x_norm)
+	--print(y_norm)
 	local coord_table = {x_norm, y_norm }
 	return isInTable(blockings, x_norm, y_norm)
 end
-
 
 function getDiff(x_old, y_old, x_new, y_new)
 	local x_diff = math.abs(x_old - x_new)
 	local y_diff = math.abs(y_old - y_new)
 	return (x_diff + y_diff)
+end
+
+function executeClosestTarget(x_old, y_old, x_new, y_new)
+	io.write("[LUA] Calling isInSight("..x_old..", "..y_old..", "..x_new..", "..y_new..")\n")
+	return_value = isInSight(x_old,y_old,x_new,y_new)
+	return_value = math.floor(return_value)
+	if return_value == 1 then
+		io.write("[LUA] isInSight returned "..return_value.."\n")
+	else
+		io.write("[LUA] isInSight returned NOOO\n")
+	end
 end
 
 
@@ -107,7 +118,13 @@ function closestTarget(x_old, y_old, x_new, y_new)
 	min_difference = math.huge
 
 	for coord, player in pair(players):
-		boolean = isInSight(coord.x,coord.y,position.x,position.y)
+
+		io.write("[LUA] Calling isInSight("..coord.x..", "..coord.y..", "..position.x..", "..position.y..")\n")
+		return_value = isInSight(coord.x,coord.y,position.x,position.y)
+		io.write("[LUA] isInSight returned "..return_value.."\n")
+		--boolean = isInSight(coord.x,coord.y,position.x,position.y)
+
+
 		if (boolean) then
 			table.insert(in_sight,coord)
 			in_sight_len += 1

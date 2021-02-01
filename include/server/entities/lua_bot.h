@@ -20,7 +20,6 @@ private:
     std::string name;
     lua_State* L;
     int id;
-    PositionsCalculator positionsCalculator;
 
 
 public:
@@ -33,7 +32,8 @@ public:
     void addPlayer(Coordinate coord, int id);
     void setId(int id);
 
-    int isInSight(lua_State* L);
+    static int isInSight(lua_State* L);
+    void executeClosestTarget(int x1, int x2, int x3, int x4);
 
     void printMap();
 
