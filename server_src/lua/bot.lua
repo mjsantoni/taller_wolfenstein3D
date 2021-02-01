@@ -151,18 +151,39 @@ function closestTarget()
 		end
 	end
 
-	io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]", "..coord[2].."\n")
+	io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].."\n")
 end
 
+--[[
+Siempre tiene un objetivo: closest target carga el mas cercano y
+ llamo a moveToTarget que ejecuta un numero random entre 1 y 5 el tryMove
+ para tratar de acercarse
 
+Las funciones de tryMove usan el move to position del col handler
+
+funciones de crear eventos son llamadas por las funciones q mueven, devuelven
+eventos liso y llano con los ints
+
+]]--
 
 --[[
 function tryMove()
 	difference = math.huge
 
-	diff_front = getDiff(moveFront(positon.x, poisition.y),position.x, position.y )
-	diff_front_left = getDiff(moveFrontLeft(positon.x, poisition.y),position.x, position.y )
-	diff_front_right = getDiff(moveFrontRight(positon.x, poisition.y),position.x, position.y )
+	diff_self_front = getDiff(moveFront(positon.x, poisition.y), position.x, position.y )
+	diff_front = getDiff(moveFront(positon.x, poisition.y),destino.x, destino.y )
+
+	diff_self_front_left = getDiff(moveFrontLeft(positon.x, poisition.y),position.x, position.y )
+	diff_front_left = getDiff(moveFrontLeft(positon.x, poisition.y),destino.x, destino.y )
+
+	diff_self_front_right = getDiff(moveFrontRight(positon.x, poisition.y),position.x, position.y )
+	diff_front_right = getDiff(moveFrontRight(positon.x, poisition.y),destino.x, destino.y )
+
+	if diff_self_front == 0 then diff_front = math.huge end
+	if diff_self_right == 0 then diff_right = math.huge end
+	if diff_self_left == 0 then diff_left = math.huge end
+
+	--osea si alguna opcion no me hace avanzar la pongo como inf asi no la tomo
 
 	if diff_front <= diff_front_left and diff_front <= diff_front_right:
 		tryFront()
