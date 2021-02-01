@@ -61,3 +61,28 @@ void LuaBot::setId(int id) {
     lua_pushnumber(L, id);
     lua_pcall(L, 1, 0, 0);
 }
+
+int LuaBot::isInSight(lua_State *L) {
+    /* Necesito sacar los 4 elementos del stack */
+    int x_old = lua_gettop(L);
+    int y_old = lua_gettop(L);
+    int x_new = lua_gettop(L);
+    int y_new = lua_gettop(L);
+
+    Coordinate actual(x_old,y_old);
+    Coordinate future(x_new,y_new);
+    std::vector<Coordinate> path =  positionsCalculator.straightLine(actual,future);
+    for (auto& coord : path) {
+        lua_getglobal(L, "isABlockingItemAt");
+        lua_pushnumber(L, coord.x);
+        lua_pushnumber(L, coord.y);
+        lua_pcall(L,2,1,0);
+        int is_blocking = lua_pop(L,1);
+        if (is_blocking) {
+            lua_pushnumber(L, 0); // cargo un 0 para indicar q encontre un blocking
+            return 1;
+        }
+    }
+    lua_pushnumber(L, 1); // no hay paredes en el medio
+    return 1;
+}

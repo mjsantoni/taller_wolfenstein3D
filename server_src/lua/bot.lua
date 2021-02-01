@@ -6,6 +6,8 @@ grid_size = 64
 straight_line = {}
 closest_target = {}
 position = {}
+in_sight = {}
+in_sight_len = 0
 angle = 0
 angle_turn = 0
 
@@ -91,27 +93,38 @@ function isABlockingItemAt(x, y)
 	return isInTable(blockings, x_norm, y_norm)
 end
 
+
+function getDiff(x_old, y_old, x_new, y_new)
+	local x_diff = math.abs(x_old - x_new)
+	local y_diff = math.abs(y_old - y_new)
+	return (x_diff + y_diff)
+end
+
+
 --[[
 function closestTarget(x_old, y_old, x_new, y_new)
-	in_sight = {}
-	closest_player = {}
+	in_sight_len = 0
 	min_difference = math.huge
 
 	for coord, player in pair(players):
-		if wrapperIsInSight(coord, position) (straightlinte pero si hay una pared da false) del lua_bot.cpp
-			-- in_sight ejemplo = { {1,1},{2,3} }
+		boolean = isInSight(coord.x,coord.y,position.x,position.y)
+		if (boolean) then
 			table.insert(in_sight,coord)
+			in_sight_len += 1
+		end
 
-	if in_sight.size() != 0:
+	if in_sight_len > 0:
 		for coord, _ in pair(in_sight()):
 			difference = getDiff(coord, position)
 			if difference < min_difference:
 				min_difference = difference
+				closest_target = coord
 	else
 		for coord, _ in pair(players):
 			difference = getDiff(coord, position)
 			if difference < min_difference:
 				min_difference = difference
+				closest_target = coord
 end
 --]]
 

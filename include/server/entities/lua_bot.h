@@ -12,6 +12,7 @@
 #endif
 
 #include "server/game/coordinate.h"
+#include "server/game/positions_calculator.h"
 
 class LuaBot {
 private:
@@ -19,6 +20,8 @@ private:
     std::string name;
     lua_State* L;
     int id;
+    PositionsCalculator positionsCalculator;
+
 
 public:
     LuaBot(std::string _name, std::string lua_path, int _id);
@@ -29,6 +32,8 @@ public:
     void addBlocking(Coordinate coord, std::string type);
     void addPlayer(Coordinate coord, int id);
     void setId(int id);
+
+    int isInSight(lua_State* L);
 
     void printMap();
 
