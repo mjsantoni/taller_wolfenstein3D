@@ -16,11 +16,12 @@
 
 class LuaBot {
 private:
-    bool checkLua(lua_State* L, int r);
     std::string name;
     lua_State* L;
     int id;
+    //SharedQueue<Event*> events;
 
+    bool checkLua(lua_State* L, int r);
 
 public:
     LuaBot(std::string _name, std::string lua_path, int _id);

@@ -68,11 +68,8 @@ void Player::addKey(Key key) {
 }
 
 void Player::addAngle(double _angle) {
-    if ((angle + _angle) > (2*M_PI)) {
-        angle = (angle + _angle - 2*M_PI);
-    } else {
-        angle += _angle;
-    }
+    angle += _angle;
+    if (angle > 2*M_PI) angle -= 2*M_PI;
 }
 
 /* STATS SUB */

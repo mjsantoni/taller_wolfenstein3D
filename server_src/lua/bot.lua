@@ -9,7 +9,7 @@ position = {}
 in_sight = {}
 in_sight_len = 0
 angle = 0
-angle_turn = 0
+angle_turn = math.pi / 8
 position = {x = 96, y = 96}
 
 function addPositionable(x, y, _type)
@@ -100,21 +100,7 @@ function getDiff(x_old, y_old, x_new, y_new)
 	return (x_diff + y_diff)
 end
 
--- TEST USE
-function executeClosestTarget(x_old, y_old, x_new, y_new)
-	io.write("[LUA] Calling isInSight("..x_old..", "..y_old..", "..x_new..", "..y_new..")\n")
-	return_value = isInSight(x_old,y_old,x_new,y_new)
-	return_value = math.floor(return_value)
-	if return_value == 1 then
-		io.write("[LUA] isInSight returned "..return_value.."\n")
-	else
-		io.write("[LUA] isInSight returned NOOO\n")
-	end
-	getDiff(1,2,3,4)
-end
-
-
-
+----------------------------------- SIMULATE -----------------------------------
 
 function closestTarget()
 	in_sight_len = 0
@@ -153,16 +139,32 @@ function closestTarget()
 		end
 	end
 
-	print("Finished closestTarget, calling tryMove")
-	tryMove(closest_target[1], closest_target[2], min_difference)
+	print("Finished closestTarget, calling simulatePlayer")
+	simulatePlayer(closest_target[1], closest_target[2], min_difference)
 end
+
+function simulatePlayer(enemy_x, enemy_y, min_difference)
+	print("Entre a simulatePlayer")
+	for i=1,5 do
+		print("Dentro del for")
+		getDirectionAndMove(enemy_x, enemy_y, min_difference)
+		--if playerInRange() then
+		--	pikanazoEvent()
+		--end
+	end
+
+end
+
+
+
+
 
 --[[
 Siempre tiene un objetivo: closest target carga el mas cercano y
- llamo a moveToTarget que ejecuta un numero random entre 1 y 5 el tryMove
+ llamo a moveToTarget que ejecuta un numero random entre 1 y 5 el getDirectionAndMove
  para tratar de acercarse
 
-Las funciones de tryMove usan el move to position del col handler
+Las funciones de getDirectionAndMove usan el move to position del col handler
 
 funciones de crear eventos son llamadas por las funciones q mueven, devuelven
 eventos liso y llano con los ints
@@ -175,72 +177,86 @@ function moveToPosition(x, y, angle)
 	return math.floor(new_x), math.floor(new_y)
 end
 
-function tryMove(destiny_x, destiny_y, min_difference)
-	io.write("[LUA] Executing tryMove with ("..destiny_x..", "..destiny_y..") and min_diff: "..min_difference.."\n")
+function getDirectionAndMove(destiny_x, destiny_y, min_difference)
+	io.write("[LUA] Executing getDirectionAndMove with ("..destiny_x..", "..destiny_y..") and min_diff: "..min_difference.."\n")
 
 	-- Create all tries to move and get distances
 	local x_move_front, y_move_front = moveToPosition(position.x, position.y, angle)
-	local diff_self_front = getDiff(x_move_front, y_move_front, position.x, position.y)
 	local diff_front = getDiff(x_move_front, y_move_front, destiny_x, destiny_y)
-	if diff_self_front == 0 then
+	if getDiff(x_move_front, y_move_front, position.x, position.y) == 0 then
 		io.write("diff_self_front is 0, changing to inf\n")
 		diff_front = math.huge
 	end
 	io.write("diff_front is now: "..diff_front.."\n")
 
-	local x_move_right, y_move_right = moveToPosition(position.x, position.y, angle - math.pi/2)
-	local diff_self_right = getDiff(x_move_right, y_move_right, position.x, position.y)
+	local x_move_right, y_move_right = moveToPosition(position.x, position.y, angle - angle_turn)
 	local diff_right = getDiff(x_move_right, y_move_right, destiny_x, destiny_y)
-	if diff_self_right == 0 then
+	if getDiff(x_move_right, y_move_right, position.x, position.y) == 0 then
 		io.write("diff_self_right is 0, changing to inf\n")
 		diff_right = math.huge
 	end
 	io.write("diff_right is now: "..diff_right.."\n")
 
-	local x_move_left, y_move_left = moveToPosition(position.x, position.y, angle + math.pi/2)
-	local diff_self_left = getDiff(x_move_left, y_move_left, position.x, position.y)
+	local x_move_left, y_move_left = moveToPosition(position.x, position.y, angle + angle_turn)
 	local diff_left = getDiff(x_move_left, y_move_left, destiny_x, destiny_y)
-	if diff_self_left == 0 then
+	if getDiff(x_move_left, y_move_left, position.x, position.y) == 0 then
 		io.write("diff_self_left is 0, changing to inf\n")
 		diff_left = math.huge
 	end
 	io.write("diff_left is now: "..diff_left.."\n")
 
-	local x_move_back, y_move_back = moveToPosition(position.x, position.y, angle + math.pi)
-	local diff_self_back = getDiff(x_move_back, y_move_back, position.x, position.y)
-	local diff_back = getDiff(x_move_back, y_move_back, destiny_x, destiny_y)
-	if diff_self_back == 0 then
-		io.write("diff_self_back is 0, changing to inf\n")
-		diff_back = math.huge
-	end
-	io.write("diff_back is now: "..diff_back.."\n")
-
 	-- Verify which is the lowest
-	if diff_front <= diff_left and diff_front <= diff_right and diff_front <= diff_back then
+	if diff_front <= diff_left and diff_front <= diff_right and diff_front then
 		io.write("diff_front is the lowest: "..diff_front.."\n")
-		--tryFront()
-		--create_moveEvent()
-	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left <= diff_back then
+		print("Voy a avanzar derechito nomas culeado")
+
+	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left then
 		io.write("diff_left is the lowest: "..diff_left.."\n")
-		--angles_move = tryLeft()
-		--create_TurnLeftEvent(4)
-		--create_moveEvent()
-	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right <= diff_back then
+		angle = addAngleToCurrent(angle_turn)
+		local angles_move = tryRotations(diff_left, destiny_x, destiny_y, 1)
+		--create_TurnLeftEvent(angles_move + 1)
+	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right then
 		io.write("diff_right is the lowest: "..diff_right.."\n")
-		--angles_move = tryRight()
-		--create_TurnRightEvent(4) // crea 4 eventos de giro derecha
-		--create_moveEvent() // crea 1 evento de avanzar
-	else
-		io.write("diff_back is the lowest: "..diff_back.."\n")
+		angle = addAngleToCurrent(-1*angle_turn)
+		local angles_move = tryRotations(diff_right, destiny_x, destiny_y, -1)
+		--create_TurnRightEvent(angles_move + 1)
 	end
+	--create_moveEvent()
 
-	--if inRange(closest_target)
-	--	create_pikanazoEvent()
+end
 
+----------------------------------- ANGLES -----------------------------------
+
+function tryRotations(difference, destiny_x, destiny_y, rotation_factor)
+	local acum = 0
+	while true do
+		local x_move_left, y_move_left = moveToPosition(position.x, position.y, addAngleToCurrent(rotation_factor*angle_turn))
+		local diff_right = getDiff(x_move_left, y_move_left, destiny_x, destiny_y)
+		if getDiff(x_move_left, y_move_left, position.x, position.y) == 0 then
+			diff_right = math.huge
+		end
+		if diff_right < difference then
+			acum = acum + 1
+			angle = addAngleToCurrent(rotation_factor*angle_turn)
+			difference = diff_right
+		else
+			break
+		end
+	end
+	io.write("Acumulador es: "..acum.."\n")
+	return acum
 end
 
 
 ----------------------------------- AUX -----------------------------------
+function addAngleToCurrent(_angle)
+	local temporal = angle + _angle
+	if (temporal > 2*math.pi) then
+		temporal = temporal - 2*math.pi
+	end
+	return temporal
+end
+
 
 function is_int(n)
 	return (type(n) == "number") and (math.floor(n) == n)
