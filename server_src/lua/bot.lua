@@ -1,16 +1,21 @@
+-- INFORMACION DEL GAME --
 positionables = {}
 blockings = {}
 players = {}
-self_id = 0
-grid_size = 64
-straight_line = {}
+position = {x = 96, y = 96}
+angle = 0
+
+-- VARIABLES DE PROCESAMIENTO --
 closest_target = {}
-position = {}
+straight_line = {}
 in_sight = {}
 in_sight_len = 0
-angle = 0
+
+-- CONSTANTES --
+self_id = 0
+grid_size = 64
 angle_turn = math.pi / 8
-position = {x = 96, y = 96}
+
 
 function addPositionable(x, y, _type)
 	io.write("[LUA] Executing addPositionable("..x..", "..y..", ".._type..")\n")
@@ -154,8 +159,6 @@ function simulatePlayer(enemy_x, enemy_y, min_difference)
 	end
 
 end
-
-
 
 
 
