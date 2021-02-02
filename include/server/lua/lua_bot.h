@@ -12,7 +12,7 @@
 #endif
 
 #include "server/game/coordinate.h"
-#include "server/game/positions_calculator.h"
+#include "server/lua/movement_calculator.h"
 
 class LuaBot {
 private:
@@ -33,10 +33,12 @@ public:
     void setId(int id);
 
     static int isInSight(lua_State* L);
-    void closestTarget(int x1, int x2, int x3, int x4);
+    void closestTarget();
+    static int move(lua_State* L);
 
     void printMap();
 
+    static bool isABlockingItemAt(lua_State *L, const Coordinate &coord, int stack_pos);
 };
 
 

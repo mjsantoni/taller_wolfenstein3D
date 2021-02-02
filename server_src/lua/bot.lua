@@ -10,7 +10,7 @@ in_sight = {}
 in_sight_len = 0
 angle = 0
 angle_turn = 0
-position = {x = 160, y = 160}
+position = {x = 96, y = 96}
 
 function addPositionable(x, y, _type)
 	io.write("[LUA] Executing addPositionable("..x..", "..y..", ".._type..")\n")
@@ -28,7 +28,7 @@ end
 function addPlayer(x, y, _id)
 	io.write("[LUA] Executing addPlayers("..x..", "..y..", ".._id..")\n")
 	local coord_table = {math.floor(x), math.floor(y)}
-	players[coord_table] = {id = _id}
+	players[coord_table] = {id = math.floor(_id)}
 end
 
 function setId(_id)
@@ -100,7 +100,7 @@ function getDiff(x_old, y_old, x_new, y_new)
 	return (x_diff + y_diff)
 end
 
-
+-- TEST USE
 function executeClosestTarget(x_old, y_old, x_new, y_new)
 	io.write("[LUA] Calling isInSight("..x_old..", "..y_old..", "..x_new..", "..y_new..")\n")
 	return_value = isInSight(x_old,y_old,x_new,y_new)
@@ -112,6 +112,8 @@ function executeClosestTarget(x_old, y_old, x_new, y_new)
 	end
 	getDiff(1,2,3,4)
 end
+
+
 
 
 function closestTarget()
@@ -131,9 +133,8 @@ function closestTarget()
 	end
 	if in_sight_len > 0 then
 		for coord, _ in pairs(in_sight) do
-			print("Calling getDiff")
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
-			print(string.format("For de in sight con diff: %s", difference))
+			print(string.format("For (in_sight) iteration with diff: %s", difference))
 			if difference < min_difference then -- Aca muere, no hace mas nada
 				io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].."\n")
 				min_difference = difference
@@ -142,16 +143,18 @@ function closestTarget()
 		end
 	else
 		for coord, _ in pairs(players) do
-			print("No veo gente llamo con players a getDiff")
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
+			print(string.format("For (players) iteration (no players in sight) with diff: %s", difference))
 			if difference < min_difference then
+				io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].."\n")
 				min_difference = difference
 				closest_target = coord
 			end
 		end
 	end
 
-	io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].."\n")
+	print("Finished closestTarget, calling tryMove")
+	tryMove(closest_target[1], closest_target[2], min_difference)
 end
 
 --[[
@@ -166,42 +169,75 @@ eventos liso y llano con los ints
 
 ]]--
 
---[[
-function tryMove()
-	difference = math.huge
+function moveToPosition(x, y, angle)
+	local new_x, new_y = move(position.x, position.y, angle)
+	io.write("[LUA] moveToPosition new recv Coord: ("..math.floor(new_x)..", "..math.floor(new_y)..")\n")
+	return math.floor(new_x), math.floor(new_y)
+end
 
-	diff_self_front = getDiff(moveFront(positon.x, poisition.y), position.x, position.y )
-	diff_front = getDiff(moveFront(positon.x, poisition.y),destino.x, destino.y )
+function tryMove(destiny_x, destiny_y, min_difference)
+	io.write("[LUA] Executing tryMove with ("..destiny_x..", "..destiny_y..") and min_diff: "..min_difference.."\n")
 
-	diff_self_front_left = getDiff(moveFrontLeft(positon.x, poisition.y),position.x, position.y )
-	diff_front_left = getDiff(moveFrontLeft(positon.x, poisition.y),destino.x, destino.y )
+	-- Create all tries to move and get distances
+	local x_move_front, y_move_front = moveToPosition(position.x, position.y, angle)
+	local diff_self_front = getDiff(x_move_front, y_move_front, position.x, position.y)
+	local diff_front = getDiff(x_move_front, y_move_front, destiny_x, destiny_y)
+	if diff_self_front == 0 then
+		io.write("diff_self_front is 0, changing to inf\n")
+		diff_front = math.huge
+	end
+	io.write("diff_front is now: "..diff_front.."\n")
 
-	diff_self_front_right = getDiff(moveFrontRight(positon.x, poisition.y),position.x, position.y )
-	diff_front_right = getDiff(moveFrontRight(positon.x, poisition.y),destino.x, destino.y )
+	local x_move_right, y_move_right = moveToPosition(position.x, position.y, angle - math.pi/2)
+	local diff_self_right = getDiff(x_move_right, y_move_right, position.x, position.y)
+	local diff_right = getDiff(x_move_right, y_move_right, destiny_x, destiny_y)
+	if diff_self_right == 0 then
+		io.write("diff_self_right is 0, changing to inf\n")
+		diff_right = math.huge
+	end
+	io.write("diff_right is now: "..diff_right.."\n")
 
-	if diff_self_front == 0 then diff_front = math.huge end
-	if diff_self_right == 0 then diff_right = math.huge end
-	if diff_self_left == 0 then diff_left = math.huge end
+	local x_move_left, y_move_left = moveToPosition(position.x, position.y, angle + math.pi/2)
+	local diff_self_left = getDiff(x_move_left, y_move_left, position.x, position.y)
+	local diff_left = getDiff(x_move_left, y_move_left, destiny_x, destiny_y)
+	if diff_self_left == 0 then
+		io.write("diff_self_left is 0, changing to inf\n")
+		diff_left = math.huge
+	end
+	io.write("diff_left is now: "..diff_left.."\n")
 
-	--osea si alguna opcion no me hace avanzar la pongo como inf asi no la tomo
+	local x_move_back, y_move_back = moveToPosition(position.x, position.y, angle + math.pi)
+	local diff_self_back = getDiff(x_move_back, y_move_back, position.x, position.y)
+	local diff_back = getDiff(x_move_back, y_move_back, destiny_x, destiny_y)
+	if diff_self_back == 0 then
+		io.write("diff_self_back is 0, changing to inf\n")
+		diff_back = math.huge
+	end
+	io.write("diff_back is now: "..diff_back.."\n")
 
-	if diff_front <= diff_front_left and diff_front <= diff_front_right:
-		tryFront()
-		create_moveEvent()
+	-- Verify which is the lowest
+	if diff_front <= diff_left and diff_front <= diff_right and diff_front <= diff_back then
+		io.write("diff_front is the lowest: "..diff_front.."\n")
+		--tryFront()
+		--create_moveEvent()
+	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left <= diff_back then
+		io.write("diff_left is the lowest: "..diff_left.."\n")
+		--angles_move = tryLeft()
+		--create_TurnLeftEvent(4)
+		--create_moveEvent()
+	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right <= diff_back then
+		io.write("diff_right is the lowest: "..diff_right.."\n")
+		--angles_move = tryRight()
+		--create_TurnRightEvent(4) // crea 4 eventos de giro derecha
+		--create_moveEvent() // crea 1 evento de avanzar
+	else
+		io.write("diff_back is the lowest: "..diff_back.."\n")
+	end
 
-	if diff_front_left < diff_front and diff_front_left < diff_front_right:
-		angles_move = tryLeft()
-		create_TurnLeftEvent(4)
-		create_moveEvent()
+	--if inRange(closest_target)
+	--	create_pikanazoEvent()
 
-	angles_move = tryRight()
-	create_TurnRightEvent(4) // crea 4 eventos de giro derecha
-	create_moveEvent() // crea 1 evento de avanzar
-
-	if inRange(closest_target)
-		create_pikanazoEvent()
-	
---]]
+end
 
 
 ----------------------------------- AUX -----------------------------------

@@ -19,7 +19,7 @@
 #include "server/game/map_parser.h"
 #include "server/game/shoot_handler.h"
 #include "server/events/hit_handler.h"
-#include "server/entities/lua_bot.h"
+#include "server/lua/lua_bot.h"
 
 class Game {
 private:

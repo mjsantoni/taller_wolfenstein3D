@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
-#include "server/entities/lua_bot.h"
+#include "server/lua/lua_bot.h"
 
 LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
                 L(luaL_newstate()), name(_name), id(_id) {
@@ -12,6 +12,7 @@ LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
 
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
+    lua_register(L, "move", move);
 }
 
 bool LuaBot::checkLua(lua_State *L, int r) {
@@ -66,6 +67,16 @@ void LuaBot::setId(int id) {
     lua_pcall(L, 1, 0, 0);
 }
 
+bool LuaBot::isABlockingItemAt(lua_State *L, const Coordinate &coord, int stack_pos) {
+    lua_getglobal(L, "isABlockingItemAt");
+    lua_pushnumber(L, coord.x);
+    lua_pushnumber(L, coord.y);
+    lua_pcall(L,2,1,0);
+    bool is_blocking = lua_toboolean(L, stack_pos);
+    lua_pop(L, 1);
+    return is_blocking;
+}
+
 int LuaBot::isInSight(lua_State *L) {
     /* Necesito sacar los 4 elementos del stack */
     int x_old = lua_tonumber(L, 1);
@@ -75,15 +86,10 @@ int LuaBot::isInSight(lua_State *L) {
 
     Coordinate actual(x_old,y_old);
     Coordinate future(x_new,y_new);
-    PositionsCalculator pc;
-    std::vector<Coordinate> path = pc.straightLine(actual,future);
+    MovementCalculator mc;
+    std::vector<Coordinate> path = mc.straightLine(actual,future);
     for (auto& coord : path) {
-        lua_getglobal(L, "isABlockingItemAt");
-        lua_pushnumber(L, coord.x);
-        lua_pushnumber(L, coord.y);
-        lua_pcall(L,2,1,0);
-        bool is_blocking = lua_toboolean(L, 5);
-        lua_pop(L, 1);
+        bool is_blocking = isABlockingItemAt(L, coord, 5);
         if (is_blocking) {
             lua_pushnumber(L, 0); // cargo un 0 para indicar q encontre un blocking
             return 1;
@@ -93,7 +99,22 @@ int LuaBot::isInSight(lua_State *L) {
     return 1;
 }
 
-void LuaBot::closestTarget(int x1, int x2, int x3, int x4) {
+void LuaBot::closestTarget() {
     lua_getglobal(L, "closestTarget"); // Get function to stack
     lua_pcall(L, 0, 0, 0);
+}
+
+int LuaBot::move(lua_State *L) {
+    /* Necesito sacar los 3 elementos del stack */
+    int current_x = lua_tonumber(L, 1);
+    int current_y = lua_tonumber(L, 2);
+    double current_angle = lua_tonumber(L, 3);
+    Coordinate current(current_x, current_y);
+    std::cout << "[CPP] Angle: " << current_angle << " - "; current.show();
+
+    MovementCalculator mc;
+    Coordinate new_pos = mc.moveToPosition(current, current_angle, L, 4);
+    lua_pushnumber(L, new_pos.x);
+    lua_pushnumber(L, new_pos.y);
+    return 2;
 }
