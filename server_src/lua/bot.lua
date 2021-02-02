@@ -41,6 +41,20 @@ function setId(_id)
 	self_id = id
 end
 
+function updateAngle(_angle)
+	angle = _angle
+end
+
+function cleanMap()
+	positionables = {}
+	blockings = {}
+	players = {}
+end
+
+function updatePosition(_x, _y)
+	position = {x = _x, y = _y}
+end
+
 function printMap()
 	print("[LUA] Executing printMap()")
 	print("Positionables:")
@@ -217,14 +231,14 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 		io.write("diff_left is the lowest: "..diff_left.."\n")
 		angle = addAngleToCurrent(angle_turn)
 		local angles_move = tryRotations(diff_left, destiny_x, destiny_y, 1)
-		--create_TurnLeftEvent(angles_move + 1)
+		createRotateCameraEvent(angles_move + 1, 1) -- 1 es CAMERA_LEFT
 	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right then
 		io.write("diff_right is the lowest: "..diff_right.."\n")
 		angle = addAngleToCurrent(-1*angle_turn)
 		local angles_move = tryRotations(diff_right, destiny_x, destiny_y, -1)
-		--create_TurnRightEvent(angles_move + 1)
+		createRotateCameraEvent(angles_move + 1, -1) -- -1 es CAMERA_RIGHT
 	end
-	--create_moveEvent()
+	createMoveEvent()
 
 end
 

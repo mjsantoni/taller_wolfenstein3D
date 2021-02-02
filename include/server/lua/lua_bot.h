@@ -13,13 +13,15 @@
 
 #include "server/game/coordinate.h"
 #include "server/lua/movement_calculator.h"
+#include "common/shared_queue.h"
+#include "common/event.h"
 
 class LuaBot {
 private:
     std::string name;
     lua_State* L;
     int id;
-    //SharedQueue<Event*> events;
+    //SharedQueue<Event>& eventQueue;
 
     bool checkLua(lua_State* L, int r);
 
@@ -32,14 +34,20 @@ public:
     void addBlocking(Coordinate coord, std::string type);
     void addPlayer(Coordinate coord, int id);
     void setId(int id);
-
-    static int isInSight(lua_State* L);
-    void closestTarget();
-    static int move(lua_State* L);
-
     void printMap();
+    void updateAngle(double new_angle);
+    void updatePosition(const Coordinate& coord);
+    void cleanMap();
+
+
+    void closestTarget();
+    static int isInSight(lua_State* L);
+    static int move(lua_State* L);
+    static int createMoveEvent(lua_State *L);
+    static int createRotateCameraEvent(lua_State *L);
 
     static bool isABlockingItemAt(lua_State *L, const Coordinate &coord, int stack_pos);
+
 };
 
 

@@ -13,6 +13,8 @@ LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
     lua_register(L, "move", move);
+    lua_register(L, "createMoveEvent", createMoveEvent);
+    lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
 }
 
 bool LuaBot::checkLua(lua_State *L, int r) {
@@ -67,6 +69,24 @@ void LuaBot::setId(int id) {
     lua_pcall(L, 1, 0, 0);
 }
 
+void LuaBot::updateAngle(double new_angle) {
+    lua_getglobal(L, "updateAngle");
+    lua_pushnumber(L, new_angle);
+    lua_pcall(L, 1, 0, 0);
+}
+
+void LuaBot::cleanMap() {
+    lua_getglobal(L, "cleanMap");
+    lua_pcall(L, 0, 0, 0);
+}
+
+void LuaBot::updatePosition(const Coordinate& coord) {
+    lua_getglobal(L, "updatePosition");
+    lua_pushnumber(L, coord.x);
+    lua_pushnumber(L, coord.y);
+    lua_pcall(L, 2, 0, 0);
+}
+
 bool LuaBot::isABlockingItemAt(lua_State *L, const Coordinate &coord, int stack_pos) {
     lua_getglobal(L, "isABlockingItemAt");
     lua_pushnumber(L, coord.x);
@@ -117,4 +137,21 @@ int LuaBot::move(lua_State *L) {
     lua_pushnumber(L, new_pos.x);
     lua_pushnumber(L, new_pos.y);
     return 2;
+}
+
+int LuaBot::createMoveEvent(lua_State* L) {
+    std::cout << "[CPP] Se crea un moveEvent\n";
+    //eventQueue.push(Event(MOVE_PLAYER, id, INVALID));
+    return 0;
+}
+
+int LuaBot::createRotateCameraEvent(lua_State* L) {
+    int amount = lua_tonumber(L, 1);
+    int turn_direction = lua_tonumber(L, 2);
+    std::cout << "[CPP] Se crea un rotateCameraEvent ";
+    std::cout << "cuyo amount es: " << amount << " - turn_dir: " << turn_direction << "\n";
+    for (int i = 0; i < amount; i++) {
+        //eventQueue.push(Event(TURN_CAMERA, turn_direction, 0));
+    }
+    return 0;
 }
