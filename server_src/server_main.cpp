@@ -29,8 +29,6 @@ int main(int argc, char* args[]) {
 
 int main() {
     Game game("../map.yaml", "../config.yaml");
-    game.connectPlayer();
-    game.connectPlayer();
     //game.movePlayer(1);
     //game.movePlayer(1);
     game.addBot();

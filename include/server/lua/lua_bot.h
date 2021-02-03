@@ -5,6 +5,7 @@
 // Este header es básicamente una inclusión de los 3 de abajo
 // pero protegido con extern "C"
 #include <lua5.3/lua.hpp>
+
 #else
 #include <lua5.3/lua.h>
   #include <lua5.3/lualib.h>
@@ -15,18 +16,20 @@
 #include "server/lua/movement_calculator.h"
 #include "common/shared_queue.h"
 #include "common/event.h"
+#include "server/game/player.h"
 
 class LuaBot {
 private:
     std::string name;
     lua_State* L;
+    Player& player;
     int id;
     //SharedQueue<Event>& eventQueue;
 
     bool checkLua(lua_State* L, int r);
 
 public:
-    LuaBot(std::string _name, std::string lua_path, int _id);
+    LuaBot(std::string lua_path, Player& _player);
     const std::string &getName() const;
     void popStack(int stack_elem_count);
 

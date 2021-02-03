@@ -3,12 +3,13 @@
 #include <cmath>
 #include "server/lua/lua_bot.h"
 
-LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
-                L(luaL_newstate()), name(_name), id(_id) {
+LuaBot::LuaBot(std::string lua_path, Player& _player) :
+                L(luaL_newstate()), player(_player),
+                name(player.getPlayerName()), id(player.getID()) {
     luaL_openlibs(L);
     if(!checkLua(L, luaL_dofile(L, lua_path.c_str()))) return; // carga el script
     // deberia levantar una excepcion
-    setId(_id);
+    setId(id);
 
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
