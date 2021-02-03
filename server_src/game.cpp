@@ -242,4 +242,3 @@ void Game::addBot() {
     bot->closestTarget();
 }
 
-

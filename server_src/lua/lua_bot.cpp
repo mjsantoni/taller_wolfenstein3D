@@ -28,6 +28,13 @@ bool LuaBot::checkLua(lua_State *L, int r) {
 
 int LuaBot::getId() { return id; }
 
+
+void LuaBot::run() {
+    while (player.hasLives()) {
+    }
+}
+
+
 void LuaBot::changeGun(int hotkey) {
     //eventQueue.push(Event(CHANGE_GUN, id, hotkey));
     if (player.hasGun(hotkey)) {

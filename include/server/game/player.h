@@ -62,6 +62,7 @@ public:
     bool isDead();
     bool hasGun(std::string gun_type);
     bool hasGun(int hotkey);
+    bool hasLives();
 
     /* Keys */
     bool useKey();

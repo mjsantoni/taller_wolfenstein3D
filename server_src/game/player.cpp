@@ -137,6 +137,8 @@ bool Player::hasGun(int hotkey) {
     return false;
 }
 
+bool Player::hasLives() { return lives > 0;}
+
 /* KEYS */
 
 bool Player::useKey() {

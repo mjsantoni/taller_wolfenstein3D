@@ -17,8 +17,9 @@
 #include "common/shared_queue.h"
 #include "common/event.h"
 #include "server/game/player.h"
+#include "common/thread.h"
 
-class LuaBot {
+class LuaBot : public Thread {
 private:
     lua_State* L;
     Player& player;
@@ -31,6 +32,8 @@ public:
     LuaBot(std::string lua_path, Player& _player);
     void popStack(int stack_elem_count);
     int getId();
+
+    void run() override;
 
     void addPositionable(Coordinate coord, std::string type);
     void addBlocking(Coordinate coord, std::string type);
