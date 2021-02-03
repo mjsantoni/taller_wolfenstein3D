@@ -2,7 +2,7 @@
 positionables = {}
 blockings = {}
 players = {}
-position = {x = 96, y = 96}
+position = {x = -1, y = -1}
 angle = 0
 
 -- VARIABLES DE PROCESAMIENTO --
@@ -12,11 +12,19 @@ in_sight = {}
 in_sight_len = 0
 
 -- CONSTANTES --
-self_id = 0
-grid_size = 64
-angle_turn = math.pi / 8
-fov = 1 -- en radianes
+grid_size = 0
+angle_turn = 0
+fov = 1
 gun_range = 20
+
+function setGridSize(size) grid_size = size end
+
+function setAngleTurn(angle_rotation) angle_turn = angle_rotation end
+
+function setGunRange(range) gun_range = range end
+
+----------------
+
 
 
 function addPositionable(x, y, _type)
@@ -36,11 +44,6 @@ function addPlayer(x, y, _id)
 	io.write("[LUA] Executing addPlayers("..x..", "..y..", ".._id..")\n")
 	local coord_table = {math.floor(x), math.floor(y)}
 	players[coord_table] = {id = math.floor(_id)}
-end
-
-function setId(_id)
-	io.write("[LUA] Executing setId(".._id..")\n")
-	self_id = id
 end
 
 function updateAngle(_angle)

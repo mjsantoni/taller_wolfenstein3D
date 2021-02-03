@@ -75,6 +75,8 @@ public:
     void addBot();
 
     void sendMapToBot(LuaBot *bot);
+
+    void sendStartDataToBot(LuaBot *bot);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

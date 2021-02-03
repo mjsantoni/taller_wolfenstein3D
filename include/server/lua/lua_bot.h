@@ -20,7 +20,6 @@
 
 class LuaBot {
 private:
-    std::string name;
     lua_State* L;
     Player& player;
     int id;
@@ -30,14 +29,20 @@ private:
 
 public:
     LuaBot(std::string lua_path, Player& _player);
-    const std::string &getName() const;
     void popStack(int stack_elem_count);
+    int getId();
 
     void addPositionable(Coordinate coord, std::string type);
     void addBlocking(Coordinate coord, std::string type);
     void addPlayer(Coordinate coord, int id);
-    void setId(int id);
     void printMap();
+
+    void changeGun(int hotkey);
+    void setGridSize(int size);
+    void setAngleTurn(double angle_rotation);
+    void setGunRange(int range);
+
+
     void updateAngle(double new_angle);
     void updatePosition(const Coordinate& coord);
     void cleanMap();

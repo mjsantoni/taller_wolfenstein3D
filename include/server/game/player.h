@@ -36,6 +36,7 @@ public:
     /* Getters */
     std::string getPlayerName();
     Gun& getGun();
+    Gun& getGun(int hotkey);
     int getID();
     double getAngle();
     int getKeys();
@@ -60,6 +61,7 @@ public:
     bool noAmmoLeft() const;
     bool isDead();
     bool hasGun(std::string gun_type);
+    bool hasGun(int hotkey);
 
     /* Keys */
     bool useKey();

@@ -220,19 +220,26 @@ void Game::sendMapToBot(LuaBot* bot) {
         }
     }
     for (auto& player : players) {
-        std::cout << "PLAYERSSSSSSS: " << player.getID() << "\n";
+        if (player.getID() == bot->getId()) continue;
         bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
     }
 
     bot->printMap();
 }
 
+void Game::sendStartDataToBot(LuaBot* bot) {
+    bot->setGridSize(64); // map.getGridSize()
+    bot->setAngleTurn(M_PI / 8); // alguien.getRotation()
+    bot->updatePosition(map.getPlayerPosition(bot->getId()));
+}
+
 void Game::addBot() {
     int bot_id = connectPlayer();
-    Player& bot_player = players[bot_id];
-    LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", bot_player);
+    LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", players[bot_id]);
     bots.push_back(bot);
+    sendStartDataToBot(bot);
     sendMapToBot(bot);
-
-    //bot->closestTarget();
+    bot->closestTarget();
 }
+
+

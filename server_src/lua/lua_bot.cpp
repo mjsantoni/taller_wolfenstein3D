@@ -5,11 +5,10 @@
 
 LuaBot::LuaBot(std::string lua_path, Player& _player) :
                 L(luaL_newstate()), player(_player),
-                name(player.getPlayerName()), id(player.getID()) {
+                id(player.getID()) {
     luaL_openlibs(L);
     if(!checkLua(L, luaL_dofile(L, lua_path.c_str()))) return; // carga el script
     // deberia levantar una excepcion
-    setId(id);
 
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
@@ -17,6 +16,7 @@ LuaBot::LuaBot(std::string lua_path, Player& _player) :
     lua_register(L, "createMoveEvent", createMoveEvent);
     lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
     lua_register(L, "createPicanazoEvent", createPicanazoEvent);
+    changeGun(1); // Esto lo tiene que hacer el script del bot.
 }
 
 bool LuaBot::checkLua(lua_State *L, int r) {
@@ -26,7 +26,14 @@ bool LuaBot::checkLua(lua_State *L, int r) {
     return false;
 }
 
-const std::string& LuaBot::getName() const { return name; }
+int LuaBot::getId() { return id; }
+
+void LuaBot::changeGun(int hotkey) {
+    //eventQueue.push(Event(CHANGE_GUN, id, hotkey));
+    if (player.hasGun(hotkey)) {
+        setGunRange(player.getGun(hotkey).getRange());
+    }
+}
 
 void LuaBot::printMap() {
     //std::cout << "[CPP] Get printMap\n";
@@ -65,11 +72,25 @@ void LuaBot::addPlayer(Coordinate coord, int id) {
     lua_pcall(L, 3, 0, 0);
 }
 
-void LuaBot::setId(int id) {
-    lua_getglobal(L, "setId"); // Get function to stack
-    lua_pushnumber(L, id);
+
+void LuaBot::setGridSize(int size) {
+    lua_getglobal(L, "setGridSize"); // Get function to stack
+    lua_pushnumber(L, size);
     lua_pcall(L, 1, 0, 0);
 }
+
+void LuaBot::setAngleTurn(double angle_rotation) {
+    lua_getglobal(L, "setAngleTurn"); // Get function to stack
+    lua_pushnumber(L, angle_rotation);
+    lua_pcall(L, 1, 0, 0);
+}
+
+void LuaBot::setGunRange(int range) {
+    lua_getglobal(L, "setGunRange"); // Get function to stack
+    lua_pushnumber(L, range);
+    lua_pcall(L, 1, 0, 0);
+}
+
 
 void LuaBot::updateAngle(double new_angle) {
     lua_getglobal(L, "updateAngle");

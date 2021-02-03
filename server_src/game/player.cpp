@@ -25,6 +25,8 @@ std::string Player::getPlayerName() { return name; }
 
 Gun& Player::getGun() { return equipped_weapon; }
 
+Gun& Player::getGun(int hotkey) { return guns[hotkey]; }
+
 int Player::getID() { return id; }
 
 double Player::getAngle() { return angle; }
@@ -124,6 +126,13 @@ bool Player::isDead() { return hp <= 0; }
 bool Player::hasGun(std::string gun_type) {
     for (auto& gun : guns) {
         if (gun.getType() == gun_type) return true;
+    }
+    return false;
+}
+
+bool Player::hasGun(int hotkey) {
+    for (int i = 0; i < guns.size(); i++) {
+        if (guns[i].getType() == guns[hotkey].getType()) return true;
     }
     return false;
 }
