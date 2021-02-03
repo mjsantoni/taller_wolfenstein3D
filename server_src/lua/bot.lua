@@ -122,6 +122,25 @@ end
 ----------------------------------- SIMULATE -----------------------------------
 
 function closestTarget()
+	io.write("[LUA] angleBetween: (4,2) and (4,5)\n")
+	angleBetween(4,2,4,5)
+
+	io.write("[LUA] angleBetween: (4,2) and (2.2)\n")
+	angleBetween(4,2,2,2)
+
+	io.write("[LUA] angleBetween: (4,2) and (8.2)\n")
+	angleBetween(4,2,8,2)
+
+	io.write("[LUA] angleBetween: (4,2) and (4.1)\n")
+	angleBetween(4,2,4,1)
+
+	io.write("[LUA] angleBetween: (4,2) and (3.3)\n")
+	angleBetween(4,2,3,3)
+
+	io.write("[LUA] angleBetween: (4,2) and (5.3)\n")
+	angleBetween(4,2,5,3)
+end
+	--[[
 	in_sight_len = 0
 	local min_difference = math.huge
 	io.write("[LUA] Executing closestTarget\n")
@@ -174,7 +193,7 @@ function simulatePlayer(enemy_x, enemy_y, min_difference)
 
 end
 
-
+--]]
 
 --[[
 Siempre tiene un objetivo: closest target carga el mas cercano y
@@ -266,12 +285,23 @@ end
 
 
 ----------------------------------- AUX -----------------------------------
+
 function addAngleToCurrent(_angle)
 	local temporal = angle + _angle
 	if (temporal > 2*math.pi) then
 		temporal = temporal - 2*math.pi
 	end
 	return temporal
+end
+
+function angleBetween(x1, y1, x2, y2)
+	local new_x = (-x1) - (-x2)
+	local new_y = (y1) - (y2)
+	result = math.deg(math.atan2(new_y,new_x))
+	if result < 0 then
+		result = 360 + result
+	end
+	io.write("La diferencia es: "..result.."\n")
 end
 
 
