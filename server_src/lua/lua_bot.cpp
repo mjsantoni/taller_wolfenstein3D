@@ -15,6 +15,7 @@ LuaBot::LuaBot(std::string _name, std::string lua_path, int _id) :
     lua_register(L, "move", move);
     lua_register(L, "createMoveEvent", createMoveEvent);
     lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
+    lua_register(L, "createPicanazoEvent", createPicanazoEvent);
 }
 
 bool LuaBot::checkLua(lua_State *L, int r) {
@@ -153,5 +154,11 @@ int LuaBot::createRotateCameraEvent(lua_State* L) {
     for (int i = 0; i < amount; i++) {
         //eventQueue.push(Event(TURN_CAMERA, turn_direction, 0));
     }
+    return 0;
+}
+
+int LuaBot::createPicanazoEvent(lua_State *L) {
+    std::cout << "[CPP] Se crea un picanazo event\n";
+    //eventQueue.push(Event(SHOOT, id, INVALID));
     return 0;
 }

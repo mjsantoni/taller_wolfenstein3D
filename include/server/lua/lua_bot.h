@@ -45,6 +45,7 @@ public:
     static int move(lua_State* L);
     static int createMoveEvent(lua_State *L);
     static int createRotateCameraEvent(lua_State *L);
+    static int createPicanazoEvent(lua_State *L);
 
     static bool isABlockingItemAt(lua_State *L, const Coordinate &coord, int stack_pos);
 

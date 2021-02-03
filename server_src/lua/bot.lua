@@ -151,7 +151,7 @@ function simulatePlayer(enemy_x, enemy_y, min_difference)
 	print("Entre a simulatePlayer")
 	for i=1,6 do
 		if playerInSight(enemy_x, enemy_y) and playerInRange(enemy_x, enemy_y) then
-			--createPicanazoEvent()
+			createPicanazoEvent()
 			print("LO VEOOOOOOOOOOOOO")
 			break
 		end
