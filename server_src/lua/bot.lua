@@ -16,6 +16,7 @@ self_id = 0
 grid_size = 64
 angle_turn = math.pi / 8
 fov = 1 -- en radianes
+gun_range = 20
 
 
 function addPositionable(x, y, _type)
@@ -53,7 +54,8 @@ function cleanMap()
 end
 
 function updatePosition(_x, _y)
-	position = {x = _x, y = _y}
+	position = {x = _x, y = _y }
+	print(string.format("Mi nueva pos es (%s, %s)", position.x, position.y))
 end
 
 function printMap()
@@ -70,24 +72,6 @@ function printMap()
 	for k, v in pairs(players) do
 		print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
 	end
-	-- PRUEBA DE BLOCKING PAPA --
-	--[[
-	for k, v in pairs(players) do
-		if isABlockingItemAt(k[1], k[2]) then
-			print("SI HAY BLOKING ITEM EN PLAYER")
-		else
-			print("NO HAY BLOCKING ITEM EN PLAYER")
-		end
-	end
-
-	for k, v in pairs(blockings) do
-		if isABlockingItemAt(k[1], k[2]) then
-			print("SI HAY BLOKING ITEM EN BLOKING")
-		else
-			print("NO HAY BLOCKING ITEM EN BLOKIN")
-		end
-	end
-	--]]
 end
 
 ------------------------------- Calculos -------------------------------
@@ -123,25 +107,6 @@ end
 ----------------------------------- SIMULATE -----------------------------------
 
 function closestTarget()
-	io.write("[LUA] angleBetween: (4,2) and (4,5)\n")
-	angleBetween(4,2,4,5)
-
-	io.write("[LUA] angleBetween: (4,2) and (2.2)\n")
-	angleBetween(4,2,2,2)
-
-	io.write("[LUA] angleBetween: (4,2) and (8.2)\n")
-	angleBetween(4,2,8,2)
-
-	io.write("[LUA] angleBetween: (4,2) and (4.1)\n")
-	angleBetween(4,2,4,1)
-
-	io.write("[LUA] angleBetween: (4,2) and (3.3)\n")
-	angleBetween(4,2,3,3)
-
-	io.write("[LUA] angleBetween: (4,2) and (5.3)\n")
-	angleBetween(4,2,5,3)
-end
-	--[[
 	in_sight_len = 0
 	local min_difference = math.huge
 	io.write("[LUA] Executing closestTarget\n")
@@ -184,25 +149,32 @@ end
 
 function simulatePlayer(enemy_x, enemy_y, min_difference)
 	print("Entre a simulatePlayer")
-	for i=1,5 do
+	for i=1,6 do
 		if playerInSight(enemy_x, enemy_y) and playerInRange(enemy_x, enemy_y) then
-			pikanazoEvent()
+			--createPicanazoEvent()
+			print("LO VEOOOOOOOOOOOOO")
 			break
+		end
 		getDirectionAndMove(enemy_x, enemy_y, min_difference)
 	end
 
 end
 
---]]
-
-function playerInSight(x,y)
-	angle_between = angleBetween(position.x, position.y, x, y)
-	top_left = angle + fov
-	top_right = angle - fov
-	
-
+function playerInRange(x, y)
+	local distance = getDiff(position.x, position.y, x, y)
+	return distance <= gun_range
 end
 
+function playerInSight(x,y)
+	local angle_between = angleBetween(position.x, position.y, x, y)
+	return insideAngle(angle, angle_between)
+end
+
+function insideAngle(facing, target)
+	local dot = math.cos(facing)*math.cos(target) + math.sin(facing)*math.sin(target)
+	local interval = math.acos(dot)
+	return interval <= fov
+end
 
 
 --[[
@@ -255,17 +227,23 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 	if diff_front <= diff_left and diff_front <= diff_right and diff_front then
 		io.write("diff_front is the lowest: "..diff_front.."\n")
 		print("Voy a avanzar derechito nomas culeado")
+		updatePosition(x_move_front, y_move_front)
 
 	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left then
 		io.write("diff_left is the lowest: "..diff_left.."\n")
 		angle = addAngleToCurrent(angle_turn)
-		local angles_move = tryRotations(diff_left, destiny_x, destiny_y, 1)
-		createRotateCameraEvent(angles_move + 1, 1) -- 1 es CAMERA_LEFT
+		local angle_moves = tryRotations(diff_left, destiny_x, destiny_y, 1)
+		createRotateCameraEvent(angle_moves + 1, 1) -- 1 es CAMERA_LEFT
+		local x_move, y_move = moveToPosition(position.x, position.y, angle)
+		updatePosition(x_move, y_move)
+
 	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right then
 		io.write("diff_right is the lowest: "..diff_right.."\n")
 		angle = addAngleToCurrent(-1*angle_turn)
-		local angles_move = tryRotations(diff_right, destiny_x, destiny_y, -1)
-		createRotateCameraEvent(angles_move + 1, -1) -- -1 es CAMERA_RIGHT
+		local angle_moves = tryRotations(diff_right, destiny_x, destiny_y, -1)
+		createRotateCameraEvent(angle_moves + 1, -1) -- -1 es CAMERA_RIGHT
+		local x_move, y_move = moveToPosition(position.x, position.y, angle)
+		updatePosition(x_move, y_move)
 	end
 	createMoveEvent()
 
@@ -275,16 +253,18 @@ end
 
 function tryRotations(difference, destiny_x, destiny_y, rotation_factor)
 	local acum = 0
+	local x_move
+	local y_move
 	while true do
-		local x_move_left, y_move_left = moveToPosition(position.x, position.y, addAngleToCurrent(rotation_factor*angle_turn))
-		local diff_right = getDiff(x_move_left, y_move_left, destiny_x, destiny_y)
-		if getDiff(x_move_left, y_move_left, position.x, position.y) == 0 then
-			diff_right = math.huge
+		x_move, y_move = moveToPosition(position.x, position.y, addAngleToCurrent(rotation_factor*angle_turn))
+		local diff = getDiff(x_move, y_move, destiny_x, destiny_y)
+		if getDiff(x_move, y_move, position.x, position.y) == 0 then
+			diff = math.huge
 		end
-		if diff_right < difference then
+		if diff < difference then
 			acum = acum + 1
 			angle = addAngleToCurrent(rotation_factor*angle_turn)
-			difference = diff_right
+			difference = diff
 		else
 			break
 		end
@@ -309,11 +289,7 @@ end
 function angleBetween(x1, y1, x2, y2)
 	local new_x = (-x1) - (-x2)
 	local new_y = (y1) - (y2)
-	result = math.deg(math.atan2(new_y,new_x))
-	--if result < 0 then
-	--	result = 360 + result
-	--end
-	io.write("La diferencia es: "..result.."\n")
+	return math.deg(math.atan2(new_y,new_x))
 end
 
 
