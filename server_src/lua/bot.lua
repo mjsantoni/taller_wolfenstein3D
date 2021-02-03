@@ -15,6 +15,7 @@ in_sight_len = 0
 self_id = 0
 grid_size = 64
 angle_turn = math.pi / 8
+fov = 1 -- en radianes
 
 
 function addPositionable(x, y, _type)
@@ -184,16 +185,25 @@ end
 function simulatePlayer(enemy_x, enemy_y, min_difference)
 	print("Entre a simulatePlayer")
 	for i=1,5 do
-		print("Dentro del for")
+		if playerInSight(enemy_x, enemy_y) and playerInRange(enemy_x, enemy_y) then
+			pikanazoEvent()
+			break
 		getDirectionAndMove(enemy_x, enemy_y, min_difference)
-		--if playerInRange() then
-		--	pikanazoEvent()
-		--end
 	end
 
 end
 
 --]]
+
+function playerInSight(x,y)
+	angle_between = angleBetween(position.x, position.y, x, y)
+	top_left = angle + fov
+	top_right = angle - fov
+	
+
+end
+
+
 
 --[[
 Siempre tiene un objetivo: closest target carga el mas cercano y
@@ -290,6 +300,8 @@ function addAngleToCurrent(_angle)
 	local temporal = angle + _angle
 	if (temporal > 2*math.pi) then
 		temporal = temporal - 2*math.pi
+	elseif (temporal < 0) then
+		temporal = temporal + 2*math.pi
 	end
 	return temporal
 end
@@ -298,9 +310,9 @@ function angleBetween(x1, y1, x2, y2)
 	local new_x = (-x1) - (-x2)
 	local new_y = (y1) - (y2)
 	result = math.deg(math.atan2(new_y,new_x))
-	if result < 0 then
-		result = 360 + result
-	end
+	--if result < 0 then
+	--	result = 360 + result
+	--end
 	io.write("La diferencia es: "..result.."\n")
 end
 
