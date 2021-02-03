@@ -18,6 +18,8 @@
 #include "common/event.h"
 #include "server/game/player.h"
 #include "common/thread.h"
+#include <condition_variable>
+#include <atomic>
 
 class LuaBot : public Thread {
 private:
@@ -25,15 +27,20 @@ private:
     Player& player;
     int id;
     //SharedQueue<Event>& eventQueue;
+    std::mutex m;
+    std::condition_variable& cv;
+    std::atomic<bool> alive;
 
     bool checkLua(lua_State* L, int r);
 
 public:
-    LuaBot(std::string lua_path, Player& _player);
+    LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv);
     void popStack(int stack_elem_count);
     int getId();
+    void setId(int id);
 
     void run() override;
+    void stop();
 
     void addPositionable(Coordinate coord, std::string type);
     void addBlocking(Coordinate coord, std::string type);

@@ -29,10 +29,17 @@ int main(int argc, char* args[]) {
 
 int main() {
     Game game("../map.yaml", "../config.yaml");
-    game.connectPlayer();
     //game.movePlayer(1);
     //game.movePlayer(1);
     game.addBot();
+    game.addBot();
+    std::cout << "Gonna sleep main\n";
+    sleep(2);
+    std::cout << "Gonna release\n";
+    game.releaseBots();
+    std::cout << "Gonna sleep agai \n";
+    sleep(7);
+
 }
 
 /* GENERADOR DEL CONFIG.YAML */ /*

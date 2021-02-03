@@ -3,12 +3,13 @@
 #include <cmath>
 #include "server/lua/lua_bot.h"
 
-LuaBot::LuaBot(std::string lua_path, Player& _player) :
+LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv) :
                 L(luaL_newstate()), player(_player),
-                id(player.getID()) {
+                id(player.getID()), cv(_cv), alive(true) {
     luaL_openlibs(L);
     if(!checkLua(L, luaL_dofile(L, lua_path.c_str()))) return; // carga el script
     // deberia levantar una excepcion
+    setId(id);
 
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
@@ -28,12 +29,22 @@ bool LuaBot::checkLua(lua_State *L, int r) {
 
 int LuaBot::getId() { return id; }
 
-
 void LuaBot::run() {
-    while (player.hasLives()) {
+    while (alive) {
+        std::cout << "Soy: " << id << "- Me BLOQUEOOOOOOOO\n";
+        std::unique_lock<std::mutex> lock(m);
+        cv.wait(lock);
+        std::cout << "Soy: " << id << "- ME LIBERAROOOOOON\n";
+        if (!alive) break;
+        closestTarget();
+        //lock.unlock();
+        std::cout << "Soy: " << id << "- TERMINE ejecucion de closest target\n";
     }
 }
 
+void LuaBot::stop() {
+    alive = false;
+}
 
 void LuaBot::changeGun(int hotkey) {
     //eventQueue.push(Event(CHANGE_GUN, id, hotkey));
@@ -43,9 +54,7 @@ void LuaBot::changeGun(int hotkey) {
 }
 
 void LuaBot::printMap() {
-    //std::cout << "[CPP] Get printMap\n";
     lua_getglobal(L, "printMap");
-    //std::cout << "[CPP] Calling 'printMap'\n";
     lua_pcall(L, 0, 0, 0);
 }
 
@@ -53,6 +62,11 @@ void LuaBot::popStack(int stack_elem_count) {
     for (int i = 0; i < stack_elem_count; i++) {
         lua_pop(L, 1);
     }
+}
+void LuaBot::setId(int id) {
+    lua_getglobal(L, "setId"); // Get function to stack
+    lua_pushnumber(L, id);
+    lua_pcall(L, 1, 0, 0);
 }
 
 void LuaBot::addPositionable(Coordinate coord, std::string type) {
@@ -79,7 +93,6 @@ void LuaBot::addPlayer(Coordinate coord, int id) {
     lua_pcall(L, 3, 0, 0);
 }
 
-
 void LuaBot::setGridSize(int size) {
     lua_getglobal(L, "setGridSize"); // Get function to stack
     lua_pushnumber(L, size);
@@ -97,7 +110,6 @@ void LuaBot::setGunRange(int range) {
     lua_pushnumber(L, range);
     lua_pcall(L, 1, 0, 0);
 }
-
 
 void LuaBot::updateAngle(double new_angle) {
     lua_getglobal(L, "updateAngle");

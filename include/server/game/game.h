@@ -6,6 +6,9 @@
 #include <chrono>
 #include <ctime>
 
+#include <condition_variable>
+#include <atomic>
+
 #include "colission_handler.h"
 #include "config_parser.h"
 #include "hit.h"
@@ -43,6 +46,11 @@ private:
     int players_ids = 0;
     int players_alive = 0;
 
+    /* Bot stuff */
+    std::atomic<bool> hold_bots;
+    std::mutex m;
+    std::condition_variable cv;
+
 public:
     Game(std::string map_path, std::string config_path);
     ~Game();
@@ -77,6 +85,8 @@ public:
     void sendMapToBot(LuaBot *bot);
 
     void sendStartDataToBot(LuaBot *bot);
+
+    void releaseBots();
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H
