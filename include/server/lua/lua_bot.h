@@ -26,7 +26,7 @@ private:
     lua_State* L;
     Player& player;
     int id;
-    //SharedQueue<Event>& eventQueue;
+    SharedQueue<Event>& eventQueue;
     std::mutex m;
     std::condition_variable& cv;
     std::atomic<bool> alive;
@@ -34,7 +34,7 @@ private:
     bool checkLua(lua_State* L, int r);
 
 public:
-    LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv);
+    LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv, SharedQueue<Event>& sq);
     ~LuaBot();
 
     void popStack(int stack_elem_count);

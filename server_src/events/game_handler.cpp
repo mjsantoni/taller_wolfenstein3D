@@ -5,9 +5,10 @@
 
 GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
-        game(map_path, config_path),
-        eventProcessor(game, config_path),
         eventQueue(Event()),
+        botsManager(eventQueue),
+        game(map_path, config_path, botsManager),
+        eventProcessor(game, config_path),
         alive(true) {}
 
 void GameHandler::run() {

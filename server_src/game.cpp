@@ -6,7 +6,7 @@
 #define MAX_PLAYERS 3
 #define MAX_DOOR_OPEN 5
 
-Game::Game(std::string map_path, std::string config_path) :
+Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
@@ -15,7 +15,8 @@ Game::Game(std::string map_path, std::string config_path) :
            configParser(config_path),
            dropHandler(config_path, map),
            blockingItemHandler(map),
-           shootHandler(map) {
+           shootHandler(map),
+           botsManager(bm) {
     addBot();
     addBot();
 }

@@ -19,7 +19,9 @@
 
 class GameHandler : public Thread {
 private:
-    //SharedQueue<Event> eventQueue;
+    SharedQueue<Event> eventQueue;
+    BotsManager botsManager;
+    Game game;
     ClientsManager clientsManager;
     EventProcessor eventProcessor;
     std::atomic<bool> alive;
@@ -27,8 +29,6 @@ private:
     std::condition_variable cv;
 
 public:
-    Game game;
-    SharedQueue<Event> eventQueue;
     GameHandler(std::string map_path, std::string config_path);
     void run();
 

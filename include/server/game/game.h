@@ -47,12 +47,12 @@ private:
     int players_alive = 0;
 
     /* Bot stuff */
-    BotsManager botsManager;
+    BotsManager& botsManager;
     std::mutex m;
     std::condition_variable cv;
 
 public:
-    Game(std::string map_path, std::string config_path);
+    Game(std::string map_path, std::string config_path, BotsManager& bm);
     ~Game();
 
     /* RECEIVED EVENTS */

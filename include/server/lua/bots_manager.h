@@ -14,12 +14,13 @@ class BotsManager {
 private:
     std::vector<LuaBot*> bots;
     std::condition_variable cv;
+    SharedQueue<Event>& sharedQueue;
 
 public:
-    BotsManager() {}
+    BotsManager(SharedQueue<Event>& sq) : sharedQueue(sq) {}
 
     void addBot(Player& player) {
-        LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv);
+        LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv, sharedQueue);
         bot->setGridSize(64); // map.getGridSize()
         bot->setAngleTurn(M_PI / 8);
         bot->start();

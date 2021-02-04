@@ -3,9 +3,10 @@
 #include <cmath>
 #include "server/lua/lua_bot.h"
 
-LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv) :
-                L(luaL_newstate()), player(_player),
-                id(player.getID()), cv(_cv), alive(true) {
+LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv, SharedQueue<Event>& eq) :
+        L(luaL_newstate()), player(_player),
+        id(player.getID()), cv(_cv), alive(true),
+        eventQueue(eq) {
     luaL_openlibs(L);
     if(!checkLua(L, luaL_dofile(L, lua_path.c_str()))) return; // carga el script
     // deberia levantar una excepcion
