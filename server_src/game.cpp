@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define MAX_PLAYERS 2
+#define MAX_PLAYERS 3
 #define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
@@ -16,10 +16,11 @@ Game::Game(std::string map_path, std::string config_path) :
            dropHandler(config_path, map),
            blockingItemHandler(map),
            shootHandler(map) {
+    addBot();
+    addBot();
 }
 
 Game::~Game() {
-    /*
     std::cout << "DESTRUCTOR DE GAME -> MATA BOTS\n";
     for (auto& bot : bots) {
         bot->stop();
@@ -27,8 +28,8 @@ Game::~Game() {
     cv.notify_all();
     for (auto& bot : bots) {
         bot->join();
+        delete bot;
     }
-     */
 }
 
 
@@ -256,7 +257,6 @@ void Game::addBot() {
     int bot_id = connectPlayer();
     LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", players[bot_id], cv);
     sendStartDataToBot(bot);
-    //sendMapToBot(bot);
     bot->start();
     bots.push_back(bot);
 

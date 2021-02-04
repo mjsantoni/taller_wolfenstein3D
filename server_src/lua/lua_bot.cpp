@@ -70,6 +70,7 @@ void LuaBot::setId(int id) {
 }
 
 void LuaBot::addPositionable(Coordinate coord, std::string type) {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "addPositionable"); // Get function to stack
     lua_pushnumber(L, coord.x);
     lua_pushnumber(L, coord.y);
@@ -78,6 +79,7 @@ void LuaBot::addPositionable(Coordinate coord, std::string type) {
 }
 
 void LuaBot::addBlocking(Coordinate coord, std::string type) {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "addBlocking"); // Get function to stack
     lua_pushnumber(L, coord.x);
     lua_pushnumber(L, coord.y);
@@ -86,6 +88,7 @@ void LuaBot::addBlocking(Coordinate coord, std::string type) {
 }
 
 void LuaBot::addPlayer(Coordinate coord, int id) {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "addPlayer"); // Get function to stack
     lua_pushnumber(L, coord.x);
     lua_pushnumber(L, coord.y);
@@ -118,11 +121,13 @@ void LuaBot::updateAngle(double new_angle) {
 }
 
 void LuaBot::cleanMap() {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "cleanMap");
     lua_pcall(L, 0, 0, 0);
 }
 
 void LuaBot::updatePosition(const Coordinate& coord) {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "updatePosition");
     lua_pushnumber(L, coord.x);
     lua_pushnumber(L, coord.y);
