@@ -1,3 +1,6 @@
+package.path = "../server_src/lua/events.lua"
+require "events"
+
 -- INFORMACION DEL GAME --
 positionables = {}
 blockings = {}
@@ -11,6 +14,8 @@ closest_target = {}
 straight_line = {}
 in_sight = {}
 in_sight_len = 0
+events = {}
+total_events = 0
 
 -- CONSTANTES --
 grid_size = 0
@@ -114,6 +119,10 @@ end
 
 ----------------------------------- SIMULATE -----------------------------------
 
+function getEvents()
+	return events
+end
+
 function closestTarget()
 	in_sight_len = 0
 	local min_difference = math.huge
@@ -153,9 +162,37 @@ function closestTarget()
 
 	print(string.format("Finished closestTarget, calling simulatePlayer - ID: %s", self_id))
 	simulatePlayer(closest_target[1], closest_target[2], min_difference)
+	return total_events
 end
 
+
+function createPicanazoEvent()
+	total_events = total_events + 1
+	table.insert(events, SHOOT)
+	table.insert(events, self_id)
+	table.insert(events, INVALID)
+end
+
+function createRotateCameraEvent(amount, rotation)
+	for i = 1, amount do
+		total_events = total_events + 1
+		table.insert(events, TURN_CAMERA)
+		table.insert(events, self_id)
+		table.insert(events, rotation)
+	end
+end
+
+function createMoveEvent()
+	total_events = total_events + 1
+	table.insert(events, MOVE_PLAYER)
+	table.insert(events, self_id)
+	table.insert(events, MOVE_UP)
+end
+
+
 function simulatePlayer(enemy_x, enemy_y, min_difference)
+	total_events = 0
+	events = {}
 	print(string.format("Entre a simulatePlayer - ID: %s", self_id))
 	for i=1,6 do
 		if playerInSight(enemy_x, enemy_y) and playerInRange(enemy_x, enemy_y) then
@@ -241,7 +278,7 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 		io.write("diff_left is the lowest: "..diff_left.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(angle_turn)
 		local angle_moves = tryRotations(diff_left, destiny_x, destiny_y, 1)
-		createRotateCameraEvent(angle_moves + 1, 1) -- 1 es CAMERA_LEFT
+		createRotateCameraEvent(angle_moves + 1, CAMERA_LEFT) -- 1 es CAMERA_LEFT
 		local x_move, y_move = moveToPosition(position.x, position.y, angle)
 		updatePosition(x_move, y_move)
 
@@ -249,7 +286,7 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 		io.write("diff_right is the lowest: "..diff_right.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(-1*angle_turn)
 		local angle_moves = tryRotations(diff_right, destiny_x, destiny_y, -1)
-		createRotateCameraEvent(angle_moves + 1, -1) -- -1 es CAMERA_RIGHT
+		createRotateCameraEvent(angle_moves + 1, CAMERA_RIGHT) -- -1 es CAMERA_RIGHT
 		local x_move, y_move = moveToPosition(position.x, position.y, angle)
 		updatePosition(x_move, y_move)
 	end

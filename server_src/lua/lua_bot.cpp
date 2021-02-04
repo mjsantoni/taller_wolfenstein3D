@@ -15,9 +15,9 @@ LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
     lua_register(L, "move", move);
-    lua_register(L, "createMoveEvent", createMoveEvent);
-    lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
-    lua_register(L, "createPicanazoEvent", createPicanazoEvent);
+    //lua_register(L, "createMoveEvent", createMoveEvent);
+    //lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
+    //lua_register(L, "createPicanazoEvent", createPicanazoEvent);
     changeGun(1); // Esto lo tiene que hacer el script del bot.
 }
 
@@ -197,7 +197,7 @@ int LuaBot::move(lua_State *L) {
     lua_pushnumber(L, new_pos.y);
     return 2;
 }
-
+/*
 int LuaBot::createMoveEvent(lua_State* L) {
     std::cout << "[CPP] Se crea un moveEvent\n";
     //eventQueue.push(Event(MOVE_PLAYER, id, INVALID));
@@ -220,3 +220,4 @@ int LuaBot::createPicanazoEvent(lua_State *L) {
     //eventQueue.push(Event(SHOOT, id, INVALID));
     return 0;
 }
+*/
