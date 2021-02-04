@@ -35,6 +35,8 @@ private:
 
 public:
     LuaBot(std::string lua_path, Player &_player, std::condition_variable &_cv);
+    ~LuaBot();
+
     void popStack(int stack_elem_count);
     int getId();
     void setId(int id);

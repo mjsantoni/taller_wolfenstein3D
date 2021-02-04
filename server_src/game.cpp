@@ -21,15 +21,7 @@ Game::Game(std::string map_path, std::string config_path) :
 }
 
 Game::~Game() {
-    std::cout << "DESTRUCTOR DE GAME -> MATA BOTS\n";
-    for (auto& bot : bots) {
-        bot->stop();
-    }
-    cv.notify_all();
-    for (auto& bot : bots) {
-        bot->join();
-        delete bot;
-    }
+    botsManager.destroyBots();
 }
 
 
@@ -226,47 +218,11 @@ bool Game::isReady() {
 
 /* LUA SCRIPT */
 
-void Game::sendMapToBot(LuaBot* bot) {
-    for (auto& item : map.getBoard()) {
-        Coordinate coord = item.first;
-        Positionable& positionable = item.second;
-        if (positionable.getCategory() == "wall" ||
-            positionable.getCategory() == "door" ||
-            positionable.getCategory() == "barrel" ||
-            positionable.getCategory() == "table") {
-            bot->addBlocking(coord, positionable.getType());
-        } else {
-            bot->addPositionable(coord, positionable.getType());
-        }
-    }
-    for (auto& player : players) {
-        if (player.getID() == bot->getId()) continue;
-        bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
-    }
-
-    bot->printMap();
-}
-
-void Game::sendStartDataToBot(LuaBot* bot) {
-    bot->setGridSize(64); // map.getGridSize()
-    bot->setAngleTurn(M_PI / 8); // alguien.getRotation()
-
-}
-
 void Game::addBot() {
     int bot_id = connectPlayer();
-    LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", players[bot_id], cv);
-    sendStartDataToBot(bot);
-    bot->start();
-    bots.push_back(bot);
-
+    botsManager.addBot(players[bot_id]);
 }
 
 void Game::releaseBots() {
-    for (auto& bot : bots) {
-        bot->cleanMap(); // esto anda
-        sendMapToBot(bot);
-        bot->updatePosition(map.getPlayerPosition(bot->getId()));
-    }
-    cv.notify_all();
+    botsManager.releaseBots(map, players);
 }

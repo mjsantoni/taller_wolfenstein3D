@@ -23,6 +23,7 @@
 #include "server/game/shoot_handler.h"
 #include "server/events/hit_handler.h"
 #include "server/lua/lua_bot.h"
+#include "server/lua/bots_manager.h"
 
 class Game {
 private:
@@ -42,11 +43,11 @@ private:
 
 
     std::set<int> players_ready;
-    std::vector<LuaBot*> bots;
     int players_ids = 0;
     int players_alive = 0;
 
     /* Bot stuff */
+    BotsManager botsManager;
     std::mutex m;
     std::condition_variable cv;
 
