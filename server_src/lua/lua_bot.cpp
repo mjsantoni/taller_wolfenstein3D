@@ -15,9 +15,6 @@ LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
     lua_register(L, "move", move);
-    //lua_register(L, "createMoveEvent", createMoveEvent);
-    //lua_register(L, "createRotateCameraEvent", createRotateCameraEvent);
-    //lua_register(L, "createPicanazoEvent", createPicanazoEvent);
     changeGun(1); // Esto lo tiene que hacer el script del bot.
 }
 
@@ -26,33 +23,63 @@ LuaBot::~LuaBot() { lua_close(L); }
 bool LuaBot::checkLua(lua_State *L, int r) {
     if (r == LUA_OK) return true;
     std::string errormsg = lua_tostring(L, -1);
-    std::cout << errormsg << std::endl;
+    //std::cout << errormsg << std::endl;
     return false;
 }
 
 int LuaBot::getId() { return id; }
 
+/* EJECUCION */
+
 void LuaBot::run() {
     while (alive) {
-        std::cout << "Soy: " << id << "- Me BLOQUEOOOOOOOO\n";
         std::unique_lock<std::mutex> lock(m);
         cv.wait(lock);
-        std::cout << "Soy: " << id << "- ME LIBERAROOOOOON\n";
         if (!alive) break;
         closestTarget();
-        //lock.unlock();
-        std::cout << "Soy: " << id << "- TERMINE ejecucion de closest target\n";
+        proccessEvents();
     }
-}
-
-void LuaBot::stop() {
-    alive = false;
 }
 
 void LuaBot::closestTarget() {
     //std::unique_lock<std::mutex> lock(m); // Por ahora no genera RC
     lua_getglobal(L, "closestTarget"); // Get function to stack
     lua_pcall(L, 0, 0, 0);
+}
+
+void LuaBot::proccessEvents() {
+    std::vector<int> events = getEvents();
+    pushEvents(events);
+}
+
+std::vector<int> LuaBot::getEvents() {
+    std::vector<int> events;
+    lua_getglobal(L, "getEvents");
+    lua_pcall(L, 0, 1, 0);
+    lua_pushvalue(L, -1);
+    lua_pushnil(L);
+    while (lua_next(L, -2)) {
+        events.push_back(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+    }
+    lua_pop(L, 1);
+    return events;
+}
+
+void LuaBot::pushEvents(std::vector<int> events) {
+    int iteration = 0;
+    int total_events = (int) events.size() / 3;
+    for(int i = 0; i < total_events; i++) {
+        std::cout << "ID: " << events[i] << "\n";
+        std::cout << "PLAYER: " << events[i+1] << "\n";
+        std::cout << "VALUE: " << events[i+2] << "\n";
+        eventQueue.push(Event(events[i],events[i+1],events[i+2]));
+    }
+
+}
+
+void LuaBot::stop() {
+    alive = false;
 }
 
 
@@ -189,7 +216,7 @@ int LuaBot::move(lua_State *L) {
     int current_y = lua_tonumber(L, 2);
     double current_angle = lua_tonumber(L, 3);
     Coordinate current(current_x, current_y);
-    std::cout << "[CPP] Angle: " << current_angle << " - "; current.show();
+    //std::cout << "[CPP] Angle: " << current_angle << " - "; current.show();
 
     MovementCalculator mc;
     Coordinate new_pos = mc.moveToPosition(current, current_angle, L, 4);
@@ -197,27 +224,3 @@ int LuaBot::move(lua_State *L) {
     lua_pushnumber(L, new_pos.y);
     return 2;
 }
-/*
-int LuaBot::createMoveEvent(lua_State* L) {
-    std::cout << "[CPP] Se crea un moveEvent\n";
-    //eventQueue.push(Event(MOVE_PLAYER, id, INVALID));
-    return 0;
-}
-
-int LuaBot::createRotateCameraEvent(lua_State* L) {
-    int amount = lua_tonumber(L, 1);
-    int turn_direction = lua_tonumber(L, 2);
-    std::cout << "[CPP] Se crea un rotateCameraEvent ";
-    std::cout << "cuyo amount es: " << amount << " - turn_dir: " << turn_direction << "\n";
-    for (int i = 0; i < amount; i++) {
-        //eventQueue.push(Event(TURN_CAMERA, turn_direction, 0));
-    }
-    return 0;
-}
-
-int LuaBot::createPicanazoEvent(lua_State *L) {
-    std::cout << "[CPP] Se crea un picanazo event\n";
-    //eventQueue.push(Event(SHOOT, id, INVALID));
-    return 0;
-}
-*/

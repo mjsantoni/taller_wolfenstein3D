@@ -15,7 +15,6 @@ straight_line = {}
 in_sight = {}
 in_sight_len = 0
 events = {}
-total_events = 0
 
 -- CONSTANTES --
 grid_size = 0
@@ -36,48 +35,48 @@ function updateAngle(_angle) angle = _angle end
 
 function updatePosition(_x, _y)
 	position = {x = _x, y = _y }
-	print(string.format("Mi nueva pos es (%s, %s) - ID: %s", position.x, position.y, self_id))
+	--print(string.format("Mi nueva pos es (%s, %s) - ID: %s", position.x, position.y, self_id))
 end
 
 function setId(_id)
-	io.write("[LUA] Executing setId(".._id..")\n")
+	--io.write("[LUA] Executing setId(".._id..")\n")
 	self_id = math.floor(_id)
 end
 
 ------------------------------- MAPA -------------------------------
 
 function addPositionable(x, y, _type)
-	io.write("[LUA] Executing addPositionable("..x..", "..y..", ".._type..")\n")
+	--io.write("[LUA] Executing addPositionable("..x..", "..y..", ".._type..")\n")
 	local coord_table = {math.floor(x), math.floor(y) }
 	positionables[coord_table] = {type = _type}
-	print(positionables[coord_table])
+	--print(positionables[coord_table])
 end
 
 function addBlocking(x, y, _type)
-	io.write("[LUA] Executing addBlocking("..x..", "..y..", ".._type..")\n")
+	--io.write("[LUA] Executing addBlocking("..x..", "..y..", ".._type..")\n")
 	local coord_table = {math.floor(x), math.floor(y)}
 	blockings[coord_table] = {type = _type}
 end
 
 function addPlayer(x, y, _id)
-	io.write("[LUA] Executing addPlayers("..x..", "..y..", ".._id..")\n")
+	--io.write("[LUA] Executing addPlayers("..x..", "..y..", ".._id..")\n")
 	local coord_table = {math.floor(x), math.floor(y)}
 	players[coord_table] = {id = math.floor(_id)}
 end
 
 function printMap()
-	print("[LUA] Executing printMap()")
-	print("Positionables:")
+	--print("[LUA] Executing --printMap()")
+	--print("Positionables:")
 	for k, v in pairs(positionables) do
-		print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
+		--print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
 	end
-	print("Blockings:")
+	--print("Blockings:")
 	for k, v in pairs(blockings) do
-		print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
+		--print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
 	end
-	print("Players:")
+	--print("Players:")
 	for k, v in pairs(players) do
-		print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
+		--print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
 	end
 end
 
@@ -106,7 +105,7 @@ end
 function isABlockingItemAt(x, y)
 	local x_norm = (normalizedCoordinate(x))
 	local y_norm = (normalizedCoordinate(y))
-	--io.write("[LUA] Coord: ("..x_norm..", "..y_norm..")\n")
+	----io.write("[LUA] Coord: ("..x_norm..", "..y_norm..")\n")
 	local coord_table = {x_norm, y_norm }
 	return isInTable(blockings, x_norm, y_norm)
 end
@@ -126,12 +125,12 @@ end
 function closestTarget()
 	in_sight_len = 0
 	local min_difference = math.huge
-	io.write("[LUA] Executing closestTarget - ID: "..self_id.."\n")
+	--io.write("[LUA] Executing closestTarget - ID: "..self_id.."\n")
 
 	for coord, player in pairs(players) do
-		io.write("[LUA] Calling isInSight("..coord[1]..", "..coord[2]..", "..position.x..", "..position.y..") - ID: "..self_id.."\n")
+		--io.write("[LUA] Calling isInSight("..coord[1]..", "..coord[2]..", "..position.x..", "..position.y..") - ID: "..self_id.."\n")
 		found_in_sight = math.floor(isInSight(coord[1],coord[2],position.x,position.y))
-		io.write("[LUA] isInSight returned "..found_in_sight.." - ID: "..self_id.."\n")
+		--io.write("[LUA] isInSight returned "..found_in_sight.." - ID: "..self_id.."\n")
 
 		if (found_in_sight == 1) then
 			in_sight[coord] = true
@@ -141,9 +140,9 @@ function closestTarget()
 	if in_sight_len > 0 then
 		for coord, _ in pairs(in_sight) do
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
-			print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
+			--print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
 			if difference < min_difference then -- Aca muere, no hace mas nada
-				io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
+				--io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
 				min_difference = difference
 				closest_target = coord
 			end
@@ -151,23 +150,21 @@ function closestTarget()
 	else
 		for coord, _ in pairs(players) do
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
-			print(string.format("For (players) iteration (no players in sight) with diff: %s - ID: %s", difference, self_id))
+			--print(string.format("For (players) iteration (no players in sight) with diff: %s - ID: %s", difference, self_id))
 			if difference < min_difference then
-				io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
+				--io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
 				min_difference = difference
 				closest_target = coord
 			end
 		end
 	end
 
-	print(string.format("Finished closestTarget, calling simulatePlayer - ID: %s", self_id))
+	--print(string.format("Finished closestTarget, calling simulatePlayer - ID: %s", self_id))
 	simulatePlayer(closest_target[1], closest_target[2], min_difference)
-	return total_events
 end
 
 
 function createPicanazoEvent()
-	total_events = total_events + 1
 	table.insert(events, SHOOT)
 	table.insert(events, self_id)
 	table.insert(events, INVALID)
@@ -175,7 +172,6 @@ end
 
 function createRotateCameraEvent(amount, rotation)
 	for i = 1, amount do
-		total_events = total_events + 1
 		table.insert(events, TURN_CAMERA)
 		table.insert(events, self_id)
 		table.insert(events, rotation)
@@ -183,7 +179,6 @@ function createRotateCameraEvent(amount, rotation)
 end
 
 function createMoveEvent()
-	total_events = total_events + 1
 	table.insert(events, MOVE_PLAYER)
 	table.insert(events, self_id)
 	table.insert(events, MOVE_UP)
@@ -191,13 +186,12 @@ end
 
 
 function simulatePlayer(enemy_x, enemy_y, min_difference)
-	total_events = 0
 	events = {}
-	print(string.format("Entre a simulatePlayer - ID: %s", self_id))
+	--print(string.format("Entre a simulatePlayer - ID: %s", self_id))
 	for i=1,6 do
 		if playerInSight(enemy_x, enemy_y) and playerInRange(enemy_x, enemy_y) then
 			createPicanazoEvent()
-			print(string.format("LO VEOOOOOOOOOOOOO - ID: %s", self_id))
+			--print(string.format("LO VEOOOOOOOOOOOOO - ID: %s", self_id))
 			break
 		end
 		getDirectionAndMove(enemy_x, enemy_y, min_difference)
@@ -231,51 +225,50 @@ Las funciones de getDirectionAndMove usan el move to position del col handler
 
 funciones de crear eventos son llamadas por las funciones q mueven, devuelven
 eventos liso y llano con los ints
-
-]]--
+--]]
 
 function moveToPosition(x, y, angle)
 	local new_x, new_y = move(position.x, position.y, angle)
-	io.write("[LUA] moveToPosition new recv Coord: ("..math.floor(new_x)..", "..math.floor(new_y)..") - ID: "..self_id.."\n")
+	--io.write("[LUA] moveToPosition new recv Coord: ("..math.floor(new_x)..", "..math.floor(new_y)..") - ID: "..self_id.."\n")
 	return math.floor(new_x), math.floor(new_y)
 end
 
 function getDirectionAndMove(destiny_x, destiny_y, min_difference)
-	io.write("[LUA] Executing getDirectionAndMove with ("..destiny_x..", "..destiny_y..") and min_diff: "..min_difference.." - ID: "..self_id.."\n")
+	--io.write("[LUA] Executing getDirectionAndMove with ("..destiny_x..", "..destiny_y..") and min_diff: "..min_difference.." - ID: "..self_id.."\n")
 
 	-- Create all tries to move and get distances
 	local x_move_front, y_move_front = moveToPosition(position.x, position.y, angle)
 	local diff_front = getDiff(x_move_front, y_move_front, destiny_x, destiny_y)
 	if getDiff(x_move_front, y_move_front, position.x, position.y) == 0 then
-		io.write("diff_self_front is 0, changing to inf - ID: "..self_id.."\n")
+		--io.write("diff_self_front is 0, changing to inf - ID: "..self_id.."\n")
 		diff_front = math.huge
 	end
-	io.write("diff_front is now: "..diff_front.." - ID: "..self_id.."\n")
+	--io.write("diff_front is now: "..diff_front.." - ID: "..self_id.."\n")
 
 	local x_move_right, y_move_right = moveToPosition(position.x, position.y, angle - angle_turn)
 	local diff_right = getDiff(x_move_right, y_move_right, destiny_x, destiny_y)
 	if getDiff(x_move_right, y_move_right, position.x, position.y) == 0 then
-		io.write("diff_self_right is 0, changing to inf - ID: "..self_id.."\n")
+		--io.write("diff_self_right is 0, changing to inf - ID: "..self_id.."\n")
 		diff_right = math.huge
 	end
-	io.write("diff_right is now: "..diff_right.." - ID: "..self_id.."\n")
+	--io.write("diff_right is now: "..diff_right.." - ID: "..self_id.."\n")
 
 	local x_move_left, y_move_left = moveToPosition(position.x, position.y, angle + angle_turn)
 	local diff_left = getDiff(x_move_left, y_move_left, destiny_x, destiny_y)
 	if getDiff(x_move_left, y_move_left, position.x, position.y) == 0 then
-		io.write("diff_self_left is 0, changing to inf - ID: "..self_id.."\n")
+		--io.write("diff_self_left is 0, changing to inf - ID: "..self_id.."\n")
 		diff_left = math.huge
 	end
-	io.write("diff_left is now: "..diff_left.." - ID: "..self_id.."\n")
+	--io.write("diff_left is now: "..diff_left.." - ID: "..self_id.."\n")
 
 	-- Verify which is the lowest
 	if diff_front <= diff_left and diff_front <= diff_right and diff_front then
-		io.write("diff_front is the lowest: "..diff_front.." - ID: "..self_id.."\n")
-		print(string.format("Voy a avanzar derechito nomas culeado %s", self_id))
+		--io.write("diff_front is the lowest: "..diff_front.." - ID: "..self_id.."\n")
+		--print(string.format("Voy a avanzar derechito nomas culeado %s", self_id))
 		updatePosition(x_move_front, y_move_front)
 
 	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left then
-		io.write("diff_left is the lowest: "..diff_left.." - ID: "..self_id.."\n")
+		--io.write("diff_left is the lowest: "..diff_left.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(angle_turn)
 		local angle_moves = tryRotations(diff_left, destiny_x, destiny_y, 1)
 		createRotateCameraEvent(angle_moves + 1, CAMERA_LEFT) -- 1 es CAMERA_LEFT
@@ -283,7 +276,7 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 		updatePosition(x_move, y_move)
 
 	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right then
-		io.write("diff_right is the lowest: "..diff_right.." - ID: "..self_id.."\n")
+		--io.write("diff_right is the lowest: "..diff_right.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(-1*angle_turn)
 		local angle_moves = tryRotations(diff_right, destiny_x, destiny_y, -1)
 		createRotateCameraEvent(angle_moves + 1, CAMERA_RIGHT) -- -1 es CAMERA_RIGHT
@@ -314,7 +307,7 @@ function tryRotations(difference, destiny_x, destiny_y, rotation_factor)
 			break
 		end
 	end
-	io.write("Acumulador es: "..acum.." - ID: "..self_id.."\n")
+	--io.write("Acumulador es: "..acum.." - ID: "..self_id.."\n")
 	return acum
 end
 

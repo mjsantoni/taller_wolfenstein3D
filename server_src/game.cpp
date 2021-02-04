@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define MAX_PLAYERS 3
+#define MAX_PLAYERS 2
 #define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
@@ -17,7 +17,7 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            blockingItemHandler(map),
            shootHandler(map),
            botsManager(bm) {
-    addBot();
+    //addBot();
     addBot();
 }
 
