@@ -37,8 +37,10 @@ private:
     GameScreen screen;
     ClientParser client_parser;
     ClientEventHandler client_event_handler = ClientEventHandler(player,screen);
+    int game_level = 0;
     void displayIntro();
     int displayMatchModeMenu();
+    void displayLevelSelectionMenu();
 };
 
 

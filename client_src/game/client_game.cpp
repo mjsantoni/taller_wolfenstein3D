@@ -19,6 +19,7 @@ void ClientGame::start() {
     int game_mode = displayMatchModeMenu();
     if (game_mode != 1)
         return;
+    displayLevelSelectionMenu();
     int x = 235;
     int y = 329;
     event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
@@ -76,6 +77,21 @@ int ClientGame::displayMatchModeMenu() {
     audio_player.stopSong();
     return ret_code;
 }
+
+void ClientGame::displayLevelSelectionMenu() {
+    audio_player.playSong("../client_src/resources/music.wav");
+    screen.displayLevelSelectionMenu();
+    while (true) {
+        SDL_Delay(1);
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+        game_level = client_event_handler.handleLevelSelectionEvent(event);
+        if (game_level != 0)
+            break;
+    }
+    audio_player.stopSong();
+}
+
 
 void ClientGame::killPlayer() {
     //event_generator.stop();

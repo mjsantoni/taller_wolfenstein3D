@@ -52,7 +52,7 @@ Area ObjectHandler::findObjectProportions(ObjectInfo& object_info,
                                           double pl_ob_angle) {
     double distance = object_info.getHitDistance();
     distance *= cos(pl_ob_angle);
-    printf("Distancia del objeto: %f\n", distance);
+    //printf("Distancia del objeto: %f\n", distance);
     int x_pos = findXPosForObject(pl_ob_angle,
                           (int) (object_info.getObjectWidth() * map_grid_size));
     int object_height = findObjectHeight(distance,
@@ -61,7 +61,7 @@ Area ObjectHandler::findObjectProportions(ObjectInfo& object_info,
                           (int) (object_info.getObjectWidth() * map_grid_size));
     int ray_no = findRayNumberForAngle(pl_ob_angle);
     int y_pos = findYPosForObject(ray_no, pl_ob_angle, distance, object_height);
-    printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
+    //printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
     //printf("Se dibuja al objeto en la pos x: %d\n", x_pos);
     //printf("Se dibuja al objeto en la pos y: %d", y_pos);
     //printf(" con el piso empezando en la pos %d\n", floor_starting_point);
@@ -308,8 +308,8 @@ bool ObjectHandler::blockedByWall(double angle, double distance) {
     //printf("Distancia mas cercana final: %f\n", nearest_distance);
     bool object_blocked = nearest_distance < distance;
     if (object_blocked) {
-        printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
-        printf("Distancia del objeto: %f\n", distance);
+        //printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
+        //printf("Distancia del objeto: %f\n", distance);
         //printf("Angulo del objeto: %f\n", angle);
         //printf("Angulo usado: %f\n", angle_found);
         //printf("No se dibuja el objeto\n");
@@ -333,7 +333,7 @@ void ObjectHandler::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
     window.loadImage(texture, image_area, screen_area);
     SDL_DestroyTexture(texture);
-    printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
+    //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
     //printf("Distancia: %f\n", distance);
     //printf("Pos x: %d\n", screen_area.getX());
     //printf("Pos y: %d\n", screen_area.getY());

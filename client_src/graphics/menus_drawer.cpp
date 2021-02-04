@@ -9,8 +9,17 @@ MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {
     window_height = window.getHeight();
     match_mode_new_game_area = Area(window_width/8, window_height/8,
             window_width/6, window_height/8);
-    match_mode_join_game_area = Area(window_width/8, window_height/8,
+    match_mode_join_game_area = Area(6*window_width/8, window_height/8,
                                      window_width/6, window_height/8);
+    level_selection_easy =
+            Area(window_width/2 - window_width/4, 4 * window_height/10,
+                                     window_width/2, window_height/10);
+    level_selection_medium =
+            Area(window_width/2-window_width/4,6*window_height/10,
+                                window_width/2, window_height/10);
+    level_selection_hard =
+            Area(window_width/2-window_width/4, 8 * window_height/10,
+                                window_width/2, window_height/10);
 }
 
 void MenusDrawer::displayIntro() {
@@ -62,24 +71,53 @@ void MenusDrawer::fillTextArea(TTF_Font* font,
 
 void MenusDrawer::displayMatchModeMenu() {
     SdlTexture menu_tex("../client_src/resources/menus/match_mode_menu.jpg");
-    Area screen_area_1(window_width/8, window_height/8,
-                       window_width/6, window_height/8);
-    Area screen_area_2(6*window_width/8 , window_height/8,
-                       window_width/6, window_height/8);
     displayFullImage(menu_tex);
     std::string message_text_1 = "New Game";
     std::string message_text_2 = "Join Game";
     Area msg_area_1;
     Area msg_area_2;
     SDL_Texture* message_1 =
-            createMessage(message_text_1, msg_area_1, screen_area_1);
+            createMessage(message_text_1, msg_area_1,match_mode_join_game_area);
     SDL_Texture* message_2 =
-            createMessage(message_text_2, msg_area_2, screen_area_2);
-    window.loadImage(message_1, msg_area_1, screen_area_1);
-    window.loadImage(message_2, msg_area_2, screen_area_2);
+            createMessage(message_text_2, msg_area_2,match_mode_join_game_area);
+    window.loadImage(message_1, msg_area_1, match_mode_new_game_area);
+    window.loadImage(message_2, msg_area_2, match_mode_join_game_area);
     window.render();
 }
 
 std::vector<Area> MenusDrawer::getKeyAreas() {
-    return std::vector<Area>{match_mode_new_game_area,match_mode_new_game_area};
+    return std::vector<Area>{match_mode_new_game_area,
+                             match_mode_join_game_area,
+                             level_selection_easy,
+                             level_selection_medium,
+                             level_selection_hard
+                             };
+}
+
+void MenusDrawer::displayLevelSelectionMenu() {
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 0, 0, 0, 0);
+    std::string intro = "Choose your level";
+    std::string level_1_text = "Easy";
+    std::string level_2_text = "Medium";
+    std::string level_3_text = "Hard";
+    Area intro_msg_area;
+    Area screen_msg_area(window_width/2-window_width/4, window_height/10,
+                         window_width/2, window_height/5);
+    Area msg_area_1;
+    Area msg_area_2;
+    Area msg_area_3;
+    SDL_Texture* intro_message =
+            createMessage(intro, intro_msg_area, screen_msg_area);
+    SDL_Texture* message_1 =
+            createMessage(level_1_text, msg_area_1, level_selection_easy);
+    SDL_Texture* message_2 =
+            createMessage(level_2_text, msg_area_2, level_selection_medium);
+    SDL_Texture* message_3 =
+            createMessage(level_3_text, msg_area_3,level_selection_hard);
+    window.loadImage(intro_message, intro_msg_area, screen_msg_area);
+    window.loadImage(message_1, msg_area_1, level_selection_easy);
+    window.loadImage(message_2, msg_area_2, level_selection_medium);
+    window.loadImage(message_3, msg_area_3, level_selection_hard);
+    window.render();
 }

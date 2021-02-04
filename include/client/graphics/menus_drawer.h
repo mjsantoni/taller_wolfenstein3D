@@ -15,6 +15,9 @@ private:
     bool active = true;
     Area match_mode_new_game_area;
     Area match_mode_join_game_area;
+    Area level_selection_easy;
+    Area level_selection_medium;
+    Area level_selection_hard;
 public:
     explicit MenusDrawer(SdlWindow& _window);
     void displayIntro();
@@ -23,8 +26,10 @@ public:
     void fillTextArea(TTF_Font *font, const std::string &message,
                       Area &screen_area);
     void displayMatchModeMenu();
+    void displayLevelSelectionMenu();
     void displayFullImage(SdlTexture &texture);
     std::vector<Area> getKeyAreas();
+
 };
 
 

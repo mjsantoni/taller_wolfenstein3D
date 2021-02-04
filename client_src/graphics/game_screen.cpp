@@ -53,4 +53,8 @@ std::vector<Area> GameScreen::getKeyScreenAreas() {
     return menus_drawer.getKeyAreas();
 }
 
+void GameScreen::displayLevelSelectionMenu() {
+    return menus_drawer.displayLevelSelectionMenu();
+}
+
 

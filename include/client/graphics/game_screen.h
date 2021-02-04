@@ -34,6 +34,7 @@ public:
     void close();
     void displayIntro();
     void displayMatchModeMenu();
+    void displayLevelSelectionMenu();
 
     std::vector<Area> getKeyScreenAreas();
 };

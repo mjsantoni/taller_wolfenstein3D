@@ -77,10 +77,10 @@ void EventHandlerMock::handleEvent(SDL_Event event, ClientPlayer& player, bool &
         std::pair<int, int> grid = map.calculateGrid(x, y);
         map.update(player, x, y);
         grid = map.calculateGrid(x, y);
-        printf("El jugador se movio hacia: (%d, %d) y mira en direccion %f\n", x, y, player.getDirection());
+        //printf("El jugador se movio hacia: (%d, %d) y mira en direccion %f\n", x, y, player.getDirection());
     }
-    else
-        puts("El jugador no se movio ni giro\n");
+    //else
+        //puts("El jugador no se movio ni giro\n");
 }
 
 void EventHandlerMock::calculateMovement(int& x, int& y, double alpha){
