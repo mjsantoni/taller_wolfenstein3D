@@ -6,7 +6,7 @@
 Map::Map() {}
 Map::~Map() {}
 
-Map::Map(int player_max_spawn_count) {
+Map::Map(int player_max_spawn_count) : max_players(player_max_spawn_count) {
     player_spawns.resize(player_max_spawn_count);
     player_positions.resize(player_max_spawn_count);
 }
@@ -159,6 +159,7 @@ void Map::addPlayerSpawns(std::unordered_map<std::string,
         std::vector<Coordinate>>& spawns) {
     for (auto& type : spawns) {
         for (auto& coord : type.second) {
+            if (std::stoi(type.first) >= max_players) break;
             coord.x = (coord.x * grid_size) + (int) grid_size/2;
             coord.y = (coord.y * grid_size) + (int) grid_size/2;
             player_spawns[std::stoi(type.first)] = coord;
