@@ -106,10 +106,11 @@ int Game::pushWall(int id) {
     /* Exito, hay pared falsa, devuelvo ID */
     return map.getBlockingItemAt(wall_to_push).getId();
 }
-
-void Game::rotate(int id, double angle) {
+#define ANGLE (M_PI/4)
+void Game::rotate(int id, int rotation) {
     Player& player = players[id];
-    player.addAngle(angle);
+
+    player.addAngle(rotation*ANGLE);
 }
 
 void Game::changeGun(int id, int hotkey) {

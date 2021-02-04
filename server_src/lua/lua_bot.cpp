@@ -170,7 +170,7 @@ void LuaBot::printMap() {
 }
 
 void LuaBot::changeGun(int hotkey) {
-    //eventQueue.push(Event(CHANGE_GUN, id, hotkey));
+    eventQueue.push(Event(CHANGE_GUN, id, hotkey));
     if (player.hasGun(hotkey)) {
         setGunRange(player.getGun(hotkey).getRange());
     }

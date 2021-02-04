@@ -124,7 +124,7 @@ end
 function getDiff(x_old, y_old, x_new, y_new)
 	local x_diff = math.abs(x_old - x_new)
 	local y_diff = math.abs(y_old - y_new)
-	return math.sqrt(x_diff + y_diff)
+	return (x_diff + y_diff)
 end
 
 ----------------------------------- SIMULATE -----------------------------------
@@ -281,13 +281,23 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 	end
 	io.write("diff_left is now: "..diff_left.." - ID: "..self_id.."\n")
 
+	local turns_needed_to_back = math.floor(1 / (angle_turn / math.pi))
+	io.write("ANGULOS PARA BACK"..turns_needed_to_back.." \n")
+	local x_move_back, y_move_back = moveToPosition(position.x, position.y, angle + turns_needed_to_back*angle_turn)
+	local diff_back = getDiff(x_move_back, y_move_back, destiny_x, destiny_y)
+	if getDiff(x_move_back, y_move_back, position.x, position.y) == 0 then
+		io.write("diff_self_back is 0, changing to inf\n")
+		diff_back = math.huge
+	end
+	io.write("diff_back is now: "..diff_back.."\n")
+
 	-- Verify which is the lowest
-	if diff_front <= diff_left and diff_front <= diff_right and diff_front then
+	if diff_front <= diff_left and diff_front <= diff_right and diff_front <= diff_back then
 		io.write("diff_front is the lowest: "..diff_front.." - ID: "..self_id.."\n")
 		print(string.format("Voy a avanzar derechito nomas culeado %s", self_id))
 		updatePosition(x_move_front, y_move_front)
 
-	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left then
+	elseif diff_left <= diff_front and diff_left <= diff_right and diff_left <= diff_back then
 		io.write("diff_left is the lowest: "..diff_left.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(angle_turn)
 		local angle_moves = tryRotations(diff_left, destiny_x, destiny_y, 1)
@@ -295,13 +305,18 @@ function getDirectionAndMove(destiny_x, destiny_y, min_difference)
 		local x_move, y_move = moveToPosition(position.x, position.y, angle)
 		updatePosition(x_move, y_move)
 
-	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right then
+	elseif diff_right <= diff_front and diff_right <= diff_left and diff_right <= diff_back then
 		io.write("diff_right is the lowest: "..diff_right.." - ID: "..self_id.."\n")
 		angle = addAngleToCurrent(-1*angle_turn)
 		local angle_moves = tryRotations(diff_right, destiny_x, destiny_y, -1)
 		createRotateCameraEvent(angle_moves + 1, CAMERA_RIGHT) -- -1 es CAMERA_RIGHT
 		local x_move, y_move = moveToPosition(position.x, position.y, angle)
 		updatePosition(x_move, y_move)
+	else
+		io.write("diff_back is the lowest: "..diff_back.."\n")
+		angle = addAngleToCurrent(turns_needed_to_back*angle_turn)
+		createRotateCameraEvent(turns_needed_to_back, CAMERA_LEFT)
+		updatePosition(x_move_back, y_move_back)
 	end
 	createMoveEvent()
 

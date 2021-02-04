@@ -61,7 +61,7 @@ public:
     std::pair<Hit, std::vector<Change>> shoot(int id);
     std::pair<bool, int> openDoor(int id);
     int pushWall(int id);
-    void rotate(int id, double angle);
+    void rotate(int id, int rotation);
     void changeGun(int id, int hotkey);
     void playerIsReady(int i);
 
