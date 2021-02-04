@@ -22,7 +22,7 @@ public:
     void addBot(Player& player) {
         LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv, sharedQueue);
         bot->setGridSize(64); // map.getGridSize()
-        bot->setAngleTurn(M_PI / 8);
+        bot->setAngleTurn(M_PI / 4);
         bot->start();
         bots.push_back(bot);
     }
@@ -49,9 +49,9 @@ public:
 
     void releaseBots(Map& map, std::vector<Player>& players) {
         for (auto& bot : bots) {
+            bot->updatePosition(map.getPlayerPosition(bot->getId()));
             bot->cleanMap();
             sendMapToBot(bot, map, players);
-            bot->updatePosition(map.getPlayerPosition(bot->getId()));
         }
         cv.notify_all();
     }

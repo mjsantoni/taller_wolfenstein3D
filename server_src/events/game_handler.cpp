@@ -1,7 +1,7 @@
 #include "server/events/game_handler.h"
 #include <unistd.h>
 
-#define MAX_EVENTS 5
+#define MAX_EVENTS 100
 
 GameHandler::GameHandler(std::string map_path,
                          std::string config_path) :
@@ -23,12 +23,16 @@ void GameHandler::run() {
     //sleep(3); // para cargar los HUDs y eso ?
     while (game.isNotOver() && alive) {
         int total_events = 0;
-        Event event = eventQueue.pop();
-        while (total_events < MAX_EVENTS && !event.isInvalid()) {
-            //std::cout << "El evento que salio es de: " << event.getEventID() << "\n";
+
+        while (total_events < MAX_EVENTS) {
+            Event event = eventQueue.pop();
+            if (event.isInvalid()) {
+                std::cout << "INVALIDOOOO\n";
+                break;
+            }
+            std::cout << "El evento que salio es de: " << event.getEventID() << "\n";
             std::vector<Change> changes = eventProcessor.process(event);
             notifyClients(changes);
-            event = eventQueue.pop();
             total_events++;
         }
         //game.show();

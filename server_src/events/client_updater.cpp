@@ -6,7 +6,7 @@ ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id) :
                             change_queue(Change()),
                             player_id(id),
                             alive(true) {
-    std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
+    //std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
 }
 
 ClientUpdater::~ClientUpdater() {}
@@ -16,8 +16,8 @@ void ClientUpdater::run() {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;
         if (change.isGlobal() || change.getPlayerID() == player_id) {
-            std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
-            std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
+            //std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
+            //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
             skt.sendMsg(change.serialize());
         }
     }

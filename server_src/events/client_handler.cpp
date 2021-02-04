@@ -25,13 +25,13 @@ bool probability(float prob) {
 void ClientHandler::run() {
     while (alive) {
         /* Es un simulador de eventos para testear */
-        bool create_random_event = probability(0.5);
+        bool create_random_event = false;
         if (create_random_event) {
             std::random_device dev;
             std::mt19937 rng(dev());
             std::uniform_int_distribution<std::mt19937::result_type> dist10(2,8);
             Event event(dist10(rng),player_id,0);
-            std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
+            //std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
             eventFactory.pushNewEvent(event);
         }
         sleep(1);
