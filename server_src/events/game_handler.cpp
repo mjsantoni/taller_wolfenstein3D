@@ -33,28 +33,26 @@ void GameHandler::run() {
         //game.show();
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
-        sleep(5);
+        sleep(2);
     }
     std::cout << "Termino la partida!!!!\n";
 }
 
 void GameHandler::notifyClients(std::vector<Change>& changes) {
+
     for (auto& change : changes) {
-        for (auto &client : clients)
-            client->update(change);
+        clientsManager.notifyClients(change);
     }
 }
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     int id = game.connectPlayer();
-    Client* client = new Client(std::move(socket),eventQueue,id);
-    clients.push_back(client);
+    clientsManager.addNewPlayer(std::move(socket), id, eventQueue);
+    //eventQueue.push(Event(CONNECT_PLAYER, id, INVALID));
+    // enviar el mapa al cliente a traves del client updater
 }
 
 void GameHandler::stop() {
-    for(auto& client : clients) {
-        client->stop();
-        delete client;
-    }
+    clientsManager.killPlayers();
     alive = false;
 }

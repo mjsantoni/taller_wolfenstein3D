@@ -47,7 +47,6 @@ private:
     int players_alive = 0;
 
     /* Bot stuff */
-    std::atomic<bool> hold_bots;
     std::mutex m;
     std::condition_variable cv;
 

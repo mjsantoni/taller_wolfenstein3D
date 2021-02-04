@@ -15,13 +15,16 @@
 
 #include "common/network_connection.h"
 #include "server/game/client.h"
+#include "../server_src/clients_manager.h"
 
 class GameHandler : public Thread {
 private:
     //SharedQueue<Event> eventQueue;
-    std::vector<Client*> clients;
+    ClientsManager clientsManager;
     EventProcessor eventProcessor;
     std::atomic<bool> alive;
+    std::mutex m;
+    std::condition_variable cv;
 
 public:
     Game game;
@@ -34,6 +37,7 @@ public:
     void stop();
 
     void notifyClients(std::vector<Change> &changes);
+
 };
 
 

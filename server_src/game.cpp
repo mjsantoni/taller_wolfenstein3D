@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define MAX_PLAYERS 3
+#define MAX_PLAYERS 2
 #define MAX_DOOR_OPEN 5
 
 Game::Game(std::string map_path, std::string config_path) :
@@ -19,6 +19,7 @@ Game::Game(std::string map_path, std::string config_path) :
 }
 
 Game::~Game() {
+    /*
     std::cout << "DESTRUCTOR DE GAME -> MATA BOTS\n";
     for (auto& bot : bots) {
         bot->stop();
@@ -27,12 +28,14 @@ Game::~Game() {
     for (auto& bot : bots) {
         bot->join();
     }
+     */
 }
 
 
 /* RECEIVED EVENTS */
 
 int Game::connectPlayer() {
+    std::unique_lock<std::mutex> lock(m);
     Player player(std::to_string(players_ids), players_ids,
                   configParser.getSpecificCategory("player", "max_bullets"),
                   configParser.getSpecificCategory("player", "max_hp"),
@@ -123,6 +126,7 @@ void Game::changeGun(int id, int hotkey) {
 /* GAME CHECK */
 
 bool Game::isNotOver() {
+    std::unique_lock<std::mutex> lock(m);
     if (players_alive <= 1) return false;
 
     /* Se termina por tiempo */
@@ -134,12 +138,14 @@ bool Game::isNotOver() {
 }
 
 int Game::getPlayersAlive() {
+    std::unique_lock<std::mutex> lock(m);
     return players_alive;
 }
 
 /* GAME CHANGERS */
 
 void Game::playerDies(Hit& hit) {
+    std::unique_lock<std::mutex> lock(m);
     std::vector<std::pair<int, bool>> dead_respawn_players; //(id, muere y respawnea o no) (para clientes)
     for (auto& dead_player : hit.getDeadPlayers()) {
         if (players[dead_player].dieAndRespawn()) {
@@ -206,9 +212,13 @@ std::vector<Change> Game::passTime() {
 
 void Game::show() { map.show(); }
 
-void Game::playerIsReady(int id) { players_ready.insert(id); }
+void Game::playerIsReady(int id) {
+    std::unique_lock<std::mutex> lock(m);
+    players_ready.insert(id);
+}
 
 bool Game::isReady() {
+    std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
     return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.8));
 }
@@ -239,26 +249,24 @@ void Game::sendMapToBot(LuaBot* bot) {
 void Game::sendStartDataToBot(LuaBot* bot) {
     bot->setGridSize(64); // map.getGridSize()
     bot->setAngleTurn(M_PI / 8); // alguien.getRotation()
-    bot->updatePosition(map.getPlayerPosition(bot->getId()));
+
 }
 
 void Game::addBot() {
     int bot_id = connectPlayer();
     LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", players[bot_id], cv);
     sendStartDataToBot(bot);
-    sendMapToBot(bot);
+    //sendMapToBot(bot);
     bot->start();
     bots.push_back(bot);
-    /*
-    // Necesito updatear el mapa!!!!
-    std::cout << "Updateo mapa para todo bot\n";
-    for (auto& botito : bots) {
-        //botito->cleanMap(); // esto anda
-        //sendMapToBot(botito); // si hago esto tira ERROR 66 ???????
-    }
-     */
+
 }
 
 void Game::releaseBots() {
+    for (auto& bot : bots) {
+        bot->cleanMap(); // esto anda
+        sendMapToBot(bot);
+        bot->updatePosition(map.getPlayerPosition(bot->getId()));
+    }
     cv.notify_all();
 }

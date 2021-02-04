@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "common/network_acceptor.h"
 #include "common/network_error.h"
-/*
+
 int main(int argc, char* args[]) {
     GameHandler gameHandler("../map.yaml", "../config.yaml");
     gameHandler.start();
@@ -20,13 +20,13 @@ int main(int argc, char* args[]) {
             continue;
         }
     }
-    sleep(80);
+    sleep(20);
     gameHandler.stop();
     gameHandler.join();
     return 0;
 }
-*/
 
+/*
 int main() {
     Game game("../map.yaml", "../config.yaml");
     //game.movePlayer(1);
@@ -41,7 +41,7 @@ int main() {
     sleep(7);
 
 }
-
+*/
 /* GENERADOR DEL CONFIG.YAML */ /*
 #include "yaml-cpp/yaml.h"
 int main() {

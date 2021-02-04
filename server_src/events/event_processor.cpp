@@ -12,8 +12,8 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
     switch (id) {
         case (CONNECT_PLAYER): {
-            int id_new_player = game.connectPlayer();
-            changes.emplace_back(ADD_PLAYER, id_new_player, INVALID, INVALID, true);
+            //int id_new_player = game.connectPlayer();
+            changes.emplace_back(ADD_PLAYER, player_id, INVALID, INVALID, true);
             // Falta evento de enviar el mapa entero al conectarse
             break;
         }
