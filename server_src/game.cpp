@@ -48,7 +48,7 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
     std::vector<Positionable> erased_positionables;
     Player& player = players[id];
     double angle = player.getAngle();
-    Coordinate old_pos = map.getPlayerPosition(std::stoi(player.getPlayerName()));
+    Coordinate old_pos = map.getPlayerPosition(player.getID());
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
 
     std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
