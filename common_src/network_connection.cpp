@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #define BUFFER_LENGTH 64
 
@@ -73,7 +74,7 @@ void NetworkConnection::connectTo(struct addrinfo* addr_results) {
     }
     freeaddrinfo(addr_results);
 }
-
+/*
 void NetworkConnection::sendMsg(const std::string& message) {
     sendMsg(message.c_str(), message.size());
 }
@@ -91,8 +92,61 @@ void NetworkConnection::sendMsg(const char* message, size_t message_length) {
         }
         total_bytes_sent += bytes_sent;
     }
+}*/
+void NetworkConnection::send_size(std::uint32_t len) {
+    size_t total_bytes = 0;
+    while (total_bytes < sizeof(std::uint32_t)) {
+        int bytes = send(this->file_descriptor, &((char*)&len)[total_bytes],
+                         sizeof(std::uint32_t) - total_bytes, MSG_NOSIGNAL);
+        if (bytes == -1) return;
+        total_bytes += bytes;
+    }
 }
 
+int NetworkConnection::send_msg(std::string msg) {
+    int len = msg.length();
+    send_size(len);
+    size_t total_bytes = 0;
+    while (total_bytes < len) {
+        int bytes =
+                send(this->file_descriptor, &msg[total_bytes], len - total_bytes, MSG_NOSIGNAL);
+        if (bytes == -1) return 1;
+        total_bytes += bytes;
+    }
+    return 0;
+}
+
+std::uint32_t NetworkConnection::recv_size() {
+    std::uint32_t len;
+    size_t total_bytes = 0;
+    while (total_bytes < sizeof(std::uint32_t)) {
+        int bytes = recv(this->file_descriptor, &((char*)&len)[total_bytes],
+                         sizeof(std::uint32_t) - total_bytes, 0);
+        if (bytes == -1) return 1;
+        total_bytes += bytes;
+    }
+    return len;
+}
+
+int NetworkConnection::recv_msg(std::string& buffer) {
+    std::uint32_t len = recv_size();
+    size_t total_bytes = 0;
+    while (total_bytes < len) {
+        std::vector<char> tmp_buf(64);
+        int bytes = recv(this->file_descriptor, tmp_buf.data(), tmp_buf.size(), 0);
+        if (bytes == -1) return 1;
+        buffer.append(tmp_buf.begin(), tmp_buf.end());
+        total_bytes += bytes;
+    }
+    return 0;
+}
+
+
+
+
+
+
+/*
 std::string NetworkConnection::recvMsg() {
     ssize_t bytes_recv = -1;
     std::string message;
@@ -109,6 +163,7 @@ std::string NetworkConnection::recvMsg() {
 size_t NetworkConnection::recvMsg(char* message, size_t buff_length) {
     size_t total_bytes_recv = 0;
     while (total_bytes_recv < buff_length) {
+        printf("Toy dentro del while del skt\n");
         ssize_t bytes_recv = recv(this->file_descriptor, 
                                  &message[total_bytes_recv], 
                                  buff_length - total_bytes_recv, 0);
@@ -120,7 +175,7 @@ size_t NetworkConnection::recvMsg(char* message, size_t buff_length) {
         total_bytes_recv += bytes_recv;
     }
     return total_bytes_recv;
-}
+}*/
 
 bool NetworkConnection::isValid() const {
     return this->file_descriptor != -1;

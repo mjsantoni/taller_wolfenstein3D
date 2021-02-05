@@ -25,7 +25,10 @@ void ClientHandler::run() {
         /* Es un simulador de eventos para testear */
         bool create_random_event = true;
         if (create_random_event) {
-            std::string msg = skt.recvMsg();
+            std::string msg;
+            std::cout << "Voy a recibir\n";
+            skt.recv_msg(msg);
+            std::cout << "recibi: " << msg << "\n";
             eventFactory.createAndPushFromBytes(const_cast<char *>(msg.c_str()));
             //std::random_device dev;
             //std::mt19937 rng(dev());

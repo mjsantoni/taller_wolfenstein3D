@@ -17,7 +17,7 @@ void ClientUpdater::sendMap(std::map<Coordinate, Positionable> map) {
         int y = elem.first.y;
         int id = elem.second.getId();
         Change change(MAP_INITIALIZER, id, x, y, false);
-        skt.sendMsg(change.serialize());
+        skt.send_msg(change.serialize());
     }
 }
 
@@ -29,7 +29,7 @@ void ClientUpdater::run() {
         if (change.isGlobal() || change.getPlayerID() == player_id) {
             //std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
             //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
-            skt.sendMsg(change.serialize());
+            skt.send_msg(change.serialize());
         }
     }
 }

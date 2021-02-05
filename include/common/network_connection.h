@@ -76,5 +76,13 @@ public:
     /* Destructor por defecto del controlador de red. Cierra el socket
     si aun sigue siendo valido. */
     ~NetworkConnection();
+
+    void send_size(uint32_t len);
+
+    int send_msg(std::string msg);
+
+    uint32_t recv_size();
+
+    int recv_msg(std::string &buffer);
 };
 #endif // NETWORK_CONNECTION_H
