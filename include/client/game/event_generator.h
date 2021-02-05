@@ -18,8 +18,10 @@ private:
     bool is_running = true;
     ClientPlayer& player;
     ClientEventHandler& event_handler;
-    ServerUpdater& event_updater;
+    ServerUpdater& server_updater;
 public:
+    EventGenerator(ClientPlayer& _player, ClientEventHandler& _event_handler,
+                   ServerUpdater& _server_updater);
     void stop();
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);

@@ -73,6 +73,14 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     }
     if (event.isInvalid())
         return;
-    event_updater.update(event);
+    server_updater.update(event);
+}
+
+EventGenerator::EventGenerator(ClientPlayer &_player,
+                               ClientEventHandler &_event_handler,
+                               ServerUpdater &_server_updater) :
+                               player(_player),
+                               event_handler(_event_handler),
+                               server_updater(_server_updater){
 }
 

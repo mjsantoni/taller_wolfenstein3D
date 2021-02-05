@@ -19,10 +19,12 @@ void ServerUpdater::run() {
         Event event = event_queue.pop();
         if (event.isInvalid()) continue;
         skt.sendMsg(event.serialize());
+        std::cout << "El evento " << event.getEventID() << " se envio al socket\n";
     }
 }
 
 void ServerUpdater::update(Event event) {
+    std::cout << "Se envia a la cola de eventos el evento "<< event.getEventID() << " del jugador " << event.getPlayerID() << " con valor " << event.getValue()  << std::endl;
     event_queue.push(event);
 }
 

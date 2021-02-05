@@ -84,6 +84,7 @@ void ImageParser::processLine(std::vector<ObjectInfo>& vector,
     if (object_info.isSprite())
         getSpriteInfo(object_info, aux[7], aux[8]);
     object_info.setObjectWidth(stof(getCorrectValue(aux[1])));
+    object_info.setObjectHeight(stof(getCorrectValue(aux[2])));
     object_info.setObjectType(object_type);
     vector.push_back(std::move(object_info));
 }

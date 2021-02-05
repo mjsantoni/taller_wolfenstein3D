@@ -8,9 +8,11 @@
 #include "client/game/client_game.h"
 
 ClientGame::ClientGame(int width, int height, MapMock real_map,
-                       ClientMap& _map) :
-                            running(true), event_handler(real_map), map(_map),
-                            screen(width, height, info_provider, _map) {
+                       ClientMap& _map, ServerUpdater& _server_updater) :
+        running(true), event_handler_mockup(real_map), map(_map),
+        screen(width, height, info_provider, _map),
+        event_generator(player, client_event_handler,
+                                            _server_updater){
     client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
@@ -22,16 +24,17 @@ void ClientGame::start() {
     displayLevelSelectionMenu();
     int x = 235;
     int y = 329;
-    event_handler.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x,y));
+    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
     screen.render(x, y, player);
     while (running) {
         bool must_render = false;
         SDL_Event event;
         SDL_PollEvent(&event);
+        event_generator.generateInGameEvent(event);
         switch(event.type) {
             case SDL_KEYDOWN:
-                event_handler.handleEvent(event, player, running, x, y);
+                event_handler_mockup.handleEvent(event, player, running, x, y);
                 must_render = true;
                 break;
             case SDL_MOUSEMOTION:
@@ -53,6 +56,7 @@ void ClientGame::displayIntro() {
         SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
+        event_generator.generateInGameEvent(event);
         switch(event.type) {
             case SDL_KEYDOWN:
                 run_intro = false;
@@ -102,3 +106,5 @@ void ClientGame::respawnPlayer() {
     player.respawn();
     screen.renderRespawnScreen();
 }
+
+

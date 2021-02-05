@@ -13,7 +13,7 @@ void MapInfo::setObjectWidth(double _object_width) {
 }
 
 double MapInfo::getObjectHeight() const {
-    return object_width;
+    return object_height;
 }
 
 void MapInfo::setObjectHeight(double _object_height) {

@@ -16,13 +16,14 @@
 #include "client/graphics/game_screen.h"
 #include "client/communication/client_parser.h"
 #include "client_event_handler.h"
+#include "event_generator.h"
 
 #include <vector>
 
 class ClientGame {
 public:
     ClientGame(int map_width, int map_height, MapMock real_map,
-               ClientMap& _map);
+               ClientMap& _map, ServerUpdater& server_updater);
     void start();
     void killPlayer();
     void respawnPlayer();
@@ -31,8 +32,8 @@ private:
     bool running;
     SdlAudioPlayer audio_player;
     ClientMap map;
-    EventHandlerMock event_handler;
-    //EventGenerator event_generator;
+    EventHandlerMock event_handler_mockup;
+    EventGenerator event_generator;
     ObjectInfoProvider info_provider;
     GameScreen screen;
     ClientParser client_parser;

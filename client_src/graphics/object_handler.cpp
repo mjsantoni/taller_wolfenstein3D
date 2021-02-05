@@ -197,6 +197,8 @@ void ObjectHandler::renderObject(int x_pos, int y_pos, double player_angle,
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     put3DObject(object_info, pl_ob_angle);
+    //if (isEnemy(object_info))
+        //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);
 }
 
 double ObjectHandler::calculateObjectStartingXPos(double os_angle,

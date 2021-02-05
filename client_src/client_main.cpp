@@ -5,7 +5,8 @@
 #include <client/game/client.h>
 
 int main() {
-    Client client;
+    NetworkConnection socket("localhost", "8080");
+    Client client(socket);
     client.start();
     while(client.isRunning()) {}
     client.stop();
