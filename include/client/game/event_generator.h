@@ -11,14 +11,14 @@
 #include <common/blocking_queue.h>
 #include "client_player.h"
 #include "client_event_handler.h"
-#include "client/event_updater.h"
+#include "client/communication/server_updater.h"
 
 class EventGenerator {
 private:
     bool is_running = true;
     ClientPlayer& player;
     ClientEventHandler& event_handler;
-    EventUpdater& event_updater;
+    ServerUpdater& event_updater;
 public:
     void stop();
     //Event parseEvent(SDL_Event event);

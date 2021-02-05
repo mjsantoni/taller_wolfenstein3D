@@ -2,7 +2,7 @@
 // Created by andy on 10/12/20.
 //
 
-#include "client/game/client_parser.h"
+#include "client/communication/client_parser.h"
 
 ClientMap ClientParser::parseInfoFromServer() {
     ClientMap map(15, 20, 64);

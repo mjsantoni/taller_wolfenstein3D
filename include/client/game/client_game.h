@@ -14,7 +14,7 @@
 #include "client_map.h"
 #include "sdl_audio_player.h"
 #include "client/graphics/game_screen.h"
-#include "client_parser.h"
+#include "client/communication/client_parser.h"
 #include "client_event_handler.h"
 
 #include <vector>

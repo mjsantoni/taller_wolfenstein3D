@@ -9,7 +9,6 @@
 class MapParser {
     private:
 
-
     public:
         YAML::Node config;
         explicit MapParser(std::string path);

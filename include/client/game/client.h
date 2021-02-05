@@ -4,7 +4,7 @@
 #include <vector>
 #include <atomic>
 #include "common/thread.h"
-#include "client_parser.h"
+#include "client/communication/client_parser.h"
 #include "map_mock.h"
 #include "client_game.h"
 
