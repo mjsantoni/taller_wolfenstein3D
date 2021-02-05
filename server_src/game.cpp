@@ -18,7 +18,7 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            shootHandler(map),
            botsManager(bm) {
     //addBot();
-    addBot();
+    //addBot();
 }
 
 Game::~Game() {

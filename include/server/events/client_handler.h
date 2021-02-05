@@ -3,17 +3,18 @@
 
 #include "common/thread.h"
 #include "common/event_factory.h"
+#include "common/network_connection.h"
 #include <atomic>
 
 class ClientHandler : public Thread {
 private:
-    //NetworkConnection& skt;
+    NetworkConnection& skt;
     EventFactory eventFactory;
     std::atomic<bool> alive;
     int player_id;
 
 public:
-    explicit ClientHandler(SharedQueue<Event> &event_queue, int id);
+    explicit ClientHandler(NetworkConnection& _skt, SharedQueue<Event> &event_queue, int id);
     ~ClientHandler();
 
     void run() override;
