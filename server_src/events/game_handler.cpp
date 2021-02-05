@@ -52,8 +52,10 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 }
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
-    int id = game.connectPlayer();
-    clientsManager.addNewPlayer(std::move(socket), id, eventQueue);
+    std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();
+    int id = data.first;
+    std::map<Coordinate, Positionable> map = data.second;
+    clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
     //eventQueue.push(Event(CONNECT_PLAYER, id, INVALID));
     // enviar el mapa al cliente a traves del client updater
 }

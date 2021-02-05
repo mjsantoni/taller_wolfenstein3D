@@ -28,7 +28,7 @@ Game::~Game() {
 
 /* RECEIVED EVENTS */
 
-int Game::connectPlayer() {
+std::pair<int,std::map<Coordinate, Positionable>> Game::connectPlayer() {
     std::unique_lock<std::mutex> lock(m);
     Player player(std::to_string(players_ids), players_ids,
                   configParser.getSpecificCategory("player", "max_bullets"),
@@ -41,7 +41,8 @@ int Game::connectPlayer() {
     players_ids++;
     players_alive++;
     std::cout << "Player " << player.getID() << " connected to game.\n";
-    return player.getID(); // return players_ids - 1;
+    std::map<Coordinate, Positionable> board = map.getBoard();
+    return std::make_pair(player.getID(), board);
 }
 
 std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
@@ -221,8 +222,8 @@ bool Game::isReady() {
 /* LUA SCRIPT */
 
 void Game::addBot() {
-    int bot_id = connectPlayer();
-    botsManager.addBot(players[bot_id]);
+    std::pair<int,std::map<Coordinate, Positionable>> data = connectPlayer();
+    botsManager.addBot(players[data.first]);
 }
 
 void Game::releaseBots() {

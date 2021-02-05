@@ -11,6 +11,17 @@ ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id) :
 
 ClientUpdater::~ClientUpdater() {}
 
+void ClientUpdater::sendMap(std::map<Coordinate, Positionable> map) {
+    for (auto& elem : map) {
+        int x = elem.first.x;
+        int y = elem.first.y;
+        int id = elem.second.getId();
+        Change change(MAP_INITIALIZER, id, x, y, false);
+        skt.sendMsg(change.serialize());
+    }
+}
+
+
 void ClientUpdater::run() {
     while (alive) {
         Change change = change_queue.pop();

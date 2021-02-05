@@ -45,7 +45,7 @@ public:
     int getGlobalID();
     Coordinate getPlayerPosition(int id);
     int getPlayerIDAtPosition(Coordinate coord);
-    std::map<Coordinate, Positionable>& getBoard();
+    std::map<Coordinate, Positionable> getBoard();
 
     /* ERASERS */
 
