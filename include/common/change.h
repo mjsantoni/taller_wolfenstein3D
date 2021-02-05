@@ -20,6 +20,14 @@ public:
             value2(_value2),
             is_global(_is_global) {}
 
+    // Constructor para el lado del cliente
+    Change(int _change_id, int _id, int _value1, int _value2) :
+            change_id(_change_id),
+            id(_id),
+            value1(_value1),
+            value2(_value2),
+            is_global(true) {}
+
     Change() : change_id(INVALID),
                id(INVALID),
                value1(INVALID),

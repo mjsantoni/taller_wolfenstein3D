@@ -13,7 +13,11 @@ void EventHandlerMock::putPlayerAt(std::string player_name, std::pair<int, int> 
     map.putPlayerAt(player_name, coord);
 }
 
-void EventHandlerMock::handleEvent(SDL_Event event, ClientPlayer& player, bool &running, int& x, int& y) {
+void EventHandlerMock::handleEvent(SDL_Event event,
+                                   ClientPlayer& player,
+                                   std::atomic<bool> &running,
+                                   int& x,
+                                   int& y) {
     bool must_update = false;
     double delta_alpha;
     std::pair<int, int> new_coordinates;

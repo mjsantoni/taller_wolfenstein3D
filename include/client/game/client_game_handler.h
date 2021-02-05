@@ -17,19 +17,24 @@
 #include "client/communication/client_parser.h"
 #include "client_event_handler.h"
 #include "event_generator.h"
+#include "change_processor.h"
 
 #include <vector>
+#include <common/change.h>
+#include <common/shared_queue.h>
 
 class ClientGameHandler {
 public:
-    ClientGameHandler(int map_width, int map_height, MapMock real_map,
-                      ClientMap& _map, ServerUpdater& server_updater);
+    ClientGameHandler(int map_width, int map_height, MapMock& real_map,
+                      ClientMap& _map, ServerUpdater& server_updater,
+                      SharedQueue<Change>& change_queue);
     void start();
     void killPlayer();
     void respawnPlayer();
+    bool isRunning();
 private:
     ClientPlayer player = ClientPlayer("Player 1");
-    bool running;
+    std::atomic<bool> running;
     SdlAudioPlayer audio_player;
     ClientMap map;
     EventHandlerMock event_handler_mockup;
@@ -38,6 +43,7 @@ private:
     GameScreen screen;
     ClientParser client_parser;
     ClientEventHandler client_event_handler = ClientEventHandler(player,screen);
+    ChangeProcessor change_processor;
     int game_level = 0;
     void displayIntro();
     int displayMatchModeMenu();

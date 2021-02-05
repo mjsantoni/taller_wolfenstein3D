@@ -1,4 +1,6 @@
-#include "client/events/change_processor.h"
+#include "client/game/change_processor.h"
+
+#define MAX_CHANGES 100
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -6,18 +8,23 @@
  */
 ChangeProcessor::ChangeProcessor(ClientMap& _map,
                                  ClientPlayer& _player,
-                                 GameScreen& _screen) :
+                                 GameScreen& _screen,
+                                 SharedQueue<Change>& _change_queue) :
                                  map(_map),
                                  player(_player),
-                                 screen(_screen) {
+                                 screen(_screen),
+                                 change_queue(_change_queue),
+                                 alive(true){
 }
 
 /* Ejecuta los cambios */
-void ChangeProcessor::process(Change &change) {
+void ChangeProcessor::processChange(Change &change) {
     int change_id = change.change_id;
     int id = change.id;
     int value1 = change.value1;
     int value2 = change.value2;
+
+    std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
 
     switch (change_id) {
         case (REMOVE_POSITIONABLE): {
@@ -121,3 +128,19 @@ void ChangeProcessor::process(Change &change) {
         }
     }
 }
+
+void ChangeProcessor::run() {
+    while (alive) {
+        Change change = change_queue.pop();
+        if (change.isInvalid())
+                continue;
+        processChange(change);
+    }
+}
+
+void ChangeProcessor::stop() {
+    alive = false;
+}
+
+ChangeProcessor::~ChangeProcessor() {}
+

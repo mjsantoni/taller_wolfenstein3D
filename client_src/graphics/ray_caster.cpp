@@ -27,7 +27,7 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
     double angle = Calculator::normalize(alpha + 0.523599);
     for (int ray = 0; ray < PROJECTION_PLANE_WIDTH; ++ray) {
         //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
-        //printf("Se lanza el rayo %d, con el angulo %f\n", i, angle);
+        //printf("Se lanza el rayo %d, con el angulo %f\n", ray, angle);
         ObjectInfo object_info{};
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);

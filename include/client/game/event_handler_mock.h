@@ -7,12 +7,14 @@
 
 #include "map_mock.h"
 #include <SDL_events.h>
+#include <atomic>
 
 class EventHandlerMock {
 public:
     explicit EventHandlerMock(MapMock& map);
     void putPlayerAt(std::string player_name, std::pair<int, int> coord);
-    void handleEvent(SDL_Event event, ClientPlayer& player, bool& running, int& x, int& y);
+    void handleEvent(SDL_Event event, ClientPlayer& player,
+                     std::atomic<bool>& running, int& x, int& y);
     void calculateMovement(int& x, int& y, double alpha);
     bool movementAllowed(int& proj_x, int& proj_y, double angle_turn,
                          ClientPlayer& player, MapMock& map);

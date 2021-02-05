@@ -5,12 +5,18 @@
 #ifndef TP_WOLFENSTEIN_CHANGE_FACTORY_H
 #define TP_WOLFENSTEIN_CHANGE_FACTORY_H
 
+#include <common/shared_queue.h>
+#include <common/change.h>
 
+class ChangeFactory {
+private:
+    SharedQueue<Change>& change_queue;
+    // Es de Event* o Event?
 
-class change_factory {
-
+public:
+    explicit ChangeFactory(SharedQueue<Change>& _event_queue);
+    void createAndPushFromBytes(char* bytes);
 };
-
 
 
 #endif //TP_WOLFENSTEIN_CHANGE_FACTORY_H

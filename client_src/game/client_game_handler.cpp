@@ -7,26 +7,33 @@
 #include <SDL_timer.h>
 #include "client/game/client_game_handler.h"
 
-ClientGameHandler::ClientGameHandler(int width, int height, MapMock real_map,
-                                     ClientMap& _map, ServerUpdater& _server_updater) :
+ClientGameHandler::ClientGameHandler(int width,
+                                     int height,
+                                     MapMock& real_map,
+                                     ClientMap& _map,
+                                     ServerUpdater& _server_updater,
+                                     SharedQueue<Change>& change_queue) :
         running(true), event_handler_mockup(real_map), map(_map),
         screen(width, height, info_provider, _map),
-        event_generator(player, client_event_handler,
-                                            _server_updater){
+        event_generator(player, client_event_handler, _server_updater),
+        change_processor(_map, player, screen, change_queue) {
     client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
 void ClientGameHandler::start() {
     displayIntro();
+    std::cout << "Se inicia el juego" << std::endl;
     int game_mode = displayMatchModeMenu();
     if (game_mode != 1)
         return;
     displayLevelSelectionMenu();
     int x = 235;
     int y = 329;
-    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
-    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y));
+    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y)); // mapa del "server"
+    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y)); // mapa del cliente
     screen.render(x, y, player);
+    change_processor.start();
+    std::cout << "Se inicia la partida" << std::endl;
     while (running) {
         bool must_render = false;
         SDL_Event event;
@@ -43,9 +50,14 @@ void ClientGameHandler::start() {
                 puts("Saliendo");
                 return;
         }
+        /*
         if (must_render)
             screen.render(x, y, player);
+        */
     }
+    std::cout << "Frena change processor" << std::endl;
+    change_processor.stop();
+    change_processor.join();
 }
 
 void ClientGameHandler::displayIntro() {
@@ -96,7 +108,6 @@ void ClientGameHandler::displayLevelSelectionMenu() {
     audio_player.stopSong();
 }
 
-
 void ClientGameHandler::killPlayer() {
     //event_generator.stop();
     screen.renderDeadScreen();
@@ -107,4 +118,7 @@ void ClientGameHandler::respawnPlayer() {
     screen.renderRespawnScreen();
 }
 
+bool ClientGameHandler::isRunning() {
+    return running;
+}
 

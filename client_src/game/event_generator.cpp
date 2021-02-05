@@ -4,6 +4,14 @@
 
 #include "client/game/event_generator.h"
 
+EventGenerator::EventGenerator(ClientPlayer &_player,
+                               ClientEventHandler &_event_handler,
+                               ServerUpdater &_server_updater) :
+        player(_player),
+        event_handler(_event_handler),
+        server_updater(_server_updater){
+}
+
 void EventGenerator::stop() {
     is_running = false;
 }
@@ -76,14 +84,7 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     }
     if (event.isInvalid())
         return;
+    std::cout << "Se genero el evento " << event.getEventID() << std::endl;
     server_updater.update(event);
-}
-
-EventGenerator::EventGenerator(ClientPlayer &_player,
-                               ClientEventHandler &_event_handler,
-                               ServerUpdater &_server_updater) :
-                               player(_player),
-                               event_handler(_event_handler),
-                               server_updater(_server_updater){
 }
 

@@ -9,7 +9,6 @@ ServerUpdater::ServerUpdater(NetworkConnection& _sk, int id) :
         event_queue(Event()),
         player_id(id),
         alive(true) {
-    std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
 }
 
 ServerUpdater::~ServerUpdater() {}
