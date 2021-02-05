@@ -7,6 +7,9 @@
 #include <queue>
 #include "common/blocking_queue.h"
 #include "common/network_connection.h"
+#include "server/game/coordinate.h"
+#include "server/game/positionable.h"
+#include <map>
 
 class ClientUpdater : public Thread {
 private:
@@ -26,6 +29,8 @@ public:
     void update(Change change);
 
     int getPlayerId() const;
+
+    void sendMap(std::map<Coordinate, Positionable> map);
 };
 
 

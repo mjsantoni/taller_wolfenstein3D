@@ -16,9 +16,9 @@ private:
 public:
     ClientsManager() {}
 
-    void addNewPlayer(NetworkConnection socket, int id, SharedQueue<Event>& eventQueue) {
+    void addNewPlayer(NetworkConnection socket, int id, SharedQueue<Event>& eventQueue, std::map<Coordinate, Positionable> map) {
         std::unique_lock<std::mutex> lock(m);
-        Client* client = new Client(std::move(socket),eventQueue,id);
+        Client* client = new Client(std::move(socket), eventQueue, id, map);
         clients.push_back(client);
         eventQueue.push(Event(CONNECT_PLAYER, id, INVALID));
     }

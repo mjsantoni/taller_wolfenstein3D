@@ -56,7 +56,7 @@ public:
     ~Game();
 
     /* RECEIVED EVENTS */
-    int connectPlayer();
+    std::pair<int,std::map<Coordinate, Positionable>> connectPlayer();
     std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id);
     std::pair<Hit, std::vector<Change>> shoot(int id);
     std::pair<bool, int> openDoor(int id);

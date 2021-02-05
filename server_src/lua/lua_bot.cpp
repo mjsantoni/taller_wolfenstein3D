@@ -165,6 +165,7 @@ void LuaBot::updatePosition(const Coordinate& coord) {
 /* OTHERS */
 
 void LuaBot::printMap() {
+    std::unique_lock<std::mutex> lock(m);
     lua_getglobal(L, "printMap");
     lua_pcall(L, 0, 0, 0);
 }

@@ -6,6 +6,7 @@
 #include "server/events/client_updater.h"
 #include "common/shared_queue.h"
 #include "common/event.h"
+#include "common/map_item_identifiers.h"
 
 class Client {
 private:
@@ -13,8 +14,10 @@ private:
     ClientHandler clientHandler;
     ClientUpdater clientUpdater;
 public:
-    Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id) : sk(std::move(_sk)), clientHandler(_sq,id), clientUpdater(sk,id) {
+    Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id, std::map<Coordinate, Positionable> map) :
+        sk(std::move(_sk)), clientHandler(_sq,id), clientUpdater(sk,id) {
         clientHandler.start();
+        clientUpdater.sendMap(map);
         clientUpdater.start();
     }
 

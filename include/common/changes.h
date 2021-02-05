@@ -21,4 +21,6 @@
 #define RPG_MOVE_TO 17
 #define RPG_EXPLODE_AT 18
 
+#define MAP_INITIALIZER 19
+
 #endif //TP_WOLFENSTEIN_CHANGES_H
