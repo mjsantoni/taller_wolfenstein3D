@@ -1,17 +1,18 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id) :
+ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::map<Coordinate, Positionable>& _map) :
                             skt(_sk),
                             change_queue(Change()),
                             player_id(id),
-                            alive(true) {
+                            alive(true),
+                            map(_map) {
     //std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
 }
 
 ClientUpdater::~ClientUpdater() {}
 
-void ClientUpdater::sendMap(std::map<Coordinate, Positionable> map) {
+void ClientUpdater::sendMap() {
     for (auto& elem : map) {
         int x = elem.first.x;
         int y = elem.first.y;
@@ -23,6 +24,7 @@ void ClientUpdater::sendMap(std::map<Coordinate, Positionable> map) {
 }
 
 void ClientUpdater::run() {
+    sendMap();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;

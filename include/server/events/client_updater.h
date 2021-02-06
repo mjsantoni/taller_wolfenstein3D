@@ -17,9 +17,10 @@ private:
     BlockingQueue<Change> change_queue;
     std::atomic<bool> alive;
     int player_id;
+    std::map<Coordinate, Positionable>& map;
 
 public:
-    explicit ClientUpdater(NetworkConnection& _sk, int i);
+    explicit ClientUpdater(NetworkConnection& _sk, int i, std::map<Coordinate, Positionable>& map);
     ~ClientUpdater();
 
     void run() override;
@@ -30,7 +31,8 @@ public:
 
     int getPlayerId() const;
 
-    void sendMap(std::map<Coordinate, Positionable> map);
+    void sendMap();
+
 };
 
 
