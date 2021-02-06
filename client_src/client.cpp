@@ -7,14 +7,16 @@
 
 Client::Client(NetworkConnection& skt) : running(true),
                                          change_queue(Change()),
-                                         server_updater(skt, 1),
+                                         event_queue(Event()),
+                                         server_updater(skt, event_queue),
                                          server_listener(skt, change_queue){
 }
 
 void Client::start() {
     try {
         ClientMap map = parser.parseInfoFromServer();
-        ClientGame game(server_updater, server_listener, map, change_queue);
+        ClientGame game(server_updater, server_listener, map, change_queue,
+                        event_queue);
         server_updater.start();
         server_listener.start();
         game.start();

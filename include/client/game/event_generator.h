@@ -11,17 +11,16 @@
 #include <common/blocking_queue.h>
 #include "client_player.h"
 #include "client_event_handler.h"
-#include "client/communication/server_updater.h"
 
 class EventGenerator {
 private:
     bool is_running = true;
     ClientPlayer& player;
     ClientEventHandler& event_handler;
-    ServerUpdater& server_updater;
+    BlockingQueue<Event>& event_queue;
 public:
     EventGenerator(ClientPlayer& _player, ClientEventHandler& _event_handler,
-                   ServerUpdater& _server_updater);
+                   BlockingQueue<Event>& _event_queue);
     void stop();
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);

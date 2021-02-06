@@ -15,7 +15,8 @@
 class ClientGame : public Thread {
 public:
     ClientGame(ServerUpdater& _server_updater, ServerListener& _server_handler,
-               ClientMap& _map, SharedQueue<Change>& change_queue);
+               ClientMap& _map, SharedQueue<Change>& change_queue,
+               BlockingQueue<Event>& event_queue);
     bool isRunning();
     ~ClientGame();
     void run() override;

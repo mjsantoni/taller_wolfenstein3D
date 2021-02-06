@@ -35,7 +35,7 @@ public:
     void respawn();
     void changeWeapon(int weapon_number);
 private:
-    int id;
+    int id = 0;
     std::string name;
     double direction = 2.268926;
     int equipped_weapon = 2;

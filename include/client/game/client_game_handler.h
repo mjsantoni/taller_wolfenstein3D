@@ -26,8 +26,8 @@
 class ClientGameHandler {
 public:
     ClientGameHandler(int map_width, int map_height, MapMock& real_map,
-                      ClientMap& _map, ServerUpdater& server_updater,
-                      SharedQueue<Change>& change_queue);
+                      ClientMap& _map, SharedQueue<Change>& change_queue,
+                      BlockingQueue<Event>& event_queue);
     void start();
     void killPlayer();
     void respawnPlayer();

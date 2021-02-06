@@ -25,6 +25,7 @@ void ChangeFactory::createAndPushFromBytes(char* bytes) {
     Change change(buffer[CHANGE_ID], buffer[ID], buffer[VALUE_1],
                   buffer[VALUE_2]);
     change_queue.push(change);
+    std::cout << "El cliente pushea a la cola de cambios el cambio " << change.getChangeID() << std::endl;
 }
 
 /* test only */

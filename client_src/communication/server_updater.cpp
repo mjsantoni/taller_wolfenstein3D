@@ -4,10 +4,10 @@
 
 #include "client/communication/server_updater.h"
 
-ServerUpdater::ServerUpdater(NetworkConnection& _sk, int id) :
+ServerUpdater::ServerUpdater(NetworkConnection& _sk,
+                             BlockingQueue<Event>& _event_queue) :
         skt(_sk),
-        event_queue(Event()),
-        player_id(id),
+        event_queue(_event_queue),
         alive(true) {
 }
 
@@ -18,7 +18,7 @@ void ServerUpdater::run() {
         Event event = event_queue.pop();
         if (event.isInvalid()) continue;
         skt.send_msg(event.serialize());
-        std::cout << "El evento " << event.getEventID() << " se envio al socket\n";
+        std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
     }
 }
 
@@ -32,8 +32,4 @@ void ServerUpdater::stop() {
     alive = false;
     event_queue.close();
     //socket.closeSocket();
-}
-
-int ServerUpdater::getPlayerId() const {
-    return player_id;
 }

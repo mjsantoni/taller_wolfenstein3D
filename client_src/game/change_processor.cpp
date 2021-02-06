@@ -134,6 +134,7 @@ void ChangeProcessor::run() {
         Change change = change_queue.pop();
         if (change.isInvalid())
                 continue;
+        std::cout << "El change processor recibe el evento " << change.getChangeID() << std::endl;
         processChange(change);
     }
 }

@@ -54,6 +54,7 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();
     int id = data.first;
+    std::cout << "Player id " << id << std::endl;
     std::map<Coordinate, Positionable> map = data.second;
     clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
     //eventQueue.push(Event(CONNECT_PLAYER, id, INVALID));

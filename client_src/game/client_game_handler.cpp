@@ -6,16 +6,18 @@
 #include <iostream>
 #include <SDL_timer.h>
 #include "client/game/client_game_handler.h"
+#include <client/communication/server_updater.h>
+
 
 ClientGameHandler::ClientGameHandler(int width,
                                      int height,
                                      MapMock& real_map,
                                      ClientMap& _map,
-                                     ServerUpdater& _server_updater,
-                                     SharedQueue<Change>& change_queue) :
+                                     SharedQueue<Change>& change_queue,
+                                     BlockingQueue<Event>& event_queue) :
         running(true), event_handler_mockup(real_map), map(_map),
         screen(width, height, info_provider, _map),
-        event_generator(player, client_event_handler, _server_updater),
+        event_generator(player, client_event_handler, event_queue),
         change_processor(_map, player, screen, change_queue) {
     client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
@@ -34,26 +36,24 @@ void ClientGameHandler::start() {
     screen.render(x, y, player);
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
+    SDL_Event event;
     while (running) {
-        bool must_render = false;
-        SDL_Event event;
-        SDL_PollEvent(&event);
-        event_generator.generateInGameEvent(event);
+        if (SDL_PollEvent(&event) == 0) continue;
         switch(event.type) {
-            case SDL_KEYDOWN:
-                event_handler_mockup.handleEvent(event, player, running, x, y);
-                must_render = true;
+            case SDL_KEYDOWN: {
+                event_generator.generateInGameEvent(event);
                 break;
-            case SDL_MOUSEMOTION:
+            }
+            case SDL_MOUSEBUTTONDOWN:
+                event_generator.generateInGameEvent(event);
                 break;
             case SDL_QUIT:
                 puts("Saliendo");
                 return;
+            default:
+                break;
         }
-        /*
-        if (must_render)
-            screen.render(x, y, player);
-        */
+        //sleep(10);
     }
     std::cout << "Frena change processor" << std::endl;
     change_processor.stop();

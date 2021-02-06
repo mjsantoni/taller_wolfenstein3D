@@ -70,6 +70,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (PLAYER_READY): {
+            std::cout << "PLAYER READY!\n";
             game.playerIsReady(event.getPlayerID());
         }
         default: {

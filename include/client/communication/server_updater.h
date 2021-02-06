@@ -14,17 +14,16 @@
 class ServerUpdater : public Thread {
 private:
     NetworkConnection& skt;
-    BlockingQueue<Event> event_queue;
+    BlockingQueue<Event>& event_queue;
     std::atomic<bool> alive;
-    int player_id;
 
 public:
-    explicit ServerUpdater(NetworkConnection& _sk, int i);
+    explicit ServerUpdater(NetworkConnection& _sk,
+                           BlockingQueue<Event>& _event_queue);
     ~ServerUpdater();
     void run() override;
     void stop();
     void update(Event event);
-    int getPlayerId() const;
 
 };
 

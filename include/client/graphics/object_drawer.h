@@ -14,12 +14,12 @@
 #include "client/calculator.h"
 #include "client/game/client_map.h"
 
-class ObjectHandler {
+class ObjectDrawer {
 public:
-    ObjectHandler(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
-                  std::map<double, double>& wall_distance_info,
-                  std::map<int, std::pair<int, int>>& _floor_info,
-                  std::vector<double>& angles_list, ClientMap& map);
+    ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
+                 std::map<double, double>& wall_distance_info,
+                 std::map<int, std::pair<int, int>>& _floor_info,
+                 std::vector<double>& angles_list, ClientMap& map);
     Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
     int findXPosForObject(double pl_ob_beta, int object_width);
     int findYPosForObject(int ray_no, double pl_ob_angle, double distance,

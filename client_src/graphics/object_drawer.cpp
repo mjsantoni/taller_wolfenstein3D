@@ -2,25 +2,25 @@
 // Created by andy on 4/12/20.
 //
 
-#include "client/graphics/object_handler.h"
+#include "client/graphics/object_drawer.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200
 #define MAX_OBJECT_HEIGHT 300
 
-ObjectHandler::ObjectHandler(SdlWindow& _window,
-                             ObjectInfoProvider& _object_info_provider,
-                             std::map<double, double>& _wall_distance_info,
-                             std::map<int, std::pair<int, int>>& _floor_info,
-                             std::vector<double>& _angles_list,
-                             ClientMap& _map) :
+ObjectDrawer::ObjectDrawer(SdlWindow& _window,
+                           ObjectInfoProvider& _object_info_provider,
+                           std::map<double, double>& _wall_distance_info,
+                           std::map<int, std::pair<int, int>>& _floor_info,
+                           std::vector<double>& _angles_list,
+                           ClientMap& _map) :
        object_info_provider(_object_info_provider), window(_window),
        wall_distance_info(_wall_distance_info), map(_map),
        floor_info(_floor_info), angles_list(_angles_list) {
     map_grid_size = map.getGridSize();
 }
 
-void ObjectHandler::loadObjects(int x, int y, double player_angle) {
+void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjects();
     for (auto& object : objects_vector) {
@@ -48,8 +48,8 @@ void ObjectHandler::loadObjects(int x, int y, double player_angle) {
     }
 }
 
-Area ObjectHandler::findObjectProportions(ObjectInfo& object_info,
-                                          double pl_ob_angle) {
+Area ObjectDrawer::findObjectProportions(ObjectInfo& object_info,
+                                         double pl_ob_angle) {
     double distance = object_info.getHitDistance();
     distance *= cos(pl_ob_angle);
     //printf("Distancia del objeto: %f\n", distance);
@@ -71,7 +71,7 @@ Area ObjectHandler::findObjectProportions(ObjectInfo& object_info,
     //printf("Altura del objeto: %d\n", drawing_info.object_height);
 }
 
-int ObjectHandler::findXPosForObject(double pl_ob_beta, int object_width) {
+int ObjectDrawer::findXPosForObject(double pl_ob_beta, int object_width) {
     double fov_x_pos = double(pl_ob_beta + 0.523599) / 1.0472;
     double proj_plane_x_pos = fov_x_pos* PROJECTION_PLANE_width;
     double proj_plane_centered  = proj_plane_x_pos - double (object_width);
@@ -79,10 +79,10 @@ int ObjectHandler::findXPosForObject(double pl_ob_beta, int object_width) {
     return x_screen_pos;
 }
 
-int ObjectHandler::findYPosForObject(int ray_no,
-                                     double pl_ob_angle,
-                                     double distance,
-                                     int object_height){
+int ObjectDrawer::findYPosForObject(int ray_no,
+                                    double pl_ob_angle,
+                                    double distance,
+                                    int object_height){
     std::pair<int, int> ray_floor_info = floor_info.at(ray_no);
     int floor_starting_point = ray_floor_info.first;
     int floor_height = ray_floor_info.second;
@@ -110,7 +110,9 @@ int ObjectHandler::findYPosForObject(int ray_no,
     return y_pos;
 }
 
-int ObjectHandler::findObjectHeight(double distance, int object_height) {
+int ObjectDrawer::findObjectHeight(double distance, int object_height) {
+    if (distance <= 45)
+        distance = 45;
     double object_wall_prop = (double) object_height / map_grid_size;
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
@@ -118,7 +120,7 @@ int ObjectHandler::findObjectHeight(double distance, int object_height) {
     return (int) object_raw_height;
 }
 
-int ObjectHandler::findObjectWidth(double distance, int object_width) {
+int ObjectDrawer::findObjectWidth(double distance, int object_width) {
     double object_width_prop = (double) object_width / map_grid_size;
     int wall_width_for_distance = (int) ((double) 100/distance * 188);
     double object_raw_width = object_width_prop*wall_width_for_distance;
@@ -126,7 +128,7 @@ int ObjectHandler::findObjectWidth(double distance, int object_width) {
     return object_screen_width;
 }
 
-int ObjectHandler::findRayNumberForAngle(double beta) {
+int ObjectDrawer::findRayNumberForAngle(double beta) {
     int counter = 0;
     while (true) {
         beta += 0.00327249;
@@ -137,14 +139,14 @@ int ObjectHandler::findRayNumberForAngle(double beta) {
     return (counter <= 319) ? counter : 319;
 }
 
-Area ObjectHandler::assembleScreenArea(ObjectInfo& object_info,
-                                       double pl_ob_angle) {
+Area ObjectDrawer::assembleScreenArea(ObjectInfo& object_info,
+                                      double pl_ob_angle) {
     Area screen_area =
             findObjectProportions(object_info, pl_ob_angle);
     return screen_area;
 }
 
-double ObjectHandler::findWallDistanceForAngle(double angle) {
+double ObjectDrawer::findWallDistanceForAngle(double angle) {
     double nearest_distance = 0;
     double angle_found = 0;
     if (wall_distance_info.find(angle) != wall_distance_info.end()) {
@@ -176,9 +178,9 @@ double convertToBeta(double pl_ob_angle) {
     return -pl_ob_angle;
 }
 
-void ObjectHandler::renderObject(int x_pos, int y_pos, double player_angle,
-                             double object_angle, double x_prop,
-                             Drawable& object) {
+void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
+                                double object_angle, double x_prop,
+                                Drawable& object) {
     //puts("Se dibujara el objeto");
     std::pair<int, int> object_position = object.getMapPosition();
     int object_x = object_position.first;
@@ -201,14 +203,14 @@ void ObjectHandler::renderObject(int x_pos, int y_pos, double player_angle,
         //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);
 }
 
-double ObjectHandler::calculateObjectStartingXPos(double os_angle,
-                                                  double of_angle,
-                                                  double diff_angle) {
+double ObjectDrawer::calculateObjectStartingXPos(double os_angle,
+                                                 double of_angle,
+                                                 double diff_angle) {
     return std::abs(diff_angle/(of_angle-os_angle));
 }
 
-std::pair<int, int> ObjectHandler::projectObjectOnMap(Drawable& object,
-                                                      double player_angle) {
+std::pair<int, int> ObjectDrawer::projectObjectOnMap(Drawable& object,
+                                                     double player_angle) {
     double starting_fov_angle = Calculator::normalize(player_angle + 0.523599);
     std::pair<int, int> object_starting_position = object.getMapPosition();
     int object_starting_x = object_starting_position.first;
@@ -222,10 +224,10 @@ std::pair<int, int> ObjectHandler::projectObjectOnMap(Drawable& object,
     return std::pair<int, int>{object_final_x, object_final_y};
 }
 
-bool ObjectHandler::shouldDraw(double player_angle,
-                               double os_angle,
-                               double of_angle,
-                               double& diff_angle) {
+bool ObjectDrawer::shouldDraw(double player_angle,
+                              double os_angle,
+                              double of_angle,
+                              double& diff_angle) {
     //printf("El objeto empieza en angulo: %f\n", os_angle);
     //printf("El objeto finaliza en angulo: %f\n", of_angle);
     double fov_starting_angle = Calculator::normalize(player_angle + 0.523599);
@@ -248,11 +250,11 @@ bool ObjectHandler::shouldDraw(double player_angle,
     return sa_included || fa_included;
 }
 
-bool ObjectHandler::shouldDraw_borderCase(double os_angle,
-                                          double of_angle,
-                                          double fov_starting_angle,
-                                          double fov_finishing_angle,
-                                          double& diff_angle) {
+bool ObjectDrawer::shouldDraw_borderCase(double os_angle,
+                                         double of_angle,
+                                         double fov_starting_angle,
+                                         double fov_finishing_angle,
+                                         double& diff_angle) {
     bool sa_included = (os_angle >= fov_finishing_angle ||
                         os_angle <= fov_starting_angle);
     bool fa_included = (of_angle >= fov_finishing_angle ||
@@ -264,7 +266,7 @@ bool ObjectHandler::shouldDraw_borderCase(double os_angle,
     return sa_included || fa_included;
 }
 
-double ObjectHandler::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos) {
+double ObjectDrawer::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos) {
     int o_x = o_pos.first;
     int o_y = o_pos.second;
     //printf("Objeto en: (%d, %d)\n", o_x, o_y);
@@ -274,7 +276,7 @@ double ObjectHandler::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos
     return Calculator::normalize(atan2(delta_y, delta_x));
 }
 
-double ObjectHandler::getGammaAngle(double player_angle, double object_angle) {
+double ObjectDrawer::getGammaAngle(double player_angle, double object_angle) {
     if (std::abs(player_angle-object_angle) <= M_PI)
         return player_angle - object_angle;
     if (player_angle > object_angle)
@@ -282,7 +284,7 @@ double ObjectHandler::getGammaAngle(double player_angle, double object_angle) {
     return 2*M_PI - (object_angle - player_angle);
 }
 
-bool ObjectHandler::blockedByWall(double angle, double distance) {
+bool ObjectDrawer::blockedByWall(double angle, double distance) {
     double nearest_distance = 0;
     double angle_found = 0;
     if (wall_distance_info.find(angle) != wall_distance_info.end()) {
@@ -319,14 +321,14 @@ bool ObjectHandler::blockedByWall(double angle, double distance) {
     return object_blocked;
 }
 
-void ObjectHandler::setDimensions(int width, int height) {
+void ObjectDrawer::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
     width_prop = width/320;
     height_prop = (int) (height/(0.8*200));
 }
 
-void ObjectHandler::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
+void ObjectDrawer::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
     Area image_area;
     SdlTexture sdl_texture(object_info.getImagePath());
     SDL_Texture* texture =

@@ -10,14 +10,14 @@
 #include "client/object_info_provider.h"
 #include "sdl_window.h"
 #include "ray_caster.h"
-#include "object_handler.h"
+#include "object_drawer.h"
 #include "ui_drawer.h"
 #include "menus_drawer.h"
 
 class GameScreen {
 private:
     SdlWindow window;
-    ObjectHandler object_handler;
+    ObjectDrawer object_drawer;
     RayCaster ray_caster;
     UIDrawer ui_drawer;
     MenusDrawer menus_drawer;

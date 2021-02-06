@@ -17,6 +17,7 @@ private:
     ServerUpdater server_updater;
     ServerListener server_listener;
     SharedQueue<Change> change_queue;
+    BlockingQueue<Event> event_queue;
 
 public:
     explicit Client(NetworkConnection &skt);

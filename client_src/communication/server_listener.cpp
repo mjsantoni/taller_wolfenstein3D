@@ -21,9 +21,9 @@ void ServerListener::run() {
     while (alive) {
         /* Es un simulador de eventos para testear */
         std::string msg;
-        std::cout << "Server Listener por recibir\n";
+        std::cout << "Server Listener listo para recibir\n";
         skt.recv_msg(msg);
-        std::cout << "server listener recibe: " << msg << "\n";
+        std::cout << "Se recibio el mensaje " << msg << std::endl;
         change_factory.createAndPushFromBytes(const_cast<char *>(msg.c_str()));
         //std::random_device dev;
         //std::mt19937 rng(dev());
