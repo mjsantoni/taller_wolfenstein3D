@@ -24,7 +24,7 @@ void ClientUpdater::sendMap() {
 }
 
 void ClientUpdater::run() {
-    sendMap();
+    //sendMap();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;

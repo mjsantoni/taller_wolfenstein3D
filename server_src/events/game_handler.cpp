@@ -12,7 +12,7 @@ GameHandler::GameHandler(std::string map_path,
         alive(true) {}
 
 void GameHandler::run() {
-    while (!game.isReady()) {
+    while (!game.isReady() && alive) {
         Event event = eventQueue.pop();
         if (event.isInvalid()) continue;
         if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;

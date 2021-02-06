@@ -16,13 +16,11 @@ int main(int argc, char* args[]) {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
             gameHandler.addNewPlayer(std::move(socket));
             total_connected++;
-            sleep(2);
-            return 0;
         } catch (const NetworkError& e) {
             continue;
         }
     }
-    sleep(2000);
+    sleep(100);
     gameHandler.stop();
     gameHandler.join();
     return 0;

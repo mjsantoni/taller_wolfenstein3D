@@ -17,7 +17,7 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            blockingItemHandler(map),
            shootHandler(map),
            botsManager(bm) {
-    //addBot();
+    addBot();
     //addBot();
 }
 
