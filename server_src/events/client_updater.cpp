@@ -19,7 +19,7 @@ void ClientUpdater::sendMap() {
         int id = elem.second.getId();
         Change change(MAP_INITIALIZER, id, x, y, false);
         skt.send_msg(change.serialize());
-
+        sleep(1);
     }
 }
 
@@ -33,6 +33,7 @@ void ClientUpdater::run() {
             //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
             skt.send_msg(change.serialize());
             std::cout << "Server envia el mensaje " << change.serialize() << std::endl;
+            sleep(1);
         }
     }
     std::cout << "Termino el ClientUpdater\n";

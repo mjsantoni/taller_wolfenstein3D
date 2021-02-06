@@ -16,7 +16,6 @@ bool probability(float prob) {
     return dist10(rng) < (prob * 100);
 }
 
-
 void ServerListener::run() {
     while (alive) {
         /* Es un simulador de eventos para testear */

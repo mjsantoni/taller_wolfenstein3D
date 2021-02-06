@@ -26,7 +26,7 @@ void ChangeProcessor::processChange(Change &change) {
 
     std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
-    std::vector<int> render_vector;
+    std::vector<int> render_vector{0, 0, 0};
     switch (change_id) {
         case (REMOVE_POSITIONABLE): {
             map.removeObject(id);
@@ -36,9 +36,11 @@ void ChangeProcessor::processChange(Change &change) {
         }
         case (MOVE_PLAYER): {
             if (player.getId() == id) {
+                std::cout << "El jugador se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
                 render_vector = std::vector<int>{1, 1, 0};
             } else {
+                std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveObject(id, value1, value2);
                 render_vector = std::vector<int>{0, 1, 0};
             }
@@ -146,6 +148,7 @@ void ChangeProcessor::processChange(Change &change) {
             break;
         }
     }
+    screen.render(render_vector);
 }
 
 void ChangeProcessor::run() {

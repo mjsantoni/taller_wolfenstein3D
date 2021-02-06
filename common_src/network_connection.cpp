@@ -94,7 +94,7 @@ void NetworkConnection::sendMsg(const char* message, size_t message_length) {
     }
 }*/
 void NetworkConnection::send_size(std::uint32_t len) {
-    size_t total_bytes = 0;
+    int total_bytes = 0;
     while (total_bytes < sizeof(std::uint32_t)) {
         int bytes = send(this->file_descriptor, &((char*)&len)[total_bytes],
                          sizeof(std::uint32_t) - total_bytes, MSG_NOSIGNAL);
@@ -104,10 +104,10 @@ void NetworkConnection::send_size(std::uint32_t len) {
 }
 
 int NetworkConnection::send_msg(std::string msg) {
-    int len = msg.length();
+    std::uint32_t len = msg.length();
     std::cout << "Se enviaran " << len << " bytes\n";
     send_size(len);
-    size_t total_bytes = 0;
+    int total_bytes = 0;
     while (total_bytes < len) {
         int bytes =
                 send(this->file_descriptor, &msg[total_bytes], len - total_bytes, MSG_NOSIGNAL);
@@ -119,7 +119,7 @@ int NetworkConnection::send_msg(std::string msg) {
 
 std::uint32_t NetworkConnection::recv_size() {
     std::uint32_t len;
-    size_t total_bytes = 0;
+    int total_bytes = 0;
     while (total_bytes < sizeof(std::uint32_t)) {
         int bytes = recv(this->file_descriptor, &((char*)&len)[total_bytes],
                          sizeof(std::uint32_t) - total_bytes, 0);
@@ -142,10 +142,6 @@ int NetworkConnection::recv_msg(std::string& buffer) {
     }
     return 0;
 }
-
-
-
-
 
 
 /*
