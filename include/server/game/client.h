@@ -24,12 +24,11 @@ public:
 
     void stop() {
         sk.stopSending();
-        sk.closeSocket();
         clientHandler.stop();
         clientUpdater.stop();
-
         clientUpdater.join();
         clientHandler.join();
+        sk.closeSocket();
     }
 };
 

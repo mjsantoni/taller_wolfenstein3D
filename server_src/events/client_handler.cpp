@@ -27,7 +27,11 @@ void ClientHandler::run() {
         if (create_random_event) {
             std::string msg;
             std::cout << "Voy a recibir\n";
-            skt.recv_msg(msg);
+            try {
+                skt.recv_msg(msg);
+            } catch (NetworkError& e) {
+                break;
+            }
             std::cout << "recibi: " << msg << "\n";
             eventFactory.createAndPushFromBytes(const_cast<char *>(msg.c_str()));
             //std::random_device dev;

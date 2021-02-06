@@ -17,6 +17,7 @@ void EventFactory::createAndPushFromBytes(char* bytes) {
         if (s.size() == 0) continue;
         buffer.push_back(std::stoi(s));
     }
+    if (buffer.size() != 3) return;
     Event event(buffer[EVENT_ID], buffer[PLAYER_ID], buffer[VALUE]);
     eventQueue.push(event);
 }

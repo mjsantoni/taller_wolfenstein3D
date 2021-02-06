@@ -123,7 +123,8 @@ std::uint32_t NetworkConnection::recv_size() {
     while (total_bytes < sizeof(std::uint32_t)) {
         int bytes = recv(this->file_descriptor, &((char*)&len)[total_bytes],
                          sizeof(std::uint32_t) - total_bytes, 0);
-        if (bytes == -1) return 1;
+        if (bytes == -1) throw NetworkError("Error receiving size: %s\n",
+                                            strerror(errno));
         total_bytes += bytes;
     }
     return len;
@@ -136,7 +137,8 @@ int NetworkConnection::recv_msg(std::string& buffer) {
     while (total_bytes < len) {
         std::vector<char> tmp_buf(len - total_bytes);
         int bytes = recv(this->file_descriptor, tmp_buf.data(), tmp_buf.size(), 0);
-        if (bytes == -1) return 1;
+        if (bytes == -1) throw NetworkError("Error receiving: %s\n",
+                                            strerror(errno));
         buffer.append(tmp_buf.begin(), tmp_buf.end());
         total_bytes += bytes;
     }
@@ -184,12 +186,11 @@ bool NetworkConnection::isValid() const {
 }
 
 void NetworkConnection::stopSending() {
-    shutdown(this->file_descriptor, SHUT_WR);
+    shutdown(this->file_descriptor, SHUT_RDWR);
 }
 
 void NetworkConnection::closeSocket() {
-    shutdown(this->file_descriptor, SHUT_RDWR);
-    if (isValid()) close(this->file_descriptor);
+    close(this->file_descriptor);
 }
 
 NetworkConnection::NetworkConnection(NetworkConnection&& other) {

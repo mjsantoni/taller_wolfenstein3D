@@ -15,7 +15,7 @@ int main() {
 
     }
     socket.send_msg(Event(PLAYER_READY,0,0).serialize());
-    socket.closeSocket();
+    socket.stopSending();
 
 }
 
