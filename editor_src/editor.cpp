@@ -128,19 +128,20 @@ void Editor::loadMap(std::string path) {
 void Editor::createMapGrid() {
     QPixmap pixmap("../client_src/resources/empty.png");
     QIcon ButtonIcon(pixmap);
-    QPixmap wood_pix("../client_src/resources/wall_3.gif");
-    const char *wood_wall = "Wood wall";
+    QPixmap wood_pix("../client_src/resources/walls/wall_3.gif");
     QIcon wood_icon(wood_pix);
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
     for (int i = 0; i < DEF_HEIGHT; ++i) {
         for (int j = 0; j < DEF_WIDTH; ++j) {
             QPushButton* buttonGrid = new QPushButton();
             QMenu* menu = createGridButtonMenu(buttonGrid);
+            buttonGrid->setStyleSheet("QPushButton::menu-indicator{width:0px;}");
             buttonGrid->setProperty("texture", "empty");
             buttonGrid->setMenu(menu);
+            buttonGrid->cursor();
             buttonGrid->setIcon(ButtonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
-            // connect(buttonGrid, ,this, std::bind(&Editor::updateGridButton, this, buttonGrid, wood_icon, wood_wall));
+            // connect(buttonGrid, &QGridButton::rightClicked, this, std::bind(&Editor::updateGridButton, this, buttonGrid, wood_icon, "wood_wall"));
             mapGrid->addWidget(buttonGrid, i, j);
         }
     }
@@ -387,10 +388,11 @@ void Editor::renderWallsGrid(QGridLayout *texture_grid) {
     icons.push_back(QIcon(barrel_pix));
     int i = 0;
     for (auto &icon: icons) {
-        QPushButton* button = new QPushButton();
+        QPushButton* button = new QGridButton();
         button->setIcon(icon);
         button->setFlat(true);
-        connect(button, &QPushButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.pixmap(30)));
+        button->setIconSize(QSize(150, 150));
+        connect(button, &QPushButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.pixmap(35)));
         texture_grid->addWidget(button, 0, i);
         ++i;
     }
@@ -420,6 +422,7 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
         QGridButton* button = new QGridButton();
         button->setIcon(icon);
         button->setFlat(true);
+        button->setIconSize(QSize(150, 150));
         connect(button, &QGridButton::rightClicked,this, std::bind(&Editor::changeCursor,this, icon.pixmap(30)));
         texture_grid->addWidget(button, 0, i);
         ++i;

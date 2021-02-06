@@ -4,13 +4,14 @@
 #include <fstream>
 
 int main( int argc, char* args[] ) {
-    /* App editor_src */
-    // Clase que contiene el loop principal
     QApplication app(argc, args);
-    // Instancio el greeter
+    QFile file("/home/agustin/Desktop/taller_wolfenstein3D/editor_src/style.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+
+    app.setStyleSheet(styleSheet);
     Editor editor;
     editor.show();
-    // Arranca el loop de la UI
     app.exec();
 
     return 0;
