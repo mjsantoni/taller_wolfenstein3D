@@ -16,7 +16,7 @@ ClientGameHandler::ClientGameHandler(int width,
                                      SharedQueue<Change>& change_queue,
                                      BlockingQueue<Event>& event_queue) :
         running(true), event_handler_mockup(real_map), map(_map),
-        screen(width, height, info_provider, _map),
+        screen(width, height, info_provider, _map, player),
         event_generator(player, client_event_handler, event_queue),
         change_processor(_map, player, screen, change_queue) {
     client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
@@ -29,11 +29,11 @@ void ClientGameHandler::start() {
     if (game_mode != 1)
         return;
     displayLevelSelectionMenu();
-    int x = 235;
-    int y = 329;
-    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y)); // mapa del "server"
-    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(x, y)); // mapa del cliente
-    screen.render(x, y, player);
+
+    player.setMapPosition(std::pair<int, int>{235, 329});
+    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(235, 329)); // mapa del "server"
+    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(235, 329)); // mapa del cliente
+    screen.render();
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;

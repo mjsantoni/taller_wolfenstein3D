@@ -123,7 +123,7 @@ void Game::changeGun(int id, int hotkey) {
 
 bool Game::isNotOver() {
     std::unique_lock<std::mutex> lock(m);
-    if (players_alive <= 1) return false;
+    if (players_alive <= 0) return false;
 
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
@@ -216,7 +216,7 @@ void Game::playerIsReady(int id) {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.8));
+    return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.1));
 }
 
 /* LUA SCRIPT */

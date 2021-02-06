@@ -41,11 +41,11 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                     break;
                 case SDLK_LEFT:
                     event = Event(TURN_CAMERA, player.getId(), CAMERA_LEFT);
-                    //event_handler.handleCameraTurn(CAMERA_LEFT);
+                    event_handler.handleCameraTurn(CAMERA_LEFT);
                     break;
                 case SDLK_RIGHT:
                     event = Event(TURN_CAMERA, player.getId(), CAMERA_RIGHT);
-                    //event_handler.handleCameraTurn(CAMERA_RIGHT);
+                    event_handler.handleCameraTurn(CAMERA_RIGHT);
                     break;
                 //case SDLK_ESCAPE:
                     // pausar juego
@@ -78,6 +78,7 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
             switch(mouse_button_event.button) {
                 case SDL_BUTTON_LEFT:
                     event = Event(SHOOT, player.getId(), 0);
+                    event_handler.handlePlayerShooting();
                     break;
             }
         }

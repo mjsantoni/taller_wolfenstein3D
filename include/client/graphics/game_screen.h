@@ -22,21 +22,23 @@ private:
     UIDrawer ui_drawer;
     MenusDrawer menus_drawer;
     ClientMap& map;
+    ClientPlayer& player;
     std::map<double, double> wall_distance_info;
     std::vector<double> angles_list;
     std::map<int, std::pair<int, int>> floor_info;
 public:
     GameScreen(int width, int height, ObjectInfoProvider& object_info_provider,
-               ClientMap& _map);
-    void render(int x, int y, ClientPlayer& player);
+               ClientMap& _map, ClientPlayer& _player);
+    void render();
+    void render(std::vector<int> boolean_vector);
     void renderDeadScreen();
     void renderRespawnScreen();
     void close();
     void displayIntro();
     void displayMatchModeMenu();
     void displayLevelSelectionMenu();
-
     std::vector<Area> getKeyScreenAreas();
+    void displayPlayerShooting();
 };
 
 

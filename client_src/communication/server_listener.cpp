@@ -25,12 +25,6 @@ void ServerListener::run() {
         skt.recv_msg(msg);
         std::cout << "Se recibio el mensaje " << msg << std::endl;
         change_factory.createAndPushFromBytes(const_cast<char *>(msg.c_str()));
-        //std::random_device dev;
-        //std::mt19937 rng(dev());
-        //std::uniform_int_distribution<std::mt19937::result_type> dist10(2,8);
-        //Event event(dist10(rng),player_id,0);
-        //std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
-    sleep(1);
     }
 }
 

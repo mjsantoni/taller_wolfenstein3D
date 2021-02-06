@@ -99,3 +99,19 @@ void ClientPlayer::changeWeapon(int weapon_number) {
         return;
     equipped_weapon = weapon_number;
 }
+
+std::pair<int, int> ClientPlayer::getMapPosition() {
+    return map_position;
+}
+
+void ClientPlayer::setMapPosition(std::pair<int, int> new_map_position) {
+    map_position = new_map_position;
+}
+
+int ClientPlayer::getXPosition() {
+    return map_position.first;
+}
+
+int ClientPlayer::getYPosition() {
+    return map_position.second;
+}

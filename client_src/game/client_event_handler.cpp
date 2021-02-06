@@ -7,7 +7,7 @@
 
 void ClientEventHandler::handleWeaponChange(int weapon_number) {
     player.changeWeapon(weapon_number);
-    //screen.render();
+    screen.render(std::vector<int>{0, 0, 1});
 }
 
 void ClientEventHandler::handleCameraTurn(int direction) {
@@ -63,4 +63,10 @@ bool ClientEventHandler::eventInsideArea(Area& area, int x_pos, int y_pos) {
     bool inside_y =
             y_pos >= area.getY() && y_pos <= area.getY() + area.getHeight();
     return inside_x && inside_y;
+}
+
+void ClientEventHandler::handlePlayerShooting() {
+    if (player.getAmmo() <= 0)
+        return;
+    screen.displayPlayerShooting();
 }

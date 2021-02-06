@@ -7,7 +7,8 @@
 GameScreen::GameScreen(int width,
                        int height,
                        ObjectInfoProvider& object_info_provider,
-                       ClientMap& _map) :
+                       ClientMap& _map,
+                       ClientPlayer& _player) :
         window(width, height),
         object_drawer(window, object_info_provider, wall_distance_info, floor_info,
                       angles_list, _map),
@@ -15,15 +16,18 @@ GameScreen::GameScreen(int width,
         ray_caster(window, _map, wall_distance_info, floor_info,
                          object_info_provider, angles_list),
         ui_drawer(object_info_provider, window),
-        menus_drawer(window) {
+        menus_drawer(window),
+        player(_player) {
     ray_caster.setDimensions(width, (int) (0.8 * height));
     object_drawer.setDimensions(width, (int) (0.8 * height));
     ui_drawer.setDimensions((int) (0.8 * height), (int) (0.2 * height), width);
     TTF_Init();
 }
 
-void GameScreen::render(int x, int y, ClientPlayer& player) {
+void GameScreen::render() {
     window.fill();
+    int x = player.getXPosition();
+    int y = player.getYPosition();
     ray_caster.renderBackground(x, y, player.getDirection());
     object_drawer.loadObjects(x, y, player.getDirection());
     ui_drawer.drawPlayerUI(player);
@@ -55,6 +59,25 @@ std::vector<Area> GameScreen::getKeyScreenAreas() {
 
 void GameScreen::displayLevelSelectionMenu() {
     return menus_drawer.displayLevelSelectionMenu();
+}
+
+void GameScreen::render(std::vector<int> boolean_vector) {
+    bool render_ray_caster = boolean_vector[0];
+    bool render_object_drawer = boolean_vector[1];
+    bool render_ui_drawer = boolean_vector[2];
+    int x = player.getXPosition();
+    int y = player.getYPosition();
+    if (render_ray_caster)
+        ray_caster.renderBackground(x, y, player.getDirection());
+    if (render_object_drawer)
+        object_drawer.loadObjects(x, y, player.getDirection());
+    if (render_ui_drawer)
+        ui_drawer.drawPlayerUI(player);
+    window.render();
+}
+
+void GameScreen::displayPlayerShooting() {
+    ui_drawer.displayPlayerShooting(player.getEquippedWeapon());
 }
 
 

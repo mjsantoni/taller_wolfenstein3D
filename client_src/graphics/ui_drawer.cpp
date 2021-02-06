@@ -209,37 +209,14 @@ Area UIDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
                      weapon_window_height);
     return screen_area;
 }
-/*
-void SdlWindow::drawPlayersWeapon(int weapon_number) {
-    DrawingInfo drawing_info;
+
+void UIDrawer::displayPlayerShooting(int weapon_number) {
+    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
+                                                         + EQ_WEAPON_DELTA);
+    object_info.setSpriteAnimationNo(2);
     Area image_area;
-    drawing_info.object_type = weapon_number;
-    SDL_Texture* texture = object_drawer.drawPlayersWeapon(drawing_info, image_area);
-    Area screen_area = object_drawer.assembleScreenWeaponArea(drawing_info);
-    putTextureAt(texture, image_area, screen_area);
+    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
+    Area screen_area = assembleScreenWeaponArea(object_info);
+    window.loadImage(texture, image_area, screen_area);
     SDL_DestroyTexture(texture);
 }
-
-SDL_Texture* ObjectDrawer::drawPlayersWeapon(DrawingInfo& d_i,
-                                             Area& image_area) {
-    getSpriteInformation(d_i);
-    SdlSprite sdl_sprite(d_i.texture_name, d_i.image_width, d_i.image_height,
-                         d_i.sprite_cols,  d_i.sprite_rows,
-                         d_i.sprite_h_padding, d_i.sprite_v_padding);
-    sdl_sprite.setPadding(d_i.sprite_h_padding, d_i.sprite_v_padding);
-    SDL_Texture* image = sdl_sprite.loadTexture(renderer, image_area,
-                                                d_i.sprite_image_number);
-    return image;
-}
-
-Area ObjectDrawer::assembleScreenWeaponArea(DrawingInfo& drawing_info) {
-    int weapon_window_width = (int) (drawing_info.object_width * window_width);
-    int weapon_window_height = (int) (drawing_info.object_height*window_height);
-    int starting_y_pos = window_height - weapon_window_height;
-    int starting_x_pos = (window_width - weapon_window_width) / 2;
-    Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
-                     weapon_window_height);
-    return screen_area;
-}
-*/
-

@@ -24,10 +24,8 @@ void ClientUpdater::sendMap(std::map<Coordinate, Positionable> map) {
 
 void ClientUpdater::run() {
     while (alive) {
-        std::cout << "Server: while del client updater" << std::endl;
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;
-        std::cout << "El server tiene un cambio - global: " << change.isGlobal() << " - para el jugador: " << change.getPlayerID() << std::endl;
         if (change.isGlobal() || change.getPlayerID() == player_id) {
             //std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
             //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
@@ -35,7 +33,6 @@ void ClientUpdater::run() {
             std::cout << "Server envia el mensaje " << change.serialize() << std::endl;
         }
     }
-    std::cout << "Server: client updater sale del while" << std::endl;
 }
 
 void ClientUpdater::update(Change change) {change_queue.push(change);}

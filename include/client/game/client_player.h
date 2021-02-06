@@ -34,6 +34,10 @@ public:
     void updateKeys(int keys_delta);
     void respawn();
     void changeWeapon(int weapon_number);
+    std::pair<int, int> getMapPosition();
+    void setMapPosition(std::pair<int, int> new_map_position);
+    int getXPosition();
+    int getYPosition();
 private:
     int id = 0;
     std::string name;
