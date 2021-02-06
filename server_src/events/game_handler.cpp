@@ -38,8 +38,8 @@ void GameHandler::run() {
         //game.show();
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
-        game.releaseBots();
-        sleep(2);
+        //game.releaseBots();
+        sleep(1);
     }
     std::cout << "Termino la partida!!!!\n";
 }

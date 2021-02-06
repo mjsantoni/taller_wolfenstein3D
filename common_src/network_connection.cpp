@@ -134,7 +134,7 @@ int NetworkConnection::recv_msg(std::string& buffer) {
     std::cout << "Se espera recibir " << len << " bytes \n";
     size_t total_bytes = 0;
     while (total_bytes < len) {
-        std::vector<char> tmp_buf(64);
+        std::vector<char> tmp_buf(len - total_bytes);
         int bytes = recv(this->file_descriptor, tmp_buf.data(), tmp_buf.size(), 0);
         if (bytes == -1) return 1;
         buffer.append(tmp_buf.begin(), tmp_buf.end());

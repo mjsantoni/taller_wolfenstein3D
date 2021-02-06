@@ -14,8 +14,9 @@ int main() {
         std::cout << buffer << "\n";
 
     }
-    socket.sendMsg(Event(PLAYER_READY,0,0).serialize());
-    sleep(5);
+    socket.send_msg(Event(PLAYER_READY,0,0).serialize());
+    socket.closeSocket();
+
 }
 
 /*

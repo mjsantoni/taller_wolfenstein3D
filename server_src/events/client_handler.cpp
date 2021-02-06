@@ -39,12 +39,12 @@ void ClientHandler::run() {
         }
         sleep(1);
     }
+    std::cout << "Termino el ClientHandler\n";
 
 }
 
 void ClientHandler::stop() {
     alive = false;
-    //socket.closeSocket();
 }
 
 int ClientHandler::getPlayerId() const {

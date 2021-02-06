@@ -1,7 +1,7 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::map<Coordinate, Positionable>& _map) :
+ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::map<Coordinate, Positionable> _map) :
                             skt(_sk),
                             change_queue(Change()),
                             player_id(id),
@@ -24,7 +24,7 @@ void ClientUpdater::sendMap() {
 }
 
 void ClientUpdater::run() {
-    //sendMap();
+    sendMap();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;
@@ -35,6 +35,7 @@ void ClientUpdater::run() {
             std::cout << "Server envia el mensaje " << change.serialize() << std::endl;
         }
     }
+    std::cout << "Termino el ClientUpdater\n";
 }
 
 void ClientUpdater::update(Change change) {change_queue.push(change);}
@@ -43,7 +44,6 @@ void ClientUpdater::update(Change change) {change_queue.push(change);}
 void ClientUpdater::stop() {
     alive = false;
     change_queue.close();
-    //socket.closeSocket();
 }
 
 int ClientUpdater::getPlayerId() const {

@@ -16,19 +16,20 @@ private:
 public:
     Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id, std::map<Coordinate, Positionable> map) :
         sk(std::move(_sk)), clientHandler(sk, _sq,id), clientUpdater(sk,id, map) {
-        //clientHandler.start();
+        clientHandler.start();
         clientUpdater.start();
     }
 
     void update(Change &change) { clientUpdater.update(change); }
 
     void stop() {
-        clientUpdater.stop();
-        clientUpdater.join();
-
-        //clientHandler.stop();
-        //clientHandler.join();
+        sk.stopSending();
         sk.closeSocket();
+        clientHandler.stop();
+        clientUpdater.stop();
+
+        clientUpdater.join();
+        clientHandler.join();
     }
 };
 
