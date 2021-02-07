@@ -12,18 +12,11 @@ GameHandler::GameHandler(std::string map_path,
         alive(true) {}
 
 void GameHandler::run() {
-    while (!game.isReady() && alive) {
-        Event event = eventQueue.pop();
-        if (event.isInvalid()) continue;
-        if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
-        std::vector<Change> changes = eventProcessor.process(event);
-        notifyClients(changes);
-    }
+    waitInLobby();
     std::cout << "Termino el lobby\n";
     //sleep(3); // para cargar los HUDs y eso ?
     while (game.isNotOver() && alive) {
         int total_events = 0;
-
         while (total_events < MAX_EVENTS) {
             Event event = eventQueue.pop();
             if (event.isInvalid()) {
@@ -38,18 +31,48 @@ void GameHandler::run() {
         //game.show();
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
-        //game.releaseBots();
+        game.releaseBots();
         sleep(1);
     }
     std::cout << "Termino la partida!!!!\n";
+    sendTops();
 }
 
 void GameHandler::notifyClients(std::vector<Change>& changes) {
-
     for (auto& change : changes) {
         clientsManager.notifyClients(change);
     }
 }
+
+void GameHandler::waitInLobby() {
+    while (!game.isReady() && alive) {
+        Event event = eventQueue.pop();
+        if (event.isInvalid()) continue;
+        if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
+        std::vector<Change> changes = eventProcessor.process(event);
+        notifyClients(changes);
+    }
+}
+
+void GameHandler::notifyTop(std::vector<std::pair<int,int>> top, int change_id) {
+    std::vector<Change> changes;
+    for (int i = 0; i < top.size(); i++) {
+        changes.emplace_back(change_id, top[i].first, top[i].second, i);
+    }
+    notifyClients(changes);
+}
+
+void GameHandler::sendTops() {
+    std::vector<std::pair<int,int>> kills = game.getTop("kills", 5);
+    std::vector<std::pair<int,int>> bullets = game.getTop("bullets", 5);
+    std::vector<std::pair<int,int>> scores = game.getTop("scores", 5);
+
+    notifyTop(kills, TOP_KILLER);
+    notifyTop(bullets, TOP_SHOOTER);
+    notifyTop(scores, TOP_SCORER);
+}
+
+
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();

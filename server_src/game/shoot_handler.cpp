@@ -40,6 +40,7 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
 int ShootHandler::hit(Player &player, Player &enemy, int damage, bool &enemy_dies) {
     int reduced_hp = enemy.reduceHP(damage);
     enemy_dies = enemy.isDead();
+    if (enemy_dies) scoreHandler.addKill(player.getID(), 1);
     return reduced_hp;
 }
 
@@ -49,6 +50,7 @@ Hit ShootHandler::shootRPG(int bullets_to_shoot, Player &player, std::vector<Coo
     if (player.getBullets() < bullets_to_shoot) {
         return Hit(player.getID(), 0, enemy_dmg_done, false);
     }
+    scoreHandler.addBulletsShot(player.getID(), bullets_to_shoot);
     player.reduceAmmo(bullets_to_shoot);
     int new_rpg_id = map.getGlobalID();
     RPG rpg_shot(0, straight_line, player.getID(), new_rpg_id);
@@ -178,6 +180,7 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
             pos_travelled++;
         }
     }
+    scoreHandler.addBulletsShot(player.getID(), bullets_shot);
     if (wall_at_pos) return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);
     if (player.noAmmoLeft()) {
         std::cout << "No ammo left aviso\n";

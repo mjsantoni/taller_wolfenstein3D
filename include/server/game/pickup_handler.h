@@ -4,13 +4,15 @@
 #include "positionable.h"
 #include "player.h"
 #include "config_parser.h"
+#include "server/game/score_handler.h"
 
 class PickUpHandler {
 private:
     ConfigParser configParser;
+    ScoreHandler& scoreHandler;
 
 public:
-    PickUpHandler(std::string config_path);
+    PickUpHandler(std::string config_path, ScoreHandler& _sh);
 
     bool pickUp(Positionable& item, Player& player);
     bool pickUpTreasure(std::string type, int id, Player &player);
