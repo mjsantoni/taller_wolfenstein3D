@@ -10,6 +10,7 @@
 #define BLUE_WALL 2
 #define BROWN_WALL 3
 #define STONE_WALL 4
+#define SILVER_DOOR 34
 
 #define ITEM_CHAIN_CANNON 5
 #define ITEM_ROCKET_LAUNCHER 6
@@ -43,7 +44,8 @@
 
 #define EFFECT_EXPLOSION 31
 
-#define MISC
+#define MISC_BARREL 32
+#define MISC_TABLE 33
 
 
 

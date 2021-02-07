@@ -23,7 +23,8 @@ public:
     void run() override;
     void stop();
     ~ChangeProcessor();
-
+    void receiveMapFromServer();
+    void addMapChange(Change& change);
 };
 
 

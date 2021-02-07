@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <utility>
 
 #ifndef TP_WOLFENSTEIN_CALCULATOR_H
 #define TP_WOLFENSTEIN_CALCULATOR_H
@@ -13,6 +14,8 @@ public:
     static double calculateDistance(int delta_x, int delta_y);
     static double normalize(double alpha);
     static double calculateBeta(double new_angle, double original_angle);
+    static std::pair<int, int> calculateGrid(int grid_size, int x_pos,
+                                             int y_pos);
 };
 
 

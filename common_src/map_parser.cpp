@@ -1,4 +1,4 @@
-#include "server/game/map_parser.h"
+#include "common/map_parser.h"
 #include "yaml-cpp/yaml.h"
 #include <iostream>
 

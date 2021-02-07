@@ -5,7 +5,7 @@
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <unordered_map>
-#include "coordinate.h"
+#include "server/game/coordinate.h"
 class MapParser {
     private:
 

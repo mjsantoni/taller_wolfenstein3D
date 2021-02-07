@@ -6,7 +6,6 @@
 #define TP_WOLFENSTEIN_CLIENT_GAME_HANDLER_H
 
 #include <SDL.h>
-#include "event_handler_mock.h"
 #include "client/graphics/ray_caster.h"
 #include "client/graphics/sdl_window.h"
 #include "client/graphics/sdl_texture.h"
@@ -18,15 +17,16 @@
 #include "client_event_handler.h"
 #include "event_generator.h"
 #include "change_processor.h"
-
 #include <vector>
 #include <common/change.h>
 #include <common/shared_queue.h>
+#include <common/map_parser.h>
+#include "client_map_generator.h"
 
 class ClientGameHandler {
 public:
-    ClientGameHandler(int map_width, int map_height, MapMock& real_map,
-                      ClientMap& _map, SharedQueue<Change>& change_queue,
+    ClientGameHandler(int map_width, int map_height,
+                      SharedQueue<Change>& change_queue,
                       BlockingQueue<Event>& event_queue);
     void start();
     void killPlayer();
@@ -37,17 +37,17 @@ private:
     std::atomic<bool> running;
     SdlAudioPlayer audio_player;
     ClientMap map;
-    EventHandlerMock event_handler_mockup;
     EventGenerator event_generator;
     ObjectInfoProvider info_provider;
     GameScreen screen;
     ClientParser client_parser;
     ClientEventHandler client_event_handler = ClientEventHandler(player,screen);
     ChangeProcessor change_processor;
-    int game_level = 0;
+    std::string map_path;
     void displayIntro();
     int displayMatchModeMenu();
     void displayLevelSelectionMenu();
+    void setMapPath(int chosen_map);
 };
 
 

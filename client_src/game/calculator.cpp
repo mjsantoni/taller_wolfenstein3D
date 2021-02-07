@@ -27,3 +27,10 @@ double Calculator::calculateBeta(double new_angle, double original_angle) {
         return new_angle - original_angle;
     return 2*M_PI + (new_angle - original_angle);
 }
+
+std::pair<int, int>
+Calculator::calculateGrid(int grid_size, int x_pos, int y_pos) {
+    int x_grid = x_pos/grid_size;
+    int y_grid = y_pos/grid_size;
+    return std::pair<int, int>{x_grid, y_grid};
+}

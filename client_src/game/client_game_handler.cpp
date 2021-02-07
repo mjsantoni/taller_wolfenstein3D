@@ -11,14 +11,12 @@
 
 ClientGameHandler::ClientGameHandler(int width,
                                      int height,
-                                     MapMock& real_map,
-                                     ClientMap& _map,
                                      SharedQueue<Change>& change_queue,
                                      BlockingQueue<Event>& event_queue) :
-        running(true), event_handler_mockup(real_map), map(_map),
-        screen(width, height, info_provider, _map, player),
+        running(true),
+        screen(width, height, info_provider, map, player),
         event_generator(player, client_event_handler, event_queue),
-        change_processor(_map, player, screen, change_queue) {
+        change_processor(map, player, screen, change_queue) {
     client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
@@ -29,10 +27,10 @@ void ClientGameHandler::start() {
     if (game_mode != 1)
         return;
     displayLevelSelectionMenu();
-
+    MapParser map_parser(map_path);
+    ClientMapGenerator::create(map, map_parser);
     player.setMapPosition(std::pair<int, int>{235, 329});
-    event_handler_mockup.putPlayerAt(player.getPlayerName(), std::pair<int, int>(235, 329)); // mapa del "server"
-    map.putPlayerAt(player.getPlayerName(), std::pair<int, int>(235, 329)); // mapa del cliente
+    map.putPlayerAt(std::pair<int, int>(235, 329)); // mapa del cliente
     screen.render();
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
@@ -94,6 +92,10 @@ int ClientGameHandler::displayMatchModeMenu() {
     return ret_code;
 }
 
+void ClientGameHandler::setMapPath(int chosen_map) {
+    map_path =  "../map.yaml";
+}
+
 void ClientGameHandler::displayLevelSelectionMenu() {
     audio_player.playSong("../client_src/resources/music.wav");
     screen.displayLevelSelectionMenu();
@@ -101,9 +103,11 @@ void ClientGameHandler::displayLevelSelectionMenu() {
         SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
-        game_level = client_event_handler.handleLevelSelectionEvent(event);
-        if (game_level != 0)
+        int chosen_map = client_event_handler.handleLevelSelectionEvent(event);
+        if (chosen_map != 0) {
+            setMapPath(chosen_map);
             break;
+        }
     }
     audio_player.stopSong();
 }

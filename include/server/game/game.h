@@ -19,7 +19,7 @@
 #include "server/game/blocking_item_handler.h"
 #include "server/game/drop_handler.h"
 #include "server/game/map_generator.h"
-#include "server/game/map_parser.h"
+#include "common/map_parser.h"
 #include "server/game/shoot_handler.h"
 #include "server/events/hit_handler.h"
 #include "server/lua/lua_bot.h"

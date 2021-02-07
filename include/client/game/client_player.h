@@ -10,7 +10,6 @@
 #include <string>
 #include "client/graphics/sdl_texture.h"
 #include "client/graphics/sdl_sprite.h"
-#include "positionable_mock.h"
 
 class ClientPlayer {
 public:

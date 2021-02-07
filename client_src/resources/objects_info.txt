@@ -34,3 +34,8 @@ path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_hei
 path:../client_src/resources/ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:chain_gun_icon, is_sprite:0
 
 path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:explosion, is_sprite:0
+
+path:../client_src/resources/misc/barrel.png, obj_width:0.4, obj_height:0.2, img_width:48, img_height:37, name:barrel, is_sprite:0
+path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:46, img_height:36, name:table, is_sprite:0
+
+path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, img_width:32, img_height:32, name:table, is_sprite:0

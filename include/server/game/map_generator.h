@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_MAP_GENERATOR_H
 
 #include "map.h"
-#include "map_parser.h"
+#include "common/map_parser.h"
 
 class MapGenerator {
 private:

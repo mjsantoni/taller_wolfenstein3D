@@ -7,7 +7,6 @@
 
 #include "client/game/client_map.h"
 #include "area.h"
-#include "client/client_wall.h"
 #include "ray_info.h"
 #include "client/map_info.h"
 #include "sdl_window.h"

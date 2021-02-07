@@ -152,6 +152,7 @@ void ChangeProcessor::processChange(Change &change) {
 }
 
 void ChangeProcessor::run() {
+    receiveMapFromServer();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid())
@@ -166,4 +167,28 @@ void ChangeProcessor::stop() {
 }
 
 ChangeProcessor::~ChangeProcessor() {}
+
+void ChangeProcessor::receiveMapFromServer() {
+    map.setDimensions(10, 10, 64);
+    while(true) {
+        Change change = change_queue.pop();
+        if (change.getChangeID() != MAP_INITIALIZER)
+            break;
+        addMapChange(change);
+    }
+    std::cout << "Se termino de construir el mapa\n";
+}
+
+void ChangeProcessor::addMapChange(Change& change) {
+    /*
+    int object_id = change.getPlayerID();
+    int x_pos = change.getFirstValue();
+    int y_pos = change.getSecondValue();
+    if (isWall(object_id)) {
+        std::pair<int, int> grid =
+                Calculator::calculateGrid(map.getGridSize(), x_pos, y_pos);
+        map.putDrawableAt(grid, object_id);
+    }
+     */
+}
 

@@ -24,6 +24,7 @@ void ClientUpdater::sendMap() {
 }
 
 void ClientUpdater::run() {
+    std::cout << "Server enviando mapa\n";
     sendMap();
     while (alive) {
         Change change = change_queue.pop();

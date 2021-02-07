@@ -5,8 +5,7 @@
 #ifndef TP_WOLFENSTEIN_DRAWINGINFO_H
 #define TP_WOLFENSTEIN_DRAWINGINFO_H
 
-
-#include "client/game/positionable_mock.h"
+#include <utility>
 
 class MapInfo {
 public:

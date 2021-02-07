@@ -8,7 +8,6 @@
 #include <common/thread.h>
 #include <client/communication/server_updater.h>
 #include <client/communication/server_listener.h>
-#include "map_mock.h"
 #include "client_map.h"
 #include "client_game_handler.h"
 
@@ -22,7 +21,6 @@ public:
     void run() override;
     void stop();
 private:
-    MapMock real_map = MapMock(15, 20);
     ServerUpdater& server_updater;
     ServerListener& server_handler;
     ClientGameHandler game_handler;

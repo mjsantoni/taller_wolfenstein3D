@@ -12,7 +12,7 @@ ClientGame::ClientGame(ServerUpdater& _server_updater,
                        BlockingQueue<Event>& event_queue) :
            server_updater(_server_updater),
            server_handler(_server_handler),
-           game_handler(960, 600, real_map, _map, change_queue, event_queue),
+           game_handler(960, 600, change_queue, event_queue),
            alive(true) {}
 
 void ClientGame::run() {

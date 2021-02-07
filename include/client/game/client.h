@@ -7,7 +7,6 @@
 #include <client/communication/server_listener.h>
 #include "common/thread.h"
 #include "client/communication/client_parser.h"
-#include "map_mock.h"
 #include "client_game_handler.h"
 
 class Client {
