@@ -169,7 +169,6 @@ void ChangeProcessor::stop() {
 ChangeProcessor::~ChangeProcessor() {}
 
 void ChangeProcessor::receiveMapFromServer() {
-    map.setDimensions(10, 10, 64);
     while(true) {
         Change change = change_queue.pop();
         if (change.getChangeID() != MAP_INITIALIZER)

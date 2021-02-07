@@ -5,13 +5,13 @@
 #include "client/game/image_manager.h"
 
 int ImageManager::getImageNumberFromName(std::string name) {
-    if (name == "wood wall")
+    if (name == "wood_wall")
         return BROWN_WALL;
-    if (name == "stone wall")
+    if (name == "stone_wall")
         return GRAY_WALL;
-    if (name == "blue wall")
+    if (name == "blue_wall")
         return BLUE_WALL;
-    if (name == "fake wall")
+    if (name == "fake_wall")
         return STONE_WALL;
     if (name == "unlocked_door")
         return SILVER_DOOR;

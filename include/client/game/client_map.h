@@ -65,7 +65,7 @@ public:
     void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
     void updateRPGMissile(int object_id, int new_x, int new_y);
     void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
-    void setDimensions(int _width, int _height, int _grid_size);
+    void setDimensions(int _width, int _height);
     void moveObject(int object_id, std::pair<int, int> new_coordinates);
 };
 

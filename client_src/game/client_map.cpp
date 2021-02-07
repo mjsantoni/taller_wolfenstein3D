@@ -17,7 +17,6 @@ ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
 
 ClientMap::ClientMap() : width(0),
                          height(0),
-                         grid_size(0),
                          real_width(0),
                          real_height(0) {
 }
@@ -141,6 +140,11 @@ void ClientMap::putDrawableAt(std::pair<int, int> coordinates, int object_type){
             Drawable>(coordinates,drawable));
 }
 
+void ClientMap::putDrawableAt(int x_pos, int y_pos, int object_type) {
+    Drawable drawable(object_type);
+    drawable.setMapPosition(x_pos, y_pos);
+}
+
 void ClientMap::moveObject(int object_id, std::pair<int, int> new_coordinates) {
     Drawable& drawable = objects.at(object_id);
     std::pair<int, int> current_coord = drawable.getMapPosition();
@@ -161,12 +165,6 @@ void ClientMap::moveObject(int object_id, int x_pos, int y_pos){
     drawable.setMapPosition(x_pos, y_pos);
     drawables_by_position.insert(std::pair<std::pair<int, int>,
             Drawable>(std::pair<int, int>{x_pos, y_pos},drawable));
-}
-
-
-void ClientMap::putDrawableAt(int x_pos, int y_pos, int object_type) {
-    Drawable drawable(object_type);
-    drawable.setMapPosition(x_pos, y_pos);
 }
 
 int ClientMap::getWidth() {
@@ -217,10 +215,9 @@ void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
     putDrawableAt(exp_x, exp_y, EFFECT_EXPLOSION);
 }
 
-void ClientMap::setDimensions(int _width, int _height, int _grid_size) {
+void ClientMap::setDimensions(int _width, int _height) {
     width = _width;
     height = _height;
-    grid_size = _grid_size;
     real_width = width * grid_size;
     real_height = height * grid_size;
 }

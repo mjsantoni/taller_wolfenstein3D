@@ -29,8 +29,8 @@ void ClientGameHandler::start() {
     displayLevelSelectionMenu();
     MapParser map_parser(map_path);
     ClientMapGenerator::create(map, map_parser);
-    player.setMapPosition(std::pair<int, int>{235, 329});
-    map.putPlayerAt(std::pair<int, int>(235, 329)); // mapa del cliente
+    player.setMapPosition(std::pair<int, int>{128, 128});
+    map.putPlayerAt(std::pair<int, int>(128, 128)); // mapa del cliente
     screen.render();
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;

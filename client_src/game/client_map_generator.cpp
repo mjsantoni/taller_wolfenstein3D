@@ -5,6 +5,7 @@
 #include "client/game/client_map_generator.h"
 
 void ClientMapGenerator::create(ClientMap& map, MapParser& map_parser) {
+    setMapDimensions(map, map_parser);
     addWallsToMap(map, map_parser);
     addObjectsToMap(map, map_parser);
 }
@@ -33,6 +34,14 @@ void ClientMapGenerator::addObjectsToMap(ClientMap& map, MapParser& map_parser){
             map.putDrawableAt(x_pos, y_pos, object_type);
         }
     }
+}
+
+void ClientMapGenerator::setMapDimensions(ClientMap& map,
+                                          MapParser& map_parser) {
+    Coordinate dimensions = map_parser.getDimensions();
+    int width = dimensions.x;
+    int height = dimensions.y;
+    map.setDimensions(width, height);
 }
 
 

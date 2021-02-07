@@ -18,14 +18,12 @@ void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
     if (!infile)
         throw FileException("Archivo de imagenes no encontrado");
     std::string line;
-    int counter = 0;
+    addFakeObject(vector);
+    int counter = 1;
     while (std::getline(infile, line)) {
         if (line.empty())
             continue;
-        if (counter == 0)
-            addFakeObject(vector);
-        else
-            processLine(vector, line, counter);
+        processLine(vector, line, counter);
         counter++;
     }
 }
