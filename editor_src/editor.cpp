@@ -8,8 +8,8 @@
 #include "ui_editor.h"
 #include "editor/QGridButton.h"
 
-#define DEF_HEIGHT 7
-#define DEF_WIDTH 7
+#define DEF_HEIGHT 15
+#define DEF_WIDTH 15
 
 
 struct Coordinate { int x; int y; Coordinate(int coord_x, int coord_y) : x(coord_x), y(coord_y) {}};
@@ -59,8 +59,7 @@ void Editor::dropEvent(QDropEvent *e){
 }
 
 
-void Editor::dragMoveEvent(QDragMoveEvent* event)
-{
+void Editor::dragMoveEvent(QDragMoveEvent* event) {
     // if some actions should not be usable, like move, this code must be adopted
     event->acceptProposedAction();
 }
@@ -136,6 +135,14 @@ void Editor::createMapGrid() {
     QCursor cursor;
     QIcon icon(cursor.pixmap());
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
+    QWidget* scrollAreaContent = new QWidget;
+    scrollAreaContent->setStyleSheet("QWidget{background-color: black;}");
+    scrollAreaContent->setLayout( mapGrid );
+    QScrollArea* scrollArea = findChild<QScrollArea*>("scrollArea");
+    scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+    scrollArea->setWidgetResizable( true );
+    scrollArea->setWidget( scrollAreaContent );
     for (int i = 0; i < DEF_HEIGHT; ++i) {
         for (int j = 0; j < DEF_WIDTH; ++j) {
             QGridButton* buttonGrid = new QGridButton();
@@ -166,8 +173,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
     QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
     QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
-    QPixmap locked_pix("../client_src/resources/items/blood.png");
-    QPixmap barrel_pix("../client_src/resources/items/bullets.png");
+    // QPixmap locked_pix("../client_src/resources/items/blood.png");
+    // QPixmap barrel_pix("../client_src/resources/items/bullets.png");
 
     const char *wood_wall = "wood_wall";
     const char *gray_wall = "gray_wall";
@@ -186,8 +193,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QIcon rpg_icon(rpg_pix);
     QIcon chain_icon(chain_pix);
     QIcon machine_icon(machine_pix);
-    QIcon locked_icon(locked_pix);
-    QIcon barrel_icon(barrel_pix);
+    // QIcon locked_icon(locked_pix);
+    // QIcon barrel_icon(barrel_pix);
 
     QMenu* menu = new QMenu();
     QAction* wood_action = menu->addAction(wood_icon, wood_wall);
@@ -197,8 +204,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QAction* rpg_action = menu->addAction(rpg_icon, rpg_gun);
     QAction* chain_action = menu->addAction(chain_icon, chain_gun);
     QAction* machine_action = menu->addAction(machine_icon, machine_gun);
-    QAction* locked_action = menu->addAction(locked_icon, locked_door);
-    QAction* barrel_action = menu->addAction(barrel_icon, barrel);
+    //QAction* locked_action = menu->addAction(locked_icon, locked_door);
+    //QAction* barrel_action = menu->addAction(barrel_icon, barrel);
 
     connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, wood_wall));
     connect(gray_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, gray_icon, gray_wall));
@@ -207,8 +214,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, rpg_gun));
     connect(chain_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chain_icon, chain_gun));
     connect(machine_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machine_icon, machine_gun));
-    connect(locked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, locked_icon, locked_door));
-    connect(barrel_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrel_icon, barrel));
+    //connect(locked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, locked_icon, locked_door));
+    //connect(barrel_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrel_icon, barrel));
 
     return menu;
 }
@@ -239,8 +246,8 @@ void Editor::exportMap() {
     QString qWidth = QString("%1").arg(inputWidth->text());
     std::string height = qHeight.toStdString();
     std::string width = qWidth.toStdString();
-    if (height.empty()) height = "7";
-    if (width.empty()) width = "7";
+    if (height.empty()) height = "15";
+    if (width.empty()) width = "15";
 
     std::vector<std::pair<int, int>> wood_positions;
     std::vector<std::pair<int, int>> stone_positions;
@@ -292,7 +299,6 @@ void Editor::exportMap() {
     out << YAML::Key << "locked_door";
     out << YAML::Value << locked_positions << YAML::EndSeq;
     out << YAML::EndMap;
-
 
     out << YAML::Key << "items";
     out << YAML::Value << YAML::BeginMap;
@@ -370,6 +376,7 @@ void Editor::connectEvents() {
     QPushButton* button_items = findChild<QPushButton*>("buttonItems");
     QPushButton* button_weapons = findChild<QPushButton*>("buttonWeapons");
     QPushButton* button_players = findChild<QPushButton*>("buttonPlayers");
+
     connect(button_export, &QPushButton::clicked,this, &Editor::exportMap);
     connect(button_refresh, &QPushButton::clicked,this, &Editor::refreshMapGrid);
     connect(button_walls, &QPushButton::clicked,this, std::bind(&Editor::updateTextureGrid, this, "walls"));
@@ -381,8 +388,7 @@ void Editor::connectEvents() {
 void Editor::updateTextureGrid(std::string texture_type) {
     QGridLayout* textures_grid = findChild<QGridLayout*>("texturesGrid");
     QLayoutItem* item;
-    while ( ( item = textures_grid->takeAt( 0 ) ) != NULL )
-    {
+    while ((item = textures_grid->takeAt( 0)) != NULL){
         delete item->widget();
         delete item;
     }
@@ -412,6 +418,7 @@ void Editor::renderWallsGrid(QGridLayout *texture_grid) {
     icons.push_back(QIcon(stone_pix));
     // icons.push_back(QIcon(locked_pix));
     // icons.push_back(QIcon(barrel_pix));
+
     int i = 0;
     for (auto &icon: icons) {
         QGridButton* button = new QGridButton();
@@ -431,7 +438,6 @@ void Editor::changeCursor(QPixmap pix) {
 void Editor::renderItemsGrid(QGridLayout *texture_grid) {
     std::vector<QIcon> icons;
 
-    QPixmap blood_pix("../client_src/resources/items/blood.png");
     QPixmap bullets_pix("../client_src/resources/items/bullets.png");
     QPixmap chest_pix("../client_src/resources/items/chest.png");
     QPixmap cross_pix("../client_src/resources/items/cross.png");
@@ -441,8 +447,6 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
     QPixmap key_pix("../client_src/resources/items/key.png");
     QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
 
-
-    icons.push_back(QIcon(blood_pix));
     icons.push_back(QIcon(bullets_pix));
     icons.push_back(QIcon(chest_pix));
     icons.push_back(QIcon(cross_pix));
