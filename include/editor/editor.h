@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_EDITOR_H
 
 #include <QMainWindow>
-#include <QPushButton>
+#include "QGridButton.h"
 #include <QActionGroup>
 #include <QLabel>
 #include <QGridLayout>
@@ -13,11 +13,11 @@
 class Editor : public QMainWindow {
 public:
     explicit Editor(QMainWindow *parent = 0);
-    void updateGridButton(QPushButton *button, QIcon &icon, const char *texture);
+    void updateGridButton(QGridButton *button, QIcon &icon, const char *texture);
 private:
     void createMapGrid();
     void refreshMapGrid();
-    QMenu* createGridButtonMenu(QPushButton* button);
+    QMenu* createGridButtonMenu(QGridButton* button);
     void exportMap();
     void connectEvents();
     std::string getYamlPath();
@@ -42,6 +42,10 @@ private:
     void dragMoveEvent(QDragMoveEvent *event);
 
     void dragLeaveEvent(QDragLeaveEvent *event);
+
+    void updateGridButtonWithCursor(QGridButton *button);
+
+    void renderWeaponsGrid(QGridLayout *pLayout);
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

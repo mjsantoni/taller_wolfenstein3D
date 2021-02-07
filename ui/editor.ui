@@ -212,6 +212,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="buttonWeapons">
+            <property name="text">
+             <string>Weapons</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="buttonPlayers">
             <property name="text">
              <string>Players</string>

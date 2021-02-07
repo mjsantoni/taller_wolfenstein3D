@@ -3,10 +3,9 @@
 
 QGridButton::QGridButton(QWidget *parent) : QPushButton(parent){}
 
-void QGridButton::mousePressEvent(QMouseEvent *e){
-    if(e->button()==Qt::RightButton){
+void QGridButton::mousePressEvent(QMouseEvent *e) {
+    if (e->button() == Qt::RightButton) {
         emit rightClicked();
-    } else if(e->button()==Qt::LeftButton) {
-        emit clicked();
     }
+    QPushButton::mousePressEvent(e);
 }
