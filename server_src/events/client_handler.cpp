@@ -41,7 +41,6 @@ void ClientHandler::run() {
             //std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
 
         }
-        sleep(1);
     }
     std::cout << "Termino el ClientHandler\n";
 

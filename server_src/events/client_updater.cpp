@@ -33,7 +33,6 @@ void ClientUpdater::run() {
             //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
             skt.send_msg(change.serialize());
             std::cout << "Server envia el mensaje " << change.serialize() << std::endl;
-            sleep(1);
         }
     }
     std::cout << "Termino el ClientUpdater\n";
