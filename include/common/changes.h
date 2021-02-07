@@ -22,5 +22,8 @@
 #define RPG_EXPLODE_AT 18
 
 #define MAP_INITIALIZER 19
+#define TOP_KILLER 20
+#define TOP_SHOOTER 21
+#define TOP_SCORER 22
 
 #endif //TP_WOLFENSTEIN_CHANGES_H

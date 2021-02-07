@@ -1,6 +1,5 @@
 #include "server/game/game.h"
 
-
 #include <iostream>
 
 #define MAX_PLAYERS 2
@@ -10,21 +9,18 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
-           colHandler(map),
-           pickUpHandler(config_path),
            configParser(config_path),
-           dropHandler(config_path, map),
+           colHandler(map),
            blockingItemHandler(map),
-           shootHandler(map),
+           shootHandler(map, scoreHandler),
+           pickUpHandler(config_path, scoreHandler),
+           dropHandler(config_path, map),
            botsManager(bm) {
-    //addBot();
+    addBot();
     //addBot();
 }
 
-Game::~Game() {
-    botsManager.destroyBots();
-}
-
+Game::~Game() { botsManager.destroyBots(); }
 
 /* RECEIVED EVENTS */
 
@@ -68,7 +64,6 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
     return std::make_pair(new_pos, erased_positionables);
 }
 
-
 std::pair<Hit, std::vector<Change>> Game::shoot(int id) {
     Player& shooter = players[id];
     double angle = shooter.getAngle();
@@ -107,6 +102,7 @@ int Game::pushWall(int id) {
     /* Exito, hay pared falsa, devuelvo ID */
     return map.getBlockingItemAt(wall_to_push).getId();
 }
+
 #define ANGLE (M_PI/4)
 void Game::rotate(int id, int rotation) {
     Player& player = players[id];
@@ -114,22 +110,17 @@ void Game::rotate(int id, int rotation) {
     player.addAngle(rotation*ANGLE);
 }
 
-void Game::changeGun(int id, int hotkey) {
-    //pickUpHandler.pickUpGun("rpg_gun", id, players[id]); // TEST ONLY
-    players[id].changeGun(hotkey);
-}
+void Game::changeGun(int id, int hotkey) { players[id].changeGun(hotkey); }
 
 /* GAME CHECK */
 
 bool Game::isNotOver() {
     std::unique_lock<std::mutex> lock(m);
     if (players_alive <= 0) return false;
-
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;
     if (elapsed_seconds.count()  >= 5) return false; // debe ser >= minutos que dura el game
-
     return true;
 }
 
@@ -160,7 +151,6 @@ void Game::playerDies(Hit& hit) {
     }
     dropHandler.processDrops(hit.getDrops());
     // carga en el mapa del sv esos drops
-
     hit.setPlayersDeaths(dead_respawn_players);
 }
 
@@ -217,6 +207,13 @@ bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
     return (players_alive == MAX_PLAYERS || players_ready.size() >= (MAX_PLAYERS * 0.1));
+}
+
+
+std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
+    if (type == "kills") return scoreHandler.getTopFraggers(n);
+    if (type == "bullets") return scoreHandler.getTopShooters(n);
+    return scoreHandler.getTopCollectors(n);
 }
 
 /* LUA SCRIPT */

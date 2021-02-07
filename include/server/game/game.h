@@ -24,6 +24,7 @@
 #include "server/events/hit_handler.h"
 #include "server/lua/lua_bot.h"
 #include "server/lua/bots_manager.h"
+#include "server/game/score_handler.h"
 
 class Game {
 private:
@@ -31,12 +32,13 @@ private:
     MapParser mapParser;
     MapGenerator mapGenerator;
     Map map;
-    ColissionHandler colHandler;
-    PickUpHandler pickUpHandler;
     ConfigParser configParser;
-    DropHandler dropHandler;
+    ScoreHandler scoreHandler;
+    ColissionHandler colHandler;
     BlockingItemHandler blockingItemHandler;
     ShootHandler shootHandler;
+    PickUpHandler pickUpHandler;
+    DropHandler dropHandler;
     HitHandler hitHandler;
     std::map<Coordinate,int> doors_to_close;
     std::chrono::time_point<std::chrono::system_clock> time_start;
@@ -87,6 +89,8 @@ public:
     void sendStartDataToBot(LuaBot *bot);
 
     void releaseBots();
+
+    std::vector<std::pair<int, int>> getTop(std::string type, int n);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

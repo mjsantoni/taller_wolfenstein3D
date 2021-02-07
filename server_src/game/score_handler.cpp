@@ -33,14 +33,14 @@ std::vector<std::pair<int,int>> ScoreHandler::getTopCollectors(int n) { return g
 
 bool cmp(std::pair<int,int> n1, std::pair<int,int> n2) { return n1.second > n2.second; };
 
-std::vector<std::pair<int,int>> sortMap(std::map<int,int> map) {
+std::vector<std::pair<int,int>> sortMap(std::unordered_map<int,int> map) {
     std::vector<std::pair<int,int>> sorted;
     for (auto& elem : map) sorted.push_back(elem);
     std::sort(sorted.begin(), sorted.end(), cmp);
     return sorted;
 }
 
-std::vector<std::pair<int,int>> ScoreHandler::getTop(std::map<int,int> map, int n) {
+std::vector<std::pair<int,int>> ScoreHandler::getTop(std::unordered_map<int,int> map, int n) {
     std::vector<std::pair<int,int>> topN = sortMap(map);
     if (n > topN.size()) n = topN.size();
     if (n < 0) n = 0;

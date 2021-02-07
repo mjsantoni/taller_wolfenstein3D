@@ -3,16 +3,20 @@
 
 #include <map>
 #include <vector>
+#include <unordered_map>
 
 class ScoreHandler {
 private:
-    std::map<int,int> kills;
-    std::map<int,int> bulletsShot;
-    std::map<int,int> treasurePoints;
+    std::unordered_map<int,int> kills;
+    std::unordered_map<int,int> bulletsShot;
+    std::unordered_map<int,int> treasurePoints;
 
-    std::vector<std::pair<int,int>> getTop(std::map<int,int> map, int n);
+    std::vector<std::pair<int,int>> getTop(std::unordered_map<int,int> map, int n);
 
 public:
+
+    ScoreHandler() = default;
+
     void addKill(int id, int n);
     void addBulletsShot(int id, int n);
     void addTreasurePoints(int id, int n);

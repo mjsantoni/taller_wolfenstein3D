@@ -6,15 +6,19 @@
 #include "server/entities/rpg.h"
 #include "server/game/damage_calculator.h"
 #include "common/change.h"
+#include "server/game/score_handler.h"
+
 
 class ShootHandler {
 private:
     Map& map;
     std::map<int, RPG> rpgs;
     DamageCalculator dmg_calculator;
+    ScoreHandler& scoreHandler;
+
 
 public:
-    ShootHandler(Map& _map) : map(_map) {}
+    ShootHandler(Map& _map, ScoreHandler& _sh) : map(_map), scoreHandler(_sh) {}
 
     std::pair<Hit, std::vector<Change>> shoot(Player& player, double angle, std::vector<Player>& players);
 

@@ -5,7 +5,7 @@
 #include "server/entities/gun.h"
 #include "server/entities/key.h"
 
-PickUpHandler::PickUpHandler(std::string config_path) : configParser(config_path) {}
+PickUpHandler::PickUpHandler(std::string config_path, ScoreHandler& _sh) : configParser(config_path), scoreHandler(_sh) {}
 PickUpHandler::~PickUpHandler() {}
 
 bool PickUpHandler::pickUp(Positionable& item, Player& player) {
@@ -20,6 +20,7 @@ bool PickUpHandler::pickUp(Positionable& item, Player& player) {
 bool PickUpHandler::pickUpTreasure(std::string type, int id, Player &player) {
     Treasure item(type, id, configParser.getSpecificCategory("treasure", type));
     player.addPoints(item.getPoints());
+    scoreHandler.addTreasurePoints(player.getID(), item.getPoints());
     return true;
 }
 

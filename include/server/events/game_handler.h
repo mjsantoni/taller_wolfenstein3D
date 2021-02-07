@@ -38,6 +38,11 @@ public:
 
     void notifyClients(std::vector<Change> &changes);
 
+    void waitInLobby();
+
+    void sendTops();
+
+    void notifyTop(std::vector<std::pair<int, int>> top, int change_id);
 };
 
 
