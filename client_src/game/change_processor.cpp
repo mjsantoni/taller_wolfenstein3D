@@ -144,6 +144,21 @@ void ChangeProcessor::processChange(Change &change) {
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
+        case (CL_UPDATE_DIRECTION): {
+            player.updateDirection(value2);
+            render_vector = std::vector<int>{1, 1, 0};
+            break;
+        }
+        case (CL_PLAYER_SHOOTING): {
+            if (player.getAmmo() > 0)
+                screen.displayPlayerShooting();
+            return;
+        }
+        case (CL_CHANGE_WEAPON): {
+            player.changeWeapon(value2);
+            render_vector = std::vector<int>{0, 0, 1};
+            break;
+        }
         default: {
             break;
         }

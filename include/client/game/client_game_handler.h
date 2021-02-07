@@ -41,7 +41,7 @@ private:
     ObjectInfoProvider info_provider;
     GameScreen screen;
     ClientParser client_parser;
-    ClientEventHandler client_event_handler = ClientEventHandler(player,screen);
+    ClientEventHandler event_handler;
     ChangeProcessor change_processor;
     std::string map_path;
     void displayIntro();

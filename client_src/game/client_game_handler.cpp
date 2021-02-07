@@ -15,9 +15,10 @@ ClientGameHandler::ClientGameHandler(int width,
                                      BlockingQueue<Event>& event_queue) :
         running(true),
         screen(width, height, info_provider, map, player),
-        event_generator(player, client_event_handler, event_queue),
+        event_handler(player, screen, change_queue),
+        event_generator(player, event_handler, event_queue),
         change_processor(map, player, screen, change_queue) {
-    client_event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
+    event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
 void ClientGameHandler::start() {
@@ -84,7 +85,7 @@ int ClientGameHandler::displayMatchModeMenu() {
         SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
-        ret_code = client_event_handler.handleMatchModeScreenEvent(event);
+        ret_code = event_handler.handleMatchModeScreenEvent(event);
         if (ret_code != 0)
             break;
     }
@@ -103,7 +104,7 @@ void ClientGameHandler::displayLevelSelectionMenu() {
         SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
-        int chosen_map = client_event_handler.handleLevelSelectionEvent(event);
+        int chosen_map = event_handler.handleLevelSelectionEvent(event);
         if (chosen_map != 0) {
             setMapPath(chosen_map);
             break;

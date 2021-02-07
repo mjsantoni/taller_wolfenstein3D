@@ -9,6 +9,7 @@
 #include <common/event.h>
 #include <common/events.h>
 #include <common/blocking_queue.h>
+#include <common/shared_queue.h>
 #include "client_player.h"
 #include "client_event_handler.h"
 

@@ -6,19 +6,23 @@
 #
 
 void ClientEventHandler::handleWeaponChange(int weapon_number) {
-    player.changeWeapon(weapon_number);
-    screen.render(std::vector<int>{0, 0, 1});
+    Change change(CL_CHANGE_WEAPON, 0, 0, weapon_number);
+    change_queue.push(change);
+
 }
 
 void ClientEventHandler::handleCameraTurn(int direction) {
-    player.updateDirection(direction);
+    Change change(CL_UPDATE_DIRECTION, 0, 0, direction);
+    change_queue.push(change);
+    //player.updateDirection(direction);
 }
 
 ClientEventHandler::ClientEventHandler(ClientPlayer &_player,
-                                       GameScreen& _screen) :
+                                       GameScreen& _screen,
+                                       SharedQueue<Change>& _change_queue) :
                                        player(_player),
-                                       screen(_screen) {
-
+                                       screen(_screen),
+                                       change_queue(_change_queue){
 }
 
 int ClientEventHandler::handleMatchModeScreenEvent(SDL_Event event) {
@@ -66,7 +70,6 @@ bool ClientEventHandler::eventInsideArea(Area& area, int x_pos, int y_pos) {
 }
 
 void ClientEventHandler::handlePlayerShooting() {
-    if (player.getAmmo() <= 0)
-        return;
-    screen.displayPlayerShooting();
+    Change change(CL_PLAYER_SHOOTING, 0, 0, 0);
+    change_queue.push(change);
 }
