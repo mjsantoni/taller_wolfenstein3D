@@ -13,6 +13,7 @@ GameHandler::GameHandler(std::string map_path,
 
 void GameHandler::run() {
     waitInLobby();
+    //game.addBot(); aca añadir tantos bots como se desean.
     std::cout << "Termino el lobby\n";
     //sleep(3); // para cargar los HUDs y eso ?
     while (game.isNotOver() && alive) {

@@ -180,6 +180,7 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
             pos_travelled++;
         }
     }
+    //if (player.getGun().getType() == "knife") bullets_shot = 0;
     scoreHandler.addBulletsShot(player.getID(), bullets_shot);
     if (wall_at_pos) return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);
     if (player.noAmmoLeft()) {

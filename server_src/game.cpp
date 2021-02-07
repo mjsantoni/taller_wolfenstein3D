@@ -16,8 +16,6 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            pickUpHandler(config_path, scoreHandler),
            dropHandler(config_path, map),
            botsManager(bm) {
-    addBot();
-    //addBot();
 }
 
 Game::~Game() { botsManager.destroyBots(); }
