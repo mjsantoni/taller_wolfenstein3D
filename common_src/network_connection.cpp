@@ -125,6 +125,8 @@ std::uint32_t NetworkConnection::recv_size() {
                          sizeof(std::uint32_t) - total_bytes, 0);
         if (bytes == -1) throw NetworkError("Error receiving size: %s\n",
                                             strerror(errno));
+        if (bytes == 0) throw NetworkError("Communication closed: %s\n",
+                                           strerror(errno));
         total_bytes += bytes;
     }
     return len;
@@ -139,6 +141,8 @@ int NetworkConnection::recv_msg(std::string& buffer) {
         int bytes = recv(this->file_descriptor, tmp_buf.data(), tmp_buf.size(), 0);
         if (bytes == -1) throw NetworkError("Error receiving: %s\n",
                                             strerror(errno));
+        if (bytes == 0) throw NetworkError("Communication closed: %s\n",
+                                                 strerror(errno));;
         buffer.append(tmp_buf.begin(), tmp_buf.end());
         total_bytes += bytes;
     }

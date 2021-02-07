@@ -19,7 +19,6 @@ void ClientUpdater::sendMap() {
         int id = elem.second.getId();
         Change change(MAP_INITIALIZER, id, x, y, false);
         skt.send_msg(change.serialize());
-        sleep(1);
     }
 }
 
