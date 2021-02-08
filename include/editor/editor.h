@@ -33,8 +33,6 @@ private:
 
     void renderPlayersGrid(QGridLayout *texture_grid);
 
-    void changeCursor(QPixmap pix);
-
     void dragEnterEvent(QDragEnterEvent *e);
 
     void dropEvent(QDropEvent *e);
@@ -46,6 +44,10 @@ private:
     void updateGridButtonWithCursor(QGridButton *button);
 
     void renderWeaponsGrid(QGridLayout *pLayout);
+
+    void changeCursor(QPixmap pix, std::string texture_name);
+
+    std::string currentCursor;
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H
