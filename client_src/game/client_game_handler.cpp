@@ -17,7 +17,7 @@ ClientGameHandler::ClientGameHandler(int width,
         game_started(false),
         screen(width, height, info_provider, map, player),
         event_handler(player, screen, change_queue),
-        event_generator(player, event_handler, event_queue),
+        event_generator(player, event_handler, event_queue, game_started),
         off_game_change_processor(game_started, map, player, change_queue),
         change_processor(map, player, screen, change_queue, audio_manager,
                          game_started) {
@@ -127,7 +127,6 @@ void ClientGameHandler::displayLoadingScreen() {
     }
     while (!game_started) {
         screen.displayLoadingScreen(false);
-        std::cout << "procesando cambios" << std::endl;
         off_game_change_processor.processOffGameChanges();
     }
     audio_manager.stopSong();

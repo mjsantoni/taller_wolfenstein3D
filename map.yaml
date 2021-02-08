@@ -19,6 +19,6 @@ players:
   6: [[1, 7]]
   7: [[1, 8]]
 items:
-  crown: []
-  rpg_gun: []
-  chain_gun: []
+  crown: [[2, 2], [2, 1]]
+  rpg_gun: [[8, 7]]
+  chain_gun: [[3, 3]]

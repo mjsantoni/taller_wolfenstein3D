@@ -6,10 +6,12 @@
 
 EventGenerator::EventGenerator(ClientPlayer &_player,
                                ClientEventHandler &_event_handler,
-                               BlockingQueue<Event>& _event_queue) :
+                               BlockingQueue<Event>& _event_queue,
+                               std::atomic<bool>& _game_started) :
         player(_player),
         event_handler(_event_handler),
-        event_queue(_event_queue){
+        event_queue(_event_queue),
+        game_started(_game_started){
 }
 
 void EventGenerator::stop() {
@@ -18,6 +20,8 @@ void EventGenerator::stop() {
 
 void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     if (!is_running)
+        return;
+    if (!game_started)
         return;
     Event event = Event(INVALID, player.getId(), 0);
     switch (sdl_event.type) {

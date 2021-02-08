@@ -17,7 +17,7 @@ GameHandler::GameHandler(std::string map_path,
 void GameHandler::run() {
     waitInLobby();
     addBots();
-
+    sleep(1);
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
 
