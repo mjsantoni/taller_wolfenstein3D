@@ -101,7 +101,7 @@ int Game::pushWall(int id) {
     return map.getBlockingItemAt(wall_to_push).getId();
 }
 
-#define ANGLE (M_PI/4)
+#define ANGLE (M_PI/10)
 void Game::rotate(int id, int rotation) {
     Player& player = players[id];
 

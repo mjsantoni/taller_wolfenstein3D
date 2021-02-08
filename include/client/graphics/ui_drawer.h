@@ -8,6 +8,7 @@
 #define EQ_WEAPON_DELTA 20
 #define WEAPON_ICON_DELTA 25
 
+#include <zconf.h>
 #include <string>
 #include "area.h"
 #include "client/game/client_player.h"
@@ -50,6 +51,7 @@ public:
     void setDimensions(int _starting_point, int _height, int _width);
     void drawPlayerUI(ClientPlayer& player);
     void displayPlayerShooting(int weapon_number);
+    void displayPlayerStopShooting(int weapon_number);
 };
 
 

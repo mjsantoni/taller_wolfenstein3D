@@ -78,6 +78,12 @@ void GameScreen::render(std::vector<int> boolean_vector) {
 
 void GameScreen::displayPlayerShooting() {
     ui_drawer.displayPlayerShooting(player.getEquippedWeapon());
+    usleep(300000);
+    int x = player.getXPosition();
+    int y = player.getYPosition();
+    ray_caster.renderBackground(x, y, player.getDirection());
+    object_drawer.loadObjects(x, y, player.getDirection());
+    ui_drawer.displayPlayerStopShooting(player.getEquippedWeapon());
 }
 
 

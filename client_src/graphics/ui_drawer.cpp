@@ -219,4 +219,16 @@ void UIDrawer::displayPlayerShooting(int weapon_number) {
     Area screen_area = assembleScreenWeaponArea(object_info);
     window.loadImage(texture, image_area, screen_area);
     SDL_DestroyTexture(texture);
+    window.render();
+}
+
+void UIDrawer::displayPlayerStopShooting(int weapon_number) {
+    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
+                                                         + EQ_WEAPON_DELTA);
+    object_info.setSpriteAnimationNo(0);
+    Area image_area;
+    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
+    Area screen_area = assembleScreenWeaponArea(object_info);
+    window.loadImage(texture, image_area, screen_area);
+    window.render();
 }

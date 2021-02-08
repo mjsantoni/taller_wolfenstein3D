@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_GAME_SCREEN_H
 #define TP_WOLFENSTEIN_GAME_SCREEN_H
 
-
 #include "image_parser.h"
 #include "client/object_info_provider.h"
 #include "sdl_window.h"

@@ -5,7 +5,7 @@
 #ifndef TP_WOLFENSTEIN_CLIENT_PLAYER_H
 #define TP_WOLFENSTEIN_CLIENT_PLAYER_H
 
-#define TURN_VALUE 0.15708
+#define TURN_VALUE M_PI/10
 
 #include <string>
 #include "client/graphics/sdl_texture.h"
@@ -16,7 +16,7 @@ public:
     ClientPlayer(std::string name);
     std::string getPlayerName();
     double getDirection();
-    void updateDirection(double offset);
+    void updateDirection(int direction);
     double projectDirection(double direction_change_alpha);
     int getEquippedWeapon();
     int getLevel();

@@ -4,6 +4,7 @@
 
 #include <functional>
 #include "client/game/client_player.h"
+#define TURN_ANGLE M_PI/10
 
 ClientPlayer::ClientPlayer(std::string name) :  name(std::move(name)) {
 }
@@ -16,7 +17,8 @@ double ClientPlayer::getDirection() {
     return direction;
 }
 
-void ClientPlayer::updateDirection(double offset) {
+void ClientPlayer::updateDirection(int _direction) {
+    double offset = _direction * TURN_ANGLE;
     double new_direction = direction + offset;
     if (new_direction >= 2*M_PI)
         new_direction -= 2*M_PI;
