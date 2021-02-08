@@ -15,7 +15,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
         return STONE_WALL;
     if (name == "unlocked_door")
         return SILVER_DOOR;
-    if (name == "locked door")
+    if (name == "locked_door")
         return SILVER_DOOR;
     if (name == "crown")
         return ITEM_CROWN;

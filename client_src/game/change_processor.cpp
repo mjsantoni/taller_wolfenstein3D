@@ -106,16 +106,17 @@ void ChangeProcessor::processInGameChange(Change &change) {
             // deberia crear un dead body ahi tirado
             break;
         }
-        /*
         case (ADD_PLAYER): {
             player.setId(id);
             std::pair<int, int> player_pos = map.getSpawnPositionForPlayer(id);
             player.setMapPosition(player_pos);
+            std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
+            ready = true;
+            std::cout << "Juego listo para iniciar\n";
             // id: player id asignado
             // habria que mandar el mapa completo aca
             break;
         }
-         */
         case (ADD_BULLETS_AT): {
             //map.addBulletsAt(id, value1, value2);
             // id: nuevo id_bullets - value1: new_x - value2: new_y
@@ -203,11 +204,9 @@ void ChangeProcessor::run() {
         std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
         if (game_started)
             processInGameChange(change);
-        else
-            processOffGameChange(change);
-        if (game_just_started) {
+        if (ready) {
             screen.render();
-            game_just_started = false;
+            ready = false;
         }
     }
 }
@@ -240,31 +239,3 @@ void ChangeProcessor::addMapChange(Change& change) {
     }
      */
 }
-
-void ChangeProcessor::processOffGameChange(Change& change) {
-    int player_id = change.getPlayerID();
-    switch (change.getChangeID()) {
-        case MAP_INITIALIZER: {
-            addMapChange(change);
-            break;
-        }
-        case ADD_PLAYER: {
-            player.setId(player_id);
-            std::pair<int, int> player_pos =
-                    map.getSpawnPositionForPlayer(player_id);
-            player.setMapPosition(player_pos);
-        }
-        case (TOTAL_PLAYERS_CONNECTED): {
-            map.updateTotalPlayers(player_id); // el id es el numero de jugadores en realidad
-            // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
-            break;
-        }
-        case (GAME_START): {
-            game_started = true;
-            game_just_started = true;
-            // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
-            break;
-        }
-    }
-}
-

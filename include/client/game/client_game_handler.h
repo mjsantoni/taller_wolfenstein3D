@@ -25,6 +25,7 @@
 #include <client/sounds/audio_manager.h>
 #include "client_map_generator.h"
 #include "client_player_initializer.h"
+#include "off_game_change_processor.h"
 
 class ClientGameHandler {
 public:
@@ -44,6 +45,7 @@ private:
     GameScreen screen;
     ClientParser client_parser;
     ClientEventHandler event_handler;
+    OffGameChangeProcessor off_game_change_processor;
     ChangeProcessor change_processor;
     std::string map_path;
     AudioManager audio_manager;

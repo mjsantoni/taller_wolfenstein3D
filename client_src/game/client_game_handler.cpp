@@ -14,9 +14,11 @@ ClientGameHandler::ClientGameHandler(int width,
                                      SharedQueue<Change>& change_queue,
                                      BlockingQueue<Event>& event_queue) :
         running(true),
+        game_started(false),
         screen(width, height, info_provider, map, player),
         event_handler(player, screen, change_queue),
         event_generator(player, event_handler, event_queue),
+        off_game_change_processor(game_started, map, player, change_queue),
         change_processor(map, player, screen, change_queue, audio_manager,
                          game_started) {
     event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
@@ -31,8 +33,8 @@ void ClientGameHandler::start() {
     displayLevelSelectionMenu();
     initializePlayer();
     initializeMap();
-    change_processor.start();
     displayLoadingScreen();
+    change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
     while (running) {
@@ -123,19 +125,12 @@ void ClientGameHandler::displayLoadingScreen() {
         if (player_ready)
             break;
     }
-    while (!game_started)
+    while (!game_started) {
         screen.displayLoadingScreen(false);
+        std::cout << "procesando cambios" << std::endl;
+        off_game_change_processor.processOffGameChanges();
+    }
     audio_manager.stopSong();
-}
-
-void ClientGameHandler::killPlayer() {
-    //event_generator.stop();
-    screen.renderDeadScreen();
-}
-
-void ClientGameHandler::respawnPlayer() {
-    player.respawn();
-    screen.renderRespawnScreen();
 }
 
 bool ClientGameHandler::isRunning() {
@@ -149,7 +144,7 @@ void ClientGameHandler::initializePlayer() {
 void ClientGameHandler::initializeMap() {
     MapParser map_parser(map_path);
     ClientMapGenerator::create(map, map_parser);
-    player.setMapPosition(std::pair<int, int>{128, 128});
-    map.putPlayerAt(std::pair<int, int>(128, 128));
+    //player.setMapPosition(std::pair<int, int>{128, 128});
+    //map.putPlayerAt(std::pair<int, int>(128, 128));
 }
 

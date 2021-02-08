@@ -19,7 +19,7 @@ private:
     AudioManager& audio_manager;
     std::atomic<bool> alive;
     std::atomic<bool>& game_started;
-    bool game_just_started = false;
+    bool ready = false;
 public:
     ChangeProcessor(ClientMap& _map, ClientPlayer& _player, GameScreen& _screen,
                     SharedQueue<Change>& _change_queue,
@@ -31,8 +31,6 @@ public:
     ~ChangeProcessor();
     void receiveIdsFromServer();
     void addMapChange(Change& change);
-
-    void processOffGameChange(Change &change);
 };
 
 

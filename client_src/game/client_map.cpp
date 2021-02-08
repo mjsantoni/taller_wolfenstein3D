@@ -34,10 +34,20 @@ bool ClientMap::outOfVerticalBounds(int y_pos) {
 }
 
 bool ClientMap::wallAtGrid(std::pair<int, int> grid_coordinates) {
-    int x_pos = grid_coordinates.first*grid_size;
-    int y_pos = grid_coordinates.second*grid_size;
+    int x_pos = grid_coordinates.first;
+    int y_pos = grid_coordinates.second;
+    if (x_pos < 0)
+        x_pos = 0;
+    if (y_pos < 0)
+        y_pos = 0;
+    x_pos *= grid_size;
+    y_pos *= grid_size;
     std::pair<int, int> coordinates(x_pos, y_pos);
-    return drawables_by_position.find(coordinates) != drawables_by_position.end();
+    if (drawables_by_position.find(coordinates) == drawables_by_position.end())
+        return false;
+    Drawable& drawable = drawables_by_position.at(coordinates);
+    int object_type = drawable.getObjectType();
+    return ImageManager::objectIsWall(object_type);
 }
 
 int ClientMap::getMaxDistance() {
@@ -98,6 +108,10 @@ void ClientMap::getMapInfoForObject(ObjectInfo& object_info,
 
     int x_coord = x_pos/grid_size*grid_size + x_factor*grid_size;
     int y_coord = y_pos/grid_size*grid_size + y_factor*grid_size;
+    if (x_coord < 0)
+        x_coord = 0;
+    if (y_coord < 0)
+        y_coord = 0;
     std::pair<int, int> grid_coordinates{x_coord, y_coord};
     if (wallAtGrid(x_pos, y_pos, x_factor, y_factor))
         loadWallInfo(object_info, grid_coordinates);
