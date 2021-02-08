@@ -16,6 +16,9 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
     std::vector<std::pair<int,int>> enemy_dmg_done;
     int range = player.getGun().getRange();
     int bullets_to_shoot = player.getGun().getBulletsPerSpray();
+    std::cout << "Tengo tantas balas" << player.getBullets() << "\n";
+    std::cout << "Entonces el player solo peude disparar" << bullets_to_shoot << " \n";
+
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
     Coordinate player_pos = map.getPlayerPosition(player.getID());
@@ -31,6 +34,7 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
                                enemy_dmg_done, players, changes), changes);
         return total_changes;
     }
+    if (player.getBullets() < bullets_to_shoot) bullets_to_shoot = player.getBullets();
     std::pair<Hit, std::vector<Change>>
     total_changes(shootRegularGun(bullets_to_shoot, player, straight_line,
                                   enemy_dmg_done, players), changes);
@@ -162,12 +166,15 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
     double angle = player.getAngle();
     bool wall_at_pos = false;
     int bullets_shot = 0;
+    std::cout << "El arma es: " << player.getGun().getType() << "\n";
+    std::cout << "BALAS A DISPARAR: " << bullets_to_shoot << "\n";
     for (; bullets_shot < bullets_to_shoot; bullets_shot++) {
         int pos_travelled = 1;
         std::cout << "Shooteo bala nro " << bullets_shot << "\n";
-        if (wall_at_pos || player.noAmmoLeft()) break;
+        if (wall_at_pos) break;
         for (auto& pos : straight_line) {
             if (map.isABlockingItemAt(pos)) {
+                std::cout << "Es bloqueante\n";
                 wall_at_pos = true;
                 break;
             }
@@ -175,19 +182,23 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
             if (hitAtPos(pos, players, player, enemy_dmg_done, pos_travelled, false) ||
                 hitAtPos(adj.first, players, player, enemy_dmg_done, pos_travelled, true) ||
                 hitAtPos(adj.second, players, player, enemy_dmg_done, pos_travelled, true)) {
+                std::cout << "LE pegue a algo\n";
                 break;
             }
             pos_travelled++;
         }
+        std::cout << "termino la striahg tline de esa bala\n";
     }
     //if (player.getGun().getType() == "knife") bullets_shot = 0;
-    scoreHandler.addBulletsShot(player.getID(), bullets_shot);
-    if (wall_at_pos) return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);
+    std::cout << "Bullets shot " << bullets_to_shoot << "\n";
+    player.reduceAmmo(bullets_to_shoot);
+    scoreHandler.addBulletsShot(player.getID(), bullets_to_shoot);
+    if (wall_at_pos) return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, false);
     if (player.noAmmoLeft()) {
         std::cout << "No ammo left aviso\n";
-        return Hit(player.getID(), bullets_shot, enemy_dmg_done, true);
+        return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, true);
     } else {
-        return Hit(player.getID(), bullets_shot, enemy_dmg_done, false);
+        return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, false);
     }
 }
 
@@ -205,7 +216,6 @@ bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Playe
     std::cout << "----------------\n";
     std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
     damage = dmg_calculator.calculateDmg(player, damage, pos_travelled, is_adjacent);
-    player.reduceAmmo(1);
     int damage_done = hit(player, enemy, damage, enemy_dies);
 
     enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
