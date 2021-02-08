@@ -3,7 +3,7 @@ background-color: #ABABAB; /* sets background of the menu */
 border: 1px solid black;
 }
 
-QPushButton {
+QPushButton#gridButton {
 color: red;
 background-color: black;
 border-style: outset;

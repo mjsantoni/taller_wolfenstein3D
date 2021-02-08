@@ -8,8 +8,8 @@
 #include "ui_editor.h"
 #include "editor/QGridButton.h"
 
-#define DEF_HEIGHT 15
-#define DEF_WIDTH 15
+#define DEF_HEIGHT 14
+#define DEF_WIDTH 14
 
 
 struct Coordinate { int x; int y; Coordinate(int coord_x, int coord_y) : x(coord_x), y(coord_y) {}};
@@ -42,8 +42,7 @@ Editor::Editor(QMainWindow *parent) : QMainWindow(parent) {
     connectEvents();
 }
 
-void Editor::dragEnterEvent(QDragEnterEvent *e)
-{
+void Editor::dragEnterEvent(QDragEnterEvent *e){
     if (e->mimeData()->hasUrls()) {
         e->acceptProposedAction();
     }
@@ -51,11 +50,11 @@ void Editor::dragEnterEvent(QDragEnterEvent *e)
 
 void Editor::dropEvent(QDropEvent *e){
     const QMimeData* mimeData = e->mimeData();
-            foreach (const QUrl &url, mimeData->urls()) {
-            QString fileName = url.toLocalFile();
-            loadMap(fileName.toStdString());
-        }
-    
+    foreach (const QUrl &url, mimeData->urls()) {
+        QString fileName = url.toLocalFile();
+        loadMap(fileName.toStdString());
+    }
+
 }
 
 
@@ -64,8 +63,7 @@ void Editor::dragMoveEvent(QDragMoveEvent* event) {
     event->acceptProposedAction();
 }
 
-void Editor::dragLeaveEvent(QDragLeaveEvent* event)
-{
+void Editor::dragLeaveEvent(QDragLeaveEvent* event) {
     event->accept();
 }
 
@@ -82,16 +80,14 @@ void Editor::loadMap(std::string path) {
     QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
     QPixmap locked_pix("../client_src/resources/items/blood.png");
     QPixmap barrel_pix("../client_src/resources/items/bullets.png");
-
-    const char *wood_wall = "wood_wall";
-    const char *gray_wall = "gray_wall";
-    const char *blue_wall = "blue_wall";
-    const char *stone_wall = "stone_wall";
-    const char *rpg_gun = "rpg_gun";
-    const char *chain_gun = "chain_gun";
-    const char *machine_gun = "machine_gun";
-    const char *locked_door = "locked_door";
-    const char *barrel = "barrel";
+    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
+    QPixmap chest_pix("../client_src/resources/items/chest.png");
+    QPixmap cross_pix("../client_src/resources/items/cross.png");
+    QPixmap crown_pix("../client_src/resources/items/crown.png");
+    QPixmap cup_pix("../client_src/resources/items/cup.png");
+    QPixmap food_pix("../client_src/resources/items/food.png");
+    QPixmap key_pix("../client_src/resources/items/key.png");
+    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
 
     QIcon wood_icon(wood_pix);
     QIcon gray_icon(gray_pix);
@@ -112,15 +108,23 @@ void Editor::loadMap(std::string path) {
         for(auto &items: parser.getCategory(category)){
             for(auto &positions: items.second){
                 QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.first, positions.second)->widget());
-                if (items.first == "wood_wall") updateGridButton(button, wood_icon, wood_wall);
-                if (items.first == "gray_wall") updateGridButton(button, gray_icon, gray_wall);
-                if (items.first == "blue_wall") updateGridButton(button, blue_icon, blue_wall);
-                if (items.first == "stone_wall") updateGridButton(button, stone_icon, stone_wall);
-                if (items.first == "rpg_gun") updateGridButton(button, rpg_icon, rpg_gun);
-                if (items.first == "chain_gun") updateGridButton(button, chain_icon, chain_gun);
-                if (items.first == "machine_gun") updateGridButton(button, machine_icon, machine_gun);
-                if (items.first == "locked_door") updateGridButton(button, locked_icon, locked_door);
-                if (items.first == "barrel") updateGridButton(button, barrel_icon, barrel);
+                if (items.first == "wood_wall") updateGridButton(button, QIcon(wood_pix), "wood_wall");
+                if (items.first == "gray_wall") updateGridButton(button, QIcon(gray_pix), "gray_wall");
+                if (items.first == "blue_wall") updateGridButton(button, QIcon(blue_pix), "blue_wall");
+                if (items.first == "stone_wall") updateGridButton(button, QIcon(stone_pix), "stone_wall");
+                if (items.first == "rpg_gun") updateGridButton(button, QIcon(rpg_pix), "rpg_gun");
+                if (items.first == "chain_gun") updateGridButton(button, QIcon(chain_pix), "chain_gun");
+                if (items.first == "machine_gun") updateGridButton(button, QIcon(machine_pix), "machine_gun");
+                if (items.first == "locked_door") updateGridButton(button, QIcon(locked_pix), "locked_door");
+                if (items.first == "barrel") updateGridButton(button, QIcon(barrel_pix), "barrel");
+                if (items.first == "bullets") updateGridButton(button, QIcon(bullets_pix), "bullets");
+                if (items.first == "chest") updateGridButton(button, QIcon(chest_pix), "chest");
+                if (items.first == "cup") updateGridButton(button, QIcon(cup_pix), "cup");
+                if (items.first == "cross") updateGridButton(button, QIcon(cross_pix), "cross");
+                if (items.first == "crown") updateGridButton(button, QIcon(crown_pix), "crown");
+                if (items.first == "food") updateGridButton(button, QIcon(food_pix), "food");
+                if (items.first == "key") updateGridButton(button, QIcon(key_pix), "key");
+                if (items.first == "medical") updateGridButton(button, QIcon(medic_pix), "medical");
 
             }
         }
@@ -143,20 +147,7 @@ void Editor::createMapGrid() {
     scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
     scrollArea->setWidgetResizable( true );
     scrollArea->setWidget( scrollAreaContent );
-    for (int i = 0; i < DEF_HEIGHT; ++i) {
-        for (int j = 0; j < DEF_WIDTH; ++j) {
-            QGridButton* buttonGrid = new QGridButton();
-            QMenu* menu = createGridButtonMenu(buttonGrid);
-            buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
-            buttonGrid->setProperty("texture", "empty");
-            buttonGrid->setMenu(menu);
-            buttonGrid->cursor();
-            buttonGrid->setIcon(ButtonIcon);
-            buttonGrid->setIconSize(pixmap.rect().size());
-            connect(buttonGrid, &QGridButton::rightClicked, this, std::bind(&Editor::updateGridButtonWithCursor, this, buttonGrid));
-            mapGrid->addWidget(buttonGrid, i, j);
-        }
-    }
+    createButtonsMapGrid(mapGrid, DEF_WIDTH, DEF_HEIGHT, -1, -1);
 }
 
 void Editor::updateGridButtonWithCursor(QGridButton *button) {
@@ -173,18 +164,16 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
     QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
     QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
-    // QPixmap locked_pix("../client_src/resources/items/blood.png");
-    // QPixmap barrel_pix("../client_src/resources/items/bullets.png");
-
-    const char *wood_wall = "wood_wall";
-    const char *gray_wall = "gray_wall";
-    const char *blue_wall = "blue_wall";
-    const char *stone_wall = "stone_wall";
-    const char *rpg_gun = "rpg_gun";
-    const char *chain_gun = "chain_gun";
-    const char *machine_gun = "machine_gun";
-    const char *locked_door = "locked_door";
-    const char *barrel = "barrel";
+    QPixmap locked_pix("../client_src/resources/items/blood.png");
+    QPixmap barrel_pix("../client_src/resources/items/bullets.png");
+    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
+    QPixmap chest_pix("../client_src/resources/items/chest.png");
+    QPixmap cross_pix("../client_src/resources/items/cross.png");
+    QPixmap crown_pix("../client_src/resources/items/crown.png");
+    QPixmap cup_pix("../client_src/resources/items/cup.png");
+    QPixmap food_pix("../client_src/resources/items/food.png");
+    QPixmap key_pix("../client_src/resources/items/key.png");
+    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
 
     QIcon wood_icon(wood_pix);
     QIcon gray_icon(gray_pix);
@@ -193,34 +182,58 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QIcon rpg_icon(rpg_pix);
     QIcon chain_icon(chain_pix);
     QIcon machine_icon(machine_pix);
-    // QIcon locked_icon(locked_pix);
-    // QIcon barrel_icon(barrel_pix);
+    QIcon locked_icon(locked_pix);
+    QIcon barrel_icon(barrel_pix);
+    QIcon bullets_icon(bullets_pix);
+    QIcon chest_icon(chest_pix);
+    QIcon cross_icon(cross_pix);
+    QIcon crown_icon(crown_pix);
+    QIcon cup_icon(cup_pix);
+    QIcon food_icon(food_pix);
+    QIcon key_icon(key_pix);
+    QIcon medic_icon(medic_pix);
 
     QMenu* menu = new QMenu();
-    QAction* wood_action = menu->addAction(wood_icon, wood_wall);
-    QAction* gray_action = menu->addAction(gray_icon, gray_wall);
-    QAction* blue_action = menu->addAction(blue_icon, blue_wall);
-    QAction* stone_action = menu->addAction(stone_icon, stone_wall);
-    QAction* rpg_action = menu->addAction(rpg_icon, rpg_gun);
-    QAction* chain_action = menu->addAction(chain_icon, chain_gun);
-    QAction* machine_action = menu->addAction(machine_icon, machine_gun);
-    //QAction* locked_action = menu->addAction(locked_icon, locked_door);
-    //QAction* barrel_action = menu->addAction(barrel_icon, barrel);
+    QAction* wood_action = menu->addAction(wood_icon, "Wood wall");
+    QAction* gray_action = menu->addAction(gray_icon, "Gray wall");
+    QAction* blue_action = menu->addAction(blue_icon, "Blue wall");
+    QAction* stone_action = menu->addAction(stone_icon, "Stone wall");
+    QAction* rpg_action = menu->addAction(rpg_icon, "Rocket launcher");
+    QAction* chain_action = menu->addAction(chain_icon, "Chain cannon");
+    QAction* machine_action = menu->addAction(machine_icon, "Machine gun");
+    QAction* locked_action = menu->addAction(locked_icon, "Locked door");
+    QAction* barrel_action = menu->addAction(barrel_icon, "Barrel");
+    QAction* bullets_action = menu->addAction(bullets_icon, "Bullets");
+    QAction* chest_action = menu->addAction(chest_icon, "Chest");
+    QAction* cross_action = menu->addAction(cross_icon, "Cross");
+    QAction* crown_action = menu->addAction(crown_icon, "Crown");
+    QAction* cup_action = menu->addAction(cup_icon, "Cup");
+    QAction* food_action = menu->addAction(food_icon, "Food");
+    QAction* key_action = menu->addAction(key_icon, "Key");
+    QAction* medic_action = menu->addAction(medic_icon, "Medic kit");
 
-    connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, wood_wall));
-    connect(gray_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, gray_icon, gray_wall));
-    connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, blue_wall));
-    connect(stone_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stone_icon, stone_wall));
-    connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, rpg_gun));
-    connect(chain_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chain_icon, chain_gun));
-    connect(machine_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machine_icon, machine_gun));
-    //connect(locked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, locked_icon, locked_door));
-    //connect(barrel_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrel_icon, barrel));
+    connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, "wood_wall"));
+    connect(gray_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, gray_icon, "gray_wall"));
+    connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, "blue_wall"));
+    connect(stone_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, stone_icon, "stone_wall"));
+    connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, "rpg_gun"));
+    connect(chain_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chain_icon, "chain_gun"));
+    connect(machine_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, machine_icon, "machine_gun"));
+    connect(locked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, locked_icon, "locked_door"));
+    connect(barrel_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, barrel_icon, "barrel"));
+    connect(bullets_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, bullets_icon, "bullets"));
+    connect(chest_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chest_icon, "chest"));
+    connect(cross_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, cross_icon, "cross"));
+    connect(crown_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, crown_icon, "crown"));
+    connect(cup_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, cup_icon, "cup"));
+    connect(food_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, food_icon, "food"));
+    connect(key_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, key_icon, "key"));
+    connect(medic_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, medic_icon, "medical"));
 
     return menu;
 }
 
-void Editor::updateGridButton(QGridButton *button, QIcon &icon, const char *texture) {
+void Editor::updateGridButton(QGridButton *button, QIcon icon, const char *texture) {
     button->setIcon(icon);
     button->setProperty("texture", QVariant(texture));
 }
@@ -246,8 +259,8 @@ void Editor::exportMap() {
     QString qWidth = QString("%1").arg(inputWidth->text());
     std::string height = qHeight.toStdString();
     std::string width = qWidth.toStdString();
-    if (height.empty()) height = "15";
-    if (width.empty()) width = "15";
+    if (height.empty()) height = "14";
+    if (width.empty()) width = "14";
 
     std::vector<std::pair<int, int>> wood_positions;
     std::vector<std::pair<int, int>> gray_positions;
@@ -308,6 +321,8 @@ void Editor::exportMap() {
     out << YAML::Value << YAML::BeginMap;
     out << YAML::Key << "wood_wall";
     out << YAML::Value << wood_positions << YAML::EndSeq;
+    out << YAML::Key << "gray_wall";
+    out << YAML::Value << gray_positions << YAML::EndSeq;
     out << YAML::Key << "stone_wall";
     out << YAML::Value << stone_positions << YAML::EndSeq;
     out << YAML::Key << "blue_wall";
@@ -375,19 +390,29 @@ void Editor::refreshMapGrid(){
     int rows = gridRows >= newRows? gridRows : newRows;
     int cols = gridCols >= newCols? gridCols : newCols;
 
+    createButtonsMapGrid(mapGrid, rows, cols, gridRows, gridCols);
+
+     // TODO Agregar sacar celdas
+
+}
+
+void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
     QPixmap pixmap("../client_src/resources/empty.png");
-    QIcon ButtonIcon(pixmap);
+    QIcon buttonIcon(pixmap);
+
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             if (i < gridRows && j < gridCols) continue;
             QGridButton* buttonGrid = new QGridButton();
-            buttonGrid->setIcon(ButtonIcon);
+            buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
+            buttonGrid->setIcon(buttonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
             QMenu* menu = createGridButtonMenu(buttonGrid);
             buttonGrid->setMenu(menu);
+            connect(buttonGrid, &QGridButton::rightClicked, this, std::bind(&Editor::updateGridButtonWithCursor, this, buttonGrid));
             mapGrid->addWidget(buttonGrid, i, j);
         }
-    } // TODO Agregar sacar celdas
+    }
 }
 
 std::string Editor::saveYamlPath() {
@@ -454,16 +479,7 @@ void Editor::renderWallsGrid(QGridLayout *texture_grid) {
     // icons.push_back(QIcon(locked_pix));
     // icons.push_back(QIcon(barrel_pix));
 
-    int i = 0;
-    for (auto &icon: icons) {
-        QGridButton* button = new QGridButton();
-        button->setIcon(icon.first);
-        button->setFlat(true);
-        button->setIconSize(QSize(150, 150));
-        connect(button, &QGridButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.first.pixmap(35), icon.second));
-        texture_grid->addWidget(button, 0, i);
-        ++i;
-    }
+    renderTextureGrid(texture_grid, icons);
 }
 
 void Editor::changeCursor(QPixmap pix, std::string texture_name) {
@@ -492,6 +508,28 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
     icons.emplace_back(QIcon(key_pix), "key");
     icons.emplace_back(QIcon(medic_pix), "medical");
 
+    renderTextureGrid(texture_grid, icons);
+}
+
+void Editor::renderWeaponsGrid(QGridLayout *texture_grid) {
+    std::vector<std::pair<QIcon, std::string>> icons;
+
+    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
+    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
+    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
+
+    icons.emplace_back(QIcon(rpg_pix), "rpg_gun");
+    icons.emplace_back(QIcon(chain_pix), "chain_gun");
+    icons.emplace_back(QIcon(machine_pix), "machine_gun");
+
+    renderTextureGrid(texture_grid, icons);
+}
+
+void Editor::renderPlayersGrid(QGridLayout *texture_grid) {
+
+}
+
+void Editor::renderTextureGrid(QGridLayout *texture_grid, std::vector<std::pair<QIcon, std::string>> icons) {
     int i = 0;
     int j = 0;
     for (auto &icon: icons) {
@@ -507,32 +545,5 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
             i = 0;
         }
     }
-}
-
-void Editor::renderWeaponsGrid(QGridLayout *texture_grid) {
-    std::vector<std::pair<QIcon, std::string>> icons;
-
-    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
-
-    icons.emplace_back(QIcon(rpg_pix), "rpg_gun");
-    icons.emplace_back(QIcon(chain_pix), "chain_gun");
-    icons.emplace_back(QIcon(machine_pix), "machine_gun");
-
-    int i = 0;
-    for (auto &icon: icons) {
-        QGridButton* button = new QGridButton();
-        button->setIcon(icon.first);
-        button->setFlat(true);
-        button->setIconSize(QSize(150, 150));
-        connect(button, &QGridButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.first.pixmap(35), icon.second));
-        texture_grid->addWidget(button, 0, i);
-        ++i;
-    }
-}
-
-void Editor::renderPlayersGrid(QGridLayout *texture_grid) {
-
 }
 

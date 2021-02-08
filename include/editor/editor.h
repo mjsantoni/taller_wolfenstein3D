@@ -13,7 +13,7 @@
 class Editor : public QMainWindow {
 public:
     explicit Editor(QMainWindow *parent = 0);
-    void updateGridButton(QGridButton *button, QIcon &icon, const char *texture);
+    void updateGridButton(QGridButton *button, QIcon icon, const char *texture);
 private:
     void createMapGrid();
     void refreshMapGrid();
@@ -47,7 +47,11 @@ private:
 
     void changeCursor(QPixmap pix, std::string texture_name);
 
+    void renderTextureGrid(QGridLayout *texture_grid, std::vector<std::pair<QIcon, std::string>> icons);
+
     std::string currentCursor;
+
+    void createButtonsMapGrid(QGridLayout *mapGrid, int rows, int cols, int gridRows, int gridCols);
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

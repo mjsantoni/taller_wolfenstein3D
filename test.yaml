@@ -1,23 +1,24 @@
 dimensions:
-  width: 15
-  height: 15
+  width: 20
+  height: 20
 scenarios:
-  wood_wall: [[0, 0]]
-  stone_wall: [[0, 3]]
-  blue_wall: [[0, 2]]
+  wood_wall: []
+  gray_wall: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13], [1, 0], [1, 4], [1, 5], [2, 0], [2, 1], [3, 0], [3, 4], [3, 7], [3, 8], [3, 11], [4, 0], [4, 2], [4, 3], [4, 4], [5, 0], [5, 4], [6, 0], [7, 2], [7, 3], [7, 5], [7, 7], [7, 8], [9, 0], [10, 1], [10, 3], [10, 10], [12, 4], [12, 7], [12, 9]]
+  stone_wall: []
+  blue_wall: []
   barrel: []
   locked_door: []
 items:
-  machine_gun: [[0, 14]]
-  rpg_gun: [[0, 12]]
-  chain_gun: [[0, 13]]
-  bullets: [[0, 4]]
-  chest: [[0, 5]]
-  cross: [[0, 6]]
-  crowm: [[0, 7]]
+  machine_gun: []
+  rpg_gun: []
+  chain_gun: []
+  bullets: []
+  chest: []
+  cross: []
+  crowm: []
   cup: []
-  food: [[0, 9]]
-  key: [[0, 10]]
+  food: []
+  key: []
   medical: []
 players:
   player1: [[1, 2], [3, 4], [5, 6]]
