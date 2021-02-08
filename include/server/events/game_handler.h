@@ -28,8 +28,11 @@ private:
     std::mutex m;
     std::condition_variable cv;
 
+    int players_n;
+    int bots_n;
+
 public:
-    GameHandler(std::string map_path, std::string config_path);
+    GameHandler(std::string map_path, std::string config_path, int _players_n, int _bots_n);
     void run();
 
     void addNewPlayer(NetworkConnection fd);
@@ -43,6 +46,8 @@ public:
     void sendTops();
 
     void notifyTop(std::vector<std::pair<int, int>> top, int change_id);
+
+    void addBots();
 };
 
 
