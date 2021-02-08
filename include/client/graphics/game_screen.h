@@ -38,6 +38,7 @@ public:
     void displayLevelSelectionMenu();
     std::vector<Area> getKeyScreenAreas();
     void displayPlayerAttacking();
+    void displayLoadingScreen(bool waiting_for_input);
 };
 
 

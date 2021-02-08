@@ -21,8 +21,10 @@
 #include <common/change.h>
 #include <common/shared_queue.h>
 #include <common/map_parser.h>
+#include <common/config_parser.h>
 #include <client/sounds/audio_manager.h>
 #include "client_map_generator.h"
+#include "client_player_initializer.h"
 
 class ClientGameHandler {
 public:
@@ -45,10 +47,16 @@ private:
     ChangeProcessor change_processor;
     std::string map_path;
     AudioManager audio_manager;
+    ClientPlayerInitializer player_initializer;
+    std::atomic<bool> game_started;
     void displayIntro();
     int displayMatchModeMenu();
     void displayLevelSelectionMenu();
     void setMapPath(int chosen_map);
+    void initializePlayer();
+    void initializeMap();
+    void displayLoadingScreen();
+
 };
 
 

@@ -3,7 +3,7 @@
 
 #include "positionable.h"
 #include "player.h"
-#include "config_parser.h"
+#include "common/config_parser.h"
 #include "server/game/score_handler.h"
 
 class PickUpHandler {

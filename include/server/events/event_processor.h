@@ -4,7 +4,7 @@
 #include "server/game/game.h"
 #include "common/change.h"
 #include "common/event.h"
-#include "server/game/config_parser.h"
+#include "common/config_parser.h"
 
 class EventProcessor {
 private:

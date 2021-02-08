@@ -121,3 +121,18 @@ void MenusDrawer::displayLevelSelectionMenu() {
     window.loadImage(message_3, msg_area_3, level_selection_hard);
     window.render();
 }
+
+void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
+    SdlTexture menu_tex("../client_src/resources/menus/loading_screen.png");
+    displayFullImage(menu_tex);
+    Area screen_area(5*window_width/8, 3*window_height/4, window_width/6,
+                     window_height/8);
+    std::string message_text = "Press 'P' when ready";
+    if (!waiting_for_input)
+        message_text = "Loading...";
+    Area msg_area;
+    SDL_Texture* message =
+            createMessage(message_text, msg_area, screen_area);
+    window.loadImage(message, msg_area, screen_area);
+    window.render();
+}

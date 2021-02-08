@@ -16,6 +16,7 @@ public:
     static void addWallsToMap(ClientMap &map, MapParser& map_parser);
     static void addObjectsToMap(ClientMap &map, MapParser &map_parser);
     static void setMapDimensions(ClientMap &map, MapParser &map_parser);
+    static void addPlayerSpawnsToMap(ClientMap &map, MapParser &map_parser);
 };
 
 

@@ -31,6 +31,7 @@ public:
     void defineKeyScreenAreas(std::vector<Area> key_areas);
     bool eventInsideArea(Area &area, int x_pos, int y_pos);
     void handlePlayerShooting();
+    int handleLoadingScreenEvent(SDL_Event event);
 };
 
 

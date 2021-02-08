@@ -25,6 +25,7 @@ private:
     std::map<int, Drawable> walls;
     std::map<int, Drawable> objects;
     std::map<int, Drawable> enemies;
+    std::vector<std::pair<int, int>> player_spawns;
     int grid_size = GRID_SIZE;
     int width;
     int height;
@@ -32,6 +33,7 @@ private:
     int real_height;
     void loadWallInfo(ObjectInfo& object_info,
                       std::pair<int, int> grid_coordinates);
+    void putEnemyAt(int x_pos, int y_pos, int object_type, int id);
 public:
     ClientMap(int width, int height, int grid_size);
     ClientMap();
@@ -56,7 +58,7 @@ public:
     void putDrawableAt(std::pair<int, int> coordinates, int object_type);
     void putDrawableAt(int x_pos, int y_pos, int object_type);
     void setObjectId(std::pair<int, int> coordinates, int object_id);
-    std::vector<Drawable> getAllObjects();
+    std::vector<Drawable> getAllObjectsAndEnemies();
     void removeObject(int object_id);
     void moveObject(int object_id, int new_x, int new_y);
     Drawable& getObjectById(int object_id);
@@ -67,6 +69,8 @@ public:
     void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
     void setDimensions(int _width, int _height);
     void moveObject(int object_id, std::pair<int, int> new_coordinates);
+    void addPlayerSpawnAt(int x_pos, int y_pos);
+    void addPlayers(int number_of_players, int own_player_id);
 };
 
 

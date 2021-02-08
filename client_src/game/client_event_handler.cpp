@@ -73,3 +73,12 @@ void ClientEventHandler::handlePlayerShooting() {
     Change change(CL_PLAYER_SHOOTING, 0, 0, 0);
     change_queue.push(change);
 }
+
+int ClientEventHandler::handleLoadingScreenEvent(SDL_Event event) {
+    if (event.type != SDL_KEYDOWN)
+        return 0;
+    auto& key_event = (SDL_KeyboardEvent&) event;
+    if (key_event.keysym.sym == SDLK_p)
+        return 1;
+    return 0;
+}

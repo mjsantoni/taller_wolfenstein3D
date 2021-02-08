@@ -18,16 +18,21 @@ private:
     SharedQueue<Change>& change_queue;
     AudioManager& audio_manager;
     std::atomic<bool> alive;
+    std::atomic<bool>& game_started;
+    bool game_just_started = false;
 public:
     ChangeProcessor(ClientMap& _map, ClientPlayer& _player, GameScreen& _screen,
                     SharedQueue<Change>& _change_queue,
-                    AudioManager& _audio_manager);
-    void processChange(Change& change);
+                    AudioManager& _audio_manager,
+                    std::atomic<bool>& _game_started);
+    void processInGameChange(Change& change);
     void run() override;
     void stop();
     ~ChangeProcessor();
-    void receiveMapFromServer();
+    void receiveIdsFromServer();
     void addMapChange(Change& change);
+
+    void processOffGameChange(Change &change);
 };
 
 

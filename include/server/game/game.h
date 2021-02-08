@@ -10,7 +10,7 @@
 #include <atomic>
 
 #include "colission_handler.h"
-#include "config_parser.h"
+#include "common/config_parser.h"
 #include "hit.h"
 #include "player.h"
 #include "pickup_handler.h"

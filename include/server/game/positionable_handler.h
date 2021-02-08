@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_POSITIONABLEHANDLER_H
 
 #include "positionable.h"
-#include "config_parser.h"
+#include "common/config_parser.h"
 
 class PositionableHandler {
 private:

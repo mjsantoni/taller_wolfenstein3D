@@ -8,6 +8,7 @@ void ClientMapGenerator::create(ClientMap& map, MapParser& map_parser) {
     setMapDimensions(map, map_parser);
     addWallsToMap(map, map_parser);
     addObjectsToMap(map, map_parser);
+    addPlayerSpawnsToMap(map, map_parser);
 }
 
 void ClientMapGenerator::addWallsToMap(ClientMap& map, MapParser& map_parser) {
@@ -42,6 +43,17 @@ void ClientMapGenerator::setMapDimensions(ClientMap& map,
     int width = dimensions.x;
     int height = dimensions.y;
     map.setDimensions(width, height);
+}
+
+void ClientMapGenerator::addPlayerSpawnsToMap(ClientMap& map,
+                                              MapParser& map_parser) {
+    std::unordered_map<std::string, std::vector<Coordinate>> spawns =
+            map_parser.getSpecificCategory("players");
+    for (auto& type : spawns) {
+        for (auto& coord : type.second) {
+            map.addPlayerSpawnAt(coord.x, coord.y);
+        }
+    }
 }
 
 

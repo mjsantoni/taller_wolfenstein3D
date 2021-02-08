@@ -9,7 +9,7 @@
 #include "player.h"
 #include "positionable_handler.h"
 #include "coordinate.h"
-#include "config_parser.h"
+#include "common/config_parser.h"
 
 class Map {
 private:

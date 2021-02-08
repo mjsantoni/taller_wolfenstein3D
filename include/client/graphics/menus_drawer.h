@@ -29,7 +29,7 @@ public:
     void displayLevelSelectionMenu();
     void displayFullImage(SdlTexture &texture);
     std::vector<Area> getKeyAreas();
-
+    void displayLoadingScreen(bool waiting_for_input);
 };
 
 

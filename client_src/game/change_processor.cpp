@@ -10,17 +10,19 @@ ChangeProcessor::ChangeProcessor(ClientMap& _map,
                                  ClientPlayer& _player,
                                  GameScreen& _screen,
                                  SharedQueue<Change>& _change_queue,
-                                 AudioManager& _audio_manager) :
+                                 AudioManager& _audio_manager,
+                                 std::atomic<bool>& _game_started) :
                                  map(_map),
                                  player(_player),
                                  screen(_screen),
                                  change_queue(_change_queue),
                                  audio_manager(_audio_manager),
-                                 alive(true){
+                                 alive(true),
+                                 game_started(_game_started){
 }
 
 /* Ejecuta los cambios */
-void ChangeProcessor::processChange(Change &change) {
+void ChangeProcessor::processInGameChange(Change &change) {
     int change_id = change.change_id;
     int id = change.id;
     int value1 = change.value1;
@@ -146,6 +148,12 @@ void ChangeProcessor::processChange(Change &change) {
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
+        case (TOTAL_PLAYERS_CONNECTED): {
+            map.addPlayers(id, player.getId());
+            render_vector = std::vector<int>{0, 1, 0};
+            // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
+            break;
+        }
         case (CL_UPDATE_DIRECTION): {
             player.updateDirection(value2);
             render_vector = std::vector<int>{1, 1, 0};
@@ -172,13 +180,19 @@ void ChangeProcessor::processChange(Change &change) {
 }
 
 void ChangeProcessor::run() {
-    receiveMapFromServer();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid())
                 continue;
         std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
-        processChange(change);
+        if (game_started)
+            processInGameChange(change);
+        else
+            processOffGameChange(change);
+        if (game_just_started) {
+            screen.render();
+            game_just_started = false;
+        }
     }
 }
 
@@ -188,7 +202,7 @@ void ChangeProcessor::stop() {
 
 ChangeProcessor::~ChangeProcessor() {}
 
-void ChangeProcessor::receiveMapFromServer() {
+void ChangeProcessor::receiveIdsFromServer() {
     while(true) {
         Change change = change_queue.pop();
         if (change.getChangeID() != MAP_INITIALIZER)
@@ -209,5 +223,18 @@ void ChangeProcessor::addMapChange(Change& change) {
         map.putDrawableAt(grid, object_id);
     }
      */
+}
+
+void ChangeProcessor::processOffGameChange(Change& change) {
+    switch (change.getChangeID()) {
+        case MAP_INITIALIZER: {
+            addMapChange(change);
+            break;
+        }
+        case ADD_PLAYER: {
+            game_started = true;
+            game_just_started = true;
+        }
+    }
 }
 

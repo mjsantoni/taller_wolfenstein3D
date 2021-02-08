@@ -1,7 +1,7 @@
 #ifndef TP_WOLFENSTEIN_DROP_HANDLER_H
 #define TP_WOLFENSTEIN_DROP_HANDLER_H
 
-#include "server/game/config_parser.h"
+#include "common/config_parser.h"
 #include "server/game/map.h"
 #include "server/game/drop.h"
 

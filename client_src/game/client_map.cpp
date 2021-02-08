@@ -175,9 +175,12 @@ int ClientMap::getHeight() {
     return real_height;
 }
 
-std::vector<Drawable> ClientMap::getAllObjects() {
+std::vector<Drawable> ClientMap::getAllObjectsAndEnemies() {
     std::vector<Drawable> objects_vector;
     for (auto& pair : objects) {
+        objects_vector.push_back(pair.second);
+    }
+    for (auto& pair : enemies) {
         objects_vector.push_back(pair.second);
     }
     return objects_vector;
@@ -243,5 +246,23 @@ ClientMap::addObjectAt(int object_type, int object_id, int x_pos, int y_pos) {
             {coords, drawable});
 }
 
+void ClientMap::addPlayerSpawnAt(int x_pos, int y_pos) {
+    player_spawns.emplace_back(x_pos, y_pos);
+}
 
+void ClientMap::addPlayers(int number_of_players, int own_player_id) {
+    for (int i = 0; i < number_of_players; ++i) {
+        if (i == own_player_id)
+            continue;
+        std::pair<int, int> player_pos = player_spawns[i];
+        putEnemyAt(player_pos.first, player_pos.second, ENEMY_GUARD, i);
+    }
+}
+
+void ClientMap::putEnemyAt(int x_pos, int y_pos, int object_type, int id) {
+    Drawable enemy(object_type);
+    enemy.setId(id);
+    enemy.setMapPosition(x_pos, y_pos);
+    enemies.insert(std::pair<int, Drawable>(id, enemy));
+}
 

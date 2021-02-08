@@ -1,4 +1,4 @@
-#include "server/game/config_parser.h"
+#include "common/config_parser.h"
 
 #include "yaml-cpp/yaml.h"
 #include <iostream>

@@ -5,7 +5,7 @@
 #include <SDL_events.h>
 #include <iostream>
 #include <SDL_timer.h>
-#include "client/game/client_game_handler.h"
+#include <client/game/client_game_handler.h>
 #include <client/communication/server_updater.h>
 
 
@@ -17,7 +17,8 @@ ClientGameHandler::ClientGameHandler(int width,
         screen(width, height, info_provider, map, player),
         event_handler(player, screen, change_queue),
         event_generator(player, event_handler, event_queue),
-        change_processor(map, player, screen, change_queue, audio_manager) {
+        change_processor(map, player, screen, change_queue, audio_manager,
+                         game_started) {
     event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
@@ -28,12 +29,10 @@ void ClientGameHandler::start() {
     if (game_mode != 1)
         return;
     displayLevelSelectionMenu();
-    MapParser map_parser(map_path);
-    ClientMapGenerator::create(map, map_parser);
-    player.setMapPosition(std::pair<int, int>{128, 128});
-    map.putPlayerAt(std::pair<int, int>(128, 128)); // mapa del cliente
-    screen.render();
+    initializePlayer();
+    initializeMap();
     change_processor.start();
+    displayLoadingScreen();
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
     while (running) {
@@ -113,6 +112,22 @@ void ClientGameHandler::displayLevelSelectionMenu() {
     audio_manager.stopSong();
 }
 
+void ClientGameHandler::displayLoadingScreen() {
+    audio_manager.playSong();
+    screen.displayLoadingScreen(true);
+    while (true) {
+        SDL_Delay(1);
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+        int player_ready = event_handler.handleLoadingScreenEvent(event);
+        if (player_ready)
+            break;
+    }
+    while (!game_started)
+        screen.displayLoadingScreen(false);
+    audio_manager.stopSong();
+}
+
 void ClientGameHandler::killPlayer() {
     //event_generator.stop();
     screen.renderDeadScreen();
@@ -125,5 +140,16 @@ void ClientGameHandler::respawnPlayer() {
 
 bool ClientGameHandler::isRunning() {
     return running;
+}
+
+void ClientGameHandler::initializePlayer() {
+    player_initializer.initializePlayer(player);
+}
+
+void ClientGameHandler::initializeMap() {
+    MapParser map_parser(map_path);
+    ClientMapGenerator::create(map, map_parser);
+    player.setMapPosition(std::pair<int, int>{128, 128});
+    map.putPlayerAt(std::pair<int, int>(128, 128));
 }
 

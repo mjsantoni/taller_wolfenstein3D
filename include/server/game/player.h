@@ -8,7 +8,7 @@
 #include <queue>
 #include <vector>
 #include "server/game/gun_hotkeys.h"
-#include "server/game/config_parser.h"
+#include "common/config_parser.h"
 
 class Player {
 private:

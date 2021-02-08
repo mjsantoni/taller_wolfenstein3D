@@ -22,7 +22,7 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
-    std::vector<Drawable> objects_vector = map.getAllObjects();
+    std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
     for (auto& object : objects_vector) {
         //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =

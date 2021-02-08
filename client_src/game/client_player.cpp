@@ -118,3 +118,43 @@ int ClientPlayer::getXPosition() {
 int ClientPlayer::getYPosition() {
     return map_position.second;
 }
+
+void ClientPlayer::setLives(int _lives) {
+    ClientPlayer::lives = _lives;
+}
+
+void ClientPlayer::setHealth(int _health) {
+    ClientPlayer::health = _health;
+}
+
+void ClientPlayer::setAmmo(int _ammo) {
+    ClientPlayer::ammo = _ammo;
+}
+
+int ClientPlayer::getMaxHealth() const {
+    return max_health;
+}
+
+void ClientPlayer::setMaxHealth(int _max_health) {
+    max_health = _max_health;
+}
+
+int ClientPlayer::getMaxAmmo() const {
+    return max_ammo;
+}
+
+void ClientPlayer::setMaxAmmo(int maxAmmo) {
+    max_ammo = maxAmmo;
+}
+
+int ClientPlayer::getMaxLives() const {
+    return max_lives;
+}
+
+void ClientPlayer::setMaxLives(int _max_lives) {
+    max_lives = _max_lives;
+}
+
+
+
+

@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H
 #include "positionable.h"
 #include "player.h"
-#include "config_parser.h"
+#include "common/config_parser.h"
 #include "map.h"
 #include <queue>
 
