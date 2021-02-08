@@ -118,7 +118,7 @@ bool Game::isNotOver() {
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-    if (elapsed_seconds.count()  >= 5) return false; // debe ser >= minutos que dura el game
+    if (elapsed_seconds.count()  >= 600) return false; // debe ser >= minutos que dura el game
     return true;
 }
 

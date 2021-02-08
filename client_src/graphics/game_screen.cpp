@@ -67,11 +67,11 @@ void GameScreen::render(std::vector<int> boolean_vector) {
     bool render_ui_drawer = boolean_vector[2];
     int x = player.getXPosition();
     int y = player.getYPosition();
-    if (render_ray_caster)
+    //if (render_ray_caster)
         ray_caster.renderBackground(x, y, player.getDirection());
-    if (render_object_drawer)
+    //if (render_object_drawer)
         object_drawer.loadObjects(x, y, player.getDirection());
-    if (render_ui_drawer)
+    //if (render_ui_drawer)
         ui_drawer.drawPlayerUI(player);
     window.render();
 }
