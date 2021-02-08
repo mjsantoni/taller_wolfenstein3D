@@ -97,10 +97,10 @@ std::vector<Area> MenusDrawer::getKeyAreas() {
 void MenusDrawer::displayLevelSelectionMenu() {
     Area screen_area(0, 0, window_width, window_height);
     window.drawRectangle(screen_area, 0, 0, 0, 0);
-    std::string intro = "Choose your level";
-    std::string level_1_text = "Easy";
-    std::string level_2_text = "Medium";
-    std::string level_3_text = "Hard";
+    std::string intro = "Choose your map";
+    std::string level_1_text = "Map 1";
+    std::string level_2_text = "Map 2";
+    std::string level_3_text = "Map 3";
     Area intro_msg_area;
     Area screen_msg_area(window_width/2-window_width/4, window_height/10,
                          window_width/2, window_height/5);

@@ -37,7 +37,7 @@ public:
     void displayMatchModeMenu();
     void displayLevelSelectionMenu();
     std::vector<Area> getKeyScreenAreas();
-    void displayPlayerShooting();
+    void displayPlayerAttacking();
 };
 
 

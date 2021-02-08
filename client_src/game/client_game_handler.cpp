@@ -17,7 +17,7 @@ ClientGameHandler::ClientGameHandler(int width,
         screen(width, height, info_provider, map, player),
         event_handler(player, screen, change_queue),
         event_generator(player, event_handler, event_queue),
-        change_processor(map, player, screen, change_queue) {
+        change_processor(map, player, screen, change_queue, audio_manager) {
     event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
 }
 
@@ -60,7 +60,7 @@ void ClientGameHandler::start() {
 }
 
 void ClientGameHandler::displayIntro() {
-    audio_player.playSong("../client_src/resources/music.wav");
+    audio_manager.playSong();
     screen.displayIntro();
     bool run_intro = true;
     while (run_intro) {
@@ -74,11 +74,11 @@ void ClientGameHandler::displayIntro() {
                 break;
         }
     }
-    audio_player.stopSong();
+    audio_manager.stopSound();
 }
 
 int ClientGameHandler::displayMatchModeMenu() {
-    audio_player.playSong("../client_src/resources/music.wav");
+    audio_manager.playSong();
     screen.displayMatchModeMenu();
     int ret_code = 0;
     while (true) {
@@ -89,7 +89,7 @@ int ClientGameHandler::displayMatchModeMenu() {
         if (ret_code != 0)
             break;
     }
-    audio_player.stopSong();
+    audio_manager.stopSong();
     return ret_code;
 }
 
@@ -98,7 +98,7 @@ void ClientGameHandler::setMapPath(int chosen_map) {
 }
 
 void ClientGameHandler::displayLevelSelectionMenu() {
-    audio_player.playSong("../client_src/resources/music.wav");
+    audio_manager.playSong();
     screen.displayLevelSelectionMenu();
     while (true) {
         SDL_Delay(1);
@@ -110,7 +110,7 @@ void ClientGameHandler::displayLevelSelectionMenu() {
             break;
         }
     }
-    audio_player.stopSong();
+    audio_manager.stopSong();
 }
 
 void ClientGameHandler::killPlayer() {

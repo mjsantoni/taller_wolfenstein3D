@@ -9,11 +9,13 @@
 ChangeProcessor::ChangeProcessor(ClientMap& _map,
                                  ClientPlayer& _player,
                                  GameScreen& _screen,
-                                 SharedQueue<Change>& _change_queue) :
+                                 SharedQueue<Change>& _change_queue,
+                                 AudioManager& _audio_manager) :
                                  map(_map),
                                  player(_player),
                                  screen(_screen),
                                  change_queue(_change_queue),
+                                 audio_manager(_audio_manager),
                                  alive(true){
 }
 
@@ -150,8 +152,11 @@ void ChangeProcessor::processChange(Change &change) {
             break;
         }
         case (CL_PLAYER_SHOOTING): {
-            if (player.getAmmo() > 0)
-                screen.displayPlayerShooting();
+            if (player.getAmmo() > 0) {
+                audio_manager.displayPlayerAttackingSound(
+                        player.getEquippedWeapon());
+                screen.displayPlayerAttacking();
+            }
             return;
         }
         case (CL_CHANGE_WEAPON): {

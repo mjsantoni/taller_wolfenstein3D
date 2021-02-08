@@ -21,7 +21,7 @@ path:../client_src/resources/enemies/guard.png, obj_width:0.6, obj_height:1.25, 
 path:../client_src/resources/enemies/officer.png, obj_width:0.6, obj_height:1.25, img_width:64, img_height:64, name:ss_officer, is_sprite:0
 path:../client_src/resources/enemies/officer.png, obj_width:0.6, obj_height:1.25, img_width:64, img_height:64, name:ss_officer, is_sprite:0
 
-path:../client_src/resources/weapons/knife.png, obj_width:0.2, obj_height:0.2, img_width:140, img_height:43, name:knife, is_sprite:1, sprite_dim:1x4, sprite_padding:0x15
+path:../client_src/resources/weapons/knife.png, obj_width:0.2, obj_height:0.2, img_width:140, img_height:43, name:knife, is_sprite:1, sprite_dim:1x4, sprite_padding:0x22
 path:../client_src/resources/weapons/pistol.png, obj_width:0.2, obj_height:0.2, img_width:182, img_height:67, name:pistol, is_sprite:1, sprite_dim:1x4, sprite_padding:0x17
 path:../client_src/resources/weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_height:53, name:machine_gun, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
 path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0

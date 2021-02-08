@@ -11,8 +11,8 @@
 class SdlAudioPlayer {
 public:
     SdlAudioPlayer();
-    void playSong(const std::string& file_name);
-    void stopSong();
+    void playSound(const std::string& file_name);
+    void stopSound();
 };
 
 

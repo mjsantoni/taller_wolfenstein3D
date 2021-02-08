@@ -11,7 +11,7 @@ SdlAudioPlayer::SdlAudioPlayer() {
                             Mix_GetError());
 }
 
-void SdlAudioPlayer::playSong(const std::string& file_name) {
+void SdlAudioPlayer::playSound(const std::string& file_name) {
     Mix_Music* gMusic = Mix_LoadMUS(file_name.c_str());
     if(!gMusic) {
         throw SdlException( "Error en la carga del audio", Mix_GetError());
@@ -19,6 +19,6 @@ void SdlAudioPlayer::playSong(const std::string& file_name) {
     Mix_PlayMusic(gMusic, -1);
 }
 
-void SdlAudioPlayer::stopSong() {
+void SdlAudioPlayer::stopSound() {
     Mix_HaltMusic();
 }

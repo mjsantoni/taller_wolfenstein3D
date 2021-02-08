@@ -40,7 +40,7 @@ public:
 private:
     int id = 0;
     std::string name;
-    double direction = 2.268926;
+    double direction = 0;
     int equipped_weapon = 2;
     int level = 6;
     int score = 10000;

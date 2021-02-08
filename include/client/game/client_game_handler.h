@@ -21,6 +21,7 @@
 #include <common/change.h>
 #include <common/shared_queue.h>
 #include <common/map_parser.h>
+#include <client/sounds/audio_manager.h>
 #include "client_map_generator.h"
 
 class ClientGameHandler {
@@ -35,7 +36,6 @@ public:
 private:
     ClientPlayer player = ClientPlayer("Player 1");
     std::atomic<bool> running;
-    SdlAudioPlayer audio_player;
     ClientMap map;
     EventGenerator event_generator;
     ObjectInfoProvider info_provider;
@@ -44,6 +44,7 @@ private:
     ClientEventHandler event_handler;
     ChangeProcessor change_processor;
     std::string map_path;
+    AudioManager audio_manager;
     void displayIntro();
     int displayMatchModeMenu();
     void displayLevelSelectionMenu();
