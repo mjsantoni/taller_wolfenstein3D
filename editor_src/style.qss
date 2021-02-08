@@ -3,7 +3,7 @@ background-color: #ABABAB; /* sets background of the menu */
 border: 1px solid black;
 }
 
-QPushButton#gridButton {
+QPushButton#saokf {
 color: red;
 background-color: black;
 border-style: outset;
@@ -11,6 +11,14 @@ border-width: 2px;
 border-radius: 10px;
 border-color: beige;
 font-family: Samanata;
+}
+
+QGridButton {
+    background-color: black;
+    border-style: outset;
+    border-width: 1px;
+    border-color: white;
+    font-family: Samanata;
 }
 
 QPushButton:hover{
