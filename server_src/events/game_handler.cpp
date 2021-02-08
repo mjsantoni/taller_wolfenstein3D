@@ -74,8 +74,6 @@ void GameHandler::sendTops() {
     notifyTop(scores, TOP_SCORER);
 }
 
-
-
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();
     int id = data.first;

@@ -31,6 +31,7 @@ private:
     int height;
     int real_width;
     int real_height;
+    int total_players;
     void loadWallInfo(ObjectInfo& object_info,
                       std::pair<int, int> grid_coordinates);
     void putEnemyAt(int x_pos, int y_pos, int object_type, int id);
@@ -71,6 +72,10 @@ public:
     void moveObject(int object_id, std::pair<int, int> new_coordinates);
     void addPlayerSpawnAt(int x_pos, int y_pos);
     void addPlayers(int number_of_players, int own_player_id);
+    std::pair<int, int> getSpawnPositionForPlayer(int player_id);
+    void erasePlayer(int player_id);
+    void updateTotalPlayers(int _total_players);
+    void respawnPlayer(int player_id);
 };
 
 

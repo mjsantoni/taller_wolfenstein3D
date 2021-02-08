@@ -266,3 +266,20 @@ void ClientMap::putEnemyAt(int x_pos, int y_pos, int object_type, int id) {
     enemies.insert(std::pair<int, Drawable>(id, enemy));
 }
 
+std::pair<int, int> ClientMap::getSpawnPositionForPlayer(int player_id) {
+    return player_spawns[player_id];
+}
+
+void ClientMap::erasePlayer(int player_id) {
+    enemies.erase(player_id);
+}
+
+void ClientMap::updateTotalPlayers(int _total_players) {
+    total_players = _total_players;
+}
+
+void ClientMap::respawnPlayer(int player_id) {
+    std::pair<int, int> respawn_position = player_spawns[player_id];
+    Drawable& enemy = enemies.at(player_id);
+    enemy.setMapPosition(respawn_position.first, respawn_position.second);
+}
