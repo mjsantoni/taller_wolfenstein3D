@@ -12,9 +12,8 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
     switch (id) {
         case (CONNECT_PLAYER): {
-            //int id_new_player = game.connectPlayer();
             changes.emplace_back(ADD_PLAYER, player_id, INVALID, INVALID, true);
-            // Falta evento de enviar el mapa entero al conectarse
+            changes.emplace_back(TOTAL_PLAYERS_CONNECTED, game.getPlayersAlive(), INVALID, true);
             break;
         }
         case (MOVE_PLAYER): {
@@ -82,7 +81,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
 void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &changes) {
     std::pair<Coordinate,
-            std::vector<Positionable>> move_changes = game.movePlayer(player_id);
+            std::vector<Positionable>> move_changes = game.movePlayer(player_id, value);
     changes.emplace_back(MOVE_PLAYER, player_id,
                          move_changes.first.x, move_changes.first.y, true);
     for (auto &item : move_changes.second) {

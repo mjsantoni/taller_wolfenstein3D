@@ -53,13 +53,16 @@ private:
     std::mutex m;
     std::condition_variable cv;
 
+    /* Functions */
+    static double getAngleToMove(int direction);
+
 public:
     Game(std::string map_path, std::string config_path, BotsManager& bm);
     ~Game();
 
     /* RECEIVED EVENTS */
     std::pair<int,std::map<Coordinate, Positionable>> connectPlayer();
-    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id);
+    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id, int move_direction);
     std::pair<Hit, std::vector<Change>> shoot(int id);
     std::pair<bool, int> openDoor(int id);
     int pushWall(int id);
@@ -83,13 +86,9 @@ public:
     void show();
 
     void addBot();
-
-    void sendMapToBot(LuaBot *bot);
-
-    void sendStartDataToBot(LuaBot *bot);
-
     void releaseBots();
 
+    int getPlayersConnected() const;
     std::vector<std::pair<int, int>> getTop(std::string type, int n);
 };
 

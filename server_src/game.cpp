@@ -5,6 +5,11 @@
 #define MAX_PLAYERS 2
 #define MAX_DOOR_OPEN 5
 
+#define MOVE_LEFT 0
+#define MOVE_RIGHT 1
+#define MOVE_UP 2
+#define MOVE_DOWN 3
+
 Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
@@ -39,10 +44,20 @@ std::pair<int,std::map<Coordinate, Positionable>> Game::connectPlayer() {
     return std::make_pair(player.getID(), board);
 }
 
-std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id) {
+double Game::getAngleToMove(int direction) {
+    switch (direction) {
+        case (MOVE_LEFT): { return M_PI/2; }
+        case (MOVE_RIGHT): { return -M_PI/2; }
+        case (MOVE_DOWN): { return M_PI; }
+        default: break;
+    }
+    return 0;
+}
+
+std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id, int move_direction) {
     std::vector<Positionable> erased_positionables;
     Player& player = players[id];
-    double angle = player.getAngle();
+    double angle = player.getAngle() + getAngleToMove(move_direction);
     Coordinate old_pos = map.getPlayerPosition(player.getID());
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
 
@@ -223,4 +238,8 @@ void Game::addBot() {
 
 void Game::releaseBots() {
     botsManager.releaseBots(map, players);
+}
+
+int Game::getPlayersConnected() const {
+    return players_ids;
 }
