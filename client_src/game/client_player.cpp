@@ -60,7 +60,7 @@ int ClientPlayer::getAmmo() {
 }
 
 void ClientPlayer::updatePosition(int new_x, int new_y) {
-    std::cout << "Actualizo pos\n";
+    //std::cout << "Actualizo pos\n";
     map_position = {new_x, new_y};
 }
 
@@ -98,8 +98,6 @@ void ClientPlayer::respawn() {
 }
 
 void ClientPlayer::changeWeapon(int weapon_number) {
-    if (!weapons[weapon_number-1])
-        return;
     equipped_weapon = weapon_number;
 }
 

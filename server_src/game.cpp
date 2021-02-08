@@ -200,7 +200,7 @@ void Game::closeDoors(std::vector<Change>& changes) {
 std::vector<Change> Game::passTime() {
     std::vector<Change> changes;
     closeDoors(changes);
-    std::cout << "PASSING TIME\n";
+    //std::cout << "PASSING TIME\n";
     Hit rpg_explosions = shootHandler.travelAndExplodeAllRPGS(players, changes);
     if (rpg_explosions.playerDied()) playerDies(rpg_explosions);
     hitHandler.processHit(rpg_explosions, changes, getPlayersAlive());

@@ -18,15 +18,14 @@ void ServerUpdater::run() {
         Event event = event_queue.pop();
         if (event.isInvalid()) continue;
         skt.send_msg(event.serialize());
-        std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
+        //std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
     }
 }
 
 void ServerUpdater::update(Event event) {
-    std::cout << "Se envia a la cola de eventos el evento "<< event.getEventID() << " del jugador " << event.getPlayerID() << " con valor " << event.getValue()  << std::endl;
+    //std::cout << "Se envia a la cola de eventos el evento "<< event.getEventID() << " del jugador " << event.getPlayerID() << " con valor " << event.getValue()  << std::endl;
     event_queue.push(event);
 }
-
 
 void ServerUpdater::stop() {
     alive = false;

@@ -24,7 +24,6 @@ private:
 public:
     ClientEventHandler(ClientPlayer& _player, GameScreen& _screen,
                        SharedQueue<Change>& _change_queue);
-    void handleWeaponChange(int weapon_number);
     void handleCameraTurn(int direction);
     int handleMatchModeScreenEvent(SDL_Event event);
     int handleLevelSelectionEvent(SDL_Event event);

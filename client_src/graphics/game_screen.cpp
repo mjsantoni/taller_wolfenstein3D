@@ -94,4 +94,3 @@ void GameScreen::displayLoadingScreen(bool waiting_for_input) {
     menus_drawer.displayLoadingScreen(waiting_for_input);
 }
 
-

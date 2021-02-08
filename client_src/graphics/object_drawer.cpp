@@ -198,6 +198,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
             object_info_provider.getObjectInfo(object.getObjectType());
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
+    object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
     put3DObject(object_info, pl_ob_angle);
     //if (isEnemy(object_info))
         //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);
@@ -330,19 +331,33 @@ void ObjectDrawer::setDimensions(int width, int height) {
 
 void ObjectDrawer::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
     Area image_area;
-    SdlTexture sdl_texture(object_info.getImagePath());
-    SDL_Texture* texture =
-            sdl_texture.loadTexture(window.getRenderer(), image_area);
+    SDL_Texture* image = getObjectImage(object_info, image_area);
     image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
-    window.loadImage(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
+    window.loadImage(image, image_area, screen_area);
+    SDL_DestroyTexture(image);
     //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
     //printf("Distancia: %f\n", distance);
     //printf("Pos x: %d\n", screen_area.getX());
     //printf("Pos y: %d\n", screen_area.getY());
     //printf("Altura: %d\n", screen_area.getHeight());
     //printf("Ancho: %d\n", screen_area.getWidth());
+}
+
+SDL_Texture* ObjectDrawer::getObjectImage(ObjectInfo& o_i, Area& image_area) {
+    if (!o_i.isSprite()) {
+        SdlTexture sdl_texture(o_i.getImagePath());
+        SDL_Texture* texture =
+                sdl_texture.loadTexture(window.getRenderer(), image_area);
+        return texture;
+    }
+    SdlSprite sdl_sprite(o_i.getImagePath(), o_i.getImageWidth(),
+                         o_i.getImageHeight(), o_i.getSpriteCols(),
+                         o_i.getSpriteRows(), o_i.getSpriteHPadding(),
+                         o_i.getSpriteVPadding());
+    SDL_Texture* texture = sdl_sprite.loadTexture(window.getRenderer(),
+                                        image_area, o_i.getSpriteAnimationNo());
+    return texture;
 }
 
 

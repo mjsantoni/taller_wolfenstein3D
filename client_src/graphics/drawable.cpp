@@ -50,3 +50,24 @@ int Drawable::getId() const {
 void Drawable::setId(int _id) {
     id = _id;
 }
+
+void Drawable::setNextMovingSprite() {
+    int new_sprite = (int) ((current_mov_sprite + 1) % (moving_sprites.size()));
+    sprite_animation_no = moving_sprites[new_sprite];
+    current_mov_sprite++;
+}
+
+void Drawable::setShootingSprite() {
+    sprite_animation_no = shooting_sprite[0];
+}
+
+void Drawable::setNextDyingSprite() {
+    int new_sprite =
+            (int) ((current_dying_sprite + 1) % (moving_sprites.size()));
+    sprite_animation_no = dying_sprites[new_sprite];
+    current_dying_sprite++;
+}
+
+int Drawable::getSpriteAnimationNo() {
+    return sprite_animation_no;
+}

@@ -28,10 +28,10 @@ void GameHandler::run() {
         while (total_events < MAX_EVENTS) {
             Event event = eventQueue.pop();
             if (event.isInvalid()) {
-                std::cout << "INVALIDOOOO\n";
+                //std::cout << "INVALIDOOOO\n";
                 break;
             }
-            std::cout << "El evento que salio es de: " << event.getEventID() << "\n";
+            //std::cout << "El evento que salio es de: " << event.getEventID() << "\n";
             std::vector<Change> changes = eventProcessor.process(event);
             notifyClients(changes);
             total_events++;
@@ -39,9 +39,9 @@ void GameHandler::run() {
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
         game.releaseBots();
-        sleep(1);
+        //sleep(1);
     }
-    std::cout << "Termino la partida!!!!\n";
+    //std::cout << "Termino la partida!!!!\n";
     sendTops();
 }
 

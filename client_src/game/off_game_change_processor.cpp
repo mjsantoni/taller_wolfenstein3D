@@ -8,7 +8,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
     Change change = change_queue.pop();
     if (change.isInvalid())
         return;
-    std::cout << "Se procesa cambio previo al juego: " << change.getChangeID() << std::endl;
+    //std::cout << "Se procesa cambio previo al juego: " << change.getChangeID() << std::endl;
     int player_id = change.getPlayerID();
     switch (change.getChangeID()) {
         case MAP_INITIALIZER: {
@@ -27,6 +27,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
             break;
         }
         case (GAME_START): {
+            map.addEnemies(player.getId());
             game_started = true;
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;

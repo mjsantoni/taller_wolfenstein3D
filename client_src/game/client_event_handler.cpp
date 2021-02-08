@@ -5,12 +5,6 @@
 #include "client/game/client_event_handler.h"
 #
 
-void ClientEventHandler::handleWeaponChange(int weapon_number) {
-    Change change(CL_CHANGE_WEAPON, 0, 0, weapon_number);
-    change_queue.push(change);
-
-}
-
 void ClientEventHandler::handleCameraTurn(int direction) {
     Change change(CL_UPDATE_DIRECTION, 0, 0, direction);
     change_queue.push(change);

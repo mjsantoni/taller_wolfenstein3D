@@ -8,6 +8,7 @@
 
 #include <utility>
 #include <string>
+#include <vector>
 
 class Drawable {
 private:
@@ -30,6 +31,16 @@ public:
     std::string getObjectName();
     void setObjectName(std::string name);
     void setMapPosition(std::pair<int, int> new_position);
+    std::vector<int> moving_sprites{0, 1, 3, 4, 7};
+    std::vector<int> shooting_sprite = {6};
+    std::vector<int> dying_sprites = {5, 8};
+    int current_mov_sprite = 0;
+    int current_sho_sprite = 0;
+    int current_dying_sprite = 0;
+    void setNextDyingSprite();
+    void setShootingSprite();
+    void setNextMovingSprite();
+    int getSpriteAnimationNo();
 };
 
 

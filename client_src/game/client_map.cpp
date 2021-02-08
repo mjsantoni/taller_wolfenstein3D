@@ -307,3 +307,24 @@ void ClientMap::changeEnemyImage(int player_id, int weapon) {
     enemies.erase(player_id);
     enemies.insert(std::pair<int, Drawable>(player_id, new_drawable));
 }
+
+void ClientMap::updateEnemiesSprites() {
+    for (auto& pair : enemies) {
+        Drawable& enemy = pair.second;
+        enemy.setNextMovingSprite();
+    }
+}
+/*
+void ClientMap::updateEnemySprite(int enemy_id) {
+
+}
+*/
+
+void ClientMap::addEnemies(int own_player_id) {
+    for (int i = 0; i < total_players; ++i) {
+        if (i == own_player_id)
+            continue;
+        std::pair<int, int> player_coords = player_spawns[i];
+        putEnemyAt(player_coords.first, player_coords.second, ENEMY_GUARD, i);
+    }
+}

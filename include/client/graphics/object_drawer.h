@@ -15,22 +15,6 @@
 #include "client/game/client_map.h"
 
 class ObjectDrawer {
-public:
-    ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
-                 std::map<double, double>& wall_distance_info,
-                 std::map<int, std::pair<int, int>>& _floor_info,
-                 std::vector<double>& angles_list, ClientMap& map);
-    Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
-    int findXPosForObject(double pl_ob_beta, int object_width);
-    int findYPosForObject(int ray_no, double pl_ob_angle, double distance,
-                          int object_height);
-    int findObjectHeight(double distance, int object_height);
-    int findObjectWidth(double distance, int object_width);
-    int findRayNumberForAngle(double beta);
-
-    Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
-    void loadObjects(int x, int y, double player_angle);
-    void setDimensions(int width, int height);
 private:
     SDL_Renderer* renderer;
     SdlWindow& window;
@@ -45,6 +29,7 @@ private:
     std::vector<double>& angles_list;
     ClientMap& map;
     int safe_distance = 30;
+    int sprite_counter = 0;
     bool shouldDraw(double player_angle, double os_angle, double of_angle,
                     double& diff_angle);
     bool shouldDraw_borderCase(double os_angle, double of_angle,
@@ -61,6 +46,23 @@ private:
     double getGammaAngle(double player_angle, double object_angle);
     bool blockedByWall(double angle, double distance);
     void put3DObject(ObjectInfo& object_info, double pl_ob_angle);
+public:
+    ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
+                 std::map<double, double>& wall_distance_info,
+                 std::map<int, std::pair<int, int>>& _floor_info,
+                 std::vector<double>& angles_list, ClientMap& map);
+    Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
+    int findXPosForObject(double pl_ob_beta, int object_width);
+    int findYPosForObject(int ray_no, double pl_ob_angle, double distance,
+                          int object_height);
+    int findObjectHeight(double distance, int object_height);
+    int findObjectWidth(double distance, int object_width);
+    int findRayNumberForAngle(double beta);
+
+    Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
+    void loadObjects(int x, int y, double player_angle);
+    void setDimensions(int width, int height);
+    SDL_Texture *getObjectImage(ObjectInfo &o_i, Area &image_area);
 };
 
 

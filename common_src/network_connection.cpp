@@ -105,7 +105,7 @@ void NetworkConnection::send_size(std::uint32_t len) {
 
 int NetworkConnection::send_msg(std::string msg) {
     std::uint32_t len = msg.length();
-    std::cout << "Se enviaran " << len << " bytes\n";
+    //std::cout << "Se enviaran " << len << " bytes\n";
     send_size(len);
     int total_bytes = 0;
     while (total_bytes < len) {
@@ -134,7 +134,7 @@ std::uint32_t NetworkConnection::recv_size() {
 
 int NetworkConnection::recv_msg(std::string& buffer) {
     std::uint32_t len = recv_size();
-    std::cout << "Se espera recibir " << len << " bytes \n";
+    //std::cout << "Se espera recibir " << len << " bytes \n";
     size_t total_bytes = 0;
     while (total_bytes < len) {
         std::vector<char> tmp_buf(len - total_bytes);

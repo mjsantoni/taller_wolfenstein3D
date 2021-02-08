@@ -25,8 +25,10 @@ ClientGameHandler::ClientGameHandler(int width,
 }
 
 void ClientGameHandler::start() {
+    audio_manager.playSong();
     displayIntro();
     std::cout << "Se inicia el juego" << std::endl;
+
     int game_mode = displayMatchModeMenu();
     if (game_mode != 1)
         return;
@@ -34,6 +36,7 @@ void ClientGameHandler::start() {
     initializePlayer();
     initializeMap();
     displayLoadingScreen();
+    audio_manager.stopSong();
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
@@ -61,7 +64,6 @@ void ClientGameHandler::start() {
 }
 
 void ClientGameHandler::displayIntro() {
-    audio_manager.playSong();
     screen.displayIntro();
     bool run_intro = true;
     while (run_intro) {
@@ -75,11 +77,9 @@ void ClientGameHandler::displayIntro() {
                 break;
         }
     }
-    audio_manager.stopSound();
 }
 
 int ClientGameHandler::displayMatchModeMenu() {
-    audio_manager.playSong();
     screen.displayMatchModeMenu();
     int ret_code = 0;
     while (true) {
@@ -90,7 +90,6 @@ int ClientGameHandler::displayMatchModeMenu() {
         if (ret_code != 0)
             break;
     }
-    audio_manager.stopSong();
     return ret_code;
 }
 
@@ -99,7 +98,6 @@ void ClientGameHandler::setMapPath(int chosen_map) {
 }
 
 void ClientGameHandler::displayLevelSelectionMenu() {
-    audio_manager.playSong();
     screen.displayLevelSelectionMenu();
     while (true) {
         SDL_Delay(1);
@@ -111,11 +109,9 @@ void ClientGameHandler::displayLevelSelectionMenu() {
             break;
         }
     }
-    audio_manager.stopSong();
 }
 
 void ClientGameHandler::displayLoadingScreen() {
-    audio_manager.playSong();
     screen.displayLoadingScreen(true);
     while (true) {
         SDL_Delay(1);
@@ -129,7 +125,6 @@ void ClientGameHandler::displayLoadingScreen() {
         screen.displayLoadingScreen(false);
         off_game_change_processor.processOffGameChanges();
     }
-    audio_manager.stopSong();
 }
 
 bool ClientGameHandler::isRunning() {

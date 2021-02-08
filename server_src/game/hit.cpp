@@ -28,7 +28,7 @@ bool Hit::usedAllAmmo() const {
 std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
     std::vector<std::pair<int, int>> total_dmg; //Vector de (id, dañototal)
     int total = 0;
-    std::cout << "----------------\n";
+    //std::cout << "----------------\n";
     for (int i = 0; i < max_players; i++) {
         for (auto& dmg : enemy_dmg_done) {
             if (dmg.first == i) {

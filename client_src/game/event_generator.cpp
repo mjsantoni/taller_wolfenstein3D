@@ -60,18 +60,23 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                     event = Event(PUSH_WALL, player.getId(), 0);
                     break;
                 case SDLK_1:
+                    std::cout << "Se envia evento de cambio de arma con valor " << 1 << std::endl;
                     event = Event(CHANGE_GUN, player.getId(), 1);
                     break;
                 case SDLK_2:
+                    std::cout << "Se envia evento de cambio de arma con valor " << 2 << std::endl;
                     event = Event(CHANGE_GUN, player.getId(), 2);
                     break;
                 case SDLK_3:
+                    std::cout << "Se envia evento de cambio de arma con valor " << 3 << std::endl;
                     event = Event(CHANGE_GUN, player.getId(), 3);
                     break;
                 case SDLK_4:
+                    std::cout << "Se envia evento de cambio de arma con valor " << 4 << std::endl;
                     event = Event(CHANGE_GUN, player.getId(), 4);
                     break;
                 case SDLK_5:
+                    std::cout << "Se envia evento de cambio de arma con valor " << 5 << std::endl;
                     event = Event(CHANGE_GUN, player.getId(), 5);
                     break;
             }
@@ -89,6 +94,6 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     }
     if (event.isInvalid())
         return;
-    std::cout << "Se encola el evento " << event.getEventID() << std::endl;
+    //std::cout << "Se encola el evento " << event.getEventID() << std::endl;
     event_queue.push(event);
 }

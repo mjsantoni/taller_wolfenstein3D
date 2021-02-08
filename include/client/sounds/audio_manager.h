@@ -18,6 +18,7 @@ public:
     void displayPlayerAttackingSound(int equipped_weapon);
     void displayKnifeStabbingSound();
     void displayPlayerShootingSound();
+    void displayEmptyGunSound();
 };
 
 

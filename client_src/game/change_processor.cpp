@@ -28,7 +28,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
     int value1 = change.value1;
     int value2 = change.value2;
 
-    std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
+    //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
     std::vector<int> render_vector{0, 0, 0};
     switch (change_id) {
@@ -40,11 +40,11 @@ void ChangeProcessor::processInGameChange(Change &change) {
         }
         case (MOVE_PLAYER): {
             if (player.getId() == id) {
-                std::cout << "El jugador se mueve en el mapa\n";
+                //std::cout << "El jugador se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
                 render_vector = std::vector<int>{1, 1, 0};
             } else {
-                std::cout << "Otro jugador se mueve en el mapa\n";
+                //std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveObject(id, value1, value2);
                 render_vector = std::vector<int>{0, 1, 0};
             }
@@ -87,7 +87,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
         }
         case (CHANGE_WEAPON): {
             if (player.getId() == id) {
-                player.changeWeapon(value2);
+                player.changeWeapon(value1);
                 render_vector = std::vector<int>{0, 0, 1};
             }
             else {
@@ -189,22 +189,20 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (CL_PLAYER_SHOOTING): {
-            if (player.getAmmo() > 0) {
+            if (player.getAmmo() > 0 || player.getEquippedWeapon() == 1) {
                 audio_manager.displayPlayerAttackingSound(
                         player.getEquippedWeapon());
                 screen.displayPlayerAttacking();
+            } else {
+                audio_manager.displayEmptyGunSound();
             }
             return;
-        }
-        case (CL_CHANGE_WEAPON): {
-            player.changeWeapon(value2);
-            render_vector = std::vector<int>{0, 0, 1};
-            break;
         }
         default: {
             break;
         }
     }
+    map.updateEnemiesSprites();
     screen.render(render_vector);
 }
 
@@ -213,11 +211,11 @@ void ChangeProcessor::run() {
         Change change = change_queue.pop();
         if (change.isInvalid())
                 continue;
-        std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
+        //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
         if (game_started)
             processInGameChange(change);
         if (ready) {
-            //screen.render();
+            screen.render();
             ready = false;
         }
     }
