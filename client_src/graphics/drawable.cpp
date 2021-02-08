@@ -35,6 +35,10 @@ void Drawable::setMapPosition(int x_pos, int y_pos) {
     map_position = new_position;
 }
 
+void Drawable::setMapPosition(std::pair<int, int> new_position) {
+    map_position = new_position;
+}
+
 void Drawable::setObjectName(std::string name) {
     object_name = name;
 }

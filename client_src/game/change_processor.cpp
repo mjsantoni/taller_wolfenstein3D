@@ -85,6 +85,18 @@ void ChangeProcessor::processInGameChange(Change &change) {
             // id: player_id -> value1: cantidad (suma o resta keys)
             break;
         }
+        case (CHANGE_WEAPON): {
+            if (player.getId() == id) {
+                player.changeWeapon(value2);
+                render_vector = std::vector<int>{0, 0, 1};
+            }
+            else {
+                map.changeEnemyImage(id, value1);
+                render_vector = std::vector<int>{0, 1, 0};
+            }
+            // id: player_id -> value1: cantidad (suma o resta keys)
+            break;
+        }
         case (KILL_PLAYER): {
             if (player.getId() == id) {
                 screen.renderDeadScreen();
@@ -205,7 +217,7 @@ void ChangeProcessor::run() {
         if (game_started)
             processInGameChange(change);
         if (ready) {
-            screen.render();
+            //screen.render();
             ready = false;
         }
     }

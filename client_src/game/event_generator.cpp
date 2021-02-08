@@ -60,19 +60,19 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                     event = Event(PUSH_WALL, player.getId(), 0);
                     break;
                 case SDLK_1:
-                    event_handler.handleWeaponChange(1);
+                    event = Event(CHANGE_GUN, player.getId(), 1);
                     break;
                 case SDLK_2:
-                    event_handler.handleWeaponChange(2);
+                    event = Event(CHANGE_GUN, player.getId(), 2);
                     break;
                 case SDLK_3:
-                    event_handler.handleWeaponChange(3);
+                    event = Event(CHANGE_GUN, player.getId(), 3);
                     break;
                 case SDLK_4:
-                    event_handler.handleWeaponChange(4);
+                    event = Event(CHANGE_GUN, player.getId(), 4);
                     break;
                 case SDLK_5:
-                    event_handler.handleWeaponChange(5);
+                    event = Event(CHANGE_GUN, player.getId(), 5);
                     break;
             }
         }

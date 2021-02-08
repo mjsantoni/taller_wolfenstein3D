@@ -297,3 +297,13 @@ void ClientMap::respawnPlayer(int player_id) {
     Drawable& enemy = enemies.at(player_id);
     enemy.setMapPosition(respawn_position.first, respawn_position.second);
 }
+
+void ClientMap::changeEnemyImage(int player_id, int weapon) {
+    Drawable& current_drawable = enemies.at(player_id);
+    int object_type = ImageManager::getImageNumberFromWeapon(weapon);
+    Drawable new_drawable(object_type);
+    new_drawable.setMapPosition(current_drawable.getMapPosition());
+    new_drawable.setId(player_id);
+    enemies.erase(player_id);
+    enemies.insert(std::pair<int, Drawable>(player_id, new_drawable));
+}

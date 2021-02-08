@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_IMAGE_PARSER_H
 #define TP_WOLFENSTEIN_IMAGE_PARSER_H
 
-
 #include <vector>
 #include "image_info.h"
 #include "client/object_info.h"

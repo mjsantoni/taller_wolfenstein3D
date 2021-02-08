@@ -76,6 +76,7 @@ public:
     void erasePlayer(int player_id);
     void updateTotalPlayers(int _total_players);
     void respawnPlayer(int player_id);
+    void changeEnemyImage(int player_id, int weapon);
 };
 
 

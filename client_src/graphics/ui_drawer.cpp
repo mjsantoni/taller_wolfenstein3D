@@ -74,16 +74,16 @@ void UIDrawer::drawPlayersImage() {
 }
 
 void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
-    box_starting_point += 2 * h_padding;
+    //box_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
-                   width/5, ui_height - 20);
+                   4*width/10, ui_height - 20);
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     ObjectInfo object_info = info_provider.getObjectInfo(players_weapon
             + WEAPON_ICON_DELTA);
     SdlTexture weapon_icon(object_info.getImagePath());
     Area image_area;
     SDL_Texture* weapon_texture = weapon_icon.loadTexture(window.getRenderer(), image_area);
-    Area screen_area(text_starting_point,starting_point+15, width/5-2*h_padding,
+    Area screen_area(text_starting_point,starting_point+15, (4*width/10)-2*h_padding,
                      ui_height - 30);
     putTextureAt(weapon_texture, image_area, screen_area);
 }

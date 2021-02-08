@@ -13,6 +13,7 @@ class ImageManager {
 public:
     static int getImageNumberFromName(std::string name);
     static bool objectIsWall(int object_type);
+    static int getImageNumberFromWeapon(int weapon_number);
 };
 
 

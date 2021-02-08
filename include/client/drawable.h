@@ -19,10 +19,7 @@ private:
     int id;
 public:
     int getId() const;
-
     void setId(int id);
-
-public:
     explicit Drawable(int _object_type);
     Drawable(int _object_type, int _sprite_animation_no);
     int getObjectType();
@@ -32,6 +29,7 @@ public:
     void setMapWidth(int width);
     std::string getObjectName();
     void setObjectName(std::string name);
+    void setMapPosition(std::pair<int, int> new_position);
 };
 
 
