@@ -31,7 +31,7 @@ private:
     int height;
     int real_width;
     int real_height;
-    int total_players;
+    int total_players = 0;
     void loadWallInfo(ObjectInfo& object_info,
                       std::pair<int, int> grid_coordinates);
     void putEnemyAt(int x_pos, int y_pos, int object_type, int id);
