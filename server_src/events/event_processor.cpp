@@ -12,7 +12,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
     switch (id) {
         case (CONNECT_PLAYER): {
-            changes.emplace_back(ADD_PLAYER, player_id, INVALID, INVALID, true);
+            changes.emplace_back(ADD_PLAYER, player_id, INVALID, INVALID, false);
             changes.emplace_back(TOTAL_PLAYERS_CONNECTED, game.getPlayersAlive(), INVALID, INVALID, true);
             break;
         }

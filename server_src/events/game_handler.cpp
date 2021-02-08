@@ -13,9 +13,11 @@ GameHandler::GameHandler(std::string map_path,
 
 void GameHandler::run() {
     waitInLobby();
-    //game.addBot(); aca añadir tantos bots como se desean.
+    // AGREGAR BOTS ACA Y MANDAR EL TOTAL_PLAYERS_CONNECTED!!!!!!!
+    std::vector<Change> end_lobby_change;
+    end_lobby_change.emplace_back(GAME_START, INVALID, INVALID, INVALID, true);
+    notifyClients(end_lobby_change);
     std::cout << "Termino el lobby\n";
-    //sleep(3); // para cargar los HUDs y eso ?
     while (game.isNotOver() && alive) {
         int total_events = 0;
         while (total_events < MAX_EVENTS) {
@@ -29,7 +31,6 @@ void GameHandler::run() {
             notifyClients(changes);
             total_events++;
         }
-        //game.show();
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
         game.releaseBots();
