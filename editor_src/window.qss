@@ -1,0 +1,58 @@
+QMenu {
+background-color: #ABABAB; /* sets background of the menu */
+border: 1px solid black;
+}
+
+QWidget {
+    font-family: Samanata;
+}
+
+QGridButton {
+    color: red;
+    background-color: black;
+    border-style: outset;
+    border-width: 1px;
+    border-color: white;
+    font-family: Samanata;
+}
+
+QPushButton {
+    height: 50px;
+    width: 30px;
+    background-image: url("blood.jpeg");
+}
+
+QPushButton:hover{
+    background-color: dimgrey;
+}
+
+QLineEdit {
+    border-radius: 8px;
+    border-style: inset;
+    color: white;
+    font-size: 30px;
+    background-color: black;
+}
+
+QLabel {
+    font-size: 30px;
+    font-family: Samanata;
+}
+
+QGridLayout {
+    background-color: black;
+}
+
+QScrollArea {
+    background-color: black;
+}
+
+
+QMainWindow {
+    background-color: darkred;
+    font-family: Samanata;
+}
+
+QApp {
+    font-family: Samanata;
+}

@@ -41,6 +41,8 @@ private:
 
     void dragLeaveEvent(QDragLeaveEvent *event);
 
+    void mousePressEvent(QMouseEvent *event);
+
     void updateGridButtonWithCursor(QGridButton *button);
 
     void renderWeaponsGrid(QGridLayout *pLayout);

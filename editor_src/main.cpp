@@ -8,13 +8,7 @@
 
 int main( int argc, char* args[] ) {
     QApplication app(argc, args);
-    QStyle *style = QStyleFactory::create("windows");
-    if(style)
-    {
-        qDebug("windows loaded!");
-        QApplication::setStyle(style);
-    }
-    QFile file("/home/agustin/Desktop/taller_wolfenstein3D/editor_src/style.qss");
+    QFile file("/home/agustin/Desktop/taller_wolfenstein3D/editor_src/window.qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String(file.readAll());
 

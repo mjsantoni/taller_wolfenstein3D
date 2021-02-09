@@ -67,6 +67,12 @@ void Editor::dragLeaveEvent(QDragLeaveEvent* event) {
     event->accept();
 }
 
+void Editor::mousePressEvent(QMouseEvent *event){
+    if(event->button()==Qt::LeftButton) {
+        setCursor(Qt::ArrowCursor);
+    }
+}
+
 void Editor::loadMap(std::string path) {
     if(path.empty()) path = getYamlPath();
     MapParser parser(path);
@@ -135,18 +141,15 @@ void Editor::loadMap(std::string path) {
 
 
 void Editor::createMapGrid() {
-    QPixmap pixmap("../client_src/resources/empty.png");
-    QIcon ButtonIcon(pixmap);
-
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
     QWidget* scrollAreaContent = new QWidget;
     scrollAreaContent->setStyleSheet("QWidget{background-color: black;}");
     scrollAreaContent->setLayout( mapGrid );
     QScrollArea* scrollArea = findChild<QScrollArea*>("scrollArea");
-    scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
-    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
-    scrollArea->setWidgetResizable( true );
-    scrollArea->setWidget( scrollAreaContent );
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(scrollAreaContent);
     createButtonsMapGrid(mapGrid, DEF_WIDTH, DEF_HEIGHT, -1, -1);
 }
 
@@ -174,6 +177,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QPixmap food_pix("../client_src/resources/items/food.png");
     QPixmap key_pix("../client_src/resources/items/key.png");
     QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
+
+    wood_pix.scaled(25, 25);
 
     QIcon wood_icon(wood_pix);
     QIcon gray_icon(gray_pix);
@@ -291,7 +296,6 @@ void Editor::exportMap() {
 
     /* Map input */
     QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
-    mapGrid->setVerticalSpacing(0);
     for (int i = 0; i < mapGrid->rowCount(); ++i) {
         for (int j = 0; j < mapGrid->columnCount(); ++j) {
             QGridButton* buttonGrid = qobject_cast<QGridButton*>(mapGrid->itemAtPosition(i, j)->widget());
@@ -409,7 +413,7 @@ void Editor::refreshMapGrid(){
 }
 
 void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
-    QPixmap pixmap("../client_src/resources/empty.png");
+    QPixmap pixmap("../client_src/resources/empty.jpg");
     QIcon buttonIcon(pixmap);
 
     for (int i = 0; i < rows; ++i) {
@@ -417,6 +421,7 @@ void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int 
             if (i < gridRows && j < gridCols) continue;
             QGridButton* buttonGrid = new QGridButton();
             buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
+            buttonGrid->setMaximumSize(60, 60);
             buttonGrid->setIcon(buttonIcon);
             buttonGrid->setIconSize(pixmap.rect().size());
             QMenu* menu = createGridButtonMenu(buttonGrid);
