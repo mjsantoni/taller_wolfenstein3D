@@ -20,8 +20,6 @@ public:
     void run() override;
     void stop();
 private:
-    ServerUpdater& server_updater;
-    ServerListener& server_handler;
     ClientGameHandler game_handler;
     std::atomic<bool> alive;
 };
