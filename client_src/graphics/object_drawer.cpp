@@ -104,12 +104,19 @@ int ObjectDrawer::findYPosForObject(int ray_no,
     printf("Pos y: %d\n", y_pos);
     printf("Distancia del suelo y: %d\n", y_pos - floor_starting_point);
     return y_pos;
-    */
+     */
+    std::cout << "floor starting point: " << floor_starting_point << std::endl;
     double wall_distance = findWallDistanceForAngle(-pl_ob_angle);
+    std::cout << "distancia de pared encontrada para determinar pos: " << wall_distance << std::endl;
     double object_to_wall_distance = wall_distance - distance;
     double dist_proportion = object_to_wall_distance/wall_distance;
     int floor_position = (int) (dist_proportion * floor_height);
     int y_pos = floor_starting_point + floor_position - object_height;
+    std::cout << "original y pos: " << y_pos << std::endl;
+    if (y_pos <= floor_starting_point- object_height) {
+        std::cout << "El objeto se solapa con la pared\n";
+        y_pos = floor_starting_point - object_height;
+    }
     return y_pos;
 }
 
@@ -299,6 +306,8 @@ double ObjectDrawer::getGammaAngle(double player_angle, double object_angle) {
 }
 
 bool ObjectDrawer::blockedByWall(double angle, double distance) {
+    return false;
+    /*
     double nearest_distance = 0;
     double angle_found = 0;
     if (wall_distance_info.find(angle) != wall_distance_info.end()) {
@@ -333,6 +342,7 @@ bool ObjectDrawer::blockedByWall(double angle, double distance) {
         printf("No se dibuja el objeto\n");
     }
     return object_blocked;
+     */
 }
 
 void ObjectDrawer::setDimensions(int width, int height) {
