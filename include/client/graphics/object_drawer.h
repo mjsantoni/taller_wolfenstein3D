@@ -58,11 +58,11 @@ public:
     int findObjectHeight(double distance, int object_height);
     int findObjectWidth(double distance, int object_width);
     int findRayNumberForAngle(double beta);
-
     Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
     void loadObjects(int x, int y, double player_angle);
     void setDimensions(int width, int height);
     SDL_Texture *getObjectImage(ObjectInfo &o_i, Area &image_area);
+    int getObjectWidth(Drawable &drawable);
 };
 
 

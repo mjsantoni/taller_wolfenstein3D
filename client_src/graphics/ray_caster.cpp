@@ -245,7 +245,9 @@ int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
 
 void RayCaster::saveRayInformation(double ray_angle, double distance) {
     //printf("Se agrega el angulo %f, con distancia %f\n", ray_angle, distance);
-    wall_distance_info.insert(std::pair<double, double>(ray_angle, distance));
+    double real_distance = distance/cos(ray_angle);
+    wall_distance_info.insert(std::pair<double, double>(ray_angle,
+                                                        real_distance));
     angles_list.push_back(ray_angle);
 }
 

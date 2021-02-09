@@ -36,6 +36,7 @@ void ClientGameHandler::start() {
     initializePlayer();
     initializeMap();
     displayLoadingScreen();
+    sleep(1);
     audio_manager.stopSong();
     change_processor.start();
     std::cout << "Se inicia la partida" << std::endl;
@@ -118,8 +119,10 @@ void ClientGameHandler::displayLoadingScreen() {
         SDL_Event event;
         SDL_WaitEvent(&event);
         int player_ready = event_handler.handleLoadingScreenEvent(event);
-        if (player_ready)
+        if (player_ready) {
+            event_generator.generateReadyEvent();
             break;
+        }
     }
     while (!game_started) {
         screen.displayLoadingScreen(false);

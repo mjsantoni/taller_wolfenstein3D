@@ -28,6 +28,7 @@ public:
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);
     void generateConnectedPlayerEvent(SDL_Event sdl_event);
+    void generateReadyEvent();
 };
 
 

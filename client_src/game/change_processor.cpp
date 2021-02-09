@@ -206,18 +206,18 @@ void ChangeProcessor::processInGameChange(Change &change) {
 }
 
 void ChangeProcessor::run() {
+    std::cout << "starting change processor\n";
+    screen.render();
     while (alive) {
         Change change = change_queue.pop();
-        if (change.isInvalid())
+        if (change.isInvalid()) {
+            //std::cout << "invalid change\n";
                 continue;
+        }
         //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
         if (game_started) {
             map.updateEnemiesSprites();
             processInGameChange(change);
-        }
-        if (ready) {
-            screen.render();
-            ready = false;
         }
     }
 }

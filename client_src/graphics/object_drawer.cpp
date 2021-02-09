@@ -192,6 +192,9 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     double distance = Calculator::calculateDistance(x_pos - object_x,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
+    std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
+    std::cout << "Jugador en (" << object_x << "," << object_y << ")\n";
+    std::cout << "Distancia: " << distance << std::endl;
     if (blockedByWall(beta, distance))
         return;
     //printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
@@ -225,6 +228,12 @@ std::pair<int, int> ObjectDrawer::projectObjectOnMap(Drawable& object,
     int object_final_x = object_starting_x + delta_x;
     int object_final_y = object_starting_y + delta_y;
     return std::pair<int, int>{object_final_x, object_final_y};
+}
+
+int ObjectDrawer::getObjectWidth(Drawable& drawable) {
+    int object_type = drawable.getObjectType();
+    ObjectInfo object_info = object_info_provider.getObjectInfo(object_type);
+    return (int) (object_info.getObjectWidth() * map_grid_size);
 }
 
 bool ObjectDrawer::shouldDraw(double player_angle,
@@ -312,16 +321,16 @@ bool ObjectDrawer::blockedByWall(double angle, double distance) {
     }
     if (nearest_distance == 0 && angle_found == 0)
         return false;
-    //printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
-    nearest_distance /= cos(angle_found);
-    //printf("Distancia mas cercana final: %f\n", nearest_distance);
+    printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
+    //nearest_distance /= cos(angle_found);
+    printf("Distancia mas cercana final: %f\n", nearest_distance);
     bool object_blocked = nearest_distance < distance;
     if (object_blocked) {
-        //printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
-        //printf("Distancia del objeto: %f\n", distance);
-        //printf("Angulo del objeto: %f\n", angle);
-        //printf("Angulo usado: %f\n", angle_found);
-        //printf("No se dibuja el objeto\n");
+        printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);
+        printf("Distancia del objeto: %f\n", distance);
+        printf("Angulo del objeto: %f\n", angle);
+        printf("Angulo usado: %f\n", angle_found);
+        printf("No se dibuja el objeto\n");
     }
     return object_blocked;
 }

@@ -40,9 +40,11 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                 case SDLK_s:
                     event = Event(MOVE_PLAYER, player.getId(), MOVE_DOWN);
                     break;
+                    /*
                 case SDLK_p:
                     event = Event(PLAYER_READY, player.getId(), 0);
                     break;
+                     */
                 case SDLK_LEFT:
                     event = Event(TURN_CAMERA, player.getId(), CAMERA_LEFT);
                     event_handler.handleCameraTurn(CAMERA_LEFT);
@@ -95,5 +97,10 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     if (event.isInvalid())
         return;
     //std::cout << "Se encola el evento " << event.getEventID() << std::endl;
+    event_queue.push(event);
+}
+
+void EventGenerator::generateReadyEvent() {
+    Event event = Event(PLAYER_READY, player.getId(), 0);
     event_queue.push(event);
 }
