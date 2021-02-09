@@ -12,6 +12,7 @@ SdlAudioPlayer::SdlAudioPlayer() {
 }
 
 void SdlAudioPlayer::playSound(const std::string& file_name) {
+    std::unique_lock<std::mutex> lock(m);
     Mix_Music* gMusic = Mix_LoadMUS(file_name.c_str());
     if(!gMusic) {
         throw SdlException( "Error en la carga del audio", Mix_GetError());
@@ -20,5 +21,6 @@ void SdlAudioPlayer::playSound(const std::string& file_name) {
 }
 
 void SdlAudioPlayer::stopSound() {
+    std::unique_lock<std::mutex> lock(m);
     Mix_HaltMusic();
 }

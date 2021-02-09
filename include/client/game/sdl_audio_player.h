@@ -6,6 +6,7 @@
 #define TP_WOLFENSTEIN_SDLAUDIOPLAYER_H
 
 #include <string>
+#include <mutex>
 #include "client/sdl_exception.h"
 
 class SdlAudioPlayer {
@@ -13,6 +14,7 @@ public:
     SdlAudioPlayer();
     void playSound(const std::string& file_name);
     void stopSound();
+    std::mutex m;
 };
 
 

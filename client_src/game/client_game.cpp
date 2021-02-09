@@ -8,8 +8,7 @@
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
 
-           game_handler(change_queue, event_queue),
-           alive(true) {}
+           game_handler(change_queue, event_queue), alive(true) {}
 
 void ClientGame::run() {
     game_handler.start();

@@ -7,8 +7,10 @@
 
 #include <zconf.h>
 #include <client/game/sdl_audio_player.h>
+#include <mutex>
 
 class AudioManager {
+    /*
 private:
     SdlAudioPlayer audio_player;
 public:
@@ -19,6 +21,8 @@ public:
     void displayKnifeStabbingSound();
     void displayPlayerShootingSound();
     void displayEmptyGunSound();
+    std::mutex m;
+     */
 };
 
 
