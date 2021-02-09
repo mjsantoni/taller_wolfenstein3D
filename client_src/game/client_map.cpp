@@ -325,6 +325,8 @@ void ClientMap::addEnemies(int own_player_id) {
         if (i == own_player_id)
             continue;
         std::pair<int, int> player_coords = player_spawns[i];
-        putEnemyAt(player_coords.first, player_coords.second, ENEMY_GUARD, i);
+        int player_x = player_coords.first * grid_size;
+        int player_y = player_coords.second * grid_size;
+        putEnemyAt(player_x, player_y, ENEMY_GUARD, i);
     }
 }

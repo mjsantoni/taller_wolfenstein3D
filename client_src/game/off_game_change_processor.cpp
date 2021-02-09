@@ -15,12 +15,14 @@ void OffGameChangeProcessor::processOffGameChanges() {
             addMapChange(change);
             break;
         }
+        /*
         case ADD_PLAYER: {
             player.setId(player_id);
             std::pair<int, int> player_pos =
                     map.getSpawnPositionForPlayer(player_id);
             player.setMapPosition(player_pos);
         }
+         */
         case (TOTAL_PLAYERS_CONNECTED): {
             map.updateTotalPlayers(player_id); // el id es el numero de jugadores en realidad
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
