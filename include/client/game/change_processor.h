@@ -18,7 +18,7 @@
 class ChangeProcessor : public Thread {
 private:
     ClientMap map;
-    ClientPlayer& p`layer;
+    ClientPlayer& player;
     GameScreen screen;
     SharedQueue<Change>& change_queue;
     AudioManager audio_manager;
