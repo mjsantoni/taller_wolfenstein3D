@@ -200,7 +200,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
     std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
-    std::cout << "Jugador en (" << object_x << "," << object_y << ")\n";
+    std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
     std::cout << "Distancia: " << distance << std::endl;
     if (blockedByWall(beta, distance))
         return;

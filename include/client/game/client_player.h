@@ -12,6 +12,23 @@
 #include "client/graphics/sdl_sprite.h"
 
 class ClientPlayer {
+private:
+    int id = 0;
+    std::string name;
+    double direction = 0;
+    int equipped_weapon = 2;
+    int level = 6;
+    int score = 0;
+    int lives = 5;
+    int health = 100;
+    int ammo = 200;
+    int max_health;
+    int max_lives;
+    int max_ammo;
+    int keys = 0;
+    int weapons[5] = {1, 1, 0, 0, 0};
+    std::pair<int, int> map_position;
+    std::pair<int, int> respawn_position;
 public:
     ClientPlayer(std::string name);
     std::string getPlayerName();
@@ -46,23 +63,7 @@ public:
     void setMaxAmmo(int _max_ammo);
     int getMaxLives() const;
     void setMaxLives(int _max_lives);
-private:
-    int id = 0;
-    std::string name;
-    double direction = 0;
-    int equipped_weapon = 2;
-    int level = 6;
-    int score = 0;
-    int lives = 5;
-    int health = 100;
-    int ammo = 200;
-    int max_health;
-    int max_lives;
-    int max_ammo;
-    int keys = 0;
-    int weapons[5] = {1, 1, 0, 0, 0};
-    std::pair<int, int> map_position;
-    std::pair<int, int> respawn_position;
+    void setRespawningPosition(std::pair<int, int> _respawn_position);
 };
 
 

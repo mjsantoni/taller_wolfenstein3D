@@ -23,7 +23,7 @@ GameScreen::GameScreen(int width,
     ui_drawer.setDimensions((int) (0.8 * height), (int) (0.2 * height), width);
     TTF_Init();
 }
-
+/*
 void GameScreen::render() {
     window.fill();
     int x = player.getXPosition();
@@ -36,10 +36,10 @@ void GameScreen::render() {
     angles_list.clear();
     close();
 }
-
-void GameScreen::renderDeadScreen() {}
-
-void GameScreen::renderRespawnScreen() {}
+*/
+void GameScreen::displayDeadScreen() {
+    menus_drawer.displayDeadScreen();
+}
 
 void GameScreen::close() {
     TTF_Quit();
@@ -94,5 +94,9 @@ void GameScreen::displayPlayerAttacking() {
 
 void GameScreen::displayLoadingScreen(bool waiting_for_input) {
     menus_drawer.displayLoadingScreen(waiting_for_input);
+}
+
+void GameScreen::displayRespawningScreen() {
+    menus_drawer.displayRespawningScreen();
 }
 

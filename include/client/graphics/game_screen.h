@@ -30,7 +30,7 @@ public:
                ClientMap& _map, ClientPlayer& _player);
     void render();
     void render(std::vector<int> boolean_vector);
-    void renderDeadScreen();
+    void displayDeadScreen();
     void renderRespawnScreen();
     void close();
     void displayIntro();
@@ -39,6 +39,7 @@ public:
     std::vector<Area> getKeyScreenAreas();
     void displayPlayerAttacking();
     void displayLoadingScreen(bool waiting_for_input);
+    void displayRespawningScreen();
 };
 
 

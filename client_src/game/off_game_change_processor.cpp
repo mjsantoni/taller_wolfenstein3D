@@ -19,6 +19,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
             player.setId(player_id);
             std::pair<int, int> player_pos =
                     map.getSpawnPositionForPlayer(player_id);
+            player.setRespawningPosition(player_pos);
             player.setMapPosition(player_pos);
         }
         case (TOTAL_PLAYERS_CONNECTED): {

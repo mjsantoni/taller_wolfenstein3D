@@ -136,3 +136,29 @@ void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
     window.loadImage(message, msg_area, screen_area);
     window.render();
 }
+
+void MenusDrawer::displayRespawningScreen() {
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 255, 0, 0, 0);
+    std::string message_text = "DEAD! RESPAWNING";
+    screen_area = Area(window_width/4, window_height/4, window_width/2,
+                      window_height/4);
+    Area msg_area;
+    SDL_Texture* message =
+            createMessage(message_text, msg_area, screen_area);
+    window.loadImage(message, msg_area, screen_area);
+    window.render();
+}
+
+void MenusDrawer::displayDeadScreen() {
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 0, 0, 0, 0);
+    std::string message_text = "DEAD! NO COMING BACK THIS TIME";
+    screen_area = Area(window_width/8, window_height/4, 3*window_width/4,
+                       window_height/4);
+    Area msg_area;
+    SDL_Texture* message =
+            createMessage(message_text, msg_area, screen_area);
+    window.loadImage(message, msg_area, screen_area);
+    window.render();
+}

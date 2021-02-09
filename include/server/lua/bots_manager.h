@@ -9,6 +9,7 @@
 #include <mutex>
 #include <vector>
 #include <iostream>
+#include <zconf.h>
 
 class BotsManager {
 private:
@@ -50,6 +51,7 @@ public:
     void releaseBots(Map& map, std::vector<Player>& players) {
         for (auto& bot : bots) {
             bot->updatePosition(map.getPlayerPosition(bot->getId()));
+            usleep(300000);
             bot->cleanMap();
             sendMapToBot(bot, map, players);
         }

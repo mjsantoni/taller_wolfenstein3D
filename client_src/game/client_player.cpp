@@ -94,6 +94,7 @@ void ClientPlayer::updateKeys(int keys_delta) {
 }
 
 void ClientPlayer::respawn() {
+    lives -= 1;
     map_position = respawn_position;
 }
 
@@ -151,6 +152,10 @@ int ClientPlayer::getMaxLives() const {
 
 void ClientPlayer::setMaxLives(int _max_lives) {
     max_lives = _max_lives;
+}
+
+void ClientPlayer::setRespawningPosition(std::pair<int, int> _respawn_position){
+    respawn_position = _respawn_position;
 }
 
 

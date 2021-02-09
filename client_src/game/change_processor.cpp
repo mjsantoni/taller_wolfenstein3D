@@ -40,11 +40,11 @@ void ChangeProcessor::processInGameChange(Change &change) {
         }
         case (MOVE_PLAYER): {
             if (player.getId() == id) {
-                //std::cout << "El jugador se mueve en el mapa\n";
+                std::cout << "El cliente se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
                 render_vector = std::vector<int>{1, 1, 0};
             } else {
-                //std::cout << "Otro jugador se mueve en el mapa\n";
+                std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveObject(id, value1, value2);
                 render_vector = std::vector<int>{0, 1, 0};
             }
@@ -99,7 +99,8 @@ void ChangeProcessor::processInGameChange(Change &change) {
         }
         case (KILL_PLAYER): {
             if (player.getId() == id) {
-                screen.renderDeadScreen();
+                while (true)
+                    screen.displayDeadScreen();
                 //algo mas aca seguro
             } else {
                 map.erasePlayer(id);
@@ -108,9 +109,11 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (RESPAWN_PLAYER): {
+            std::cout << "RESPAWNING\n";
             if (player.getId() == id) {
                 player.respawn();
-                screen.renderRespawnScreen();
+                screen.displayRespawningScreen();
+                sleep(2);
             } else {
                 map.respawnPlayer(id);
             }
@@ -202,12 +205,14 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
     }
+    std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
     screen.render(render_vector);
 }
 
 void ChangeProcessor::run() {
     std::cout << "starting change processor\n";
-    screen.render();
+    std::cout << "pos inicial del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
+    screen.render(std::vector<int>{1, 1, 1});
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) {
