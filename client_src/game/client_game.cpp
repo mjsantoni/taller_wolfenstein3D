@@ -5,13 +5,9 @@
 #include "client/game/client_game.h"
 
 
-ClientGame::ClientGame(ServerUpdater& _server_updater,
-                       ServerListener& _server_handler,
-                       ClientMap& _map,
-                       SharedQueue<Change>& change_queue,
+ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
-           server_updater(_server_updater),
-           server_handler(_server_handler),
+
            game_handler(960, 600, change_queue, event_queue),
            alive(true) {}
 
