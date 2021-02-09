@@ -121,8 +121,6 @@ void ChangeProcessor::processInGameChange(Change &change) {
         case (ADD_PLAYER): {
             player.setId(id);
             std::pair<int, int> player_pos = map.getSpawnPositionForPlayer(id);
-            player_pos.first *= map.getGridSize();
-            player_pos.second *= map.getGridSize();
             player.setMapPosition(player_pos);
             std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
             ready = true;

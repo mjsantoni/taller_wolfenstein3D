@@ -9,6 +9,7 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include "client/graphics/images.h"
 
 class Drawable {
 private:

@@ -59,6 +59,8 @@ Area ObjectDrawer::findObjectProportions(ObjectInfo& object_info,
                          (int) (object_info.getObjectHeight() * map_grid_size));
     int object_width = findObjectWidth(distance,
                           (int) (object_info.getObjectWidth() * map_grid_size));
+    //if (x_pos + object_width >= window_width - 10)
+        //object_width = window_width - x_pos - 10;
     int ray_no = findRayNumberForAngle(pl_ob_angle);
     int y_pos = findYPosForObject(ray_no, pl_ob_angle, distance, object_height);
     //printf("Se tiene un objeto con angulo de %f respecto al angulo en el que mira el jugador\n", pl_ob_angle);
@@ -111,8 +113,6 @@ int ObjectDrawer::findYPosForObject(int ray_no,
 }
 
 int ObjectDrawer::findObjectHeight(double distance, int object_height) {
-    if (distance <= 45)
-        distance = 45;
     double object_wall_prop = (double) object_height / map_grid_size;
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
@@ -233,6 +233,8 @@ bool ObjectDrawer::shouldDraw(double player_angle,
     //printf("El objeto finaliza en angulo: %f\n", of_angle);
     double fov_starting_angle = Calculator::normalize(player_angle + 0.523599);
     double fov_finishing_angle = Calculator::normalize(player_angle - 0.523599);
+    //printf("La FOV se chequea desde: %f\n", fov_starting_angle);
+    //printf("La FOV se chequea hasta: %f\n", fov_finishing_angle);
     if (fov_finishing_angle >= fov_starting_angle)
         return shouldDraw_borderCase(os_angle, of_angle, fov_starting_angle,
                                      fov_finishing_angle, diff_angle);
@@ -337,11 +339,12 @@ void ObjectDrawer::put3DObject(ObjectInfo& object_info, double pl_ob_angle) {
     window.loadImage(image, image_area, screen_area);
     SDL_DestroyTexture(image);
     //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
-    //printf("Distancia: %f\n", distance);
+    //printf("Distancia: %f\n", object_info.getHitDistance());
     //printf("Pos x: %d\n", screen_area.getX());
     //printf("Pos y: %d\n", screen_area.getY());
     //printf("Altura: %d\n", screen_area.getHeight());
     //printf("Ancho: %d\n", screen_area.getWidth());
+    //printf("Ancho de pantalla: %d\n", window_width);
 }
 
 SDL_Texture* ObjectDrawer::getObjectImage(ObjectInfo& o_i, Area& image_area) {

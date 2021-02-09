@@ -36,8 +36,6 @@ void SdlSprite::loadIndividualDimensions() {
         for (int j = 0; j < cols; ++j) {
             Area area(x, y, each_img_width, each_img_height);
             dimensions.push_back(area);
-            if (dimensions.size() >= 5)
-                return;
             x+= h_padding/2 + each_img_width;
         }
         x = 0;
