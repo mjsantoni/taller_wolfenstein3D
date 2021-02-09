@@ -8,6 +8,7 @@ int main(int argc, char* args[]) {
 
     int players = std::stoi(args[1]);
     int bots = std::stoi(args[2]);
+    int stop_after_seconds = std::stoi(args[3]);
 
     GameHandler gameHandler("../map.yaml", "../config.yaml", players, bots);
     gameHandler.start();
@@ -24,7 +25,7 @@ int main(int argc, char* args[]) {
             continue;
         }
     }
-    sleep(100);
+    sleep(stop_after_seconds);
     gameHandler.stop();
     gameHandler.join();
     return 0;

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#define MAX_PLAYERS 5
+#define MAX_PLAYERS 8
 #define MAX_DOOR_OPEN 5
 
 #define MOVE_LEFT 0
@@ -10,7 +10,7 @@
 #define MOVE_UP 2
 #define MOVE_DOWN 3
 
-Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
+Game::Game(std::string map_path, std::string config_path, BotsManager& bm, int _players_requested) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
@@ -20,7 +20,8 @@ Game::Game(std::string map_path, std::string config_path, BotsManager& bm) :
            shootHandler(map, scoreHandler),
            pickUpHandler(config_path, scoreHandler),
            dropHandler(config_path, map),
-           botsManager(bm) {
+           botsManager(bm),
+           players_requested(_players_requested){
 }
 
 Game::~Game() { botsManager.destroyBots(); }
@@ -64,13 +65,13 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id, int mo
     std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
     for (auto& item : items) {
         if(item.second.getCategory() != "wall") { // Este if no es necesario
-            std::cout << "################################################################\n";
-            std::cout << item.second.getType() << "\n";
+            //std::cout << "################################################################\n";
+            //std::cout << item.second.getType() << "\n";
             if (pickUpHandler.pickUp(item.second, player)) {
                 map.erasePositionableAt(item.first);
                 erased_positionables.push_back(item.second);
             }
-            std::cout << "################################################################\n";
+            //std::cout << "################################################################\n";
         }
     }
     map.setPlayerPosition(player.getID(), new_pos);
@@ -219,7 +220,7 @@ void Game::playerIsReady(int id) {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == 0 || players_ready.size() >= 1);
+    return (players_alive == players_requested || !players_ready.empty());
 }
 
 

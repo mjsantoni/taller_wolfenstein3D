@@ -96,9 +96,9 @@ void Map::erasePositionableAt(Coordinate coord) {
         //no deberia dar error, esto deberia borrar de una
         //gasta recursos chequear esto
         board.erase(coord);
-        std::cout << "Borro en: (" << coord.x << ", " << coord.y << ")\n";
+        //std::cout << "Borro en: (" << coord.x << ", " << coord.y << ")\n";
     } else {
-        std::cout << "No habia nada, error en la posicion recibida\n";
+        //std::cout << "No habia nada, error en la posicion recibida\n";
     }
 }
 
@@ -183,8 +183,8 @@ void Map::putPositionableAtCenter(Coordinate coordinates, Positionable positiona
 /* MAP PRINT */
 
 void Map::show() {
-    std::cout << "---------------------------------------------------------------" << "\n";
-    std::cout << "Board\nCurrent Global ID: " << global_id << "\n";
+    //std::cout << "---------------------------------------------------------------" << "\n";
+    //std::cout << "Board\nCurrent Global ID: " << global_id << "\n";
     for (auto& elem : board) {
         std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
                   << ") - Elem: " << elem.second.getCategory() << " - "

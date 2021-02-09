@@ -173,7 +173,7 @@ function closestTarget()
 	if in_sight_len > 0 then
 		for coord, _ in pairs(in_sight) do
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
-			print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
+			--print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
 			if difference < min_difference then -- Aca muere, no hace mas nada
 			    --io.write("[LUA] Min diff is: "..difference.." AND Closest target IN SIGHT is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
 				min_difference = difference

@@ -8,7 +8,7 @@ GameHandler::GameHandler(std::string map_path,
                          int _players_n, int _bots_n) :
         eventQueue(Event()),
         botsManager(eventQueue),
-        game(map_path, config_path, botsManager),
+        game(map_path, config_path, botsManager, _players_n),
         eventProcessor(game, config_path),
         alive(true),
         players_n(_players_n),
@@ -20,18 +20,11 @@ void GameHandler::run() {
     sleep(1);
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
-
-    std::cout << "Termino el lobby\n";
-
     while (game.isNotOver() && alive) {
         int total_events = 0;
         while (total_events < MAX_EVENTS) {
             Event event = eventQueue.pop();
-            if (event.isInvalid()) {
-                //std::cout << "INVALIDOOOO\n";
-                break;
-            }
-            //std::cout << "El evento que salio es de: " << event.getEventID() << "\n";
+            if (event.isInvalid()) break;
             std::vector<Change> changes = eventProcessor.process(event);
             notifyClients(changes);
             total_events++;
@@ -39,9 +32,8 @@ void GameHandler::run() {
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
         game.releaseBots();
-        //sleep(1);
+        usleep(50000);
     }
-    //std::cout << "Termino la partida!!!!\n";
     sendTops();
 }
 
@@ -96,6 +88,7 @@ void GameHandler::addNewPlayer(NetworkConnection socket) {
 }
 
 void GameHandler::stop() {
-    clientsManager.killPlayers();
     alive = false;
+    sleep(3);
+    clientsManager.killPlayers();
 }

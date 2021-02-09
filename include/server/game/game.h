@@ -47,6 +47,7 @@ private:
     std::set<int> players_ready;
     int players_ids = 0;
     int players_alive = 0;
+    int players_requested;
 
     /* Bot stuff */
     BotsManager& botsManager;
@@ -57,7 +58,7 @@ private:
     static double getAngleToMove(int direction);
 
 public:
-    Game(std::string map_path, std::string config_path, BotsManager& bm);
+    Game(std::string map_path, std::string config_path, BotsManager& bm, int _player_requested);
     ~Game();
 
     /* RECEIVED EVENTS */

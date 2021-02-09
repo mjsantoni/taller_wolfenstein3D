@@ -61,7 +61,7 @@ public:
     }
 
     void destroyBots() {
-        std::cout << "DESTRUCTOR DE GAME -> MATA BOTS\n";
+        std::cout << "DESTRUCTOR DE GAME\n";
         for (auto& bot : bots) {
             bot->stop();
         }

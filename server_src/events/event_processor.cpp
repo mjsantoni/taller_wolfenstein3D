@@ -17,12 +17,12 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (MOVE_PLAYER): {
-            std::cout << "MUEVO PLAYER!\n";
+            //std::cout << "MUEVO PLAYER!\n";
             movePlayer(player_id, value, changes);
             break;
         }
         case (SHOOT): {
-            std::cout << "DISPARO!\n";
+            //std::cout << "DISPARO!\n";
             std::pair<Hit, std::vector<Change>> hit_event = game.shoot(player_id);
             for (auto& change : hit_event.second) changes.push_back(change);
 
@@ -31,7 +31,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (OPEN_DOOR): {
-            std::cout << "INTENTO ABRIR PUERTA!\n";
+            //std::cout << "INTENTO ABRIR PUERTA!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             std::pair<bool,int> opened_door = game.openDoor(player_id);
@@ -46,7 +46,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (PUSH_WALL): {
-            std::cout << "PUSH WALL!\n";
+            //std::cout << "PUSH WALL!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             int pushed_wall_id = game.pushWall(player_id);
@@ -55,21 +55,21 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (TURN_CAMERA): {
-            std::cout << "TURN CAMERA!\n";
+            //std::cout << "TURN CAMERA!\n";
             // por ahora los demas no ven el cambio de angulo del resto
             // POR AHORA ES ASINCROCNICO, HACEMOS LA MISMA SUMA EN EL CLIENTE Y SV
             game.rotate(player_id, value);
             break;
         }
         case (CHANGE_GUN): {
-            std::cout << "CHANGE GUN!\n";
+            //std::cout << "CHANGE GUN!\n";
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
             game.changeGun(player_id, value); // value == hotkey
             changes.emplace_back(CHANGE_WEAPON, player_id, value, INVALID, true);
             break;
         }
         case (PLAYER_READY): {
-            std::cout << "PLAYER READY!\n";
+            //std::cout << "PLAYER READY!\n";
             game.playerIsReady(event.getPlayerID());
         }
         default: {

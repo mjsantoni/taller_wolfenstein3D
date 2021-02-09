@@ -33,12 +33,12 @@ std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
         for (auto& dmg : enemy_dmg_done) {
             if (dmg.first == i) {
                 if (dmg.second == -1) continue;
-                std::cout << "Sumo " << dmg.second << " dmg\n";
+                //std::cout << "Sumo " << dmg.second << " dmg\n";
                 total += dmg.second;
             }
         }
         if (total == 0) continue;
-        std::cout << "Daño total hecho a player " << i << ": " << total << "\n";
+        //std::cout << "Daño total hecho a player " << i << ": " << total << "\n";
         total_dmg.emplace_back(i, total);
         total = 0;
     }

@@ -18,7 +18,7 @@ void Client::start() {
         ClientGame game(change_queue, event_queue);
         server_updater.start();
         server_listener.start();
-        game.start();
+        game.run();
         while(game.isRunning()) {}
         game.stop();
         server_updater.stop();

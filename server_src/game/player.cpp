@@ -42,32 +42,32 @@ int Player::getLives() { return lives; }
 void Player::addHp(int hp_given) {
     if (hp + hp_given >= max_hp) hp = max_hp;
     else hp += hp_given;
-    std::cout << "Agregue hp, ahora tengo: " << hp << "\n";
+    //std::cout << "Agregue hp, ahora tengo: " << hp << "\n";
 }
 
 void Player::addPoints(int points_given) {
     points += points_given;
-    std::cout << "Agregue puntos, ahora tengo: " << points << "\n";
+    //std::cout << "Agregue puntos, ahora tengo: " << points << "\n";
 }
 
 void Player::addGun(Gun gun) {
     guns[getGunHotkey(gun.getType())] = gun;
-    std::cout << "Agregue arma, una: " << gun.getType() << "\n";
+    //std::cout << "Agregue arma, una: " << gun.getType() << "\n";
 }
 
 void Player::addBullets(int added_bullets) {
     if (bullets == 0) {
-        std::cout << "Tenia 0 balas, y un " << equipped_weapon.getType()
-        << " equipado. Vuelvo a arma anterior.\n";
+        //std::cout << "Tenia 0 balas, y un " << equipped_weapon.getType()
+        //<< " equipado. Vuelvo a arma anterior.\n";
         changeGun(previous_weapon);
     }
     if (bullets + added_bullets >= max_bullets) bullets = max_bullets;
     else bullets += added_bullets;
-    std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
+    //std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
 }
 
 void Player::addKey(Key key) {
-    std::cout << "Levanto una llave, id: " << key.getId() << "\n";
+    //std::cout << "Levanto una llave, id: " << key.getId() << "\n";
     total_keys++;
 }
 
@@ -81,25 +81,25 @@ void Player::addAngle(double _angle) {
 
 void Player::reduceAmmo(int _bullets) {
     if (equipped_weapon.getType() == "knife") {
-        std::cout << "Tengo equipado un knife, no resto balas\n";
+        //std::cout << "Tengo equipado un knife, no resto balas\n";
         return;
     }
-    std::cout << "----------------\n";
-    std::cout << "Soy el player: " << id << "\n";
-    std::cout << "Tenia (balas): " << bullets << "\n";
+    //std::cout << "----------------\n";
+    //std::cout << "Soy el player: " << id << "\n";
+    //std::cout << "Tenia (balas): " << bullets << "\n";
     bullets -= _bullets;
-    std::cout << "Ahora tengo (balas): " << bullets << "\n";
+    //std::cout << "Ahora tengo (balas): " << bullets << "\n";
     if (bullets == 0) {
-        std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
+        //std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
         previous_weapon = getGunHotkey(equipped_weapon.getType());
         changeGun(KNIFE);
     }
 }
 
 int Player::reduceHP(int damage) {
-    std::cout << "----------------\n";
-    std::cout << "Soy el player: " << id << "\n";
-    std::cout << "Tenia (hp): " << hp << "\n";
+    //std::cout << "----------------\n";
+    //std::cout << "Soy el player: " << id << "\n";
+    //std::cout << "Tenia (hp): " << hp << "\n";
     int hp_reduced = 0;
     if (hp - damage <= 0) {
         hp_reduced = hp; //return hp
@@ -109,7 +109,7 @@ int Player::reduceHP(int damage) {
         hp_reduced = damage;
         hp -= damage;
     }
-    std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
+    //std::cout << "Me dispararon y ahora tengo (hp): " << hp << "\n";
     return hp_reduced;
 }
 
@@ -156,8 +156,8 @@ void Player::changeGun(int hotkey) {
     previous_weapon = getGunHotkey(equipped_weapon.getType());
     equipped_weapon = guns[hotkey];
     std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
-    std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
-    " y tiene rango: " << equipped_weapon.getRange() << "\n";
+    //std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
+    //" y tiene rango: " << equipped_weapon.getRange() << "\n";
 }
 
 int Player::getGunHotkey(const std::string& type) {
