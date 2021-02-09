@@ -21,6 +21,7 @@ bool probability(float prob) {
 
 
 void ClientHandler::run() {
+    std::cout << "[Client Handler] Starting.\n";
     while (alive) {
         //std::random_device dev;
         //std::mt19937 rng(dev());
@@ -51,10 +52,8 @@ void ClientHandler::run() {
             //std::cout << "Se creo un evento del player: " << player_id << " con ID: " << event.getEventID() <<" !!!\n";
 
         }
-
     }
-    std::cout << "Termino el ClientHandler\n";
-
+    std::cout << "[Client Handler] Stopping.\n";
 }
 
 void ClientHandler::stop() {

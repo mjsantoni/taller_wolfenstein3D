@@ -15,9 +15,11 @@ GameHandler::GameHandler(std::string map_path,
         bots_n(_bots_n){}
 
 void GameHandler::run() {
+    std::cout << "[Game Handler] Started.\n";
     waitInLobby();
     addBots();
     sleep(1);
+    std::cout << "[Game Handler] Game start.\n";
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
     while (game.isNotOver() && alive) {
@@ -34,6 +36,7 @@ void GameHandler::run() {
         game.releaseBots();
         usleep(50000);
     }
+    std::cout << "[Game Handler] Game end. Displaying top scores.\n";
     sendTops();
 }
 
@@ -44,6 +47,7 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 }
 
 void GameHandler::addBots() {
+    std::cout << "[Game Handler] Adding bots.\n";
     for (int i = 0; i < bots_n; i++) {
         game.addBot();
     }
@@ -52,6 +56,7 @@ void GameHandler::addBots() {
 }
 
 void GameHandler::waitInLobby() {
+    std::cout << "[Game Handler] Lobby started.\n";
     while (!game.isReady() && alive) {
         Event event = eventQueue.pop();
         if (event.isInvalid()) continue;
@@ -91,4 +96,5 @@ void GameHandler::stop() {
     alive = false;
     sleep(3);
     clientsManager.killPlayers();
+    std::cout << "[Game Handler] Stopping.\n";
 }

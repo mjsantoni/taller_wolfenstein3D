@@ -6,6 +6,7 @@
 #include "server/lua/lua_bot.h"
 #include "server/game/map.h"
 #include "server/game/player.h"
+#include "server/game/probability.h"
 #include <mutex>
 #include <vector>
 #include <iostream>
@@ -16,11 +17,13 @@ private:
     std::vector<LuaBot*> bots;
     std::condition_variable cv;
     SharedQueue<Event>& sharedQueue;
+    Probability probability;
 
 public:
     BotsManager(SharedQueue<Event>& sq) : sharedQueue(sq) {}
 
     void addBot(Player& player, double angle_turn) {
+        std::cout << "[Bots Manager] Creating bot.\n";
         LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv, sharedQueue);
         bot->setGridSize(64); // map.getGridSize()
         bot->setAngleTurn(angle_turn);
@@ -46,10 +49,10 @@ public:
             else bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
         }
         //bot->printMap();
-
     }
 
     void releaseBots(Map& map, std::vector<Player>& players) {
+        if (!probability(0.2)) return;
         for (auto& bot : bots) {
             bot->updatePosition(map.getPlayerPosition(bot->getId()));
             bot->cleanMap();
@@ -61,7 +64,7 @@ public:
     }
 
     void destroyBots() {
-        std::cout << "DESTRUCTOR DE GAME\n";
+        std::cout << "[Bots Manager] Destroying bots.\n";
         for (auto& bot : bots) {
             bot->stop();
         }

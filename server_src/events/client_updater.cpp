@@ -7,12 +7,12 @@ ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::map<Coordinate
                             player_id(id),
                             alive(true),
                             map(_map) {
-    //std::cout << "CONSTRUCTOR DEL UPDATER" << skt.file_descriptor <<  " - PLAYER " << player_id << "\n";
 }
 
 ClientUpdater::~ClientUpdater() {}
 
 void ClientUpdater::sendMap() {
+    std::cout << "[Client Updater] Sending map.\n";
     for (auto& elem : map) {
         int x = elem.first.x;
         int y = elem.first.y;
@@ -23,22 +23,20 @@ void ClientUpdater::sendMap() {
 }
 
 void ClientUpdater::run() {
-    std::cout << "Server enviando mapa\n";
+    std::cout << "[Client Updater] Starting.\n";
     sendMap();
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;
         if (change.isGlobal() || change.getPlayerID() == player_id) {
-            //std::cout << "PLAYER " << player_id << " -> Popie un change de id: " << change.getChangeID() << "\n";
-            //std::cout << "EN EL RUN DEL UPDATER " << skt.file_descriptor << " - PLAYER " << player_id << "\n";
             skt.send_msg(change.serialize());
-            std::cout << "Server envia el mensaje " << change.serialize() << std::endl;
+            std::cout << "Server sends " << change.serialize() << std::endl;
         }
     }
-    std::cout << "Termino el ClientUpdater\n";
+    std::cout << "[Client Updater] Stopping.\n";
 }
 
-void ClientUpdater::update(Change change) {change_queue.push(change);}
+void ClientUpdater::update(Change change) { change_queue.push(change); }
 
 
 void ClientUpdater::stop() {
