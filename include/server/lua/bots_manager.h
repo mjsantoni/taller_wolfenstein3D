@@ -19,10 +19,10 @@ private:
 public:
     BotsManager(SharedQueue<Event>& sq) : sharedQueue(sq) {}
 
-    void addBot(Player& player) {
+    void addBot(Player& player, double angle_turn) {
         LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv, sharedQueue);
         bot->setGridSize(64); // map.getGridSize()
-        bot->setAngleTurn(M_PI / 4);
+        bot->setAngleTurn(angle_turn);
         bot->start();
         bots.push_back(bot);
     }

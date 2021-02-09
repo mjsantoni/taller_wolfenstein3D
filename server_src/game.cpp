@@ -233,7 +233,7 @@ std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
 
 void Game::addBot() {
     std::pair<int,std::map<Coordinate, Positionable>> data = connectPlayer();
-    botsManager.addBot(players[data.first]);
+    botsManager.addBot(players[data.first], ANGLE);
 }
 
 void Game::releaseBots() {
