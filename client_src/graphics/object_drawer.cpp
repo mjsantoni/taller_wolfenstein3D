@@ -25,12 +25,12 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
     std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     for (auto& object : objects_vector) {
-        //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
+        printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());
         std::pair<int, int> object_final_pos = projectObjectOnMap(object,
                                                                   player_angle);
-        //printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
+        printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
         double object_final_angle = getObjectAngle(x, y, object_final_pos);
         //printf("El jugador mira en direccion: %f\n", player_angle);
         //printf("Se encuentra objeto %s en angulo %f respecto de la posicion del jugador\n", object.getObjectName().c_str(), object_starting_angle);
@@ -105,16 +105,16 @@ int ObjectDrawer::findYPosForObject(int ray_no,
     printf("Distancia del suelo y: %d\n", y_pos - floor_starting_point);
     return y_pos;
      */
-    std::cout << "floor starting point: " << floor_starting_point << std::endl;
+    //std::cout << "floor starting point: " << floor_starting_point << std::endl;
     double wall_distance = findWallDistanceForAngle(-pl_ob_angle);
-    std::cout << "distancia de pared encontrada para determinar pos: " << wall_distance << std::endl;
+    //std::cout << "distancia de pared encontrada para determinar pos: " << wall_distance << std::endl;
     double object_to_wall_distance = wall_distance - distance;
     double dist_proportion = object_to_wall_distance/wall_distance;
     int floor_position = (int) (dist_proportion * floor_height);
     int y_pos = floor_starting_point + floor_position - object_height;
-    std::cout << "original y pos: " << y_pos << std::endl;
+    //std::cout << "original y pos: " << y_pos << std::endl;
     if (y_pos <= floor_starting_point- object_height) {
-        std::cout << "El objeto se solapa con la pared\n";
+        //std::cout << "El objeto se solapa con la pared\n";
         y_pos = floor_starting_point - object_height;
     }
     return y_pos;
@@ -199,9 +199,9 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     double distance = Calculator::calculateDistance(x_pos - object_x,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
-    std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
-    std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
-    std::cout << "Distancia: " << distance << std::endl;
+    //std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
+    //std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
+    //std::cout << "Distancia: " << distance << std::endl;
     if (blockedByWall(beta, distance))
         return;
     //printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
@@ -210,7 +210,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
-    std::cout << "Sprite Animation: " << object_info.getSpriteAnimationNo() << std::endl;
+    //std::cout << "Sprite Animation: " << object_info.getSpriteAnimationNo() << std::endl;
     put3DObject(object_info, pl_ob_angle);
     //if (isEnemy(object_info))
         //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);
@@ -228,7 +228,7 @@ std::pair<int, int> ObjectDrawer::projectObjectOnMap(Drawable& object,
     std::pair<int, int> object_starting_position = object.getMapPosition();
     int object_starting_x = object_starting_position.first;
     int object_starting_y = object_starting_position.second;
-    int object_width = object.getMapWidth();
+    int object_width = getObjectWidth(object);
     double phi = Calculator::normalize(starting_fov_angle + 3*M_PI/2);
     int delta_x = std::round(cos(phi)*object_width);
     int delta_y = std::round(sin(phi)*object_width*-1);

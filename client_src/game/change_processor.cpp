@@ -125,15 +125,15 @@ void ChangeProcessor::processInGameChange(Change &change) {
             player.setId(id);
             std::pair<int, int> player_pos = map.getSpawnPositionForPlayer(id);
             player.setMapPosition(player_pos);
-            std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
+            //std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
             ready = true;
-            std::cout << "Juego listo para iniciar\n";
+            //std::cout << "Juego listo para iniciar\n";
             // id: player id asignado
             // habria que mandar el mapa completo aca
             break;
         }
         case (ADD_BULLETS_AT): {
-            //map.addBulletsAt(id, value1, value2);
+            map.putObjectAt(id, ITEM_BULLETS, value1, value2);
             // id: nuevo id_bullets - value1: new_x - value2: new_y
             break;
         }

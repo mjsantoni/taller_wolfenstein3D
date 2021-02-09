@@ -43,6 +43,7 @@ void ClientGameHandler::start() {
             default:
                 break;
         }
+        //change_processor.processInGameChanges(change);
         //sleep(10);
     }
     std::cout << "Frena change processor" << std::endl;
