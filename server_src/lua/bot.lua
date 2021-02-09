@@ -5,13 +5,14 @@ require "events"
 positionables = {}
 blockings = {}
 players = {}
+players_len = 0
 position = {x = -1, y = -1}
 angle = 0
 self_id = 0
+lives = 3
 
 -- VARIABLES DE PROCESAMIENTO --
 closest_target = {}
-straight_line = {}
 in_sight = {}
 in_sight_len = 0
 events = {}
@@ -35,6 +36,14 @@ function setGunRange(range) gun_range = range end
 
 function updateAngle(_angle) angle = _angle end
 
+function updateLives(_lives)
+    if _lives ~= lives then
+        destiny_position.x = position.x
+        destiny_position.y = position.y
+    lives = _lives
+    end
+end
+
 function updatePosition(_x, _y)
 	position = {x = _x, y = _y }
 	--print(string.format("Mi nueva pos es (%s, %s) - ID: %s", position.x, position.y, self_id))
@@ -44,8 +53,6 @@ function updatePosition(_x, _y)
 		first_time = false
 	end
 end
-
-
 
 function setId(_id)
 	--io.write("[LUA] Executing setId(".._id..")\n")
@@ -71,6 +78,7 @@ function addPlayer(x, y, _id)
 	--io.write("[LUA] Executing addPlayers("..x..", "..y..", ".._id..")\n")
 	local coord_table = {math.floor(x), math.floor(y)}
 	players[coord_table] = {id = math.floor(_id)}
+	players_len = players_len + 1
 end
 
 function printMap()
@@ -95,6 +103,7 @@ function cleanMap()
 	positionables = {}
 	blockings = {}
 	players = {}
+	players_len = 0
 end
 
 ------------------------------- Calculos -------------------------------
@@ -134,13 +143,20 @@ function getEvents()
 end
 
 function closestTarget()
+
+	in_sight = {}
+	in_sight_len = 0
 	events = {}
+	closest_target = {}
+
+	--io.write("[LUA] Executing closestTarget - ID: "..self_id.."\n")
+	if lives == 0 or players_len == 0 then return end
+
 	if not (destiny_position.x == position.x and destiny_position.y == position.y) then
 		return
 	end
-	in_sight_len = 0
+
 	local min_difference = math.huge
-	--io.write("[LUA] Executing closestTarget - ID: "..self_id.."\n")
 	--io.write("[LUA] Estoy en("..position.x..", "..position.y..") - ID: "..self_id.."\n")
 
 	for coord, player in pairs(players) do
@@ -153,12 +169,13 @@ function closestTarget()
 			in_sight_len = in_sight_len + 1
 		end
 	end
+
 	if in_sight_len > 0 then
 		for coord, _ in pairs(in_sight) do
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
-			--print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
+			print(string.format("For (in_sight) iteration with diff: %s - ID: %s", difference, self_id))
 			if difference < min_difference then -- Aca muere, no hace mas nada
-				--io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
+			    --io.write("[LUA] Min diff is: "..difference.." AND Closest target IN SIGHT is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
 				min_difference = difference
 				closest_target = coord
 			end
@@ -168,7 +185,7 @@ function closestTarget()
 			difference = getDiff(coord[1], coord[2], position.x, position.y)
 			--print(string.format("For (players) iteration (no players in sight) with diff: %s - ID: %s", difference, self_id))
 			if difference < min_difference then
-				--io.write("[LUA] Min diff is: "..difference.."\n[LUA] Closest target is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
+				--io.write("[LUA] Min diff is: "..difference.." AND Closest target NO SIGHT is: "..coord[1]..", "..coord[2].." - ID: "..self_id.."\n")
 				min_difference = difference
 				closest_target = coord
 			end

@@ -12,6 +12,7 @@ scenarios:
 players:
   0: [[2, 2]]
   1: [[2, 3]]
+  2: [[3, 3]]
 items:
   crown: [[1, 1]]
   rpg_gun: [[3, 2]]

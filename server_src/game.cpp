@@ -219,7 +219,7 @@ void Game::playerIsReady(int id) {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == 2 || players_ready.size() >= 1);
+    return (players_alive == 0 || players_ready.size() >= 1);
 }
 
 

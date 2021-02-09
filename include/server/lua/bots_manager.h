@@ -42,7 +42,8 @@ public:
         }
         for (auto& player : players) {
             if (player.getID() == bot->getId()) continue;
-            bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
+            else if (!player.hasLives()) continue;
+            else bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
         }
         //bot->printMap();
 
@@ -51,8 +52,9 @@ public:
     void releaseBots(Map& map, std::vector<Player>& players) {
         for (auto& bot : bots) {
             bot->updatePosition(map.getPlayerPosition(bot->getId()));
-            usleep(300000);
             bot->cleanMap();
+            bot->sendLives(players[bot->getId()].getLives());
+            usleep(300000);
             sendMapToBot(bot, map, players);
         }
         cv.notify_all();

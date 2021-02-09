@@ -35,6 +35,8 @@ int Player::getKeys() { return total_keys; }
 
 int Player::getBullets() { return bullets; }
 
+int Player::getLives() { return lives; }
+
 /* ADDERS */
 
 void Player::addHp(int hp_given) {

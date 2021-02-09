@@ -16,8 +16,8 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
     std::vector<std::pair<int,int>> enemy_dmg_done;
     int range = player.getGun().getRange();
     int bullets_to_shoot = player.getGun().getBulletsPerSpray();
-    std::cout << "Tengo tantas balas" << player.getBullets() << "\n";
-    std::cout << "Entonces el player solo peude disparar" << bullets_to_shoot << " \n";
+    //std::cout << "Tengo tantas balas" << player.getBullets() << "\n";
+    //std::cout << "Entonces el player solo peude disparar" << bullets_to_shoot << " \n";
 
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);

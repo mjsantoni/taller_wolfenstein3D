@@ -15,7 +15,7 @@ LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
     lua_register(L, "move", move);
-    changeGun(1); // Esto lo tiene que hacer el script del bot.
+    changeGun(1);
 }
 
 LuaBot::~LuaBot() { lua_close(L); }
@@ -50,9 +50,9 @@ void LuaBot::closestTarget() {
 void LuaBot::proccessEvents() {
     std::vector<int> events = getEvents();
     //std::cout << "Vector de eventos de Lua\n";
-    for (int i : events) {
-        std::cout << i << "\n";
-    }
+    //for (int i : events) {
+    //    std::cout << i << "\n";
+    //}
     pushEvents(events);
 }
 
@@ -161,6 +161,14 @@ void LuaBot::updatePosition(const Coordinate& coord) {
     lua_pushnumber(L, coord.y);
     lua_pcall(L, 2, 0, 0);
 }
+
+void LuaBot::sendLives(int i) {
+    //std::unique_lock<std::mutex> lock(m);
+    lua_getglobal(L, "updateLives");
+    lua_pushnumber(L, i);
+    lua_pcall(L, 1, 0, 0);
+}
+
 
 /* OTHERS */
 

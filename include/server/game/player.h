@@ -41,6 +41,7 @@ public:
     double getAngle();
     int getKeys();
     int getBullets();
+    int getLives();
 
     /* Stats ADD */
     void addHp(int hp_given);

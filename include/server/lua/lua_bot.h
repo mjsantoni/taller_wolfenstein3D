@@ -70,6 +70,8 @@ public:
     std::vector<int> getEvents();
 
     void pushEvents(std::vector<int> events);
+
+    void sendLives(int i);
 };
 
 
