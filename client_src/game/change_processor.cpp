@@ -193,11 +193,11 @@ void ChangeProcessor::processInGameChange(Change &change) {
         }
         case (CL_PLAYER_SHOOTING): {
             if (player.getAmmo() > 0 || player.getEquippedWeapon() == 1) {
-                //audio_manager.displayPlayerAttackingSound(
-                        //player.getEquippedWeapon());
-                //screen.displayPlayerAttacking();
+                audio_manager.displayPlayerAttackingSound(
+                        player.getEquippedWeapon());
+                screen.displayPlayerAttacking();
             } else {
-                //audio_manager.displayEmptyGunSound();
+                audio_manager.displayEmptyGunSound();
             }
             return;
         }
@@ -259,7 +259,7 @@ void ChangeProcessor::addMapChange(Change& change) {
 }
 
 void ChangeProcessor::displayMenus() {
-    //audio_manager.playSong();
+    audio_manager.playSong();
     displayIntro();
     std::cout << "Se inicia el juego" << std::endl;
 
@@ -271,7 +271,7 @@ void ChangeProcessor::displayMenus() {
     initializeMap();
     displayLoadingScreen();
     sleep(1);
-    //audio_manager.stopSong();
+    audio_manager.stopSong();
 }
 
 void ChangeProcessor::displayIntro() {

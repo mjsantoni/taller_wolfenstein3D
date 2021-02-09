@@ -4,7 +4,7 @@
 
 
 #include "client/sounds/audio_manager.h"
-/*
+
 void AudioManager::playSong() {
     std::unique_lock<std::mutex> lock(m);
     audio_player.playSound("../client_src/resources/sounds/music.wav");
@@ -50,4 +50,3 @@ void AudioManager::displayPlayerShootingSound() {
     usleep(200000);
     audio_player.stopSound();
 }
-*/

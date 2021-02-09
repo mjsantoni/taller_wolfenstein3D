@@ -10,7 +10,6 @@
 #include <mutex>
 
 class AudioManager {
-    /*
 private:
     SdlAudioPlayer audio_player;
 public:
@@ -22,7 +21,6 @@ public:
     void displayPlayerShootingSound();
     void displayEmptyGunSound();
     std::mutex m;
-     */
 };
 
 
