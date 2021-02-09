@@ -6,7 +6,6 @@
 
 GameScreen::GameScreen(int width,
                        int height,
-                       ObjectInfoProvider& object_info_provider,
                        ClientMap& _map,
                        ClientPlayer& _player) :
         window(width, height),

@@ -8,7 +8,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
     Change change = change_queue.pop();
     if (change.isInvalid())
         return;
-    //std::cout << "Se procesa cambio previo al juego: " << change.getChangeID() << std::endl;
+    std::cout << "Se procesa cambio previo al juego: " << change.getChangeID() << std::endl;
     int player_id = change.getPlayerID();
     switch (change.getChangeID()) {
         case MAP_INITIALIZER: {

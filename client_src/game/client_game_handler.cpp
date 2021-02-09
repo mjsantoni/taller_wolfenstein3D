@@ -9,36 +9,22 @@
 #include <client/communication/server_updater.h>
 
 
-ClientGameHandler::ClientGameHandler(int width,
-                                     int height,
-                                     SharedQueue<Change>& change_queue,
+ClientGameHandler::ClientGameHandler(SharedQueue<Change>& change_queue,
                                      BlockingQueue<Event>& event_queue) :
         running(true),
         game_started(false),
-        screen(width, height, info_provider, map, player),
-        event_handler(player, screen, change_queue),
+        player_ready(false),
+        event_handler(change_queue),
         event_generator(player, event_handler, event_queue, game_started),
-        off_game_change_processor(game_started, map, player, change_queue),
-        change_processor(map, player, screen, change_queue, audio_manager,
-                         game_started) {
-    event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
+        change_processor(player, change_queue, game_started, player_ready){
+    //
 }
 
 void ClientGameHandler::start() {
-    audio_manager.playSong();
-    displayIntro();
-    std::cout << "Se inicia el juego" << std::endl;
-
-    int game_mode = displayMatchModeMenu();
-    if (game_mode != 1)
-        return;
-    displayLevelSelectionMenu();
-    initializePlayer();
-    initializeMap();
-    displayLoadingScreen();
-    sleep(1);
-    audio_manager.stopSong();
     change_processor.start();
+    while (!player_ready) {}
+    event_generator.generateReadyEvent();
+    while (!game_started) {}
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
     while (running) {
@@ -64,84 +50,6 @@ void ClientGameHandler::start() {
     change_processor.join();
 }
 
-void ClientGameHandler::displayIntro() {
-    screen.displayIntro();
-    bool run_intro = true;
-    while (run_intro) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        event_generator.generateInGameEvent(event);
-        switch(event.type) {
-            case SDL_KEYDOWN:
-                run_intro = false;
-                break;
-        }
-    }
-}
-
-int ClientGameHandler::displayMatchModeMenu() {
-    screen.displayMatchModeMenu();
-    int ret_code = 0;
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        ret_code = event_handler.handleMatchModeScreenEvent(event);
-        if (ret_code != 0)
-            break;
-    }
-    return ret_code;
-}
-
-void ClientGameHandler::setMapPath(int chosen_map) {
-    map_path =  "../map.yaml";
-}
-
-void ClientGameHandler::displayLevelSelectionMenu() {
-    screen.displayLevelSelectionMenu();
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        int chosen_map = event_handler.handleLevelSelectionEvent(event);
-        if (chosen_map != 0) {
-            setMapPath(chosen_map);
-            break;
-        }
-    }
-}
-
-void ClientGameHandler::displayLoadingScreen() {
-    screen.displayLoadingScreen(true);
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        int player_ready = event_handler.handleLoadingScreenEvent(event);
-        if (player_ready) {
-            event_generator.generateReadyEvent();
-            break;
-        }
-    }
-    while (!game_started) {
-        screen.displayLoadingScreen(false);
-        off_game_change_processor.processOffGameChanges();
-    }
-}
-
 bool ClientGameHandler::isRunning() {
     return running;
 }
-
-void ClientGameHandler::initializePlayer() {
-    player_initializer.initializePlayer(player);
-}
-
-void ClientGameHandler::initializeMap() {
-    MapParser map_parser(map_path);
-    ClientMapGenerator::create(map, map_parser);
-    //player.setMapPosition(std::pair<int, int>{128, 128});
-    //map.putPlayerAt(std::pair<int, int>(128, 128));
-}
-

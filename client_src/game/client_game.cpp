@@ -8,7 +8,7 @@
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
 
-           game_handler(960, 600, change_queue, event_queue),
+           game_handler(change_queue, event_queue),
            alive(true) {}
 
 void ClientGame::run() {

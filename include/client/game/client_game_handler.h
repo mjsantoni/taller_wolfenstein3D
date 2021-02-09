@@ -29,8 +29,7 @@
 
 class ClientGameHandler {
 public:
-    ClientGameHandler(int map_width, int map_height,
-                      SharedQueue<Change>& change_queue,
+    ClientGameHandler(SharedQueue<Change>& change_queue,
                       BlockingQueue<Event>& event_queue);
     void start();
     void killPlayer();
@@ -39,26 +38,12 @@ public:
 private:
     ClientPlayer player = ClientPlayer("Player 1");
     std::atomic<bool> running;
-    ClientMap map;
     EventGenerator event_generator;
-    ObjectInfoProvider info_provider;
-    GameScreen screen;
     ClientParser client_parser;
     ClientEventHandler event_handler;
-    OffGameChangeProcessor off_game_change_processor;
     ChangeProcessor change_processor;
-    std::string map_path;
-    AudioManager audio_manager;
-    ClientPlayerInitializer player_initializer;
     std::atomic<bool> game_started;
-    void displayIntro();
-    int displayMatchModeMenu();
-    void displayLevelSelectionMenu();
-    void setMapPath(int chosen_map);
-    void initializePlayer();
-    void initializeMap();
-    void displayLoadingScreen();
-
+    std::atomic<bool> player_ready;
 };
 
 

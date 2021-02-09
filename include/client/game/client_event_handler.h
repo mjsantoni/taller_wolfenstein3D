@@ -13,24 +13,11 @@
 
 class ClientEventHandler {
 private:
-    ClientPlayer& player;
-    GameScreen& screen;
     SharedQueue<Change>& change_queue;
-    Area match_mode_new_game_area;
-    Area match_mode_join_game_area;
-    Area level_selection_easy;
-    Area level_selection_medium;
-    Area level_selection_hard;
 public:
-    ClientEventHandler(ClientPlayer& _player, GameScreen& _screen,
-                       SharedQueue<Change>& _change_queue);
+    ClientEventHandler(SharedQueue<Change>& _change_queue);
     void handleCameraTurn(int direction);
-    int handleMatchModeScreenEvent(SDL_Event event);
-    int handleLevelSelectionEvent(SDL_Event event);
-    void defineKeyScreenAreas(std::vector<Area> key_areas);
-    bool eventInsideArea(Area &area, int x_pos, int y_pos);
     void handlePlayerShooting();
-    int handleLoadingScreenEvent(SDL_Event event);
 };
 
 

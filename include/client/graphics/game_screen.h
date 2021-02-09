@@ -19,6 +19,7 @@ private:
     ObjectDrawer object_drawer;
     RayCaster ray_caster;
     UIDrawer ui_drawer;
+    ObjectInfoProvider object_info_provider;
     MenusDrawer menus_drawer;
     ClientMap& map;
     ClientPlayer& player;
@@ -26,8 +27,7 @@ private:
     std::vector<double> angles_list;
     std::map<int, std::pair<int, int>> floor_info;
 public:
-    GameScreen(int width, int height, ObjectInfoProvider& object_info_provider,
-               ClientMap& _map, ClientPlayer& _player);
+    GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player);
     void render();
     void render(std::vector<int> boolean_vector);
     void displayDeadScreen();
