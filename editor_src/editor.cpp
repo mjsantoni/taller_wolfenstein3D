@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <QDebug>
 #include <QFileDialog>
 #include "yaml-cpp/yaml.h"
 #include "editor/editor.h"
@@ -99,6 +100,8 @@ void Editor::loadMap(std::string path) {
     QIcon barrel_icon(barrel_pix);
 
     QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+    std::pair<int, int> dimensions = parser.getDimensions();
+    createButtonsMapGrid(map_grid, dimensions.first, dimensions.second, -1, -1);
     categories.push_back("scenarios");
     categories.push_back("items");
     categories.push_back("players");
@@ -376,7 +379,9 @@ void Editor::exportMap() {
 
     out << YAML::EndMap;
 
-    std::fstream file(saveYamlPath(), std::ios::out);
+    std::string savePath = saveYamlPath();
+    if (savePath.empty()) return;
+    std::fstream file(savePath, std::ios::out);
     file << out.c_str();
     file.close();
     this->close();

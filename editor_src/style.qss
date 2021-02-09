@@ -13,7 +13,7 @@ border-color: beige;
 font-family: Samanata;
 }
 
-QGridButton {
+QGridButton#mas {
     background-color: black;
     border-style: outset;
     border-width: 1px;
