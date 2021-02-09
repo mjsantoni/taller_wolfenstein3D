@@ -38,5 +38,4 @@ public:
     }
 };
 
-
 #endif //TP_WOLFENSTEIN_CLIENTS_MANAGER_H

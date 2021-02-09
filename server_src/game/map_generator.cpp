@@ -38,4 +38,3 @@ Map MapGenerator::create() {
     map.addPlayerSpawns(positionables);
     return map;
 }
-

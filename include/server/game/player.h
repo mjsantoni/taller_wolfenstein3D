@@ -69,7 +69,7 @@ public:
     bool useKey();
 
     /* OTHERS */
-    void changeGun(int hotkey);
+    int changeGun(int hotkey);
     bool dieAndRespawn();
     std::pair<std::string, bool> getDrops();
 

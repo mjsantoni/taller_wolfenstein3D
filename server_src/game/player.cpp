@@ -151,13 +151,16 @@ bool Player::useKey() {
 
 /* OTHERS */
 
-void Player::changeGun(int hotkey) {
-    if (hotkey == 0) return; // Si me pasan una hotkey de arma que no tengo explota
+int Player::changeGun(int hotkey) {
+    if (hotkey == 0 || guns[hotkey].getType() == "null") {
+        return getGunHotkey(equipped_weapon.getType());
+    }
     previous_weapon = getGunHotkey(equipped_weapon.getType());
     equipped_weapon = guns[hotkey];
     std::cout << "Cambie de arma a: " << equipped_weapon.getType() << "\n";
     //std::cout << "Tiene precision: " << equipped_weapon.getPrecision() <<
     //" y tiene rango: " << equipped_weapon.getRange() << "\n";
+    return hotkey;
 }
 
 int Player::getGunHotkey(const std::string& type) {

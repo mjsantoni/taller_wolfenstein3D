@@ -64,8 +64,8 @@ std::vector<Change> EventProcessor::process(Event& event) {
         case (CHANGE_GUN): {
             //std::cout << "CHANGE GUN!\n";
             // El cliente debe verificar que pueda cambiar a esa arma antes de crear el evento
-            game.changeGun(player_id, value); // value == hotkey
-            changes.emplace_back(CHANGE_WEAPON, player_id, value, INVALID, true);
+            int new_hotkey = game.changeGun(player_id, value); // value == hotkey
+            changes.emplace_back(CHANGE_WEAPON, player_id, new_hotkey, INVALID, true);
             break;
         }
         case (PLAYER_READY): {
@@ -97,12 +97,6 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
                                  INVALID, false);
         }
-        /* MOSTRAMOS EN EL HUD LAS ARMAS QUE TIENE????????????!?!!?!?!?!?!?
-        else if (item.getCategory() == "gun")  {
-            changes.emplace_back(ADD_GUN_TO_PLAYER, player_id,
-                                 configParser.getSpecificCategory(item.getCategory(), item.getType()),
-                                 -1, false);
-        }*/
         else if (item.getCategory() == "bullets")  {
             changes.emplace_back(CHANGE_AMMO, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),

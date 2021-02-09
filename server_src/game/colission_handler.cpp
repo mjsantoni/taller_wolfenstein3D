@@ -4,6 +4,8 @@
 #include "server/game/positions_calculator.h"
 #include <set>
 
+#define UNITS_TO_CHECK 2
+
 ColissionHandler::ColissionHandler(Map &_map) : map(_map) {}
 
 Coordinate ColissionHandler::moveToPosition(const Coordinate& actual_pos, double angle) {
@@ -75,7 +77,7 @@ ColissionHandler::getCloseItems(const Coordinate& old_pos,
     std::vector<Coordinate> walked_positions = ph.straightLine(old_pos, new_pos);
     for (auto& pos : walked_positions) {
         //std::cout << "Pos walked: (" << pos.x << ", " << pos.y << ")\n";
-        Coordinate item_pos_aux = map.closePositionable(2, pos, found_positionables);
+        Coordinate item_pos_aux = map.closePositionable(UNITS_TO_CHECK, pos, found_positionables);
         item_in_pos.x = item_pos_aux.x;
         item_in_pos.y = item_pos_aux.y;
         if (item_in_pos != no_item_pos &&
@@ -102,7 +104,7 @@ Coordinate ColissionHandler::getCloseBlocking(Coordinate pos, double angle, std:
     Coordinate pos_to_check(new_x, new_y);
     if (map.isABlockingItemAt(pos_to_check)) {
         if (map.getBlockingItemAt(pos_to_check).getCategory() == category) {
-            std::cout << "Hay un: " << map.getBlockingItemAt(pos_to_check).getCategory() << "\n";
+            //std::cout << "Hay un: " << map.getBlockingItemAt(pos_to_check).getCategory() << "\n";
             return pos_to_check;
         }
     }

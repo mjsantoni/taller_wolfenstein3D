@@ -1,9 +1,9 @@
 #include "server/game/game.h"
-
 #include <iostream>
 
 #define MAX_PLAYERS 8
 #define MAX_DOOR_OPEN 5
+#define ANGLE (M_PI/10)
 
 #define MOVE_LEFT 0
 #define MOVE_RIGHT 1
@@ -64,14 +64,9 @@ std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id, int mo
 
     std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
     for (auto& item : items) {
-        if(item.second.getCategory() != "wall") { // Este if no es necesario
-            //std::cout << "################################################################\n";
-            //std::cout << item.second.getType() << "\n";
-            if (pickUpHandler.pickUp(item.second, player)) {
-                map.erasePositionableAt(item.first);
-                erased_positionables.push_back(item.second);
-            }
-            //std::cout << "################################################################\n";
+        if (pickUpHandler.pickUp(item.second, player)) {
+            map.erasePositionableAt(item.first);
+            erased_positionables.push_back(item.second);
         }
     }
     map.setPlayerPosition(player.getID(), new_pos);
@@ -117,14 +112,17 @@ int Game::pushWall(int id) {
     return map.getBlockingItemAt(wall_to_push).getId();
 }
 
-#define ANGLE (M_PI/10)
 void Game::rotate(int id, int rotation) {
     Player& player = players[id];
-
-    player.addAngle(rotation*ANGLE);
+    player.addAngle(rotation * ANGLE);
 }
 
-void Game::changeGun(int id, int hotkey) { players[id].changeGun(hotkey); }
+int Game::changeGun(int id, int hotkey) { return players[id].changeGun(hotkey); }
+
+void Game::playerIsReady(int id) {
+    std::unique_lock<std::mutex> lock(m);
+    players_ready.insert(id);
+}
 
 /* GAME CHECK */
 
@@ -141,6 +139,12 @@ bool Game::isNotOver() {
 int Game::getPlayersAlive() {
     std::unique_lock<std::mutex> lock(m);
     return players_alive;
+}
+
+bool Game::isReady() {
+    std::unique_lock<std::mutex> lock(m);
+    time_start = std::chrono::system_clock::now();
+    return (players_alive == players_requested || !players_ready.empty());
 }
 
 /* GAME CHANGERS */
@@ -212,18 +216,6 @@ std::vector<Change> Game::passTime() {
 
 void Game::show() { map.show(); }
 
-void Game::playerIsReady(int id) {
-    std::unique_lock<std::mutex> lock(m);
-    players_ready.insert(id);
-}
-
-bool Game::isReady() {
-    std::unique_lock<std::mutex> lock(m);
-    time_start = std::chrono::system_clock::now();
-    return (players_alive == players_requested || !players_ready.empty());
-}
-
-
 std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
     if (type == "kills") return scoreHandler.getTopFraggers(n);
     if (type == "bullets") return scoreHandler.getTopShooters(n);
@@ -241,6 +233,3 @@ void Game::releaseBots() {
     botsManager.releaseBots(map, players);
 }
 
-int Game::getPlayersConnected() const {
-    return players_ids;
-}

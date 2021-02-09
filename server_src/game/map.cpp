@@ -123,9 +123,7 @@ Coordinate Map::closePositionable(int units, Coordinate coord,
     return Coordinate(0,0);
 }
 
-void Map::respawnPlayer(int id) {
-    addPlayer(id);
-}
+void Map::respawnPlayer(int id) { addPlayer(id); }
 
 void Map::setPlayerPosition(int i, Coordinate coord) {
     player_positions[i] = coord;
