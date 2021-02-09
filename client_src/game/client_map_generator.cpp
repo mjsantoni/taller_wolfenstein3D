@@ -33,7 +33,7 @@ void ClientMapGenerator::addObjectsToMap(ClientMap& map, MapParser& map_parser){
         for (auto& coord : object.second) {
             coord.x = (coord.x * grid_size) + (int) grid_size/2;
             coord.y = (coord.y * grid_size) + (int) grid_size/2;
-            map.putDrawableAt(coord.x, coord.y, object_type);
+            map.putObjectAt(object_type, coord.x, coord.y);
         }
     }
 }

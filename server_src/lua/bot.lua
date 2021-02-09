@@ -74,18 +74,18 @@ function addPlayer(x, y, _id)
 end
 
 function printMap()
-	print("[LUA] Executing ----printMap()")
-	print("Positionables:")
+	--print("[LUA] Executing ----printMap()")
+	--print("Positionables:")
 	for k, v in pairs(positionables) do
-		print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
+		--print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
 	end
-	print("Blockings:")
+	--print("Blockings:")
 	for k, v in pairs(blockings) do
-		print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
+		--print(string.format("Coord (%s, %s) -> Type: %s", k[1], k[2], v.type))
 	end
-	print("Players:")
+	--print("Players:")
 	for k, v in pairs(players) do
-		print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
+		--print(string.format("Coord (%s, %s) -> ID: %s", k[1], k[2], v.id))
 	end
 end
 

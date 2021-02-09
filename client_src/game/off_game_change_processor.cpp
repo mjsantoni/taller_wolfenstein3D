@@ -38,16 +38,10 @@ void OffGameChangeProcessor::processOffGameChanges() {
 }
 
 void OffGameChangeProcessor::addMapChange(Change& change) {
-    /*
     int object_id = change.getPlayerID();
     int x_pos = change.getFirstValue();
     int y_pos = change.getSecondValue();
-    if (isWall(object_id)) {
-        std::pair<int, int> grid =
-                Calculator::calculateGrid(map.getGridSize(), x_pos, y_pos);
-        map.putDrawableAt(grid, object_id);
-    }
-     */
+    map.addObjectId(object_id, x_pos, y_pos);
 }
 
 OffGameChangeProcessor::OffGameChangeProcessor(std::atomic<bool> &_game_started,

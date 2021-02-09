@@ -159,6 +159,15 @@ void ClientMap::putDrawableAt(int x_pos, int y_pos, int object_type) {
     drawable.setMapPosition(x_pos, y_pos);
 }
 
+void ClientMap::putObjectAt(int object_type, int x_pos, int y_pos) {
+    Drawable drawable(object_type);
+    drawable.setMapPosition(x_pos, y_pos);
+    std::pair<int, int> coords{x_pos, y_pos};
+    drawables_by_position.insert(std::pair<std::pair<int, int>,
+        Drawable>(coords, drawable));
+}
+
+
 void ClientMap::moveObject(int object_id, std::pair<int, int> new_coordinates) {
     Drawable& drawable = objects.at(object_id);
     std::pair<int, int> current_coord = drawable.getMapPosition();
@@ -213,13 +222,6 @@ Drawable& ClientMap::getObjectById(int object_id) {
     return objects.at(object_id);
 }
 
-void ClientMap::addObjectAt(int object_type,
-                            int x_pos,
-                            int y_pos) {
-    putDrawableAt(x_pos, y_pos, object_type);
-
-}
-
 void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
     removeObject(object_id);
 }
@@ -250,7 +252,7 @@ void ClientMap::setObjectId(std::pair<int, int> coordinates, int object_id) {
 }
 
 void
-ClientMap::addObjectAt(int object_type, int object_id, int x_pos, int y_pos) {
+ClientMap::putObjectAt(int object_type, int object_id, int x_pos, int y_pos) {
     Drawable drawable(object_type);
     drawable.setId(object_id);
     drawable.setMapPosition(x_pos, y_pos);
@@ -328,5 +330,18 @@ void ClientMap::addEnemies(int own_player_id) {
         int player_x = player_coords.first;
         int player_y = player_coords.second;
         putEnemyAt(player_x, player_y, ENEMY_GUARD, i);
+    }
+}
+
+void ClientMap::addObjectId(int object_id, int x_pos, int y_pos) {
+    std::pair<int, int> object_coords{x_pos, y_pos};
+    Drawable& drawable = drawables_by_position.at(object_coords);
+    drawable.setId(object_id);
+    int object_type = drawable.getObjectType();
+    if (!ImageManager::objectIsWall(object_type)) {
+        Drawable new_drawable(object_type);
+        new_drawable.setMapPosition(x_pos, y_pos);
+        new_drawable.setId(object_id);
+        objects.insert(std::pair<int, Drawable>(object_id, new_drawable));
     }
 }

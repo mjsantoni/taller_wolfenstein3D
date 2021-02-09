@@ -49,7 +49,6 @@ SDL_Texture* SdlSprite::loadTexture(SDL_Renderer *renderer,
     SDL_Texture* new_texture = IMG_LoadTexture(renderer, file_name.c_str());
     if (!new_texture)
         throw SdlException("Error en la carga de la textura", SDL_GetError());
-
     Area image_area = dimensions[sprite_number];
     fillDimensions(image_area, srcArea);
     texture = new_texture;

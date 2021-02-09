@@ -23,6 +23,7 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
+    std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     for (auto& object : objects_vector) {
         //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
@@ -199,6 +200,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
+    std::cout << "Sprite Animation: " << object_info.getSpriteAnimationNo() << std::endl;
     put3DObject(object_info, pl_ob_angle);
     //if (isEnemy(object_info))
         //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);

@@ -49,7 +49,7 @@ void LuaBot::closestTarget() {
 
 void LuaBot::proccessEvents() {
     std::vector<int> events = getEvents();
-    std::cout << "Vector de eventos de Lua\n";
+    //std::cout << "Vector de eventos de Lua\n";
     for (int i : events) {
         std::cout << i << "\n";
     }
@@ -72,7 +72,7 @@ std::vector<int> LuaBot::getEvents() {
 
 void LuaBot::pushEvents(std::vector<int> events) {
 
-    std::cout << "Tamaño del vector: " << events.size() << "\n";
+    //std::cout << "Tamaño del vector: " << events.size() << "\n";
     for(int i = 0; i < (int) events.size(); i += 3) {
         eventQueue.push(Event(events[i],events[i+1],events[i+2]));
     }

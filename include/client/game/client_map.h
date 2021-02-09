@@ -63,8 +63,8 @@ public:
     void removeObject(int object_id);
     void moveObject(int object_id, int new_x, int new_y);
     Drawable& getObjectById(int object_id);
-    void addObjectAt(int object_type, int x_pos, int y_pos);
-    void addObjectAt(int object_type, int object_id, int x_pos, int y_pos);
+    void putObjectAt(int object_type, int x_pos, int y_pos);
+    void putObjectAt(int object_type, int object_id, int x_pos, int y_pos);
     void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
     void updateRPGMissile(int object_id, int new_x, int new_y);
     void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
@@ -78,8 +78,8 @@ public:
     void respawnPlayer(int player_id);
     void changeEnemyImage(int player_id, int weapon);
     void updateEnemiesSprites();
-
     void addEnemies(int own_player_id);
+    void addObjectId(int object_id, int x_pos, int y_pos);
 };
 
 

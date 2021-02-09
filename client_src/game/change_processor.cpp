@@ -135,25 +135,25 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (ADD_KEY_AT): {
-            map.addObjectAt(id, ITEM_KEY, value1, value2);
+            map.putObjectAt(id, ITEM_KEY, value1, value2);
             render_vector = std::vector<int>{0, 1, 0};
             // id: nuevo id_key - value1: new_x - value2: new_y
             break;
         }
         case (ADD_MACHINE_GUN_AT): {
-            map.addObjectAt(id, ITEM_MACHINE_GUN, value1, value2);
+            map.putObjectAt(id, ITEM_MACHINE_GUN, value1, value2);
             render_vector = std::vector<int>{0, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_CHAIN_GUN_AT): {
-            map.addObjectAt(id, ITEM_CHAIN_CANNON, value1, value2);
+            map.putObjectAt(id, ITEM_CHAIN_CANNON, value1, value2);
             render_vector = std::vector<int>{0, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_RPG_GUN_AT): {
-            map.addObjectAt(id, ITEM_ROCKET_LAUNCHER, value1, value2);
+            map.putObjectAt(id, ITEM_ROCKET_LAUNCHER, value1, value2);
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
@@ -202,7 +202,6 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
     }
-    map.updateEnemiesSprites();
     screen.render(render_vector);
 }
 
@@ -212,8 +211,10 @@ void ChangeProcessor::run() {
         if (change.isInvalid())
                 continue;
         //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
-        if (game_started)
+        if (game_started) {
+            map.updateEnemiesSprites();
             processInGameChange(change);
+        }
         if (ready) {
             screen.render();
             ready = false;
