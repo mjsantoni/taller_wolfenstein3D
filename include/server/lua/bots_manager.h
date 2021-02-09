@@ -43,7 +43,7 @@ public:
             if (player.getID() == bot->getId()) continue;
             bot->addPlayer(map.getPlayerPosition(player.getID()), player.getID());
         }
-        bot->printMap();
+        //bot->printMap();
 
     }
 
