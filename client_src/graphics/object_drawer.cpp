@@ -125,6 +125,8 @@ int ObjectDrawer::findObjectHeight(double distance, int object_height) {
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
     //int object_screen_height = (int) (height_factor*object_raw_height);
+    if (object_raw_height < object_wall_prop * 200)
+        return (int) (object_wall_prop * 200);
     return (int) object_raw_height;
 }
 
@@ -133,6 +135,8 @@ int ObjectDrawer::findObjectWidth(double distance, int object_width) {
     int wall_width_for_distance = (int) ((double) 100/distance * 188);
     double object_raw_width = object_width_prop*wall_width_for_distance;
     int object_screen_width = (int) (width_prop*object_raw_width);
+    if (object_screen_width < object_width_prop * 500)
+        return (int) (object_width_prop * 500);
     return object_screen_width;
 }
 

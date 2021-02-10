@@ -11,6 +11,7 @@
 #include "client/map_info.h"
 #include "sdl_window.h"
 #include "client/calculator.h"
+#include "../../../client_src/graphics/drawing_assistant.h"
 
 class RayCaster {
 public:
@@ -22,11 +23,7 @@ public:
 private:
     SdlWindow window;
     ClientMap& map;
-    int window_width;
-    int window_height;
-    int width_factor;
-    int height_factor;
-    int map_grid_size;
+    DrawingAssistant drawing_assistant;
     ObjectInfoProvider& info_provider;
     std::map<double, double>& wall_distance_info;
     std::vector<double>& angles_list;
@@ -53,14 +50,6 @@ private:
     ObjectInfo fillObjectInfo(ObjectInfo& map_info);
     int calculateBorderFactor(bool should_decrease, int position);
     void saveRayInformation(double ray_angle, double distance);
-    void drawCeiling(int x_pos, int y_pos);
-    void drawFloor(int x_pos, int wall_posY, int wall_height);
-    void putFloorAndCeiling(int ray_no, ObjectInfo& object_info);
-    Area assembleScreenArea(int ray_no, ObjectInfo& object_info);
-    int findColumnHeight(int distance);
-    int findColumnStartingPoint(int col_height);
-    SDL_Texture* loadWallTexture(ObjectInfo& object_info, Area& image_area);
-    void putWall(int ray_no, ObjectInfo& object_info);
 };
 
 

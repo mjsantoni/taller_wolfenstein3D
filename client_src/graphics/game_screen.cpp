@@ -75,6 +75,7 @@ void GameScreen::render(std::vector<int> boolean_vector) {
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
+    floor_info.clear();
 }
 
 void GameScreen::displayPlayerAttacking() {
