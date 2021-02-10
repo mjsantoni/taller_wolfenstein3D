@@ -20,7 +20,7 @@ void UIDrawer::setDimensions(int _starting_point,
 }
 
 void UIDrawer::drawPlayerUI(ClientPlayer& player) {
-    drawPlayersEquippedWeapon(player.getEquippedWeapon());
+    //drawPlayersEquippedWeapon(player.getEquippedWeapon());
     TTF_Init();
     Area ui_rect_area(0, starting_point, width, ui_height);
     fillArea(ui_rect_area, 3, 69, 64, 0);
@@ -177,56 +177,4 @@ void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
             dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
     };
     SDL_RenderCopy(window.getRenderer(), texture, &sdlSrc, &sdlDest);
-}
-
-void UIDrawer::drawPlayersEquippedWeapon(int weapon_number) {
-    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
-            + EQ_WEAPON_DELTA);
-    Area image_area;
-    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
-    Area screen_area = assembleScreenWeaponArea(object_info);
-    window.loadImage(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
-}
-
-SDL_Texture* UIDrawer::getWeaponSprite(ObjectInfo& o_i, Area& image_area) {
-    SdlSprite sdl_sprite(o_i.getImagePath(), o_i.getImageWidth(),
-                         o_i.getImageHeight(), o_i.getSpriteCols(),
-                         o_i.getSpriteRows(), o_i.getSpriteHPadding(),
-                         o_i.getSpriteVPadding());
-    SDL_Texture* image = sdl_sprite.loadTexture(window.getRenderer(), image_area,
-                                                o_i.getSpriteAnimationNo());
-    return image;
-}
-
-Area UIDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
-    int weapon_window_width = (int) (object_info.getObjectWidth() * width);
-    int weapon_window_height = (int) (object_info.getObjectHeight()
-            * window_height);
-    int starting_y_pos = starting_point - weapon_window_height;
-    int starting_x_pos = (width - weapon_window_width) / 2;
-    Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
-                     weapon_window_height);
-    return screen_area;
-}
-
-void UIDrawer::displayPlayerShooting(int weapon_number) {
-    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
-                                                         + EQ_WEAPON_DELTA);
-    object_info.setSpriteAnimationNo(2);
-    Area image_area;
-    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
-    Area screen_area = assembleScreenWeaponArea(object_info);
-    window.loadImage(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
-    window.render();
-}
-
-void UIDrawer::displayPlayerStopShooting(int weapon_number) {
-    ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
-                                                         + EQ_WEAPON_DELTA);
-    Area image_area;
-    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
-    Area screen_area = assembleScreenWeaponArea(object_info);
-    window.loadImage(texture, image_area, screen_area);
 }

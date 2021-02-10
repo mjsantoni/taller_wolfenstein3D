@@ -12,6 +12,7 @@
 #include "object_drawer.h"
 #include "ui_drawer.h"
 #include "menus_drawer.h"
+#include "weapon_drawer.h"
 
 class GameScreen {
 private:
@@ -19,6 +20,7 @@ private:
     ObjectDrawer object_drawer;
     RayCaster ray_caster;
     UIDrawer ui_drawer;
+    WeaponDrawer weapon_drawer;
     ObjectInfoProvider object_info_provider;
     MenusDrawer menus_drawer;
     ClientMap& map;

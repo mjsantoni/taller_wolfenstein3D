@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_UI_DRAWER_H
 #define TP_WOLFENSTEIN_UI_DRAWER_H
 
-#define EQ_WEAPON_DELTA 20
 #define WEAPON_ICON_DELTA 25
 
 #include <zconf.h>
@@ -37,21 +36,19 @@ private:
     void drawPlayersAmmo(int players_ammo);
     void drawPlayersImage();
     void drawPlayersWeaponIcon(int player_weapon);
-    void drawPlayersEquippedWeapon(int weapon_number);
+
     void drawBox(const std::string& message, int value);
     void fillArea(Area area, int r, int g, int b, int a);
     void fillAreaWithBorder(Area area, int r, int g, int b, int a);
     void fillTextArea(TTF_Font* font, const std::string& message,
                       Area& screen_area);
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-    Area assembleScreenWeaponArea(ObjectInfo& object_info);
-    SDL_Texture* getWeaponSprite(ObjectInfo& o_i, Area& image_area);
+
 public:
     UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window);
     void setDimensions(int _starting_point, int _height, int _width);
     void drawPlayerUI(ClientPlayer& player);
-    void displayPlayerShooting(int weapon_number);
-    void displayPlayerStopShooting(int weapon_number);
+
 };
 
 

@@ -34,7 +34,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
     switch (change_id) {
         case (REMOVE_POSITIONABLE): {
             map.removeObject(id);
-            render_vector = std::vector<int>{1, 1, 0};
+            render_vector = std::vector<int>{1, 1, 1, 0};
             // id: id del item
             break;
         }
@@ -42,11 +42,11 @@ void ChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() == id) {
                 std::cout << "El cliente se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
-                render_vector = std::vector<int>{1, 1, 0};
+                render_vector = std::vector<int>{1, 1, 1, 0};
             } else {
                 std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveObject(id, value1, value2);
-                render_vector = std::vector<int>{0, 1, 0};
+                render_vector = std::vector<int>{0, 1, 0, 0};
             }
             // id: player_id - value1: new_x - value2: new_y
             break;
@@ -55,7 +55,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateScore(value1);
-            render_vector = std::vector<int>{0, 0, 1};
+            render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id - value1: points to add
             break;
         }
@@ -63,7 +63,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateHealth(value1);
-            render_vector = std::vector<int>{0, 0, 1};
+            render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id - value1: hp to change (puede ser + o -)
             // HUD: hay que verificar que no sobrepase el max_hp del player
             break;
@@ -72,7 +72,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateAmmo(value1);
-            render_vector = std::vector<int>{0, 0, 1};
+            render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id - value1: ammo to change (puede ser + o -)
             // HUD: hay que verificar que no sobrepase el max_bullets del player
             break;
@@ -81,18 +81,18 @@ void ChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateKeys(value1);
-            render_vector = std::vector<int>{0, 0, 1};
+            render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id -> value1: cantidad (suma o resta keys)
             break;
         }
         case (CHANGE_WEAPON): {
             if (player.getId() == id) {
                 player.changeWeapon(value1);
-                render_vector = std::vector<int>{0, 0, 1};
+                render_vector = std::vector<int>{0, 0, 1, 1};
             }
             else {
                 map.changeEnemyImage(id, value1);
-                render_vector = std::vector<int>{0, 1, 0};
+                render_vector = std::vector<int>{0, 1, 0, 0};
             }
             // id: player_id -> value1: cantidad (suma o resta keys)
             break;
@@ -135,46 +135,48 @@ void ChangeProcessor::processInGameChange(Change &change) {
         case (ADD_BULLETS_AT): {
             map.putObjectAt(id, ITEM_BULLETS, value1, value2);
             // id: nuevo id_bullets - value1: new_x - value2: new_y
+            render_vector = std::vector<int>{0, 1, 1, 0};
             break;
         }
         case (ADD_KEY_AT): {
             map.putObjectAt(id, ITEM_KEY, value1, value2);
-            render_vector = std::vector<int>{0, 1, 0};
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_key - value1: new_x - value2: new_y
             break;
         }
         case (ADD_MACHINE_GUN_AT): {
             map.putObjectAt(id, ITEM_MACHINE_GUN, value1, value2);
-            render_vector = std::vector<int>{0, 1, 0};
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_CHAIN_GUN_AT): {
             map.putObjectAt(id, ITEM_CHAIN_CANNON, value1, value2);
-            render_vector = std::vector<int>{0, 1, 0};
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_RPG_GUN_AT): {
             map.putObjectAt(id, ITEM_ROCKET_LAUNCHER, value1, value2);
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_UNLOCKED_DOOR): {
             map.updateUnlockedDoor(id, value1, value2);
-            render_vector = std::vector<int>{1, 0, 0};
+            render_vector = std::vector<int>{1, 1, 1, 0};
             // id: new_item_id - value1: new_x - value2: new_y (viene de cerrar puerta)
             break;
         }
         case (RPG_MOVE_TO): {
             map.updateRPGMissile(id, value1, value2);
-            render_vector = std::vector<int>{0, 1, 0};
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: mismo rpg_id - value1: new_x - value2: new_y (utilizar los viejos x,y para hacer la animacion)
             break;
         }
         case (RPG_EXPLODE_AT): {
             map.setRPGMissileExplosion(1, value1, value2);
-            render_vector = std::vector<int>{0, 1, 0};
+            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
@@ -188,7 +190,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
          */
         case (CL_UPDATE_DIRECTION): {
             player.updateDirection(value2);
-            render_vector = std::vector<int>{1, 1, 0};
+            render_vector = std::vector<int>{1, 1, 1, 0};
             break;
         }
         case (CL_PLAYER_SHOOTING): {
