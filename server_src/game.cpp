@@ -144,7 +144,7 @@ int Game::getPlayersAlive() {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == players_requested || !players_ready.empty());
+    return (players_alive == players_requested+1 || !players_ready.empty());
 }
 
 /* GAME CHANGERS */
