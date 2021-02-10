@@ -361,7 +361,7 @@ void Editor::exportMap() {
     out << YAML::Value << chest_positions << YAML::EndSeq;
     out << YAML::Key << "cross";
     out << YAML::Value << cross_positions << YAML::EndSeq;
-    out << YAML::Key << "crowm";
+    out << YAML::Key << "crown";
     out << YAML::Value << crown_positions << YAML::EndSeq;
     out << YAML::Key << "cup";
     out << YAML::Value << cup_positions << YAML::EndSeq;
@@ -375,9 +375,9 @@ void Editor::exportMap() {
 
     out << YAML::Key << "players";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "player1";
+    out << YAML::Key << "0";
     out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(1, 2) << Coordinate(3, 4) << Coordinate(5, 6) << YAML::EndSeq;
-    out << YAML::Key << "bot1";
+    out << YAML::Key << "1";
     out << YAML::Value << YAML::Flow << YAML::BeginSeq << Coordinate(2, 4) << Coordinate(5, 0) << Coordinate(6, 6) << YAML::EndSeq;
     out << YAML::EndMap;
 
@@ -409,7 +409,6 @@ void Editor::refreshMapGrid(){
     createButtonsMapGrid(mapGrid, rows, cols, gridRows, gridCols);
 
      // TODO Agregar sacar celdas
-
 }
 
 void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
