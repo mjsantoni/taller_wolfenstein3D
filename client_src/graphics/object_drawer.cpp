@@ -171,8 +171,6 @@ double ObjectDrawer::getGammaAngle(double player_angle, double object_angle) {
 }
 
 bool ObjectDrawer::blockedByWall(double angle, double distance) {
-    return false;
-    /*
     double nearest_distance = 0;
     double angle_found = 0;
     if (wall_distance_info.find(angle) != wall_distance_info.end()) {
@@ -207,7 +205,6 @@ bool ObjectDrawer::blockedByWall(double angle, double distance) {
         printf("No se dibuja el objeto\n");
     }
     return object_blocked;
-     */
 }
 
 void ObjectDrawer::setDimensions(int width, int height) {
