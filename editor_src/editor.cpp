@@ -388,7 +388,6 @@ void Editor::exportMap() {
     std::fstream file(savePath, std::ios::out);
     file << out.c_str();
     file.close();
-    this->close();
 }
 
 void Editor::refreshMapGrid(){
