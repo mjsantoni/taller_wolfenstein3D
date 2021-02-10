@@ -4,6 +4,10 @@
 
 #include "drawing_assistant.h"
 
+#define PROJECTION_PLANE_width 320
+#define PROJECTION_PLANE_height 200
+#define MAX_OBJECT_HEIGHT 300
+
 DrawingAssistant::DrawingAssistant(SdlWindow& _window,
                                 std::map<int, std::pair<int, int>>& _floor_info,
                                 int _map_grid_size) :
