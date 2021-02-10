@@ -54,6 +54,8 @@ private:
     std::string currentCursor;
 
     void createButtonsMapGrid(QGridLayout *mapGrid, int rows, int cols, int gridRows, int gridCols);
+
+    void deleteWidgets(QGridLayout *pLayout);
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

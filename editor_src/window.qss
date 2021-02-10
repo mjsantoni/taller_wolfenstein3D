@@ -19,7 +19,6 @@ QGridButton {
 QPushButton {
     height: 50px;
     width: 30px;
-    background-image: url("blood.jpeg");
 }
 
 QPushButton:hover{
