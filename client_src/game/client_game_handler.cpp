@@ -28,7 +28,10 @@ void ClientGameHandler::start() {
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
     while (running) {
-        if (SDL_PollEvent(&event) == 0) continue;
+        if (SDL_PollEvent(&event) == 0) {
+            usleep(70000);
+            continue;
+        }
         switch(event.type) {
             case SDL_KEYDOWN: {
                 event_generator.generateInGameEvent(event);

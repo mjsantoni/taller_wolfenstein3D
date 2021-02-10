@@ -19,7 +19,9 @@ void Client::start() {
         server_updater.start();
         server_listener.start();
         game.run();
-        while(game.isRunning()) {}
+        while(game.isRunning()) {
+            usleep(50000);
+        }
         game.stop();
         server_updater.stop();
         server_listener.stop();
