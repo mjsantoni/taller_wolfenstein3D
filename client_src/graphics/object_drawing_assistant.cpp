@@ -102,8 +102,8 @@ int ObjectDrawingAssistant::findObjectHeight(double distance, int object_height)
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
     //int object_screen_height = (int) (height_factor*object_raw_height);
-    if (object_raw_height < object_wall_prop * 200)
-        return (int) (object_wall_prop * 200);
+    if (object_raw_height < object_wall_prop * 300)
+        return (int) (object_wall_prop * 300);
     return (int) object_raw_height;
 }
 
@@ -112,8 +112,8 @@ int ObjectDrawingAssistant::findObjectWidth(double distance, int object_width) {
     int wall_width_for_distance = (int) ((double) 100/distance * 188);
     double object_raw_width = object_width_prop*wall_width_for_distance;
     int object_screen_width = (int) (width_factor*object_raw_width);
-    if (object_screen_width < object_width_prop * 500)
-        return (int) (object_width_prop * 500);
+    if (object_screen_width < object_width_prop * 750)
+        return (int) (object_width_prop * 750);
     return object_screen_width;
 }
 
@@ -136,11 +136,11 @@ int ObjectDrawingAssistant::findYPosForObject(int ray_no,
     double wall_distance = findWallDistanceForAngle(-pl_ob_angle);
     //std::cout << "distancia de pared encontrada para determinar pos: " << wall_distance << std::endl;
     double object_to_wall_distance = wall_distance - distance;
-    double dist_proportion = object_to_wall_distance/wall_distance;
+    double dist_proportion = object_to_wall_distance/(wall_distance+300);
     int floor_position = (int) (dist_proportion * floor_height);
     int y_pos = floor_starting_point + floor_position - object_height;
     //std::cout << "original y pos: " << y_pos << std::endl;
-    if (y_pos <= floor_starting_point- object_height) {
+    if (y_pos <= floor_starting_point - object_height) {
         //std::cout << "El objeto se solapa con la pared\n";
         y_pos = floor_starting_point - object_height;
     }
