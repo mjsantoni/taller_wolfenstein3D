@@ -78,6 +78,8 @@ void IntroHandler::displayLevelSelectionMenu() {
 
 void IntroHandler::displayLoadingScreen() {
     screen.displayLoadingScreen(true);
+    while (!player_ready)
+        change_processor.processOffGameChanges();
     while (true) {
         SDL_Delay(1);
         SDL_Event event;
@@ -88,7 +90,7 @@ void IntroHandler::displayLoadingScreen() {
             break;
         }
     }
-    while (!(game_started && player_ready)) {
+    while (!game_started) {
         usleep(30000);
         screen.displayLoadingScreen(false);
         change_processor.processOffGameChanges();

@@ -62,7 +62,7 @@ void Drawable::setNextMovingSprite() {
     int new_sprite = (int) ((current_mov_sprite + 1) % (moving_sprites.size()));
     sprite_animation_no = moving_sprites[new_sprite];
     current_mov_sprite++;
-    std::cout << "El enemigo tiene el sprite " << sprite_animation_no << std::endl;
+    //std::cout << "El enemigo tiene el sprite " << sprite_animation_no << std::endl;
 }
 
 void Drawable::setShootingSprite() {
