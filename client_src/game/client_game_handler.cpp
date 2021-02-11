@@ -37,9 +37,9 @@ void ClientGameHandler::start() {
     SDL_Event event;
     while (running) {
         if (SDL_PollEvent(&event) == 0) {
-            usleep(70000);
             continue;
         }
+        usleep(30000);
         switch(event.type) {
             case SDL_KEYDOWN: {
                 event_generator.generateInGameEvent(event);

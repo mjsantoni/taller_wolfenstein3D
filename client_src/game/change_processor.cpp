@@ -193,6 +193,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (CL_PLAYER_SHOOTING): {
+            std::cout << "SHOOTING!\n";
             if (player.getAmmo() > 0 || player.getEquippedWeapon() == 1) {
                 audio_manager.displayPlayerAttackingSound(
                         player.getEquippedWeapon());
@@ -224,16 +225,17 @@ void ChangeProcessor::processInGameChanges() {
             continue;
         changes.push_back(change);
         changes_counter++;
-
         //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
-        map.updateEnemiesSprites();
-        processInGameChanges(changes);
     }
+    map.updateEnemiesSprites();
+    processInGameChanges(changes);
 }
 
 void ChangeProcessor::processInGameChanges(std::vector<Change> changes) {
-    for (auto& change : changes)
+    for (auto& change : changes) {
+        std::cout << "Se procesa un cambio " << change.getChangeID() << std::endl;
         processInGameChange(change);
+    }
 }
 
 void ChangeProcessor::stop() {
