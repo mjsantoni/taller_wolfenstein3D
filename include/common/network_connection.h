@@ -44,23 +44,29 @@ public:
     /* Recibe un mensaje. Envia el mensaje al servidor.
     Levanta una excepcion propia del controlador de red en caso de error
     y devuelve 0 al enviar todos los bytes respectivos. */
-    void sendMsg(const std::string& message);
+    //void sendMsg(const std::string& message);
 
     /* Funcion base de envio de mensajes. Recibe un mensaje y su 
     longitud. Envia el mensaje via socket. */
-    void sendMsg(const char* message, size_t message_length);
+    //void sendMsg(const char* message, size_t message_length);
+    void send_size(uint32_t len);
+    int send_msg(std::string msg);
 
     /* Recibe un mensaje y luego lo devuelve como string.
     De haber algun error levanta una excepcion propia
     del controlador de red. */
-    std::string recvMsg();
+    //std::string recvMsg();
 
     /* Funcion base de recepcion de mensajes. Recibe un buffer y su
     longitud maxima. Devuelve la cantidad de bytes recibidos. */
-    size_t recvMsg(char* message, size_t buff_length);
+    //size_t recvMsg(char* message, size_t buff_length);
+    uint32_t recv_size();
+    int recv_msg(std::string &buffer);
 
     /* Cierra el canal de envio de datos del socket. */
     void shutdownAll();
+    void shutdownSend();
+    void shutdownRecv();
 
     /* Desinicializa y cierra el socket asociado al controlador de red. */
     void closeSocket();
@@ -76,17 +82,5 @@ public:
     /* Destructor por defecto del controlador de red. Cierra el socket
     si aun sigue siendo valido. */
     ~NetworkConnection();
-
-    void send_size(uint32_t len);
-
-    int send_msg(std::string msg);
-
-    uint32_t recv_size();
-
-    int recv_msg(std::string &buffer);
-
-    void shutdownSend();
-
-    void shutdownRecv();
 };
 #endif // NETWORK_CONNECTION_H

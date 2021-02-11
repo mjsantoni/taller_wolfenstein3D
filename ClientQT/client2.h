@@ -13,9 +13,10 @@ class Client2 {
     NetworkConnection sk;
     bool server_found = false;
     bool options_send = false;
-public:
 
+public:
     Client2() : sk(-1) {}
+
     void lookForServer() {
         while (!server_found) {
                 std::string host;
@@ -41,6 +42,7 @@ public:
             std::cout << "Ingrese jugadores/bots/tiempo/id_mapa: ";
             std::getline(std::cin, data);
             sk.send_msg(data);
+
             std::string answer;
             sk.recv_msg(answer);
             std::cout << "Respuesta: " << answer << "\n";
@@ -49,16 +51,21 @@ public:
     }
 
     void joinGame() {
-        std::string games;
-        sk.recv_msg(games);
-        std::cout << "Los juegos disponibles son: " << games << "\n";
+        std::string data;
+        std::cout << "Ingrese modo(1)(join): ";
+        std::getline(std::cin, data);
+        sk.send_msg(data);
         while (true) {
+
+            std::string games;
+            sk.recv_msg(games);
+            std::cout << "Los juegos disponibles son: " << games << "\n";
 
             std::string data;
             std::cout << "Ingrese el id del juego: ";
             std::getline(std::cin, data);
-
             sk.send_msg(data);
+
             std::string answer;
             sk.recv_msg(answer);
             std::cout << "Respuesta: " << answer << "\n";

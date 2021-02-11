@@ -33,6 +33,8 @@ public:
                    int map);
 
     void killDead();
+
+    std::vector<int> split(std::string bytes);
 };
 
 
