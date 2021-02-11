@@ -52,7 +52,7 @@ public:
     }
 
     void releaseBots(Map& map, std::vector<Player>& players) {
-        if (!probability(0.2)) return;
+        if (!probability(0.025)) return;
         for (auto& bot : bots) {
             bot->updatePosition(map.getPlayerPosition(bot->getId()));
             bot->cleanMap();
