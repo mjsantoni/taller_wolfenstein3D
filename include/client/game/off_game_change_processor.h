@@ -15,10 +15,12 @@ class OffGameChangeProcessor {
 private:
     ClientMap& map;
     ClientPlayer& player;
-    std::atomic<bool>& game_started;
+    bool& player_ready;
+    bool& game_started;
     SharedQueue<Change>& change_queue;
 public:
-    explicit OffGameChangeProcessor(std::atomic<bool>& _game_started,
+    explicit OffGameChangeProcessor(bool& _game_started,
+                                    bool& _player_ready,
                                     ClientMap& _map, ClientPlayer& _player,
                                     SharedQueue<Change>& _change_queue);
     void processOffGameChanges();

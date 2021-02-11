@@ -92,3 +92,7 @@ void GameScreen::displayRespawningScreen() {
     menus_drawer.displayRespawningScreen();
 }
 
+void GameScreen::clearWindow() {
+    SDL_RenderClear(window.getRenderer());
+}
+

@@ -10,15 +10,10 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
 
            game_handler(change_queue, event_queue), alive(true) {}
 
-void ClientGame::run() {
+void ClientGame::startGame() {
     game_handler.start();
 }
 
-ClientGame::~ClientGame() {}
-
-void ClientGame::stop() {
-    alive = false;
-}
 
 bool ClientGame::isRunning() {
     return game_handler.isRunning();

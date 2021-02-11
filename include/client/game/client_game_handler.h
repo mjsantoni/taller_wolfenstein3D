@@ -26,8 +26,25 @@
 #include "client_map_generator.h"
 #include "client_player_initializer.h"
 #include "off_game_change_processor.h"
+#include "intro_handler.h"
 
 class ClientGameHandler {
+private:
+    GameScreen screen;
+    ClientMap map;
+    ClientPlayer player = ClientPlayer("Player 1");
+    AudioManager audio_manager;
+    std::atomic<bool> running;
+    EventGenerator event_generator;
+    ClientParser client_parser;
+    ClientEventHandler event_handler;
+    OffGameChangeProcessor off_game_change_processor;
+    ChangeProcessor change_processor;
+    bool game_started;
+    bool player_ready;
+    IntroHandler intro_handler;
+    ClientPlayerInitializer player_initializer;
+    std::string map_path;
 public:
     ClientGameHandler(SharedQueue<Change>& change_queue,
                       BlockingQueue<Event>& event_queue);
@@ -35,15 +52,8 @@ public:
     void killPlayer();
     void respawnPlayer();
     bool isRunning();
-private:
-    ClientPlayer player = ClientPlayer("Player 1");
-    std::atomic<bool> running;
-    EventGenerator event_generator;
-    ClientParser client_parser;
-    ClientEventHandler event_handler;
-    ChangeProcessor change_processor;
-    std::atomic<bool> game_started;
-    std::atomic<bool> player_ready;
+    void initializePlayer();
+    void initializeMap();
 };
 
 

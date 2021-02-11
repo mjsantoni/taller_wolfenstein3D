@@ -7,7 +7,7 @@
 EventGenerator::EventGenerator(ClientPlayer &_player,
                                ClientEventHandler &_event_handler,
                                BlockingQueue<Event>& _event_queue,
-                               std::atomic<bool>& _game_started) :
+                               bool& _game_started) :
         player(_player),
         event_handler(_event_handler),
         event_queue(_event_queue),

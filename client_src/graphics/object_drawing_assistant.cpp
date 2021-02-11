@@ -11,13 +11,11 @@ ObjectDrawingAssistant::ObjectDrawingAssistant(
         SdlWindow& _window,
         std::map<double, double>& _wall_distance_info,
         std::map<int, std::pair<int, int>>& _floor_info,
-        std::vector<double>& _angles_list,
-        int _map_grid_size) :
+        std::vector<double>& _angles_list) :
         window(_window),
         wall_distance_info(_wall_distance_info),
         floor_info(_floor_info),
-        angles_list(_angles_list),
-        map_grid_size(_map_grid_size) {
+        angles_list(_angles_list) {
 }
 
 void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,

@@ -21,12 +21,11 @@ private:
     int window_height;
     int width_factor;
     int height_factor;
-    int map_grid_size;
+    int map_grid_size = 64;
 
 public:
     DrawingAssistant(SdlWindow &_window,
-                     std::map<int, std::pair<int, int>> &_floor_info,
-                     int _map_grid_size);
+                     std::map<int, std::pair<int, int>> &_floor_info);
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
     int findColumnHeight(int distance);

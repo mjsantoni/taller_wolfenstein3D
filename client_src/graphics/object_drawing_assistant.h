@@ -24,13 +24,12 @@ private:
     int window_height;
     int width_factor;
     int height_factor;
-    int map_grid_size;
+    int map_grid_size = 64;
 public:
     ObjectDrawingAssistant(SdlWindow &_window,
                            std::map<double, double> &_wall_distance_info,
                            std::map<int, std::pair<int, int>> &_floor_info,
-                           std::vector<double> &_angles_list,
-                           int _map_grid_size);
+                           std::vector<double> &_angles_list);
     SDL_Texture *getObjectImage(ObjectInfo &o_i, Area &image_area);
     void put3DObject(ObjectInfo &object_info, double pl_ob_angle);
     int findRayNumberForAngle(double beta);

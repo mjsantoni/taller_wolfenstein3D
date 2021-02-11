@@ -20,7 +20,7 @@ RayCaster::RayCaster(SdlWindow& window,
             window(window), wall_distance_info(_wall_distance_info), map(map),
             info_provider(_info_provider), floor_info(_floor_info),
             angles_list(_angles_list),
-            drawing_assistant(window, _floor_info, map.getGridSize()){
+            drawing_assistant(window, _floor_info){
 }
 
 void RayCaster::renderBackground(int x, int y, double alpha) {

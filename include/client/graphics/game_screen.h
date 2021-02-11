@@ -42,6 +42,7 @@ public:
     void displayPlayerAttacking();
     void displayLoadingScreen(bool waiting_for_input);
     void displayRespawningScreen();
+    void clearWindow();
 };
 
 

@@ -18,7 +18,8 @@ ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
 ClientMap::ClientMap() : width(0),
                          height(0),
                          real_width(0),
-                         real_height(0) {
+                         real_height(0),
+                         grid_size(GRID_SIZE) {
 }
 
 int ClientMap::getGridSize() {

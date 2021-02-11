@@ -18,12 +18,9 @@ void Client::start() {
         ClientGame game(change_queue, event_queue);
         server_updater.start();
         server_listener.start();
-        game.run();
-        while(game.isRunning()) {}
-        game.stop();
+        game.startGame();
         server_updater.stop();
         server_listener.stop();
-        game.join();
         server_updater.join();
         server_listener.join();
     }

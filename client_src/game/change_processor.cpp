@@ -1,24 +1,24 @@
 
 #include "client/game/change_processor.h"
 
-#define MAX_CHANGES 100
+#define MAX_CHANGES 5
+#define MAX_ITERATIONS 20
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
  * el configHandler
  */
-ChangeProcessor::ChangeProcessor(ClientPlayer& _player,
+ChangeProcessor::ChangeProcessor(GameScreen& _screen,
+                                 ClientMap& _map,
+                                 ClientPlayer& _player,
                                  SharedQueue<Change>& _change_queue,
-                                 std::atomic<bool>& _game_started,
-                                 std::atomic<bool>& _player_ready) :
-                                 screen(960, 600, map, player),
+                                 AudioManager& _audio_manager) :
+                                 screen(_screen),
+                                 map(_map),
                                  player(_player),
                                  change_queue(_change_queue),
                                  alive(true),
-                                 game_started(_game_started),
-                                 player_ready(_player_ready),
-                                 off_game_change_processor(game_started, map,
-                                                         player, change_queue) {
+                                 audio_manager(_audio_manager) {
 }
 
 /* Ejecuta los cambios */
@@ -126,7 +126,6 @@ void ChangeProcessor::processInGameChange(Change &change) {
             std::pair<int, int> player_pos = map.getSpawnPositionForPlayer(id);
             player.setMapPosition(player_pos);
             //std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
-            ready = true;
             //std::cout << "Juego listo para iniciar\n";
             // id: player id asignado
             // habria que mandar el mapa completo aca
@@ -211,31 +210,36 @@ void ChangeProcessor::processInGameChange(Change &change) {
     screen.render(render_vector);
 }
 
-void ChangeProcessor::run() {
-    event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
-    displayMenus();
-    std::cout << "starting change processor\n";
+void ChangeProcessor::processInGameChanges() {
     std::cout << "pos inicial del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
-    screen.render(std::vector<int>{1, 1, 1});
-    while (alive) {
+    int changes_counter = 0;
+    int iterations_counter = 0;
+    std::vector<Change> changes;
+    while (changes_counter < MAX_CHANGES) {
+        if (iterations_counter >= MAX_ITERATIONS)
+            break;
+        iterations_counter++;
         Change change = change_queue.pop();
-        if (change.isInvalid()) {
+        if (change.isInvalid())
             //std::cout << "invalid change\n";
-                continue;
-        }
+            continue;
+        changes.push_back(change);
+        changes_counter++;
+
         //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
-        if (game_started) {
-            map.updateEnemiesSprites();
-            processInGameChange(change);
-        }
+        map.updateEnemiesSprites();
+        processInGameChanges(changes);
     }
+}
+
+void ChangeProcessor::processInGameChanges(std::vector<Change> changes) {
+    for (auto& change : changes)
+        processInGameChange(change);
 }
 
 void ChangeProcessor::stop() {
     alive = false;
 }
-
-ChangeProcessor::~ChangeProcessor() {}
 
 void ChangeProcessor::receiveIdsFromServer() {
     while(true) {
@@ -260,90 +264,6 @@ void ChangeProcessor::addMapChange(Change& change) {
      */
 }
 
-void ChangeProcessor::displayMenus() {
-    audio_manager.playSong();
-    displayIntro();
-    std::cout << "Se inicia el juego" << std::endl;
 
-    int game_mode = displayMatchModeMenu();
-    if (game_mode != 1)
-        return;
-    displayLevelSelectionMenu();
-    initializePlayer();
-    initializeMap();
-    displayLoadingScreen();
-    sleep(1);
-    audio_manager.stopSong();
-}
 
-void ChangeProcessor::displayIntro() {
-    screen.displayIntro();
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        if (event.type == SDL_KEYDOWN)
-            break;
-    }
-}
 
-int ChangeProcessor::displayMatchModeMenu() {
-    screen.displayMatchModeMenu();
-    int ret_code = 0;
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        ret_code = event_handler.handleMatchModeScreenEvent(event);
-        if (ret_code != 0)
-            break;
-    }
-    return ret_code;
-}
-
-void ChangeProcessor::displayLevelSelectionMenu() {
-    screen.displayLevelSelectionMenu();
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        int chosen_map = event_handler.handleLevelSelectionEvent(event);
-        if (chosen_map != 0) {
-            setMapPath(chosen_map);
-            break;
-        }
-    }
-}
-
-void ChangeProcessor::displayLoadingScreen() {
-    screen.displayLoadingScreen(true);
-    while (true) {
-        SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        int player_is_ready = event_handler.handleLoadingScreenEvent(event);
-        if (player_is_ready) {
-            player_ready = true;
-            break;
-        }
-    }
-    while (!game_started) {
-        screen.displayLoadingScreen(false);
-        off_game_change_processor.processOffGameChanges();
-    }
-}
-
-void ChangeProcessor::initializePlayer() {
-    player_initializer.initializePlayer(player);
-}
-
-void ChangeProcessor::initializeMap() {
-    MapParser map_parser(map_path);
-    ClientMapGenerator::create(map, map_parser);
-    //player.setMapPosition(std::pair<int, int>{128, 128});
-    //map.putPlayerAt(std::pair<int, int>(128, 128));
-}
-
-void ChangeProcessor::setMapPath(int chosen_map) {
-    map_path =  "../map.yaml";
-}

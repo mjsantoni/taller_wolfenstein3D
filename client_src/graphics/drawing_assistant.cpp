@@ -9,11 +9,9 @@
 #define MAX_OBJECT_HEIGHT 300
 
 DrawingAssistant::DrawingAssistant(SdlWindow& _window,
-                                std::map<int, std::pair<int, int>>& _floor_info,
-                                int _map_grid_size) :
+                              std::map<int, std::pair<int, int>>& _floor_info) :
                                 window(_window),
-                                floor_info(_floor_info),
-                                map_grid_size(_map_grid_size) {
+                                floor_info(_floor_info){
     setDimensions(window.getWidth(), window.getHeight());
 }
 

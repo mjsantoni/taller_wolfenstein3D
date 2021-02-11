@@ -13,9 +13,7 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
        object_info_provider(_object_info_provider), window(_window),
        wall_distance_info(_wall_distance_info), map(_map),
        floor_info(_floor_info), angles_list(_angles_list),
-       drawing_assistant(window, wall_distance_info, floor_info, angles_list,
-                         map.getGridSize()){
-    map_grid_size = map.getGridSize();
+       drawing_assistant(window, wall_distance_info, floor_info, angles_list){
 }
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {

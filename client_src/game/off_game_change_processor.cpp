@@ -4,6 +4,19 @@
 
 #include "client/game/off_game_change_processor.h"
 
+
+OffGameChangeProcessor::OffGameChangeProcessor(bool& _game_started,
+                                            bool& _player_ready,
+                                            ClientMap &_map,
+                                            ClientPlayer &_player,
+                                            SharedQueue<Change> &_change_queue):
+                                            game_started(_game_started),
+                                            player_ready(_player_ready),
+                                            map(_map),
+                                            player(_player),
+                                            change_queue(_change_queue) {
+}
+
 void OffGameChangeProcessor::processOffGameChanges() {
     Change change = change_queue.pop();
     if (change.isInvalid())
@@ -21,6 +34,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
                     map.getSpawnPositionForPlayer(player_id);
             player.setRespawningPosition(player_pos);
             player.setMapPosition(player_pos);
+            player_ready = true;
         }
         case (TOTAL_PLAYERS_CONNECTED): {
             map.updateTotalPlayers(player_id); // el id es el numero de jugadores en realidad
@@ -28,6 +42,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
             break;
         }
         case (GAME_START): {
+            std::cout << "Se recibe cambio para iniciar el juego\n";
             map.addEnemies(player.getId());
             game_started = true;
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
@@ -41,16 +56,6 @@ void OffGameChangeProcessor::addMapChange(Change& change) {
     int x_pos = change.getFirstValue();
     int y_pos = change.getSecondValue();
     map.addObjectId(object_id, x_pos, y_pos);
-}
-
-OffGameChangeProcessor::OffGameChangeProcessor(std::atomic<bool> &_game_started,
-                                               ClientMap &_map,
-                                               ClientPlayer &_player,
-                                           SharedQueue<Change> &_change_queue) :
-        game_started(_game_started),
-        map(_map),
-        player(_player),
-        change_queue(_change_queue) {
 }
 
 

@@ -14,21 +14,32 @@ ClientGameHandler::ClientGameHandler(SharedQueue<Change>& change_queue,
         running(true),
         game_started(false),
         player_ready(false),
+        screen(960, 600, map, player),
         event_handler(change_queue),
         event_generator(player, event_handler, event_queue, game_started),
-        change_processor(player, change_queue, game_started, player_ready){
+        change_processor(screen, map, player, change_queue, audio_manager),
+        off_game_change_processor(game_started, player_ready, map, player, change_queue),
+        intro_handler(screen, map, map_path, off_game_change_processor,
+                      game_started, player_ready) {
     //
 }
 
 void ClientGameHandler::start() {
-    change_processor.start();
-    while (!player_ready) {}
-    event_generator.generateReadyEvent();
-    while (!game_started) {}
+    //change_processor.start();
+    initializePlayer();
+    intro_handler.displayMenus();
+    //while (!player_ready) {}
+    //event_generator.generateReadyEvent();
+    //while (!game_started) {}
+    //screen.clearWindow();
+    screen.render(std::vector<int>{1, 1, 1, 1});
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
     while (running) {
-        if (SDL_PollEvent(&event) == 0) continue;
+        if (SDL_PollEvent(&event) == 0) {
+            usleep(70000);
+            continue;
+        }
         switch(event.type) {
             case SDL_KEYDOWN: {
                 event_generator.generateInGameEvent(event);
@@ -40,17 +51,17 @@ void ClientGameHandler::start() {
             case SDL_QUIT:
                 puts("Saliendo");
                 return;
-            default:
-                break;
         }
-        //change_processor.processInGameChanges(change);
-        //sleep(10);
+        change_processor.processInGameChanges();
+        usleep(33000);
     }
     std::cout << "Frena change processor" << std::endl;
-    change_processor.stop();
-    change_processor.join();
 }
 
 bool ClientGameHandler::isRunning() {
     return running;
+}
+
+void ClientGameHandler::initializePlayer() {
+    player_initializer.initializePlayer(player);
 }

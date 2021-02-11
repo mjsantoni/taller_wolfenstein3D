@@ -11,17 +11,15 @@
 #include "client_map.h"
 #include "client_game_handler.h"
 
-class ClientGame : public Thread {
+class ClientGame {
+private:
+    ClientGameHandler game_handler;
+    std::atomic<bool> alive;
 public:
     ClientGame(SharedQueue<Change>& change_queue,
                BlockingQueue<Event>& event_queue);
     bool isRunning();
-    ~ClientGame();
-    void run() override;
-    void stop();
-private:
-    ClientGameHandler game_handler;
-    std::atomic<bool> alive;
+    void startGame();
 };
 
 

@@ -15,48 +15,27 @@
 #include "off_game_event_handler.h"
 #include <client/game/client_map_generator.h>
 
-class ChangeProcessor : public Thread {
+class ChangeProcessor {
 private:
-    ClientMap map;
+    ClientMap& map;
     ClientPlayer& player;
-    GameScreen screen;
+    GameScreen& screen;
+    AudioManager& audio_manager;
     SharedQueue<Change>& change_queue;
-    AudioManager audio_manager;
     std::atomic<bool> alive;
-    std::atomic<bool>& game_started;
-    std::atomic<bool>& player_ready;
-    bool ready = false;
-    std::string map_path;
-    ClientPlayerInitializer player_initializer;
-    OffGameChangeProcessor off_game_change_processor;
-    OffGameEventHandler event_handler;
+
 public:
-    ChangeProcessor(ClientPlayer& _player,
+    ChangeProcessor(GameScreen& _screen,
+                    ClientMap& _map,
+                    ClientPlayer& _player,
                     SharedQueue<Change>& _change_queue,
-                    std::atomic<bool>& _game_started,
-                    std::atomic<bool>& _player_ready);
+                    AudioManager& _audio_manager);
     void processInGameChange(Change& change);
-    void run() override;
     void stop();
-    ~ChangeProcessor();
     void receiveIdsFromServer();
     void addMapChange(Change& change);
-
-    void displayIntro();
-
-    int displayMatchModeMenu();
-
-    void displayLevelSelectionMenu();
-
-    void displayLoadingScreen();
-
-    void initializePlayer();
-
-    void setMapPath(int chosen_map);
-
-    void initializeMap();
-
-    void displayMenus();
+    void processInGameChanges();
+    void processInGameChanges(std::vector<Change> changes);
 };
 
 
