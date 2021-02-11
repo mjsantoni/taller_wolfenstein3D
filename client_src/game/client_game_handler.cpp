@@ -29,7 +29,7 @@ void ClientGameHandler::start() {
     initializePlayer();
     intro_handler.displayMenus();
     //while (!player_ready) {}
-    //event_generator.generateReadyEvent();
+    event_generator.generateReadyEvent();
     //while (!game_started) {}
     //screen.clearWindow();
     screen.render(std::vector<int>{1, 1, 1, 1});

@@ -85,7 +85,6 @@ void IntroHandler::displayLoadingScreen() {
             break;
     }
     while (!(game_started && player_ready)) {
-        std::cout << "procesando...\n";
         screen.displayLoadingScreen(false);
         change_processor.processOffGameChanges();
     }

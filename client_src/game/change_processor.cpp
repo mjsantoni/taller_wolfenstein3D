@@ -211,7 +211,6 @@ void ChangeProcessor::processInGameChange(Change &change) {
 }
 
 void ChangeProcessor::processInGameChanges() {
-    std::cout << "pos inicial del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
     int changes_counter = 0;
     int iterations_counter = 0;
     std::vector<Change> changes;
