@@ -27,11 +27,11 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     window.loadImage(image, image_area, screen_area);
     SDL_DestroyTexture(image);
     //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
-    //printf("Distancia: %f\n", object_info.getHitDistance());
-    //printf("Pos x: %d\n", screen_area.getX());
-    //printf("Pos y: %d\n", screen_area.getY());
-    //printf("Altura: %d\n", screen_area.getHeight());
-    //printf("Ancho: %d\n", screen_area.getWidth());
+    printf("Distancia: %f\n", object_info.getHitDistance());
+    printf("Pos x: %d\n", screen_area.getX());
+    printf("Pos y: %d\n", screen_area.getY());
+    printf("Altura: %d\n", screen_area.getHeight());
+    printf("Ancho: %d\n", screen_area.getWidth());
     //printf("Ancho de pantalla: %d\n", window_width);
 }
 
@@ -100,8 +100,8 @@ int ObjectDrawingAssistant::findObjectHeight(double distance, int object_height)
     double distance_prop = (double) map_grid_size/distance;
     double object_raw_height = object_wall_prop * distance_prop * 255;
     //int object_screen_height = (int) (height_factor*object_raw_height);
-    if (object_raw_height < object_wall_prop * 250)
-        return (int) (object_wall_prop * 250);
+    //if (object_raw_height < object_wall_prop * 250)
+        //return (int) (object_wall_prop * 250);
     return (int) object_raw_height;
 }
 
@@ -110,8 +110,8 @@ int ObjectDrawingAssistant::findObjectWidth(double distance, int object_width) {
     int wall_width_for_distance = (int) ((double) 100/distance * 188);
     double object_raw_width = object_width_prop*wall_width_for_distance;
     int object_screen_width = (int) (width_factor*object_raw_width);
-    if (object_screen_width < object_width_prop * 700)
-        return (int) (object_width_prop * 700);
+    //if (object_screen_width < object_width_prop * 700)
+        //return (int) (object_width_prop * 700);
     return object_screen_width;
 }
 

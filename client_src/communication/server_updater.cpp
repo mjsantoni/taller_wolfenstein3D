@@ -18,7 +18,7 @@ void ServerUpdater::run() {
         Event event = event_queue.pop();
         if (event.isInvalid()) continue;
         skt.send_msg(event.serialize());
-        std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
+        //std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
     }
 }
 

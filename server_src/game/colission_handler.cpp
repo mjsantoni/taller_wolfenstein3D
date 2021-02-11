@@ -4,7 +4,7 @@
 #include "server/game/positions_calculator.h"
 #include <set>
 
-#define UNITS_TO_CHECK 2
+#define UNITS_TO_CHECK 45
 
 ColissionHandler::ColissionHandler(Map &_map) : map(_map) {}
 

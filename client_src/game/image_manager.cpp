@@ -3,7 +3,9 @@
 //
 
 #include "client/game/image_manager.h"
-#define WEAPON_ENEMY_DELTA 15
+#include <client/graphics/item_types.h>
+
+#define WEAPON_ENEMY_DELTA 16
 
 int ImageManager::getImageNumberFromName(std::string name) {
     if (name == "wood_wall")
@@ -32,6 +34,10 @@ int ImageManager::getImageNumberFromName(std::string name) {
         return ITEM_CROSS;
     if (name == "cup")
         return ITEM_CUP;
+    if (name == "table")
+        return MISC_TABLE;
+    if (name == "barrel")
+        return MISC_BARREL;
     return ITEM_KEY;
 }
 
@@ -43,3 +49,36 @@ bool ImageManager::objectIsWall(int object_type) {
 int ImageManager::getImageNumberFromWeapon(int weapon_number) {
     return weapon_number + WEAPON_ENEMY_DELTA;
 }
+
+int ImageManager::getItemTypeForObject(int object_type) {
+    if (object_type == ITEM_BULLETS || object_type == ITEM_KEY)
+        return ITEM_TYPE_VERY_SMALL;
+    if (object_type == ITEM_CUP || object_type == ITEM_CROWN)
+        return ITEM_TYPE_SMALL;
+    if (object_type == ITEM_CHEST || object_type == ITEM_CROSS)
+        return ITEM_TYPE_MEDIUM;
+    if (object_type == MISC_BARREL || object_type == MISC_TABLE)
+        return ITEM_TYPE_LARGE;
+    if (object_type == ENEMY_DOG)
+        return ITEM_TYPE_ENEMY_DOG;
+    if (object_type >= ENEMY_GUARD && object_type <= ENEMY_MUTANT)
+        return ITEM_TYPE_ENEMY_HUMAN;
+    return ITEM_TYPE_WEAPON;
+}
+/*
+int ImageManager::getMovingSpriteAnimation(int object_type) {
+    if (object_type == ITEM_BULLETS || object_type == ITEM_KEY)
+        return ITEM_TYPE_VERY_SMALL;
+    if (object_type == ITEM_CUP || object_type == ITEM_CROWN)
+        return ITEM_TYPE_SMALL;
+    if (object_type == ITEM_CHEST || object_type == ITEM_CROSS)
+        return ITEM_TYPE_MEDIUM;
+    if (object_type == MISC_BARREL || object_type == MISC_TABLE)
+        return ITEM_TYPE_LARGE;
+    if (object_type == ENEMY_DOG)
+        return ITEM_TYPE_ENEMY_DOG;
+    if (object_type >= ENEMY_GUARD && object_type <= ENEMY_MUTANT)
+        return ITEM_TYPE_ENEMY_HUMAN;
+    return ITEM_TYPE_WEAPON;
+}
+*/

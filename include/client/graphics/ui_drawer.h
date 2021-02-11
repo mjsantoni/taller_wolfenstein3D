@@ -5,7 +5,7 @@
 #ifndef TP_WOLFENSTEIN_UI_DRAWER_H
 #define TP_WOLFENSTEIN_UI_DRAWER_H
 
-#define WEAPON_ICON_DELTA 25
+#define WEAPON_ICON_DELTA 26
 
 #include <zconf.h>
 #include <string>

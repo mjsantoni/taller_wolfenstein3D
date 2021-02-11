@@ -191,9 +191,9 @@ bool ObjectDrawer::blockedByWall(double angle, double distance) {
     }
     if (nearest_distance == 0 && angle_found == 0)
         return false;
-    printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
+    //printf("Distancia mas cercana encontrada: %f\n", nearest_distance);
     //nearest_distance /= cos(angle_found);
-    printf("Distancia mas cercana final: %f\n", nearest_distance);
+    //printf("Distancia mas cercana final: %f\n", nearest_distance);
     bool object_blocked = nearest_distance < distance;
     if (object_blocked) {
         printf("Objeto bloqueado por una pared a distancia %f\n", nearest_distance);

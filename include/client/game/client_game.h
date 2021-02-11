@@ -14,9 +14,9 @@
 #include "sdl_audio_player.h"
 #include "client/graphics/game_screen.h"
 #include "client/communication/client_parser.h"
-#include "client_event_handler.h"
-#include "event_generator.h"
-#include "change_processor.h"
+#include "in_game_event_handler.h"
+#include "in_game_event_generator.h"
+#include "in_game_change_processor.h"
 #include <vector>
 #include <common/change.h>
 #include <common/shared_queue.h>
@@ -35,10 +35,10 @@ private:
     ClientPlayer player = ClientPlayer("Player 1");
     AudioManager audio_manager;
     std::atomic<bool> running;
-    EventGenerator event_generator;
+    InGameEventGenerator event_generator;
     ClientParser client_parser;
-    ClientEventHandler event_handler;
-    ChangeProcessor change_processor;
+    InGameEventHandler event_handler;
+    InGameChangeProcessor change_processor;
     bool game_started;
     bool player_ready;
     OffGameHandler off_game_handler;

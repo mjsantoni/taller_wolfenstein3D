@@ -1,5 +1,5 @@
-#ifndef TP_WOLFENSTEIN_CHANGE_PROCESSOR_H
-#define TP_WOLFENSTEIN_CHANGE_PROCESSOR_H
+#ifndef TP_WOLFENSTEIN_IN_GAME_CHANGE_PROCESSOR_H
+#define TP_WOLFENSTEIN_IN_GAME_CHANGE_PROCESSOR_H
 
 #include <client/game/client_map.h>
 #include <client/game/client_player.h>
@@ -15,7 +15,7 @@
 #include "off_game_event_handler.h"
 #include <client/game/client_map_generator.h>
 
-class ChangeProcessor {
+class InGameChangeProcessor {
 private:
     ClientMap& map;
     ClientPlayer& player;
@@ -25,11 +25,11 @@ private:
     std::atomic<bool> alive;
 
 public:
-    ChangeProcessor(GameScreen& _screen,
-                    ClientMap& _map,
-                    ClientPlayer& _player,
-                    SharedQueue<Change>& _change_queue,
-                    AudioManager& _audio_manager);
+    InGameChangeProcessor(GameScreen& _screen,
+                          ClientMap& _map,
+                          ClientPlayer& _player,
+                          SharedQueue<Change>& _change_queue,
+                          AudioManager& _audio_manager);
     void processInGameChange(Change& change);
     void stop();
     void receiveIdsFromServer();
@@ -39,4 +39,4 @@ public:
 };
 
 
-#endif //TP_WOLFENSTEIN_CHANGE_PROCESSOR_H
+#endif //TP_WOLFENSTEIN_IN_GAME_CHANGE_PROCESSOR_H

@@ -20,7 +20,7 @@ private:
     SDL_Renderer* renderer;
     SdlWindow& window;
     ObjectInfoProvider& object_info_provider;
-    int map_grid_size;
+    int map_grid_size = 64;
     std::map<double, double>& wall_distance_info;
     std::map<int, std::pair<int, int>>& floor_info;
     std::vector<double>& angles_list;

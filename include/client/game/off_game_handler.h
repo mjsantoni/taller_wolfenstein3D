@@ -9,7 +9,7 @@
 #include <client/graphics/game_screen.h>
 #include "off_game_change_processor.h"
 #include "off_game_event_handler.h"
-#include "event_generator.h"
+#include "in_game_event_generator.h"
 #include "off_game_event_generator.h"
 #include <common/map_parser.h>
 #include <client/game/client_map_generator.h>

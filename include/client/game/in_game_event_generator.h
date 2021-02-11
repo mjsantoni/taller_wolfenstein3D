@@ -2,8 +2,8 @@
 // Created by andy on 30/1/21.
 //
 
-#ifndef TP_WOLFENSTEIN_EVENT_GENERATOR_H
-#define TP_WOLFENSTEIN_EVENT_GENERATOR_H
+#ifndef TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H
+#define TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H
 
 #include <SDL_events.h>
 #include <common/event.h>
@@ -11,21 +11,22 @@
 #include <common/blocking_queue.h>
 #include <common/shared_queue.h>
 #include "client_player.h"
-#include "client_event_handler.h"
+#include "in_game_event_handler.h"
 
-class EventGenerator {
+class InGameEventGenerator {
 private:
     bool is_running = true;
     ClientPlayer& player;
-    ClientEventHandler& event_handler;
+    InGameEventHandler& event_handler;
     BlockingQueue<Event>& event_queue;
 public:
-    EventGenerator(ClientPlayer& _player, ClientEventHandler& _event_handler,
-                   BlockingQueue<Event>& _event_queue);
+    InGameEventGenerator(ClientPlayer& _player,
+                         InGameEventHandler& _event_handler,
+                         BlockingQueue<Event>& _event_queue);
     void stop();
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);
 };
 
 
-#endif //TP_WOLFENSTEIN_EVENT_GENERATOR_H
+#endif //TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H

@@ -1,5 +1,5 @@
 
-#include "client/game/change_processor.h"
+#include "client/game/in_game_change_processor.h"
 
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 20
@@ -8,11 +8,11 @@
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
  * el configHandler
  */
-ChangeProcessor::ChangeProcessor(GameScreen& _screen,
-                                 ClientMap& _map,
-                                 ClientPlayer& _player,
-                                 SharedQueue<Change>& _change_queue,
-                                 AudioManager& _audio_manager) :
+InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
+                                             ClientMap& _map,
+                                             ClientPlayer& _player,
+                                             SharedQueue<Change>& _change_queue,
+                                             AudioManager& _audio_manager) :
                                  screen(_screen),
                                  map(_map),
                                  player(_player),
@@ -22,7 +22,7 @@ ChangeProcessor::ChangeProcessor(GameScreen& _screen,
 }
 
 /* Ejecuta los cambios */
-void ChangeProcessor::processInGameChange(Change &change) {
+void InGameChangeProcessor::processInGameChange(Change &change) {
     int change_id = change.change_id;
     int id = change.id;
     int value1 = change.value1;
@@ -211,7 +211,7 @@ void ChangeProcessor::processInGameChange(Change &change) {
     screen.render(render_vector);
 }
 
-void ChangeProcessor::processInGameChanges() {
+void InGameChangeProcessor::processInGameChanges() {
     int changes_counter = 0;
     int iterations_counter = 0;
     std::vector<Change> changes;
@@ -231,18 +231,18 @@ void ChangeProcessor::processInGameChanges() {
     processInGameChanges(changes);
 }
 
-void ChangeProcessor::processInGameChanges(std::vector<Change> changes) {
+void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
     for (auto& change : changes) {
         std::cout << "Se procesa un cambio " << change.getChangeID() << std::endl;
         processInGameChange(change);
     }
 }
 
-void ChangeProcessor::stop() {
+void InGameChangeProcessor::stop() {
     alive = false;
 }
 
-void ChangeProcessor::receiveIdsFromServer() {
+void InGameChangeProcessor::receiveIdsFromServer() {
     while(true) {
         Change change = change_queue.pop();
         if (change.getChangeID() != MAP_INITIALIZER)
@@ -252,7 +252,7 @@ void ChangeProcessor::receiveIdsFromServer() {
     std::cout << "Se termino de construir el mapa\n";
 }
 
-void ChangeProcessor::addMapChange(Change& change) {
+void InGameChangeProcessor::addMapChange(Change& change) {
     /*
     int object_id = change.getPlayerID();
     int x_pos = change.getFirstValue();

@@ -2,21 +2,21 @@
 // Created by andy on 30/1/21.
 //
 
-#include "client/game/event_generator.h"
+#include "client/game/in_game_event_generator.h"
 
-EventGenerator::EventGenerator(ClientPlayer &_player,
-                               ClientEventHandler &_event_handler,
-                               BlockingQueue<Event>& _event_queue) :
+InGameEventGenerator::InGameEventGenerator(ClientPlayer &_player,
+                                           InGameEventHandler &_event_handler,
+                                           BlockingQueue<Event>& _event_queue) :
         player(_player),
         event_handler(_event_handler),
         event_queue(_event_queue) {
 }
 
-void EventGenerator::stop() {
+void InGameEventGenerator::stop() {
     is_running = false;
 }
 
-void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
+void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     if (!is_running)
         return;
     Event event = Event(INVALID, player.getId(), 0);
