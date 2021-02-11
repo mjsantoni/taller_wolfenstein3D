@@ -24,7 +24,10 @@ void ClientUpdater::sendMap() {
 
 void ClientUpdater::run() {
     std::cout << "[Client Updater] Starting.\n";
+    skt.send_msg(Change(ADD_PLAYER, player_id, INVALID, INVALID, false).serialize());
+    /* Envio el ID primero */
     sendMap();
+    /* Despues el mapa */
     while (alive) {
         Change change = change_queue.pop();
         if (change.isInvalid()) continue;
