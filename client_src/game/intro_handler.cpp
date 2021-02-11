@@ -11,13 +11,15 @@ IntroHandler::IntroHandler(GameScreen& _screen,
                            std::string& _map_path,
                            OffGameChangeProcessor& _change_processor,
                            bool& _game_started,
-                           bool& _player_ready) :
+                           bool& _player_ready,
+                           EventGenerator& _event_generator) :
                            screen(_screen),
                            map(_map),
                            map_path(_map_path),
                            change_processor(_change_processor),
                            game_started(_game_started),
-                           player_ready(_player_ready) {
+                           player_ready(_player_ready),
+                           event_generator(_event_generator) {
 }
 
 void IntroHandler::displayMenus() {
@@ -81,10 +83,13 @@ void IntroHandler::displayLoadingScreen() {
         SDL_Event event;
         SDL_WaitEvent(&event);
         bool player_pressed_p = event_handler.handleLoadingScreenEvent(event);
-        if (player_pressed_p)
+        if (player_pressed_p) {
+            event_generator.generateReadyEvent();
             break;
+        }
     }
     while (!(game_started && player_ready)) {
+        usleep(30000);
         screen.displayLoadingScreen(false);
         change_processor.processOffGameChanges();
     }

@@ -21,12 +21,12 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
     std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     for (auto& object : objects_vector) {
-        printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
+        //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());
         std::pair<int, int> object_final_pos = projectObjectOnMap(object,
                                                                   player_angle);
-        printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
+        //printf("El objeto %s termina en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object_final_pos.first, object_final_pos.second);
         double object_final_angle = getObjectAngle(x, y, object_final_pos);
         //printf("El jugador mira en direccion: %f\n", player_angle);
         //printf("Se encuentra objeto %s en angulo %f respecto de la posicion del jugador\n", object.getObjectName().c_str(), object_starting_angle);

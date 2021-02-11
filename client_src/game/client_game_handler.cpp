@@ -20,7 +20,7 @@ ClientGameHandler::ClientGameHandler(SharedQueue<Change>& change_queue,
         change_processor(screen, map, player, change_queue, audio_manager),
         off_game_change_processor(game_started, player_ready, map, player, change_queue),
         intro_handler(screen, map, map_path, off_game_change_processor,
-                      game_started, player_ready) {
+                      game_started, player_ready, event_generator) {
     //
 }
 

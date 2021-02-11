@@ -9,6 +9,7 @@
 #include <client/graphics/game_screen.h>
 #include "off_game_change_processor.h"
 #include "off_game_event_handler.h"
+#include "event_generator.h"
 #include <common/map_parser.h>
 #include <client/game/client_map_generator.h>
 
@@ -22,10 +23,11 @@ private:
     bool& player_ready;
     bool& game_started;
     std::string& map_path;
+    EventGenerator& event_generator;
 public:
     IntroHandler(GameScreen &_screen, ClientMap& _map, std::string &_map_path,
                  OffGameChangeProcessor &_change_processor, bool& _game_started,
-                 bool& _player_ready);
+                 bool& _player_ready, EventGenerator& _event_generator);
     void setMapPath(int chosen_map);
     void displayLoadingScreen();
     void displayLevelSelectionMenu();
