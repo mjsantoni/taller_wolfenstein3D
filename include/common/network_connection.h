@@ -60,7 +60,7 @@ public:
     size_t recvMsg(char* message, size_t buff_length);
 
     /* Cierra el canal de envio de datos del socket. */
-    void stopSending();
+    void shutdownAll();
 
     /* Desinicializa y cierra el socket asociado al controlador de red. */
     void closeSocket();
@@ -84,5 +84,9 @@ public:
     uint32_t recv_size();
 
     int recv_msg(std::string &buffer);
+
+    void shutdownSend();
+
+    void shutdownRecv();
 };
 #endif // NETWORK_CONNECTION_H

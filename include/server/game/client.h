@@ -23,7 +23,7 @@ public:
     void update(Change &change) { clientUpdater.update(change); }
 
     void stop() {
-        sk.stopSending();
+        sk.shutdownAll();
         clientHandler.stop();
         clientUpdater.stop();
         clientUpdater.join();

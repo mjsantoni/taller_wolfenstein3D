@@ -6,14 +6,12 @@
 
 #include "common/network_connection.h"
 #include "common/network_error.h"
-#include <stdio.h>
 #include <string.h>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
-#define BUFFER_LENGTH 64
 
 NetworkConnection::NetworkConnection(int fd) : file_descriptor(fd) {}
 
@@ -93,6 +91,7 @@ void NetworkConnection::sendMsg(const char* message, size_t message_length) {
         total_bytes_sent += bytes_sent;
     }
 }*/
+
 void NetworkConnection::send_size(std::uint32_t len) {
     int total_bytes = 0;
     while (total_bytes < sizeof(std::uint32_t)) {
@@ -105,12 +104,11 @@ void NetworkConnection::send_size(std::uint32_t len) {
 
 int NetworkConnection::send_msg(std::string msg) {
     std::uint32_t len = msg.length();
-    //std::cout << "Se enviaran " << len << " bytes\n";
     send_size(len);
     int total_bytes = 0;
     while (total_bytes < len) {
-        int bytes =
-                send(this->file_descriptor, &msg[total_bytes], len - total_bytes, MSG_NOSIGNAL);
+        int bytes = send(this->file_descriptor, &msg[total_bytes],
+                         len - total_bytes, MSG_NOSIGNAL);
         if (bytes == -1) return 1;
         total_bytes += bytes;
     }
@@ -134,7 +132,6 @@ std::uint32_t NetworkConnection::recv_size() {
 
 int NetworkConnection::recv_msg(std::string& buffer) {
     std::uint32_t len = recv_size();
-    //std::cout << "Se espera recibir " << len << " bytes \n";
     size_t total_bytes = 0;
     while (total_bytes < len) {
         std::vector<char> tmp_buf(len - total_bytes);
@@ -185,8 +182,16 @@ bool NetworkConnection::isValid() const {
     return this->file_descriptor != -1;
 }
 
-void NetworkConnection::stopSending() {
+void NetworkConnection::shutdownAll() {
     shutdown(this->file_descriptor, SHUT_RDWR);
+}
+
+void NetworkConnection::shutdownSend() {
+    shutdown(this->file_descriptor, SHUT_WR);
+}
+
+void NetworkConnection::shutdownRecv() {
+    shutdown(this->file_descriptor, SHUT_RD);
 }
 
 void NetworkConnection::closeSocket() {

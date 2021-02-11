@@ -25,6 +25,7 @@ private:
     ClientsManager clientsManager;
     EventProcessor eventProcessor;
     std::atomic<bool> alive;
+    std::atomic<bool> can_join_player;
     std::mutex m;
     std::condition_variable cv;
 
@@ -48,6 +49,12 @@ public:
     void notifyTop(std::vector<std::pair<int, int>> top, int change_id);
 
     void addBots();
+
+    bool canJoinPlayer();
+
+    bool ended();
+
+    void endGame();
 };
 
 

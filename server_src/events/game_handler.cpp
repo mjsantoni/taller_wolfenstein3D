@@ -3,6 +3,16 @@
 
 #define MAX_EVENTS 100
 
+/* TIME LOGIC
+ *
+ * auto current_time = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = current_time - time_start;
+    if (elapsed_seconds.count()  >= 600) return false; // debe ser >= minutos que dura el game
+
+    time_start = std::chrono::system_clock::now();
+ */
+
+// Add game ids for multiple games
 GameHandler::GameHandler(std::string map_path,
                          std::string config_path,
                          int _players_n, int _bots_n) :
@@ -11,6 +21,7 @@ GameHandler::GameHandler(std::string map_path,
         game(map_path, config_path, botsManager, _players_n),
         eventProcessor(game, config_path),
         alive(true),
+        can_join_player(true),
         players_n(_players_n),
         bots_n(_bots_n){}
 
@@ -30,14 +41,15 @@ void GameHandler::run() {
             std::vector<Change> changes = eventProcessor.process(event);
             notifyClients(changes);
             total_events++;
+            // aca va otro sleep?
         }
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
         game.releaseBots();
-        usleep(50000);
+        usleep(60000);
     }
     std::cout << "[Game Handler] Game end. Displaying top scores.\n";
-    sendTops();
+    endGame();
 }
 
 void GameHandler::notifyClients(std::vector<Change>& changes) {
@@ -63,7 +75,10 @@ void GameHandler::waitInLobby() {
         if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
         std::vector<Change> changes = eventProcessor.process(event);
         notifyClients(changes);
+        usleep(150000);
     }
+    can_join_player = false;
+    std::cout << "[Game Handler] Lobby finished.\n";
 }
 
 void GameHandler::notifyTop(std::vector<std::pair<int,int>> top, int change_id) {
@@ -87,14 +102,27 @@ void GameHandler::sendTops() {
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();
     int id = data.first;
-    std::cout << "Player id " << id << std::endl;
+    std::cout << "[Game Handler] New Player connected -> Id: " << id << std::endl;
     std::map<Coordinate, Positionable> map = data.second;
     clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
 }
 
-void GameHandler::stop() {
-    alive = false;
-    sleep(3);
+void GameHandler::endGame() {
+    sendTops();
+    sleep(3); // Esto no deberia estar
     clientsManager.killPlayers();
     std::cout << "[Game Handler] Stopping.\n";
+    alive = false;
+}
+
+void GameHandler::stop() {
+    alive = false;
+}
+
+bool GameHandler::canJoinPlayer() {
+    return can_join_player;
+}
+
+bool GameHandler::ended() {
+    return alive;
 }
