@@ -57,7 +57,7 @@ void Server::run() {
                 // Analizo la string para ver si crea o se joinea (tipo evento)
                 int game_id = 0;
                 bool create_game; // Poner el valor segun si crea o joinea
-                if (create_game) game_id = createGame(0, 0, 0, 0);
+                if (create_game) game_id = createGame(0, 0, 0, 0, std::move(socket));
 
                 if (joinGame(game_id, std::move(socket))) break;
                 // Mandar ALGO de que no pudo conectarse
