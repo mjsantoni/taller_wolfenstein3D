@@ -6,12 +6,10 @@
 
 EventGenerator::EventGenerator(ClientPlayer &_player,
                                ClientEventHandler &_event_handler,
-                               BlockingQueue<Event>& _event_queue,
-                               bool& _game_started) :
+                               BlockingQueue<Event>& _event_queue) :
         player(_player),
         event_handler(_event_handler),
-        event_queue(_event_queue),
-        game_started(_game_started){
+        event_queue(_event_queue) {
 }
 
 void EventGenerator::stop() {
@@ -20,8 +18,6 @@ void EventGenerator::stop() {
 
 void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     if (!is_running)
-        return;
-    if (!game_started)
         return;
     Event event = Event(INVALID, player.getId(), 0);
     switch (sdl_event.type) {
@@ -97,10 +93,5 @@ void EventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     if (event.isInvalid())
         return;
     //std::cout << "Se encola el evento " << event.getEventID() << std::endl;
-    event_queue.push(event);
-}
-
-void EventGenerator::generateReadyEvent() {
-    Event event = Event(PLAYER_READY, player.getId(), 0);
     event_queue.push(event);
 }

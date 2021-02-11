@@ -4,25 +4,21 @@
 
 #include <SDL_events.h>
 #include <SDL_timer.h>
-#include "client/game/intro_handler.h"
+#include "client/game/off_game_handler.h"
 
-IntroHandler::IntroHandler(GameScreen& _screen,
-                           ClientMap& _map,
-                           std::string& _map_path,
-                           OffGameChangeProcessor& _change_processor,
-                           bool& _game_started,
-                           bool& _player_ready,
-                           EventGenerator& _event_generator) :
+OffGameHandler::OffGameHandler(GameScreen& _screen,
+                               ClientPlayer& player,
+                               ClientMap& _map,
+                               SharedQueue<Change>& change_queue,
+                               BlockingQueue<Event>& event_queue) :
                            screen(_screen),
                            map(_map),
-                           map_path(_map_path),
-                           change_processor(_change_processor),
-                           game_started(_game_started),
-                           player_ready(_player_ready),
-                           event_generator(_event_generator) {
+                           change_processor(_map, player, change_queue,
+                                            game_started, player_ready),
+                           event_generator(event_queue, player) {
 }
 
-void IntroHandler::displayMenus() {
+void OffGameHandler::displayMenus() {
     event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
     audio_manager.playSong();
     displayIntro();
@@ -33,11 +29,11 @@ void IntroHandler::displayMenus() {
     displayLevelSelectionMenu();
     initializeMap();
     displayLoadingScreen();
-    sleep(1);
+    //sleep(1);
     audio_manager.stopSong();
 }
 
-void IntroHandler::displayIntro() {
+void OffGameHandler::displayIntro() {
     screen.displayIntro();
     while (true) {
         SDL_Delay(1);
@@ -48,7 +44,7 @@ void IntroHandler::displayIntro() {
     }
 }
 
-int IntroHandler::displayMatchModeMenu() {
+int OffGameHandler::displayMatchModeMenu() {
     screen.displayMatchModeMenu();
     int ret_code = 0;
     while (true) {
@@ -62,7 +58,7 @@ int IntroHandler::displayMatchModeMenu() {
     return ret_code;
 }
 
-void IntroHandler::displayLevelSelectionMenu() {
+void OffGameHandler::displayLevelSelectionMenu() {
     screen.displayLevelSelectionMenu();
     while (true) {
         SDL_Delay(1);
@@ -76,7 +72,7 @@ void IntroHandler::displayLevelSelectionMenu() {
     }
 }
 
-void IntroHandler::displayLoadingScreen() {
+void OffGameHandler::displayLoadingScreen() {
     screen.displayLoadingScreen(true);
     while (!player_ready)
         change_processor.processOffGameChanges();
@@ -98,11 +94,11 @@ void IntroHandler::displayLoadingScreen() {
     std::cout << "TERMINA LA INTRO\n";
 }
 
-void IntroHandler::setMapPath(int chosen_map) {
+void OffGameHandler::setMapPath(int chosen_map) {
     map_path =  "../map.yaml";
 }
 
-void IntroHandler::initializeMap() {
+void OffGameHandler::initializeMap() {
     MapParser map_parser(map_path);
     ClientMapGenerator::create(map, map_parser);
     //player.setMapPosition(std::pair<int, int>{128, 128});

@@ -19,16 +19,12 @@ private:
     ClientPlayer& player;
     ClientEventHandler& event_handler;
     BlockingQueue<Event>& event_queue;
-    bool& game_started;
 public:
     EventGenerator(ClientPlayer& _player, ClientEventHandler& _event_handler,
-                   BlockingQueue<Event>& _event_queue,
-                   bool& _game_started);
+                   BlockingQueue<Event>& _event_queue);
     void stop();
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);
-    void generateConnectedPlayerEvent(SDL_Event sdl_event);
-    void generateReadyEvent();
 };
 
 

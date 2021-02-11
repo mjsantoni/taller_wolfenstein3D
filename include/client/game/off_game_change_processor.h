@@ -19,10 +19,9 @@ private:
     bool& game_started;
     SharedQueue<Change>& change_queue;
 public:
-    explicit OffGameChangeProcessor(bool& _game_started,
-                                    bool& _player_ready,
-                                    ClientMap& _map, ClientPlayer& _player,
-                                    SharedQueue<Change>& _change_queue);
+    explicit OffGameChangeProcessor(ClientMap& _map, ClientPlayer& _player,
+                                    SharedQueue<Change>& _change_queue,
+                                    bool& _game_started, bool& _player_ready);
     void processOffGameChanges();
     void addMapChange(Change& change);
 

@@ -5,11 +5,11 @@
 #include "client/game/off_game_change_processor.h"
 
 
-OffGameChangeProcessor::OffGameChangeProcessor(bool& _game_started,
-                                            bool& _player_ready,
-                                            ClientMap &_map,
+OffGameChangeProcessor::OffGameChangeProcessor(ClientMap &_map,
                                             ClientPlayer &_player,
-                                            SharedQueue<Change> &_change_queue):
+                                            SharedQueue<Change> &_change_queue,
+                                            bool& _game_started,
+                                            bool& _player_ready) :
                                             game_started(_game_started),
                                             player_ready(_player_ready),
                                             map(_map),
