@@ -1,8 +1,10 @@
 #include <algorithm>
 #include "server/server.h"
 
-Server::Server(NetworkAcceptor socket) : networkAcceptor(std::move(socket)) {
-    maps.push_back("../map.yaml");
+Server::Server(NetworkAcceptor socket) :
+        networkAcceptor(std::move(socket)),
+        accepting_connections(true) {
+    maps.emplace_back("../map.yaml");
 }
 
 static bool is_null(GameHandler* gh) { return !gh; }
@@ -23,7 +25,7 @@ void Server::killDead() {
 }
 
 int Server::createGame(int players, int bots, int game_duration,
-                        int map, NetworkConnection socket) {
+                        int map) {
     total_matches++;
     auto new_game = new GameHandler(maps[map], "../config.yaml", players, bots);
     // pasarle game duration tambien y un id
@@ -50,14 +52,39 @@ void Server::run() {
     while (accepting_connections) {
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
+            //socket.send_msg(std::to_string(total_matches)); // si es join solo se envia 1 vez
             while (true) {
-                std::string buffer;
-                socket.recv_msg(buffer);
+                /* CUANDO ES JOIN GAME
+                std::string answer;
+                socket.recv_msg(answer);
+                std::cout << "Me respondio este server: " << answer << "\n";
 
-                // Analizo la string para ver si crea o se joinea (tipo evento)
+                if (std::stoi(answer) > 6 || std::stoi(answer) < 0) {
+                    socket.send_msg("No podes errarle tanto pa\n");
+                    continue;
+                } else {
+                    socket.send_msg("1\n");
+                    break;
+                }
+                 */
+
+                /* CUANDO ES CREAR JUEGO
+                std::string options;
+                socket.recv_msg(options);
+                std::cout << "Me paso estas opciones: " << options << "\n";
+
+                if (options.size() > 10) { //ACA VALIDAR LOS PARAMETROS
+                    socket.send_msg("1\n");
+                    break;
+                } else {
+                    socket.send_msg("?????\n");
+                    continue;
+                }
+                 */
+                //Analizo la string para ver si crea o se joinea (tipo evento)
                 int game_id = 0;
-                bool create_game; // Poner el valor segun si crea o joinea
-                if (create_game) game_id = createGame(0, 0, 0, 0, std::move(socket));
+                bool create_game = false; // Poner el valor segun si crea o joinea
+                if (create_game) game_id = createGame(0, 0, 0, 0);
 
                 if (joinGame(game_id, std::move(socket))) break;
                 // Mandar ALGO de que no pudo conectarse

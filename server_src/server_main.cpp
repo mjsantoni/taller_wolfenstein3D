@@ -46,9 +46,9 @@ int main(int argc, char* argv[]) {
 
     try {
         NetworkAcceptor networkAcceptor(port);
-        Server server(std::move(socket));
+        Server server(std::move(networkAcceptor));
         std::string buffer_stop;
-        server.startGame();
+        server.start();
         while (std::getline(std::cin, buffer_stop)) {
             if (buffer_stop == STOP_CHAR) break;
         }

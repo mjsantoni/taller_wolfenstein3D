@@ -30,7 +30,7 @@ public:
     bool joinGame(int game_id, NetworkConnection socket);
 
     int createGame(int players, int bots, int game_duration,
-                   int map, NetworkConnection socket);
+                   int map);
 
     void killDead();
 };

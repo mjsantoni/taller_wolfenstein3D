@@ -47,17 +47,18 @@ qt5_wrap_ui(UIS_HEADERS
         ui/editor.ui
         )
 
-file(GLOB LUA_SRC
-        "lua_test/*.cpp"
-        "lua_test/*.lua")
+file(GLOB CLIENT2_SRC
+        "ClientQT/*.cpp"
+        "common_src/*.cpp")
 
 #add_executable(tp_wolfenstein ${All_SRC} ${UIS_HEADERS})
 add_executable(server ${SERVER_SRC})
 add_executable(client ${CLIENT_SRC})
-#add_executable(lua_bot ${LUA_SRC})
+add_executable(ClientQT ${CLIENT2_SRC})
 
 
 #target_link_libraries(lua_bot lua5.3)
 #TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)
+TARGET_LINK_LIBRARIES(ClientQT ${YAML_CPP_LIBRARIES} lua5.3)
 TARGET_LINK_LIBRARIES(server ${YAML_CPP_LIBRARIES} lua5.3)
 TARGET_LINK_LIBRARIES(client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${YAML_CPP_LIBRARIES}  PkgConfig::SDL2_Mixer)
