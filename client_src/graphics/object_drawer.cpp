@@ -20,7 +20,9 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
     std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
+    std::cout << "jugador en: " << x << "," << y <<")\n";
     for (auto& object : objects_vector) {
+        std::cout << "objeto en: " << object.getMapPosition().first << "," << object.getMapPosition().second <<")\n";;
         //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());
@@ -33,7 +35,7 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
         double diff_angle = 0;
         if (shouldDraw(player_angle,object_starting_angle, object_final_angle,
                        diff_angle)){
-            //printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
+            printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
             //printf("Diff angle: %f\n", diff_angle);
             double x_prop = calculateObjectStartingXPos(object_starting_angle,
                                                         object_final_angle, diff_angle);
@@ -56,14 +58,16 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     std::pair<int, int> object_position = object.getMapPosition();
     int object_x = object_position.first;
     int object_y = object_position.second;
+    int delta_x = x_pos - object_x;
+    int delta_y = object_y - y_pos;
     double pl_ob_angle =
-            getGammaAngle(player_angle,object_angle);
-    //printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
+            getGammaAngle(player_angle, object_angle);
+    printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
     double distance = Calculator::calculateDistance(x_pos - object_x,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
-    //std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
-    //std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
+    std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
+    std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
     //std::cout << "Distancia: " << distance << std::endl;
     if (blockedByWall(beta, distance))
         return;
@@ -74,6 +78,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     object_info.setHitGridPos(x_prop);
     object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
     //std::cout << "Sprite Animation: " << object_info.getSpriteAnimationNo() << std::endl;
+    //pl_ob_angle = getGammaAngle(x_pos - object_x, object_y - y_pos, player_angle);
     drawing_assistant.put3DObject(object_info, pl_ob_angle);
     //if (isEnemy(object_info))
         //object_info.setSpriteAnimationNo(object_info.getSpriteAnimationNo()+1);
@@ -159,7 +164,12 @@ double ObjectDrawer::getObjectAngle(int p_x, int p_y, std::pair<int, int> o_pos)
     int delta_y = p_y - o_y;
     return Calculator::normalize(atan2(delta_y, delta_x));
 }
-
+/*
+double ObjectDrawer::getGammaAngle(int delta_x, int delta_y, double  player_angle) {
+    double object_angle = atan2(delta_y, delta_x);
+    return object_angle - player_angle;
+}
+*/
 double ObjectDrawer::getGammaAngle(double player_angle, double object_angle) {
     if (std::abs(player_angle-object_angle) <= M_PI)
         return player_angle - object_angle;

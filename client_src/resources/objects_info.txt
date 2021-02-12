@@ -36,5 +36,5 @@ path:../client_src/resources/ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.
 
 path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:explosion, is_sprite:0
 
-path:../client_src/resources/misc/barrel.png, obj_width:0.3, obj_height:0.3, img_width:48, img_height:37, name:barrel, is_sprite:0
-path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:46, img_height:36, name:table, is_sprite:0
+path:../client_src/resources/misc/barrel.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:barrel, is_sprite:0
+path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:table, is_sprite:0

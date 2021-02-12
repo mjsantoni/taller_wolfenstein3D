@@ -14,6 +14,12 @@
 #include <map>
 #include <client/graphics/sdl_window.h>
 
+#define OBJECT_HEIGHT 700
+#define SCREEN_WIDTH 700
+#define SCREEN_HEIGHT 700
+#define VIEW_DIST 700
+#define FOV 60
+
 class ObjectDrawingAssistant {
 private:
     SdlWindow& window;
@@ -25,6 +31,7 @@ private:
     int width_factor;
     int height_factor;
     int map_grid_size = 64;
+    int proj_plane_distance = (int) (((double) SCREEN_WIDTH/2) / tan(FOV/2));
 public:
     ObjectDrawingAssistant(SdlWindow &_window,
                            std::map<double, double> &_wall_distance_info,
@@ -41,8 +48,22 @@ public:
                           int object_height);
     int findXPosForObject(double pl_ob_beta, int object_width);
     Area findObjectProportions(ObjectInfo &object_info, double pl_ob_angle);
-
+    int findXPosForNearObject(double pl_ob_beta, int original_width, int current_width);
     void setDimensions(int width, int height);
+
+    int findYPosForObject(int object_height);
+
+    int findXPosForObject(double pl_ob_angle);
+
+    int findObjectWidth(double pl_ob_angle);
+
+    int findObjectWidth(int object_width);
+
+    int findObjectWidth();
+
+    double findObjectHeight(double distance);
+
+    int findY0(int wall_height);
 };
 
 

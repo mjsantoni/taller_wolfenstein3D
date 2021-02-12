@@ -11,7 +11,7 @@
 #include "client/map_info.h"
 #include "sdl_window.h"
 #include "client/calculator.h"
-#include "../../../client_src/graphics/drawing_assistant.h"
+#include "drawing_assistant.h"
 
 class RayCaster {
 public:
@@ -28,7 +28,7 @@ private:
     std::map<double, double>& wall_distance_info;
     std::vector<double>& angles_list;
     std::map<int, std::pair<int, int>>& floor_info;
-    double ray_angle_delta = (double)60/320*2*M_PI/360;
+    double ray_angle_delta = (double)60/700*2*M_PI/360;
     void castProjectionLine(int x, int y, double alpha, double beta,
                             ObjectInfo& drawing_info);
     void castProjectionLine_vertical(int x, int y, double alpha, double beta,

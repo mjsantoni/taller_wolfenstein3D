@@ -2,7 +2,7 @@
 // Created by andy on 10/2/21.
 //
 
-#include "drawing_assistant.h"
+#include "client/graphics/drawing_assistant.h"
 
 #define PROJECTION_PLANE_width 320
 #define PROJECTION_PLANE_height 200
@@ -12,7 +12,7 @@ DrawingAssistant::DrawingAssistant(SdlWindow& _window,
                               std::map<int, std::pair<int, int>>& _floor_info) :
                                 window(_window),
                                 floor_info(_floor_info){
-    setDimensions(window.getWidth(), window.getHeight());
+    //setDimensions(window.getWidth(), window.getHeight());
 }
 
 void DrawingAssistant::drawFloor(int x_pos, int wall_posY, int wall_height) {
@@ -32,17 +32,23 @@ void DrawingAssistant::drawCeiling(int x_pos, int y_pos) {
 void DrawingAssistant::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
-    width_factor = width / 320;
-    height_factor = (int) (height / (0.8 * 200));
+    width_factor = double(width) / 700;
+    height_factor = (int) (height / 700);
 }
 
-int DrawingAssistant::findColumnHeight(int distance) {
-    auto height_proportion = (double) map_grid_size/distance;
-    return (int) (height_proportion*255);
+double DrawingAssistant::findWallHeight(int distance) {
+    auto height_proportion = (double) WALL_HEIGHT/distance;
+    return (height_proportion*proj_plane_distance); // altura muro
 }
 
-int DrawingAssistant::findColumnStartingPoint(int col_height) {
-    return (window_height - col_height)/2;
+int DrawingAssistant::findY0(int wall_height) {
+    return (int (SCREEN_HEIGHT/2) - int (wall_height/2));
+}
+
+int DrawingAssistant::findColumnStartingPoint(int wall_height) {
+    int y0 = (SCREEN_HEIGHT - wall_height)/2;
+    double y1 = y0 + wall_height;
+    return y1;
 }
 
 void DrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
@@ -65,10 +71,13 @@ SDL_Texture* DrawingAssistant::loadWallTexture(ObjectInfo& object_info,
 
 Area DrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
     int distance = (int) object_info.getHitDistance();
-    int col_height = findColumnHeight(distance);
-    int col_starting_point = findColumnStartingPoint(col_height);
+    double wall_height = findWallHeight(distance);
+    int y0 = findY0(wall_height);
+    double y1 = y0 + wall_height;
+    //int col_starting_point = findColumnStartingPoint(wall_height);
+    double col_height = double(y0 - y1);
     Area screen_area(
-            ray_no*width_factor,col_starting_point, width_factor, col_height
+            ray_no, y1, 1, (int) col_height
     );
     //printf("Rayo %d:Se coloca una pared a distancia %d, en (%d, %d), con un ancho de %d y altura de %d\n",
     //ray_no, distance, ray_no*width_factor, col_starting_point, width_factor, col_height);

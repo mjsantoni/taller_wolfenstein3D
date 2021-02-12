@@ -34,7 +34,7 @@ int SpriteDrawer::findMinWidthForObject(int item_type) {
         case ITEM_TYPE_MEDIUM:
             return 80;
         case ITEM_TYPE_LARGE:
-            return 50;
+            return 25;
         case ITEM_TYPE_WEAPON:
             return 120;
         default:
@@ -51,7 +51,7 @@ int SpriteDrawer::findMinHeightForObject(int item_type) {
         case ITEM_TYPE_MEDIUM:
             return 20;
         case ITEM_TYPE_LARGE:
-            return 75;
+            return 35;
         case ITEM_TYPE_WEAPON:
             return 25;
         default:

@@ -13,7 +13,7 @@
 #include "image_info.h"
 #include "client/calculator.h"
 #include "client/game/client_map.h"
-#include "../../../client_src/graphics/object_drawing_assistant.h"
+#include "object_drawing_assistant.h"
 
 class ObjectDrawer {
 private:
