@@ -26,6 +26,7 @@ private:
     std::map<int, Drawable> objects;
     std::map<int, Drawable> enemies;
     std::vector<std::pair<int, int>> player_spawns;
+    bool explosions_present = false;
     int grid_size = GRID_SIZE;
     int width;
     int height;
@@ -80,7 +81,7 @@ public:
     void updateEnemiesSprites();
     void addEnemies(int own_player_id);
     void addObjectId(int object_id, int x_pos, int y_pos);
-
+    bool updateEvents();
     int getObjectTypeFromId(int object_id);
 };
 

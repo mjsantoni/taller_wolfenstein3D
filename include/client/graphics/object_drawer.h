@@ -5,11 +5,12 @@
 #ifndef TP_WOLFENSTEIN_OBJECTDRAWER_H
 #define TP_WOLFENSTEIN_OBJECTDRAWER_H
 
-#include "sdl_window.h"
 #include <vector>
+#include <zconf.h>
 #include <map>
 #include <limits>
 #include "image_parser.h"
+#include "sdl_window.h"
 #include "image_info.h"
 #include "client/calculator.h"
 #include "client/game/client_map.h"

@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_TEXTUREMANAGER_H
 #define TP_WOLFENSTEIN_TEXTUREMANAGER_H
 
-
 class TextureManager {
 
 };

@@ -243,6 +243,7 @@ void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
     Drawable explosion(EFFECT_EXPLOSION);
     explosion.setMapPosition(exp_x, exp_y);
     objects.insert(std::pair<int, Drawable>(-1, explosion));
+    explosions_present = true;
 }
 
 void ClientMap::setDimensions(int _width, int _height) {
@@ -362,4 +363,14 @@ int ClientMap::getObjectTypeFromId(int object_id) {
         return 0; // deberia lanzarse una excepcion
     Drawable& drawable = objects.at(object_id);
     return drawable.getObjectType();
+}
+
+bool ClientMap::updateEvents() {
+    if (explosions_present) {
+        objects.erase(-1);
+        explosions_present = false;
+        std::cout << "Borrando explosion del mapa\n";
+        return true;
+    }
+    return false;
 }

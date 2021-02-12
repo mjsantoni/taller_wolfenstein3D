@@ -30,7 +30,7 @@ public:
                           ClientPlayer& _player,
                           SharedQueue<Change>& _change_queue,
                           AudioManager& _audio_manager);
-    void processInGameChange(Change& change);
+    std::vector<int> processInGameChange(Change& change);
     void stop();
     void receiveIdsFromServer();
     void addMapChange(Change& change);

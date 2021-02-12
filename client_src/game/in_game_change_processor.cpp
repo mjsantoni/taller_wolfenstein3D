@@ -1,8 +1,8 @@
 
 #include "client/game/in_game_change_processor.h"
 
-#define MAX_CHANGES 10
-#define MAX_ITERATIONS 75
+#define MAX_CHANGES 5
+#define MAX_ITERATIONS 25
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -22,7 +22,9 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
 }
 
 /* Ejecuta los cambios */
-void InGameChangeProcessor::processInGameChange(Change &change) {
+std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
+    if (change.isInvalid())
+        return std::vector<int>{0, 0, 0, 0};
     int change_id = change.change_id;
     int id = change.id;
     int value1 = change.value1;
@@ -213,36 +215,26 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
         }
     }
     std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
-    screen.render(render_vector);
+    return render_vector;
 }
 
 void InGameChangeProcessor::processInGameChanges() {
-    int changes_counter = 0;
-    int iterations_counter = 0;
-    std::vector<Change> changes;
-    while (changes_counter < MAX_CHANGES) {
-        if (iterations_counter >= MAX_ITERATIONS)
-            break;
-        iterations_counter++;
-        Change change = change_queue.pop();
-        if (change.isInvalid())
-            //std::cout << "invalid change\n";
-            continue;
-        changes.push_back(change);
-        changes_counter++;
-        //std::cout << "El change processor recibe el cambio " << change.getChangeID() << std::endl;
-    }
+    Change change = change_queue.pop();
+    std::vector<int> render_vector = processInGameChange(change);
+    std::cout << "Renderizo pantalla\n";
+    screen.render(render_vector);
     map.updateEnemiesSprites();
-    processInGameChanges(changes);
+    if (map.updateEvents())
+        screen.render(std::vector<int>{1, 1, 1, 0});
 }
-
+/*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
     for (auto& change : changes) {
         std::cout << "Se procesa un cambio " << change.getChangeID() << std::endl;
         processInGameChange(change);
     }
 }
-
+*/
 void InGameChangeProcessor::stop() {
     alive = false;
 }
