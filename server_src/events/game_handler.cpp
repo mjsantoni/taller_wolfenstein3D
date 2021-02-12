@@ -71,11 +71,11 @@ void GameHandler::waitInLobby() {
     std::cout << "[Game Handler] Lobby started.\n";
     while (!game.isReady() && alive) {
         Event event = eventQueue.pop();
+        usleep(150000);
         if (event.isInvalid()) continue;
         if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
         std::vector<Change> changes = eventProcessor.process(event);
         notifyClients(changes);
-        usleep(150000);
     }
     can_join_player = false;
     std::cout << "[Game Handler] Lobby finished.\n";
