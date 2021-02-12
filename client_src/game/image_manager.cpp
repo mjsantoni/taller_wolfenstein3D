@@ -5,7 +5,7 @@
 #include "client/game/image_manager.h"
 #include <client/graphics/item_types.h>
 
-#define WEAPON_ENEMY_DELTA 16
+#define WEAPON_ENEMY_DELTA 17
 
 int ImageManager::getImageNumberFromName(std::string name) {
     if (name == "wood_wall")
@@ -40,6 +40,10 @@ int ImageManager::getImageNumberFromName(std::string name) {
         return MISC_TABLE;
     if (name == "barrel")
         return MISC_BARREL;
+    if (name == "medical")
+        return ITEM_MEDICAL_KIT;
+    if (name == "food")
+        return ITEM_FOOD;
     return ITEM_KEY;
 }
 
