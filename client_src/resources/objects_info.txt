@@ -6,11 +6,11 @@ path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, i
 
 path:../client_src/resources/items/chain_cannon.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:chain_cannon, is_sprite:0
 path:../client_src/resources/items/rocket_launcher.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:rocket_launcher, is_sprite:0
-path:../client_src/resources/items/machine_gun.png, obj_width:0.2, obj_height:0.1, img_width:54, img_height:22, name:machine_gun, is_sprite:0
+path:../client_src/resources/items/machine_gun.png, obj_width:0.2, obj_height:0.1, img_width:218, img_height:239, name:machine_gun, is_sprite:0
 path:../client_src/resources/items/key.png, obj_width:0.1, obj_height:0.1, img_width:27, img_height:14, name:key, is_sprite:0
 path:../client_src/resources/items/cup.png, obj_width:0.15, obj_height:0.15, img_width:64, img_height:64, name:cup, is_sprite:0
 path:../client_src/resources/items/crown.png, obj_width:0.3, obj_height:0.1, img_width:22, img_height:19, name:crown, is_sprite:0
-path:../client_src/resources/items/chest.png, obj_width:0.4, obj_height:0.4, img_width:33, img_height:22, name:chest, is_sprite:0
+path:../client_src/resources/items/chest.png, obj_width:0.4, obj_height:0.4, img_width:103, img_height:113, name:chest, is_sprite:0
 path:../client_src/resources/items/cross.png, obj_width:0.2, obj_height:0.2, img_width:26, img_height:17, name:life, is_sprite:0
 path:../client_src/resources/items/medical_kit.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:medical_kit, is_sprite:0
 path:../client_src/resources/items/bullets.png, obj_width:0.05, obj_height:0.05, img_width:15, img_height:12, name:medical_kit, is_sprite:0

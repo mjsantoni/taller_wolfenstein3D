@@ -26,6 +26,8 @@ int ImageManager::getImageNumberFromName(std::string name) {
         return ITEM_ROCKET_LAUNCHER;
     if (name == "chain_gun")
         return ITEM_CHAIN_CANNON;
+    if (name == "machine_gun")
+        return ITEM_MACHINE_GUN;
     if (name == "bullets")
         return ITEM_BULLETS;
     if (name == "chest")
