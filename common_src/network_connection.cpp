@@ -18,7 +18,6 @@ NetworkConnection::NetworkConnection(int fd) : file_descriptor(fd) {}
 NetworkConnection::NetworkConnection(const char* host, const char* port) {
     struct addrinfo* info;
 	start(&info, host, port);
-
     try {
         connectTo(info);
     } catch (NetworkError& e) {

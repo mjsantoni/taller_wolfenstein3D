@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ConnectionChecker</class>
- <widget class="QMainWindow" name="ConnectionChecker">
+ <class>ConfigChecker</class>
+ <widget class="QMainWindow" name="ConfigChecker">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -72,6 +72,48 @@
       <height>41</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QWidget" name="errorWidget" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>420</y>
+      <width>191</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="okButton">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>40</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ok</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>131</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Error in host/port</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

@@ -1,13 +1,13 @@
-#include "clientQT/client2.h"
+#include "clientQT/config_checker.h"
 
 int main(int argc, char* args[]) {
-    Client2 pepe;
     QApplication app(argc, args);
-    ConnectionChecker checker;
+    ConfigChecker checker;
     checker.show();
     app.exec();
-    pepe.lookForServer();
-    pepe.chooseActions();
+    //checker.lookForServer();
+    app.quit();
+    //checker.chooseActions();
     //pepe.createNewGame();
     //pepe.joinGame();
 }
