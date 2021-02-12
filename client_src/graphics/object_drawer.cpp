@@ -19,8 +19,8 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
-    std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
-    std::cout << "jugador en: " << x << "," << y <<")\n";
+    //std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
+    //std::cout << "jugador en: " << x << "," << y <<")\n";
     for (auto& object : objects_vector) {
         std::cout << "objeto en: " << object.getMapPosition().first << "," << object.getMapPosition().second <<")\n";;
         //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
@@ -62,12 +62,12 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     int delta_y = object_y - y_pos;
     double pl_ob_angle =
             getGammaAngle(player_angle, object_angle);
-    printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
+    //printf("El angulo del objeto relativo a la vision del jugador es de %f\n", pl_ob_angle);
     double distance = Calculator::calculateDistance(x_pos - object_x,
                                                     y_pos -object_y);
     double beta = convertToBeta(pl_ob_angle);
-    std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
-    std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
+    //std::cout << "Jugador en (" << x_pos << "," << y_pos << ")\n";
+    //std::cout << "Objeto en (" << object_x << "," << object_y << ")\n";
     //std::cout << "Distancia: " << distance << std::endl;
     if (blockedByWall(beta, distance))
         return;

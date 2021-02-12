@@ -28,8 +28,8 @@ void ClientGame::startGame() {
     screen.render(std::vector<int>{1, 1, 1, 1});
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
-
     while (running) {
+        //std::cout << "inicio ciclo de juego\n";
         usleep(33000);
         change_processor.processInGameChanges();
         if (SDL_PollEvent(&event) == 0) {

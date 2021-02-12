@@ -240,7 +240,9 @@ void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
 void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
     std::cout << "Misil explota en (" << exp_x << "," << exp_y << ")\n";
     removeObject(object_id);
-    putDrawableAt(exp_x, exp_y, EFFECT_EXPLOSION);
+    Drawable explosion(EFFECT_EXPLOSION);
+    explosion.setMapPosition(exp_x, exp_y);
+    objects.insert(std::pair<int, Drawable>(-1, explosion));
 }
 
 void ClientMap::setDimensions(int _width, int _height) {
