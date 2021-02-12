@@ -36,6 +36,18 @@ public:
         }
     }
 
+    [[noreturn]] void chooseActions() {
+        while (true) {
+            std::string data;
+            std::cout << "Ingrese modo: 0 -> Create / 1 -> Join: ";
+            std::getline(std::cin, data);
+            sk.send_msg(data);
+            if (data == "0") createNewGame();
+            else if (data == "1") joinGame();
+            else std::cout << "Pelotudo pone un numero bien una sola cosa te pido\n";
+        }
+    }
+
     void createNewGame() {
         while (true) {
             std::string data;
@@ -48,13 +60,15 @@ public:
             std::cout << "Respuesta: " << answer << "\n";
             if (answer == "1\n") break;
         }
+        /*
+        while(true) {
+            std::string answer;
+            sk.recv_msg(answer);
+            sleep(1);
+        }*/
     }
 
     void joinGame() {
-        std::string data;
-        std::cout << "Ingrese modo(1)(join): ";
-        std::getline(std::cin, data);
-        sk.send_msg(data);
         while (true) {
 
             std::string games;
@@ -71,7 +85,15 @@ public:
             std::cout << "Respuesta: " << answer << "\n";
             if (answer == "1\n") break;
         }
+        /*
+        while(true) {
+            std::string answer;
+            sk.recv_msg(answer);
+            sleep(1);
+        }*/
     }
+
+
 };
 
 

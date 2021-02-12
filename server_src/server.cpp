@@ -32,7 +32,7 @@ int Server::createGame(int players, int bots, int game_duration,
     new_game->start();
     matches.push_back(new_game);
     usleep(100000);
-    return total_matches;
+    return total_matches - 1;
 }
 
 bool Server::joinGame(int game_id, NetworkConnection socket) {
@@ -69,7 +69,7 @@ void Server::run() {
             std::string player_choice;
             socket.recv_msg(player_choice); // Recibo el tipo de evento
             std::cout << "Recibi tal opcion: " << player_choice << "\n";
-            //socket.send_msg(std::to_string(total_matches)); // si es join solo se envia 1 vez
+            // Aca LP verifica que sea 1 o 0 sino ni lo manda porq no deberiamos revisar eso
             while (true) {
                 if (player_choice == CREATE_GAME) {
                     std::string options;
@@ -81,14 +81,15 @@ void Server::run() {
                         continue;
                     } else {
                         socket.send_msg("1\n"); // created
-                        //int new_game_id = createGame(game_options[0], game_options[1], game_options[2], game_options[3]);
-                        //joinGame(new_game_id, std::move(socket));
+                        int new_game_id = createGame(game_options[0], game_options[1], game_options[2], game_options[3]);
+                        joinGame(new_game_id, std::move(socket));
                         break;
                     }
                 } else {
                     socket.send_msg(std::to_string(total_matches)); // envio cant de games disponibles
                     std::string game_choice;
-                    socket.recv_msg(game_choice); // game_id
+                    socket.recv_msg(game_choice);
+                    // game_id -> tiene que ser de 0 a n por indices del vector. LP pasarlo bien
                     std::cout << "El player se quiere unir al game: " << game_choice << "\n";
 
                     int game_id_to_connect;
@@ -102,12 +103,13 @@ void Server::run() {
                         socket.send_msg("No podes errarle tanto pa\n");
                         continue;
                     } else {
-                        //if(!joinGame(game_id_to_connect, std::move(socket))) {
-                            //std::string couldnt_connect("Bro no te pude conectar elegi otro lobby\n");
-                            //socket.send_msg(couldnt_connect);
-                        //} else {
+                        if(!joinGame(game_id_to_connect, std::move(socket))) {
+                            std::string couldnt_connect("Bro no te pude conectar elegi otro lobby\n");
+                            socket.send_msg(couldnt_connect);
+                        } else {
                             socket.send_msg("1\n");
-                        //}
+                            joinGame(game_id_to_connect, std::move(socket));
+                        }
                         break;
                     }
                 }
