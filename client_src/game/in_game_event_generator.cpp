@@ -33,6 +33,10 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                 case SDLK_w:
                     event = Event(MOVE_PLAYER, player.getId(), MOVE_UP);
                     break;
+                case SDLK_SPACE:
+                    event = Event(SHOOT, player.getId(), 0);
+                    event_handler.handlePlayerShooting();
+                    break;
                 case SDLK_s:
                     event = Event(MOVE_PLAYER, player.getId(), MOVE_DOWN);
                     break;
