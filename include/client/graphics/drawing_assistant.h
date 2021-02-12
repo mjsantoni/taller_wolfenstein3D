@@ -12,10 +12,10 @@
 #include <client/graphics/sdl_window.h>
 #include <map>
 
-#define SCREEN_HEIGHT 700
-#define SCREEN_WIDTH 700
+#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 600
 #define FOV 60
-#define WALL_HEIGHT 700
+#define WALL_HEIGHT 600
 
 
 class DrawingAssistant {
@@ -33,7 +33,7 @@ public:
                      std::map<int, std::pair<int, int>> &_floor_info);
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
-    double findWallHeight(int distance);
+    double findWallHeight(double distance);
     int findColumnStartingPoint(int col_height);
     void putWall(int ray_no, ObjectInfo& object_info);
     SDL_Texture* loadWallTexture(ObjectInfo& object_info, Area& image_area);
@@ -41,7 +41,7 @@ public:
     Area assembleScreenArea(int ray_no, ObjectInfo &object_info);
     void putFloorAndCeiling(int ray_no, ObjectInfo &object_info);
 
-    int findY0(int wall_height);
+    int findY0(double wall_height);
 };
 
 

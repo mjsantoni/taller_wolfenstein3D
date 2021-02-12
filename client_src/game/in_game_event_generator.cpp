@@ -35,7 +35,6 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
                     break;
                 case SDLK_SPACE:
                     event = Event(SHOOT, player.getId(), 0);
-                    event_handler.handlePlayerShooting();
                     break;
                 case SDLK_s:
                     event = Event(MOVE_PLAYER, player.getId(), MOVE_DOWN);
@@ -89,7 +88,6 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
             switch(mouse_button_event.button) {
                 case SDL_BUTTON_LEFT:
                     event = Event(SHOOT, player.getId(), 0);
-                    event_handler.handlePlayerShooting();
                     break;
             }
         }

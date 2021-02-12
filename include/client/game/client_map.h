@@ -80,6 +80,8 @@ public:
     void updateEnemiesSprites();
     void addEnemies(int own_player_id);
     void addObjectId(int object_id, int x_pos, int y_pos);
+
+    int getObjectTypeFromId(int object_id);
 };
 
 

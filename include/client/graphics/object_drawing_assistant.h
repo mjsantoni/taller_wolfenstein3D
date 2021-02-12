@@ -14,10 +14,10 @@
 #include <map>
 #include <client/graphics/sdl_window.h>
 
-#define OBJECT_HEIGHT 700
-#define SCREEN_WIDTH 700
-#define SCREEN_HEIGHT 700
-#define VIEW_DIST 700
+#define OBJECT_HEIGHT 600
+#define SCREEN_WIDTH 600
+#define SCREEN_HEIGHT 600
+#define VIEW_DIST 600
 #define FOV 60
 
 class ObjectDrawingAssistant {
@@ -63,7 +63,7 @@ public:
 
     double findObjectHeight(double distance);
 
-    int findY0(int wall_height);
+    int findY0(double object_height);
 };
 
 

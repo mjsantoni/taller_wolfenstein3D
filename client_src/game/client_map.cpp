@@ -7,6 +7,7 @@
 #include <iterator>
 #include <zconf.h>
 #include <functional>
+#include <iostream>
 #include "client/game/client_map.h"
 
 ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
@@ -228,9 +229,16 @@ void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
 }
 
 void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
+    std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
+    removeObject(object_id);
+    Drawable missile(EFFECT_MISSILE);
+    missile.setMapPosition(new_x, new_y);
+    missile.setId(object_id);
+    objects.insert(std::pair<int, Drawable>(object_id, missile));
 }
 
 void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
+    std::cout << "Misil explota en (" << exp_x << "," << exp_y << ")\n";
     removeObject(object_id);
     putDrawableAt(exp_x, exp_y, EFFECT_EXPLOSION);
 }
@@ -345,4 +353,11 @@ void ClientMap::addObjectId(int object_id, int x_pos, int y_pos) {
         new_drawable.setId(object_id);
         objects.insert(std::pair<int, Drawable>(object_id, new_drawable));
     }
+}
+
+int ClientMap::getObjectTypeFromId(int object_id) {
+    if (objects.find(object_id) == objects.end())
+        return 0; // deberia lanzarse una excepcion
+    Drawable& drawable = objects.at(object_id);
+    return drawable.getObjectType();
 }

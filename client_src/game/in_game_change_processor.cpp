@@ -71,8 +71,24 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
         case (CHANGE_AMMO): {
             if (player.getId() != id)
                 break;
+            int ammo_delta = value1;
+            if (ammo_delta < 0) {
+                audio_manager.displayPlayerAttackingSound(player.
+                                                          getEquippedWeapon());
+                screen.displayPlayerAttacking();
+                render_vector = std::vector<int>{0, 0, 1, 1};
+            }
+            else if (ammo_delta == 0) {
+                if (player.getEquippedWeapon() != 1) {
+                    audio_manager.displayEmptyGunSound();
+                    render_vector = std::vector<int>{0, 0, 0, 0};
+                }
+                else {
+                    audio_manager.displayPlayerAttackingSound(1);
+                    render_vector = std::vector<int>{1, 1, 1, 0};
+                }
+            }
             player.updateAmmo(value1);
-            render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id - value1: ammo to change (puede ser + o -)
             // HUD: hay que verificar que no sobrepase el max_bullets del player
             break;
@@ -191,17 +207,6 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
             player.updateDirection(value2);
             render_vector = std::vector<int>{1, 1, 1, 0};
             break;
-        }
-        case (CL_PLAYER_SHOOTING): {
-            std::cout << "SHOOTING!\n";
-            if (player.getAmmo() > 0 || player.getEquippedWeapon() == 1) {
-                audio_manager.displayPlayerAttackingSound(
-                        player.getEquippedWeapon());
-                screen.displayPlayerAttacking();
-            } else {
-                audio_manager.displayEmptyGunSound();
-            }
-            return;
         }
         default: {
             break;

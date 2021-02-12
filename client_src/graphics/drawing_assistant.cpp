@@ -32,16 +32,16 @@ void DrawingAssistant::drawCeiling(int x_pos, int y_pos) {
 void DrawingAssistant::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
-    width_factor = double(width) / 700;
-    height_factor = (int) (height / 700);
+    width_factor = double(width) / 600;
+    height_factor = (int) (height / 600);
 }
 
-double DrawingAssistant::findWallHeight(int distance) {
+double DrawingAssistant::findWallHeight(double distance) {
     auto height_proportion = (double) WALL_HEIGHT/distance;
     return (height_proportion*proj_plane_distance); // altura muro
 }
 
-int DrawingAssistant::findY0(int wall_height) {
+int DrawingAssistant::findY0(double wall_height) {
     return (int (SCREEN_HEIGHT/2) - int (wall_height/2));
 }
 
@@ -70,7 +70,7 @@ SDL_Texture* DrawingAssistant::loadWallTexture(ObjectInfo& object_info,
 }
 
 Area DrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
-    int distance = (int) object_info.getHitDistance();
+    double distance = object_info.getHitDistance();
     double wall_height = findWallHeight(distance);
     int y0 = findY0(wall_height);
     double y1 = y0 + wall_height;

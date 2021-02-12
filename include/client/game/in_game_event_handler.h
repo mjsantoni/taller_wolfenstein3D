@@ -17,7 +17,6 @@ private:
 public:
     InGameEventHandler(SharedQueue<Change>& _change_queue);
     void handleCameraTurn(int direction);
-    void handlePlayerShooting();
 };
 
 

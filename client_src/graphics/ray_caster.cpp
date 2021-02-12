@@ -6,8 +6,8 @@
 
 #include <thread>
 
-#define PROJECTION_PLANE_WIDTH 700
-#define PROJECTION_PLANE_HEIGHT 700
+#define PROJECTION_PLANE_WIDTH 600
+#define PROJECTION_PLANE_HEIGHT 600
 #define FOV_ANGLE 60
 #define GRID_SIZE 64
 
@@ -27,12 +27,12 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
     double angle = Calculator::normalize(alpha + 0.523599);
     for (int ray = 0; ray < PROJECTION_PLANE_WIDTH; ++ray) {
         //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
-        printf("Se lanza el rayo %d, con el angulo %f\n", ray, angle);
+        //printf("Se lanza el rayo %d, con el angulo %f\n", ray, angle);
         ObjectInfo object_info{};
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);
         object_info = fillObjectInfo(object_info);
-        printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
+        //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
         object_info.setHitDistance(object_info.getHitDistance()*cos(beta));
         drawing_assistant.putFloorAndCeiling(ray, object_info);
         drawing_assistant.putWall(ray, object_info);

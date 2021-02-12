@@ -14,8 +14,3 @@ void InGameEventHandler::handleCameraTurn(int direction) {
 InGameEventHandler::InGameEventHandler(SharedQueue<Change>& _change_queue) :
                                        change_queue(_change_queue){
 }
-
-void InGameEventHandler::handlePlayerShooting() {
-    Change change(CL_PLAYER_SHOOTING, 0, 0, 0);
-    change_queue.push(change);
-}

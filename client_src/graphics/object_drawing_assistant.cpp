@@ -31,10 +31,10 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     SDL_DestroyTexture(image);
     //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
     //printf("Distancia: %f\n", object_info.getHitDistance());
-    printf("Pos x: %d\n", screen_area.getX());
-    printf("Pos y: %d\n", screen_area.getY());
-    printf("Altura: %d\n", screen_area.getHeight());
-    printf("Ancho: %d\n", screen_area.getWidth());
+    //printf("Pos x: %d\n", screen_area.getX());
+    //printf("Pos y: %d\n", screen_area.getY());
+    //printf("Altura: %d\n", screen_area.getHeight());
+    //printf("Ancho: %d\n", screen_area.getWidth());
     //printf("Ancho de pantalla: %d\n", window_width);
 }
 
@@ -102,7 +102,7 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
     //printf(" con el piso empezando en la pos %d\n", floor_starting_point);
     printf("Distancia del objeto: %f\n", distance);
      */
-    int object_height = findObjectHeight(distance);
+    double object_height = findObjectHeight(distance);
     int y0 = findY0(object_height);
     double y1 = y0 + object_height;
     //int col_starting_point = findColumnStartingPoint(wall_height);
@@ -120,7 +120,7 @@ double ObjectDrawingAssistant::findObjectHeight(double distance) {
     return (height_proportion*proj_plane_distance); // altura muro
 }
 
-int ObjectDrawingAssistant::findY0(int object_height) {
+int ObjectDrawingAssistant::findY0(double object_height) {
     return (int (SCREEN_HEIGHT/2) - int (object_height/2));
 }
 

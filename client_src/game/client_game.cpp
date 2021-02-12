@@ -14,7 +14,7 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
         running(true),
         game_started(false),
         player_ready(false),
-        screen(700, 875, map, player),
+        screen(600, 750, map, player),
         event_handler(change_queue),
         event_generator(player, event_handler, event_queue),
         change_processor(screen, map, player, change_queue, audio_manager),
@@ -28,11 +28,13 @@ void ClientGame::startGame() {
     screen.render(std::vector<int>{1, 1, 1, 1});
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
+
     while (running) {
+        usleep(33000);
+        change_processor.processInGameChanges();
         if (SDL_PollEvent(&event) == 0) {
             continue;
         }
-        usleep(30000);
         switch(event.type) {
             case SDL_KEYDOWN: {
                 event_generator.generateInGameEvent(event);
@@ -45,8 +47,6 @@ void ClientGame::startGame() {
                 puts("Saliendo");
                 return;
         }
-        change_processor.processInGameChanges();
-        usleep(33000);
     }
     std::cout << "Frena change processor" << std::endl;
 }

@@ -17,7 +17,7 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 }
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
-    puts("Cargando objetos");
+    //puts("Cargando objetos");
     std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
     std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     std::cout << "jugador en: " << x << "," << y <<")\n";
@@ -35,7 +35,7 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
         double diff_angle = 0;
         if (shouldDraw(player_angle,object_starting_angle, object_final_angle,
                        diff_angle)){
-            printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
+            //printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
             //printf("Diff angle: %f\n", diff_angle);
             double x_prop = calculateObjectStartingXPos(object_starting_angle,
                                                         object_final_angle, diff_angle);

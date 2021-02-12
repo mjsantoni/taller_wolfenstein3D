@@ -44,9 +44,10 @@
 #define UI_CHAIN_CANNON 32
 
 #define EFFECT_EXPLOSION 33
+#define EFFECT_MISSILE 34
 
-#define MISC_BARREL 34
-#define MISC_TABLE 35
+#define MISC_BARREL 35
+#define MISC_TABLE 36
 
 
 
