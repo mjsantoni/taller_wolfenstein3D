@@ -12,12 +12,12 @@ treasure:
   crown: 200
 gun:
   knife: [1, 1, 1, 25]
-  pistol: [5, 1, 0.75, 100]
+  pistol: [1, 1, 0.75, 100]
   chain_gun: [1, 0.1, 0.8, 100]
   machine_gun: [5, 0.3, 0.6, 100]
   rpg_gun: [5, 1, 1, 100]
 player:
-  bullets: 8
+  bullets: 100
   max_bullets: 100
   max_hp: 8
   max_lives: 3

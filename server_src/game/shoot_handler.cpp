@@ -105,7 +105,7 @@ Hit ShootHandler::travelAndExplodeRPG(RPG &rpg, int bullets_to_shoot,
     int position = rpg.getCurrentPosition();
     Player& player = players[rpg.getPlayerId()];
     int end_pos = position + RPG_UNITS_MOVE_PER_TURN;
-    for (; (position < rpg_path.size()) && (position < end_pos); position++) {
+    for (; (position < rpg_path.size() - 1) && (position < end_pos); position++) {
         //std::cout << "Current pos " << position << " - "; rpg_path[position].show();
 
         if (map.isABlockingItemAt(rpg_path[position]) || map.isAPlayerAt(rpg_path[position])) {
@@ -116,7 +116,7 @@ Hit ShootHandler::travelAndExplodeRPG(RPG &rpg, int bullets_to_shoot,
             break;
         }
     }
-    if (position == rpg_path.size() && !rpg.exploded()) {
+    if (position == (rpg_path.size() - 1) && !rpg.exploded()) {
         std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS);
         hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
         rpg.explode();
