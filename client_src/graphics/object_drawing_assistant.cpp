@@ -23,12 +23,12 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     if (object_info.isSprite()) {
         image_area = texture_manager.getAreaForEnemySprite(object_type,
                                             object_info.getSpriteAnimationNo());
-        std::cout << "Se dibuja un enemigo " << object_info.getObjectName() << " con animacion " << object_info.getSpriteAnimationNo() << std::endl;
-        std::cout << "Area del enemigo:\n";
-        std::cout << "x: " << image_area.getX() << std::endl;
-        std::cout << "y: " << image_area.getY() << std::endl;
-        std::cout << "width: " << image_area.getWidth() << std::endl;
-        std::cout << "height: " << image_area.getHeight() << std::endl;
+        //std::cout << "Se dibuja un enemigo " << object_info.getObjectName() << " con animacion " << object_info.getSpriteAnimationNo() << std::endl;
+        //std::cout << "Area del enemigo:\n";
+        //std::cout << "x: " << image_area.getX() << std::endl;
+        //std::cout << "y: " << image_area.getY() << std::endl;
+        //std::cout << "width: " << image_area.getWidth() << std::endl;
+        //std::cout << "height: " << image_area.getHeight() << std::endl;
     }
     else
         image_area = texture_manager.getImageAreaFromObjectType(object_type);

@@ -30,7 +30,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
     int value1 = change.value1;
     int value2 = change.value2;
 
-    std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
+    //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
     std::vector<int> render_vector{0, 0, 0};
     switch (change_id) {
@@ -42,11 +42,11 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         }
         case (MOVE_PLAYER): {
             if (player.getId() == id) {
-                std::cout << "El cliente se mueve en el mapa\n";
+                //std::cout << "El cliente se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
                 render_vector = std::vector<int>{1, 1, 1, 0};
             } else {
-                std::cout << "Otro jugador se mueve en el mapa\n";
+                //std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveEnemy(id, value1, value2);
                 render_vector = std::vector<int>{0, 1, 0, 0};
             }
@@ -62,9 +62,18 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (CHANGE_HP): {
-            if (player.getId() != id)
+            int health_delta = value1;
+            if (player.getId() != id) {
+                if (health_delta < 0) {
+                    map.setBloodEffectForEnemy(id);
+                    std::cout << "El enemigo pierde vida!!!!\n";
+                }
                 break;
-            player.updateHealth(value1);
+            }
+
+            player.updateHealth(health_delta);
+            if (health_delta < 0)
+                audio_manager.displayPlayerLosingHealthSound();
             render_vector = std::vector<int>{0, 0, 0, 1};
             // id: player_id - value1: hp to change (puede ser + o -)
             // HUD: hay que verificar que no sobrepase el max_hp del player
@@ -221,7 +230,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
     }
-    std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
+    //std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
     return render_vector;
 }
 

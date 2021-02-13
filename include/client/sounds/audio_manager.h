@@ -24,6 +24,8 @@ public:
     void displayExplosionSound();
     void displayDyingEnemy();
     void displayEnemyShot();
+
+    void displayPlayerLosingHealthSound();
 };
 
 

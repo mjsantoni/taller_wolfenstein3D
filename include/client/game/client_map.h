@@ -12,6 +12,7 @@
 #include "client/object_info_provider.h"
 #include "client/drawable.h"
 #include "client/graphics/images.h"
+#include "client/graphics/effects.h"
 #include "image_manager.h"
 #include "client/calculator.h"
 
@@ -26,10 +27,10 @@ private:
     std::map<int, Drawable> walls;
     std::map<int, Drawable> objects;
     std::map<int, Drawable> enemies;
+    std::map<int, Drawable> effects;
     std::vector<std::pair<int, int>> player_spawns;
     std::set<int> enemies_to_swipe;
     std::set<int> enemies_to_respawn;
-    bool explosions_present = false;
     int grid_size = GRID_SIZE;
     int width;
     int height;
@@ -63,12 +64,12 @@ public:
     void putDrawableAt(std::pair<int, int> coordinates, int object_type);
     void putDrawableAt(int x_pos, int y_pos, int object_type);
     void setObjectId(std::pair<int, int> coordinates, int object_id);
-    std::vector<Drawable> getAllObjectsAndEnemies();
+    std::vector<Drawable> getAllDrawables();
     void removeObject(int object_id);
     void moveEnemy(int object_id, int new_x, int new_y);
     Drawable& getObjectById(int object_id);
     void putObjectAt(int object_type, int x_pos, int y_pos);
-    void putObjectAt(int object_type, int object_id, int x_pos, int y_pos);
+    void putObjectAt(int object_id, int object_type, int x_pos, int y_pos);
     void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
     void updateRPGMissile(int object_id, int new_x, int new_y);
     void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
@@ -86,10 +87,9 @@ public:
     void addObjectId(int object_id, int x_pos, int y_pos);
     bool updateEvents();
     int getObjectTypeFromId(int object_id);
-
     void killPlayer(int player_id);
-
     void setEnemyAttacking(int enemy_id);
+    void setBloodEffectForEnemy(int enemy_id);
 };
 
 

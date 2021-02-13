@@ -71,3 +71,10 @@ void AudioManager::displayEnemyShot() {
     usleep(200000);
     audio_player.stopSound();
 }
+
+void AudioManager::displayPlayerLosingHealthSound() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playSound("../client_src/resources/sounds/losing_health.mp3");
+    usleep(300000);
+    audio_player.stopSound();
+}

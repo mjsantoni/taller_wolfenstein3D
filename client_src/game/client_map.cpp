@@ -190,7 +190,7 @@ void ClientMap::moveEnemy(int enemy_id, int x_pos, int y_pos){
     enemy.setMapPosition(x_pos, y_pos);
     ImageManager::getMovingAnimationForEnemy(enemy,
                                              enemy.getSpriteAnimationNo());
-    std::cout << "El enemigo se mueve con animacion " << enemy.getSpriteAnimationNo() << std::endl;
+    //std::cout << "El enemigo se mueve con animacion " << enemy.getSpriteAnimationNo() << std::endl;
     //drawables_by_position.insert(std::pair<std::pair<int, int>,
            //Drawable>(std::pair<int, int>{x_pos, y_pos},drawable));
 }
@@ -203,7 +203,7 @@ int ClientMap::getHeight() {
     return real_height;
 }
 
-std::vector<Drawable> ClientMap::getAllObjectsAndEnemies() {
+std::vector<Drawable> ClientMap::getAllDrawables() {
     std::vector<Drawable> objects_vector;
     for (auto& pair : objects) {
         objects_vector.push_back(pair.second);
@@ -211,6 +211,10 @@ std::vector<Drawable> ClientMap::getAllObjectsAndEnemies() {
     for (auto& pair : enemies) {
         objects_vector.push_back(pair.second);
     }
+    for (auto& pair : effects) {
+        objects_vector.push_back(pair.second);
+    }
+
     return objects_vector;
 }
 
@@ -245,8 +249,7 @@ void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
     removeObject(object_id);
     Drawable explosion(EFFECT_EXPLOSION);
     explosion.setMapPosition(exp_x, exp_y);
-    objects.insert(std::pair<int, Drawable>(-1, explosion));
-    explosions_present = true;
+    effects.insert(std::pair<int, Drawable>(EXPLOSION_EFFECT_ID, explosion));
 }
 
 void ClientMap::setDimensions(int _width, int _height) {
@@ -267,7 +270,7 @@ void ClientMap::setObjectId(std::pair<int, int> coordinates, int object_id) {
 }
 
 void
-ClientMap::putObjectAt(int object_type, int object_id, int x_pos, int y_pos) {
+ClientMap::putObjectAt(int object_id, int object_type, int x_pos, int y_pos) {
     Drawable drawable(object_type);
     drawable.setId(object_id);
     drawable.setMapPosition(x_pos, y_pos);
@@ -372,11 +375,10 @@ int ClientMap::getObjectTypeFromId(int object_id) {
 }
 
 bool ClientMap::updateEvents() {
-    if (explosions_present) {
-        objects.erase(-1);
-        explosions_present = false;
-        std::cout << "Borrando explosion del mapa\n";
-        return true;
+    bool effects_present = !effects.empty();
+    for (auto& pair : effects) {
+        int id = pair.first;
+        effects.erase(id);
     }
     for (auto& id : enemies_to_swipe) {
         enemies.erase(id);
@@ -388,7 +390,7 @@ bool ClientMap::updateEvents() {
         enemy.setMapPosition(respawn_position.first, respawn_position.second);
         enemies_to_respawn.erase(id);
     }
-    return false;
+    return effects_present;
 }
 
 void ClientMap::killPlayer(int player_id) {
@@ -400,4 +402,13 @@ void ClientMap::killPlayer(int player_id) {
 void ClientMap::setEnemyAttacking(int enemy_id) {
     Drawable& enemy = enemies.at(enemy_id);
     ImageManager::getAttackingAnimationForEnemy(enemy);
+}
+
+void ClientMap::setBloodEffectForEnemy(int enemy_id) {
+    std::cout << "Se agrega efecto de sangre\n";
+    Drawable& enemy = enemies.at(enemy_id);
+    std::pair<int, int> enemy_pos = enemy.getMapPosition();
+    Drawable blood(BLOOD_EFFECT_ID);
+    blood.setMapPosition(enemy_pos);
+    objects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood));
 }

@@ -19,7 +19,7 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //puts("Cargando objetos");
-    std::vector<Drawable> objects_vector = map.getAllObjectsAndEnemies();
+    std::vector<Drawable> objects_vector = map.getAllDrawables();
     //std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     //std::cout << "jugador en: " << x << "," << y <<")\n";
     for (auto& object : objects_vector) {

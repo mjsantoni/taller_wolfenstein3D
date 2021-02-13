@@ -1,0 +1,12 @@
+//
+// Created by andy on 13/2/21.
+//
+
+#ifndef TP_WOLFENSTEIN_EFFECTS_H
+#define TP_WOLFENSTEIN_EFFECTS_H
+
+#define EXPLOSION_EFFECT_ID -1
+#define BLOOD_EFFECT_ID -2
+
+
+#endif //TP_WOLFENSTEIN_EFFECTS_H

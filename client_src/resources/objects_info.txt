@@ -37,6 +37,7 @@ path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_hei
 
 path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:57, img_height:55, name:explosion, is_sprite:0
 path:../client_src/resources/effects/missile.png, obj_width:0.1, obj_height:0.1, img_width:64, img_height:64, name:explosion, is_sprite:0
+path:../client_src/resources/effects/blood_effect.png, obj_width:0.1, obj_height:0.1, img_width:338, img_height:283, name:explosion, is_sprite:0
 
 path:../client_src/resources/misc/barrel.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:barrel, is_sprite:0
 path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:table, is_sprite:0
