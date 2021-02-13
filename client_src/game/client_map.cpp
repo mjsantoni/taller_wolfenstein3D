@@ -307,9 +307,9 @@ void ClientMap::updateTotalPlayers(int _total_players) {
 }
 
 void ClientMap::respawnPlayer(int player_id) {
-    std::pair<int, int> respawn_position = player_spawns[player_id];
     Drawable& enemy = enemies.at(player_id);
-    enemy.setMapPosition(respawn_position.first, respawn_position.second);
+    ImageManager::getDyingAnimationForEnemy(enemy);
+    enemies_to_respawn.insert(player_id);
 }
 
 void ClientMap::changeEnemyImage(int player_id, int weapon) {
@@ -373,5 +373,26 @@ bool ClientMap::updateEvents() {
         std::cout << "Borrando explosion del mapa\n";
         return true;
     }
+    for (auto& id : enemies_to_swipe) {
+        enemies.erase(id);
+        enemies_to_swipe.erase(id);
+    }
+    for (auto& id : enemies_to_respawn) {
+        std::pair<int, int> respawn_position = player_spawns[id];
+        Drawable& enemy = enemies.at(id);
+        enemy.setMapPosition(respawn_position.first, respawn_position.second);
+        enemies_to_respawn.erase(id);
+    }
     return false;
+}
+
+void ClientMap::killPlayer(int player_id) {
+    Drawable& enemy = enemies.at(player_id);
+    ImageManager::getDyingAnimationForEnemy(enemy);
+    enemies_to_swipe.insert(player_id);
+}
+
+void ClientMap::setEnemyAttacking(int enemy_id) {
+    Drawable& enemy = enemies.at(enemy_id);
+    ImageManager::getAttackingAnimationForEnemy(enemy);
 }

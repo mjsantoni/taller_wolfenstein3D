@@ -71,9 +71,13 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (CHANGE_AMMO): {
-            if (player.getId() != id)
-                break;
             int ammo_delta = value1;
+            if (player.getId() != id) {
+                if (ammo_delta > 0)
+                    break;
+                map.setEnemyAttacking(id);
+                audio_manager.displayEnemyShot();
+            }
             if (ammo_delta < 0) {
                 audio_manager.displayPlayerAttackingSound(player.
                                                           getEquippedWeapon());
@@ -121,7 +125,8 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                     screen.displayDeadScreen();
                 //algo mas aca seguro
             } else {
-                map.erasePlayer(id);
+                map.killPlayer(id);
+                audio_manager.displayDyingEnemy();
             }
             // id: player_id - Debe morir definitivamente
             break;
@@ -134,6 +139,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 sleep(2);
             } else {
                 map.respawnPlayer(id);
+                audio_manager.displayDyingEnemy();
             }
             // id: player_id - Debe morir y respawnear en su spawn original que tenes
             // deberia crear un dead body ahi tirado
@@ -194,6 +200,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         case (RPG_EXPLODE_AT): {
             map.setRPGMissileExplosion(id, value1, value2);
             render_vector = std::vector<int>{0, 1, 1, 0};
+            audio_manager.displayExplosionSound();
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
@@ -223,8 +230,10 @@ void InGameChangeProcessor::processInGameChanges() {
     std::vector<int> render_vector = processInGameChange(change);
     screen.render(render_vector);
     map.updateEnemiesSprites();
-    if (map.updateEvents())
+    if (map.updateEvents()) {
+        usleep(300000);
         screen.render(std::vector<int>{1, 1, 1, 0});
+    }
 }
 /*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {

@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
+#include <set>
 #include "client/object_info_provider.h"
 #include "client/drawable.h"
 #include "client/graphics/images.h"
@@ -26,6 +27,8 @@ private:
     std::map<int, Drawable> objects;
     std::map<int, Drawable> enemies;
     std::vector<std::pair<int, int>> player_spawns;
+    std::set<int> enemies_to_swipe;
+    std::set<int> enemies_to_respawn;
     bool explosions_present = false;
     int grid_size = GRID_SIZE;
     int width;
@@ -83,6 +86,10 @@ public:
     void addObjectId(int object_id, int x_pos, int y_pos);
     bool updateEvents();
     int getObjectTypeFromId(int object_id);
+
+    void killPlayer(int player_id);
+
+    void setEnemyAttacking(int enemy_id);
 };
 
 

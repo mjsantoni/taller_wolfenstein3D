@@ -11,6 +11,7 @@
 
 class AudioManager {
 private:
+    std::mutex m;
     SdlAudioPlayer audio_player;
 public:
     void playSong();
@@ -20,7 +21,9 @@ public:
     void displayKnifeStabbingSound();
     void displayPlayerShootingSound();
     void displayEmptyGunSound();
-    std::mutex m;
+    void displayExplosionSound();
+    void displayDyingEnemy();
+    void displayEnemyShot();
 };
 
 

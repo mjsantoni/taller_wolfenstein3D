@@ -50,3 +50,24 @@ void AudioManager::displayPlayerShootingSound() {
     usleep(200000);
     audio_player.stopSound();
 }
+
+void AudioManager::displayExplosionSound() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playSound("../client_src/resources/sounds/explosion.mp3");
+    usleep(500000);
+    audio_player.stopSound();
+}
+
+void AudioManager::displayDyingEnemy() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playSound("../client_src/resources/sounds/dead_enemy.mp3");
+    usleep(400000);
+    audio_player.stopSound();
+}
+
+void AudioManager::displayEnemyShot() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playSound("../client_src/resources/sounds/enemy_shot.mp3");
+    usleep(200000);
+    audio_player.stopSound();
+}

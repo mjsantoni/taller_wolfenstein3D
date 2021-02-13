@@ -56,22 +56,6 @@ int ImageManager::getImageNumberFromWeapon(int weapon_number) {
     return weapon_number + WEAPON_ENEMY_DELTA;
 }
 
-int ImageManager::getItemTypeForObject(int object_type) {
-    if (object_type == ITEM_BULLETS || object_type == ITEM_KEY)
-        return ITEM_TYPE_VERY_SMALL;
-    if (object_type == ITEM_CUP || object_type == ITEM_CROWN)
-        return ITEM_TYPE_SMALL;
-    if (object_type == ITEM_CHEST || object_type == ITEM_CROSS)
-        return ITEM_TYPE_MEDIUM;
-    if (object_type == MISC_BARREL || object_type == MISC_TABLE)
-        return ITEM_TYPE_LARGE;
-    if (object_type == ENEMY_DOG)
-        return ITEM_TYPE_ENEMY_DOG;
-    if (object_type >= ENEMY_GUARD && object_type <= ENEMY_MUTANT)
-        return ITEM_TYPE_ENEMY_HUMAN;
-    return ITEM_TYPE_WEAPON;
-}
-
 int ImageManager::getShootingAnimationForWeapon(int weapon_number) {
     if (weapon_number == WEAPON_MACHINE_GUN)
         return 3;
@@ -95,12 +79,14 @@ std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
     return std::vector<int>{0, 1, 4, 7, 10};
 }
 
-int ImageManager::getAttackingAnimationForEnemy(int current_animation) {
+void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
+    int current_animation = enemy.getSpriteAnimationNo();
     if (current_animation == 3)
-        return 6;
-    return 3;
+        enemy.setSpriteAnimationNo(6);
+    else
+        enemy.setSpriteAnimationNo(3);
 }
 
-int ImageManager::getDyingAnimationForEnemy(int current_animation) {
-    return 8; // HAY MAS
+void ImageManager::getDyingAnimationForEnemy(Drawable &enemy) {
+    enemy.setSpriteAnimationNo(8); // HAY MAS
 }
