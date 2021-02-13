@@ -83,7 +83,7 @@ int Map::getPlayerIDAtPosition(Coordinate coord) {
     return -1;
 }
 
-std::map<Coordinate, Positionable> Map::getBoard() { return board; }
+std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> Map::getBoard() { return board; }
 
 /* ERASERS */
 

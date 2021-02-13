@@ -1,7 +1,7 @@
 #include "server/events/client_updater.h"
 #include <unistd.h>
 
-ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::map<Coordinate, Positionable> _map) :
+ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> _map) :
                             skt(_sk),
                             change_queue(Change()),
                             player_id(id),

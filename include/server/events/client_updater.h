@@ -10,6 +10,7 @@
 #include "server/game/coordinate.h"
 #include "server/game/positionable.h"
 #include <map>
+#include <unordered_map>
 
 class ClientUpdater : public Thread {
 private:
@@ -17,10 +18,10 @@ private:
     BlockingQueue<Change> change_queue;
     std::atomic<bool> alive;
     int player_id;
-    std::map<Coordinate, Positionable> map;
+    std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map;
 
 public:
-    explicit ClientUpdater(NetworkConnection& _sk, int i, std::map<Coordinate, Positionable> map);
+    explicit ClientUpdater(NetworkConnection& _sk, int i, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map);
     ~ClientUpdater();
 
     void run() override;

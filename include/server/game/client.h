@@ -14,7 +14,7 @@ private:
     ClientHandler clientHandler;
     ClientUpdater clientUpdater;
 public:
-    Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id, std::map<Coordinate, Positionable> map) :
+    Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map) :
         sk(std::move(_sk)), clientHandler(sk, _sq,id), clientUpdater(sk,id, map) {
         clientHandler.start();
         clientUpdater.start();

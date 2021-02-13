@@ -28,7 +28,7 @@ Game::~Game() { botsManager.destroyBots(); }
 
 /* RECEIVED EVENTS */
 
-std::pair<int,std::map<Coordinate, Positionable>> Game::connectPlayer() {
+std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> Game::connectPlayer() {
     std::unique_lock<std::mutex> lock(m);
     Player player(std::to_string(players_ids), players_ids,
                   configParser.getSpecificCategory("player", "max_bullets"),
@@ -41,7 +41,7 @@ std::pair<int,std::map<Coordinate, Positionable>> Game::connectPlayer() {
     players_ids++;
     players_alive++;
     std::cout << "Player " << player.getID() << " connected to game.\n";
-    std::map<Coordinate, Positionable> board = map.getBoard();
+    std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> board = map.getBoard();
     return std::make_pair(player.getID(), board);
 }
 
@@ -225,7 +225,7 @@ std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
 /* LUA SCRIPT */
 
 void Game::addBot() {
-    std::pair<int,std::map<Coordinate, Positionable>> data = connectPlayer();
+    std::pair<int, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> data = connectPlayer();
     botsManager.addBot(players[data.first], ANGLE);
 }
 
