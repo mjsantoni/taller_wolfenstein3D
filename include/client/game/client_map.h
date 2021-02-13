@@ -65,7 +65,7 @@ public:
     void setObjectId(std::pair<int, int> coordinates, int object_id);
     std::vector<Drawable> getAllObjectsAndEnemies();
     void removeObject(int object_id);
-    void moveObject(int object_id, int new_x, int new_y);
+    void moveEnemy(int object_id, int new_x, int new_y);
     Drawable& getObjectById(int object_id);
     void putObjectAt(int object_type, int x_pos, int y_pos);
     void putObjectAt(int object_type, int object_id, int x_pos, int y_pos);

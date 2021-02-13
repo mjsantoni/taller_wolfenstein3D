@@ -3,6 +3,7 @@
 //
 
 #include <vector>
+#include <iostream>
 #include "client/game/image_manager.h"
 
 #define WEAPON_ENEMY_DELTA 17
@@ -64,19 +65,24 @@ int ImageManager::getShootingAnimationForWeapon(int weapon_number) {
 
 void ImageManager::getMovingAnimationForEnemy(Drawable& drawable,
                                               int current_animation) {
-    int object_type = drawable.getSpriteAnimationNo();
+    int object_type = drawable.getObjectType();
     std::vector<int> possible_animations =
             getMovingAnimationsForEnemy(object_type);
     if (current_animation == possible_animations[possible_animations.size()-1])
         drawable.setSpriteAnimationNo(possible_animations[0]);
-    for (auto& animation : possible_animations) {
-        if (animation > current_animation)
-            drawable.setSpriteAnimationNo(animation);
+    else {
+        for (auto& animation : possible_animations) {
+            if (animation > current_animation) {
+                drawable.setSpriteAnimationNo(animation);
+                break;
+            }
+        }
     }
+    std::cout << "El enemigo se mueve, animacion: " << drawable.getSpriteAnimationNo() << std::endl;
 }
 
 std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
-    return std::vector<int>{0, 1, 4, 7, 10};
+    return std::vector<int>{0, 1, 2, 3};
 }
 
 void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
@@ -85,8 +91,10 @@ void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
         enemy.setSpriteAnimationNo(6);
     else
         enemy.setSpriteAnimationNo(3);
+    std::cout << "El enemigo ataca, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }
 
 void ImageManager::getDyingAnimationForEnemy(Drawable &enemy) {
     enemy.setSpriteAnimationNo(8); // HAY MAS
+    std::cout << "El enemigo muere, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }

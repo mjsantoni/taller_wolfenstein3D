@@ -23,7 +23,7 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     //std::cout << "Cant objetos: " << objects_vector.size() << std::endl;
     //std::cout << "jugador en: " << x << "," << y <<")\n";
     for (auto& object : objects_vector) {
-        std::cout << "objeto en: " << object.getMapPosition().first << "," << object.getMapPosition().second <<")\n";;
+        //std::cout << "objeto en: " << object.getMapPosition().first << "," << object.getMapPosition().second <<")\n";;
         //printf("El objeto %s empieza en la posicion: (%d,%d)\n", object.getObjectName().c_str(), object.getMapPosition().first, object.getMapPosition().second);
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());

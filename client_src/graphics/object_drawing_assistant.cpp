@@ -20,9 +20,16 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     int object_type = object_info.getObjectType();
     SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
     Area image_area;
-    if (object_info.isSprite())
+    if (object_info.isSprite()) {
         image_area = texture_manager.getAreaForEnemySprite(object_type,
                                             object_info.getSpriteAnimationNo());
+        std::cout << "Se dibuja un enemigo " << object_info.getObjectName() << " con animacion " << object_info.getSpriteAnimationNo() << std::endl;
+        std::cout << "Area del enemigo:\n";
+        std::cout << "x: " << image_area.getX() << std::endl;
+        std::cout << "y: " << image_area.getY() << std::endl;
+        std::cout << "width: " << image_area.getWidth() << std::endl;
+        std::cout << "height: " << image_area.getHeight() << std::endl;
+    }
     else
         image_area = texture_manager.getImageAreaFromObjectType(object_type);
     image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
@@ -31,6 +38,8 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     bool debug_object_drawing_info = false;
     if (!debug_object_drawing_info)
         return;
+    std::cout << "Objeto: " << object_info.getObjectName() << std::endl;
+    std::cout << "Animacion: " << object_info.getSpriteAnimationNo() << std::endl;
     printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
     printf("Distancia: %f\n", object_info.getHitDistance());
     printf("Pos x: %d\n", screen_area.getX());

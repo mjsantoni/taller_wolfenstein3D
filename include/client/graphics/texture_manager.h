@@ -26,6 +26,7 @@ public:
     std::vector<Area> getSingleImageArea(ObjectInfo &object_info);
     std::vector<Area> getAllSpriteAreas(ObjectInfo &object_info);
     Area getAreaForEnemySprite(int object_type, int current_animation_no);
+    Area getAreaForWeapon(int object_type, int current_animation_no);
 };
 
 

@@ -181,15 +181,18 @@ void ClientMap::moveObject(int object_id, std::pair<int, int> new_coordinates) {
             Drawable>(new_coordinates,drawable));
 }
 
-void ClientMap::moveObject(int object_id, int x_pos, int y_pos){
-    if (objects.find(object_id) == objects.end())
+void ClientMap::moveEnemy(int enemy_id, int x_pos, int y_pos){
+    if (enemies.find(enemy_id) == enemies.end())
         return;
-    Drawable& drawable = objects.at(object_id);
-    std::pair<int, int> current_coord = drawable.getMapPosition();
-    drawables_by_position.erase(current_coord);
-    drawable.setMapPosition(x_pos, y_pos);
-    drawables_by_position.insert(std::pair<std::pair<int, int>,
-            Drawable>(std::pair<int, int>{x_pos, y_pos},drawable));
+    Drawable& enemy = enemies.at(enemy_id);
+    //std::pair<int, int> current_coord = drawable.getMapPosition();
+    //drawables_by_position.erase(current_coord);
+    enemy.setMapPosition(x_pos, y_pos);
+    ImageManager::getMovingAnimationForEnemy(enemy,
+                                             enemy.getSpriteAnimationNo());
+    std::cout << "El enemigo se mueve con animacion " << enemy.getSpriteAnimationNo() << std::endl;
+    //drawables_by_position.insert(std::pair<std::pair<int, int>,
+           //Drawable>(std::pair<int, int>{x_pos, y_pos},drawable));
 }
 
 int ClientMap::getWidth() {
@@ -323,6 +326,8 @@ void ClientMap::changeEnemyImage(int player_id, int weapon) {
 }
 
 void ClientMap::updateEnemiesSprites() {
+    return;
+    std::cout << "Actualizando enemigos\n";
     for (auto& pair : enemies) {
         Drawable& enemy = pair.second;
         int current_animation = enemy.getSpriteAnimationNo();

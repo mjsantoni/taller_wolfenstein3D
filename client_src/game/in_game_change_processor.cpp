@@ -47,7 +47,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 render_vector = std::vector<int>{1, 1, 1, 0};
             } else {
                 std::cout << "Otro jugador se mueve en el mapa\n";
-                map.moveObject(id, value1, value2);
+                map.moveEnemy(id, value1, value2);
                 render_vector = std::vector<int>{0, 1, 0, 0};
             }
             // id: player_id - value1: new_x - value2: new_y

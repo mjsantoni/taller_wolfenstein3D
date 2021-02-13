@@ -21,7 +21,7 @@ void WeaponDrawer::drawPlayersEquippedWeapon(int weapon_number) {
                                                          + EQ_WEAPON_DELTA);
     SDL_Texture* texture =
             texture_manager.getImageFromObjectType(object_type);
-    Area image_area = texture_manager.getAreaForEnemySprite(object_type, 0);
+    Area image_area = texture_manager.getAreaForWeapon(object_type, 0);
     Area screen_area = assembleScreenWeaponArea(object_info);
     window.loadImage(texture, image_area, screen_area);
 }
