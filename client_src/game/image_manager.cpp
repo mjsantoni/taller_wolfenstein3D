@@ -3,7 +3,7 @@
 //
 
 #include "client/game/image_manager.h"
-#include <client/graphics/item_types.h>
+
 
 #define WEAPON_ENEMY_DELTA 17
 
@@ -71,20 +71,3 @@ int ImageManager::getItemTypeForObject(int object_type) {
         return ITEM_TYPE_ENEMY_HUMAN;
     return ITEM_TYPE_WEAPON;
 }
-/*
-int ImageManager::getMovingSpriteAnimation(int object_type) {
-    if (object_type == ITEM_BULLETS || object_type == ITEM_KEY)
-        return ITEM_TYPE_VERY_SMALL;
-    if (object_type == ITEM_CUP || object_type == ITEM_CROWN)
-        return ITEM_TYPE_SMALL;
-    if (object_type == ITEM_CHEST || object_type == ITEM_CROSS)
-        return ITEM_TYPE_MEDIUM;
-    if (object_type == MISC_BARREL || object_type == MISC_TABLE)
-        return ITEM_TYPE_LARGE;
-    if (object_type == ENEMY_DOG)
-        return ITEM_TYPE_ENEMY_DOG;
-    if (object_type >= ENEMY_GUARD && object_type <= ENEMY_MUTANT)
-        return ITEM_TYPE_ENEMY_HUMAN;
-    return ITEM_TYPE_WEAPON;
-}
-*/

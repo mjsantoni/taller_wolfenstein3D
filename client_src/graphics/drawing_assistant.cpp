@@ -9,9 +9,11 @@
 #define MAX_OBJECT_HEIGHT 300
 
 DrawingAssistant::DrawingAssistant(SdlWindow& _window,
-                              std::map<int, std::pair<int, int>>& _floor_info) :
+                                std::map<int, std::pair<int, int>>& _floor_info,
+                                TextureManager& _texture_manager) :
                                 window(_window),
-                                floor_info(_floor_info){
+                                floor_info(_floor_info),
+                                texture_manager(_texture_manager) {
     //setDimensions(window.getWidth(), window.getHeight());
 }
 
@@ -52,23 +54,26 @@ int DrawingAssistant::findColumnStartingPoint(int wall_height) {
 }
 
 void DrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
-    Area image_area;
-    SDL_Texture* texture = loadWallTexture(object_info, image_area);
+    int object_type = object_info.getObjectType();
+    SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
+    Area image_area = texture_manager.getImageAreaFromObjectType(object_type);
+    image_area.setX((int) (object_info.getHitGridPos() *image_area.getWidth()));
+    image_area.setWidth(image_area.getWidth()/map_grid_size);
     Area screen_area = assembleScreenArea(ray_no, object_info);
     window.loadImage(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
+    //SDL_DestroyTexture(texture);
 }
-
+/*
 SDL_Texture* DrawingAssistant::loadWallTexture(ObjectInfo& object_info,
                                                Area& image_area) {
     SdlTexture sdl_texture(object_info.getImagePath());
     SDL_Texture* image = sdl_texture.loadTexture(window.getRenderer(),
                                                  image_area);
-    image_area.setX((int) (object_info.getHitGridPos() *image_area.getWidth()));
-    image_area.setWidth(image_area.getWidth()/map_grid_size);
-    return image;
-}
 
+
+    return texture;
+}
+*/
 Area DrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
     double distance = object_info.getHitDistance();
     double wall_height = findWallHeight(distance);

@@ -13,15 +13,17 @@
 #include "ui_drawer.h"
 #include "menus_drawer.h"
 #include "weapon_drawer.h"
+#include "texture_manager.h"
 
 class GameScreen {
 private:
     SdlWindow window;
+    ObjectInfoProvider object_info_provider;
+    TextureManager texture_manager;
     ObjectDrawer object_drawer;
     RayCaster ray_caster;
     UIDrawer ui_drawer;
     WeaponDrawer weapon_drawer;
-    ObjectInfoProvider object_info_provider;
     MenusDrawer menus_drawer;
     ClientMap& map;
     ClientPlayer& player;

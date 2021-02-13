@@ -12,12 +12,14 @@
 #include "sdl_window.h"
 #include "client/calculator.h"
 #include "drawing_assistant.h"
+#include "texture_manager.h"
 
 class RayCaster {
 public:
     RayCaster(SdlWindow& window, ClientMap& map, std::map<double, double>&
           wall_distance_info,std::map<int, std::pair<int, int>>& _floor_info,
-          ObjectInfoProvider& info_provider, std::vector<double>& _angles_list);
+          ObjectInfoProvider& info_provider, std::vector<double>& _angles_list,
+          TextureManager& texture_manager);
     void renderBackground(int x, int y, double alpha);
     void setDimensions(int width, int height);
 private:

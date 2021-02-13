@@ -16,11 +16,12 @@ RayCaster::RayCaster(SdlWindow& window,
                      std::map<double, double>& _wall_distance_info,
                      std::map<int, std::pair<int, int>>& _floor_info,
                      ObjectInfoProvider& _info_provider,
-                     std::vector<double>& _angles_list) :
+                     std::vector<double>& _angles_list,
+                     TextureManager& texture_manager) :
             window(window), wall_distance_info(_wall_distance_info), map(map),
             info_provider(_info_provider), floor_info(_floor_info),
             angles_list(_angles_list),
-            drawing_assistant(window, _floor_info){
+            drawing_assistant(window, _floor_info, texture_manager){
 }
 
 void RayCaster::renderBackground(int x, int y, double alpha) {

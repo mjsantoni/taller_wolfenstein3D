@@ -11,6 +11,7 @@
 #include <client/graphics/sdl_texture.h>
 #include <client/graphics/sdl_window.h>
 #include <map>
+#include "texture_manager.h"
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 600
@@ -22,6 +23,7 @@ class DrawingAssistant {
 private:
     SdlWindow& window;
     std::map<int, std::pair<int, int>>& floor_info;
+    TextureManager& texture_manager;
     int window_width;
     int window_height;
     double width_factor;
@@ -30,7 +32,8 @@ private:
     int proj_plane_distance = (int) (( (double) SCREEN_WIDTH/2) / tan(FOV/2));
 public:
     DrawingAssistant(SdlWindow &_window,
-                     std::map<int, std::pair<int, int>> &_floor_info);
+                     std::map<int, std::pair<int, int>> &_floor_info,
+                     TextureManager& _texture_manager);
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
     double findWallHeight(double distance);
