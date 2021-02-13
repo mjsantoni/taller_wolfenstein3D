@@ -8,7 +8,7 @@ public:
     int x;
     int y;
     Coordinate(int _x, int _y) : x(_x), y(_y) {}
-    bool operator==(const Coordinate& p) const { return x == p.x && y == p.y; }
+
     bool operator<(const Coordinate& coord) const {
         if (x < coord.x) return true;
         if (x > coord.x) return false;
@@ -30,6 +30,17 @@ public:
     int distanceTo(Coordinate other) {
         return (x - other.x) + (y - other.y);
     }
+
+    bool operator==(const Coordinate& p) const { return x == p.x && y == p.y; }
+
+    struct HashFunction{
+        size_t operator()(const Coordinate& c) const {
+            size_t xHash = std::hash<int>()(c.x);
+            size_t yHash = std::hash<int>()(c.y);
+            //std::cout << xHash << " - " << yHash << "\n";
+            return xHash*yHash;
+        }
+    };
 
 };
 

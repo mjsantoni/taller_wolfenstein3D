@@ -100,10 +100,10 @@ void GameHandler::sendTops() {
 }
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
-    std::pair<int,std::map<Coordinate, Positionable>> data = game.connectPlayer();
+    std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> data = game.connectPlayer();
     int id = data.first;
     std::cout << "[Game Handler] New Player connected -> Id: " << id << std::endl;
-    std::map<Coordinate, Positionable> map = data.second;
+    std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map = data.second;
     clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
 }
 
