@@ -10,15 +10,10 @@
 #include <server/game/map.h>
 #include "sdl_texture.h"
 #include "client/sdl_exception.h"
+#include <SDL_image.h>
+#include <client/object_info.h>
 
 class SdlSprite : public SdlTexture {
-public:
-    SdlSprite(std::string file_name, int width, int height, int cols, int rows,
-              int h_padding, int v_padding);
-    SDL_Texture* loadNextTexture(SDL_Renderer* renderer, Area& srcArea);
-    SDL_Texture* loadTexture(SDL_Renderer* renderer, Area& srcArea,
-                             int sprite_number);
-    void setPadding(int horizontal_padding, int vertical_padding);
 private:
     int h_padding = 0;
     int v_padding = 0;
@@ -35,6 +30,15 @@ private:
     void loadIndividualDimensions();
     void fillDimensions(Area& source_area, Area& empty_area);
 
+public:
+    SdlSprite(ObjectInfo &object_info);
+    SdlSprite(std::string file_name, int width, int height, int cols, int rows,
+              int h_padding, int v_padding);
+    SDL_Texture* loadNextTexture(SDL_Renderer* renderer, Area& srcArea);
+    SDL_Texture* loadTexture(SDL_Renderer* renderer, Area& srcArea,
+                             int sprite_number);
+    void setPadding(int horizontal_padding, int vertical_padding);
+    std::vector<Area> getAllTheAreas();
 };
 
 

@@ -15,6 +15,7 @@
 #include "client/calculator.h"
 #include "client/game/client_map.h"
 #include "object_drawing_assistant.h"
+#include "texture_manager.h"
 
 class ObjectDrawer {
 private:
@@ -47,7 +48,8 @@ public:
     ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
                  std::map<double, double>& wall_distance_info,
                  std::map<int, std::pair<int, int>>& _floor_info,
-                 std::vector<double>& angles_list, ClientMap& map);
+                 std::vector<double>& angles_list, ClientMap& map,
+                 TextureManager& texture_manager);
     void loadObjects(int x, int y, double player_angle);
     void setDimensions(int width, int height);
     int getObjectWidth(Drawable &drawable);

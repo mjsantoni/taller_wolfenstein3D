@@ -11,12 +11,12 @@ GameScreen::GameScreen(int width,
         window(width, height),
         texture_manager(window, object_info_provider),
         object_drawer(window, object_info_provider, wall_distance_info,
-                      floor_info, angles_list, _map),
+                      floor_info, angles_list, _map, texture_manager),
         map(_map),
         ray_caster(window, _map, wall_distance_info, floor_info,
                          object_info_provider, angles_list, texture_manager),
         ui_drawer(object_info_provider, window),
-        weapon_drawer(window, object_info_provider),
+        weapon_drawer(window, object_info_provider, texture_manager),
         menus_drawer(window),
         player(_player) {
     ray_caster.setDimensions(width, (int) (0.8 * height));
@@ -64,7 +64,7 @@ void GameScreen::render(std::vector<int> boolean_vector) {
     //if (render_object_drawer)
         object_drawer.loadObjects(x, y, player.getDirection());
     //if (render_player_weapon)
-    weapon_drawer.drawPlayersEquippedWeapon(player.getEquippedWeapon());
+        weapon_drawer.drawPlayersEquippedWeapon(player.getEquippedWeapon());
     //if (render_ui_drawer)
         ui_drawer.drawPlayerUI(player);
     window.render();

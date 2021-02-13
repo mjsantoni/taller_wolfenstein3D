@@ -2,8 +2,8 @@
 // Created by andy on 7/2/21.
 //
 
+#include <vector>
 #include "client/game/image_manager.h"
-
 
 #define WEAPON_ENEMY_DELTA 17
 
@@ -70,4 +70,37 @@ int ImageManager::getItemTypeForObject(int object_type) {
     if (object_type >= ENEMY_GUARD && object_type <= ENEMY_MUTANT)
         return ITEM_TYPE_ENEMY_HUMAN;
     return ITEM_TYPE_WEAPON;
+}
+
+int ImageManager::getShootingAnimationForWeapon(int weapon_number) {
+    if (weapon_number == WEAPON_MACHINE_GUN)
+        return 3;
+    return 2;
+}
+
+void ImageManager::getMovingAnimationForEnemy(Drawable& drawable,
+                                              int current_animation) {
+    int object_type = drawable.getSpriteAnimationNo();
+    std::vector<int> possible_animations =
+            getMovingAnimationsForEnemy(object_type);
+    if (current_animation == possible_animations[possible_animations.size()-1])
+        drawable.setSpriteAnimationNo(possible_animations[0]);
+    for (auto& animation : possible_animations) {
+        if (animation > current_animation)
+            drawable.setSpriteAnimationNo(animation);
+    }
+}
+
+std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
+    return std::vector<int>{0, 1, 4, 7, 10};
+}
+
+int ImageManager::getAttackingAnimationForEnemy(int current_animation) {
+    if (current_animation == 3)
+        return 6;
+    return 3;
+}
+
+int ImageManager::getDyingAnimationForEnemy(int current_animation) {
+    return 8; // HAY MAS
 }

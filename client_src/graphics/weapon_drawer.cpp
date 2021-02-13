@@ -7,29 +7,30 @@
 #define EQ_WEAPON_DELTA 22
 
 WeaponDrawer::WeaponDrawer(SdlWindow& _window,
-                           ObjectInfoProvider& _info_provider) :
+                           ObjectInfoProvider& _info_provider,
+                           TextureManager& _texture_manager) :
                            window(_window),
-                           info_provider(_info_provider) {
+                           info_provider(_info_provider),
+                           texture_manager(_texture_manager) {
 
 }
 
 void WeaponDrawer::drawPlayersEquippedWeapon(int weapon_number) {
+    int object_type = weapon_number + EQ_WEAPON_DELTA;
     ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
                                                          + EQ_WEAPON_DELTA);
-    Area image_area;
-    SDL_Texture* texture = getWeaponSprite(object_info, image_area);
+    SDL_Texture* texture =
+            texture_manager.getImageFromObjectType(object_type);
+    Area image_area = texture_manager.getAreaForEnemySprite(object_type, 0);
     Area screen_area = assembleScreenWeaponArea(object_info);
     window.loadImage(texture, image_area, screen_area);
-    SDL_DestroyTexture(texture);
 }
 
-SDL_Texture* WeaponDrawer::getWeaponSprite(ObjectInfo& o_i, Area& image_area) {
-    SdlSprite sdl_sprite(o_i.getImagePath(), o_i.getImageWidth(),
-                         o_i.getImageHeight(), o_i.getSpriteCols(),
-                         o_i.getSpriteRows(), o_i.getSpriteHPadding(),
-                         o_i.getSpriteVPadding());
-    SDL_Texture* image = sdl_sprite.loadTexture(window.getRenderer(), image_area,
-                                                o_i.getSpriteAnimationNo());
+SDL_Texture* WeaponDrawer::getWeaponSprite(ObjectInfo& object_info,
+                                           Area& image_area) {
+    SdlSprite sprite(object_info);
+    SDL_Texture* image = sprite.loadTexture(window.getRenderer(), image_area,
+                                            object_info.getSpriteAnimationNo());
     return image;
 }
 
@@ -47,7 +48,9 @@ Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
 void WeaponDrawer::displayPlayerShooting(int weapon_number) {
     ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
                                                          + EQ_WEAPON_DELTA);
-    object_info.setSpriteAnimationNo(2);
+    int sprite_animation_no =
+            ImageManager::getShootingAnimationForWeapon(weapon_number);
+    object_info.setSpriteAnimationNo(sprite_animation_no);
     Area image_area;
     SDL_Texture* texture = getWeaponSprite(object_info, image_area);
     Area screen_area = assembleScreenWeaponArea(object_info);

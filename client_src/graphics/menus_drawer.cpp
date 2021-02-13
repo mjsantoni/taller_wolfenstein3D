@@ -36,9 +36,9 @@ void MenusDrawer::displayIntro() {
 
 void MenusDrawer::displayFullImage(SdlTexture& texture) {
     Area src_area;
-    texture.loadTexture(window.getRenderer(), src_area);
+    SDL_Texture* image = texture.loadTexture(window.getRenderer(), src_area);
     Area dest_area(0, 0, window_width, window_height);
-    window.loadImage(texture.getTexture(), src_area, dest_area);
+    window.loadImage(image, src_area, dest_area);
 }
 
 SDL_Texture* MenusDrawer::createMessage(const std::string& message,

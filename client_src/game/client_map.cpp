@@ -325,7 +325,8 @@ void ClientMap::changeEnemyImage(int player_id, int weapon) {
 void ClientMap::updateEnemiesSprites() {
     for (auto& pair : enemies) {
         Drawable& enemy = pair.second;
-        enemy.setNextMovingSprite();
+        int current_animation = enemy.getSpriteAnimationNo();
+        ImageManager::getMovingAnimationForEnemy(enemy, current_animation);
     }
 }
 /*

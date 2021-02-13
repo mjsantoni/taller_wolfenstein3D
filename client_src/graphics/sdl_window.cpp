@@ -76,9 +76,9 @@ void SdlWindow::fillArea(Area area, int r, int g, int b, int a) {
 
 void SdlWindow::displayFullImage(SdlTexture& texture) {
     Area src_area;
-    texture.loadTexture(renderer, src_area);
+    SDL_Texture* image = texture.loadTexture(renderer, src_area);
     Area dest_area(0, 0, width, height);
-    putTextureAt(texture.getTexture(), src_area, dest_area);
+    putTextureAt(image, src_area, dest_area);
 }
 
 void SdlWindow::restore() {

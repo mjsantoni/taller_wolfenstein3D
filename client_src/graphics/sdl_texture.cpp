@@ -22,8 +22,11 @@ SDL_Texture* SdlTexture::loadTexture(SDL_Renderer* renderer, Area& srcArea) {
     return new_texture;
 }
 
-SDL_Texture* SdlTexture::getTexture() {
-    return texture;
+SDL_Texture* SdlTexture::getTexture(SDL_Renderer* renderer) {
+    SDL_Texture* new_texture = IMG_LoadTexture(renderer, file_name.c_str());
+    if (!new_texture)
+        throw SdlException("Error en la carga de la textura", SDL_GetError());
+    return new_texture;
 }
 
 void SdlTexture::getDimensions(SDL_Texture* new_texture) {

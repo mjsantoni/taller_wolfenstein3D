@@ -1,0 +1,15 @@
+//
+// Created by andy on 12/2/21.
+//
+
+#ifndef TP_WOLFENSTEIN_WEAPONS_H
+#define TP_WOLFENSTEIN_WEAPONS_H
+
+#define WEAPON_KNIFE 1
+#define WEAPON_PISTOL 2
+#define WEAPON_MACHINE_GUN 3
+#define WEAPON_CHAIN_CANNON 4
+#define WEAPON_ROCKET_LAUNCHER 5
+
+
+#endif //TP_WOLFENSTEIN_WEAPONS_H

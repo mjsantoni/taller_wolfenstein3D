@@ -9,18 +9,25 @@
 #define MAX_OBJECT_HEIGHT 300
 #define ANCHO_TEXT 64
 
-ObjectDrawingAssistant::ObjectDrawingAssistant(SdlWindow& _window) :
-                                               window(_window) {
+ObjectDrawingAssistant::ObjectDrawingAssistant(SdlWindow& _window,
+                                             TextureManager& _texture_manager) :
+                                             window(_window),
+                                             texture_manager(_texture_manager) {
 }
 
 void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
                                          double pl_ob_angle) {
+    int object_type = object_info.getObjectType();
+    SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
     Area image_area;
-    SDL_Texture* image = getObjectImage(object_info, image_area);
+    if (object_info.isSprite())
+        image_area = texture_manager.getAreaForEnemySprite(object_type,
+                                            object_info.getSpriteAnimationNo());
+    else
+        image_area = texture_manager.getImageAreaFromObjectType(object_type);
     image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
-    window.loadImage(image, image_area, screen_area);
-    SDL_DestroyTexture(image);
+    window.loadImage(texture, image_area, screen_area);
     bool debug_object_drawing_info = false;
     if (!debug_object_drawing_info)
         return;

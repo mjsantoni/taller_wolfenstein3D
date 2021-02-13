@@ -11,17 +11,21 @@
 #include <client/graphics/sdl_sprite.h>
 #include <client/object_info_provider.h>
 #include "sdl_window.h"
+#include "texture_manager.h"
+#include <client/game/image_manager.h>
 
 class WeaponDrawer {
 private:
     SdlWindow& window;
     ObjectInfoProvider& info_provider;
+    TextureManager& texture_manager;
     int width;
     int window_width;
     int window_height;
     int starting_point;
 public:
-    WeaponDrawer(SdlWindow &_window, ObjectInfoProvider &_info_provider);
+    WeaponDrawer(SdlWindow &_window, ObjectInfoProvider &_info_provider,
+                 TextureManager& _texture_manager);
     void drawPlayersEquippedWeapon(int weapon_number);
     Area assembleScreenWeaponArea(ObjectInfo& object_info);
     SDL_Texture* getWeaponSprite(ObjectInfo& o_i, Area& image_area);

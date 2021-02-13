@@ -1,8 +1,8 @@
 path:../client_src/resources/walls/gray_wall.jpg, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
-path:../client_src/resources/walls/blue_wall.png, obj_width:1, obj_height:1, img_width:29, img_height:29, name:wall, is_sprite:0
-path:../client_src/resources/walls/brown_wall.png, obj_width:1, obj_height:1, img_width:29, img_height:30, name:wall, is_sprite:0
-path:../client_src/resources/walls/stone_wall.png, obj_width:1, obj_height:1, img_width:31, img_height:28, name:wall, is_sprite:0
-path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, img_width:32, img_height:32, name:silver_door, is_sprite:0
+path:../client_src/resources/walls/blue_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/brown_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/stone_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:silver_door, is_sprite:0
 
 path:../client_src/resources/items/chain_cannon.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:chain_cannon, is_sprite:0
 path:../client_src/resources/items/rocket_launcher.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:rocket_launcher, is_sprite:0
@@ -26,14 +26,14 @@ path:../client_src/resources/enemies/mutant.png, obj_width:0.3, obj_height:0.75,
 path:../client_src/resources/weapons/knife.png, obj_width:0.2, obj_height:0.2, img_width:148, img_height:45, name:knife, is_sprite:1, sprite_dim:1x4, sprite_padding:0x15
 path:../client_src/resources/weapons/pistol.png, obj_width:0.2, obj_height:0.2, img_width:182, img_height:67, name:pistol, is_sprite:1, sprite_dim:1x4, sprite_padding:0x17
 path:../client_src/resources/weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_height:53, name:machine_gun, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
-path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
 path:../client_src/resources/weapons/chain_cannon.png, obj_width:0.2, obj_height:0.2, img_width:207, img_height:52, name:chain_cannon, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
+path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
 
 path:../client_src/resources/ui/knife_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:kninfe_icon, is_sprite:0
 path:../client_src/resources/ui/pistol_icon.png, obj_width:0.2, obj_height:0.2, img_width:83, img_height:64, name:pistol_icon, is_sprite:0
 path:../client_src/resources/ui/machine_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:machine_gun_icon, is_sprite:0
-path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
 path:../client_src/resources/ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:chain_gun_icon, is_sprite:0
+path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
 
 path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:57, img_height:55, name:explosion, is_sprite:0
 path:../client_src/resources/effects/missile.png, obj_width:0.1, obj_height:0.1, img_width:64, img_height:64, name:explosion, is_sprite:0

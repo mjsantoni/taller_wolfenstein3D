@@ -13,6 +13,7 @@
 #include <client/graphics/area.h>
 #include <map>
 #include <client/graphics/sdl_window.h>
+#include "texture_manager.h"
 
 #define OBJECT_HEIGHT 600
 #define SCREEN_WIDTH 600
@@ -29,8 +30,9 @@ private:
     int height_factor;
     int map_grid_size = 64;
     int proj_plane_distance = (int) (((double) SCREEN_WIDTH/2) / tan(FOV/2));
+    TextureManager& texture_manager;
 public:
-    explicit ObjectDrawingAssistant(SdlWindow &_window);
+    ObjectDrawingAssistant(SdlWindow &_window,TextureManager& _texture_manager);
     SDL_Texture *getObjectImage(ObjectInfo &o_i, Area &image_area);
     void put3DObject(ObjectInfo &object_info, double pl_ob_angle);
     Area assembleScreenArea(ObjectInfo &object_info, double pl_ob_angle);

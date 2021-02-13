@@ -221,7 +221,6 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
 void InGameChangeProcessor::processInGameChanges() {
     Change change = change_queue.pop();
     std::vector<int> render_vector = processInGameChange(change);
-    std::cout << "Renderizo pantalla\n";
     screen.render(render_vector);
     map.updateEnemiesSprites();
     if (map.updateEvents())

@@ -38,10 +38,8 @@ public:
     int current_mov_sprite = 0;
     int current_sho_sprite = 0;
     int current_dying_sprite = 0;
-    void setNextDyingSprite();
-    void setShootingSprite();
-    void setNextMovingSprite();
     int getSpriteAnimationNo();
+    void setSpriteAnimationNo(int _sprite_animation_no);
 };
 
 
