@@ -70,7 +70,6 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 }
                 break;
             }
-
             player.updateHealth(health_delta);
             if (health_delta < 0)
                 audio_manager.displayPlayerLosingHealthSound();
@@ -242,6 +241,7 @@ void InGameChangeProcessor::processInGameChanges() {
     if (map.updateEvents()) {
         usleep(300000);
         screen.render(std::vector<int>{1, 1, 1, 0});
+        std::cout << "Se actualizo el mapa\n";
     }
 }
 /*

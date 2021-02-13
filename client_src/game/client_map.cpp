@@ -377,6 +377,8 @@ int ClientMap::getObjectTypeFromId(int object_id) {
 bool ClientMap::updateEvents() {
     bool effects_present = !effects.empty();
     for (auto& pair : effects) {
+        if (effects.empty())
+            break;
         int id = pair.first;
         effects.erase(id);
     }
