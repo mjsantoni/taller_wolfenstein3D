@@ -41,8 +41,8 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
         return;
     //std::cout << "Objeto: " << object_info.getObjectName() << std::endl;
     //std::cout << "Animacion: " << object_info.getSpriteAnimationNo() << std::endl;
-    printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
-    printf("Distancia: %f\n", object_info.getHitDistance());
+    //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
+    //printf("Distancia: %f\n", object_info.getHitDistance());
     //printf("Pos x: %d\n", screen_area.getX());
     //printf("Pos y: %d\n", screen_area.getY());
     //printf("Altura: %d\n", screen_area.getHeight());

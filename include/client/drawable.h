@@ -40,6 +40,7 @@ public:
     int current_dying_sprite = 0;
     int getSpriteAnimationNo();
     void setSpriteAnimationNo(int _sprite_animation_no);
+    void setObjectType(int _object_type);
 };
 
 

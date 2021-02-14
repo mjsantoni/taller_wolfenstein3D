@@ -4,6 +4,8 @@
 
 #include "client/graphics/object_drawer.h"
 
+#define EFFECT_TO_IMAGE_DELTA 36
+
 ObjectDrawer::ObjectDrawer(SdlWindow& _window,
                            ObjectInfoProvider& _object_info_provider,
                            std::map<double, double>& _wall_distance_info,
@@ -39,7 +41,7 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
             //printf("El objeto %s entra en la vision del jugador\n", object.getObjectName().c_str());
             //printf("Diff angle: %f\n", diff_angle);
             double x_prop = calculateObjectStartingXPos(object_starting_angle,
-                                                        object_final_angle, diff_angle);
+                                                object_final_angle, diff_angle);
             renderObject(x, y, player_angle, object_starting_angle + diff_angle,
                          x_prop, object);
         }
@@ -75,6 +77,9 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
     //printf("Se dibuja el objeto %s\n", object.getObjectName().c_str());
     ObjectInfo object_info =
             object_info_provider.getObjectInfo(object.getObjectType());
+    if (object_info.getObjectType() < 0)
+        object_info.setObjectType(object_info.getObjectType() +
+                                                    EFFECT_TO_IMAGE_DELTA);
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());

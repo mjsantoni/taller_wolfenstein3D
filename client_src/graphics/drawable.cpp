@@ -65,3 +65,7 @@ int Drawable::getSpriteAnimationNo() {
 void Drawable::setSpriteAnimationNo(int _sprite_animation_no) {
     sprite_animation_no = _sprite_animation_no;
 }
+
+void Drawable::setObjectType(int _object_type) {
+    object_type = _object_type;
+}

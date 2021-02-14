@@ -389,6 +389,7 @@ bool ClientMap::updateEvents() {
     for (auto& id : enemies_to_respawn) {
         std::pair<int, int> respawn_position = player_spawns[id];
         Drawable& enemy = enemies.at(id);
+        enemy.setObjectType(ENEMY_GUARD);
         enemy.setMapPosition(respawn_position.first, respawn_position.second);
         ImageManager::getMovingAnimationForEnemy(enemy,
                                                  enemy.getSpriteAnimationNo());
@@ -412,7 +413,7 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
     std::cout << "Se agrega efecto de sangre\n";
     Drawable& enemy = enemies.at(enemy_id);
     std::pair<int, int> enemy_pos = enemy.getMapPosition();
-    Drawable blood(BLOOD_EFFECT_ID);
+    Drawable blood(EFFECT_BLOOD);
     blood.setMapPosition(enemy_pos);
     effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood));
 }
