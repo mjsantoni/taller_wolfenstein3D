@@ -8,7 +8,7 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
     std::vector<std::pair<int, int>> dmg_done = hit_event.getEnemyDmgDone(players_alive);
     if (hit_event.getPlayerId() != -1) {
         changes.emplace_back(CHANGE_AMMO, hit_event.getPlayerId(),
-                             -hit_event.getBulletsShot(), INVALID, false);
+                             -hit_event.getBulletsShot(), INVALID, true);
     }
     if (hit_event.usedAllAmmo() && hit_event.getPlayerId() != -1) {
         changes.emplace_back(CHANGE_WEAPON, hit_event.getPlayerId(),
