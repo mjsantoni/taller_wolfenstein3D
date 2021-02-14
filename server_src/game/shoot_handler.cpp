@@ -66,7 +66,6 @@ Hit ShootHandler::shootRPG(int bullets_to_shoot, Player &player, std::vector<Coo
         changes.emplace_back(RPG_EXPLODE_AT, rpg_shot.getRpgId(), current_pos.x, current_pos.y, true);
     } else {
         rpgs.insert(std::make_pair(new_rpg_id, rpg_shot));
-        map.putPositionableAt(Positionable("gun","rpg",new_rpg_id,false), current_pos);
     }
 
     return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, player.noAmmoLeft());
@@ -87,7 +86,6 @@ Hit ShootHandler::travelAndExplodeAllRPGS(std::vector<Player> &players, std::vec
             changes.emplace_back(RPG_EXPLODE_AT, rpg.getRpgId(), current_pos.x, current_pos.y, true);
         } else {
             changes.emplace_back(RPG_MOVE_TO, rpg.getRpgId(), current_pos.x, current_pos.y, true);
-            map.putPositionableAt(Positionable("gun","rpg",rpg.getRpgId(),false),current_pos);
         }
     }
 
