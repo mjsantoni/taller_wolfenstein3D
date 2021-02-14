@@ -3,7 +3,7 @@
 
 #define MAX_PLAYERS 8
 #define MAX_DOOR_OPEN 5
-#define ANGLE (M_PI/10)
+#define TURN_ANGLE (M_PI/20)
 
 #define MOVE_LEFT 0
 #define MOVE_RIGHT 1
@@ -114,7 +114,7 @@ int Game::pushWall(int id) {
 
 void Game::rotate(int id, int rotation) {
     Player& player = players[id];
-    player.addAngle(rotation * ANGLE);
+    player.addAngle(rotation * TURN_ANGLE);
 }
 
 int Game::changeGun(int id, int hotkey) { return players[id].changeGun(hotkey); }
@@ -226,7 +226,7 @@ std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
 
 void Game::addBot() {
     std::pair<int, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> data = connectPlayer();
-    botsManager.addBot(players[data.first], ANGLE);
+    botsManager.addBot(players[data.first], TURN_ANGLE);
 }
 
 void Game::releaseBots() {

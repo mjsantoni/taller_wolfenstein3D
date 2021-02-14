@@ -4,7 +4,7 @@
 
 #include <functional>
 #include "client/game/client_player.h"
-#define TURN_ANGLE M_PI/10
+#define TURN_ANGLE M_PI/20
 
 ClientPlayer::ClientPlayer(std::string name) :  name(std::move(name)) {
 }

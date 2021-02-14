@@ -208,7 +208,6 @@ bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Playe
     //std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
     damage = dmg_calculator.calculateDmg(player, damage, pos_travelled, is_adjacent);
     int damage_done = hit(player, enemy, damage, enemy_dies);
-
     enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
     if (enemy_dies) enemy_dmg_done.emplace_back(enemy.getID(), ENEMY_DIES);
     return true;
