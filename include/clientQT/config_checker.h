@@ -14,17 +14,23 @@ class ConfigChecker: public QMainWindow {
 public:
 
     explicit ConfigChecker(QMainWindow *parent = 0);
-    std::string getHost();
-    std::string getPort();
     void connectEvents();
-    void showConnections();
     void lookForServer();
-    void chooseActions();
     void createNewGame();
     void joinGame();
     void showConnectionError();
 
     void showLobby();
+
+    std::string getLineContent(const char *lineName);
+
+    std::string getSpinContent(const char *spinName);
+
+    void hideWidget(const char *widgetName);
+
+    void showWidget(const char *widgetName);
+
+    void showParameters();
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H

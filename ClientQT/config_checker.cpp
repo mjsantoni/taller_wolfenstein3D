@@ -1,3 +1,4 @@
+#include <QSpinBox>
 #include "clientQT/config_checker.h"
 #include "ui_connect.h"
 
@@ -5,72 +6,74 @@
 ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
     Ui::ConfigChecker checker;
     checker.setupUi(this);
-    QWidget *error_widget = findChild<QWidget*>("errorWidget");
-    error_widget->hide();
+    hideWidget("connectionWidget");
+    hideWidget("errorWidget");
+    hideWidget("parametersWidget");
+    hideWidget("createConfirmButton");
     connectEvents();
 }
 
 void ConfigChecker::lookForServer() {
     try {
-        NetworkConnection connection(getHost().c_str(), getPort().c_str());
+        NetworkConnection connection(getLineContent("hostLine").c_str(), getLineContent("portLine").c_str());
         sk = std::move(connection);
-        std::cout << "Conexion establecida correctamente\n";
         server_found = true;
-        showLobby();
+        showWidget("connectionWidget");
+        hideWidget("configWidget");
+        QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
+        connect_button->close();
     } catch (const NetworkError& e) {
         showConnectionError();
     }
 }
 
-void ConfigChecker::chooseActions() {
-    while (true) {
-        std::string data;
-        std::cout << "Ingrese modo: 0 -> Create / 1 -> Join: ";
-        std::getline(std::cin, data);
-        sk.send_msg(data);
-        if (data == "0") createNewGame();
-        else if (data == "1") joinGame();
-        else std::cout << "Pelotudo pone un numero bien una sola cosa te pido\n";
-    }
+
+void ConfigChecker::hideWidget(const char *widgetName) {
+    QWidget *widget = findChild<QWidget*>(widgetName);
+    widget->hide();
+}
+
+void ConfigChecker::showWidget(const char *widgetName) {
+    QWidget *widget = findChild<QWidget*>(widgetName);
+    widget->setEnabled(true);
+    widget->show();
 }
 
 void ConfigChecker::createNewGame() {
-    while (true) {
-        std::string data;
-        std::cout << "Ingrese jugadores/bots/tiempo/id_mapa: ";
-        std::getline(std::cin, data);
-        sk.send_msg(data);
-
-        std::string answer;
-        sk.recv_msg(answer);
-        std::cout << "Respuesta: " << answer << "\n";
-        if (answer == "1\n") break;
-    }
+    "Ingrese jugadores/bots/tiempo/id_mapa: ";
+    std::string data;
+    sk.send_msg("0");
+    data = getSpinContent("jugadoresSpin") + "/" + getSpinContent("botsSpin") + "/" + getLineContent("tiempoLine") + "/" + getLineContent("mapaLine");
+    sk.send_msg(data);
+    std::string answer;
+    sk.recv_msg(answer);
+    std::cout << "Respuesta: " << answer << "\n";
     /*
     while(true) {
         std::string answer;
         sk.recv_msg(answer);
         sleep(1);
     }*/
+}
+
+void ConfigChecker::showParameters() {
+    hideWidget("connectionWidget");
+    showWidget("parametersWidget");
+    showWidget("createConfirmButton");
 }
 
 void ConfigChecker::joinGame() {
-    while (true) {
-
-        std::string games;
-        sk.recv_msg(games);
-        std::cout << "Los juegos disponibles son: " << games << "\n";
-
-        std::string data;
-        std::cout << "Ingrese el id del juego: ";
-        std::getline(std::cin, data);
-        sk.send_msg(data);
-
-        std::string answer;
-        sk.recv_msg(answer);
-        std::cout << "Respuesta: " << answer << "\n";
-        if (answer == "1\n") break;
-    }
+    std::string games;
+    sk.recv_msg(games);
+    std::cout << "Los juegos disponibles son: " << games << "\n";
+    std::string data;
+    std::cout << "Ingrese el id del juego: ";
+    std::getline(std::cin, data);
+    sk.send_msg(data);
+    std::string answer;
+    sk.recv_msg(answer);
+    std::cout << "Respuesta: " << answer << "\n";
+    if (answer == "1\n");
     /*
     while(true) {
         std::string answer;
@@ -79,28 +82,34 @@ void ConfigChecker::joinGame() {
     }*/
 }
 
-std::string ConfigChecker::getHost() {
-    QLineEdit* host_line = findChild<QLineEdit*>("hostLine");
-    return host_line->text().toStdString();
+std::string ConfigChecker::getLineContent(const char *lineName) {
+    QLineEdit* line = findChild<QLineEdit*>(lineName);
+    return line->text().toStdString();
 }
 
-std::string ConfigChecker::getPort() {
-    QLineEdit* port_line = findChild<QLineEdit*>("portLine");
-    return port_line->text().toStdString().c_str();
+std::string ConfigChecker::getSpinContent(const char *spinName) {
+    QSpinBox* spin = findChild<QSpinBox*>(spinName);
+    return std::to_string(spin->value());
 }
 
 void ConfigChecker::connectEvents(){
-    QCommandLinkButton* button = findChild<QCommandLinkButton*>("connectButton");
-    connect(button, &QCommandLinkButton::clicked,this, &ConfigChecker::lookForServer);
+    QWidget *error_widget = findChild<QWidget*>("errorWidget");
+    QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
+    QPushButton* ok_button = findChild<QPushButton*>("okButton");
+    QPushButton* create_button = findChild<QPushButton*>("createButton");
+    QPushButton* join_button = findChild<QPushButton*>("joinButton");
+    QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
+
+    connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
+    connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
+    connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
+    connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
+    connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::joinGame);
 
 }
 
 void ConfigChecker::showConnectionError() {
-    QWidget *error_widget = findChild<QWidget*>("errorWidget");
-    QCommandLinkButton* ok_button = findChild<QCommandLinkButton*>("okButton");
-    // connect(ok_button, &QPushButton::clicked, error_widget, error_widget->close());
-    error_widget->show();
-    error_widget->setEnabled(true);
+    showWidget("errorWidget");
     // qDebug("show");
 }
 
