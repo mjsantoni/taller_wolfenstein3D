@@ -35,7 +35,7 @@ public:
     Area findObjectProportions(ObjectInfo &object_info, double pl_ob_angle);
     void setDimensions(int width, int height);
     double findObjectHeight(double distance);
-    int findY0(double object_height);
+    int findObjectStartingPoint(double object_height);
 };
 
 

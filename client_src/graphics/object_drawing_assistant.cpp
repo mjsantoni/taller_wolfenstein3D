@@ -30,9 +30,10 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
         //std::cout << "width: " << image_area.getWidth() << std::endl;
         //std::cout << "height: " << image_area.getHeight() << std::endl;
     }
-    else
+    else {
         image_area = texture_manager.getImageAreaFromObjectType(object_type);
-    image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
+        image_area.setX((int)object_info.getHitGridPos()*image_area.getWidth());
+    }
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
     window.loadImage(texture, image_area, screen_area);
     bool debug_object_drawing_info = false;
@@ -71,13 +72,16 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
     double distance = object_info.getHitDistance();
     distance *= cos(pl_ob_angle);
     double object_height = findObjectHeight(distance);
-    int y0 = findY0(object_height);
-    double y1 = y0 + object_height;
-    auto col_height = double(y0 - y1);
-    double x0 = tan(pl_ob_angle) * VIEW_DIST;
+    int object_y_starting_point = findObjectStartingPoint(object_height);
+    double column_starting_point = object_y_starting_point + object_height;
+    auto col_height = double(object_y_starting_point - column_starting_point);
+    double object_x_starting_point = tan(pl_ob_angle) * VIEW_DIST;
     double object_width = col_height;
-    double x = (SCREEN_DRAWING_WIDTH/2 + x0 - object_width/2);
-    Area area(x, y1, object_width, col_height);
+            //col_height * (SCREEN_DRAWING_WIDTH/SCREEN_DRAWING_HEIGHT);
+    double screen_x_starting_point = ((double) SCREEN_DRAWING_WIDTH/2 +
+                                    object_x_starting_point - object_width / 2);
+    Area area((int) screen_x_starting_point, (int) column_starting_point,
+              (int) object_width, col_height);
     return area;
 }
 
@@ -86,7 +90,7 @@ double ObjectDrawingAssistant::findObjectHeight(double distance) {
     return (height_proportion*proj_plane_distance); // altura muro
 }
 
-int ObjectDrawingAssistant::findY0(double object_height) {
+int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) {
     return (int (SCREEN_HEIGHT/2) - int (object_height/2));
 }
 

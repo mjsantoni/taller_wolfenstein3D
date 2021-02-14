@@ -390,6 +390,8 @@ bool ClientMap::updateEvents() {
         std::pair<int, int> respawn_position = player_spawns[id];
         Drawable& enemy = enemies.at(id);
         enemy.setMapPosition(respawn_position.first, respawn_position.second);
+        ImageManager::getMovingAnimationForEnemy(enemy,
+                                                 enemy.getSpriteAnimationNo());
         enemies_to_respawn.erase(id);
     }
     return effects_present;

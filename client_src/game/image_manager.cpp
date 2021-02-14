@@ -71,18 +71,22 @@ void ImageManager::getMovingAnimationForEnemy(Drawable& drawable,
     if (current_animation == possible_animations[possible_animations.size()-1])
         drawable.setSpriteAnimationNo(possible_animations[0]);
     else {
+        bool animation_found = false;
         for (auto& animation : possible_animations) {
             if (animation > current_animation) {
                 drawable.setSpriteAnimationNo(animation);
+                animation_found = true;
                 break;
             }
         }
+        if (!animation_found)
+            drawable.setSpriteAnimationNo(possible_animations[0]);
     }
     //std::cout << "El enemigo se mueve, animacion: " << drawable.getSpriteAnimationNo() << std::endl;
 }
 
 std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
-    return std::vector<int>{0, 1, 2, 3};
+    return std::vector<int>{0, 1, 4, 7};
 }
 
 void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
