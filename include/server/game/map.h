@@ -27,38 +27,38 @@ public:
 
     /* ADDERS */
 
-    void putPositionableAt(Positionable item, Coordinate pos);
-    void putBlockingAtExact(Positionable blocking, Coordinate coordinates);
+    void putPositionableAt(const Positionable& item, const Coordinate& pos);
+    void putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates);
     void addPlayer(int i);
 
     /* VERIFIERS */
 
     bool isABlockingItemAt(const Coordinate& coordinates);
     bool isAPlayerAt(Coordinate &coordinate);
-    bool isAPlayerInACell(Coordinate coordinate);
+    bool isAPlayerInACell(const Coordinate& coordinate);
 
     /* GETTERS */
 
-    Positionable getBlockingItemAt(Coordinate coordinates);
-    Coordinate getNormalizedCoordinate(Coordinate coordinates);
-    Positionable getPositionableAt(Coordinate coordinates);
+    Positionable getBlockingItemAt(const Coordinate& coordinates);
+    Coordinate getNormalizedCoordinate(const Coordinate& coordinates);
+    Positionable getPositionableAt(const Coordinate& coordinates);
     int getGlobalID();
     Coordinate getPlayerPosition(int id);
-    int getPlayerIDAtPosition(Coordinate coord);
+    int getPlayerIDAtPosition(const Coordinate& coord);
     std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> getBoard();
 
     /* ERASERS */
 
-    void removeBlockingItemAt(Coordinate coordinates);
-    void erasePositionableAt(Coordinate coord);
+    void removeBlockingItemAt(const Coordinate& coordinates);
+    void erasePositionableAt(const Coordinate& coord);
     void removePlayer(int &i);
 
     /* OTHERS */
 
-    Coordinate closePositionable(int units, Coordinate coord,
+    Coordinate closePositionable(int units, const Coordinate& coord,
                                  std::set<Coordinate>& found_positionables);
     void respawnPlayer(int id);
-    void setPlayerPosition(int i, Coordinate coordinate);
+    void setPlayerPosition(int i, const Coordinate& coordinate);
 
     /* MAP INITIALIZER FUNCTIONS */
 
@@ -68,9 +68,9 @@ public:
                             std::vector<Coordinate>>& non_obstructives, PositionableHandler handler);
     void addPlayerSpawns(std::unordered_map<std::string,
                          std::vector<Coordinate>>& spawns);
-    void putBlockingItemAt(Coordinate coordinate, Positionable positionable);
+    void putBlockingItemAt(Coordinate coordinate, const Positionable& positionable);
 
-    void putPositionableAtCenter(Coordinate coordinates, Positionable positionable);
+    void putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable);
 
     /* MAP PRINT */
     void show();

@@ -13,11 +13,11 @@ Map::Map(int player_max_spawn_count) : max_players(player_max_spawn_count) {
 
 /* ADDERS */
 
-void Map::putPositionableAt(Positionable item, Coordinate pos) {
+void Map::putPositionableAt(const Positionable& item, const Coordinate& pos) {
     board[pos] = item;
 }
 
-void Map::putBlockingAtExact(Positionable blocking, Coordinate coordinates) {
+void Map::putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates) {
     board[getNormalizedCoordinate(coordinates)] = blocking;
 }
 
@@ -41,7 +41,7 @@ bool Map::isAPlayerAt(Coordinate &coordinate) {
     return false;
 }
 
-bool Map::isAPlayerInACell(Coordinate coordinate) {
+bool Map::isAPlayerInACell(const Coordinate& coordinate) {
     Coordinate normalize_coordinate = getNormalizedCoordinate(coordinate);
     for (auto& coord : player_positions) {
         if (getNormalizedCoordinate(coord) == coordinate) return true;
@@ -51,18 +51,18 @@ bool Map::isAPlayerInACell(Coordinate coordinate) {
 
 /* GETTERS */
 
-Positionable Map::getBlockingItemAt(Coordinate coordinates) {
+Positionable Map::getBlockingItemAt(const Coordinate& coordinates) {
     return board.at(getNormalizedCoordinate(coordinates));
 }
 
-Coordinate Map::getNormalizedCoordinate(Coordinate coordinates) {
+Coordinate Map::getNormalizedCoordinate(const Coordinate& coordinates) {
     int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
     Coordinate normalize(x_normalize, y_normalize);
     return normalize;
 }
 
-Positionable Map::getPositionableAt(Coordinate coordinates) {
+Positionable Map::getPositionableAt(const Coordinate& coordinates) {
     return board.at(coordinates);
 }
 
@@ -76,7 +76,7 @@ Coordinate Map::getPlayerPosition(int id) {
     return player_positions[id];
 }
 
-int Map::getPlayerIDAtPosition(Coordinate coord) {
+int Map::getPlayerIDAtPosition(const Coordinate& coord) {
     for(int i = 0; i < player_positions.size(); i++) {
         if (player_positions[i] == coord) return i;
     }
@@ -87,11 +87,11 @@ std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> Map::getB
 
 /* ERASERS */
 
-void Map::removeBlockingItemAt(Coordinate coordinates) {
+void Map::removeBlockingItemAt(const Coordinate& coordinates) {
     board.erase(getNormalizedCoordinate(coordinates));
 }
 
-void Map::erasePositionableAt(Coordinate coord) {
+void Map::erasePositionableAt(const Coordinate& coord) {
     if (board.find(coord) != board.end()) {
         //no deberia dar error, esto deberia borrar de una
         //gasta recursos chequear esto
@@ -108,7 +108,7 @@ void Map::removePlayer(int &i) {
 
 /* OTHERS */
 
-Coordinate Map::closePositionable(int units, Coordinate coord,
+Coordinate Map::closePositionable(int units, const Coordinate& coord,
                                   std::set<Coordinate>& found_positionables) {
     for (int i = coord.x-units; i <= coord.x+units; i++) {
         for (int j = coord.y-units; j <= coord.y+units; j++) {
@@ -125,7 +125,7 @@ Coordinate Map::closePositionable(int units, Coordinate coord,
 
 void Map::respawnPlayer(int id) { addPlayer(id); }
 
-void Map::setPlayerPosition(int i, Coordinate coord) {
+void Map::setPlayerPosition(int i, const Coordinate& coord) {
     player_positions[i] = coord;
 }
 
@@ -166,13 +166,13 @@ void Map::addPlayerSpawns(std::unordered_map<std::string,
 }
 
 void Map::putBlockingItemAt(Coordinate coordinates,
-                            Positionable positionable) {
+                            const Positionable& positionable) {
     coordinates.x *= grid_size;
     coordinates.y *= grid_size;
     board[coordinates] = positionable;
 }
 
-void Map::putPositionableAtCenter(Coordinate coordinates, Positionable positionable) {
+void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable) {
     coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
     coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
     board[coordinates] = positionable;
