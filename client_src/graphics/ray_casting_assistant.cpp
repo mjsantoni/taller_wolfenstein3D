@@ -2,22 +2,18 @@
 // Created by andy on 10/2/21.
 //
 
-#include "client/graphics/drawing_assistant.h"
+#include "client/graphics/ray_casting_assistant.h"
 
-#define PROJECTION_PLANE_width 320
-#define PROJECTION_PLANE_height 200
-#define MAX_OBJECT_HEIGHT 300
-
-DrawingAssistant::DrawingAssistant(SdlWindow& _window,
-                                std::map<int, std::pair<int, int>>& _floor_info,
-                                TextureManager& _texture_manager) :
+RayCastingAssistant::RayCastingAssistant(SdlWindow& _window,
+                                         std::map<int, std::pair<int, int>>& _floor_info,
+                                         TextureManager& _texture_manager) :
                                 window(_window),
                                 floor_info(_floor_info),
                                 texture_manager(_texture_manager) {
     //setDimensions(window.getWidth(), window.getHeight());
 }
 
-void DrawingAssistant::drawFloor(int x_pos, int wall_posY, int wall_height) {
+void RayCastingAssistant::drawFloor(int x_pos, int wall_posY, int wall_height) {
     int fsp_for_column = wall_posY + wall_height;
     int fh_for_column = window_height - fsp_for_column;
     std::pair<int, int> ray_floor_info {fsp_for_column, fh_for_column};
@@ -26,34 +22,34 @@ void DrawingAssistant::drawFloor(int x_pos, int wall_posY, int wall_height) {
     window.drawRectangle(area, 123, 123, 123, 0);
 }
 
-void DrawingAssistant::drawCeiling(int x_pos, int y_pos) {
+void RayCastingAssistant::drawCeiling(int x_pos, int y_pos) {
     Area area(x_pos*width_factor, 0, width_factor, y_pos);
     window.drawRectangle(area, 60, 60, 60, 0);
 }
 
-void DrawingAssistant::setDimensions(int width, int height) {
+void RayCastingAssistant::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
-    width_factor = double(width) / 600;
+    width_factor = double(width) / 960;
     height_factor = (int) (height / 600);
 }
 
-double DrawingAssistant::findWallHeight(double distance) {
+double RayCastingAssistant::findWallHeight(double distance) {
     auto height_proportion = (double) WALL_HEIGHT/distance;
     return (height_proportion*proj_plane_distance); // altura muro
 }
 
-int DrawingAssistant::findY0(double wall_height) {
+int RayCastingAssistant::findY0(double wall_height) {
     return (int (SCREEN_HEIGHT/2) - int (wall_height/2));
 }
 
-int DrawingAssistant::findColumnStartingPoint(int wall_height) {
+int RayCastingAssistant::findColumnStartingPoint(int wall_height) {
     int y0 = (SCREEN_HEIGHT - wall_height)/2;
     double y1 = y0 + wall_height;
     return y1;
 }
 
-void DrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
+void RayCastingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
     int object_type = object_info.getObjectType();
     SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
     Area image_area = texture_manager.getImageAreaFromObjectType(object_type);
@@ -64,7 +60,7 @@ void DrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
     //SDL_DestroyTexture(texture);
 }
 /*
-SDL_Texture* DrawingAssistant::loadWallTexture(ObjectInfo& object_info,
+SDL_Texture* RayCastingAssistant::loadWallTexture(ObjectInfo& object_info,
                                                Area& image_area) {
     SdlTexture sdl_texture(object_info.getImagePath());
     SDL_Texture* image = sdl_texture.loadTexture(window.getRenderer(),
@@ -74,7 +70,7 @@ SDL_Texture* DrawingAssistant::loadWallTexture(ObjectInfo& object_info,
     return texture;
 }
 */
-Area DrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
+Area RayCastingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
     double distance = object_info.getHitDistance();
     double wall_height = findWallHeight(distance);
     int y0 = findY0(wall_height);
@@ -89,7 +85,7 @@ Area DrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
     return screen_area;
 }
 
-void DrawingAssistant::putFloorAndCeiling(int ray_no, ObjectInfo& object_info) {
+void RayCastingAssistant::putFloorAndCeiling(int ray_no, ObjectInfo& object_info) {
     Area screen_area = assembleScreenArea(ray_no, object_info);
     drawFloor(ray_no, screen_area.getY(), screen_area.getHeight());
     drawCeiling(ray_no, screen_area.getY());

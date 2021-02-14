@@ -2,8 +2,8 @@
 // Created by andy on 10/2/21.
 //
 
-#ifndef TP_WOLFENSTEIN_DRAWING_ASSISTANT_H
-#define TP_WOLFENSTEIN_DRAWING_ASSISTANT_H
+#ifndef TP_WOLFENSTEIN_RAY_CASTING_ASSISTANT_H
+#define TP_WOLFENSTEIN_RAY_CASTING_ASSISTANT_H
 
 #include <SDL_render.h>
 #include <client/object_info.h>
@@ -12,14 +12,10 @@
 #include <client/graphics/sdl_window.h>
 #include <map>
 #include "texture_manager.h"
-
-#define SCREEN_HEIGHT 600
-#define SCREEN_WIDTH 600
-#define FOV 60
-#define WALL_HEIGHT 600
+#include "screen_drawing_values.h"
 
 
-class DrawingAssistant {
+class RayCastingAssistant {
 private:
     SdlWindow& window;
     std::map<int, std::pair<int, int>>& floor_info;
@@ -29,11 +25,12 @@ private:
     double width_factor;
     double height_factor;
     int map_grid_size = 64;
-    int proj_plane_distance = (int) (( (double) SCREEN_WIDTH/2) / tan(FOV/2));
+    int proj_plane_distance =
+            (int) (( (double) SCREEN_DRAWING_WIDTH/2) / tan(FOV/2));
 public:
-    DrawingAssistant(SdlWindow &_window,
-                     std::map<int, std::pair<int, int>> &_floor_info,
-                     TextureManager& _texture_manager);
+    RayCastingAssistant(SdlWindow &_window,
+                        std::map<int, std::pair<int, int>> &_floor_info,
+                        TextureManager& _texture_manager);
     void drawFloor(int x_pos, int wall_posY, int wall_height);
     void drawCeiling(int x_pos, int y_pos);
     double findWallHeight(double distance);
@@ -48,4 +45,4 @@ public:
 };
 
 
-#endif //TP_WOLFENSTEIN_DRAWING_ASSISTANT_H
+#endif //TP_WOLFENSTEIN_RAY_CASTING_ASSISTANT_H

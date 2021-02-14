@@ -76,7 +76,7 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
     auto col_height = double(y0 - y1);
     double x0 = tan(pl_ob_angle) * VIEW_DIST;
     double object_width = col_height;
-    double x = (SCREEN_WIDTH/2 + x0 - object_width/2);
+    double x = (SCREEN_DRAWING_WIDTH/2 + x0 - object_width/2);
     Area area(x, y1, object_width, col_height);
     return area;
 }
@@ -100,6 +100,6 @@ Area ObjectDrawingAssistant::assembleScreenArea(ObjectInfo& object_info,
 void ObjectDrawingAssistant::setDimensions(int width, int height) {
     window_width = width;
     window_height = height;
-    width_factor = width/320;
-    height_factor = (int) (height/(0.8*200));
+    width_factor = width/SCREEN_DRAWING_WIDTH;
+    height_factor = height/SCREEN_DRAWING_HEIGHT;
 }

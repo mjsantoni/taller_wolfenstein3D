@@ -6,8 +6,7 @@
 
 #include <thread>
 
-#define PROJECTION_PLANE_WIDTH 600
-#define PROJECTION_PLANE_HEIGHT 600
+
 #define FOV_ANGLE 60
 #define GRID_SIZE 64
 
@@ -18,10 +17,10 @@ RayCaster::RayCaster(SdlWindow& window,
                      ObjectInfoProvider& _info_provider,
                      std::vector<double>& _angles_list,
                      TextureManager& texture_manager) :
-            window(window), wall_distance_info(_wall_distance_info), map(map),
-            info_provider(_info_provider), floor_info(_floor_info),
-            angles_list(_angles_list),
-            drawing_assistant(window, _floor_info, texture_manager){
+        window(window), wall_distance_info(_wall_distance_info), map(map),
+        info_provider(_info_provider), floor_info(_floor_info),
+        angles_list(_angles_list),
+        assistant(window, _floor_info, texture_manager) {
 }
 
 void RayCaster::renderBackground(int x, int y, double alpha) {
@@ -35,8 +34,8 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
         object_info = fillObjectInfo(object_info);
         //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
         object_info.setHitDistance(object_info.getHitDistance()*cos(beta));
-        drawing_assistant.putFloorAndCeiling(ray, object_info);
-        drawing_assistant.putWall(ray, object_info);
+        assistant.putFloorAndCeiling(ray, object_info);
+        assistant.putWall(ray, object_info);
         angle -= ray_angle_delta;
         if (angle < 0) {
             angle += 2*M_PI;
@@ -236,5 +235,5 @@ void RayCaster::saveRayInformation(double ray_angle, double distance) {
 }
 
 void RayCaster::setDimensions(int width, int height) {
-    drawing_assistant.setDimensions(width, height);
+    assistant.setDimensions(width, height);
 }

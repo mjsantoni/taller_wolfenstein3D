@@ -14,12 +14,7 @@
 #include <map>
 #include <client/graphics/sdl_window.h>
 #include "texture_manager.h"
-
-#define OBJECT_HEIGHT 600
-#define SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 600
-#define VIEW_DIST 600
-#define FOV 60
+#include "screen_drawing_values.h"
 
 class ObjectDrawingAssistant {
 private:
@@ -29,7 +24,8 @@ private:
     int width_factor;
     int height_factor;
     int map_grid_size = 64;
-    int proj_plane_distance = (int) (((double) SCREEN_WIDTH/2) / tan(FOV/2));
+    int proj_plane_distance =
+            (int) (((double) SCREEN_DRAWING_WIDTH/2) / tan(FOV/2));
     TextureManager& texture_manager;
 public:
     ObjectDrawingAssistant(SdlWindow &_window,TextureManager& _texture_manager);
