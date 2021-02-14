@@ -6,18 +6,16 @@
 
 InGameEventGenerator::InGameEventGenerator(ClientPlayer &_player,
                                            InGameEventHandler &_event_handler,
-                                           BlockingQueue<Event>& _event_queue) :
+                                           BlockingQueue<Event>& _event_queue,
+                                           bool& _player_alive) :
         player(_player),
         event_handler(_event_handler),
-        event_queue(_event_queue) {
-}
-
-void InGameEventGenerator::stop() {
-    is_running = false;
+        event_queue(_event_queue),
+        player_alive(_player_alive) {
 }
 
 void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
-    if (!is_running)
+    if (!player_alive)
         return;
     Event event = Event(INVALID, player.getId(), 0);
     switch (sdl_event.type) {

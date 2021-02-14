@@ -162,3 +162,36 @@ void MenusDrawer::displayDeadScreen() {
     window.loadImage(message, msg_area, screen_area);
     window.render();
 }
+
+void MenusDrawer::displayStatistics(std::vector<int> statistics) {
+    int top_killer = statistics[0];
+    int top_shooter = statistics[1];
+    int top_scorer = statistics[3];
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 0, 0, 0, 0);
+    std::string msg_top_killer =
+            "TOP KILLER: PLAYER " + std::to_string(top_killer);
+    std::string msg_top_shooter =
+            "TOP SHOOTER: PLAYER " + std::to_string(top_shooter);
+    std::string msg_top_scorer =
+            "TOP SCORER: PLAYER " + std::to_string(top_scorer);
+    Area msg_area_1;
+    Area msg_area_2;
+    Area msg_area_3;
+    SDL_Texture* message_1 =
+            createMessage(msg_top_killer, msg_area_1, screen_area);
+    SDL_Texture* message_2 =
+            createMessage(msg_top_killer, msg_area_1, screen_area);
+    SDL_Texture* message_3 =
+            createMessage(msg_top_killer, msg_area_1, screen_area);
+    Area screen_area_1 = Area(window_width/4, window_height/8, window_width/2,
+                       window_height/6);
+    Area screen_area_2 = Area(window_width/4, 3*window_height/8, window_width/2,
+                              window_height/6);
+    Area screen_area_3 = Area(window_width/4, 5*window_height/8, window_width/2,
+                              window_height/6);
+    window.loadImage(message_1, msg_area_1, screen_area_1);
+    window.loadImage(message_2, msg_area_2, screen_area_2);
+    window.loadImage(message_3, msg_area_3, screen_area_3);
+    window.render();
+}

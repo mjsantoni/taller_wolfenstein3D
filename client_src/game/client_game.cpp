@@ -11,13 +11,14 @@
 
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
-        running(true),
+        game_running(true),
         game_started(false),
         player_ready(false),
-        screen(600, 750, map, player),
+        screen(600, 750, map, player, player_alive),
         event_handler(change_queue),
-        event_generator(player, event_handler, event_queue),
-        change_processor(screen, map, player, change_queue, audio_manager),
+        event_generator(player, event_handler, event_queue, player_alive),
+        change_processor(screen, map, player, change_queue, audio_manager,
+                         player_alive, game_running),
         off_game_handler(screen, player, map, change_queue, event_queue) {
     //
 }
@@ -28,7 +29,7 @@ void ClientGame::startGame() {
     screen.render(std::vector<int>{1, 1, 1, 1});
     std::cout << "Se inicia la partida" << std::endl;
     SDL_Event event;
-    while (running) {
+    while (game_running) {
         //std::cout << "inicio ciclo de juego\n";
         usleep(33000);
         change_processor.processInGameChanges();
@@ -52,7 +53,7 @@ void ClientGame::startGame() {
 }
 
 bool ClientGame::isRunning() {
-    return running;
+    return game_running;
 }
 
 void ClientGame::initializePlayer() {

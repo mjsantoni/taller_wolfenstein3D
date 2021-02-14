@@ -15,15 +15,15 @@
 
 class InGameEventGenerator {
 private:
-    bool is_running = true;
+    bool& player_alive;
     ClientPlayer& player;
     InGameEventHandler& event_handler;
     BlockingQueue<Event>& event_queue;
 public:
     InGameEventGenerator(ClientPlayer& _player,
                          InGameEventHandler& _event_handler,
-                         BlockingQueue<Event>& _event_queue);
-    void stop();
+                         BlockingQueue<Event>& _event_queue,
+                         bool& _player_alive);
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);
 };

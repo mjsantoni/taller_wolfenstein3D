@@ -30,10 +30,9 @@ public:
     void displayFullImage(SdlTexture &texture);
     std::vector<Area> getKeyAreas();
     void displayLoadingScreen(bool waiting_for_input);
-
     void displayRespawningScreen();
-
     void displayDeadScreen();
+    void displayStatistics(std::vector<int> statistics);
 };
 
 

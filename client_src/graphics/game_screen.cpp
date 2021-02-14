@@ -7,7 +7,8 @@
 GameScreen::GameScreen(int width,
                        int height,
                        ClientMap& _map,
-                       ClientPlayer& _player) :
+                       ClientPlayer& _player,
+                       bool& _player_alive) :
         window(width, height),
         texture_manager(window, object_info_provider),
         object_drawer(window, object_info_provider, wall_distance_info,
@@ -18,7 +19,8 @@ GameScreen::GameScreen(int width,
         ui_drawer(object_info_provider, window),
         weapon_drawer(window, object_info_provider, texture_manager),
         menus_drawer(window),
-        player(_player) {
+        player(_player),
+        player_alive(_player_alive) {
     ray_caster.setDimensions(width, (int) (0.8 * height));
     object_drawer.setDimensions(width, (int) (0.8 * height));
     ui_drawer.setDimensions((int) (0.8 * height), (int) (0.2 * height), width);
@@ -64,8 +66,10 @@ void GameScreen::render(std::vector<int> boolean_vector) {
     //if (render_object_drawer)
         object_drawer.loadObjects(x, y, player.getDirection());
     //if (render_player_weapon)
+    if (player_alive)
         weapon_drawer.drawPlayersEquippedWeapon(player.getEquippedWeapon());
     //if (render_ui_drawer)
+    if (player_alive)
         ui_drawer.drawPlayerUI(player);
     window.render();
     wall_distance_info.clear();
@@ -97,5 +101,9 @@ void GameScreen::displayRespawningScreen() {
 
 void GameScreen::clearWindow() {
     SDL_RenderClear(window.getRenderer());
+}
+
+void GameScreen::displayStatistics(std::vector<int> statistics) {
+    menus_drawer.displayStatistics(statistics);
 }
 

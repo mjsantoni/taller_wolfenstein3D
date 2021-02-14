@@ -34,13 +34,14 @@ private:
     ClientMap map;
     ClientPlayer player = ClientPlayer("Player 1");
     AudioManager audio_manager;
-    std::atomic<bool> running;
+    bool game_running;
     InGameEventGenerator event_generator;
     ClientParser client_parser;
     InGameEventHandler event_handler;
     InGameChangeProcessor change_processor;
     bool game_started;
     bool player_ready;
+    bool player_alive = true;
     OffGameHandler off_game_handler;
     ClientPlayerInitializer player_initializer;
 public:

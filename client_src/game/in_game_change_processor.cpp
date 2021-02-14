@@ -12,13 +12,17 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
                                              ClientMap& _map,
                                              ClientPlayer& _player,
                                              SharedQueue<Change>& _change_queue,
-                                             AudioManager& _audio_manager) :
+                                             AudioManager& _audio_manager,
+                                             bool& _player_alive,
+                                             bool& _game_running) :
                                  screen(_screen),
                                  map(_map),
                                  player(_player),
                                  change_queue(_change_queue),
                                  alive(true),
-                                 audio_manager(_audio_manager) {
+                                 audio_manager(_audio_manager),
+                                 player_alive(_player_alive),
+                                 game_running(_game_running) {
 }
 
 /* Ejecuta los cambios */
@@ -29,6 +33,9 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
     int id = change.id;
     int value1 = change.value1;
     int value2 = change.value2;
+
+    if (!player_alive)
+        return processDeadPlayerChange(change);
 
     //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
@@ -129,8 +136,9 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         }
         case (KILL_PLAYER): {
             if (player.getId() == id) {
-                while (true)
                     screen.displayDeadScreen();
+                    sleep(2);
+                    player_alive = false;
                 //algo mas aca seguro
             } else {
                 map.killPlayer(id);
@@ -236,6 +244,8 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
 void InGameChangeProcessor::processInGameChanges() {
     Change change = change_queue.pop();
     std::vector<int> render_vector = processInGameChange(change);
+    if (!game_running)
+        return;
     screen.render(render_vector);
     map.updateEnemiesSprites();
     if (map.updateEvents()) {
@@ -256,28 +266,33 @@ void InGameChangeProcessor::stop() {
     alive = false;
 }
 
-void InGameChangeProcessor::receiveIdsFromServer() {
-    while(true) {
-        Change change = change_queue.pop();
-        if (change.getChangeID() != MAP_INITIALIZER)
-            break;
-        addMapChange(change);
+std::vector<int> InGameChangeProcessor::processDeadPlayerChange(Change change) {
+    int change_id = change.getChangeID();
+    if (change_id == CL_DISPLAY_STATISTICS)
+        return displayStatisticsAndCloseGame();
+    if (change_id < TOP_KILLER || change_id > TOP_SCORER)
+        return std::vector<int>{0, 0, 0, 0};
+    int player_id = change.getPlayerID();
+    statistics_manager.addStatistic(change_id, player_id);
+    if (statistics_manager.readyToShow()) {
+            Change new_change(CL_DISPLAY_STATISTICS, 0, 0, 0);
+            change_queue.push(new_change);
     }
-    std::cout << "Se termino de construir el mapa\n";
+    return std::vector<int>{1, 1, 1, 1};
 }
 
-void InGameChangeProcessor::addMapChange(Change& change) {
-    /*
-    int object_id = change.getPlayerID();
-    int x_pos = change.getFirstValue();
-    int y_pos = change.getSecondValue();
-    if (isWall(object_id)) {
-        std::pair<int, int> grid =
-                Calculator::calculateGrid(map.getGridSize(), x_pos, y_pos);
-        map.putDrawableAt(grid, object_id);
+std::vector<int> InGameChangeProcessor::displayStatisticsAndCloseGame() {
+    screen.displayStatistics(statistics_manager.getStatistics());
+    SDL_Event event;
+    while (true) {
+        SDL_WaitEvent(&event);
+        if (event.type == SDL_KEYDOWN)
+            break;
     }
-     */
+    game_running = false;
+    return std::vector<int>{0, 0, 0, 0};
 }
+
 
 
 
