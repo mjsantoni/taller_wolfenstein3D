@@ -12,11 +12,11 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
     }
     if (hit_event.usedAllAmmo() && hit_event.getPlayerId() != -1) {
         changes.emplace_back(CHANGE_WEAPON, hit_event.getPlayerId(),
-                                 KNIFE, INVALID, false);
+                                 KNIFE, INVALID, true);
     }
     for (auto& hit : dmg_done) {
         changes.emplace_back(CHANGE_HP, hit.first,
-                                 -hit.second, INVALID, false);
+                                 -hit.second, INVALID, true);
     }
     // Respawn: (id del player que muere, si respawnea o no) //
     for (auto& respawn : hit_event.getPlayerRespawns()) {

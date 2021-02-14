@@ -414,5 +414,5 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
     std::pair<int, int> enemy_pos = enemy.getMapPosition();
     Drawable blood(BLOOD_EFFECT_ID);
     blood.setMapPosition(enemy_pos);
-    objects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood));
+    effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood));
 }

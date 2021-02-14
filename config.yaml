@@ -11,7 +11,7 @@ treasure:
   chest: 100
   crown: 200
 gun:
-  knife: [1, 1, 1, 25]
+  knife: [1, 1, 1, 60]
   pistol: [1, 1, 0.75, 100]
   chain_gun: [1, 0.1, 0.8, 100]
   machine_gun: [5, 0.3, 0.6, 100]

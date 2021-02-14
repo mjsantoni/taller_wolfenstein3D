@@ -36,18 +36,18 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     }
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
     window.loadImage(texture, image_area, screen_area);
-    bool debug_object_drawing_info = false;
+    bool debug_object_drawing_info = true;
     if (!debug_object_drawing_info)
         return;
-    std::cout << "Objeto: " << object_info.getObjectName() << std::endl;
-    std::cout << "Animacion: " << object_info.getSpriteAnimationNo() << std::endl;
+    //std::cout << "Objeto: " << object_info.getObjectName() << std::endl;
+    //std::cout << "Animacion: " << object_info.getSpriteAnimationNo() << std::endl;
     printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
     printf("Distancia: %f\n", object_info.getHitDistance());
-    printf("Pos x: %d\n", screen_area.getX());
-    printf("Pos y: %d\n", screen_area.getY());
-    printf("Altura: %d\n", screen_area.getHeight());
-    printf("Ancho: %d\n", screen_area.getWidth());
-    printf("Ancho de pantalla: %d\n", window_width);
+    //printf("Pos x: %d\n", screen_area.getX());
+    //printf("Pos y: %d\n", screen_area.getY());
+    //printf("Altura: %d\n", screen_area.getHeight());
+    //printf("Ancho: %d\n", screen_area.getWidth());
+    //printf("Ancho de pantalla: %d\n", window_width);
 }
 
 SDL_Texture*
