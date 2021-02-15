@@ -59,7 +59,8 @@ void AudioManager::displayExplosionSound() {
     audio_player.stopSound();
 }
 
-void AudioManager::displayDyingEnemy() {
+void AudioManager::displayDyingEnemy(double volume_ratio) {
+    audio_player.setVolume((int) (volume_ratio * MAX_VOLUME));
     std::unique_lock<std::mutex> lock(m);
     audio_player.playSound("../client_src/resources/sounds/dead_enemy.mp3");
     usleep(400000);
@@ -104,6 +105,13 @@ void AudioManager::displayHumanGettingHit(double volume_ratio) {
     audio_player.restoreVolume();
 }
 
+void AudioManager::displayDyingDog(double volume_ratio) {
+    audio_player.setVolume((int) (volume_ratio * MAX_VOLUME));
+    audio_player.playSound(getFilePath("dog_death.mp3"));
+    usleep(500000);
+    audio_player.stopSound();
+    audio_player.restoreVolume();
+}
 
 std::string AudioManager::getFilePath(std::string file_name) {
     return files_path + "/" + file_name;

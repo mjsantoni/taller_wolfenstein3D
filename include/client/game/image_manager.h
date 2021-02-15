@@ -18,9 +18,9 @@ public:
     static int getImageNumberFromWeapon(int weapon_number);
     static int getShootingAnimationForWeapon(int weapon_number);
     static std::vector<int> getMovingAnimationsForEnemy(int object_type);
-    static void getDyingAnimationForEnemy(Drawable &enemy);
-    static void getAttackingAnimationForEnemy(Drawable& enemy);
-    static void getMovingAnimationForEnemy(Drawable& drawable,
+    static void setDyingAnimationForEnemy(Drawable &enemy);
+    static void setAttackingAnimationForEnemy(Drawable& enemy);
+    static void setMovingAnimationForEnemy(Drawable& drawable,
                                            int current_animation);
 };
 

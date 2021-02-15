@@ -178,3 +178,10 @@ void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
     };
     SDL_RenderCopy(window.getRenderer(), texture, &sdlSrc, &sdlDest);
 }
+
+void UIDrawer::renderDeadMode() {
+    Area upper_area(0, 0, width, ui_height);
+    window.drawRectangle(upper_area, 0, 0, 0, 0);
+    Area lower_area(0, starting_point, width, ui_height);
+    window.drawRectangle(lower_area, 0, 0, 0, 0);
+}

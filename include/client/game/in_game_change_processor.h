@@ -44,7 +44,9 @@ public:
     void processInGameChanges();
     void processInGameChanges(std::vector<Change> changes);
     std::vector<int> displayStatisticsAndCloseGame();
-    std::vector<int> processDeadPlayerChange(Change change);
+    std::vector<int> processStatisticsChanges(Change change);
+    std::vector<int> processEnemyRespawning(int enemy_id);
+    std::vector<int> processEnemyDying(int enemy_id);
 };
 
 

@@ -20,10 +20,8 @@ private:
     SdlWindow& window;
     std::map<int, std::pair<int, int>>& floor_info;
     TextureManager& texture_manager;
-    int window_width;
-    int window_height;
-    double width_factor;
-    double height_factor;
+    int screen_width;
+    int screen_height;
     int map_grid_size = 64;
     int proj_plane_distance =
             (int) (( (double) SCREEN_DRAWING_WIDTH/2) / tan(FOV/2));
@@ -41,7 +39,7 @@ public:
     Area assembleScreenArea(int ray_no, ObjectInfo &object_info);
     void putFloorAndCeiling(int ray_no, ObjectInfo &object_info);
 
-    int findY0(double wall_height);
+    int findWallStartingPoint(double wall_height);
 };
 
 

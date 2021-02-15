@@ -48,7 +48,7 @@ public:
     UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window);
     void setDimensions(int _starting_point, int _height, int _width);
     void drawPlayerUI(ClientPlayer& player);
-
+    void renderDeadMode();
 };
 
 

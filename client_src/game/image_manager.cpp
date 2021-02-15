@@ -63,7 +63,7 @@ int ImageManager::getShootingAnimationForWeapon(int weapon_number) {
     return 2;
 }
 
-void ImageManager::getMovingAnimationForEnemy(Drawable& drawable,
+void ImageManager::setMovingAnimationForEnemy(Drawable& drawable,
                                               int current_animation) {
     int object_type = drawable.getObjectType();
     std::vector<int> possible_animations =
@@ -91,7 +91,7 @@ std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
     return std::vector<int>{0, 1, 4, 7};
 }
 
-void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
+void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
     int current_animation = enemy.getSpriteAnimationNo();
     if (current_animation == 3)
         enemy.setSpriteAnimationNo(6);
@@ -100,7 +100,7 @@ void ImageManager::getAttackingAnimationForEnemy(Drawable& enemy) {
     std::cout << "El enemigo ataca, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }
 
-void ImageManager::getDyingAnimationForEnemy(Drawable &enemy) {
+void ImageManager::setDyingAnimationForEnemy(Drawable &enemy) {
     enemy.setSpriteAnimationNo(8); // HAY MAS
     std::cout << "El enemigo muere, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }

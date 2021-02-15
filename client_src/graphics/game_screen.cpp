@@ -71,6 +71,8 @@ void GameScreen::render(std::vector<int> boolean_vector) {
     //if (render_ui_drawer)
     if (player_alive)
         ui_drawer.drawPlayerUI(player);
+    else
+        ui_drawer.renderDeadMode();
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
@@ -83,12 +85,17 @@ void GameScreen::displayPlayerAttacking() {
     ray_caster.renderBackground(x, y, player.getDirection());
     object_drawer.loadObjects(x, y, player.getDirection());
     weapon_drawer.displayPlayerShooting(player.getEquippedWeapon());
+    ui_drawer.drawPlayerUI(player);
     usleep(50000);
     ray_caster.renderBackground(x, y, player.getDirection());
     object_drawer.loadObjects(x, y, player.getDirection());
+    ui_drawer.drawPlayerUI(player);
     usleep(50000);
     weapon_drawer.displayPlayerStopShooting(player.getEquippedWeapon());
     window.render();
+    wall_distance_info.clear();
+    angles_list.clear();
+    floor_info.clear();
 }
 
 void GameScreen::displayLoadingScreen(bool waiting_for_input) {

@@ -47,7 +47,7 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     //printf("Pos y: %d\n", screen_area.getY());
     //printf("Altura: %d\n", screen_area.getHeight());
     //printf("Ancho: %d\n", screen_area.getWidth());
-    //printf("Ancho de pantalla: %d\n", window_width);
+    //printf("Ancho de pantalla: %d\n", screen_width);
 }
 
 SDL_Texture*
@@ -91,7 +91,7 @@ double ObjectDrawingAssistant::findObjectHeight(double distance) {
 }
 
 int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) {
-    return (int (SCREEN_HEIGHT/2) - int (object_height/2));
+    return (int (SCREEN_DRAWING_HEIGHT/2) - int (object_height/2));
 }
 
 Area ObjectDrawingAssistant::assembleScreenArea(ObjectInfo& object_info,

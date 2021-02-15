@@ -23,14 +23,15 @@ public:
     void displayPlayerShootingSound();
     void displayEmptyGunSound();
     void displayExplosionSound();
-    void displayDyingEnemy();
+
     void displayPlayerLosingHealthSound();
     std::string getFilePath(std::string file_name);
     void displayEnemyShot(double volume_ratio);
+    void displayDyingEnemy(double volume_ratio);
     void displayDogAttackingSound(double volume_ratio);
     void displayDogGettingHit(double volume_ratio);
-
     void displayHumanGettingHit(double volume_ratio);
+    void displayDyingDog(double volume_ratio);
 };
 
 
