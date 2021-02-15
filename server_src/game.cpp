@@ -10,7 +10,7 @@
 #define MOVE_UP 2
 #define MOVE_DOWN 3
 
-Game::Game(std::string map_path, std::string config_path, BotsManager& bm, int _players_requested) :
+Game::Game(const std::string& map_path, std::string config_path, BotsManager& bm, int _players_requested) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
@@ -216,7 +216,7 @@ std::vector<Change> Game::passTime() {
 
 void Game::show() { map.show(); }
 
-std::vector<std::pair<int,int>> Game::getTop(std::string type, int n) {
+std::vector<std::pair<int,int>> Game::getTop(const std::string& type, int n) {
     if (type == "kills") return scoreHandler.getTopFraggers(n);
     if (type == "bullets") return scoreHandler.getTopShooters(n);
     return scoreHandler.getTopCollectors(n);

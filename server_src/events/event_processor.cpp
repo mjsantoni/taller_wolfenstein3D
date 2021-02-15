@@ -1,7 +1,7 @@
 #include "server/events/event_processor.h"
 #include "server/events/hit_handler.h"
 
-EventProcessor::EventProcessor(Game &_game, std::string config_path) :
+EventProcessor::EventProcessor(Game &_game, const std::string& config_path) :
                               game(_game), configParser(config_path) {}
 
 std::vector<Change> EventProcessor::process(Event& event) {
@@ -39,9 +39,9 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
             if (door_id == -1) break;
 
-            changes.emplace_back(REMOVE_POSITIONABLE, door_id, INVALID, INVALID, true);
+            changes.emplace_back(REMOVE_POSITIONABLE, door_id, player_id, INVALID, true);
             if (use_key)
-                changes.emplace_back(CHANGE_KEY, player_id, INVALID,INVALID, false);
+                changes.emplace_back(CHANGE_KEY, player_id, INVALID, INVALID, false);
             break;
         }
         case (PUSH_WALL): {
@@ -50,7 +50,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             // antes de mandar el evento (para no gastar mucho recurso)
             int pushed_wall_id = game.pushWall(player_id);
             if (pushed_wall_id == -1) break;
-            changes.emplace_back(REMOVE_POSITIONABLE, pushed_wall_id, INVALID, INVALID, true);
+            changes.emplace_back(REMOVE_POSITIONABLE, pushed_wall_id, player_id, INVALID, true);
             break;
         }
         case (TURN_CAMERA): {
@@ -84,7 +84,7 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
     changes.emplace_back(MOVE_PLAYER, player_id,
                          move_changes.first.x, move_changes.first.y, true);
     for (auto &item : move_changes.second) {
-        changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), INVALID, INVALID, true);
+        changes.emplace_back(REMOVE_POSITIONABLE, item.getId(), player_id, INVALID, true);
 
         if (item.getCategory() == "treasure")  {
             changes.emplace_back(CHANGE_POINTS, player_id,

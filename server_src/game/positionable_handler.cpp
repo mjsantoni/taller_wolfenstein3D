@@ -1,22 +1,15 @@
 #include "server/game/positionable_handler.h"
 
 #include <string>
-
 #include "server/entities/barrel.h"
-#include "server/entities/bullets.h"
-#include "server/entities/key.h"
 #include "server/entities/table.h"
 #include "server/entities/wall.h"
-#include "server/entities/treasure.h"
-#include "server/entities/gun.h"
-#include "server/entities/hp_item.h"
 #include "server/entities/door.h"
-#include "server/entities/water_puddle.h"
 
-PositionableHandler::PositionableHandler(std::string _config_path) :
+PositionableHandler::PositionableHandler(const std::string& _config_path) :
                                            cp(_config_path) {}
 
-Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
+Positionable PositionableHandler::createBlockingItem(const std::string& type, int id) {
   if (type == "stone_wall") return Wall(type, id, false);
   else if (type == "wood_wall")  return Wall(type, id, false);
   else if (type == "blue_wall")  return Wall(type, id, false);
@@ -27,7 +20,7 @@ Positionable PositionableHandler::createBlockingItem(std::string type, int id) {
   else { return Table(id); }
 }
 
-Positionable PositionableHandler::createItem(std::string type, int id) {
+Positionable PositionableHandler::createItem(const std::string& type, int id) {
   if (type == "food" || type == "medkit" || type == "blood_puddle")
       return Positionable("hp_item", type, id, false);
   else if (type == "bullets")
@@ -40,6 +33,5 @@ Positionable PositionableHandler::createItem(std::string type, int id) {
       return Positionable("water_puddle", "water_puddle", id, false);
   else
       return Positionable("key", "key", id, false);
-
 }
 

@@ -8,10 +8,10 @@ class PositionableHandler {
 private:
     ConfigParser cp;
 public:
-    PositionableHandler(std::string _config_path);
+    PositionableHandler(const std::string& _config_path);
 
-    Positionable createBlockingItem(std::string type, int id);
-    Positionable createItem(std::string type, int id);
+    Positionable createBlockingItem(const std::string& type, int id);
+    Positionable createItem(const std::string& type, int id);
     //Positionable createSpawns(std::string type);
 
     ~PositionableHandler() {}

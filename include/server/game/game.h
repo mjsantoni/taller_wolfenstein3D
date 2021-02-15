@@ -54,7 +54,7 @@ private:
     static double getAngleToMove(int direction);
 
 public:
-    Game(std::string map_path, std::string config_path, BotsManager& bm, int _player_requested);
+    Game(const std::string& map_path, std::string config_path, BotsManager& bm, int _player_requested);
     ~Game();
 
     /* RECEIVED EVENTS */
@@ -81,7 +81,7 @@ public:
 
     /* GAME PRINT */
     void show();
-    std::vector<std::pair<int, int>> getTop(std::string type, int n);
+    std::vector<std::pair<int, int>> getTop(const std::string& type, int n);
 
     /* LUA SCRIPT */
     void addBot();

@@ -34,7 +34,7 @@ public:
 
     void setPlayersDeaths(std::vector<std::pair<int, bool>> _player_respawns);
 
-    void addDrops(std::string type, Coordinate pos, int id, int drop_id);
+    void addDrops(std::string type, const Coordinate& pos, int id, int drop_id);
     ~Hit();
     Hit(const Hit& other);
     Hit& operator=(const Hit& other);

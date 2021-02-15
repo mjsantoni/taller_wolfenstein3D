@@ -1,11 +1,8 @@
 #include "server/game/pickup_handler.h"
-#include "server/entities/bullets.h"
 #include "server/entities/treasure.h"
 #include "server/entities/hp_item.h"
-#include "server/entities/gun.h"
-#include "server/entities/key.h"
 
-PickUpHandler::PickUpHandler(std::string config_path, ScoreHandler& _sh) : configParser(config_path), scoreHandler(_sh) {}
+PickUpHandler::PickUpHandler(const std::string& config_path, ScoreHandler& _sh) : configParser(config_path), scoreHandler(_sh) {}
 PickUpHandler::~PickUpHandler() {}
 
 bool PickUpHandler::pickUp(Positionable& item, Player& player) {
@@ -39,7 +36,7 @@ bool PickUpHandler::pickUpGun(const std::string& type, int id, Player &player) {
     return true;
 }
 
-bool PickUpHandler::pickUpBullets(Player &player, std::string type) {
+bool PickUpHandler::pickUpBullets(Player &player, const std::string& type) {
     if (player.hasMaxBullets()) return false;
     player.addBullets(configParser.getSpecificCategory("bullets", type));
     return true;

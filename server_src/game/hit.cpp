@@ -68,8 +68,8 @@ const std::vector<std::pair<int, bool>>& Hit::getPlayerRespawns() const {
     return player_respawns;
 }
 
-void Hit::addDrops(std::string type, Coordinate pos, int id, int drop_id) {
-    drops.push_back(Drop(type, id, pos, drop_id));
+void Hit::addDrops(std::string type, const Coordinate& pos, int id, int drop_id) {
+    drops.emplace_back(type, id, pos, drop_id);
 }
 
 const std::vector<Drop>& Hit::getDrops() const {
