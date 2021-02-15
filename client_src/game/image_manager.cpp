@@ -86,6 +86,8 @@ void ImageManager::getMovingAnimationForEnemy(Drawable& drawable,
 }
 
 std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
+    if (object_type == ENEMY_DOG)
+        return {1, 4, 7};
     return std::vector<int>{0, 1, 4, 7};
 }
 

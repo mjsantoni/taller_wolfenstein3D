@@ -27,6 +27,10 @@ private:
     bool& player_alive;
     bool& game_running;
     StatisticsManager statistics_manager;
+    std::vector<int> processEnemyAmmoChange(int enemy_id, int value);
+    std::vector<int> processPlayerAmmoChange(int delta);
+    std::vector<int> processEnemyHealthChange(int enemy_id, int delta);
+    std::vector<int> processPlayerHealthChange(int delta);
 public:
     InGameChangeProcessor(GameScreen& _screen,
                           ClientMap& _map,

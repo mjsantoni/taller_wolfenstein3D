@@ -55,10 +55,10 @@ void GameScreen::displayLevelSelectionMenu() {
 void GameScreen::render(std::vector<int> boolean_vector) {
     //if (boolean_vector == std::vector<int>{0, 0, 0, 0})
         //return;
-    bool render_ray_caster = boolean_vector[0];
-    bool render_object_drawer = boolean_vector[1];
-    bool render_player_weapon = boolean_vector[2];
-    bool render_ui_drawer = boolean_vector[3];
+    //bool render_ray_caster = boolean_vector[0];
+    //bool render_object_drawer = boolean_vector[1];
+    //bool render_player_weapon = boolean_vector[2];
+    //bool render_ui_drawer = boolean_vector[3];
     int x = player.getXPosition();
     int y = player.getYPosition();
     //if (render_ray_caster)

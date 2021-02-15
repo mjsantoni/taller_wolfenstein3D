@@ -47,9 +47,10 @@
 #define EFFECT_EXPLOSION 33
 #define EFFECT_MISSILE 34
 #define EFFECT_BLOOD 35
+#define EFFECT_DOG_BLOOD 36
 
-#define MISC_BARREL 36
-#define MISC_TABLE 37
+#define MISC_BARREL 37
+#define MISC_TABLE 38
 
 
 

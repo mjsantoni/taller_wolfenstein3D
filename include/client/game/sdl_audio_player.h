@@ -15,6 +15,8 @@ public:
     void playSound(const std::string& file_name);
     void stopSound();
     std::mutex m;
+    void restoreVolume();
+    void setVolume(int volume_level);
 };
 
 

@@ -13,6 +13,7 @@ class AudioManager {
 private:
     std::mutex m;
     SdlAudioPlayer audio_player;
+    std::string files_path = "../client_src/resources/sounds/";
 public:
     void playSong();
     void stopSong();
@@ -23,9 +24,13 @@ public:
     void displayEmptyGunSound();
     void displayExplosionSound();
     void displayDyingEnemy();
-    void displayEnemyShot();
-
     void displayPlayerLosingHealthSound();
+    std::string getFilePath(std::string file_name);
+    void displayEnemyShot(double volume_ratio);
+    void displayDogAttackingSound(double volume_ratio);
+    void displayDogGettingHit(double volume_ratio);
+
+    void displayHumanGettingHit(double volume_ratio);
 };
 
 

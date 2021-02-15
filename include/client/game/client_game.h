@@ -13,7 +13,6 @@
 #include "client_map.h"
 #include "sdl_audio_player.h"
 #include "client/graphics/game_screen.h"
-#include "client/communication/client_parser.h"
 #include "in_game_event_handler.h"
 #include "in_game_event_generator.h"
 #include "in_game_change_processor.h"
@@ -36,7 +35,6 @@ private:
     AudioManager audio_manager;
     bool game_running;
     InGameEventGenerator event_generator;
-    ClientParser client_parser;
     InGameEventHandler event_handler;
     InGameChangeProcessor change_processor;
     bool game_started;

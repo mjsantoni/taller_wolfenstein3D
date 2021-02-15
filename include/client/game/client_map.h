@@ -37,6 +37,7 @@ private:
     int real_width;
     int real_height;
     int total_players = 0;
+    double max_distance;
     void loadWallInfo(ObjectInfo& object_info,
                       std::pair<int, int> grid_coordinates);
     void putEnemyAt(int x_pos, int y_pos, int object_type, int id);
@@ -90,6 +91,10 @@ public:
     void killPlayer(int player_id);
     void setEnemyAttacking(int enemy_id);
     void setBloodEffectForEnemy(int enemy_id);
+
+    int getEnemyTypeFromId(int enemy_id);
+
+    double getEnemyDistanceRatio(int enemy_id);
 };
 
 

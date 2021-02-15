@@ -6,12 +6,10 @@
 #include <client/communication/server_updater.h>
 #include <client/communication/server_listener.h>
 #include "common/thread.h"
-#include "client/communication/client_parser.h"
 #include "client_game.h"
 
 class Client {
 private:
-    ClientParser parser;
     std::atomic<bool> running;
     ServerUpdater server_updater;
     ServerListener server_listener;

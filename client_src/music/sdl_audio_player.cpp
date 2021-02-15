@@ -5,6 +5,8 @@
 #include <SDL_mixer.h>
 #include "client/game/sdl_audio_player.h"
 
+void setVolume(int volume_level);
+
 SdlAudioPlayer::SdlAudioPlayer() {
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
         throw SdlException( "Error en la inicializacion del audio",
@@ -23,4 +25,13 @@ void SdlAudioPlayer::playSound(const std::string& file_name) {
 void SdlAudioPlayer::stopSound() {
     std::unique_lock<std::mutex> lock(m);
     Mix_HaltMusic();
+}
+
+void SdlAudioPlayer::setVolume(int volume_level) {
+    std::unique_lock<std::mutex> lock(m);
+    Mix_Volume(1, volume_level);
+}
+
+void SdlAudioPlayer::restoreVolume() {
+    Mix_Volume(1, MIX_MAX_VOLUME);
 }

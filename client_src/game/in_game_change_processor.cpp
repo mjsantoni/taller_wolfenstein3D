@@ -69,50 +69,15 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (CHANGE_HP): {
-            int health_delta = value1;
-            if (player.getId() != id) {
-                if (health_delta < 0) {
-                    map.setBloodEffectForEnemy(id);
-                    std::cout << "El enemigo pierde vida!!!!\n";
-                }
-                break;
-            }
-            player.updateHealth(health_delta);
-            if (health_delta < 0)
-                audio_manager.displayPlayerLosingHealthSound();
-            render_vector = std::vector<int>{0, 0, 0, 1};
-            // id: player_id - value1: hp to change (puede ser + o -)
-            // HUD: hay que verificar que no sobrepase el max_hp del player
-            break;
+            if (player.getId() != id)
+                return processEnemyHealthChange(id, value1);
+            return processPlayerHealthChange(value1);
         }
         case (CHANGE_AMMO): {
             int ammo_delta = value1;
-            if (player.getId() != id) {
-                if (ammo_delta > 0)
-                    break;
-                map.setEnemyAttacking(id);
-                audio_manager.displayEnemyShot();
-            }
-            if (ammo_delta < 0) {
-                audio_manager.displayPlayerAttackingSound(player.
-                                                          getEquippedWeapon());
-                screen.displayPlayerAttacking();
-                render_vector = std::vector<int>{0, 0, 1, 1};
-            }
-            else if (ammo_delta == 0) {
-                if (player.getEquippedWeapon() != 1) {
-                    audio_manager.displayEmptyGunSound();
-                    render_vector = std::vector<int>{0, 0, 0, 0};
-                }
-                else {
-                    audio_manager.displayPlayerAttackingSound(1);
-                    render_vector = std::vector<int>{1, 1, 1, 0};
-                }
-            }
-            player.updateAmmo(value1);
-            // id: player_id - value1: ammo to change (puede ser + o -)
-            // HUD: hay que verificar que no sobrepase el max_bullets del player
-            break;
+            if (player.getId() != id)
+                return processEnemyAmmoChange(id, ammo_delta);
+            return processPlayerAmmoChange(ammo_delta);
         }
         case (CHANGE_KEY): {
             if (player.getId() != id)
@@ -293,7 +258,62 @@ std::vector<int> InGameChangeProcessor::displayStatisticsAndCloseGame() {
     return std::vector<int>{0, 0, 0, 0};
 }
 
+std::vector<int>
+InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
+    if (value > 0)
+        return std::vector<int>{0, 0, 0, 0};
+    int enemy_type = map.getEnemyTypeFromId(enemy_id);
+    if (enemy_type != ENEMY_DOG && value == 0)
+        return std::vector<int>{0, 0, 0, 0};
+    double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+    if (enemy_type == ENEMY_DOG)
+        audio_manager.displayDogAttackingSound(distance_ratio);
+    else
+        audio_manager.displayEnemyShot(distance_ratio);
+    return std::vector<int>{1, 1, 1, 0};
+}
 
+std::vector<int> InGameChangeProcessor::processPlayerAmmoChange(int delta) {
+    std::vector<int> render_vector;
+    if (delta < 0) {
+        audio_manager.displayPlayerAttackingSound(player.
+                getEquippedWeapon());
+        screen.displayPlayerAttacking();
+        render_vector = std::vector<int>{0, 0, 1, 1};
+    }
+    else if (delta == 0) {
+        if (player.getEquippedWeapon() != 1) {
+            audio_manager.displayEmptyGunSound();
+            render_vector = std::vector<int>{0, 0, 0, 0};
+        }
+        else {
+            audio_manager.displayPlayerAttackingSound(1);
+            render_vector = std::vector<int>{1, 1, 1, 0};
+        }
+    }
+    player.updateAmmo(delta);
+    return render_vector;
+}
 
+std::vector<int> InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
+                                                                 int delta) {
 
+        if (delta < 0) {
+            map.setBloodEffectForEnemy(enemy_id);
+            int enemy_type = map.getEnemyTypeFromId(enemy_id);
+            double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+            if (enemy_type == ENEMY_DOG)
+                audio_manager.displayDogGettingHit(distance_ratio);
+            else
+                audio_manager.displayHumanGettingHit(distance_ratio);
+            return std::vector<int>{0, 1, 1, 0};
+        }
+        return std::vector<int>{0, 0, 0, 0};
+}
 
+std::vector<int> InGameChangeProcessor::processPlayerHealthChange(int delta) {
+    player.updateHealth(delta);
+    if (delta < 0)
+        audio_manager.displayPlayerLosingHealthSound();
+    return std::vector<int>{0, 0, 0, 1};
+}

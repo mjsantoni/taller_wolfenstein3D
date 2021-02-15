@@ -14,6 +14,7 @@ ClientMap::ClientMap(int width, int height, int grid_size) : width(width),
                     height(height) {
     real_width = width*grid_size;
     real_height = height*grid_size;
+    max_distance = Calculator::calculateDistance(real_width, real_height);
 }
 
 ClientMap::ClientMap() : width(0),
@@ -257,6 +258,7 @@ void ClientMap::setDimensions(int _width, int _height) {
     height = _height;
     real_width = width * grid_size;
     real_height = height * grid_size;
+    max_distance = Calculator::calculateDistance(real_width, real_height);
 }
 
 void ClientMap::setObjectId(std::pair<int, int> coordinates, int object_id) {
@@ -374,6 +376,22 @@ int ClientMap::getObjectTypeFromId(int object_id) {
     return drawable.getObjectType();
 }
 
+int ClientMap::getEnemyTypeFromId(int enemy_id) {
+    if (enemies.find(enemy_id) == objects.end())
+        return 0; // deberia lanzarse una excepcion
+    Drawable& drawable = enemies.at(enemy_id);
+    return drawable.getObjectType();
+}
+
+double ClientMap::getEnemyDistanceRatio(int enemy_id) {
+    Drawable& enemy = enemies.at(enemy_id);
+    std::pair<int, int> enemy_pos = enemy.getMapPosition();
+    int delta_x = player_coord.first - enemy_pos.first;
+    int delta_y = player_coord.first - enemy_pos.second;
+    double enemy_distance = Calculator::calculateDistance(delta_x, delta_y);
+    return enemy_distance/max_distance;
+}
+
 bool ClientMap::updateEvents() {
     bool effects_present = !effects.empty();
     for (auto& pair : effects) {
@@ -413,7 +431,10 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
     std::cout << "Se agrega efecto de sangre\n";
     Drawable& enemy = enemies.at(enemy_id);
     std::pair<int, int> enemy_pos = enemy.getMapPosition();
-    Drawable blood(EFFECT_BLOOD);
-    blood.setMapPosition(enemy_pos);
-    effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood));
+    int enemy_type = enemy.getObjectType();
+    Drawable blood_effect(EFFECT_BLOOD);
+    if (enemy_type == ENEMY_DOG)
+        blood_effect = Drawable(EFFECT_DOG_BLOOD);
+    blood_effect.setMapPosition(enemy_pos);
+    effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood_effect));
 }
