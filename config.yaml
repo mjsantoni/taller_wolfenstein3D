@@ -1,4 +1,4 @@
-hp_items:
+hp_item:
   blood_puddle: 1
   food: 10
   medkit: 20
@@ -12,10 +12,10 @@ treasure:
   crown: 200
 gun:
   knife: [1, 1, 1, 60]
-  pistol: [1, 1, 0.75, 100]
-  chain_gun: [1, 0.1, 0.8, 100]
-  machine_gun: [5, 0.3, 0.6, 100]
-  rpg_gun: [5, 1, 1, 100]
+  pistol: [1, 1, 0.75, 200]
+  chain_gun: [1, 0.1, 0.8, 200]
+  machine_gun: [5, 0.3, 0.6, 200]
+  rpg_gun: [5, 1, 1, 200]
 player:
   bullets: 100
   max_bullets: 100

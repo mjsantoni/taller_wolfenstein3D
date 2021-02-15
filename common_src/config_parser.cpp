@@ -1,10 +1,12 @@
 #include "common/config_parser.h"
 
-#include "yaml-cpp/yaml.h"
-#include <iostream>
-
-
-ConfigParser::ConfigParser(std::string path) : config(YAML::LoadFile(path)) {}
+ConfigParser::ConfigParser(const std::string& path) : config(YAML::LoadFile(path)) {
+    hp_items = getCategory("hp_item");
+    bullets = getCategory("bullets");
+    treasures = getCategory("treasure");
+    guns = getGuns();
+    players = getCategory("player");
+}
 
 ConfigParser::~ConfigParser() {}
 
@@ -20,15 +22,19 @@ std::unordered_map<std::string, std::vector<double>> ConfigParser::getGuns() {
     return category;
 }
 
-std::vector<double> ConfigParser::getSpecificGun(std::string type) {
-    return getGuns()[type];
+std::vector<double> ConfigParser::getSpecificGun(const std::string& type) {
+    return guns[type];
 }
 
-int ConfigParser::getSpecificCategory(std::string category, std::string type) {
-    return getCategory(category)[type];
+int ConfigParser::getSpecificCategory(const std::string& category, const std::string& type) {
+    if (category == "treasure")  return treasures[type];
+    else if (category == "hp_item")  return hp_items[type];
+    else if (category == "bullets")  return bullets[type];
+    else if (category == "player") return players[type];
+    else return -1; // Aca pusiste algo que no existe
 }
 
-std::unordered_map<std::string, int> ConfigParser::getCategory(std::string node) {
+std::unordered_map<std::string, int> ConfigParser::getCategory(const std::string& node) {
     std::unordered_map<std::string, int> category;
     for (YAML::const_iterator it = this->config[node].begin(); it != this->config[node].end(); ++it) {
         int value = it->second.as<int>();

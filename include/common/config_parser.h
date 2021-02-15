@@ -8,17 +8,23 @@
 
 class ConfigParser {
 private:
+    std::unordered_map<std::string, std::vector<double>> guns;
+    std::unordered_map<std::string, int> treasures;
+    std::unordered_map<std::string, int> hp_items;
+    std::unordered_map<std::string, int> bullets;
+    std::unordered_map<std::string, int> players;
+
+    /* Getters privados */
+    std::unordered_map<std::string, int> getCategory(const std::string& node);
+    std::unordered_map<std::string, std::vector<double>> getGuns();
 
 public:
     YAML::Node config;
-    explicit ConfigParser(std::string path);
 
-    /* Getters privados */
-    std::unordered_map<std::string, int> getCategory(std::string node);
-    std::unordered_map<std::string, std::vector<double>> getGuns();
+    explicit ConfigParser(const std::string& path);
 
-    int getSpecificCategory(std::string category, std::string type);
-    std::vector<double> getSpecificGun(std::string type);
+    int getSpecificCategory(const std::string& category, const std::string& type);
+    std::vector<double> getSpecificGun(const std::string& type);
 
     ~ConfigParser();
 };
