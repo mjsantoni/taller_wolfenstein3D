@@ -24,9 +24,9 @@ public:
 
     int hit(Player &player, Player &enemy, int damage, bool &enemy_dies);
 
-    std::pair<Coordinate, Coordinate> getAdjacents(Coordinate &pos, double angle);
+    std::vector<Coordinate> getAdjacents(Coordinate &pos, double angle, int adj_units_to_check);
 
-    bool hitAtPos(Coordinate& pos, std::vector<Player>& players, Player& player,
+    bool hitAtPos(std::vector<Coordinate>& positions, std::vector<Player>& players, Player& player,
                   std::vector<std::pair<int, int>>& enemy_dmg_done, int pos_travelled,
                   bool is_adjacent);
 

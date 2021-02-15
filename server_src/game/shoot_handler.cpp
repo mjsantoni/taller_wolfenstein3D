@@ -10,6 +10,7 @@
 #define ENEMY_DIES (-1)
 #define RPG_UNITS_MOVE_PER_TURN 5
 #define RPG_EXPLOSION_RADIUS 15     // esto viene del config
+#define SHOOT_AMPLITUDE 10
 
 std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
     std::vector<Change> changes; // Devuelve cambios en el mapa
@@ -172,10 +173,10 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
                 wall_at_pos = true;
                 break;
             }
-            std::pair<Coordinate, Coordinate> adj = getAdjacents(pos, angle);
-            if (hitAtPos(pos, players, player, enemy_dmg_done, pos_travelled, false) ||
-                hitAtPos(adj.first, players, player, enemy_dmg_done, pos_travelled, true) ||
-                hitAtPos(adj.second, players, player, enemy_dmg_done, pos_travelled, true)) {
+            std::vector<Coordinate> center_pos; center_pos.push_back(pos);
+            std::vector<Coordinate> adj = getAdjacents(pos, angle, SHOOT_AMPLITUDE);
+            if (hitAtPos(center_pos, players, player, enemy_dmg_done, pos_travelled, false) ||
+                hitAtPos(adj, players, player, enemy_dmg_done, pos_travelled, true)) {
                 break;
             }
             pos_travelled++;
@@ -193,49 +194,58 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
     }
 }
 
-bool ShootHandler::hitAtPos(Coordinate &pos, std::vector<Player> &players, Player &player,
+bool ShootHandler::hitAtPos(std::vector<Coordinate>& positions, std::vector<Player> &players, Player &player,
                             std::vector<std::pair<int, int>> &enemy_dmg_done, int pos_travelled,
                             bool is_adjacent) {
-    if (!map.isAPlayerAt(pos)) return false;
-    Player& enemy = players[map.getPlayerIDAtPosition(pos)];
-    if (enemy.isDead()) {
-        //std::cout << "El enemigo ha muerto, no le hago mas daño y busco otro\n";
-        return false;
+    for (auto& pos : positions) {
+        if (!map.isAPlayerAt(pos)) continue;
+        Player &enemy = players[map.getPlayerIDAtPosition(pos)];
+        if (enemy.isDead()) continue;
+        int damage = player.getGun().getDamage();
+        bool enemy_dies = false;
+        //std::cout << "----------------\n";
+        //std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
+        damage = dmg_calculator.calculateDmg(player, damage, pos_travelled, is_adjacent);
+        int damage_done = hit(player, enemy, damage, enemy_dies);
+        enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
+        if (enemy_dies) enemy_dmg_done.emplace_back(enemy.getID(), ENEMY_DIES);
+        return true;
     }
-    int damage = player.getGun().getDamage();
-    bool enemy_dies = false;
-    //std::cout << "----------------\n";
-    //std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
-    damage = dmg_calculator.calculateDmg(player, damage, pos_travelled, is_adjacent);
-    int damage_done = hit(player, enemy, damage, enemy_dies);
-    enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
-    if (enemy_dies) enemy_dmg_done.emplace_back(enemy.getID(), ENEMY_DIES);
-    return true;
+    return false;
 }
 
-std::pair<Coordinate, Coordinate> ShootHandler::getAdjacents(Coordinate& pos, double angle) {
+std::vector<Coordinate> ShootHandler::getAdjacents(Coordinate &pos, double angle, int adj_units_to_check) {
     std::pair<Coordinate, Coordinate> adj;
+    std::vector<Coordinate> adjacents;
     if ((0 < angle && angle < M_PI/2 && std::abs(angle - M_PI/2) > DBL_EPSILON
                                      && std::abs(angle - 0) > DBL_EPSILON) ||
     (M_PI < angle && angle < 3*M_PI/2 && std::abs(angle - M_PI) > DBL_EPSILON
                                       && std::abs(angle - 3*M_PI/2) > DBL_EPSILON)) {
-        adj.first = Coordinate(pos.x - 1, pos.y - 1);
-        adj.second = Coordinate(pos.x + 1, pos.y + 1);
+        for (int i = 1; i <= adj_units_to_check; ++i) {
+            adjacents.emplace_back(pos.x - i, pos.y - i);
+            adjacents.emplace_back(pos.x + i, pos.y + i);
+        }
     } else if ((std::abs(angle - M_PI/2) < DBL_EPSILON) ||
                (std::abs(angle - 3*M_PI/2) < DBL_EPSILON)) {
-        adj.first = Coordinate(pos.x - 1, pos.y);
-        adj.second = Coordinate(pos.x + 1, pos.y);
+        for (int i = 1; i <= adj_units_to_check; ++i) {
+            adjacents.emplace_back(pos.x - i, pos.y);
+            adjacents.emplace_back(pos.x + i, pos.y);
+        }
     } else if ((M_PI/2 < angle && angle < M_PI && std::abs(angle - M_PI/2) > DBL_EPSILON
                                                && std::abs(angle - M_PI) > DBL_EPSILON) ||
             (3*M_PI/2 < angle && angle < 2*M_PI && std::abs(angle - 3*M_PI/2) > DBL_EPSILON
                                                 && std::abs(angle - 2*M_PI) > DBL_EPSILON)){
-        adj.first = Coordinate(pos.x - 1, pos.y + 1);
-        adj.second = Coordinate(pos.x + 1, pos.y - 1);
+        for (int i = 1; i <= adj_units_to_check; ++i) {
+            adjacents.emplace_back(pos.x - i, pos.y + i);
+            adjacents.emplace_back(pos.x + i, pos.y - i);
+        }
     } else if ((std::abs(angle - M_PI) < DBL_EPSILON) ||
                (std::abs(angle - 0) < DBL_EPSILON) ||
                (std::abs(angle - 2*M_PI) < DBL_EPSILON)) {
-        adj.first = Coordinate(pos.x, pos.y - 1);
-        adj.second = Coordinate(pos.x, pos.y + 1);
+        for (int i = 1; i <= adj_units_to_check; ++i) {
+            adjacents.emplace_back(pos.x, pos.y - i);
+            adjacents.emplace_back(pos.x, pos.y + i);
+        }
     } else { std::cout << "No hay ninguna posicion alrededor, algo raro paso.\n"; }
-    return adj;
+    return adjacents;
 }
