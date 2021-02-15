@@ -6,7 +6,7 @@ positionables = {}
 blockings = {}
 players = {}
 players_len = 0
-position = {x = -1, y = -1}
+position = { x = -1, y = -1 }
 angle = 0
 self_id = 0
 lives = 3
@@ -16,7 +16,8 @@ closest_target = {}
 in_sight = {}
 in_sight_len = 0
 events = {}
-destiny_position = {x = -1, y = -1}
+destiny_position = { x = -1, y = -1 }
+current_equipped_gun_hotkey = PISTOL
 
 -- CONSTANTES --
 grid_size = 0
@@ -40,7 +41,8 @@ function updateLives(_lives)
     if _lives ~= lives then
         destiny_position.x = position.x
         destiny_position.y = position.y
-    lives = _lives
+    	lives = _lives
+		current_equipped_gun_hotkey = PISTOL
     end
 end
 
@@ -142,6 +144,12 @@ function getEvents()
 	return events
 end
 
+function createChangeGunEvent(hotkey)
+	table.insert(events, CHANGE_GUN)
+	table.insert(events, self_id)
+	table.insert(events, hotkey)
+end
+
 function closestTarget()
 
 	in_sight = {}
@@ -154,6 +162,11 @@ function closestTarget()
 
 	if not (destiny_position.x == position.x and destiny_position.y == position.y) then
 		return
+	end
+
+	if current_equipped_gun_hotkey ~= KNIFE then
+		createChangeGunEvent(KNIFE)
+		current_equipped_gun_hotkey = KNIFE
 	end
 
 	local min_difference = math.huge
