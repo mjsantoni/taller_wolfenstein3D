@@ -31,6 +31,8 @@ public:
     void showWidget(const char *widgetName);
 
     void showParameters();
+
+    void showIdSelection();
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H

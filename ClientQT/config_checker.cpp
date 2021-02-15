@@ -1,4 +1,5 @@
 #include <QSpinBox>
+#include <QComboBox>
 #include "clientQT/config_checker.h"
 #include "ui_connect.h"
 
@@ -10,6 +11,8 @@ ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) 
     hideWidget("errorWidget");
     hideWidget("parametersWidget");
     hideWidget("createConfirmButton");
+    hideWidget("joinConfirmButton");
+    hideWidget("joinWidget");
     connectEvents();
 }
 
@@ -62,13 +65,21 @@ void ConfigChecker::showParameters() {
     showWidget("createConfirmButton");
 }
 
-void ConfigChecker::joinGame() {
+void ConfigChecker::showIdSelection() {
+    hideWidget("connectionWidget");
+    hideWidget("createConfirmButton");
+    showWidget("joinWidget");
+    showWidget("joinConfirmButton");
+    QComboBox *join_combo = findChild<QComboBox*>("idCombo");
     std::string games;
     sk.recv_msg(games);
-    std::cout << "Los juegos disponibles son: " << games << "\n";
+    join_combo->addItem(QString(games.c_str()));
+}
+
+void ConfigChecker::joinGame() {
     std::string data;
-    std::cout << "Ingrese el id del juego: ";
-    std::getline(std::cin, data);
+    QComboBox *join_combo = findChild<QComboBox*>("idCombo");
+    data = join_combo->currentText().toStdString();
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
@@ -99,12 +110,14 @@ void ConfigChecker::connectEvents(){
     QPushButton* create_button = findChild<QPushButton*>("createButton");
     QPushButton* join_button = findChild<QPushButton*>("joinButton");
     QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
+    QCommandLinkButton* join_confirm_button = findChild<QCommandLinkButton*>("joinConfirmButton");
 
+    connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
     connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
-    connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::joinGame);
+    connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
 
 }
 
