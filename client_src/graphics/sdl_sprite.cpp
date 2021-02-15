@@ -2,6 +2,7 @@
 // Created by andy on 26/11/20.
 //
 
+#include <client/graphics/images.h>
 #include "client/graphics/sdl_sprite.h"
 
 SdlSprite::SdlSprite(std::string _file_name, int width, int height, int cols,
@@ -20,6 +21,7 @@ SdlSprite::SdlSprite(ObjectInfo& object_info) :
     rows = object_info.getSpriteRows();
     h_padding = object_info.getSpriteHPadding();
     v_padding = object_info.getSpriteVPadding();
+    object_type = object_info.getObjectType();
     loadIndividualDimensions();
 }
 
@@ -42,6 +44,10 @@ void SdlSprite::loadIndividualDimensions() {
     each_img_height = whole_height/rows-v_padding/2;
     int x = 0;
     int y = 0;
+    if (object_type == ENEMY_DOG) {
+        x = h_padding/2;
+        y = v_padding/2;
+    }
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             Area area(x, y, each_img_width, each_img_height);

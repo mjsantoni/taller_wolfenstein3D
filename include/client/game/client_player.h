@@ -64,6 +64,7 @@ public:
     int getMaxLives() const;
     void setMaxLives(int _max_lives);
     void setRespawningPosition(std::pair<int, int> _respawn_position);
+    double getHealthRatio();
 };
 
 

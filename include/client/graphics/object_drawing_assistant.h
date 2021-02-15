@@ -29,7 +29,6 @@ private:
     TextureManager& texture_manager;
 public:
     ObjectDrawingAssistant(SdlWindow &_window,TextureManager& _texture_manager);
-    SDL_Texture *getObjectImage(ObjectInfo &o_i, Area &image_area);
     void put3DObject(ObjectInfo &object_info, double pl_ob_angle);
     Area assembleScreenArea(ObjectInfo &object_info, double pl_ob_angle);
     Area findObjectProportions(ObjectInfo &object_info, double pl_ob_angle);

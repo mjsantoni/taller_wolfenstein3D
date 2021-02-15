@@ -34,7 +34,7 @@ private:
     void drawPlayersLives(int players_lives);
     void drawPlayersHealth(int players_health);
     void drawPlayersAmmo(int players_ammo);
-    void drawPlayersImage();
+    void drawPlayersImage(double health_ratio);
     void drawPlayersWeaponIcon(int player_weapon);
 
     void drawBox(const std::string& message, int value);

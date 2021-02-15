@@ -50,23 +50,6 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     //printf("Ancho de pantalla: %d\n", screen_width);
 }
 
-SDL_Texture*
-ObjectDrawingAssistant::getObjectImage(ObjectInfo& o_i, Area& image_area) {
-    if (!o_i.isSprite()) {
-        SdlTexture sdl_texture(o_i.getImagePath());
-        SDL_Texture* texture =
-                sdl_texture.loadTexture(window.getRenderer(), image_area);
-        return texture;
-    }
-    SdlSprite sdl_sprite(o_i.getImagePath(), o_i.getImageWidth(),
-                         o_i.getImageHeight(), o_i.getSpriteCols(),
-                         o_i.getSpriteRows(), o_i.getSpriteHPadding(),
-                         o_i.getSpriteVPadding());
-    SDL_Texture* texture = sdl_sprite.loadTexture(window.getRenderer(),
-                                                  image_area, o_i.getSpriteAnimationNo());
-    return texture;
-}
-
 Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
                                              double pl_ob_angle) {
     double distance = object_info.getHitDistance();

@@ -24,6 +24,7 @@ private:
     bool already_loaded = false;
     int each_img_width;
     int each_img_height;
+    int object_type;
     std::vector<Area> dimensions;
     std::map<int, Area> dimensions_map;
     int current_pos = 0;

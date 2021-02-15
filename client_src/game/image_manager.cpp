@@ -87,11 +87,15 @@ void ImageManager::setMovingAnimationForEnemy(Drawable& drawable,
 
 std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
     if (object_type == ENEMY_DOG)
-        return {1, 4, 7};
+        return {0, 1, 2, 8, 9, 10, 16, 17, 18};
     return std::vector<int>{0, 1, 4, 7};
 }
 
 void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
+    if (enemy.getObjectType() == ENEMY_DOG) {
+        enemy.setSpriteAnimationNo(37);
+        return;
+    }
     int current_animation = enemy.getSpriteAnimationNo();
     if (current_animation == 3)
         enemy.setSpriteAnimationNo(6);
@@ -101,6 +105,10 @@ void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
 }
 
 void ImageManager::setDyingAnimationForEnemy(Drawable &enemy) {
+    if (enemy.getObjectType() == ENEMY_DOG) {
+        enemy.setSpriteAnimationNo(31);
+        return;
+    }
     enemy.setSpriteAnimationNo(8); // HAY MAS
     std::cout << "El enemigo muere, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }

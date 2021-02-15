@@ -5,6 +5,7 @@
 #include <SDL_ttf.h>
 #include "client/graphics/ui_drawer.h"
 
+#define PLAYER_FACE_SPRITE_IMAGES 8
 UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
                        player_face("../client_src/resources/ui/player_face.png",
                        184, 124, 4, 2, 0, 0), info_provider(_info_provider),
@@ -27,7 +28,7 @@ void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     drawPlayersLevel(player.getLevel());
     drawPlayersScore(player.getScore());
     drawPlayersLives(player.getLives());
-    drawPlayersImage();
+    drawPlayersImage(player.getHealthRatio());
     drawPlayersHealth(player.getHealth());
     drawPlayersAmmo(player.getAmmo());
     drawPlayersWeaponIcon(player.getEquippedWeapon());
@@ -59,7 +60,7 @@ void UIDrawer::drawPlayersAmmo(int players_ammo) {
     drawBox("Ammo", players_ammo);
 }
 
-void UIDrawer::drawPlayersImage() {
+void UIDrawer::drawPlayersImage(double health_ratio) {
     text_starting_point += h_padding;
     Area rect_area(box_starting_point, starting_point + 10,
                    width/10, ui_height - 20);
@@ -67,7 +68,9 @@ void UIDrawer::drawPlayersImage() {
     Area screen_area(text_starting_point, starting_point + 15,
                      width/10 - 2*h_padding, ui_height - 30);
     Area img_area;
-    SDL_Texture* player_image = player_face.loadTexture(window.getRenderer(), img_area, 0);
+    int sprite_no = (int) (health_ratio*(PLAYER_FACE_SPRITE_IMAGES-1));
+    SDL_Texture* player_image =
+            player_face.loadTexture(window.getRenderer(), img_area, sprite_no);
     putTextureAt(player_image, img_area, screen_area);
     box_starting_point += width / 10;
     text_starting_point += width / 10 - h_padding;
