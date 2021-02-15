@@ -27,14 +27,13 @@ private:
     std::atomic<bool> alive;
     std::atomic<bool> can_join_player;
     std::mutex m;
-    std::condition_variable cv;
 
     int players_n;
     int bots_n;
 
 public:
     GameHandler(std::string map_path, std::string config_path, int _players_n, int _bots_n);
-    void run();
+    void run() override;
 
     void addNewPlayer(NetworkConnection fd);
 

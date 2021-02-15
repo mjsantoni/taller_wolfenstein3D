@@ -20,7 +20,10 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
     }
     // Respawn: (id del player que muere, si respawnea o no) //
     for (auto& respawn : hit_event.getPlayerRespawns()) {
-        if (respawn.second) changes.emplace_back(RESPAWN_PLAYER, respawn.first, INVALID, INVALID, true);
+        if (respawn.second) {
+            changes.emplace_back(RESPAWN_PLAYER, respawn.first, INVALID, INVALID, true);
+            changes.emplace_back(CHANGE_WEAPON, respawn.first, PISTOL, INVALID, true);
+        }
         else changes.emplace_back(KILL_PLAYER, respawn.first, INVALID, INVALID, true);
     }
     // Drop: Objeto con (tipo, id del item, pos, id del drop) //

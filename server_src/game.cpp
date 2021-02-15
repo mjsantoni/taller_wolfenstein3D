@@ -154,7 +154,7 @@ void Game::playerDies(Hit& hit) {
     std::vector<std::pair<int, bool>> dead_respawn_players; //(id, muere y respawnea o no) (para clientes)
     for (auto& dead_player : hit.getDeadPlayers()) {
         if (players[dead_player].dieAndRespawn()) {
-            std::pair<std::string, bool> drops = players[dead_player].getDrops();
+            std::pair<std::string, bool> drops = players[dead_player].getDropsFromDeath();
             addDropsToHitEvent(drops, hit, map.getPlayerPosition(dead_player));
             // carga todos los drops de la muerte del player enemigo para enviar a clientes
 

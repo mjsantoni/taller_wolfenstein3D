@@ -48,7 +48,7 @@ public:
     void addPoints(int points_given);
     void addGun(Gun gun);
     void addBullets(int added_bullets);
-    void addKey(Key key);
+    void addKey();
     void addAngle(double _angle);
 
     /* Stats SUB */
@@ -61,7 +61,7 @@ public:
     bool hasMaxBullets() const;
     bool noAmmoLeft() const;
     bool isDead();
-    bool hasGun(std::string gun_type);
+    bool hasGun(const std::string& gun_type);
     bool hasGun(int hotkey);
     bool hasLives();
 
@@ -71,7 +71,7 @@ public:
     /* OTHERS */
     int changeGun(int hotkey);
     bool dieAndRespawn();
-    std::pair<std::string, bool> getDrops();
+    std::pair<std::string, bool> getDropsFromDeath();
 
     /* Prohibe construccion y asignacion por copia. */
     //Player(const Player& other) = delete;

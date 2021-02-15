@@ -15,10 +15,10 @@ public:
     PickUpHandler(std::string config_path, ScoreHandler& _sh);
 
     bool pickUp(Positionable& item, Player& player);
-    bool pickUpTreasure(std::string type, int id, Player &player);
-    bool pickUpHpItem(std::string type, int id, Player &player);
-    bool pickUpGun(std::string type, int id, Player &player);
-    bool pickUpBullets(Player &player);
+    bool pickUpTreasure(const std::string& type, int id, Player &player);
+    bool pickUpHpItem(const std::string& type, int id, Player &player);
+    bool pickUpGun(const std::string& type, int id, Player &player);
+    bool pickUpBullets(Player &player, std::string type);
     bool pickUpKey(int id, Player& player);
 
     ~PickUpHandler();

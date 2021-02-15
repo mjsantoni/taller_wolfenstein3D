@@ -66,7 +66,7 @@ void Player::addBullets(int added_bullets) {
     //std::cout << "Agregue balas, ahora tengo: " << bullets << "\n";
 }
 
-void Player::addKey(Key key) {
+void Player::addKey() {
     //std::cout << "Levanto una llave, id: " << key.getId() << "\n";
     total_keys++;
 }
@@ -91,7 +91,6 @@ void Player::reduceAmmo(int _bullets) {
     //std::cout << "Ahora tengo (balas): " << bullets << "\n";
     if (bullets == 0) {
         //std::cout << "Me quede sin balas cambio a: " << equipped_weapon.getType() << "\n";
-        previous_weapon = getGunHotkey(equipped_weapon.getType());
         changeGun(KNIFE);
     }
 }
@@ -125,7 +124,7 @@ bool Player::noAmmoLeft() const { return bullets <= 0; }
 
 bool Player::isDead() { return hp <= 0; }
 
-bool Player::hasGun(std::string gun_type) {
+bool Player::hasGun(const std::string& gun_type) {
     for (auto& gun : guns) {
         if (gun.getType() == gun_type) return true;
     }
@@ -175,26 +174,29 @@ int Player::getGunHotkey(const std::string& type) {
 bool Player::dieAndRespawn() {
     lives--;
     if (lives > 0) {
-        std::cout << "I, player " << id << " die and respawn with " << lives << " lives\n";
+        std::cout << "Player " << id << " die and respawn with " << lives << " lives\n";
         hp = max_hp;
+        changeGun(PISTOL); // Cambia a pistol por defecto al morir
+        previous_weapon = PISTOL;
         return true; // respawnAtOriginalLoc()
     }
     else {
-        std::cout << "I, player " << id << " die and not respawn\n";
+        std::cout << "Player " << id << " die and not respawn\n";
         return false;
     }
 }
 
-std::pair<std::string, bool> Player::getDrops() {
+std::pair<std::string, bool> Player::getDropsFromDeath() {
     std::pair<std::string, bool> drops(std::make_pair("pistol",false));
     // Par: String = tipo de arma y bool es si tiene llave o no
     for (auto& gun : guns) {
         if (gun.getType() != "null" && gun.getType() != "knife" &&
             gun.getType() != "pistol") {
             drops.first = gun.getType();
-        } // Asi como esta devuelve la ultima arma q tiene en este orden(machine,chain,rpg)
+        } // Asi como esta devuelve la ultima arma q tiene en este orden (machine,chain,rpg)
     }
-    drops.second = (useKey() != -1);
+    drops.second = useKey();
+    guns[getGunHotkey(drops.first)] = Gun(); // Elimina el arma que va a dropear (reemplaza por nula)
     return drops;
 }
 
