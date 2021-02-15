@@ -15,7 +15,6 @@ LuaBot::LuaBot(std::string lua_path, Player &_player, std::condition_variable &_
     // Register our C++ Function in the global Lua space
     lua_register(L, "isInSight", isInSight);
     lua_register(L, "move", move);
-    changeGun(1);
 }
 
 LuaBot::~LuaBot() { lua_close(L); }
