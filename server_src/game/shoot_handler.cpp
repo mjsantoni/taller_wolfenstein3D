@@ -167,7 +167,7 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
     int bullets_shot = 0;
     for (; bullets_shot < bullets_to_shoot; bullets_shot++) {
         int pos_travelled = 1;
-        if (wall_at_pos) break;
+        if (wall_at_pos) continue;
         for (auto& pos : straight_line) {
             if (map.isABlockingItemAt(pos)) {
                 wall_at_pos = true;
@@ -183,15 +183,9 @@ Hit ShootHandler::shootRegularGun(int bullets_to_shoot, Player& player,
         }
     }
     if (player.getGun().getType() == "knife") bullets_shot = 0;
-    player.reduceAmmo(bullets_to_shoot);
-    scoreHandler.addBulletsShot(player.getID(), bullets_to_shoot);
-    if (wall_at_pos) return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, false);
-    if (player.noAmmoLeft()) {
-        std::cout << "No ammo left aviso\n";
-        return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, true);
-    } else {
-        return Hit(player.getID(), bullets_to_shoot, enemy_dmg_done, false);
-    }
+    player.reduceAmmo(bullets_shot);
+    scoreHandler.addBulletsShot(player.getID(), bullets_shot);
+    return Hit(player.getID(), bullets_shot, enemy_dmg_done, player.noAmmoLeft());
 }
 
 bool ShootHandler::hitAtPos(std::vector<Coordinate>& positions, std::vector<Player> &players, Player &player,
