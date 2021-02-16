@@ -32,6 +32,7 @@ public:
     void displayDogGettingHit(double volume_ratio);
     void displayHumanGettingHit(double volume_ratio);
     void displayDyingDog(double volume_ratio);
+    void displayPickUpSound();
 };
 
 

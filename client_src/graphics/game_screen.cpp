@@ -84,7 +84,7 @@ void GameScreen::displayPlayerAttacking() {
     int y = player.getYPosition();
     ray_caster.renderBackground(x, y, player.getDirection());
     object_drawer.loadObjects(x, y, player.getDirection());
-    weapon_drawer.displayPlayerShooting(player.getEquippedWeapon());
+    weapon_drawer.displayPlayerAttacking(player.getEquippedWeapon());
     ui_drawer.drawPlayerUI(player);
     usleep(50000);
     ray_caster.renderBackground(x, y, player.getDirection());
@@ -113,4 +113,8 @@ void GameScreen::clearWindow() {
 void GameScreen::displayStatistics(std::vector<int> statistics) {
     menus_drawer.displayStatistics(statistics);
 }
-
+/*
+void GameScreen::displayVictoryScreen() {
+    menus_drawer.displayVictoryScreen();
+}
+*/

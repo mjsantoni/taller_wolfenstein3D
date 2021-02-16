@@ -44,6 +44,8 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         case (REMOVE_POSITIONABLE): {
             map.removeObject(id);
             render_vector = std::vector<int>{1, 1, 1, 0};
+            if (value1 == player.getId())
+                audio_manager.displayPickUpSound();
             // id: id del item
             break;
         }
@@ -101,12 +103,16 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         }
         case (KILL_PLAYER): {
             if (player.getId() == id) {
-                    screen.displayDeadScreen();
-                    sleep(2);
-                    player_alive = false;
+                screen.displayDeadScreen();
+                sleep(2);
+                player_alive = false;
                 //algo mas aca seguro
             } else {
-
+                map.killPlayer(id);
+                //if (map.isLastPlayerStanding()) {
+                    //audio_manager.displayVictorySong();
+                    //screen.displayVictoryScreen();
+                //}
             }
             // id: player_id - Debe morir definitivamente
             break;
@@ -207,6 +213,7 @@ void InGameChangeProcessor::processInGameChanges() {
     if (!game_running)
         return;
     screen.render(render_vector);
+    audio_manager.stopSound();
     map.updateEnemiesSprites();
     if (map.updateEvents()) {
         usleep(500000);
@@ -261,6 +268,7 @@ InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
     if (enemy_type != ENEMY_DOG && value == 0)
         return std::vector<int>{0, 0, 0, 0};
+    map.setEnemyAttacking(enemy_id);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
     if (enemy_type == ENEMY_DOG)
         audio_manager.displayDogAttackingSound(distance_ratio);
@@ -272,8 +280,7 @@ InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
 std::vector<int> InGameChangeProcessor::processPlayerAmmoChange(int delta) {
     std::vector<int> render_vector;
     if (delta < 0) {
-        audio_manager.displayPlayerAttackingSound(player.
-                getEquippedWeapon());
+        audio_manager.displayPlayerShootingSound();
         screen.displayPlayerAttacking();
         render_vector = std::vector<int>{0, 0, 1, 1};
     }
@@ -283,7 +290,8 @@ std::vector<int> InGameChangeProcessor::processPlayerAmmoChange(int delta) {
             render_vector = std::vector<int>{0, 0, 0, 0};
         }
         else {
-            audio_manager.displayPlayerAttackingSound(1);
+            audio_manager.displayKnifeStabbingSound();
+            screen.displayPlayerAttacking();
             render_vector = std::vector<int>{1, 1, 1, 0};
         }
     }

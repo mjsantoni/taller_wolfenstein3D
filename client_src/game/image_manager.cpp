@@ -57,7 +57,7 @@ int ImageManager::getImageNumberFromWeapon(int weapon_number) {
     return weapon_number + WEAPON_ENEMY_DELTA;
 }
 
-int ImageManager::getShootingAnimationForWeapon(int weapon_number) {
+int ImageManager::getAttackingAnimationForWeapon(int weapon_number) {
     if (weapon_number == WEAPON_MACHINE_GUN)
         return 3;
     return 2;
@@ -93,7 +93,7 @@ std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {
 
 void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
     if (enemy.getObjectType() == ENEMY_DOG) {
-        enemy.setSpriteAnimationNo(37);
+        enemy.setSpriteAnimationNo(42);
         return;
     }
     int current_animation = enemy.getSpriteAnimationNo();
@@ -106,7 +106,7 @@ void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
 
 void ImageManager::setDyingAnimationForEnemy(Drawable &enemy) {
     if (enemy.getObjectType() == ENEMY_DOG) {
-        enemy.setSpriteAnimationNo(31);
+        enemy.setSpriteAnimationNo(35);
         return;
     }
     enemy.setSpriteAnimationNo(8); // HAY MAS

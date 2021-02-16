@@ -195,3 +195,24 @@ void MenusDrawer::displayStatistics(std::vector<int> statistics) {
     window.loadImage(message_3, msg_area_3, screen_area_3);
     window.render();
 }
+/*
+void MenusDrawer::displayVictoryScreen() {
+    SdlTexture menu_tex("../client_src/resources/menus/loading_screen.png");
+    displayFullImage(menu_tex);
+    Area screen_area(5*window_width/8, 3*window_height/4, window_width/4,
+                     window_height/6);
+    std::string message_text = "¡¡VICTORY!!";
+    if (!waiting_for_input)
+        message_text = "Loading...";
+    Area msg_area;
+    SDL_Texture* message =
+            createMessage(message_text, msg_area, screen_area);
+    window.loadImage(message, msg_area, screen_area);
+    window.render();
+    Area screen_area(0, 0, window_width, window_height);
+
+    window.drawRectangle(screen_area, 0, 0, 0, 0);
+    std::string message_text = "¡¡VICTORY!!";
+
+}
+*/

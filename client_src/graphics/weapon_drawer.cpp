@@ -45,11 +45,11 @@ Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
     return screen_area;
 }
 
-void WeaponDrawer::displayPlayerShooting(int weapon_number) {
+void WeaponDrawer::displayPlayerAttacking(int weapon_number) {
     ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
                                                          + EQ_WEAPON_DELTA);
     int sprite_animation_no =
-            ImageManager::getShootingAnimationForWeapon(weapon_number);
+            ImageManager::getAttackingAnimationForWeapon(weapon_number);
     object_info.setSpriteAnimationNo(sprite_animation_no);
     Area image_area;
     SDL_Texture* texture = getWeaponSprite(object_info, image_area);

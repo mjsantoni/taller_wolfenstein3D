@@ -8,7 +8,7 @@
 #define PLAYER_FACE_SPRITE_IMAGES 8
 UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
                        player_face("../client_src/resources/ui/player_face.png",
-                       184, 124, 4, 2, 0, 0), info_provider(_info_provider),
+                       184, 124, 4, 2, 0, 3), info_provider(_info_provider),
                        window(_window) {}
 
 void UIDrawer::setDimensions(int _starting_point,

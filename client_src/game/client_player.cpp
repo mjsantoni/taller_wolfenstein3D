@@ -160,7 +160,7 @@ void ClientPlayer::setRespawningPosition(std::pair<int, int> _respawn_position){
 }
 
 double ClientPlayer::getHealthRatio() {
-    std::cout << "Health ratio: "  << double (health)/ double (max_health) << std::endl;
+    //std::cout << "Health ratio: "  << double (health)/ double (max_health) << std::endl;
     return 1 - (double (health)/ double (max_health));
 }
 

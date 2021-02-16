@@ -12,11 +12,13 @@
 class SdlAudioPlayer {
 public:
     SdlAudioPlayer();
-    void playSound(const std::string& file_name);
+    void playSound(const std::string &file_name);
+    void playSound(const std::string& file_name, int span);
     void stopSound();
     std::mutex m;
     void restoreVolume();
     void setVolume(int volume_level);
+
 };
 
 
