@@ -56,14 +56,16 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
     distance *= cos(pl_ob_angle);
     double object_height = findObjectHeight(distance);
     int object_y_starting_point = findObjectStartingPoint(object_height);
-    double column_starting_point = object_y_starting_point + object_height;
-    auto col_height = double(object_y_starting_point - column_starting_point);
+    double screen_starting_point = object_y_starting_point + object_height;
+    auto col_height = double(object_y_starting_point - screen_starting_point);
     double object_x_starting_point = tan(pl_ob_angle) * VIEW_DIST;
     double object_width = col_height;
             //col_height * (SCREEN_DRAWING_WIDTH/SCREEN_DRAWING_HEIGHT);
     double screen_x_starting_point = ((double) SCREEN_DRAWING_WIDTH/2 +
                                     object_x_starting_point - object_width / 2);
-    Area area((int) screen_x_starting_point, (int) column_starting_point,
+    col_height = (screen_starting_point + col_height) > SCREEN_DRAWING_HEIGHT ?
+            SCREEN_DRAWING_HEIGHT - screen_starting_point: col_height;
+    Area area((int) screen_x_starting_point, (int) screen_starting_point,
               (int) object_width, col_height);
     return area;
 }

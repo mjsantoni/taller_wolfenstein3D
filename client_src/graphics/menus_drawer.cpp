@@ -26,10 +26,10 @@ void MenusDrawer::displayIntro() {
     SdlTexture intro_tex("../client_src/resources/menus/intro.jpg");
     displayFullImage(intro_tex);
     std::string message_text = "PRESS ANY KEY TO CONTINUE";
-    Area screen_area(window_width/3, 2*window_height/3, window_width/2,
+    Area screen_area(3*window_width/8, 5*window_height/6, window_width/2,
                      window_height/10);
     Area msg_area;
-    MessageParameters msg_parms(message_text, "POLOBM__.TTF", 40);
+    MessageParameters msg_parms(message_text, "POLOBM__.TTF", 35);
     SDL_Texture* message = createMessage(message_text, msg_area, screen_area,
                                          msg_parms);
     window.loadImage(message, msg_area, screen_area);
