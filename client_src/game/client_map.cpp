@@ -388,18 +388,22 @@ double ClientMap::getEnemyDistanceRatio(int enemy_id) {
 bool ClientMap::updateEvents() {
     int counter = 0;
     for (auto& pair : effects) {
-        if (effects.empty())
+        if (effects.empty()) // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
             break;
         ++counter;
         int id = pair.first;
         effects.erase(id);
     }
     for (auto& id : enemies_to_swipe) {
+        if (enemies_to_swipe.empty())
+            break;
         enemies.erase(id);
         enemies_to_swipe.erase(id);
         ++counter;
     }
     for (auto& id : enemies_to_respawn) {
+        if (enemies_to_respawn.empty())
+            break;
         std::pair<int, int> respawn_position = player_spawns[id];
         Drawable& enemy = enemies.at(id);
         enemy.setObjectType(ENEMY_GUARD);
@@ -433,4 +437,8 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
         blood_effect = Drawable(EFFECT_DOG_BLOOD);
     blood_effect.setMapPosition(enemy_pos);
     effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood_effect));
+}
+
+bool ClientMap::isLastPlayerStanding() {
+    return enemies.size() == 1;
 }

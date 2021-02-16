@@ -48,6 +48,7 @@ public:
     void displayRespawningScreen();
     void clearWindow();
     void displayStatistics(std::vector<int> statistics);
+    void displayVictoryScreen();
 };
 
 

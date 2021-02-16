@@ -109,10 +109,11 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 //algo mas aca seguro
             } else {
                 map.killPlayer(id);
-                //if (map.isLastPlayerStanding()) {
-                    //audio_manager.displayVictorySong();
-                    //screen.displayVictoryScreen();
-                //}
+                if (map.isLastPlayerStanding()) {
+                    audio_manager.displayVictorySong();
+                    screen.displayVictoryScreen();
+                    game_running = false;
+                }
             }
             // id: player_id - Debe morir definitivamente
             break;

@@ -3,6 +3,7 @@
 //
 
 #include <SDL_ttf.h>
+#include <client/graphics/sdl_message.h>
 #include "client/graphics/ui_drawer.h"
 
 #define PLAYER_FACE_SPRITE_IMAGES 8
@@ -99,14 +100,18 @@ void UIDrawer::drawBox(const std::string& message, int value) {
     Area msg_area;
     Area header_screen_area(text_starting_point, starting_point + 15,
                             width/10 - 2*h_padding, ui_height / 2 - 10);
+    MessageParameters head_message_parameters(message);
     SDL_Texture* head_message = createMessage(message, msg_area,
-                                              header_screen_area, false);
+                                              header_screen_area, false,
+                                              head_message_parameters);
 
     putTextureAt(head_message, msg_area, header_screen_area);
     Area sub_screen_area(text_starting_point, starting_point + 15 +
-                                              ui_height / 2 - 10, width / 10 - 2 * h_padding, ui_height / 2 - 10);
+            ui_height / 2 - 10, width / 10 - 2 * h_padding, ui_height / 2 - 10);
+    MessageParameters sub_message_parameters(std::to_string(value));
     SDL_Texture* sub_message = createMessage(std::to_string(value),
-                                             msg_area, sub_screen_area, true);
+                                             msg_area, sub_screen_area, true,
+                                             sub_message_parameters);
 
     putTextureAt(sub_message, msg_area, sub_screen_area);
     SDL_DestroyTexture(head_message);
@@ -115,28 +120,19 @@ void UIDrawer::drawBox(const std::string& message, int value) {
     text_starting_point += width / 10 - h_padding;
 }
 
-SDL_Texture* UIDrawer::createMessage(const std::string& message,
-                                      Area& msg_area,
-                                      Area& screen_area,
-                                      bool fill_text_area) {
-    TTF_Font* font = TTF_OpenFont("../client_src/resources/fonts/AnkeHand.ttf"
-            ,25);
-    SDL_Color color = {255, 255, 255};
-    SDL_Surface* message_surf = TTF_RenderText_Solid(font,message.c_str(),
-                                                     color);
-    SDL_Texture* message_text =
-            SDL_CreateTextureFromSurface(window.getRenderer(), message_surf);
-    int m_width;
-    int m_height;
-    SDL_QueryTexture(message_text, nullptr, nullptr, &m_width, &m_height);
-    msg_area.setWidth(m_width);
-    msg_area.setHeight(m_height);
+SDL_Texture * UIDrawer::createMessage(const std::string &message_text,
+                                      Area &msg_area,
+                                      Area &screen_area,
+                                      bool fill_text_area,
+                                      MessageParameters message_parameters) {
+    SdlMessage message(message_parameters);
+    SDL_Texture* message_texture;
     if (fill_text_area)
-        fillTextArea(font, message, screen_area);
-
-    TTF_CloseFont(font);
-    SDL_FreeSurface(message_surf);
-    return message_text;
+        message_texture =
+                message.loadMessage(window.getRenderer(), msg_area,screen_area);
+    else
+        message_texture = message.loadMessage(window.getRenderer(), msg_area);
+    return message_texture;
 }
 
 void UIDrawer::fillArea(Area area, int r, int g, int b, int a) {

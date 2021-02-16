@@ -18,7 +18,7 @@ public:
     std::mutex m;
     void restoreVolume();
     void setVolume(int volume_level);
-
+    void playMusic(const std::string &file_name);
 };
 
 

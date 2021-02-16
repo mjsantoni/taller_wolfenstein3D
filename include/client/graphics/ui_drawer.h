@@ -13,6 +13,8 @@
 #include "client/game/client_player.h"
 #include "client/object_info_provider.h"
 #include "sdl_window.h"
+#include "sdl_message.h"
+#include "message_parameters.h"
 
 class UIDrawer {
 private:
@@ -27,8 +29,9 @@ private:
     int v_padding = 0;
     SdlSprite player_face;
     ObjectInfoProvider& info_provider;
-    SDL_Texture* createMessage(const std::string& message, Area& msg_area,
-                               Area& screen_area, bool fill_text_area);
+    SDL_Texture *createMessage(const std::string &message_text, Area &msg_area,
+                               Area &screen_area, bool fill_text_area,
+                               MessageParameters message_parameters);
     void drawPlayersLevel(int players_level);
     void drawPlayersScore(int players_score);
     void drawPlayersLives(int players_lives);

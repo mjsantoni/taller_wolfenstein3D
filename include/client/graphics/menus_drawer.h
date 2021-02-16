@@ -6,6 +6,8 @@
 #define TP_WOLFENSTEIN_MENUS_DRAWER_H
 
 #include "sdl_window.h"
+#include <client/graphics/message_parameters.h>
+#include <client/graphics/sdl_message.h>
 
 class MenusDrawer {
 private:
@@ -33,6 +35,10 @@ public:
     void displayRespawningScreen();
     void displayDeadScreen();
     void displayStatistics(std::vector<int> statistics);
+    SDL_Texture *createMessage(const std::string &message_text, Area &msg_area,
+                               Area &screen_area,
+                               MessageParameters message_parameters);
+    void displayVictoryScreen();
 };
 
 

@@ -8,7 +8,7 @@
 
 void AudioManager::playSong() {
     std::unique_lock<std::mutex> lock(m);
-    audio_player.playSound(getFilePath("music.wav"));
+    audio_player.playMusic(getFilePath("intro_music.wav"));
 }
 
 void AudioManager::stopSong() {
@@ -96,4 +96,9 @@ void AudioManager::displayPickUpSound() {
 
 std::string AudioManager::getFilePath(std::string file_name) {
     return files_path + "/" + file_name;
+}
+
+void AudioManager::displayVictorySong() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playMusic(getFilePath("victory_song.mp3"));
 }

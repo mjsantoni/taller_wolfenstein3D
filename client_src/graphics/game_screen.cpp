@@ -113,8 +113,8 @@ void GameScreen::clearWindow() {
 void GameScreen::displayStatistics(std::vector<int> statistics) {
     menus_drawer.displayStatistics(statistics);
 }
-/*
+
 void GameScreen::displayVictoryScreen() {
     menus_drawer.displayVictoryScreen();
 }
-*/
+

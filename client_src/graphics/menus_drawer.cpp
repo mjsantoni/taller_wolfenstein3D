@@ -25,11 +25,13 @@ MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {
 void MenusDrawer::displayIntro() {
     SdlTexture intro_tex("../client_src/resources/menus/intro.jpg");
     displayFullImage(intro_tex);
-    std::string message_text = "Press any key to continue";
+    std::string message_text = "PRESS ANY KEY TO CONTINUE";
     Area screen_area(window_width/3, 2*window_height/3, window_width/2,
                      window_height/10);
     Area msg_area;
-    SDL_Texture* message = createMessage(message_text, msg_area, screen_area);
+    MessageParameters msg_parms(message_text, "POLOBM__.TTF", 40);
+    SDL_Texture* message = createMessage(message_text, msg_area, screen_area,
+                                         msg_parms);
     window.loadImage(message, msg_area, screen_area);
     window.render();
 }
@@ -41,9 +43,21 @@ void MenusDrawer::displayFullImage(SdlTexture& texture) {
     window.loadImage(image, src_area, dest_area);
 }
 
+SDL_Texture * MenusDrawer::createMessage(const std::string &message_text,
+                                      Area &msg_area,
+                                      Area &screen_area,
+                                      MessageParameters message_parameters) {
+    SdlMessage message(message_parameters);
+    SDL_Texture* message_texture;
+    message_texture =
+                message.loadMessage(window.getRenderer(), msg_area,screen_area);
+
+    return message_texture;
+}
+
 SDL_Texture* MenusDrawer::createMessage(const std::string& message,
-                                     Area& msg_area,
-                                     Area& screen_area) {
+                                        Area& msg_area,
+                                        Area& screen_area) {
     TTF_Font* font =
             TTF_OpenFont("../client_src/resources/fonts/Action_Force.ttf", 25);
     SDL_Color color = {255, 255, 255};
@@ -125,14 +139,18 @@ void MenusDrawer::displayLevelSelectionMenu() {
 void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
     SdlTexture menu_tex("../client_src/resources/menus/loading_screen.png");
     displayFullImage(menu_tex);
-    Area screen_area(5*window_width/8, 3*window_height/4, window_width/4,
+    Area screen_area(5*window_width/8, 3*window_height/4, 5*window_width/16,
                      window_height/6);
     std::string message_text = "Press 'P' when ready";
-    if (!waiting_for_input)
+    if (!waiting_for_input) {
+        screen_area = Area(5*window_width/8, 3*window_height/4, window_width/4,
+                                  window_height/6);
         message_text = "Loading...";
+    }
     Area msg_area;
+    MessageParameters msg_parms(message_text, "Snowstorm Kraft.ttf", 35);
     SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area);
+            createMessage(message_text, msg_area, screen_area, msg_parms);
     window.loadImage(message, msg_area, screen_area);
     window.render();
 }
@@ -195,24 +213,17 @@ void MenusDrawer::displayStatistics(std::vector<int> statistics) {
     window.loadImage(message_3, msg_area_3, screen_area_3);
     window.render();
 }
-/*
+
 void MenusDrawer::displayVictoryScreen() {
-    SdlTexture menu_tex("../client_src/resources/menus/loading_screen.png");
+    SdlTexture menu_tex("../client_src/resources/menus/victory_screen.jpg");
     displayFullImage(menu_tex);
-    Area screen_area(5*window_width/8, 3*window_height/4, window_width/4,
+    Area screen_area(3*window_width/8, 3*window_height/4, window_width/4,
                      window_height/6);
-    std::string message_text = "¡¡VICTORY!!";
-    if (!waiting_for_input)
-        message_text = "Loading...";
+    std::string message_text = "VICTORY";
+    MessageParameters msg_parms(message_text, "vikingsquadboldital.ttf", 75);
     Area msg_area;
     SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area);
+            createMessage(message_text, msg_area, screen_area, msg_parms);
     window.loadImage(message, msg_area, screen_area);
     window.render();
-    Area screen_area(0, 0, window_width, window_height);
-
-    window.drawRectangle(screen_area, 0, 0, 0, 0);
-    std::string message_text = "¡¡VICTORY!!";
-
 }
-*/
