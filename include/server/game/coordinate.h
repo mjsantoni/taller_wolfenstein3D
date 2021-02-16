@@ -35,13 +35,13 @@ public:
 
     struct HashFunction{
         size_t operator()(const Coordinate& c) const {
-            //Funcion1, anda bien
-            //size_t res = 1009;
-            //res = res * 9176 + std::hash<int>()(c.x);
-            //res = res * 9176 + std::hash<int>()(c.y);
+            //Funcion1, anda mejor
+            size_t res = 1009;
+            res = res * 9176 + std::hash<int>()(c.x);
+            res = res * 9176 + std::hash<int>()(c.y);
 
             //funcion2, anda bien tambien
-            int res = (c.x + c.y) * (c.x + c.y + 1) / 2 + c.y;
+            //int res = (c.x + c.y) * (c.x + c.y + 1) / 2 + c.y;
             return res;
         }
     };
