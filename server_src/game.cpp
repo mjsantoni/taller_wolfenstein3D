@@ -30,7 +30,7 @@ Game::~Game() { botsManager.destroyBots(); }
 
 std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> Game::connectPlayer() {
     std::unique_lock<std::mutex> lock(m);
-    Player player(std::to_string(players_ids), players_ids,
+    Player player(players_ids,
                   configParser.getSpecificCategory("player", "max_bullets"),
                   configParser.getSpecificCategory("player", "max_hp"),
                   configParser.getSpecificCategory("player", "bullets"),

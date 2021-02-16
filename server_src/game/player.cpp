@@ -5,9 +5,8 @@
 
 #define EXTRA_GUN_VECTOR_SIZE 1
 
-Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp,
-               int _bullets, int _max_lives, ConfigParser &cp) :
-               name(_name), id(_id), angle(0),
+Player::Player(int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives, ConfigParser &cp) :
+               id(_id), angle(0),
                max_hp(_max_hp), hp(_max_hp), max_bullets(_max_bullets),
                bullets(_bullets), total_keys(0), lives(_max_lives) {
 
@@ -18,10 +17,6 @@ Player::Player(std::string _name, int _id, int _max_bullets, int _max_hp,
     guns[PISTOL] = Gun("pistol", -1, pistol_stats[0], pistol_stats[1], pistol_stats[2], pistol_stats[3]);
     equipped_weapon = guns[PISTOL];
 }
-
-/* GETTERS */
-
-std::string Player::getPlayerName() { return name; }
 
 Gun& Player::getGun() { return equipped_weapon; }
 

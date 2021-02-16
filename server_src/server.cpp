@@ -9,7 +9,7 @@ Server::Server(NetworkAcceptor socket) :
 
 static bool is_null(GameHandler* gh) { return !gh; }
 
-/* CLEAN DEAD GAMES */ // funcion q tiene berto
+/* CLEAN DEAD GAMES */
 void Server::killDead() {
     int i = 0;
     for (auto& game : matches) {
@@ -26,19 +26,21 @@ void Server::killDead() {
 
 int Server::createGame(int players, int bots, int game_duration,
                         int map) {
-    total_matches++;
-    auto new_game = new GameHandler(maps[map], "../config.yaml", players, bots);
-    // pasarle game duration tambien y un id
+    std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
+    auto new_game = new GameHandler(maps[map], "../config.yaml",
+                                    players, bots, matches.size());
+    // pasarle game duration tambien
     new_game->start();
     matches.push_back(new_game);
     usleep(100000);
-    return total_matches - 1;
+    return matches.size() - 1;
 }
 
 bool Server::joinGame(int game_id, NetworkConnection socket) {
-    if (matches[game_id]->canJoinPlayer()) { // condicion del Game handler?
+    if (matches[game_id]->canJoinPlayer()) {
         try {
             matches[game_id]->addNewPlayer(std::move(socket));
+            std::cout << "[Server] New player connected to game " << game_id << "\n";
         } catch (const NetworkError& e) {
             return false;
         }
@@ -48,7 +50,7 @@ bool Server::joinGame(int game_id, NetworkConnection socket) {
     return false;
 }
 
-std::vector<int> Server::split(std::string bytes) {
+std::vector<int> Server::split(const std::string& bytes) {
     std::vector<int> buffer;
     std::stringstream ss(bytes);
     std::string s;
@@ -63,6 +65,7 @@ std::vector<int> Server::split(std::string bytes) {
 #define JOIN_GAME "1"
 
 void Server::run() {
+    std::cout << "[Server] Started.\n";
     while (accepting_connections) {
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
@@ -86,7 +89,7 @@ void Server::run() {
                         break;
                     }
                 } else {
-                    socket.send_msg(std::to_string(total_matches)); // envio cant de games disponibles
+                    socket.send_msg(std::to_string(matches.size())); // envio cant de games disponibles
                     std::string game_choice;
                     socket.recv_msg(game_choice);
                     // game_id -> tiene que ser de 0 a n por indices del vector. LP pasarlo bien
@@ -99,7 +102,7 @@ void Server::run() {
                         continue;
                     }
 
-                    if (game_id_to_connect > total_matches || game_id_to_connect < 0) {
+                    if (game_id_to_connect > (matches.size() - 1) || game_id_to_connect < 0) {
                         socket.send_msg("No podes errarle tanto pa\n");
                         continue;
                     } else {

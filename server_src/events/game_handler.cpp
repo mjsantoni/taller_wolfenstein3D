@@ -3,19 +3,8 @@
 
 #define MAX_EVENTS 100
 
-/* TIME LOGIC
- *
- * auto current_time = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-    if (elapsed_seconds.count()  >= 600) return false; // debe ser >= minutos que dura el game
-
-    time_start = std::chrono::system_clock::now();
- */
-
-// Add game ids for multiple games
-GameHandler::GameHandler(std::string map_path,
-                         std::string config_path,
-                         int _players_n, int _bots_n) :
+GameHandler::GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
+                         int _game_id) :
         eventQueue(Event()),
         botsManager(eventQueue),
         game(map_path, config_path, botsManager, _players_n),
@@ -23,14 +12,15 @@ GameHandler::GameHandler(std::string map_path,
         alive(true),
         can_join_player(true),
         players_n(_players_n),
-        bots_n(_bots_n){}
+        bots_n(_bots_n),
+        game_id(_game_id) {}
 
 void GameHandler::run() {
-    std::cout << "[Game Handler] Started.\n";
+    std::cout << "[Game Handler " << game_id << "] Started.\n";
     waitInLobby();
     addBots();
     sleep(1);
-    std::cout << "[Game Handler] Game startGame.\n";
+    std::cout << "[Game Handler " << game_id << "] Game start.\n";
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
     while (game.isNotOver() && alive) {
@@ -48,7 +38,7 @@ void GameHandler::run() {
         game.releaseBots();
         usleep(60000);
     }
-    std::cout << "[Game Handler] Game end. Displaying top scores.\n";
+    std::cout << "[Game Handler " << game_id << "] Game end. Displaying top scores.\n";
     endGame();
 }
 
@@ -59,7 +49,7 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 }
 
 void GameHandler::addBots() {
-    std::cout << "[Game Handler] Adding bots.\n";
+    std::cout << "[Game Handler " << game_id << "] Adding bots.\n";
     for (int i = 0; i < bots_n; i++) {
         game.addBot();
     }
@@ -68,7 +58,7 @@ void GameHandler::addBots() {
 }
 
 void GameHandler::waitInLobby() {
-    std::cout << "[Game Handler] Lobby started.\n";
+    std::cout << "[Game Handler " << game_id << "] Lobby started.\n";
     while (!game.isReady() && alive) {
         Event event = eventQueue.pop();
         usleep(150000);
@@ -78,7 +68,7 @@ void GameHandler::waitInLobby() {
         notifyClients(changes);
     }
     can_join_player = false;
-    std::cout << "[Game Handler] Lobby finished.\n";
+    std::cout << "[Game Handler " << game_id << "] Lobby finished.\n";
 }
 
 void GameHandler::notifyTop(std::vector<std::pair<int,int>> top, int change_id) {
@@ -102,7 +92,7 @@ void GameHandler::sendTops() {
 void GameHandler::addNewPlayer(NetworkConnection socket) {
     std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> data = game.connectPlayer();
     int id = data.first;
-    std::cout << "[Game Handler] New Player connected -> Id: " << id << std::endl;
+    std::cout << "[Game Handler " << game_id << "] New Player connected -> Id: " << id << std::endl;
     std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map = data.second;
     clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
 }
@@ -111,7 +101,7 @@ void GameHandler::endGame() {
     sendTops();
     sleep(3); // Esto no deberia estar
     clientsManager.killPlayers();
-    std::cout << "[Game Handler] Stopping.\n";
+    std::cout << "[Game Handler " << game_id << "] Stopping.\n";
     alive = false;
 }
 

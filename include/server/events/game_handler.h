@@ -30,9 +30,11 @@ private:
 
     int players_n;
     int bots_n;
+    int game_id;
 
 public:
-    GameHandler(std::string map_path, std::string config_path, int _players_n, int _bots_n);
+    GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
+                int _game_id);
     void run() override;
 
     void addNewPlayer(NetworkConnection fd);

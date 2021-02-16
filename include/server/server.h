@@ -16,7 +16,6 @@ private:
     NetworkAcceptor networkAcceptor;
     std::vector<std::string> maps;
     std::atomic<bool> accepting_connections;
-    int total_matches = 0;
 
 
 public:
@@ -34,7 +33,7 @@ public:
 
     void killDead();
 
-    std::vector<int> split(std::string bytes);
+    std::vector<int> split(const std::string& bytes);
 };
 
 

@@ -12,7 +12,6 @@
 
 class Player {
 private:
-    std::string name;
     int id;
     int max_bullets;
     int max_hp;
@@ -30,11 +29,8 @@ private:
     static int getGunHotkey(const std::string& type);
 
 public:
-    Player(std::string _name, int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives,
-           ConfigParser &cp);
+    Player(int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives, ConfigParser &cp);
 
-    /* Getters */
-    std::string getPlayerName();
     Gun& getGun();
     Gun& getGun(int hotkey);
     int getID();
