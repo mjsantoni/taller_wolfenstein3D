@@ -158,6 +158,7 @@ void Game::playerDies(Hit& hit) {
     std::unique_lock<std::mutex> lock(m);
     std::vector<std::pair<int, bool>> dead_respawn_players; //(id, muere y respawnea o no) (para clientes)
     for (auto& dead_player : hit.getDeadPlayers()) {
+        scoreHandler.addKill(hit.getPlayerId(), 1);
         if (players[dead_player].dieAndRespawn()) {
             std::pair<std::string, bool> drops = players[dead_player].getDropsFromDeath();
             addDropsToHitEvent(drops, hit, map.getPlayerPosition(dead_player));

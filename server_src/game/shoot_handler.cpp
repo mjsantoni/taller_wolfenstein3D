@@ -45,7 +45,6 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
 int ShootHandler::hit(Player &player, Player &enemy, int damage, bool &enemy_dies) {
     int reduced_hp = enemy.reduceHP(damage);
     enemy_dies = enemy.isDead();
-    if (enemy_dies) scoreHandler.addKill(player.getID(), 1);
     return reduced_hp;
 }
 
