@@ -17,6 +17,7 @@ void ClientPlayerInitializer::initializePlayer(ClientPlayer &player) {
     player.setMaxAmmo(max_bullets);
     player.setMaxHealth(max_hp);
     player.setAmmo(bullets);
+    player.setFullAmmo(bullets);
     player.setMaxLives(max_lives);
     player.setLives(max_lives);
     player.setHealth(max_hp);

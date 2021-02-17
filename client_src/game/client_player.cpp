@@ -96,7 +96,7 @@ void ClientPlayer::updateKeys(int keys_delta) {
 void ClientPlayer::respawn() {
     lives -= 1;
     health = max_health;
-    ammo = max_ammo;
+    ammo = full_ammo;
     map_position = respawn_position;
 }
 
@@ -165,4 +165,7 @@ double ClientPlayer::getHealthRatio() {
     return 1 - (double (health)/ double (max_health));
 }
 
+double ClientPlayer::setFullAmmo(int _full_ammo) {
+    full_ammo = _full_ammo;
+}
 
