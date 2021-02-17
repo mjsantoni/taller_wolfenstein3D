@@ -128,7 +128,7 @@ void Game::playerIsReady(int id) {
 
 bool Game::isNotOver() {
     std::unique_lock<std::mutex> lock(m);
-    if (players_alive <= 0) return false;
+    if (players_alive <= 1) return false;
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;

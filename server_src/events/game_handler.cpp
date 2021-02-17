@@ -99,6 +99,8 @@ void GameHandler::addNewPlayer(NetworkConnection socket) {
 
 void GameHandler::endGame() {
     sendTops();
+    Change change(GAME_OVER, 0, 0, 0, true);
+    clientsManager.notifyClients(change);
     sleep(3); // Esto no deberia estar
     clientsManager.killPlayers();
     std::cout << "[Game Handler " << game_id << "] Stopping.\n";
