@@ -35,14 +35,16 @@ int ImageManager::getImageNumberFromName(std::string name) {
         return ITEM_CHEST;
     if (name == "cross")
         return ITEM_CROSS;
-    if (name == "cup")
+    if (name == "goblet")
         return ITEM_CUP;
     if (name == "table")
         return MISC_TABLE;
     if (name == "barrel")
         return MISC_BARREL;
-    if (name == "medical")
+    if (name == "medkit")
         return ITEM_MEDICAL_KIT;
+    if (name == "water_puddle")
+        return ITEM_BLOOD;
     if (name == "food")
         return ITEM_FOOD;
     return ITEM_KEY;
