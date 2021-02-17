@@ -15,7 +15,7 @@ private:
 
 public:
     explicit ChangeFactory(SharedQueue<Change>& _event_queue);
-    void createAndPushFromBytes(char* bytes);
+    Change createFromBytes(char* bytes);
 };
 
 

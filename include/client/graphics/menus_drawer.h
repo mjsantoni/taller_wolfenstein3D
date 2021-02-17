@@ -34,7 +34,7 @@ public:
     void displayLoadingScreen(bool waiting_for_input);
     void displayRespawningScreen();
     void displayDeadScreen();
-    void displayStatistics(std::vector<int> statistics);
+    void displayStatistics(std::vector<std::vector<int>> statistics);
     SDL_Texture *createMessage(const std::string &message_text, Area &msg_area,
                                Area &screen_area,
                                MessageParameters message_parameters);

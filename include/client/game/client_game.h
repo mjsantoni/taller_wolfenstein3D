@@ -26,6 +26,7 @@
 #include "client_player_initializer.h"
 #include "off_game_change_processor.h"
 #include "off_game_handler.h"
+#include <common/connection_exception.h>
 
 class ClientGame {
 private:
@@ -37,6 +38,7 @@ private:
     InGameEventGenerator event_generator;
     InGameEventHandler event_handler;
     InGameChangeProcessor change_processor;
+    StatisticsManager statistics_manager;
     bool game_started;
     bool player_ready;
     bool player_alive = true;
@@ -51,6 +53,9 @@ public:
     bool isRunning();
     void initializePlayer();
     void initializeMap();
+    void displayConnectionErrorScreen(std::basic_string<char> exception);
+    void processGame();
+    void displayStatistics();
 };
 
 

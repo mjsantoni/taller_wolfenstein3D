@@ -10,11 +10,19 @@
 
 class StatisticsManager {
 private:
+    std::vector<int> top_killers_vector;
+    std::vector<int> top_shooters_vector;
+    std::vector<int> top_scorers_vector;
+    std::vector<int> top_killers_stats;
+    std::vector<int> top_shooters_stats;
+    std::vector<int> top_scorers_stats;
     std::vector<int> statistics_vector;
+    int max_pos = 0;
 public:
-    void addStatistic(int statistic_type, int value);
-    bool readyToShow();
-    std::vector<int> getStatistics();
+    StatisticsManager();
+    void addStatistic(int statistic_type, int player_id, int value,
+                      int position);
+    std::vector<std::vector<int>> getStatistics();
 
 };
 

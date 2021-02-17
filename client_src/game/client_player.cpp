@@ -96,6 +96,7 @@ void ClientPlayer::updateKeys(int keys_delta) {
 void ClientPlayer::respawn() {
     lives -= 1;
     health = max_health;
+    ammo = max_ammo;
     map_position = respawn_position;
 }
 

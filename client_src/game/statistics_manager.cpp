@@ -4,24 +4,44 @@
 
 #include "client/game/statistics_manager.h"
 
-void StatisticsManager::addStatistic(int statistic_type, int value) {
+StatisticsManager::StatisticsManager() {
+    /*
+    top_killers_vector.resize(5);
+    top_shooters_vector.resize(5);
+    top_scorers_vector.resize(5);
+    top_killers_stats.resize(5);
+    top_shooters_stats.resize(5);
+    top_scorers_stats.resize(5);
+     */
+}
+
+void StatisticsManager::addStatistic(int statistic_type,
+                                     int player_id,
+                                     int value,
+                                     int position) {
     switch (statistic_type) {
         case TOP_KILLER:
-            statistics_vector[0] = value;
+            top_killers_vector.push_back(player_id);
+            top_killers_stats.push_back(value);
             break;
         case TOP_SHOOTER:
-            statistics_vector[1] = value;
+            top_shooters_vector.push_back(player_id);
+            top_shooters_stats.push_back(value);
             break;
         default:
-            statistics_vector[2] = value;
+            top_scorers_vector.push_back(player_id);
+            top_scorers_vector.push_back(value);
             break;
     }
 }
 
-bool StatisticsManager::readyToShow() {
-    return statistics_vector.size() == 3;
-}
-
-std::vector<int> StatisticsManager::getStatistics() {
-    return statistics_vector;
+std::vector<std::vector<int>> StatisticsManager::getStatistics() {
+    std::vector<std::vector<int>> combined_vector;
+    combined_vector.push_back(top_killers_vector);
+    combined_vector.push_back(top_shooters_vector);
+    combined_vector.push_back(top_scorers_vector);
+    combined_vector.push_back(top_killers_stats);
+    combined_vector.push_back(top_shooters_stats);
+    combined_vector.push_back(top_scorers_stats);
+    return combined_vector;
 }

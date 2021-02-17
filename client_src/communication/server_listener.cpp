@@ -23,8 +23,13 @@ void ServerListener::run() {
         //std::cout << "Server Listener listo para recibir\n";
         skt.recv_msg(msg);
         //std::cout << "Se recibio el mensaje " << msg << std::endl;
-        change_factory.createAndPushFromBytes(const_cast<char *>(msg.c_str()));
+        Change change =
+                change_factory.createFromBytes(const_cast<char *>(msg.c_str()));
+        if (change.getChangeID() == GAME_OVER)
+            stop();
+        change_queue.push(change);
     }
+
 }
 
 void ServerListener::stop() {

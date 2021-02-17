@@ -23,10 +23,10 @@ private:
     GameScreen& screen;
     AudioManager& audio_manager;
     SharedQueue<Change>& change_queue;
-    std::atomic<bool> alive;
+    bool game_over;
     bool& player_alive;
     bool& game_running;
-    StatisticsManager statistics_manager;
+    StatisticsManager& statistics_manager;
     std::vector<int> processEnemyAmmoChange(int enemy_id, int value);
     std::vector<int> processPlayerAmmoChange(int delta);
     std::vector<int> processEnemyHealthChange(int enemy_id, int delta);
@@ -37,6 +37,7 @@ public:
                           ClientPlayer& _player,
                           SharedQueue<Change>& _change_queue,
                           AudioManager& _audio_manager,
+                          StatisticsManager& _statistics_manager,
                           bool& _player_alive,
                           bool& _game_running);
     std::vector<int> processInGameChange(Change& change);
@@ -44,7 +45,7 @@ public:
     void processInGameChanges();
     void processInGameChanges(std::vector<Change> changes);
     std::vector<int> displayStatisticsAndCloseGame();
-    std::vector<int> processStatisticsChanges(Change change);
+    std::vector<int> processPostGameChanges(Change change);
     std::vector<int> processEnemyRespawning(int enemy_id);
     std::vector<int> processEnemyDying(int enemy_id);
 };

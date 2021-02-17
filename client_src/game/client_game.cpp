@@ -18,7 +18,7 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
         event_handler(change_queue),
         event_generator(player, event_handler, event_queue, player_alive),
         change_processor(screen, map, player, change_queue, audio_manager,
-                         player_alive, game_running),
+                         statistics_manager, player_alive, game_running),
         off_game_handler(screen, player, map, change_queue, event_queue) {
     //
 }
@@ -28,6 +28,23 @@ void ClientGame::startGame() {
     off_game_handler.displayMenus();
     screen.render(std::vector<int>{1, 1, 1, 1});
     std::cout << "Se inicia la partida" << std::endl;
+    processGame();
+    std::cout << "Frena change processor" << std::endl;
+}
+
+bool ClientGame::isRunning() {
+    return game_running;
+}
+
+void ClientGame::initializePlayer() {
+    player_initializer.initializePlayer(player);
+}
+
+void ClientGame::displayConnectionErrorScreen(std::string message) {
+    screen.displayNetworkConnectionErrorScreen(std::move(message));
+}
+
+void ClientGame::processGame() {
     SDL_Event event;
     while (game_running) {
         //std::cout << "inicio ciclo de juego\n";
@@ -52,10 +69,6 @@ void ClientGame::startGame() {
     std::cout << "Frena change processor" << std::endl;
 }
 
-bool ClientGame::isRunning() {
-    return game_running;
-}
-
-void ClientGame::initializePlayer() {
-    player_initializer.initializePlayer(player);
+void ClientGame::displayStatistics() {
+    screen.displayStatistics(statistics_manager.getStatistics());
 }

@@ -47,8 +47,9 @@ public:
     void displayLoadingScreen(bool waiting_for_input);
     void displayRespawningScreen();
     void clearWindow();
-    void displayStatistics(std::vector<int> statistics);
+    void displayStatistics(std::vector<std::vector<int>> statistics);
     void displayVictoryScreen();
+    void displayNetworkConnectionErrorScreen(std::string message);
 };
 
 

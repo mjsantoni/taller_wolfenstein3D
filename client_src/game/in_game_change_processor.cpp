@@ -9,18 +9,20 @@
  * el configHandler
  */
 InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
-                                             ClientMap& _map,
-                                             ClientPlayer& _player,
-                                             SharedQueue<Change>& _change_queue,
-                                             AudioManager& _audio_manager,
-                                             bool& _player_alive,
-                                             bool& _game_running) :
+                                         ClientMap& _map,
+                                         ClientPlayer& _player,
+                                         SharedQueue<Change>& _change_queue,
+                                         AudioManager& _audio_manager,
+                                         StatisticsManager& _statistics_manager,
+                                         bool& _player_alive,
+                                         bool& _game_running) :
                                  screen(_screen),
                                  map(_map),
                                  player(_player),
                                  change_queue(_change_queue),
-                                 alive(true),
+                                 game_over(false),
                                  audio_manager(_audio_manager),
+                                 statistics_manager(_statistics_manager),
                                  player_alive(_player_alive),
                                  game_running(_game_running) {
 }
@@ -34,8 +36,8 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
     int value1 = change.value1;
     int value2 = change.value2;
 
-    if (!player_alive)
-        return processStatisticsChanges(change);
+    if (!player_alive || game_over)
+        return processPostGameChanges(change);
 
     //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
@@ -112,7 +114,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 if (map.isLastPlayerStanding()) {
                     audio_manager.displayVictorySong();
                     screen.displayVictoryScreen();
-                    game_running = false;
+                    game_over = true;
                 }
             }
             // id: player_id - Debe morir definitivamente
@@ -211,13 +213,13 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
 void InGameChangeProcessor::processInGameChanges() {
     Change change = change_queue.pop();
     std::vector<int> render_vector = processInGameChange(change);
-    if (!game_running)
+    if (game_over)
         return;
     screen.render(render_vector);
     audio_manager.stopSound();
     map.updateEnemiesSprites();
     if (map.updateEvents()) {
-        usleep(500000);
+        usleep(150000);
         screen.render(std::vector<int>{1, 1, 1, 0});
         std::cout << "Se actualizo el mapa\n";
     }
@@ -231,35 +233,22 @@ void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
 }
 */
 void InGameChangeProcessor::stop() {
-    alive = false;
+    game_over = false;
 }
 
-std::vector<int> InGameChangeProcessor::processStatisticsChanges(Change change){
+std::vector<int> InGameChangeProcessor::processPostGameChanges(Change change) {
     int change_id = change.getChangeID();
-    if (change_id == CL_DISPLAY_STATISTICS)
-        return displayStatisticsAndCloseGame();
+    if (change_id == GAME_OVER) {
+        game_running = false;
+        return std::vector<int>{1, 1, 1, 1};
+    }
     if (change_id < TOP_KILLER || change_id > TOP_SCORER)
         return std::vector<int>{0, 0, 0, 0};
     int player_id = change.getPlayerID();
-    statistics_manager.addStatistic(change_id, player_id);
-    if (statistics_manager.readyToShow()) {
-            Change new_change(CL_DISPLAY_STATISTICS, 0, 0, 0);
-            change_queue.push(new_change);
-    }
-
+    int value = change.getFirstValue();
+    int position = change.getSecondValue();
+    statistics_manager.addStatistic(change_id, player_id, value, position);
     return std::vector<int>{1, 1, 1, 1};
-}
-
-std::vector<int> InGameChangeProcessor::displayStatisticsAndCloseGame() {
-    screen.displayStatistics(statistics_manager.getStatistics());
-    SDL_Event event;
-    while (true) {
-        SDL_WaitEvent(&event);
-        if (event.type == SDL_KEYDOWN)
-            break;
-    }
-    game_running = false;
-    return std::vector<int>{0, 0, 0, 0};
 }
 
 std::vector<int>

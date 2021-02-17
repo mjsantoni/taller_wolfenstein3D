@@ -7,6 +7,11 @@
 #include <client/communication/server_listener.h>
 #include "common/thread.h"
 #include "client_game.h"
+#include <common/network_connection.h>
+#include <client/communication/server_updater.h>
+#include <client/game/client_game.h>
+#include <common/connection_exception.h>
+
 
 class Client {
 private:
@@ -18,7 +23,7 @@ private:
 
 public:
     explicit Client(NetworkConnection &skt);
-    void start();
+    void startGame();
     void stop();
     bool isRunning();
 };

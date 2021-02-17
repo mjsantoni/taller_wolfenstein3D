@@ -2,6 +2,7 @@
 // Created by andy on 31/1/21.
 //
 
+#include <zconf.h>
 #include "client/graphics/menus_drawer.h"
 
 MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {
@@ -181,37 +182,64 @@ void MenusDrawer::displayDeadScreen() {
     window.render();
 }
 
-void MenusDrawer::displayStatistics(std::vector<int> statistics) {
-    int top_killer = statistics[0];
-    int top_shooter = statistics[1];
-    int top_scorer = statistics[3];
+void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
+    std::vector<int> top_killers = statistics[0];
+    std::vector<int> top_shooters = statistics[1];
+    std::vector<int> top_scorers = statistics[2];
+    std::vector<int> top_killers_stats = statistics[3];
+    std::vector<int> top_shooters_stats = statistics[4];
+    std::vector<int> top_scorers_stats = statistics[5];
     Area screen_area(0, 0, window_width, window_height);
     window.drawRectangle(screen_area, 0, 0, 0, 0);
-    std::string msg_top_killer =
-            "TOP KILLER: PLAYER " + std::to_string(top_killer);
-    std::string msg_top_shooter =
-            "TOP SHOOTER: PLAYER " + std::to_string(top_shooter);
-    std::string msg_top_scorer =
-            "TOP SCORER: PLAYER " + std::to_string(top_scorer);
-    Area msg_area_1;
-    Area msg_area_2;
-    Area msg_area_3;
+    std::string top_killer_header = "TOP KILLERS";
+    std::string top_shooter_header = "TOP SHOOTERS";
+    std::string top_scorer_header = "TOP SCORERS";
+    Area header_area_1;
+    Area header_area_2;
+    Area header_area_3;
     SDL_Texture* message_1 =
-            createMessage(msg_top_killer, msg_area_1, screen_area);
+            createMessage(top_killer_header, header_area_1, screen_area);
     SDL_Texture* message_2 =
-            createMessage(msg_top_killer, msg_area_1, screen_area);
+            createMessage(top_shooter_header, header_area_2, screen_area);
     SDL_Texture* message_3 =
-            createMessage(msg_top_killer, msg_area_1, screen_area);
-    Area screen_area_1 = Area(window_width/4, window_height/8, window_width/2,
-                       window_height/6);
-    Area screen_area_2 = Area(window_width/4, 3*window_height/8, window_width/2,
-                              window_height/6);
-    Area screen_area_3 = Area(window_width/4, 5*window_height/8, window_width/2,
-                              window_height/6);
-    window.loadImage(message_1, msg_area_1, screen_area_1);
-    window.loadImage(message_2, msg_area_2, screen_area_2);
-    window.loadImage(message_3, msg_area_3, screen_area_3);
+            createMessage(top_scorer_header, header_area_3, screen_area);
+    Area screen_area_1 = Area(window_width/6, 0, window_width/8,
+                       window_height/12);
+    Area screen_area_2 = Area(3*window_width/6, 0,
+                              window_width/8, window_height/12);
+    Area screen_area_3 = Area(5*window_width/6, 0,
+                              window_width/8, window_height/12);
+    window.loadImage(message_1, header_area_1, screen_area_1);
+    window.loadImage(message_2, header_area_2, screen_area_2);
+    window.loadImage(message_3, header_area_3, screen_area_3);
+    for (int i = 0 ; i < top_killers.size() ; ++i) {
+        std::string msg_text_1 = "Player " + std::to_string(top_killers[i]) +
+                ": " + std::to_string(top_killers_stats[i]);
+        std::string msg_text_2 = "Player " + std::to_string(top_shooters[i]) +
+                ": " + std::to_string(top_shooters_stats[i]);
+        std::string msg_text_3 = "Player " + std::to_string(top_scorers[i]) +
+                ": " + std::to_string(top_scorers_stats[i]);
+        Area e_msg_area_1;
+        Area e_msg_area_2;
+        Area e_msg_area_3;
+        Area e_screen_area_1 = Area(window_width/4, (2+2*i)*window_height/12,
+                                  window_width/2, window_height/12);
+        Area e_screen_area_2 = Area(window_width/4, (2+2*i)*window_height/12,
+                                  window_width/2, window_height/12);
+        Area e_screen_area_3 = Area(window_width/4, window_height/12, window_width/2,
+                                  window_height/12);
+        SDL_Texture* e_message_1 =
+                createMessage(msg_text_1, e_msg_area_1, e_screen_area_1);
+        SDL_Texture* e_message_2 =
+                createMessage(msg_text_2, e_msg_area_2,e_screen_area_2);
+        SDL_Texture* e_message_3 =
+                createMessage(msg_text_3, e_msg_area_3, e_screen_area_3);
+        window.loadImage(e_message_1, e_msg_area_1, e_screen_area_1);
+        window.loadImage(e_message_2, e_msg_area_2, e_screen_area_2);
+        window.loadImage(e_message_3, e_msg_area_3, e_screen_area_3);
+    }
     window.render();
+    sleep(10);
 }
 
 void MenusDrawer::displayVictoryScreen() {

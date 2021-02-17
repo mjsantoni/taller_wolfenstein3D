@@ -7,5 +7,5 @@
 int main() {
     NetworkConnection socket("localhost", "8080");
     Client client(socket);
-    client.start();
+    client.startGame();
 }

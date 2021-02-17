@@ -70,9 +70,9 @@ Area RayCastingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info
     auto column_height =
             double(wall_starting_point - screen_column_starting_point);
 
-    column_height = (screen_column_starting_point + column_height) >
-    SCREEN_DRAWING_HEIGHT? SCREEN_DRAWING_HEIGHT - screen_column_starting_point:
-    column_height;
+    //column_height = (screen_column_starting_point + column_height) >
+    //SCREEN_DRAWING_HEIGHT? SCREEN_DRAWING_HEIGHT - screen_column_starting_point:
+    //column_height;
     Area screen_area(
             ray_no, (int) screen_column_starting_point, 1, (int) column_height
     );

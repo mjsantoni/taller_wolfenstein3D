@@ -110,11 +110,15 @@ void GameScreen::clearWindow() {
     SDL_RenderClear(window.getRenderer());
 }
 
-void GameScreen::displayStatistics(std::vector<int> statistics) {
+void GameScreen::displayStatistics(std::vector<std::vector<int>> statistics) {
     menus_drawer.displayStatistics(statistics);
 }
 
 void GameScreen::displayVictoryScreen() {
     menus_drawer.displayVictoryScreen();
+}
+
+void GameScreen::displayNetworkConnectionErrorScreen(std::string message) {
+
 }
 

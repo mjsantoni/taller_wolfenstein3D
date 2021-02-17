@@ -14,7 +14,7 @@
 ChangeFactory::ChangeFactory(SharedQueue<Change>& _change_queue) :
         change_queue(_change_queue) {}
 
-void ChangeFactory::createAndPushFromBytes(char* bytes) {
+Change ChangeFactory::createFromBytes(char* bytes) {
     std::vector<int> buffer;
     std::stringstream ss(bytes);
     std::string s;
@@ -24,7 +24,7 @@ void ChangeFactory::createAndPushFromBytes(char* bytes) {
     }
     Change change(buffer[CHANGE_ID], buffer[ID], buffer[VALUE_1],
                   buffer[VALUE_2]);
-    change_queue.push(change);
+    return change;
     //std::cout << "El cliente pushea a la cola de cambios el cambio " << change.getChangeID() << std::endl;
 }
 

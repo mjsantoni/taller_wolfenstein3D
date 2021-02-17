@@ -1,8 +1,5 @@
 #include "client/game/client.h"
 #include <iostream>
-#include <common/network_connection.h>
-#include <client/communication/server_updater.h>
-#include <client/game/client_game.h>
 
 
 Client::Client(NetworkConnection& skt) : running(true),
@@ -12,12 +9,18 @@ Client::Client(NetworkConnection& skt) : running(true),
                                          server_listener(skt, change_queue){
 }
 
-void Client::start() {
+void Client::startGame() {
     try {
         ClientGame game(change_queue, event_queue);
         server_updater.start();
         server_listener.start();
-        game.startGame();
+        try {
+            game.startGame();
+        }
+        catch(ConnectionException& e) {
+            game.displayConnectionErrorScreen(std::string(e.what()));
+        }
+        game.displayStatistics();
         server_updater.stop();
         server_listener.stop();
         server_updater.join();

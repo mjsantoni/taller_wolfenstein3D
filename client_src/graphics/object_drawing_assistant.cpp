@@ -63,8 +63,11 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
             //col_height * (SCREEN_DRAWING_WIDTH/SCREEN_DRAWING_HEIGHT);
     double screen_x_starting_point = ((double) SCREEN_DRAWING_WIDTH/2 +
                                     object_x_starting_point - object_width / 2);
-    col_height = (screen_starting_point + col_height) > SCREEN_DRAWING_HEIGHT ?
-            SCREEN_DRAWING_HEIGHT - screen_starting_point: col_height;
+    std::cout << "Scr start point: " << screen_starting_point << std::endl;
+    std::cout << "Col height: " << col_height << std::endl;
+    std::cout << "Scr total height " << SCREEN_DRAWING_HEIGHT << std::endl;
+    //col_height = (screen_starting_point + col_height) > SCREEN_DRAWING_HEIGHT ?
+            //SCREEN_DRAWING_HEIGHT - screen_starting_point: col_height;
     Area area((int) screen_x_starting_point, (int) screen_starting_point,
               (int) object_width, col_height);
     return area;
