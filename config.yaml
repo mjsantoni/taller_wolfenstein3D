@@ -11,11 +11,11 @@ treasure:
   chest: 100
   crown: 200
 gun:
-  knife: [1, 1, 1, 60]
-  pistol: [1, 1, 0.75, 200]
-  chain_gun: [1, 0.1, 0.8, 200]
-  machine_gun: [5, 0.3, 0.6, 200]
-  rpg_gun: [5, 1, 1, 200]
+  knife: [1, 1, 1, 120]
+  pistol: [1, 1, 0.75, 500]
+  chain_gun: [1, 0.1, 0.8, 750]
+  machine_gun: [5, 0.3, 0.6, 750]
+  rpg_gun: [5, 1, 1, 1000]
 player:
   bullets: 100
   max_bullets: 100
