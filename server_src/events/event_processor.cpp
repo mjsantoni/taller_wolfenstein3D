@@ -79,8 +79,9 @@ std::vector<Change> EventProcessor::process(Event& event) {
 }
 
 void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &changes) {
+    bool has_ammo;
     std::pair<Coordinate,
-            std::vector<Positionable>> move_changes = game.movePlayer(player_id, value);
+            std::vector<Positionable>> move_changes = game.movePlayer(player_id, value, has_ammo);
     changes.emplace_back(MOVE_PLAYER, player_id,
                          move_changes.first.x, move_changes.first.y, true);
     for (auto &item : move_changes.second) {
@@ -100,6 +101,11 @@ void EventProcessor::movePlayer(int player_id, int value, std::vector<Change> &c
             changes.emplace_back(CHANGE_AMMO, player_id,
                                  configParser.getSpecificCategory(item.getCategory(), item.getType()),
                                  INVALID, false);
+            if (!has_ammo) {
+                int gun_id = game.getPlayerGun(player_id);
+                changes.emplace_back(CHANGE_WEAPON, player_id, gun_id, INVALID, true);
+            }
+
         }
         else if (item.getCategory() == "key")  {
             changes.emplace_back(CHANGE_KEY, player_id, 1, INVALID, false);

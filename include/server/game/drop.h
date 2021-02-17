@@ -6,6 +6,7 @@
 #define GUN_DROP 0
 #define KEY_DROP 1
 #define BULLETS_DROP 2
+#define BLOOD_DROP 3
 
 class Drop {
 public:

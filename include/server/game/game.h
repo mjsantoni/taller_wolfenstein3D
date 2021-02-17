@@ -59,7 +59,7 @@ public:
 
     /* RECEIVED EVENTS */
     std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> connectPlayer();
-    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id, int move_direction);
+    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id, int move_direction, bool& has_ammo);
     std::pair<Hit, std::vector<Change>> shoot(int id);
     std::pair<bool, int> openDoor(int id);
     int pushWall(int id);
@@ -71,6 +71,7 @@ public:
     bool isNotOver();
     int getPlayersAlive();
     bool isReady();
+    int getPlayerGun(int id);
 
     /* GAME CHANGERS */
     void playerDies(Hit& hit);
