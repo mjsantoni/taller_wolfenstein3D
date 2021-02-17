@@ -28,9 +28,11 @@ void StatisticsManager::addStatistic(int statistic_type,
             top_shooters_vector.push_back(player_id);
             top_shooters_stats.push_back(value);
             break;
-        default:
+        case TOP_SCORER:
             top_scorers_vector.push_back(player_id);
-            top_scorers_vector.push_back(value);
+            top_scorers_stats.push_back(value);
+            break;
+        default:
             break;
     }
 }
