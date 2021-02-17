@@ -30,7 +30,7 @@ public:
                   std::vector<std::pair<int, int>>& enemy_dmg_done, int pos_travelled,
                   bool is_adjacent);
 
-    std::vector<int> playersInArea(Coordinate &coord, int units);
+    std::vector<int> playersInArea(Coordinate &coord, int units, int id);
 
 
     Hit shootRegularGun(int bullets_to_shoot, Player &player, std::vector<Coordinate> &straight_line,

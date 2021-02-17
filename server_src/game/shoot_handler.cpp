@@ -35,7 +35,7 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
                                enemy_dmg_done, players, changes), changes);
         return total_changes;
     }
-    if (player.getBullets() < bullets_to_shoot) bullets_to_shoot = player.getBullets();
+    if (player.getBullets() < bullets_to_shoot && player.getGun().getType() != "knife") bullets_to_shoot = player.getBullets();
     std::pair<Hit, std::vector<Change>>
     total_changes(shootRegularGun(bullets_to_shoot, player, straight_line,
                                   enemy_dmg_done, players), changes);
@@ -107,16 +107,16 @@ Hit ShootHandler::travelAndExplodeRPG(RPG &rpg, int bullets_to_shoot,
     for (; (position < rpg_path.size() - 1) && (position < end_pos); position++) {
         //std::cout << "Current pos " << position << " - "; rpg_path[position].show();
 
-        if (map.isABlockingItemAt(rpg_path[position]) || map.isAPlayerAt(rpg_path[position])) {
+        std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS, rpg.getPlayerId());
+        if (map.isABlockingItemAt(rpg_path[position]) || !players_found.empty()) {
             //std::cout << "Encontre alguien en la position " << position << "\n";
-            std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS);
             hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
             rpg.explode();
             break;
         }
     }
     if (position == (rpg_path.size() - 1) && !rpg.exploded()) {
-        std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS);
+        std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS, rpg.getPlayerId());
         hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
         rpg.explode();
     }
@@ -143,12 +143,12 @@ void ShootHandler::hitPlayersWithRPG(std::vector<int> &players_found, Player &pl
     }
 }
 
-std::vector<int> ShootHandler::playersInArea(Coordinate& coord, int units) {
+std::vector<int> ShootHandler::playersInArea(Coordinate& coord, int units, int id) {
     std::vector<int> players_found;
     for (int i = coord.x-units; i <= coord.x+units; i++) {
         for (int j = coord.y-units; j <= coord.y+units; j++) {
             Coordinate pos(i,j);
-            if (map.isAPlayerAt(pos)) {
+            if (map.isAPlayerAt(pos) && map.getPlayerIDAtPosition(pos) != id) {
                 //std::cout << "Encontre en el area cercana a player: " << map.getPlayerIDAtPosition(pos) << "\n";
                 players_found.push_back(map.getPlayerIDAtPosition(pos));
             }
