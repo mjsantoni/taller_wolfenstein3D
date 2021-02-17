@@ -146,6 +146,12 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             render_vector = std::vector<int>{0, 1, 1, 0};
             break;
         }
+        case (ADD_BLOOD_PUDDLE_AT): {
+            map.putObjectAt(id, ITEM_BLOOD, value1, value2);
+            // id: nuevo id_bullets - value1: new_x - value2: new_y
+            render_vector = std::vector<int>{0, 1, 1, 0};
+            break;
+        }
         case (ADD_KEY_AT): {
             map.putObjectAt(id, ITEM_KEY, value1, value2);
             render_vector = std::vector<int>{0, 1, 1, 0};
@@ -217,12 +223,14 @@ void InGameChangeProcessor::processInGameChanges() {
         return;
     screen.render(render_vector);
     audio_manager.stopSound();
-    map.updateEnemiesSprites();
+    if (counter % 5 == 0)
+        map.updateEnemiesSprites();
     if (map.updateEvents()) {
         usleep(150000);
         screen.render(std::vector<int>{1, 1, 1, 0});
         std::cout << "Se actualizo el mapa\n";
     }
+    ++counter;
 }
 /*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {

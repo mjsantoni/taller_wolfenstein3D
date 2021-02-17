@@ -17,7 +17,7 @@ path:../client_src/resources/items/bullets.png, obj_width:0.05, obj_height:0.05,
 path:../client_src/resources/items/blood.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
 path:../client_src/resources/items/food.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
 
-path:../client_src/resources/enemies/dog_sprite.png, obj_width:0.3, obj_height:0.5, img_width:519, img_height:389, name:dog, is_sprite:1, sprite_dim:6x8, sprite_padding:5x5
+path:../client_src/resources/enemies/dog_sprite.png, obj_width:0.3, obj_height:0.5, img_width:519, img_height:389, name:dog, is_sprite:1, sprite_dim:6x8, sprite_padding:5x10
 path:../client_src/resources/enemies/guard.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:guard, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
 path:../client_src/resources/enemies/ss.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:ss, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
 path:../client_src/resources/enemies/officer.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:officer, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0

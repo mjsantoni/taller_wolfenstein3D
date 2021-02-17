@@ -25,6 +25,7 @@ private:
     int max_health;
     int max_lives;
     int max_ammo;
+    int full_ammo;
     int keys = 0;
     int weapons[5] = {1, 1, 0, 0, 0};
     std::pair<int, int> map_position;
@@ -65,6 +66,7 @@ public:
     void setMaxLives(int _max_lives);
     void setRespawningPosition(std::pair<int, int> _respawn_position);
     double getHealthRatio();
+    double setFullAmmo(int _full_ammo);
 };
 
 

@@ -26,6 +26,7 @@ private:
     bool game_over;
     bool& player_alive;
     bool& game_running;
+    int counter = 0;
     StatisticsManager& statistics_manager;
     std::vector<int> processEnemyAmmoChange(int enemy_id, int value);
     std::vector<int> processPlayerAmmoChange(int delta);
