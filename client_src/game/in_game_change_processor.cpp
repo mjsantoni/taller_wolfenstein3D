@@ -223,12 +223,14 @@ void InGameChangeProcessor::processInGameChanges() {
         return;
     screen.render(render_vector);
     audio_manager.stopSound();
-    map.updateEnemiesSprites();
+    if (counter % 5 == 0)
+        map.updateEnemiesSprites();
     if (map.updateEvents()) {
         usleep(150000);
         screen.render(std::vector<int>{1, 1, 1, 0});
         std::cout << "Se actualizo el mapa\n";
     }
+    ++counter;
 }
 /*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
