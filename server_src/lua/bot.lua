@@ -23,7 +23,7 @@ current_equipped_gun_hotkey = PISTOL
 grid_size = 0
 angle_turn = 0
 fov = 1
-gun_range = 20
+gun_range = 0
 
 first_time = true
 

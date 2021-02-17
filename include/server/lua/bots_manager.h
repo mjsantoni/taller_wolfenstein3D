@@ -52,9 +52,10 @@ public:
     }
 
     void releaseBots(Map& map, std::vector<Player>& players) {
-        if (!probability(0.025)) return;
+        if (!probability(0.04)) return;
         for (auto& bot : bots) {
             bot->updatePosition(map.getPlayerPosition(bot->getId()));
+            bot->setGunRange(players[bot->getId()].getGun().getRange());
             bot->cleanMap();
             bot->sendLives(players[bot->getId()].getLives());
             usleep(300000);
