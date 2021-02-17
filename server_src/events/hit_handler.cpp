@@ -49,6 +49,10 @@ void HitHandler::processHit(Hit &hit_event, std::vector<Change> &changes, int pl
                 changes.emplace_back(ADD_BULLETS_AT, drop.id, drop.pos.x, drop.pos.y, true);
                 break;
             }
+            case (BLOOD_DROP): {
+                changes.emplace_back(ADD_BLOOD_PUDDLE_AT, drop.id, drop.pos.x, drop.pos.y, true);
+                break;
+            }
             default: {
                 break;
             }
