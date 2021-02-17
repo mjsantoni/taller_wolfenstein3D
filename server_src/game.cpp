@@ -4,6 +4,7 @@
 #define MAX_PLAYERS 8
 #define MAX_DOOR_OPEN 5
 #define TURN_ANGLE (M_PI/20)
+#define DROP_DISTANCE 5
 
 #define MOVE_LEFT 0
 #define MOVE_RIGHT 1
@@ -55,13 +56,13 @@ double Game::getAngleToMove(int direction) {
     return 0;
 }
 
-std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id, int move_direction) {
+std::pair<Coordinate, std::vector<Positionable>> Game::movePlayer(int id, int move_direction, bool& has_ammo) {
     std::vector<Positionable> erased_positionables;
     Player& player = players[id];
     double angle = player.getAngle() + getAngleToMove(move_direction);
     Coordinate old_pos = map.getPlayerPosition(player.getID());
     Coordinate new_pos = colHandler.moveToPosition(old_pos, angle);
-
+    has_ammo = (player.getBullets() != 0);
     std::vector<std::pair<Coordinate, Positionable>> items = colHandler.getCloseItems(old_pos, new_pos);
     for (auto& item : items) {
         if (pickUpHandler.pickUp(item.second, player)) {
@@ -124,6 +125,10 @@ void Game::playerIsReady(int id) {
     players_ready.insert(id);
 }
 
+int Game::getPlayerGun(int id) {
+    return players[id].getGunHotkey(players[id].getGun().getType());
+}
+
 /* GAME CHECK */
 
 bool Game::isNotOver() {
@@ -175,16 +180,19 @@ void Game::playerDies(Hit& hit) {
 void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
                               Hit &hit, const Coordinate& pos) {
     /* Par: tipo de arma, si tiene llave para dropear o no */
+    Coordinate blood(pos.x, pos.y);
+    hit.addDrops("blood_puddle", blood, map.getGlobalID(), BLOOD_DROP);
     if (drops.first != "pistol") {
-        Coordinate gun_pos(pos.x, pos.y - 2);
+        Coordinate gun_pos(pos.x, pos.y - DROP_DISTANCE);
         hit.addDrops(drops.first, gun_pos, map.getGlobalID(), GUN_DROP);
     }
     if (drops.second) {
-        Coordinate key_pos(pos.x, pos.y + 2);
+        Coordinate key_pos(pos.x, pos.y + DROP_DISTANCE);
         hit.addDrops("key", key_pos, map.getGlobalID(), KEY_DROP);
     }
-    Coordinate bullets_pos(pos.x + 2, pos.y);
+    Coordinate bullets_pos(pos.x + DROP_DISTANCE, pos.y);
     hit.addDrops("bullets", bullets_pos, map.getGlobalID(), BULLETS_DROP);
+
 }
 
 void Game::closeDoors(std::vector<Change>& changes) {

@@ -8,7 +8,7 @@
 Player::Player(int _id, int _max_bullets, int _max_hp, int _bullets, int _max_lives, ConfigParser &cp) :
                id(_id), angle(0),
                max_hp(_max_hp), hp(_max_hp), max_bullets(_max_bullets),
-               bullets(_bullets), total_keys(0), lives(_max_lives) {
+               bullets(_bullets), default_bullets(_bullets), total_keys(0), lives(_max_lives) {
 
     guns.resize(TOTAL_GUNS + EXTRA_GUN_VECTOR_SIZE);
     std::vector<double> knife_stats = cp.getSpecificGun("knife");
@@ -173,6 +173,7 @@ bool Player::dieAndRespawn() {
         hp = max_hp;
         changeGun(PISTOL); // Cambia a pistol por defecto al morir
         previous_weapon = PISTOL;
+        bullets = default_bullets;
         return true; // respawnAtOriginalLoc()
     }
     else {

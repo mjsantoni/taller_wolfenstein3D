@@ -1,5 +1,6 @@
 #include "server/game/drop_handler.h"
 #include "server/entities/bullets.h"
+#include "server/entities/hp_item.h"
 #include <iostream>
 
 DropHandler::DropHandler(std::string config_path, Map &_map) :
@@ -27,6 +28,10 @@ void DropHandler::processDrops(const std::vector<Drop> &drops) {
                                               "dropped_bullets"),
                                                drop.pos);
                 break;
+            }
+            case (BLOOD_DROP): {
+                map.putPositionableAt(HPItem("blood_puddle", drop.id, configParser.getSpecificCategory("hp_item","blood_puddle")),
+                                      drop.pos);
             }
             default: {
                 break;
