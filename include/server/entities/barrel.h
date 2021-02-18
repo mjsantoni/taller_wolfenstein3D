@@ -8,6 +8,7 @@ private:
     
 public:
     Barrel(int id);
+
     ~Barrel();
 };
 

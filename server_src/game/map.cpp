@@ -15,7 +15,7 @@ Map::Map(int player_max_spawn_count) : max_players(player_max_spawn_count) {
 
 void Map::putPositionableAt(const Positionable& item, const Coordinate& pos) {
     board[pos] = item;
-    itemsPositions.push_back(pos);
+    if (!item.isBlocking()) itemsPositions.insert(pos);
 }
 
 void Map::putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates) {
@@ -97,6 +97,7 @@ void Map::erasePositionableAt(const Coordinate& coord) {
         //no deberia dar error, esto deberia borrar de una
         //gasta recursos chequear esto
         board.erase(coord);
+        itemsPositions.erase(coord);
         //std::cout << "Borro en: (" << coord.x << ", " << coord.y << ")\n";
     } else {
         //std::cout << "No habia nada, error en la posicion recibida\n";
@@ -174,7 +175,7 @@ void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& po
     coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
     coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
     board[coordinates] = positionable;
-    itemsPositions.push_back(coordinates);
+    itemsPositions.insert(coordinates);
 }
 
 /* MAP PRINT */

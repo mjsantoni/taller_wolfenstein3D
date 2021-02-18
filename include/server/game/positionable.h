@@ -10,7 +10,7 @@ public:
     std::string getCategory();
     std::string getType();
     int getId();
-    bool isBlocking();
+    bool isBlocking() const;
     ~Positionable() {}
     Positionable() {}
     Positionable(const Positionable& other);

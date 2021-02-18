@@ -18,16 +18,13 @@ public:
     int getDamage();
     int getRange();
     double getPrecision();
+    int getBulletsPerSpray();
 
     ~Gun();
 
     Gun(const Gun& other);
     Gun& operator=(const Gun& other);
 
-    //Gun(Gun &&other);
-    //Gun& operator=(Gun&& other);
-
-    int getBulletsPerSpray();
 };
 
 #endif // GUN_H

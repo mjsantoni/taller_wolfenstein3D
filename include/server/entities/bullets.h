@@ -9,6 +9,7 @@ private:
 
 public:
     Bullets(int id, int _bullets_given, std::string type);
+
     ~Bullets();
 };
 #endif // BULLETS_H

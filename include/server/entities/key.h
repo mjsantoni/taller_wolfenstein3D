@@ -8,9 +8,8 @@ private:
     
 public:
     Key(int id);
+
     ~Key();
-
 };
-
 
 #endif // KEY_H
