@@ -19,6 +19,7 @@ private:
     std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> board;
     std::vector<Coordinate> player_positions; // player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; // player[0] = spawn_player_0
+    std::vector<Coordinate> itemsPositions;
 
 public:
     Map();

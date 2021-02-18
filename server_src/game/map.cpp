@@ -15,6 +15,7 @@ Map::Map(int player_max_spawn_count) : max_players(player_max_spawn_count) {
 
 void Map::putPositionableAt(const Positionable& item, const Coordinate& pos) {
     board[pos] = item;
+    itemsPositions.push_back(pos);
 }
 
 void Map::putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates) {
@@ -110,14 +111,11 @@ void Map::removePlayer(int &i) {
 
 Coordinate Map::closePositionable(int units, const Coordinate& coord,
                                   std::set<Coordinate>& found_positionables) {
-    for (int i = coord.x-units; i <= coord.x+units; i++) {
-        for (int j = coord.y-units; j <= coord.y+units; j++) {
-            Coordinate pos(i,j);
-            if(board.find(pos) != board.end() && !board.at(pos).isBlocking()
-                && found_positionables.find(pos) == found_positionables.end()) {
-                found_positionables.insert(pos);
-                return pos;
-            }
+    for (auto& item_coord : itemsPositions) {
+        if (item_coord.distanceTo(coord) <= units &&
+            found_positionables.find(item_coord) == found_positionables.end()) {
+            found_positionables.insert(item_coord);
+            return item_coord;
         }
     }
     return Coordinate(0,0);
@@ -176,6 +174,7 @@ void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& po
     coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
     coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
     board[coordinates] = positionable;
+    itemsPositions.push_back(coordinates);
 }
 
 /* MAP PRINT */
