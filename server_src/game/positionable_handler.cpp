@@ -10,12 +10,13 @@ PositionableHandler::PositionableHandler(const std::string& _config_path) :
                                            cp(_config_path) {}
 
 Positionable PositionableHandler::createBlockingItem(const std::string& type, int id) {
-  if (type == "stone_wall") return Wall(type, id, false);
-  else if (type == "wood_wall")  return Wall(type, id, false);
-  else if (type == "blue_wall")  return Wall(type, id, false);
-  else if (type == "rock_wall")  return Wall(type, id, false);
-  else if (type == "locked_door") return Door(type, id, true);
-  else if (type == "unlocked_door") return Door(type, id, false);
+  if (type == "stone_wall") return Wall(type, id);
+  else if (type == "wood_wall")  return Wall(type, id);
+  else if (type == "blue_wall")  return Wall(type, id);
+  else if (type == "rock_wall")  return Wall(type, id);
+  else if (type == "fake_wall")  return Wall(type, id);
+  else if (type == "locked_door") return Door(type, id);
+  else if (type == "unlocked_door") return Door(type, id);
   else if (type == "barrel")  return Barrel(id);
   else { return Table(id); }
 }

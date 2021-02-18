@@ -5,18 +5,11 @@
 
 class Door : public Positionable {
 protected:
-    bool is_locked;
+
 public:
-    Door(std::string type, int id, bool _is_locked);
+    Door(std::string type, int id);
+
     ~Door();
-
-    Door(const Door& other);
-    Door& operator=(const Door& other);
-
-    bool openDoor() const;
-
-    void unlock();
 };
-
 
 #endif // DOOR_H

@@ -8,8 +8,8 @@ private:
     
 public:
     Table(int id);
+
     ~Table();
 };
-
 
 #endif // TABLE_H

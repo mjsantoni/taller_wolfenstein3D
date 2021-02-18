@@ -11,5 +11,4 @@ public:
     ~WaterPuddle();
 };
 
-
 #endif // WATER_PUDDLE_H

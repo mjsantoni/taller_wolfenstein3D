@@ -28,8 +28,6 @@ Gun::~Gun() {}
 
 int Gun::getRange() { return range; }
 
-
-
 Gun::Gun(const Gun& other) {
     this->bullets_per_spray = other.bullets_per_spray;
     this->fire_rate = other.fire_rate;
@@ -40,6 +38,7 @@ Gun::Gun(const Gun& other) {
     this->is_blocking = other.is_blocking;
     this->range = other.range;
 }
+
 Gun& Gun::operator=(const Gun& other) {
     this->bullets_per_spray = other.bullets_per_spray;
     this->fire_rate = other.fire_rate;
@@ -51,6 +50,3 @@ Gun& Gun::operator=(const Gun& other) {
     this->range = other.range;
     return *this;
 }
-
-
-

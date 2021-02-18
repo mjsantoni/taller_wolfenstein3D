@@ -9,12 +9,10 @@ protected:
     
 public:
     HPItem(std::string type, int id, int _hp_given);
-    ~HPItem();
-
-    HPItem(const HPItem& other);
-    HPItem& operator=(const HPItem& other);
 
     int getHP();
+
+    ~HPItem();
 };
 
 #endif // HP_ITEM_H
