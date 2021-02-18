@@ -5,16 +5,8 @@
 #include <client/graphics/images.h>
 #include "client/graphics/sdl_sprite.h"
 
-SdlSprite::SdlSprite(std::string _file_name, int width, int height, int cols,
-                     int rows, int h_padding, int v_padding) : whole_width(width),
-                     whole_height(height), cols(cols), rows(rows),
-                     h_padding(h_padding), v_padding(v_padding),
-                     SdlTexture(std::move(_file_name)) {
-    loadIndividualDimensions();
-}
-
-SdlSprite::SdlSprite(ObjectInfo& object_info) :
-                                        SdlTexture(object_info.getImagePath()) {
+SdlSprite::SdlSprite(SDL_Renderer *renderer, ObjectInfo &object_info) :
+                    SdlTexture(renderer, object_info.getImagePath()) {
     whole_width = object_info.getImageWidth();
     whole_height = object_info.getImageHeight();
     cols = object_info.getSpriteCols();
@@ -80,4 +72,13 @@ void SdlSprite::fillDimensions(Area& source_area, Area& empty_area) {
 
 std::vector<Area> SdlSprite::getAllTheAreas() {
     return dimensions;
+}
+
+Area SdlSprite::getTextureArea(int sprite_no) {
+    return dimensions[sprite_no];
+}
+
+void SdlSprite::render(Area &screen_area, int sprite_no) {
+    Area image_area = dimensions[sprite_no];
+    SdlTexture::render(image_area, screen_area);
 }

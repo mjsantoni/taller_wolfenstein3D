@@ -107,8 +107,27 @@ void SdlWindow::loadImage(SDL_Texture* texture,
     putTextureAt(texture, image_area, screen_area);
 }
 
+void SdlWindow::loadImage(SdlTexture& texture,
+                          Area& screen_area) {
+    SDL_Texture* sdl_texture = texture.getTexture();
+    Area image_area = texture.getTextureArea();
+    putTextureAt(sdl_texture, image_area, screen_area);
+}
 
-
+void SdlWindow::loadImage(SdlTexture& texture,
+                          Area& image_area,
+                          Area& screen_area) {
+    SDL_Texture* sdl_texture = texture.getTexture();
+    putTextureAt(sdl_texture, image_area, screen_area);
+}
+/*
+void SdlWindow::loadImage(SdlSprite &sprite,
+                          Area &image_area,
+                          Area &screen_area) {
+    SDL_Texture* sdl_texture = sprite.getTexture();
+    putTextureAt(sdl_texture, image_area, screen_area);
+}
+*/
 
 
 

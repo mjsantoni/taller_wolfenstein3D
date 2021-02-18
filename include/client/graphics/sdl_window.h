@@ -15,8 +15,6 @@
 #include "client/sdl_exception.h"
 #include "client/drawable.h"
 #include "client/game/client_player.h"
-#include "client/window_drawer.h"
-
 
 class SdlWindow {
 private:
@@ -26,7 +24,7 @@ private:
     double height_prop;
     SDL_Window* window;
     SDL_Renderer* renderer;
-    WindowDrawer window_drawer;
+
 public:
     SdlWindow(int width, int height);
     ~SdlWindow();
@@ -43,6 +41,9 @@ public:
     int getHeight();
     void drawRectangle(Area& area, int r, int g, int b, int a);
     void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
+    void loadImage(SdlTexture &texture, Area &screen_area);
+    void loadImage(SdlTexture &texture, Area &image_area, Area &screen_area);
+    //void loadImage(SdlSprite& sprite, Area &image_area, Area &screen_area);
 };
 
 

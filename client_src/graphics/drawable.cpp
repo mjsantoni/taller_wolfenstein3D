@@ -14,8 +14,8 @@ Drawable::Drawable(int _object_type) : object_type(_object_type),
     }
 }
 
-Drawable::Drawable(int _object_type, int _sprite_animation_no) :
-         object_type(_object_type), sprite_animation_no(_sprite_animation_no) {}
+Drawable::Drawable(int _object_type, int duration) :
+         object_type(_object_type), duration_on_map(duration) {}
 
 int Drawable::getObjectType() {
     return object_type;
@@ -68,4 +68,12 @@ void Drawable::setSpriteAnimationNo(int _sprite_animation_no) {
 
 void Drawable::setObjectType(int _object_type) {
     object_type = _object_type;
+}
+
+void Drawable::reduceDuration() {
+    --duration_on_map;
+}
+
+int Drawable::getDuration() {
+    return duration_on_map;
 }

@@ -54,13 +54,10 @@ void ClientGame::processGame() {
         event_generator.generateInGameEvents();
         auto final_time = std::chrono::system_clock::now();
         std::chrono::duration<double> delta_t = final_time - initial_time;
-        std::cout << "Delta: " << delta_t.count() << std::endl;
         double reminder = TICK_DURATION - delta_t.count();
-        std::cout << "Reminder: " << reminder << std::endl;
         reminder = (reminder > 0) ? reminder : 0;
         usleep(reminder);
     }
-    std::cout << "Frena change processor" << std::endl;
 }
 
 void ClientGame::displayStatistics() {

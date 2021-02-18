@@ -32,14 +32,14 @@ private:
     void fillDimensions(Area& source_area, Area& empty_area);
 
 public:
-    SdlSprite(ObjectInfo &object_info);
-    SdlSprite(std::string file_name, int width, int height, int cols, int rows,
-              int h_padding, int v_padding);
+    SdlSprite(SDL_Renderer *_renderer, ObjectInfo &object_info);
     SDL_Texture* loadNextTexture(SDL_Renderer* renderer, Area& srcArea);
     SDL_Texture* loadTexture(SDL_Renderer* renderer, Area& srcArea,
                              int sprite_number);
     void setPadding(int horizontal_padding, int vertical_padding);
     std::vector<Area> getAllTheAreas();
+    Area getTextureArea(int sprite_no);
+    void render(Area& screen_area, int sprite_no);
 };
 
 

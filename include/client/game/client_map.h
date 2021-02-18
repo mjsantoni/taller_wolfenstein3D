@@ -73,7 +73,7 @@ public:
     void putObjectAt(int object_id, int object_type, int x_pos, int y_pos);
     void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
     void updateRPGMissile(int object_id, int new_x, int new_y);
-    void setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
+    double setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
     void setDimensions(int _width, int _height);
     void moveObject(int object_id, std::pair<int, int> new_coordinates);
     void addPlayerSpawnAt(int x_pos, int y_pos);
@@ -86,7 +86,7 @@ public:
     void updateEnemiesSprites();
     void addEnemies(int own_player_id);
     void addObjectId(int object_id, int x_pos, int y_pos);
-    bool updateEvents();
+    void updateEvents();
     int getObjectTypeFromId(int object_id);
     void killPlayer(int player_id);
     void setEnemyAttacking(int enemy_id);

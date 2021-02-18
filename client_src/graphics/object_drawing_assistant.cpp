@@ -18,7 +18,7 @@ ObjectDrawingAssistant::ObjectDrawingAssistant(SdlWindow& _window,
 void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
                                          double pl_ob_angle) {
     int object_type = object_info.getObjectType();
-    SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
+    SdlTexture* texture = texture_manager.getTextureFromObjectType(object_type);
     Area image_area;
     if (object_info.isSprite()) {
         image_area = texture_manager.getAreaForEnemySprite(object_type,
@@ -35,7 +35,8 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
         image_area.setX((int)object_info.getHitGridPos()*image_area.getWidth());
     }
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
-    window.loadImage(texture, image_area, screen_area);
+    texture -> render(image_area, screen_area);
+    //window.loadImage(texture, image_area, screen_area);
     bool debug_object_drawing_info = true;
     if (!debug_object_drawing_info)
         return;

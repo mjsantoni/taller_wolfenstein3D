@@ -9,39 +9,38 @@ TextureManager::TextureManager(SdlWindow& _window,
                                window(_window),
                                info_provider(_info_provider) {
     std::vector<Area> fake_vector;
-    textures.push_back((SDL_Texture*) nullptr);
+    auto* fake_texture = (SdlTexture*) nullptr;
+    textures.push_back(fake_texture);
     areas_vector.push_back(fake_vector);
     for (int object_type = GRAY_WALL; object_type < MISC_TABLE; ++object_type) {
         ObjectInfo object_info = info_provider.getObjectInfo(object_type);
         std::string image_path = object_info.getImagePath();
-        SdlTexture texture(image_path);
+        auto* texture = new SdlTexture(window.getRenderer(), image_path);
         std::vector<Area> areas;
-        if (object_info.isSprite())
+        if (object_info.isSprite()) {
             areas = getAllSpriteAreas(object_info);
+            texture = new SdlSprite(window.getRenderer(), object_info);
+        }
         else
-            areas = getSingleImageArea(object_info);
-        SDL_Texture* image = texture.getTexture(window.getRenderer());
-        textures.push_back(image);
+            areas = getSingleImageArea(texture);
+        textures.push_back(texture);
         areas_vector.push_back(areas);
     }
 }
 
 std::vector<Area> TextureManager::getAllSpriteAreas(ObjectInfo& object_info) {
-    SdlSprite sprite(object_info);
+    SdlSprite sprite(window.getRenderer(), object_info);
     return sprite.getAllTheAreas();
 }
 
-std::vector<Area> TextureManager::getSingleImageArea(ObjectInfo& object_info) {
+std::vector<Area> TextureManager::getSingleImageArea(SdlTexture* texture) {
     std::vector<Area> single_area_vector;
-    //Area area{0, 0, object_info.getImageWidth(),object_info.getImageHeight()};
-    Area area;
-    SdlTexture texture(object_info.getImagePath());
-    texture.loadTexture(window.getRenderer(), area);
+    Area area = texture -> getTextureArea();
     single_area_vector.push_back(area);
     return single_area_vector;
 }
 
-SDL_Texture* TextureManager::getImageFromObjectType(int object_type) {
+SdlTexture* TextureManager::getTextureFromObjectType(int object_type) {
     return textures[object_type];
 }
 

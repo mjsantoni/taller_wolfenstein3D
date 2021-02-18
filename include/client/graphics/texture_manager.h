@@ -15,15 +15,15 @@
 
 class TextureManager {
 private:
-    std::vector<SDL_Texture*> textures;
+    std::vector<SdlTexture*> textures;
     std::vector<std::vector<Area>> areas_vector;
     ObjectInfoProvider& info_provider;
     SdlWindow& window;
 public:
     TextureManager(SdlWindow& _window, ObjectInfoProvider& _info_provider);
-    SDL_Texture *getImageFromObjectType(int object_type);
+    SdlTexture* getTextureFromObjectType(int object_type);
     Area getImageAreaFromObjectType(int object_type);
-    std::vector<Area> getSingleImageArea(ObjectInfo &object_info);
+    std::vector<Area> getSingleImageArea(SdlTexture* texture);
     std::vector<Area> getAllSpriteAreas(ObjectInfo &object_info);
     Area getAreaForEnemySprite(int object_type, int current_animation_no);
     Area getAreaForWeapon(int object_type, int current_animation_no);

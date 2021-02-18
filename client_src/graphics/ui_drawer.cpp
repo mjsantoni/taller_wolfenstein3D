@@ -7,9 +7,9 @@
 #include "client/graphics/ui_drawer.h"
 
 #define PLAYER_FACE_SPRITE_IMAGES 8
+
 UIDrawer::UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window) :
-                       player_face("../client_src/resources/ui/player_face.png",
-                       184, 124, 4, 2, 0, 3), info_provider(_info_provider),
+                       info_provider(_info_provider),
                        window(_window) {}
 
 void UIDrawer::setDimensions(int _starting_point,
@@ -68,11 +68,11 @@ void UIDrawer::drawPlayersImage(double health_ratio) {
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     Area screen_area(text_starting_point, starting_point + 15,
                      width/10 - 2*h_padding, ui_height - 30);
-    Area img_area;
     int sprite_no = (int) (health_ratio*(PLAYER_FACE_SPRITE_IMAGES-1));
-    SDL_Texture* player_image =
-            player_face.loadTexture(window.getRenderer(), img_area, sprite_no);
-    putTextureAt(player_image, img_area, screen_area);
+    ObjectInfo face_info = info_provider.getObjectInfo(UI_PLAYER_FACE);
+    SdlSprite player_face(window.getRenderer(), face_info);
+    //window.loadImage(player_face, img_area, screen_area);
+    player_face.render(screen_area, sprite_no);
     box_starting_point += width / 10;
     text_starting_point += width / 10 - h_padding;
 }
@@ -84,12 +84,12 @@ void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     ObjectInfo object_info = info_provider.getObjectInfo(players_weapon
             + WEAPON_ICON_DELTA);
-    SdlTexture weapon_icon(object_info.getImagePath());
-    Area image_area;
-    SDL_Texture* weapon_texture = weapon_icon.loadTexture(window.getRenderer(), image_area);
-    Area screen_area(text_starting_point,starting_point+15, (4*width/10)-2*h_padding,
-                     ui_height - 30);
-    putTextureAt(weapon_texture, image_area, screen_area);
+    SdlTexture weapon_icon(window.getRenderer(), object_info.getImagePath());
+    Area image_area = weapon_icon.getTextureArea();
+    Area screen_area(text_starting_point,starting_point+15,
+                     (4*width/10)-2*h_padding, ui_height - 30);
+    //window.loadImage(weapon_icon, image_area, screen_area);
+    weapon_icon.render(image_area, screen_area);
 }
 
 void UIDrawer::drawBox(const std::string& message, int value) {

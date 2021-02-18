@@ -189,9 +189,10 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (RPG_EXPLODE_AT): {
-            map.setRPGMissileExplosion(id, value1, value2);
+            double distance_ratio =
+                    map.setRPGMissileExplosion(id, value1, value2);
             render_vector = std::vector<int>{0, 1, 1, 0};
-            audio_manager.displayExplosionSound();
+            audio_manager.displayExplosionSound(distance_ratio);
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
@@ -219,17 +220,13 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
 void InGameChangeProcessor::processInGameChanges() {
     Change change = change_queue.pop();
     std::vector<int> render_vector = processInGameChange(change);
-    if (game_over)
+    if (game_over) {
         return;
+    }
     screen.render(render_vector);
-    audio_manager.stopSound();
     if (counter % 5 == 0)
         map.updateEnemiesSprites();
-    if (map.updateEvents()) {
-        usleep(150000);
-        screen.render(std::vector<int>{1, 1, 1, 0});
-        std::cout << "Se actualizo el mapa\n";
-    }
+    map.updateEvents();
     ++counter;
 }
 /*
@@ -321,9 +318,11 @@ std::vector<int> InGameChangeProcessor::processPlayerHealthChange(int delta) {
 }
 
 std::vector<int> InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
+    std::cout << "AUDIO PERRO\n";
     map.respawnPlayer(enemy_id);
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+    std::cout << "PASO\n";
     if (enemy_type == ENEMY_DOG)
         audio_manager.displayDyingDog(1-distance_ratio);
     else

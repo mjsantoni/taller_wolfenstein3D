@@ -66,7 +66,7 @@ public:
     void setMaxLives(int _max_lives);
     void setRespawningPosition(std::pair<int, int> _respawn_position);
     double getHealthRatio();
-    double setFullAmmo(int _full_ammo);
+    void setFullAmmo(int _full_ammo);
 };
 
 

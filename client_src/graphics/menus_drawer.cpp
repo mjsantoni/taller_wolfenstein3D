@@ -24,7 +24,8 @@ MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {
 }
 
 void MenusDrawer::displayIntro() {
-    SdlTexture intro_tex("../client_src/resources/menus/intro.jpg");
+    SdlTexture intro_tex(window.getRenderer(),
+                         "../client_src/resources/menus/intro.jpg");
     displayFullImage(intro_tex);
     std::string message_text = "PRESS ANY KEY TO CONTINUE";
     Area screen_area(3*window_width/8, 5*window_height/6, window_width/2,
@@ -38,10 +39,8 @@ void MenusDrawer::displayIntro() {
 }
 
 void MenusDrawer::displayFullImage(SdlTexture& texture) {
-    Area src_area;
-    SDL_Texture* image = texture.loadTexture(window.getRenderer(), src_area);
     Area dest_area(0, 0, window_width, window_height);
-    window.loadImage(image, src_area, dest_area);
+    window.loadImage(texture, dest_area);
 }
 
 SDL_Texture * MenusDrawer::createMessage(const std::string &message_text,
@@ -85,7 +84,8 @@ void MenusDrawer::fillTextArea(TTF_Font* font,
 }
 
 void MenusDrawer::displayMatchModeMenu() {
-    SdlTexture menu_tex("../client_src/resources/menus/match_mode_menu.jpg");
+    SdlTexture menu_tex(window.getRenderer(),
+                        "../client_src/resources/menus/match_mode_menu.jpg");
     displayFullImage(menu_tex);
     std::string message_text_1 = "New Game";
     std::string message_text_2 = "Join Game";
@@ -138,7 +138,8 @@ void MenusDrawer::displayLevelSelectionMenu() {
 }
 
 void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
-    SdlTexture menu_tex("../client_src/resources/menus/loading_screen.png");
+    SdlTexture menu_tex(window.getRenderer(),
+                        "../client_src/resources/menus/loading_screen.png");
     displayFullImage(menu_tex);
     Area screen_area(5*window_width/8, 3*window_height/4, 5*window_width/16,
                      window_height/6);
@@ -249,7 +250,8 @@ void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
 }
 
 void MenusDrawer::displayVictoryScreen() {
-    SdlTexture menu_tex("../client_src/resources/menus/victory_screen.jpg");
+    SdlTexture menu_tex(window.getRenderer(),
+                        "../client_src/resources/menus/victory_screen.jpg");
     displayFullImage(menu_tex);
     Area screen_area(3*window_width/8, 3*window_height/4, window_width/4,
                      window_height/6);

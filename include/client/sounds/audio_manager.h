@@ -22,7 +22,7 @@ public:
     void displayKnifeStabbingSound();
     void displayPlayerShootingSound();
     void displayEmptyGunSound();
-    void displayExplosionSound();
+    void displayExplosionSound(double volume_ratio);
 
     void displayPlayerLosingHealthSound();
     std::string getFilePath(std::string file_name);

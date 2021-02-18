@@ -27,7 +27,6 @@ private:
     int text_starting_point = 0;
     int h_padding = 10;
     int v_padding = 0;
-    SdlSprite player_face;
     ObjectInfoProvider& info_provider;
     SDL_Texture *createMessage(const std::string &message_text, Area &msg_area,
                                Area &screen_area, bool fill_text_area,

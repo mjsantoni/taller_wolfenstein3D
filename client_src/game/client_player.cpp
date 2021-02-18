@@ -165,7 +165,7 @@ double ClientPlayer::getHealthRatio() {
     return 1 - (double (health)/ double (max_health));
 }
 
-double ClientPlayer::setFullAmmo(int _full_ammo) {
+void ClientPlayer::setFullAmmo(int _full_ammo) {
     full_ammo = _full_ammo;
 }
 

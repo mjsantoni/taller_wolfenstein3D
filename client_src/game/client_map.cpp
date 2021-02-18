@@ -245,12 +245,17 @@ void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
     objects.insert(std::pair<int, Drawable>(object_id, missile));
 }
 
-void ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
+double ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
     std::cout << "Misil explota en (" << exp_x << "," << exp_y << ")\n";
     removeObject(object_id);
-    Drawable explosion(EFFECT_EXPLOSION);
+    Drawable explosion(EFFECT_EXPLOSION, 3);
     explosion.setMapPosition(exp_x, exp_y);
+    int delta_x = player_coord.first - exp_x;
+    int delta_y = player_coord.first - exp_y;
+    double explosion_distance = Calculator::calculateDistance(delta_x, delta_y);
+    double distance_ratio = explosion_distance/max_distance;
     effects.insert(std::pair<int, Drawable>(EXPLOSION_EFFECT_ID, explosion));
+    return distance_ratio;
 }
 
 void ClientMap::setDimensions(int _width, int _height) {
@@ -385,21 +390,24 @@ double ClientMap::getEnemyDistanceRatio(int enemy_id) {
     return enemy_distance/max_distance;
 }
 
-bool ClientMap::updateEvents() {
-    int counter = 0;
+void ClientMap::updateEvents() {
+    std::vector<int> effects_to_erase;
     for (auto& pair : effects) {
         if (effects.empty()) // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
             break;
-        ++counter;
         int id = pair.first;
-        effects.erase(id);
+        Drawable& effect = pair.second;
+        effect.reduceDuration();
+        if (effect.getDuration() == 0)
+            effects_to_erase.push_back(id);
     }
+    for (auto& id : effects_to_erase)
+        effects.erase(id);
     for (auto& id : enemies_to_swipe) {
         if (enemies_to_swipe.empty())
             break;
         enemies.erase(id);
         enemies_to_swipe.erase(id);
-        ++counter;
     }
     for (auto& id : enemies_to_respawn) {
         if (enemies_to_respawn.empty())
@@ -411,9 +419,7 @@ bool ClientMap::updateEvents() {
         ImageManager::setMovingAnimationForEnemy(enemy,
                                                  enemy.getSpriteAnimationNo());
         enemies_to_respawn.erase(id);
-        ++counter;
     }
-    return (counter > 0);
 }
 
 void ClientMap::killPlayer(int player_id) {
@@ -432,9 +438,9 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
     Drawable& enemy = enemies.at(enemy_id);
     std::pair<int, int> enemy_pos = enemy.getMapPosition();
     int enemy_type = enemy.getObjectType();
-    Drawable blood_effect(EFFECT_BLOOD);
+    Drawable blood_effect(EFFECT_BLOOD,3);
     if (enemy_type == ENEMY_DOG)
-        blood_effect = Drawable(EFFECT_DOG_BLOOD);
+        blood_effect = Drawable(EFFECT_DOG_BLOOD, 3);
     blood_effect.setMapPosition(enemy_pos);
     effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood_effect));
 }

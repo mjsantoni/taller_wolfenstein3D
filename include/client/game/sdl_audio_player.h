@@ -13,7 +13,7 @@ class SdlAudioPlayer {
 public:
     SdlAudioPlayer();
     void playSound(const std::string &file_name);
-    void playSound(const std::string& file_name, int span);
+    void playSound(const std::string& file_name, double volume_ratio);
     void stopSound();
     std::mutex m;
     void restoreVolume();

@@ -4,6 +4,7 @@
 
 #include <SDL_mixer.h>
 #include <zconf.h>
+#include <iostream>
 #include "client/game/sdl_audio_player.h"
 
 void setVolume(int volume_level);
@@ -16,22 +17,25 @@ SdlAudioPlayer::SdlAudioPlayer() {
 
 void SdlAudioPlayer::playSound(const std::string& file_name) {
     std::unique_lock<std::mutex> lock(m);
-    Mix_Music* gMusic = Mix_LoadMUS(file_name.c_str());
-    if(!gMusic) {
+    Mix_Chunk* sound = Mix_LoadWAV(file_name.c_str());
+    if(!sound) {
         throw SdlException( "Error en la carga del audio", Mix_GetError());
     }
-    Mix_PlayMusic(gMusic, -1);
+    Mix_PlayChannel(-1, sound, 0);
+    restoreVolume();
 }
 
-void SdlAudioPlayer::playSound(const std::string& file_name, int span) {
+void SdlAudioPlayer::playSound(const std::string& file_name,
+                               double volume_ratio) {
+    std::cout << "Volume ratio: " << volume_ratio << std::endl;
+    int volume = (int) (volume_ratio * MIX_MAX_VOLUME);
+    Mix_Volume(-1, volume);
     std::unique_lock<std::mutex> lock(m);
     Mix_Chunk* sound = Mix_LoadWAV(file_name.c_str());
     if(!sound) {
         throw SdlException( "Error en la carga del audio", Mix_GetError());
     }
     Mix_PlayChannel(-1, sound, 0);
-    //usleep(span);
-    //Mix_HaltMusic();
     restoreVolume();
 }
 
@@ -42,8 +46,6 @@ void SdlAudioPlayer::playMusic(const std::string& file_name) {
         throw SdlException( "Error en la carga del audio", Mix_GetError());
     }
     Mix_PlayMusic(gMusic, -1);
-    //usleep(span);
-    //Mix_HaltMusic();
     restoreVolume();
 }
 

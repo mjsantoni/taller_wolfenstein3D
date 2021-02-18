@@ -43,12 +43,13 @@ int RayCastingAssistant::findWallStartingPoint(double wall_height) {
 
 void RayCastingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
     int object_type = object_info.getObjectType();
-    SDL_Texture* texture = texture_manager.getImageFromObjectType(object_type);
-    Area image_area = texture_manager.getImageAreaFromObjectType(object_type);
+    SdlTexture* texture = texture_manager.getTextureFromObjectType(object_type);
+    Area image_area = texture -> getTextureArea();
     image_area.setX((int) (object_info.getHitGridPos() *image_area.getWidth()));
     image_area.setWidth(image_area.getWidth()/map_grid_size);
     Area screen_area = assembleScreenArea(ray_no, object_info);
-    window.loadImage(texture, image_area, screen_area);
+    //window.loadImage(texture, image_area, screen_area);
+    texture -> render(image_area, screen_area);
     //SDL_DestroyTexture(texture);
 }
 /*

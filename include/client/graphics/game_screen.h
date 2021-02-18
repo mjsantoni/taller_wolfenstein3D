@@ -37,7 +37,7 @@ public:
     void render();
     void render(std::vector<int> boolean_vector);
     void displayDeadScreen();
-    void renderRespawnScreen();
+    void displayRespawningScreen();
     void close();
     void displayIntro();
     void displayMatchModeMenu();
@@ -45,7 +45,7 @@ public:
     std::vector<Area> getKeyScreenAreas();
     void displayPlayerAttacking();
     void displayLoadingScreen(bool waiting_for_input);
-    void displayRespawningScreen();
+    void displayARespawningScreen();
     void clearWindow();
     void displayStatistics(std::vector<std::vector<int>> statistics);
     void displayVictoryScreen();
