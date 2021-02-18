@@ -95,3 +95,22 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
     //std::cout << "Se encola el evento " << event.getEventID() << std::endl;
     event_queue.push(event);
 }
+
+void InGameEventGenerator::generateInGameEvents() {
+    SDL_Event event;
+    if (SDL_PollEvent(&event) == 0) {
+        return;
+    }
+    switch(event.type) {
+        case SDL_KEYDOWN: {
+            generateInGameEvent(event);
+            break;
+        }
+        case SDL_MOUSEBUTTONDOWN:
+            generateInGameEvent(event);
+            break;
+        case SDL_QUIT:
+            puts("Saliendo");
+            return;
+    }
+}

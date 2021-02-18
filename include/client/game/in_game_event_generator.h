@@ -26,6 +26,7 @@ public:
                          bool& _player_alive);
     //Event parseEvent(SDL_Event event);
     void generateInGameEvent(SDL_Event sdl_event);
+    void generateInGameEvents();
 };
 
 

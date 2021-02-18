@@ -8,6 +8,8 @@
 #include <client/game/client_game.h>
 #include <client/communication/server_updater.h>
 
+#define TICK_DURATION 0.03
+
 
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
@@ -47,24 +49,16 @@ void ClientGame::displayConnectionErrorScreen(std::string message) {
 void ClientGame::processGame() {
     SDL_Event event;
     while (game_running) {
-        //std::cout << "inicio ciclo de juego\n";
-        usleep(33000);
+        auto initial_time = std::chrono::system_clock::now();
         change_processor.processInGameChanges();
-        if (SDL_PollEvent(&event) == 0) {
-            continue;
-        }
-        switch(event.type) {
-            case SDL_KEYDOWN: {
-                event_generator.generateInGameEvent(event);
-                break;
-            }
-            case SDL_MOUSEBUTTONDOWN:
-                event_generator.generateInGameEvent(event);
-                break;
-            case SDL_QUIT:
-                puts("Saliendo");
-                return;
-        }
+        event_generator.generateInGameEvents();
+        auto final_time = std::chrono::system_clock::now();
+        std::chrono::duration<double> delta_t = final_time - initial_time;
+        std::cout << "Delta: " << delta_t.count() << std::endl;
+        double reminder = TICK_DURATION - delta_t.count();
+        std::cout << "Reminder: " << reminder << std::endl;
+        reminder = (reminder > 0) ? reminder : 0;
+        usleep(reminder);
     }
     std::cout << "Frena change processor" << std::endl;
 }

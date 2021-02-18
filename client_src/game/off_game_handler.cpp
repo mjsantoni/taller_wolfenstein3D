@@ -36,7 +36,7 @@ void OffGameHandler::displayMenus() {
 void OffGameHandler::displayIntro() {
     screen.displayIntro();
     while (true) {
-        SDL_Delay(1);
+        //SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
         if (event.type == SDL_KEYDOWN)
@@ -48,7 +48,7 @@ int OffGameHandler::displayMatchModeMenu() {
     screen.displayMatchModeMenu();
     int ret_code = 0;
     while (true) {
-        SDL_Delay(1);
+        //SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
         ret_code = event_handler.handleMatchModeScreenEvent(event);
@@ -61,7 +61,7 @@ int OffGameHandler::displayMatchModeMenu() {
 void OffGameHandler::displayLevelSelectionMenu() {
     screen.displayLevelSelectionMenu();
     while (true) {
-        SDL_Delay(1);
+        //SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
         int chosen_map = event_handler.handleLevelSelectionEvent(event);
@@ -77,7 +77,7 @@ void OffGameHandler::displayLoadingScreen() {
     while (!player_ready)
         change_processor.processOffGameChanges();
     while (true) {
-        SDL_Delay(1);
+        //SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
         bool player_pressed_p = event_handler.handleLoadingScreenEvent(event);
