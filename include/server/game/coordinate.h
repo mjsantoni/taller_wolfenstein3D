@@ -21,13 +21,13 @@ public:
     }
     Coordinate() {}
     ~Coordinate() {}
-    void show() {
+    void show() const {
         std::cout << "Coord: (" << x << ", " << y << ")\n";
     }
     bool isValid() const {
         return x != -1 && y != -1;
     }
-    int distanceTo(const Coordinate& other) {
+    int distanceTo(const Coordinate& other) const {
         return (x - other.x) + (y - other.y);
     }
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <unordered_set>
 #include "positionable.h"
 #include "player.h"
 #include "positionable_handler.h"
@@ -19,7 +20,7 @@ private:
     std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> board;
     std::vector<Coordinate> player_positions; // player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; // player[0] = spawn_player_0
-    std::vector<Coordinate> itemsPositions;
+    std::unordered_set<Coordinate, Coordinate::HashFunction> itemsPositions;
 
 public:
     Map();
