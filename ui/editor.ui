@@ -189,9 +189,9 @@
            <number>1</number>
           </property>
           <item>
-           <widget class="QPushButton" name="buttonWalls">
+           <widget class="QPushButton" name="buttonScenario">
             <property name="text">
-             <string>Walls</string>
+             <string>Scenario</string>
             </property>
             <property name="checkable">
              <bool>false</bool>

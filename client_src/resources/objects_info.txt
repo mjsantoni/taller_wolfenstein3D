@@ -1,41 +1,44 @@
 path:../client_src/resources/walls/gray_wall.jpg, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
-path:../client_src/resources/walls/blue_wall.png, obj_width:1, obj_height:1, img_width:29, img_height:29, name:wall, is_sprite:0
-path:../client_src/resources/walls/brown_wall.png, obj_width:1, obj_height:1, img_width:29, img_height:30, name:wall, is_sprite:0
-path:../client_src/resources/walls/stone_wall.png, obj_width:1, obj_height:1, img_width:31, img_height:28, name:wall, is_sprite:0
+path:../client_src/resources/walls/blue_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/brown_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/stone_wall.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:wall, is_sprite:0
+path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, img_width:64, img_height:64, name:silver_door, is_sprite:0
 
 path:../client_src/resources/items/chain_cannon.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:chain_cannon, is_sprite:0
 path:../client_src/resources/items/rocket_launcher.png, obj_width:0.2, obj_height:0.1, img_width:64, img_height:64, name:rocket_launcher, is_sprite:0
-path:../client_src/resources/items/machine_gun.png, obj_width:0.2, obj_height:0.1, img_width:54, img_height:22, name:machine_gun, is_sprite:0
+path:../client_src/resources/items/machine_gun.png, obj_width:0.2, obj_height:0.1, img_width:218, img_height:239, name:machine_gun, is_sprite:0
 path:../client_src/resources/items/key.png, obj_width:0.1, obj_height:0.1, img_width:27, img_height:14, name:key, is_sprite:0
 path:../client_src/resources/items/cup.png, obj_width:0.15, obj_height:0.15, img_width:64, img_height:64, name:cup, is_sprite:0
-path:../client_src/resources/items/crown.png, obj_width:0.2, obj_height:0.2, img_width:22, img_height:19, name:crown, is_sprite:0
-path:../client_src/resources/items/chest.png, obj_width:0.4, obj_height:0.4, img_width:33, img_height:22, name:chest, is_sprite:0
+path:../client_src/resources/items/crown.png, obj_width:0.3, obj_height:0.1, img_width:22, img_height:19, name:crown, is_sprite:0
+path:../client_src/resources/items/chest.png, obj_width:0.4, obj_height:0.4, img_width:103, img_height:113, name:chest, is_sprite:0
 path:../client_src/resources/items/cross.png, obj_width:0.2, obj_height:0.2, img_width:26, img_height:17, name:life, is_sprite:0
 path:../client_src/resources/items/medical_kit.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:medical_kit, is_sprite:0
 path:../client_src/resources/items/bullets.png, obj_width:0.05, obj_height:0.05, img_width:15, img_height:12, name:medical_kit, is_sprite:0
 path:../client_src/resources/items/blood.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
+path:../client_src/resources/items/food.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
 
-path:../client_src/resources/enemies/dog.png, obj_width:0.3, obj_height:0.5, img_width:227, img_height:298, name:dog, is_sprite:1, sprite_dim:4x3, sprite_padding:0x0
-path:../client_src/resources/enemies/guard.png, obj_width:0.3, obj_height:1.25, img_width:224, img_height:296, name:guard, is_sprite:1, sprite_dim:4x3, sprite_padding:0x0
-path:../client_src/resources/enemies/ss.png, obj_width:0.3, obj_height:1.25, img_width:224, img_height:296, name:ss, is_sprite:1, sprite_dim:4x3, sprite_padding:0x0
-path:../client_src/resources/enemies/officer.png, obj_width:0.3, obj_height:1.25, img_width:224, img_height:296, name:officer, is_sprite:1, sprite_dim:4x3, sprite_padding:0x0
-path:../client_src/resources/enemies/mutant.png, obj_width:0.3, obj_height:1.25, img_width:224, img_height:296, name:mutant, is_sprite:1, sprite_dim:4x3, sprite_padding:0x0
+path:../client_src/resources/enemies/dog_sprite.png, obj_width:0.3, obj_height:0.5, img_width:519, img_height:389, name:dog, is_sprite:1, sprite_dim:6x8, sprite_padding:5x10
+path:../client_src/resources/enemies/guard.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:guard, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
+path:../client_src/resources/enemies/ss.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:ss, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
+path:../client_src/resources/enemies/officer.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:officer, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
+path:../client_src/resources/enemies/mutant.png, obj_width:0.3, obj_height:0.75, img_width:224, img_height:224, name:mutant, is_sprite:1, sprite_dim:3x3, sprite_padding:0x0
 
 path:../client_src/resources/weapons/knife.png, obj_width:0.2, obj_height:0.2, img_width:148, img_height:45, name:knife, is_sprite:1, sprite_dim:1x4, sprite_padding:0x15
 path:../client_src/resources/weapons/pistol.png, obj_width:0.2, obj_height:0.2, img_width:182, img_height:67, name:pistol, is_sprite:1, sprite_dim:1x4, sprite_padding:0x17
 path:../client_src/resources/weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_height:53, name:machine_gun, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
-path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
 path:../client_src/resources/weapons/chain_cannon.png, obj_width:0.2, obj_height:0.2, img_width:207, img_height:52, name:chain_cannon, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
+path:../client_src/resources/weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
 
 path:../client_src/resources/ui/knife_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:kninfe_icon, is_sprite:0
 path:../client_src/resources/ui/pistol_icon.png, obj_width:0.2, obj_height:0.2, img_width:83, img_height:64, name:pistol_icon, is_sprite:0
 path:../client_src/resources/ui/machine_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:machine_gun_icon, is_sprite:0
-path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
 path:../client_src/resources/ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:chain_gun_icon, is_sprite:0
+path:../client_src/resources/ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
 
-path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:explosion, is_sprite:0
+path:../client_src/resources/effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:57, img_height:55, name:explosion, is_sprite:0
+path:../client_src/resources/effects/missile.png, obj_width:0.1, obj_height:0.1, img_width:64, img_height:64, name:explosion, is_sprite:0
+path:../client_src/resources/effects/blood_effect.png, obj_width:0.1, obj_height:0.1, img_width:338, img_height:283, name:explosion, is_sprite:0
+path:../client_src/resources/effects/dog_blood_effect.png, obj_width:0.1, obj_height:0.1, img_width:338, img_height:283, name:explosion, is_sprite:0
 
-path:../client_src/resources/misc/barrel.png, obj_width:0.4, obj_height:0.2, img_width:48, img_height:37, name:barrel, is_sprite:0
-path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:46, img_height:36, name:table, is_sprite:0
-
-path:../client_src/resources/walls/silver_door.png, obj_width:1, obj_height:1, img_width:32, img_height:32, name:silver_door, is_sprite:0
+path:../client_src/resources/misc/barrel.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:barrel, is_sprite:0
+path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:table, is_sprite:0

@@ -1,5 +1,5 @@
 QMenu {
-background-color: #ABABAB; /* sets background of the menu */
+background-image: url("/resources/background.jpg"); /* sets background of the menu */
 border: 1px solid black;
 }
 
@@ -12,25 +12,18 @@ QGridButton {
     background-color: black;
     border-style: outset;
     border-width: 1px;
-    border-color: white;
+    border-color: gray;
     font-family: Samanata;
 }
 
-QPushButton {
-    height: 50px;
-    width: 30px;
-}
-
 QPushButton:hover{
-    background-color: dimgrey;
+    background-color: #ABCDDB;
 }
 
 QLineEdit {
     border-radius: 8px;
     border-style: inset;
-    color: white;
     font-size: 30px;
-    background-color: black;
 }
 
 QLabel {
@@ -39,16 +32,17 @@ QLabel {
 }
 
 QGridLayout {
-    background-color: black;
+    background-color: gray;
 }
 
 QScrollArea {
-    background-color: black;
+    background-color: gray;
 }
 
 
 QMainWindow {
-    background-color: darkred;
+    background-image: url("/taller_wolfenstein3D/editor_src/resources/background.jpg");
+    background-color: slategray;
     font-family: Samanata;
 }
 

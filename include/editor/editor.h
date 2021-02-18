@@ -27,7 +27,7 @@ private:
 
     void createTextureGrid();
 
-    void renderWallsGrid(QGridLayout *texture_grid);
+    void renderScenarioGrid(QGridLayout *texture_grid);
 
     void renderItemsGrid(QGridLayout *texture_grid);
 
