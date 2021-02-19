@@ -28,14 +28,15 @@ private:
     std::atomic<bool> can_join_player;
     std::mutex m;
 
-    int players_n;
-    int bots_n;
+    int min_players_in_lobby;
+    int max_bots;
+    int max_players;
     int game_id;
     int game_duration;
 
 public:
-    GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
-                int _game_id, int _game_duration);
+    GameHandler(const std::string &map_path, const std::string &config_path, int _min_players_in_lobby,
+                int _max_players, int _max_bots, int _game_id, int _game_duration);
 
     void run() override;
 

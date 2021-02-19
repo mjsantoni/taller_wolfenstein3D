@@ -12,18 +12,20 @@
 #define MOVE_UP 2
 #define MOVE_DOWN 3
 
-Game::Game(const std::string& map_path, std::string config_path, BotsManager &bm, int _players_requested,
-           int _game_duration) :
-           map(map_path, MAX_PLAYERS),
-           configParser(config_path),
-           colHandler(map),
-           blockingItemHandler(map),
-           shootHandler(map, scoreHandler),
-           pickUpHandler(config_path, scoreHandler),
-           dropHandler(config_path, map),
-           botsManager(bm),
-           players_requested(_players_requested),
-           game_duration(_game_duration) {
+Game::Game(const std::string& map_path, std::string config_path, BotsManager &bm,
+           int _min_players_in_lobby,
+           int _game_duration, int _max_players) :
+        map(map_path, MAX_PLAYERS),
+        configParser(config_path),
+        colHandler(map),
+        blockingItemHandler(map),
+        shootHandler(map, scoreHandler),
+        pickUpHandler(config_path, scoreHandler),
+        dropHandler(config_path, map),
+        botsManager(bm),
+        min_players_in_lobby(_min_players_in_lobby),
+        game_duration(_game_duration),
+        max_players(_max_players) {
 }
 
 Game::~Game() { botsManager.destroyBots(); }
@@ -150,7 +152,7 @@ int Game::getPlayersAlive() {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == players_requested+1 || players_ready.size() == players_requested);
+    return (players_alive == min_players_in_lobby + 1 || players_ready.size() == min_players_in_lobby);
 }
 
 /* GAME CHANGERS */

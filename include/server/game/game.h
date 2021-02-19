@@ -40,8 +40,9 @@ private:
     std::set<int> players_ready;
     int players_ids = 0;
     int players_alive = 0;
-    int players_requested;
+    int min_players_in_lobby;
     int game_duration;
+    int max_players;
 
     /* Bot stuff */
     BotsManager& botsManager;
@@ -51,8 +52,8 @@ private:
     static double getAngleToMove(int direction);
 
 public:
-    Game(const std::string &map_path, std::string config_path, BotsManager &bm, int _players_requested,
-         int _game_duration);
+    Game(const std::string &map_path, std::string config_path, BotsManager &bm, int _min_players_in_lobby,
+         int _game_duration, int _max_players);
     ~Game();
 
     /* RECEIVED EVENTS */

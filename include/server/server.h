@@ -28,8 +28,7 @@ public:
 
     bool joinGame(int game_id, NetworkConnection socket);
 
-    int createGame(int players, int bots, int game_duration,
-                   int map);
+    int createGame(int max_players, int bots, int game_duration, int map, int min_players_in_lobby);
 
     void killDead();
 

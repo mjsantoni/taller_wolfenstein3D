@@ -24,11 +24,12 @@ void Server::killDead() {
                   matches.end());
 }
 
-int Server::createGame(int players, int bots, int game_duration,
-                        int map) {
+int Server::createGame(int max_players, int bots, int game_duration,
+                       int map, int min_players_in_lobby) {
     std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
     auto new_game = new GameHandler(maps[map], "../config.yaml",
-                                    players, bots, matches.size(), game_duration);
+                                    min_players_in_lobby, max_players,
+                                    bots, matches.size(), game_duration);
     // pasarle game duration tambien
     new_game->start();
     matches.push_back(new_game);
@@ -84,7 +85,8 @@ void Server::run() {
                         continue;
                     } else {
                         socket.send_msg("1\n"); // created
-                        int new_game_id = createGame(game_options[0], game_options[1], game_options[2], game_options[3]);
+                        int new_game_id = createGame(game_options[0], game_options[1], game_options[2], game_options[3],
+                                                     0);
                         joinGame(new_game_id, std::move(socket));
                         break;
                     }

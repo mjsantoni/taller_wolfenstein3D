@@ -4,16 +4,19 @@
 #define MAX_EVENTS 100
 #define TICK_RATE 60000
 
-GameHandler::GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
+GameHandler::GameHandler(const std::string &map_path, const std::string &config_path,
+                         int _min_players_in_lobby,
+                         int _max_players, int _max_bots,
                          int _game_id, int _game_duration) :
         eventQueue(Event()),
         botsManager(eventQueue),
-        game(map_path, config_path, botsManager, _players_n, _game_duration),
+        game(map_path, config_path, botsManager, _min_players_in_lobby,
+             _game_duration, _max_players),
         eventProcessor(game, config_path),
         alive(true),
         can_join_player(true),
-        players_n(_players_n),
-        bots_n(_bots_n),
+        min_players_in_lobby(_min_players_in_lobby),
+        max_bots(_max_bots),
         game_id(_game_id),
         game_duration(_game_duration) {}
 
@@ -54,7 +57,7 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 
 void GameHandler::addBots() {
     std::cout << "[Game Handler " << game_id << "] Adding bots.\n";
-    for (int i = 0; i < bots_n; i++) {
+    for (int i = 0; i < max_bots; i++) {
         game.addBot();
     }
     Change change(TOTAL_PLAYERS_CONNECTED, game.getPlayersAlive(), INVALID, INVALID, true);

@@ -11,16 +11,16 @@
 
 int main(int argc, char* args[]) {
 
-    int players = std::stoi(args[1]);
+    int min_players_in_lobby = std::stoi(args[1]);
     int bots = std::stoi(args[2]);
     int stop_after_seconds = std::stoi(args[3]);
 
-    GameHandler gameHandler("../map.yaml", "../config.yaml", players, bots, 0, 600);
+    GameHandler gameHandler("../map.yaml", "../config.yaml", min_players_in_lobby, 8, bots, 0, 600);
     gameHandler.start();
     NetworkAcceptor networkAcceptor("8080");
 
     int total_connected = 0;
-    while (total_connected < players) {
+    while (total_connected < min_players_in_lobby) {
         // Spawn clients
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
