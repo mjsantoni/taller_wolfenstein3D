@@ -1,0 +1,41 @@
+#include "resources.h"
+
+Resources::Resources() {
+    QPixmap wood_pix("../client_src/resources/walls/brown_wall.png");
+    QPixmap rock_pix("../client_src/resources/walls/rock_wall.jpg");
+    QPixmap blue_pix("../client_src/resources/walls/blue_wall.png");
+    QPixmap stone_pix("../client_src/resources/walls/stone_wall.png");
+    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
+    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
+    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
+    QPixmap locked_pix("../client_src/resources/items/silver_door.png");
+    QPixmap barrel_pix("../client_src/resources/misc/barrel.png");
+    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
+    QPixmap chest_pix("../client_src/resources/items/chest.png");
+    QPixmap cross_pix("../client_src/resources/items/cross.png");
+    QPixmap crown_pix("../client_src/resources/items/crown.png");
+    QPixmap goblet_pix("../client_src/resources/items/goblet.png");
+    QPixmap food_pix("../client_src/resources/items/food.png");
+    QPixmap key_pix("../client_src/resources/items/key.png");
+    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
+    QPixmap water_pix("../client_src/resources/items/water_puddle.png");
+
+    QIcon wood_icon(wood_pix);
+    QIcon rock_icon(rock_pix);
+    QIcon blue_icon(blue_pix);
+    QIcon stone_icon(stone_pix);
+    QIcon rpg_icon(rpg_pix);
+    QIcon chain_icon(chain_pix);
+    QIcon machine_icon(machine_pix);
+    QIcon locked_icon(locked_pix);
+    QIcon barrel_icon(barrel_pix);
+    QIcon bullets_icon(bullets_pix);
+    QIcon chest_icon(chest_pix);
+    QIcon cross_icon(cross_pix);
+    QIcon crown_icon(crown_pix);
+    QIcon goblet_icon(goblet_pix);
+    QIcon food_icon(food_pix);
+    QIcon key_icon(key_pix);
+    QIcon medic_icon(medic_pix);
+    QIcon water_icon(water_pix);
+}
