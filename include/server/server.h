@@ -28,11 +28,13 @@ public:
 
     bool joinGame(int game_id, NetworkConnection socket);
 
-    int createGame(int max_players, int bots, int game_duration, int map, int min_players_in_lobby);
+    int createGame(std::string& map, int min_players, int max_players, int bots, int time);
 
     void killDead();
 
     std::vector<int> split(const std::string& bytes);
+
+    void sendGames(NetworkConnection &socket);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_H
