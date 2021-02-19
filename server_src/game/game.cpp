@@ -91,15 +91,15 @@ std::pair<bool, int> Game::openDoor(int id) {
     if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
     int player_keys_before = players[id].getKeys();
-    int door_id = map.getBlockingItemAt(door_to_open).getId();
+    //int door_id = map.getBlockingItemAt(door_to_open).getId();
 
     /* No tengo llave para abrir la puerta */
-    int opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
-    if (opened_door == -1) return std::make_pair(false, -1);
+    int door_id = blockingItemHandler.openDoor(door_to_open, players[id]);
+    if (door_id == -1) return std::make_pair(false, -1);
 
     /* Exito al abrir la puerta (estaba abierta o gaste llave) */
     doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
-    bool player_use_key = (player_keys_before == players[id].getKeys());
+    bool player_use_key = (player_keys_before != players[id].getKeys());
     return std::make_pair(player_use_key,door_id);
 }
 
@@ -110,10 +110,8 @@ int Game::pushWall(int id) {
     if (!wall_to_push.isValid()) return -1;
 
     /* No hay pared falsa en esa posicion */
-    if (!blockingItemHandler.pushWall(wall_to_push)) return -1;
-
-    /* Exito, hay pared falsa, devuelvo ID */
-    return map.getBlockingItemAt(wall_to_push).getId();
+    return blockingItemHandler.pushWall(wall_to_push);
+    /* Devuelve -1 si no era falsa, sino el ID de la pared falsa a borrar */
 }
 
 void Game::rotate(int id, int rotation) {

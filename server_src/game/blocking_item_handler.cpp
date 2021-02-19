@@ -14,12 +14,13 @@ int BlockingItemHandler::openDoor(Coordinate& coordinate, Player &player) {
     return -1;
 }
 
-bool BlockingItemHandler::pushWall(const Coordinate& coordinate) {
+int BlockingItemHandler::pushWall(const Coordinate& coordinate) {
     if (map.getBlockingItemAt(coordinate).getType() != "fake_wall") {
-        return false;
+        return -1;
     }
+    int id = map.getBlockingItemAt(coordinate).getId();
     map.removeBlockingItemAt(coordinate);
-    return true;
+    return id;
 }
 
 

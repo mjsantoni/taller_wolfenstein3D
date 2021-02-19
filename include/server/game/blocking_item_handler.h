@@ -17,7 +17,7 @@ public:
 
     int openDoor(Coordinate& coordinate, Player &player);
 
-    bool pushWall(const Coordinate& coordinate);
+    int pushWall(const Coordinate& coordinate);
 };
 
 #endif //TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H

@@ -41,7 +41,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
 
             changes.emplace_back(REMOVE_POSITIONABLE, door_id, player_id, INVALID, true);
             if (use_key)
-                changes.emplace_back(CHANGE_KEY, player_id, INVALID, INVALID, false);
+                changes.emplace_back(CHANGE_KEY, player_id, -1, INVALID, false);
             break;
         }
         case (PUSH_WALL): {
