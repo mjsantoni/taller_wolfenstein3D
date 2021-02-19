@@ -28,24 +28,24 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
 }
 
 /* Ejecuta los cambios */
-std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
-    if (change.isInvalid())
-        return std::vector<int>{0, 0, 0, 0};
+void InGameChangeProcessor::processInGameChange(Change &change) {
+    if (change.isInvalid()) {
+        skip_rendering = true;
+        return;
+    }
     int change_id = change.change_id;
     int id = change.id;
     int value1 = change.value1;
     int value2 = change.value2;
 
     if (!player_alive || game_over)
-        return processPostGameChanges(change);
+        processPostGameChanges(change);
 
     //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
-    std::vector<int> render_vector{0, 0, 0, 0};
     switch (change_id) {
         case (REMOVE_POSITIONABLE): {
             map.removeObject(id);
-            render_vector = std::vector<int>{1, 1, 1, 0};
             if (value1 == player.getId())
                 audio_manager.displayPickUpSound();
             // id: id del item
@@ -55,11 +55,9 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() == id) {
                 //std::cout << "El cliente se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
-                render_vector = std::vector<int>{1, 1, 1, 0};
             } else {
                 //std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveEnemy(id, value1, value2);
-                render_vector = std::vector<int>{0, 1, 0, 0};
             }
             // id: player_id - value1: new_x - value2: new_y
             break;
@@ -68,7 +66,7 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateScore(value1);
-            render_vector = std::vector<int>{0, 0, 0, 1};
+            render_background_and_objects = false;
             // id: player_id - value1: points to add
             break;
         }
@@ -87,20 +85,17 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             if (player.getId() != id)
                 break;
             player.updateKeys(value1);
-            render_vector = std::vector<int>{0, 0, 0, 1};
-            // id: player_id -> value1: cantidad (suma o resta keys)
+            render_background_and_objects = false;
             break;
         }
         case (CHANGE_WEAPON): {
             if (player.getId() == id) {
                 player.changeWeapon(value1);
-                render_vector = std::vector<int>{0, 0, 1, 1};
+                render_background_and_objects = false;
             }
             else {
                 map.changeEnemyImage(id, value1);
-                render_vector = std::vector<int>{0, 1, 0, 0};
             }
-            // id: player_id -> value1: cantidad (suma o resta keys)
             break;
         }
         case (KILL_PLAYER): {
@@ -110,14 +105,8 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
                 player_alive = false;
                 //algo mas aca seguro
             } else {
-                map.killPlayer(id);
-                if (map.isLastPlayerStanding()) {
-                    audio_manager.displayVictorySong();
-                    screen.displayVictoryScreen();
-                    game_over = true;
-                }
+                processEnemyDying(id);
             }
-            // id: player_id - Debe morir definitivamente
             break;
         }
         case (RESPAWN_PLAYER): {
@@ -134,64 +123,51 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
             player.setId(id);
             std::pair<int, int> player_pos = map.getSpawnPositionForPlayer(id);
             player.setMapPosition(player_pos);
-            //std::cout << "Se ubica al jugador en la posicion (" << player_pos.first << "," << player_pos.second << ")\n";
-            //std::cout << "Juego listo para iniciar\n";
-            // id: player id asignado
-            // habria que mandar el mapa completo aca
             break;
         }
         case (ADD_BULLETS_AT): {
             map.putObjectAt(id, ITEM_BULLETS, value1, value2);
             // id: nuevo id_bullets - value1: new_x - value2: new_y
-            render_vector = std::vector<int>{0, 1, 1, 0};
             break;
         }
         case (ADD_BLOOD_PUDDLE_AT): {
             map.putObjectAt(id, ITEM_BLOOD, value1, value2);
             // id: nuevo id_bullets - value1: new_x - value2: new_y
-            render_vector = std::vector<int>{0, 1, 1, 0};
             break;
         }
         case (ADD_KEY_AT): {
             map.putObjectAt(id, ITEM_KEY, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_key - value1: new_x - value2: new_y
             break;
         }
         case (ADD_MACHINE_GUN_AT): {
             map.putObjectAt(id, ITEM_MACHINE_GUN, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_CHAIN_GUN_AT): {
             map.putObjectAt(id, ITEM_CHAIN_CANNON, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_RPG_GUN_AT): {
             map.putObjectAt(id, ITEM_ROCKET_LAUNCHER, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: nuevo id_gun - value1: new_x - value2: new_y
             break;
         }
         case (ADD_UNLOCKED_DOOR): {
             map.updateUnlockedDoor(id, value1, value2);
-            render_vector = std::vector<int>{1, 1, 1, 0};
             // id: new_item_id - value1: new_x - value2: new_y (viene de cerrar puerta)
             break;
         }
         case (RPG_MOVE_TO): {
             map.updateRPGMissile(id, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             // id: mismo rpg_id - value1: new_x - value2: new_y (utilizar los viejos x,y para hacer la animacion)
             break;
         }
         case (RPG_EXPLODE_AT): {
             double distance_ratio =
                     map.setRPGMissileExplosion(id, value1, value2);
-            render_vector = std::vector<int>{0, 1, 1, 0};
             audio_manager.displayExplosionSound(distance_ratio);
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
@@ -206,7 +182,6 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
          */
         case (CL_UPDATE_DIRECTION): {
             player.updateDirection(value2);
-            render_vector = std::vector<int>{1, 1, 1, 0};
             break;
         }
         default: {
@@ -214,20 +189,22 @@ std::vector<int> InGameChangeProcessor::processInGameChange(Change &change) {
         }
     }
     //std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
-    return render_vector;
 }
 
 void InGameChangeProcessor::processInGameChanges() {
     Change change = change_queue.pop();
-    std::vector<int> render_vector = processInGameChange(change);
+    processInGameChange(change);
     if (game_over) {
         return;
     }
-    screen.render(render_vector);
-    if (counter % 5 == 0)
+    if (!skip_rendering)
+        screen.render(render_background_and_objects);
+    if (counter % 10 == 0)
         map.updateEnemiesSprites();
     map.updateEvents();
     ++counter;
+    render_background_and_objects = true;
+    skip_rendering = false;
 }
 /*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
@@ -241,61 +218,63 @@ void InGameChangeProcessor::stop() {
     game_over = false;
 }
 
-std::vector<int> InGameChangeProcessor::processPostGameChanges(Change change) {
+void InGameChangeProcessor::processPostGameChanges(Change change) {
     int change_id = change.getChangeID();
     if (change_id == GAME_OVER) {
         game_running = false;
-        return std::vector<int>{1, 1, 1, 1};
+        if (!player_alive) {
+            audio_manager.playDefeatSong();
+            screen.displayDefeatScreen();
+        }
+        return;
     }
     if (change_id < TOP_KILLER || change_id > TOP_SCORER)
-        return std::vector<int>{0, 0, 0, 0};
+        return;
     int player_id = change.getPlayerID();
     int value = change.getFirstValue();
     int position = change.getSecondValue();
     statistics_manager.addStatistic(change_id, player_id, value, position);
-    return std::vector<int>{1, 1, 1, 1};
 }
 
-std::vector<int>
-InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
-    if (value > 0)
-        return std::vector<int>{0, 0, 0, 0};
+void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
+    if (value > 0) {
+        render_background_and_objects = false;
+        return;
+    }
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
-    if (enemy_type != ENEMY_DOG && value == 0)
-        return std::vector<int>{0, 0, 0, 0};
+    if (enemy_type != ENEMY_DOG && value == 0) {
+        render_background_and_objects = false;
+        return;
+    }
     map.setEnemyAttacking(enemy_id);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
     if (enemy_type == ENEMY_DOG)
         audio_manager.displayDogAttackingSound(distance_ratio);
     else
         audio_manager.displayEnemyShot(distance_ratio);
-    return std::vector<int>{1, 1, 1, 0};
 }
 
-std::vector<int> InGameChangeProcessor::processPlayerAmmoChange(int delta) {
-    std::vector<int> render_vector;
+void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
     if (delta < 0) {
         audio_manager.displayPlayerShootingSound();
         screen.displayPlayerAttacking();
-        render_vector = std::vector<int>{0, 0, 1, 1};
+        render_background_and_objects = false;
     }
     else if (delta == 0) {
         if (player.getEquippedWeapon() != 1) {
             audio_manager.displayEmptyGunSound();
-            render_vector = std::vector<int>{0, 0, 0, 0};
+            skip_rendering = true;
         }
         else {
             audio_manager.displayKnifeStabbingSound();
             screen.displayPlayerAttacking();
-            render_vector = std::vector<int>{1, 1, 1, 0};
         }
     }
     player.updateAmmo(delta);
-    return render_vector;
 }
 
-std::vector<int> InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
-                                                                 int delta) {
+void InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
+                                                     int delta) {
 
         if (delta < 0) {
             map.setBloodEffectForEnemy(enemy_id);
@@ -305,19 +284,19 @@ std::vector<int> InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
                 audio_manager.displayDogGettingHit(distance_ratio);
             else
                 audio_manager.displayHumanGettingHit(distance_ratio);
-            return std::vector<int>{0, 1, 1, 0};
+            return;
         }
-        return std::vector<int>{0, 0, 0, 0};
+        render_background_and_objects = false;
 }
 
-std::vector<int> InGameChangeProcessor::processPlayerHealthChange(int delta) {
+void InGameChangeProcessor::processPlayerHealthChange(int delta) {
     player.updateHealth(delta);
     if (delta < 0)
         audio_manager.displayPlayerLosingHealthSound();
-    return std::vector<int>{0, 0, 0, 1};
+    render_background_and_objects = false;
 }
 
-std::vector<int> InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
+void InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
     std::cout << "AUDIO PERRO\n";
     map.respawnPlayer(enemy_id);
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
@@ -327,10 +306,9 @@ std::vector<int> InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
         audio_manager.displayDyingDog(1-distance_ratio);
     else
         audio_manager.displayDyingEnemy(1-distance_ratio);
-    return std::vector<int>{1, 1, 1, 1};
 }
 
-std::vector<int> InGameChangeProcessor::processEnemyDying(int enemy_id) {
+void InGameChangeProcessor::processEnemyDying(int enemy_id) {
     map.killPlayer(enemy_id);
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
@@ -338,5 +316,9 @@ std::vector<int> InGameChangeProcessor::processEnemyDying(int enemy_id) {
         audio_manager.displayDyingDog(1-distance_ratio);
     else
         audio_manager.displayDyingEnemy(1-distance_ratio);
-    return std::vector<int>{1, 1, 1, 1};
+    if (map.isLastPlayerStanding()) {
+        audio_manager.playVictorySong();
+        screen.displayVictoryScreen();
+        game_over = true;
+    }
 }

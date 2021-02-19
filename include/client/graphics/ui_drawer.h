@@ -31,9 +31,8 @@ private:
     int v_padding = 0;
     ObjectInfoProvider& info_provider;
     void renderMessage(const std::string &message_text, Area &msg_area,
-                       Area &screen_area, bool fill_text_area,
-                       MessageParameters message_parameters);
-    void drawPlayersLevel(int players_level);
+                       Area &screen_area, MessageParameters message_parameters);
+    void drawPlayersKeys(int players_level);
     void drawPlayersScore(int players_score);
     void drawPlayersLives(int players_lives);
     void drawPlayersHealth(int players_health);

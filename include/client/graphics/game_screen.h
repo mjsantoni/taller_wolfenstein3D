@@ -30,12 +30,11 @@ private:
     ClientPlayer& player;
     std::map<double, double> wall_distance_info;
     std::vector<double> angles_list;
-    std::map<int, std::pair<int, int>> floor_info;
     bool& player_alive;
 public:
     GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player,
                bool& _player_alive);
-    void render(std::vector<int> boolean_vector);
+    void render(bool render_background_and_objects);
     void displayDeadScreen();
     void displayRespawningScreen();
     void close();
@@ -48,6 +47,7 @@ public:
     void displayStatistics(std::vector<std::vector<int>> statistics);
     void displayVictoryScreen();
     void displayNetworkConnectionErrorScreen(std::string message);
+    void displayDefeatScreen();
 };
 
 

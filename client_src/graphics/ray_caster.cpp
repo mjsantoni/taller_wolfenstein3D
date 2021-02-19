@@ -6,33 +6,28 @@
 
 #include <thread>
 
-
+#define HALF_FOV_RAD 0.523599
 #define FOV_ANGLE 60
 #define GRID_SIZE 64
 
 RayCaster::RayCaster(SdlWindow& window,
                      ClientMap& map,
                      std::map<double, double>& _wall_distance_info,
-                     std::map<int, std::pair<int, int>>& _floor_info,
                      ObjectInfoProvider& _info_provider,
                      std::vector<double>& _angles_list,
                      TextureManager& texture_manager) :
         window(window), wall_distance_info(_wall_distance_info), map(map),
-        info_provider(_info_provider), floor_info(_floor_info),
-        angles_list(_angles_list),
-        assistant(window, _floor_info, texture_manager) {
+        info_provider(_info_provider), angles_list(_angles_list),
+        assistant(window, texture_manager) {
 }
 
 void RayCaster::renderBackground(int x, int y, double alpha) {
-    double angle = Calculator::normalize(alpha + 0.523599);
-    for (int ray = 0; ray < PROJECTION_PLANE_WIDTH; ++ray) {
-        //printf("Con el jugador en (%d, %d), ", grid.first, grid.second);
-        //printf("Se lanza el rayo %d, con el angulo %f\n", ray, angle);
+    double angle = Calculator::normalize(alpha + HALF_FOV_RAD);
+    for (int ray = 0; ray < projection_plane_width; ++ray) {
         ObjectInfo object_info{};
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);
         object_info = fillObjectInfo(object_info);
-        //printf("Para el angulo %f se devuelve la distancia: %f\n",beta, object_info.getHitDistance());
         object_info.setHitDistance(object_info.getHitDistance()*cos(beta));
         assistant.putFloorAndCeiling(ray, object_info);
         assistant.putWall(ray, object_info);
@@ -58,9 +53,8 @@ void RayCaster::castProjectionLine(int x,
                                    double beta,
                                    ObjectInfo& object_info) {
     castProjectionLine_vertical(x, y, alpha, beta, object_info);
-    //printf("Distancia vertical encontrada: %f\n", object_info.hit_distance);
+
     castProjectionLine_horizontal(x, y, alpha, beta, object_info);
-    //printf("Distancia horizontal encontrada: %f\n", object_info.hit_distance);
     saveRayInformation(beta, object_info.getHitDistance());
 }
 
@@ -101,8 +95,6 @@ void RayCaster::castProjectionLine_vertical_up(int x,
 
         int x_factor = calculateBorderFactor(ray_pointing_left, x+delta_x);
         if (map.wallAtGrid(x+delta_x, y-delta_y, x_factor, -1)) {
-            //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia arriba",
-                   //grid_coordinates.first, grid_coordinates.second);
             fillRayInfo(beta, x, y, delta_x, -delta_y, object_info,
                         x_factor,
                         -1);
@@ -128,8 +120,6 @@ void RayCaster::castProjectionLine_vertical_down(int x,
 
         int x_factor = calculateBorderFactor(ray_pointing_right, x+delta_x);
         if (map.wallAtGrid(x+delta_x, y+delta_y, x_factor, 0)) {
-            //printf("Se encontro una pared en la celda: (%d, %d) con un rayo vertical hacia abajo",
-                   //grid_coordinates.first, grid_coordinates.second);
             fillRayInfo(beta, x, y, delta_x, delta_y, object_info,
                         x_factor, 0);
             return;
@@ -155,8 +145,6 @@ void RayCaster::castProjectionLine_horizontal_left(int x,
 
         int y_factor = calculateBorderFactor(ray_pointing_up, y+delta_y);
         if (map.wallAtGrid(x-delta_x, y+delta_y, -1, y_factor)) {
-            //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la izquierda",
-                   //grid_coordinates.first, grid_coordinates.second);
             fillRayInfo(beta, x, y, -delta_x, delta_y, object_info,
                         -1, y_factor);
             return;
@@ -182,8 +170,6 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
 
         int y_factor = calculateBorderFactor(ray_pointing_up, y + delta_y);
         if (map.wallAtGrid(x + delta_x, y + delta_y, 0, y_factor)) {
-            //printf("Se encontro una pared en la celda: (%d, %d) con un rayo horizontal hacia la derecha",
-            //grid_coordinates.first, grid_coordinates.second);
             fillRayInfo(beta, x, y, delta_x, delta_y, object_info, 0,
                         y_factor);
             return;
@@ -227,7 +213,6 @@ int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
 }
 
 void RayCaster::saveRayInformation(double ray_angle, double distance) {
-    //printf("Se agrega el angulo %f, con distancia %f\n", ray_angle, distance);
     double real_distance = distance/cos(ray_angle);
     wall_distance_info.insert(std::pair<double, double>(ray_angle,
                                                         real_distance));
@@ -235,5 +220,7 @@ void RayCaster::saveRayInformation(double ray_angle, double distance) {
 }
 
 void RayCaster::setDimensions(int width, int height) {
+    projection_plane_width = width;
+    ray_angle_delta = (double) (double(60) / projection_plane_width * M_PI/180);
     assistant.setDimensions(width, height);
 }

@@ -17,9 +17,8 @@
 class RayCaster {
 public:
     RayCaster(SdlWindow& window, ClientMap& map, std::map<double, double>&
-          wall_distance_info,std::map<int, std::pair<int, int>>& _floor_info,
-          ObjectInfoProvider& info_provider, std::vector<double>& _angles_list,
-          TextureManager& texture_manager);
+          wall_distance_info, ObjectInfoProvider& info_provider,
+          std::vector<double>& _angles_list, TextureManager& texture_manager);
     void renderBackground(int x, int y, double alpha);
     void setDimensions(int width, int height);
 private:
@@ -29,9 +28,8 @@ private:
     ObjectInfoProvider& info_provider;
     std::map<double, double>& wall_distance_info;
     std::vector<double>& angles_list;
-    std::map<int, std::pair<int, int>>& floor_info;
-    double ray_angle_delta =
-            (double) (double(60) / SCREEN_DRAWING_WIDTH * M_PI/180);
+    int projection_plane_width;
+    double ray_angle_delta;
     void castProjectionLine(int x, int y, double alpha, double beta,
                             ObjectInfo& drawing_info);
     void castProjectionLine_vertical(int x, int y, double alpha, double beta,

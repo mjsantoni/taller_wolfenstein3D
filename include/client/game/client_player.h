@@ -53,6 +53,7 @@ public:
     int getLives();
     int getHealth();
     int getAmmo();
+    int getKeys();
     void setLives(int lives);
     void setHealth(int health);
     void setAmmo(int ammo);

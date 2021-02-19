@@ -340,7 +340,6 @@ void ClientMap::updateEnemiesSprites() {
         Drawable& enemy = pair.second;
         int current_animation = enemy.getSpriteAnimationNo();
         ImageManager::setMovingAnimationForEnemy(enemy, current_animation);
-        std::cout << "Update sprites, se pone animacion: " << enemy.getSpriteAnimationNo() << std::endl;
     }
 }
 

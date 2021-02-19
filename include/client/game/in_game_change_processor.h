@@ -23,15 +23,17 @@ private:
     GameScreen& screen;
     AudioManager& audio_manager;
     SharedQueue<Change>& change_queue;
+    bool render_background_and_objects = true;
+    bool skip_rendering = false;
     bool game_over;
     bool& player_alive;
     bool& game_running;
     int counter = 0;
     StatisticsManager& statistics_manager;
-    std::vector<int> processEnemyAmmoChange(int enemy_id, int value);
-    std::vector<int> processPlayerAmmoChange(int delta);
-    std::vector<int> processEnemyHealthChange(int enemy_id, int delta);
-    std::vector<int> processPlayerHealthChange(int delta);
+    void processEnemyAmmoChange(int enemy_id, int value);
+    void processPlayerAmmoChange(int delta);
+    void processEnemyHealthChange(int enemy_id, int delta);
+    void processPlayerHealthChange(int delta);
 public:
     InGameChangeProcessor(GameScreen& _screen,
                           ClientMap& _map,
@@ -41,14 +43,14 @@ public:
                           StatisticsManager& _statistics_manager,
                           bool& _player_alive,
                           bool& _game_running);
-    std::vector<int> processInGameChange(Change& change);
+    void processInGameChange(Change& change);
     void stop();
     void processInGameChanges();
     void processInGameChanges(std::vector<Change> changes);
     std::vector<int> displayStatisticsAndCloseGame();
-    std::vector<int> processPostGameChanges(Change change);
-    std::vector<int> processEnemyRespawning(int enemy_id);
-    std::vector<int> processEnemyDying(int enemy_id);
+    void processPostGameChanges(Change change);
+    void processEnemyRespawning(int enemy_id);
+    void processEnemyDying(int enemy_id);
 };
 
 

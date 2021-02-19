@@ -49,6 +49,8 @@ public:
                             std::vector<int> top_shooters_stats);
     void displayTopScorers(std::vector<int> top_scorers,
                            std::vector<int> top_scorers_stats);
+
+    void displayDefeatScreen();
 };
 
 

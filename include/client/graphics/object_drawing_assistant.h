@@ -19,13 +19,13 @@
 class ObjectDrawingAssistant {
 private:
     SdlWindow& window;
-    int window_width;
-    int window_height;
+    int screen_width;
+    int screen_height;
+    int view_dist;
     int width_factor;
     int height_factor;
     int map_grid_size = 64;
-    int proj_plane_distance =
-            (int) (((double) SCREEN_DRAWING_WIDTH/2) / tan(FOV/2));
+    int proj_plane_distance;
     TextureManager& texture_manager;
 public:
     ObjectDrawingAssistant(SdlWindow &_window,TextureManager& _texture_manager);

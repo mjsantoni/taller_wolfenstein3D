@@ -202,12 +202,12 @@ void MenusDrawer::displayStatisticsHeaders() {
     Area header_area_1;
     Area header_area_2;
     Area header_area_3;
-    Area screen_area_1 = Area(window_width/6, 0, window_width/8,
+    Area screen_area_1 = Area(window_width/9, 0, window_width/6,
                               window_height/12);
-    Area screen_area_2 = Area(3*window_width/6, 0,
-                              window_width/8, window_height/12);
-    Area screen_area_3 = Area(5*window_width/6, 0,
-                              window_width/8, window_height/12);
+    Area screen_area_2 = Area(4*window_width/9, 0,
+                              window_width/6, window_height/12);
+    Area screen_area_3 = Area(7*window_width/9, 0,
+                              window_width/6, window_height/12);
     renderMessage(top_killer_header, header_area_1, screen_area_1);
     renderMessage(top_shooter_header, header_area_2, screen_area_2);
     renderMessage(top_scorer_header, header_area_3, screen_area_3);
@@ -261,4 +261,14 @@ void MenusDrawer::displayTopScorers(std::vector<int> top_scorers,
                                     window_width/8, window_height/12);
         renderMessage(msg_text, msg_area, screen_area);
     }
+}
+
+void MenusDrawer::displayDefeatScreen() {
+    SdlTexture menu_tex(window,
+                        "../client_src/resources/menus/defeat_screen.jpg");
+    displayFullImage(menu_tex);
+    Area screen_area(3*window_width/8, 3*window_height/4, window_width/4,
+                     window_height/6);
+    window.render();
+    sleep(5);
 }

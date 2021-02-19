@@ -171,3 +171,7 @@ void ClientPlayer::setFullAmmo(int _full_ammo) {
     full_ammo = _full_ammo;
 }
 
+int ClientPlayer::getKeys() {
+    return keys;
+}
+

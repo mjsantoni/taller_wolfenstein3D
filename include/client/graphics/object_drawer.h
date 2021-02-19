@@ -24,7 +24,6 @@ private:
     ObjectInfoProvider& object_info_provider;
     int map_grid_size = 64;
     std::map<double, double>& wall_distance_info;
-    std::map<int, std::pair<int, int>>& floor_info;
     std::vector<double>& angles_list;
     ClientMap& map;
     int safe_distance = 30;
@@ -47,7 +46,6 @@ private:
 public:
     ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
                  std::map<double, double>& wall_distance_info,
-                 std::map<int, std::pair<int, int>>& _floor_info,
                  std::vector<double>& angles_list, ClientMap& map,
                  TextureManager& texture_manager);
     void loadObjects(int x, int y, double player_angle);

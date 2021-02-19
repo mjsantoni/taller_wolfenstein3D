@@ -86,7 +86,12 @@ std::string AudioManager::getFilePath(std::string file_name) {
     return files_path + "/" + file_name;
 }
 
-void AudioManager::displayVictorySong() {
+void AudioManager::playVictorySong() {
     std::unique_lock<std::mutex> lock(m);
     audio_player.playMusic(getFilePath("victory_song.mp3"));
+}
+
+void AudioManager::playDefeatSong() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playMusic(getFilePath("defeat_song.mp3"));
 }

@@ -12,10 +12,10 @@ GameScreen::GameScreen(int width,
         window(width, height),
         texture_manager(window, object_info_provider),
         object_drawer(window, object_info_provider, wall_distance_info,
-                      floor_info, angles_list, _map, texture_manager),
+                      angles_list, _map, texture_manager),
         map(_map),
-        ray_caster(window, _map, wall_distance_info, floor_info,
-                         object_info_provider, angles_list, texture_manager),
+        ray_caster(window, _map, wall_distance_info, object_info_provider,
+                   angles_list, texture_manager),
         ui_drawer(object_info_provider, window),
         weapon_drawer(window, object_info_provider, texture_manager),
         menus_drawer(window),
@@ -52,31 +52,23 @@ void GameScreen::displayLevelSelectionMenu() {
     return menus_drawer.displayLevelSelectionMenu();
 }
 
-void GameScreen::render(std::vector<int> boolean_vector) {
-    //if (boolean_vector == std::vector<int>{0, 0, 0, 0})
-        //return;
-    //bool render_ray_caster = boolean_vector[0];
-    //bool render_object_drawer = boolean_vector[1];
-    //bool render_player_weapon = boolean_vector[2];
-    //bool render_ui_drawer = boolean_vector[3];
+void
+GameScreen::render(bool render_background_and_objects) {
     int x = player.getXPosition();
     int y = player.getYPosition();
-    //if (render_ray_caster)
+    if (render_background_and_objects) {
         ray_caster.renderBackground(x, y, player.getDirection());
-    //if (render_object_drawer)
         object_drawer.loadObjects(x, y, player.getDirection());
-    //if (render_player_weapon)
-    if (player_alive)
+    }
+    if (player_alive) {
         weapon_drawer.drawPlayersEquippedWeapon(player.getEquippedWeapon());
-    //if (render_ui_drawer)
-    if (player_alive)
         ui_drawer.drawPlayerUI(player);
-    else
+    } else {
         ui_drawer.renderDeadMode();
+    }
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
-    floor_info.clear();
 }
 
 void GameScreen::displayPlayerAttacking() {
@@ -86,16 +78,15 @@ void GameScreen::displayPlayerAttacking() {
     object_drawer.loadObjects(x, y, player.getDirection());
     weapon_drawer.displayPlayerAttacking(player.getEquippedWeapon());
     ui_drawer.drawPlayerUI(player);
-    usleep(50000);
+    usleep(7500);
     ray_caster.renderBackground(x, y, player.getDirection());
     object_drawer.loadObjects(x, y, player.getDirection());
     ui_drawer.drawPlayerUI(player);
-    usleep(50000);
+    usleep(7500);
     weapon_drawer.displayPlayerStopShooting(player.getEquippedWeapon());
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
-    floor_info.clear();
 }
 
 void GameScreen::displayLoadingScreen(bool waiting_for_input) {
@@ -116,5 +107,9 @@ void GameScreen::displayVictoryScreen() {
 
 void GameScreen::displayNetworkConnectionErrorScreen(std::string message) {
 
+}
+
+void GameScreen::displayDefeatScreen() {
+    menus_drawer.displayDefeatScreen();
 }
 

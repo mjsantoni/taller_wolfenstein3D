@@ -9,14 +9,12 @@
 ObjectDrawer::ObjectDrawer(SdlWindow& _window,
                            ObjectInfoProvider& _object_info_provider,
                            std::map<double, double>& _wall_distance_info,
-                           std::map<int, std::pair<int, int>>& _floor_info,
                            std::vector<double>& _angles_list,
                            ClientMap& _map,
                            TextureManager& texture_manager) :
        object_info_provider(_object_info_provider), window(_window),
        wall_distance_info(_wall_distance_info), map(_map),
-       floor_info(_floor_info), angles_list(_angles_list),
-       drawing_assistant(window, texture_manager) {
+       angles_list(_angles_list), drawing_assistant(window, texture_manager) {
 }
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {

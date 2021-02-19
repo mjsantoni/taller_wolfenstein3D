@@ -25,7 +25,7 @@ void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     TTF_Init();
     Area ui_rect_area(0, starting_point, width, ui_height);
     fillArea(ui_rect_area, 3, 69, 64, 0);
-    drawPlayersLevel(player.getLevel());
+    drawPlayersKeys(player.getKeys());
     drawPlayersScore(player.getScore());
     drawPlayersLives(player.getLives());
     drawPlayersImage(player.getHealthRatio());
@@ -40,8 +40,8 @@ void UIDrawer::drawPlayerUI(ClientPlayer& player) {
     text_starting_point = 0;
 }
 
-void UIDrawer::drawPlayersLevel(int players_level) {
-    drawBox("Level", players_level);
+void UIDrawer::drawPlayersKeys(int players_keys) {
+    drawBox("Keys", players_keys);
 }
 
 void UIDrawer::drawPlayersScore(int players_score) {
@@ -100,15 +100,12 @@ void UIDrawer::drawBox(const std::string& message, int value) {
     Area header_screen_area(text_starting_point, starting_point + 15,
                             width/10 - 2*h_padding, ui_height / 2 - 10);
     MessageParameters head_message_parameters(message);
-    renderMessage(message, msg_area,
-                                              header_screen_area, false,
-                                              head_message_parameters);
+    renderMessage(message, msg_area,header_screen_area,head_message_parameters);
 
     Area sub_screen_area(text_starting_point, starting_point + 15 +
             ui_height / 2 - 10, width / 10 - 2 * h_padding, ui_height / 2 - 10);
     MessageParameters sub_message_parameters(std::to_string(value));
-    renderMessage(std::to_string(value),
-                                             msg_area, sub_screen_area, true,
+    renderMessage(std::to_string(value), msg_area, sub_screen_area,
                                              sub_message_parameters);
 
     box_starting_point += width / 10;
@@ -118,7 +115,6 @@ void UIDrawer::drawBox(const std::string& message, int value) {
 void UIDrawer::renderMessage(const std::string &message_text,
                              Area &msg_area,
                              Area &screen_area,
-                             bool fill_text_area,
                              MessageParameters message_parameters) {
     SdlMessage message(message_parameters);
     message.renderMessage(window, msg_area, screen_area);
