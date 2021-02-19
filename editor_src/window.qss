@@ -1,0 +1,51 @@
+QMenu {
+background-image: url("/resources/background.jpg"); /* sets background of the menu */
+border: 1px solid black;
+}
+
+QWidget {
+    font-family: Samanata;
+}
+
+QGridButton {
+    color: red;
+    background-color: black;
+    border-style: outset;
+    border-width: 1px;
+    border-color: gray;
+    font-family: Samanata;
+}
+
+QPushButton:hover{
+    background-color: #ABCDDB;
+}
+
+QLineEdit {
+    border-radius: 8px;
+    border-style: inset;
+    font-size: 30px;
+}
+
+QLabel {
+    font-size: 30px;
+    font-family: Samanata;
+}
+
+QGridLayout {
+    background-color: gray;
+}
+
+QScrollArea {
+    background-color: gray;
+}
+
+
+QMainWindow {
+    background-image: url("/taller_wolfenstein3D/editor_src/resources/background.jpg");
+    background-color: slategray;
+    font-family: Samanata;
+}
+
+QApp {
+    font-family: Samanata;
+}
