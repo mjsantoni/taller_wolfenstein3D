@@ -2,6 +2,7 @@
 #include <unistd.h>
 
 #define MAX_EVENTS 100
+#define TICK_RATE 60000
 
 GameHandler::GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
                          int _game_id) :
@@ -23,6 +24,7 @@ void GameHandler::run() {
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
     while (game.isNotOver() && alive) {
+        auto start = std::chrono::system_clock::now();
         int total_events = 0;
         while (total_events < MAX_EVENTS) {
             Event event = eventQueue.pop();
@@ -30,12 +32,14 @@ void GameHandler::run() {
             std::vector<Change> changes = eventProcessor.process(event);
             notifyClients(changes);
             total_events++;
-            // aca va otro sleep?
         }
         std::vector<Change> game_changes = game.passTime();
         notifyClients(game_changes);
         game.releaseBots();
-        usleep(60000);
+        std::chrono::duration<double> elapsed = (std::chrono::system_clock::now() - start);
+        auto time = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+        if (time > TICK_RATE) continue;
+        usleep(TICK_RATE - time);
     }
     std::cout << "[Game Handler " << game_id << "] Game end. Displaying top scores.\n";
     endGame();
@@ -60,7 +64,7 @@ void GameHandler::waitInLobby() {
     std::cout << "[Game Handler " << game_id << "] Lobby started.\n";
     while (!game.isReady() && alive) {
         Event event = eventQueue.pop();
-        usleep(150000);
+        usleep(TICK_RATE);
         if (event.isInvalid()) continue;
         if (event.getEventID() != CONNECT_PLAYER && event.getEventID() != PLAYER_READY) continue;
         std::vector<Change> changes = eventProcessor.process(event);

@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #define MAX_PLAYERS 8
-#define MAX_DOOR_OPEN 500
+#define MAX_DOOR_OPEN 80 // aprox 5seg con un tickrate de 0,6
 #define TURN_ANGLE (M_PI/20)
 #define DROP_DISTANCE 5
 
