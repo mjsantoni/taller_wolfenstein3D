@@ -18,7 +18,7 @@ pkg_check_modules(SDL2_Mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
 
 
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include ${PROJECT_BINARY_DIR} ${YAML_INCLUDE_DIRS})
-
+set(CMAKE_AUTOMOC on)
 set(CMAKE_CXX_STANDARD 11)
 
 file(GLOB All_SRC
@@ -48,6 +48,12 @@ qt5_wrap_ui(UIS_HEADERS
         ui/connect.ui
         )
 
+file(GLOB EDITOR_SRC
+        "editor_src/*.cpp"
+        "common_src/map_parser.cpp"
+        "editor_src/*/*.cpp"
+        )
+
 file(GLOB CLIENT2_SRC
         "ClientQT/*.cpp"
         "common_src/*.cpp")
@@ -56,10 +62,12 @@ file(GLOB CLIENT2_SRC
 add_executable(server ${SERVER_SRC})
 add_executable(client ${CLIENT_SRC})
 add_executable(ClientQT ${CLIENT2_SRC} ${UIS_HEADERS})
+add_executable(editor ${EDITOR_SRC} ${UIS_HEADERS})
 
 
 #target_link_libraries(lua_bot lua5.3)
 #TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)
 TARGET_LINK_LIBRARIES(ClientQT ${YAML_CPP_LIBRARIES} Qt5::Widgets)
 TARGET_LINK_LIBRARIES(server ${YAML_CPP_LIBRARIES} lua5.3)
+TARGET_LINK_LIBRARIES(editor ${YAML_CPP_LIBRARIES} Qt5::Widgets)
 TARGET_LINK_LIBRARIES(client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${YAML_CPP_LIBRARIES}  PkgConfig::SDL2_Mixer)
