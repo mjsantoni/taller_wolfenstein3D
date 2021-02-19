@@ -28,7 +28,7 @@ int Server::createGame(int players, int bots, int game_duration,
                         int map) {
     std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
     auto new_game = new GameHandler(maps[map], "../config.yaml",
-                                    players, bots, matches.size());
+                                    players, bots, matches.size(), game_duration);
     // pasarle game duration tambien
     new_game->start();
     matches.push_back(new_game);

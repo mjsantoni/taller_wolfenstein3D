@@ -5,16 +5,17 @@
 #define TICK_RATE 60000
 
 GameHandler::GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
-                         int _game_id) :
+                         int _game_id, int _game_duration) :
         eventQueue(Event()),
         botsManager(eventQueue),
-        game(map_path, config_path, botsManager, _players_n),
+        game(map_path, config_path, botsManager, _players_n, _game_duration),
         eventProcessor(game, config_path),
         alive(true),
         can_join_player(true),
         players_n(_players_n),
         bots_n(_bots_n),
-        game_id(_game_id) {}
+        game_id(_game_id),
+        game_duration(_game_duration) {}
 
 void GameHandler::run() {
     std::cout << "[Game Handler " << game_id << "] Started.\n";

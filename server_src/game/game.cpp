@@ -12,7 +12,8 @@
 #define MOVE_UP 2
 #define MOVE_DOWN 3
 
-Game::Game(const std::string& map_path, std::string config_path, BotsManager& bm, int _players_requested) :
+Game::Game(const std::string &map_path, std::string config_path, BotsManager &bm, int _players_requested,
+           int _game_duration) :
            mapParser(map_path),
            mapGenerator(mapParser, MAX_PLAYERS, config_path),
            map(mapGenerator.create()),
@@ -23,7 +24,8 @@ Game::Game(const std::string& map_path, std::string config_path, BotsManager& bm
            pickUpHandler(config_path, scoreHandler),
            dropHandler(config_path, map),
            botsManager(bm),
-           players_requested(_players_requested){
+           players_requested(_players_requested),
+           game_duration(_game_duration) {
 }
 
 Game::~Game() { botsManager.destroyBots(); }
@@ -138,7 +140,7 @@ bool Game::isNotOver() {
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-    if (elapsed_seconds.count()  >= 600) return false; // debe ser >= minutos que dura el game
+    if (elapsed_seconds.count()  >= game_duration) return false; // debe ser >= minutos que dura el game
     return true;
 }
 
