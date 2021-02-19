@@ -8,5 +8,4 @@
 #define RPG_GUN 5
 #define TOTAL_GUNS 5
 
-
 #endif //TP_WOLFENSTEIN_GUN_HOTKEYS_H

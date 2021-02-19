@@ -2,7 +2,6 @@
 #define TP_WOLFENSTEIN_CHANGE_H
 
 #include "common/changes.h"
-
 #include <sstream>
 
 class Change {
@@ -13,39 +12,25 @@ public:
     int value2;
     bool is_global;
 
-    Change(int _change_id, int _id, int _value1, int _value2, bool _is_global) :
-            change_id(_change_id),
-            id(_id),
-            value1(_value1),
-            value2(_value2),
-            is_global(_is_global) {}
+    /* Server-side constructor */
+    Change(int _change_id, int _id, int _value1, int _value2, bool _is_global);
 
-    // Constructor para el lado del cliente
-    Change(int _change_id, int _id, int _value1, int _value2) :
-            change_id(_change_id),
-            id(_id),
-            value1(_value1),
-            value2(_value2),
-            is_global(true) {}
+    /* Client-side constructor */
+    Change(int _change_id, int _id, int _value1, int _value2);
 
-    Change() : change_id(INVALID),
-               id(INVALID),
-               value1(INVALID),
-               value2(INVALID),
-               is_global(false) {}
+    /* Invalid default constructor */
+    Change();
 
-    bool isInvalid() const { return change_id == INVALID; }
-    int getChangeID() const { return change_id; }
-    int getPlayerID() const { return id; }
-    int getFirstValue() const { return value1; }
-    int getSecondValue() const { return value2; }
-    bool isGlobal() const { return is_global; }
+    bool isInvalid() const;
 
-    std::string serialize() {
-        std::ostringstream string;
-        string << change_id << "/" << id << "/" << value1 << "/" << value2;
-        return string.str();
-    }
+    int getChangeID() const;
+    int getPlayerID() const;
+    int getFirstValue() const;
+    int getSecondValue() const;
+    bool isGlobal() const;
+
+    /* Serializa sus valores a bytes para enviar */
+    std::string serialize();
 };
 
 #endif //TP_WOLFENSTEIN_CHANGE_H

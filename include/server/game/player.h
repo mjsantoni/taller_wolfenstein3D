@@ -2,12 +2,12 @@
 #define TP_WOLFENSTEIN_PLAYER_H
 
 #include <string>
-#include "positionable.h"
+#include <vector>
+#include <queue>
+#include "server/game/positionable.h"
 #include "server/entities/gun.h"
 #include "server/entities/key.h"
-#include <queue>
-#include <vector>
-#include "server/game/gun_hotkeys.h"
+#include "server/utils/gun_hotkeys.h"
 #include "common/config_parser.h"
 
 class Player {

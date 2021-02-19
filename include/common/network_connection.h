@@ -1,5 +1,6 @@
 #ifndef NETWORK_CONNECTION_H
 #define NETWORK_CONNECTION_H
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>

@@ -3,7 +3,6 @@
 #include <netdb.h>
 #include <errno.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <string.h>
 #include "common/network_error.h"
 #include "common/network_acceptor.h"

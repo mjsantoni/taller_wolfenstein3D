@@ -1,11 +1,8 @@
 #include "server/game/shoot_handler.h"
-#include "server/game/coordinate.h"
-#include "server/game/player.h"
+#include "server/utils/positions_calculator.h"
 #include <vector>
 #include <ctgmath>
 #include <cfloat>
-#include "server/game/positions_calculator.h"
-#include "server/game/hit.h"
 
 #define ENEMY_DIES (-1)
 #define RPG_UNITS_MOVE_PER_TURN 5
@@ -17,8 +14,6 @@ std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double a
     std::vector<std::pair<int,int>> enemy_dmg_done;
     int range = player.getGun().getRange();
     int bullets_to_shoot = player.getGun().getBulletsPerSpray();
-    //std::cout << "Tengo tantas balas" << player.getBullets() << "\n";
-    //std::cout << "Entonces el player solo peude disparar" << bullets_to_shoot << " \n";
 
     int x_move = std::round(cos(angle)*range);
     int y_move = std::round(sin(angle)*range*-1);
@@ -239,6 +234,6 @@ std::vector<Coordinate> ShootHandler::getAdjacents(Coordinate &pos, double angle
             adjacents.emplace_back(pos.x, pos.y - i);
             adjacents.emplace_back(pos.x, pos.y + i);
         }
-    } else { std::cout << "No hay ninguna posicion alrededor, algo raro paso.\n"; }
+    } else { std::cout << "No hay ninguna posicion alrededor, algo raro paso.\n"; } // Exception
     return adjacents;
 }

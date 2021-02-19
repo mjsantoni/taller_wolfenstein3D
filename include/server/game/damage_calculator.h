@@ -1,8 +1,8 @@
 #ifndef TP_WOLFENSTEIN_DAMAGE_CALCULATOR_H
 #define TP_WOLFENSTEIN_DAMAGE_CALCULATOR_H
 
-#include "player.h"
-#include "coordinate.h"
+#include "server/game/player.h"
+#include "server/game/coordinate.h"
 
 class DamageCalculator {
 public:

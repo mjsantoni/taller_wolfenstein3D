@@ -1,14 +1,14 @@
 #ifndef TP_WOLFENSTEIN_CLIENT_UPDATER_H
 #define TP_WOLFENSTEIN_CLIENT_UPDATER_H
 
-#include "common/thread.h"
-#include <atomic>
-#include "common/change.h"
-#include <queue>
 #include "common/blocking_queue.h"
+#include "common/change.h"
 #include "common/network_connection.h"
+#include "common/thread.h"
 #include "server/game/coordinate.h"
 #include "server/game/positionable.h"
+#include <atomic>
+#include <queue>
 #include <map>
 #include <unordered_map>
 
@@ -33,8 +33,6 @@ public:
     int getPlayerId() const;
 
     void sendMap();
-
 };
-
 
 #endif //TP_WOLFENSTEIN_CLIENT_UPDATER_H

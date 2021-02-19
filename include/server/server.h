@@ -36,5 +36,4 @@ public:
     std::vector<int> split(const std::string& bytes);
 };
 
-
 #endif //TP_WOLFENSTEIN_SERVER_H

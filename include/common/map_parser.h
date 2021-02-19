@@ -1,24 +1,34 @@
 #ifndef TP_WOLFENSTEIN_MAPPARSER_H
 #define TP_WOLFENSTEIN_MAPPARSER_H
 
-
 #include "yaml-cpp/yaml.h"
+#include "server/game/coordinate.h"
 #include <string>
 #include <unordered_map>
-#include "server/game/coordinate.h"
+
 class MapParser {
-    private:
+private:
+    std::unordered_map<std::string,
+            std::vector<Coordinate>> items;
+    std::unordered_map<std::string,
+            std::vector<Coordinate>> players;
+    std::unordered_map<std::string,
+            std::vector<Coordinate>> scenarios;
 
-    public:
-        YAML::Node config;
-        explicit MapParser(const std::string& path);
-        std::unordered_map<std::string, std::vector<Coordinate>> getCategory(const std::string& node);
-        Coordinate getDimensions();
-        std::unordered_map<std::string,
-            std::vector<Coordinate>> getSpecificCategory(const std::string& category);
+public:
+    YAML::Node config;
 
-        ~MapParser();
+    explicit MapParser(const std::string& path);
+
+    std::unordered_map<std::string,
+    std::vector<Coordinate>> getCategory(const std::string& node);
+
+    Coordinate getDimensions();
+
+    std::unordered_map<std::string,
+    std::vector<Coordinate>> getSpecificCategory(const std::string& category);
+
+    ~MapParser();
 };
-
 
 #endif //TP_WOLFENSTEIN_MAPPARSER_H

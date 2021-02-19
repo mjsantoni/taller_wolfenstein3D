@@ -10,7 +10,7 @@ public:
     bool operator()(double prob) {
         std::random_device dev;
         std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> dist10(0,100); // distribution in range [1, 10]
+        std::uniform_int_distribution<std::mt19937::result_type> dist10(0,100); // distribution in range [0, 100]
         return dist10(rng) < (prob * 100);
     }
 

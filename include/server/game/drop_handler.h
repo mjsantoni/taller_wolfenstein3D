@@ -12,9 +12,10 @@ private:
 
 public:
     DropHandler(std::string config_path, Map &_map);
-    ~DropHandler();
 
     void processDrops(const std::vector<Drop> &drops);
+
+    ~DropHandler();
 };
 
 

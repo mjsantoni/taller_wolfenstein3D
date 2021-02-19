@@ -1,7 +1,3 @@
-//
-// Created by andy on 17/2/21.
-//
-
 #ifndef TP_WOLFENSTEIN_CONNECTION_EXCEPTION_H
 #define TP_WOLFENSTEIN_CONNECTION_EXCEPTION_H
 
@@ -16,6 +12,5 @@ public:
     const char* what() const noexcept override;
     virtual ~ConnectionException() noexcept;
 };
-
 
 #endif //TP_WOLFENSTEIN_CONNECTION_EXCEPTION_H

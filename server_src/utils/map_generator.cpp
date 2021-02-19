@@ -1,13 +1,10 @@
-#include "server/game/map_generator.h"
-
+#include "server/utils/map_generator.h"
 
 MapGenerator::MapGenerator(MapParser& parser, int _max_players,
                            std::string& config_path) :
                            max_players(_max_players),
                            mapParser(parser),
                            handler(config_path) {}
-
-MapGenerator::~MapGenerator() {}
 
 std::unordered_map<std::string,
     std::vector<Coordinate>> MapGenerator::getWalls() {
@@ -38,3 +35,5 @@ Map MapGenerator::create() {
     map.addPlayerSpawns(positionables);
     return map;
 }
+
+MapGenerator::~MapGenerator() {}

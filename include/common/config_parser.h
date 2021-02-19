@@ -24,6 +24,7 @@ public:
     explicit ConfigParser(const std::string& path);
 
     int getSpecificCategory(const std::string& category, const std::string& type);
+
     std::vector<double> getSpecificGun(const std::string& type);
 
     ~ConfigParser();

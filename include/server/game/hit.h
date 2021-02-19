@@ -1,5 +1,6 @@
 #ifndef TP_WOLFENSTEIN_HIT_H
 #define TP_WOLFENSTEIN_HIT_H
+
 #include <vector>
 #include "server/game/coordinate.h"
 #include "server/game/drop.h"
@@ -28,6 +29,7 @@ public:
 
     std::vector<int> getDeadPlayers();
     const std::vector<std::pair<int, bool>> &getPlayerRespawns() const;
+
     const std::vector<Drop>& getDrops() const;
 
     bool playerDied();
@@ -35,10 +37,11 @@ public:
     void setPlayersDeaths(std::vector<std::pair<int, bool>> _player_respawns);
 
     void addDrops(std::string type, const Coordinate& pos, int id, int drop_id);
+
     ~Hit();
+
     Hit(const Hit& other);
     Hit& operator=(const Hit& other);
 };
-
 
 #endif //TP_WOLFENSTEIN_HIT_H

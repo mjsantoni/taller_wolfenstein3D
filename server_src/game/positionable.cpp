@@ -17,7 +17,7 @@ std::string Positionable::getCategory() {
     return category;
 }
 
-bool Positionable::isBlocking() {
+bool Positionable::isBlocking() const {
     return is_blocking;
 }
 

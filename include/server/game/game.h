@@ -6,21 +6,21 @@
 #include <ctime>
 #include <string>
 
-#include "colission_handler.h"
+#include "server/game/colission_handler.h"
 #include "common/change.h"
 #include "common/config_parser.h"
 #include "common/map_parser.h"
 #include "common/thread.h"
-#include "hit.h"
-#include "player.h"
-#include "pickup_handler.h"
+#include "server/game/hit.h"
+#include "server/game/player.h"
+#include "server/game/pickup_handler.h"
 #include "server/events/hit_handler.h"
 #include "server/game/blocking_item_handler.h"
 #include "server/game/drop_handler.h"
-#include "server/game/map_generator.h"
+#include "server/utils/map_generator.h"
 #include "server/game/score_handler.h"
 #include "server/game/shoot_handler.h"
-#include "server/lua/bots_manager.h"
+#include "server/events/bots_manager.h"
 #include "server/lua/lua_bot.h"
 
 class Game {

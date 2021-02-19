@@ -1,9 +1,10 @@
 #ifndef TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H
 #define TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H
-#include "positionable.h"
-#include "player.h"
+
+#include "server/game/positionable.h"
+#include "server/game/player.h"
+#include "server/game/map.h"
 #include "common/config_parser.h"
-#include "map.h"
 #include <queue>
 
 class BlockingItemHandler {
@@ -17,8 +18,6 @@ public:
     int openDoor(Coordinate& coordinate, Player &player);
 
     bool pushWall(const Coordinate& coordinate);
-
 };
-
 
 #endif //TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H

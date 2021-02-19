@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_CLIENT_HANDLER_H
 
 #include "common/thread.h"
-#include "common/event_factory.h"
+#include "server/events/event_factory.h"
 #include "common/network_connection.h"
 #include "common/network_error.h"
 #include <atomic>

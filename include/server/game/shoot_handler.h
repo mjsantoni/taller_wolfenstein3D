@@ -1,13 +1,12 @@
 #ifndef TP_WOLFENSTEIN_SHOOT_HANDLER_H
 #define TP_WOLFENSTEIN_SHOOT_HANDLER_H
 
-#include "map.h"
-#include "hit.h"
+#include "server/game/map.h"
+#include "server/game/hit.h"
 #include "server/entities/rpg.h"
 #include "server/game/damage_calculator.h"
 #include "common/change.h"
 #include "server/game/score_handler.h"
-
 
 class ShootHandler {
 private:

@@ -1,14 +1,17 @@
 #ifndef TP_WOLFENSTEIN_COLISSION_HANDLER_H
 #define TP_WOLFENSTEIN_COLISSION_HANDLER_H
 
-#include "map.h"
-#include "coordinate.h"
+#include "server/game/map.h"
+#include "server/game/coordinate.h"
+
+#define MOVE_SIZE 10
+#define SAFE_DISTANCE 10
 
 class ColissionHandler {
 private:
     Map& map;
-    int move_size = 10;
-    int safe_distance = 10;
+    int move_size = MOVE_SIZE;
+    int safe_distance = SAFE_DISTANCE;
 
 public:
     explicit ColissionHandler(Map &_map);

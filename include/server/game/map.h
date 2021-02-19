@@ -6,15 +6,17 @@
 #include <map>
 #include <set>
 #include <unordered_set>
-#include "positionable.h"
-#include "player.h"
-#include "positionable_handler.h"
-#include "coordinate.h"
+#include "server/game/positionable.h"
+#include "server/game/player.h"
+#include "server/game/positionable_handler.h"
+#include "server/game/coordinate.h"
 #include "common/config_parser.h"
+
+#define GRID_SIZE 64
 
 class Map {
 private:
-    int grid_size = 64;
+    int grid_size = GRID_SIZE;
     int global_id = 0;
     int max_players;
     std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> board;

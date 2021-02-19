@@ -1,5 +1,5 @@
 #include "server/events/hit_handler.h"
-#include "server/game/gun_hotkeys.h"
+#include "server/utils/gun_hotkeys.h"
 
 HitHandler::HitHandler() {}
 

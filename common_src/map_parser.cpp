@@ -1,9 +1,11 @@
 #include "common/map_parser.h"
-#include "yaml-cpp/yaml.h"
 #include <iostream>
 
-
-MapParser::MapParser(const std::string& path) : config(YAML::LoadFile(path)) {}
+MapParser::MapParser(const std::string& path) : config(YAML::LoadFile(path)) {
+    items = getCategory("items");
+    players = getCategory("players");
+    scenarios = getCategory("scenarios");
+}
 
 MapParser::~MapParser() {}
 
@@ -26,5 +28,8 @@ Coordinate MapParser::getDimensions() {
 
 std::unordered_map<std::string,
     std::vector<Coordinate>> MapParser::getSpecificCategory(const std::string& category) {
-    return getCategory(category);
+    if (category == "items") return items;
+    else if (category == "players") return players;
+    else if (category == "scenarios") return scenarios;
+    else return getCategory(category); // No deberia entrar aca
 }

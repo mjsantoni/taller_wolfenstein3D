@@ -1,9 +1,11 @@
 #ifndef TP_WOLFENSTEIN_GAME_HANDLER_H
 #define TP_WOLFENSTEIN_GAME_HANDLER_H
 
+#include <atomic>
 #include <string>
 #include <vector>
-#include "common/event_factory.h"
+
+#include "event_factory.h"
 #include "server/game/game.h"
 #include "event_processor.h"
 #include "common/shared_queue.h"
@@ -11,11 +13,9 @@
 #include "common/change.h"
 #include "server/events/client_handler.h"
 #include "server/events/client_updater.h"
-#include <atomic>
-
 #include "common/network_connection.h"
-#include "server/game/client.h"
-#include "../server_src/clients_manager.h"
+#include "server/events/client.h"
+#include "server/events/clients_manager.h"
 
 class GameHandler : public Thread {
 private:
@@ -35,6 +35,7 @@ private:
 public:
     GameHandler(const std::string &map_path, const std::string &config_path, int _players_n, int _bots_n,
                 int _game_id);
+
     void run() override;
 
     void addNewPlayer(NetworkConnection fd);

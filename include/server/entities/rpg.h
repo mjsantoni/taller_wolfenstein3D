@@ -1,6 +1,8 @@
 #ifndef TP_WOLFENSTEIN_RPG_H
 #define TP_WOLFENSTEIN_RPG_H
 
+#include <vector>
+#include "server/game/coordinate.h"
 
 class RPG {
 private:
@@ -12,46 +14,25 @@ private:
     bool rpg_exploded = false;
 
 public:
-    RPG(int _current_position, std::vector<Coordinate> _path, int _player_id, int _rpg_id) :
-        current_position(_current_position),
-        path(std::move(_path)),
-        player_id(_player_id),
-        current_coord(path[current_position]),
-        rpg_id(_rpg_id) {}
+    RPG(int _current_position, std::vector<Coordinate> _path, int _player_id, int _rpg_id);
 
-    int getCurrentPosition() const {
-        return current_position;
-    }
+    int getCurrentPosition() const;
 
-    std::vector<Coordinate> &getPath() {
-        return path;
-    }
-    int getPlayerId() const {
-        return player_id;
-    }
+    std::vector<Coordinate>& getPath();
 
-    void setCurrentPosition(int new_pos) {
-        current_position = new_pos;
-    }
+    int getPlayerId() const;
 
-    void setCurrentCoordinate(Coordinate coordinate) {
-        current_coord = coordinate;
-    }
+    void setCurrentPosition(int new_pos);
 
-    const Coordinate& getCurrentCoord() const {
-        return current_coord;
-    }
-    int getRpgId() const {
-        return rpg_id;
-    }
+    void setCurrentCoordinate(Coordinate coordinate);
 
-    bool exploded() const {
-        return rpg_exploded;
-    }
-    void explode() {
-        rpg_exploded = true;
-    }
+    const Coordinate& getCurrentCoord() const;
+
+    int getRpgId() const;
+
+    bool exploded() const;
+
+    void explode();
 };
-
 
 #endif //TP_WOLFENSTEIN_RPG_H

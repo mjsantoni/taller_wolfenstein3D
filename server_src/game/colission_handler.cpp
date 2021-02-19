@@ -1,7 +1,7 @@
 #include "server/game/colission_handler.h"
 #include <iostream>
 #include <cmath>
-#include "server/game/positions_calculator.h"
+#include "server/utils/positions_calculator.h"
 #include <set>
 
 #define UNITS_TO_CHECK 45

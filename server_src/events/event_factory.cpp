@@ -1,5 +1,4 @@
-#include "common/event_factory.h"
-
+#include "server/events/event_factory.h"
 #include <string>
 
 #define EVENT_ID 0

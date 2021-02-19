@@ -1,5 +1,5 @@
 #include "server/game/damage_calculator.h"
-#include "server/game/probability.h"
+#include "server/utils/probability.h"
 
 int DamageCalculator::calculateDmg(Player& player, int base_damage,
                                    int pos_travelled, bool is_adjacent) {

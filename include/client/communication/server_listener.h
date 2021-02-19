@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_SERVER_LISTENER_H
 
 #include "common/thread.h"
-#include "common/event_factory.h"
+#include "server/events/event_factory.h"
 #include "change_factory.h"
 #include <atomic>
 #include <common/change.h>

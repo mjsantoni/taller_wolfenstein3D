@@ -1,5 +1,6 @@
 #ifndef NETWORK_ERROR_H
 #define NETWORK_ERROR_H
+
 #include <typeinfo>
 
 #define BUF_LENGTH 256

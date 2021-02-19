@@ -1,8 +1,8 @@
 #ifndef TP_WOLFENSTEIN_PICKUP_HANDLER_H
 #define TP_WOLFENSTEIN_PICKUP_HANDLER_H
 
-#include "positionable.h"
-#include "player.h"
+#include "server/game/positionable.h"
+#include "server/game/player.h"
 #include "common/config_parser.h"
 #include "server/game/score_handler.h"
 

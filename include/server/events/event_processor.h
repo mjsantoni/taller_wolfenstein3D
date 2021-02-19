@@ -13,6 +13,7 @@ private:
 
 public:
     EventProcessor(Game &_game, const std::string& config_path);
+
     std::vector<Change> process(Event& event);
 
     void movePlayer(int player_id, int value, std::vector<Change> &changes);
