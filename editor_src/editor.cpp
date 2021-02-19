@@ -3,6 +3,7 @@
 #define DEF_HEIGHT 14
 #define DEF_WIDTH 14
 #define MAX_PLAYERS 8
+#define CURSOR_SIZE 50
 
 
 YAML::Emitter& operator << (YAML::Emitter& out, const Coordinate& coord) {
@@ -72,25 +73,25 @@ void Editor::loadMap(std::string path) {
     deleteWidgets(map_grid);
     Coordinate dimensions = parser.getDimensions();
     createButtonsMapGrid(map_grid, dimensions.x, dimensions.y, -1, -1);
-    QPixmap wood_pix("../client_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../client_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../client_src/resources/walls/blue_wall.png");
-    QPixmap stone_pix("../client_src/resources/walls/stone_wall.png");
-    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
-    QPixmap locked_pix("../client_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../client_src/resources/misc/barrel.png");
-    QPixmap table_pix("../client_src/resources/misc/table.png");
-    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
-    QPixmap chest_pix("../client_src/resources/items/chest.png");
-    QPixmap cross_pix("../client_src/resources/items/cross.png");
-    QPixmap crown_pix("../client_src/resources/items/crown.png");
-    QPixmap goblet_pix("../client_src/resources/items/goblet.png");
-    QPixmap food_pix("../client_src/resources/items/food.png");
-    QPixmap key_pix("../client_src/resources/items/key.png");
-    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
-    QPixmap water_pix("../client_src/resources/items/water_puddle.png");
+    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
+    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
+    QPixmap blue_pix("../editor_src/resources/walls/blue_wall.png");
+    QPixmap stone_pix("../editor_src/resources/walls/stone_wall.png");
+    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
+    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
+    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
+    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
+    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
+    QPixmap table_pix("../editor_src/resources/misc/table.png");
+    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
+    QPixmap chest_pix("../editor_src/resources/items/chest.png");
+    QPixmap cross_pix("../editor_src/resources/items/cross.png");
+    QPixmap crown_pix("../editor_src/resources/items/crown.png");
+    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
+    QPixmap food_pix("../editor_src/resources/items/food.png");
+    QPixmap key_pix("../editor_src/resources/items/key.png");
+    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
+    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
     QPixmap player_pix("../editor_src/resources/player.png");
 
     categories.push_back("scenarios");
@@ -146,25 +147,25 @@ void Editor::updateGridButtonWithCursor(QGridButton *button) {
 }
 
 QMenu* Editor::createGridButtonMenu(QGridButton *button) {
-    QPixmap wood_pix("../client_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../client_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../client_src/resources/walls/blue_wall.png");
-    QPixmap stone_pix("../client_src/resources/walls/stone_wall.png");
-    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
-    QPixmap locked_pix("../client_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../client_src/resources/misc/barrel.png");
-    QPixmap table_pix("../client_src/resources/misc/table.png");
-    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
-    QPixmap chest_pix("../client_src/resources/items/chest.png");
-    QPixmap cross_pix("../client_src/resources/items/cross.png");
-    QPixmap crown_pix("../client_src/resources/items/crown.png");
-    QPixmap goblet_pix("../client_src/resources/items/goblet.png");
-    QPixmap food_pix("../client_src/resources/items/food.png");
-    QPixmap key_pix("../client_src/resources/items/key.png");
-    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
-    QPixmap water_pix("../client_src/resources/items/water_puddle.png");
+    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
+    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
+    QPixmap blue_pix("../editor_src/resources/walls/blue_wall.png");
+    QPixmap stone_pix("../editor_src/resources/walls/stone_wall.png");
+    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
+    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
+    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
+    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
+    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
+    QPixmap table_pix("../editor_src/resources/misc/table.png");
+    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
+    QPixmap chest_pix("../editor_src/resources/items/chest.png");
+    QPixmap cross_pix("../editor_src/resources/items/cross.png");
+    QPixmap crown_pix("../editor_src/resources/items/crown.png");
+    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
+    QPixmap food_pix("../editor_src/resources/items/food.png");
+    QPixmap key_pix("../editor_src/resources/items/key.png");
+    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
+    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
 
     QIcon wood_icon(wood_pix);
     QIcon rock_icon(rock_pix);
@@ -414,7 +415,7 @@ void Editor::refreshMapGrid(){
 }
 
 void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
-    QPixmap pixmap("../client_src/resources/empty.jpg");
+    QPixmap pixmap("../editor_src/resources/empty.jpg");
     QIcon buttonIcon(pixmap);
 
     for (int i = 0; i < rows; ++i) {
@@ -479,14 +480,14 @@ void Editor::createTextureGrid() {
 void Editor::renderScenarioGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap wood_pix("../client_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../client_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../client_src/resources//walls/blue_wall.png");
-    QPixmap stone_pix("../client_src/resources//walls/stone_wall.png");
-    QPixmap locked_pix("../client_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../client_src/resources/misc/barrel.png");
-    QPixmap table_pix("../client_src/resources/misc/table.png");
-    QPixmap water_pix("../client_src/resources/items/water_puddle.png");
+    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
+    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
+    QPixmap blue_pix("../editor_src/resources//walls/blue_wall.png");
+    QPixmap stone_pix("../editor_src/resources//walls/stone_wall.png");
+    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
+    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
+    QPixmap table_pix("../editor_src/resources/misc/table.png");
+    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
 
     icons.emplace_back(QIcon(wood_pix), "wood_wall");
     icons.emplace_back(QIcon(rock_pix), "stone_wall");
@@ -508,14 +509,14 @@ void Editor::changeCursor(QPixmap pix, std::string texture_name) {
 void Editor::renderItemsGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap bullets_pix("../client_src/resources/items/bullets.png");
-    QPixmap chest_pix("../client_src/resources/items/chest.png");
-    QPixmap cross_pix("../client_src/resources/items/cross.png");
-    QPixmap crown_pix("../client_src/resources/items/crown.png");
-    QPixmap goblet_pix("../client_src/resources/items/goblet.png");
-    QPixmap food_pix("../client_src/resources/items/food.png");
-    QPixmap key_pix("../client_src/resources/items/key.png");
-    QPixmap medic_pix("../client_src/resources/items/medical_kit.png");
+    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
+    QPixmap chest_pix("../editor_src/resources/items/chest.png");
+    QPixmap cross_pix("../editor_src/resources/items/cross.png");
+    QPixmap crown_pix("../editor_src/resources/items/crown.png");
+    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
+    QPixmap food_pix("../editor_src/resources/items/food.png");
+    QPixmap key_pix("../editor_src/resources/items/key.png");
+    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
 
     icons.emplace_back(QIcon(bullets_pix), "bullets");
     icons.emplace_back(QIcon(chest_pix), "chest");
@@ -532,9 +533,9 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
 void Editor::renderWeaponsGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap rpg_pix("../client_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../client_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../client_src/resources/items/machine_gun.png");
+    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
+    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
+    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
 
     icons.emplace_back(QIcon(rpg_pix), "rpg_gun");
     icons.emplace_back(QIcon(chain_pix), "chain_gun");
@@ -561,7 +562,7 @@ void Editor::renderTextureGrid(QGridLayout *texture_grid, std::vector<std::pair<
         button->setIcon(icon.first);
         button->setFlat(true);
         button->setIconSize(QSize(125, 125));
-        connect(button, &QPushButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.first.pixmap(35), icon.second));
+        connect(button, &QPushButton::clicked,this, std::bind(&Editor::changeCursor,this, icon.first.pixmap(CURSOR_SIZE), icon.second));
         texture_grid->addWidget(button, j, i);
         ++i;
         if (i % 4 == 0) {

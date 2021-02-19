@@ -51,6 +51,7 @@ qt5_wrap_ui(UIS_HEADERS
 file(GLOB EDITOR_SRC
         "editor_src/*.cpp"
         "common_src/map_parser.cpp"
+        "common_src/coordinate.cpp"
         "editor_src/*/*.cpp"
         )
 
