@@ -12,11 +12,9 @@
 #define MOVE_UP 2
 #define MOVE_DOWN 3
 
-Game::Game(const std::string &map_path, std::string config_path, BotsManager &bm, int _players_requested,
+Game::Game(const std::string& map_path, std::string config_path, BotsManager &bm, int _players_requested,
            int _game_duration) :
-           mapParser(map_path),
-           mapGenerator(mapParser, MAX_PLAYERS, config_path),
-           map(mapGenerator.create()),
+           map(map_path, MAX_PLAYERS),
            configParser(config_path),
            colHandler(map),
            blockingItemHandler(map),

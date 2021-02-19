@@ -3,12 +3,23 @@
 #include <string>
 #include <cmath>
 
-Map::Map() {}
+
 Map::~Map() {}
 
-Map::Map(int player_max_spawn_count) : max_players(player_max_spawn_count) {
+Map::Map(std::string map_path, int player_max_spawn_count) : mapGenerator(map_path), max_players(player_max_spawn_count) {
     player_spawns.resize(player_max_spawn_count);
     player_positions.resize(player_max_spawn_count);
+
+    std::unordered_map<std::string,std::vector<Coordinate>> positionables;
+
+    positionables = mapGenerator.getWalls();
+    addBlockingItems(positionables, handler);
+
+    positionables = mapGenerator.getItems();
+    addItems(positionables, handler);
+
+    positionables = mapGenerator.getPlayerSpawns();
+    addPlayerSpawns(positionables);
 }
 
 /* ADDERS */

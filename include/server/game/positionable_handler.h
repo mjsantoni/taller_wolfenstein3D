@@ -5,10 +5,9 @@
 #include "common/config_parser.h"
 
 class PositionableHandler {
-private:
-    ConfigParser cp;
+
 public:
-    PositionableHandler(const std::string& _config_path);
+    PositionableHandler();
 
     Positionable createBlockingItem(const std::string& type, int id);
     Positionable createItem(const std::string& type, int id);

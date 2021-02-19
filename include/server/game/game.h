@@ -9,7 +9,6 @@
 #include "server/game/colission_handler.h"
 #include "common/change.h"
 #include "common/config_parser.h"
-#include "common/map_parser.h"
 #include "common/thread.h"
 #include "server/game/hit.h"
 #include "server/game/player.h"
@@ -17,7 +16,6 @@
 #include "server/events/hit_handler.h"
 #include "server/game/blocking_item_handler.h"
 #include "server/game/drop_handler.h"
-#include "server/utils/map_generator.h"
 #include "server/game/score_handler.h"
 #include "server/game/shoot_handler.h"
 #include "server/events/bots_manager.h"
@@ -25,8 +23,6 @@
 
 class Game {
 private:
-    MapParser mapParser;
-    MapGenerator mapGenerator;
     Map map;
     ConfigParser configParser;
     ScoreHandler scoreHandler;

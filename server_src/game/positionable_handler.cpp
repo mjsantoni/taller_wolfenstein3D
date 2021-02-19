@@ -6,8 +6,7 @@
 #include "server/entities/wall.h"
 #include "server/entities/door.h"
 
-PositionableHandler::PositionableHandler(const std::string& _config_path) :
-                                           cp(_config_path) {}
+PositionableHandler::PositionableHandler() {}
 
 Positionable PositionableHandler::createBlockingItem(const std::string& type, int id) {
   if (type == "stone_wall") return Wall(type, id);

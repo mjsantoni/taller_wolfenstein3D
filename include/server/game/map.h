@@ -6,16 +6,18 @@
 #include <map>
 #include <set>
 #include <unordered_set>
+#include "server/utils/map_generator.h"
 #include "server/entities/positionable.h"
 #include "server/game/player.h"
 #include "server/game/positionable_handler.h"
 #include "common/coordinate.h"
-#include "common/config_parser.h"
 
 #define GRID_SIZE 64
 
 class Map {
 private:
+    MapGenerator mapGenerator;
+    PositionableHandler handler;
     int grid_size = GRID_SIZE;
     int global_id = 0;
     int max_players;
@@ -25,9 +27,8 @@ private:
     std::unordered_set<Coordinate, Coordinate::HashFunction> itemsPositions;
 
 public:
-    Map();
+    Map(std::string map_path, int player_max_spawn_count);
     ~Map();
-    Map(int player_max_spawn_count);
 
     /* ADDERS */
 
