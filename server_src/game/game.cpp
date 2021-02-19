@@ -1,8 +1,9 @@
 #include "server/game/game.h"
 #include <iostream>
+#include <algorithm>
 
 #define MAX_PLAYERS 8
-#define MAX_DOOR_OPEN 5
+#define MAX_DOOR_OPEN 500
 #define TURN_ANGLE (M_PI/20)
 #define DROP_DISTANCE 5
 
@@ -90,6 +91,8 @@ std::pair<bool, int> Game::openDoor(int id) {
     if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
     int player_keys_before = players[id].getKeys();
+    int door_id = map.getBlockingItemAt(door_to_open).getId();
+
     /* No tengo llave para abrir la puerta */
     int opened_door = blockingItemHandler.openDoor(door_to_open, players[id]);
     if (opened_door == -1) return std::make_pair(false, -1);
@@ -97,7 +100,7 @@ std::pair<bool, int> Game::openDoor(int id) {
     /* Exito al abrir la puerta (estaba abierta o gaste llave) */
     doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
     bool player_use_key = (player_keys_before == players[id].getKeys());
-    return std::make_pair(player_use_key,map.getBlockingItemAt(door_to_open).getId());
+    return std::make_pair(player_use_key,door_id);
 }
 
 int Game::pushWall(int id) {
@@ -197,16 +200,17 @@ void Game::addDropsToHitEvent(const std::pair<std::string, bool> &drops,
 }
 
 void Game::closeDoors(std::vector<Change>& changes) {
-    for (auto &door : doors_to_close) {
-        if (doors_to_close[door.first] == 0) {
-            if (!map.isAPlayerInACell(door.first)) {
+    for (auto it = doors_to_close.cbegin(), next_it = it; it != doors_to_close.cend(); it = next_it) {
+        next_it++;
+        if (doors_to_close[it->first] == 0) {
+            if (!map.isAPlayerInACell(it->first)) {
                 int id = map.getGlobalID();
-                map.putPositionableAt(Positionable("door", "unlocked_door", id, true), door.first);
-                doors_to_close.erase(door.first);
-                changes.emplace_back(ADD_UNLOCKED_DOOR, id, door.first.x, door.first.y, true);
+                map.putPositionableAt(Positionable("door", "unlocked_door", id, true), it->first);
+                changes.emplace_back(ADD_UNLOCKED_DOOR, id, it->first.x, it->first.y, true);
+                doors_to_close.erase(it);
             }
         } else {
-            doors_to_close[door.first]--;
+            doors_to_close[it->first]--;
         }
     }
 }
