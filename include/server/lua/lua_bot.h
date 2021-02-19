@@ -12,7 +12,7 @@
   #include <lua5.3/lauxlib.h>
 #endif
 
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include "server/lua/movement_calculator.h"
 #include "common/shared_queue.h"
 #include "common/event.h"

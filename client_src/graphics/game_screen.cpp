@@ -106,10 +106,6 @@ void GameScreen::displayRespawningScreen() {
     menus_drawer.displayRespawningScreen();
 }
 
-void GameScreen::clearWindow() {
-    SDL_RenderClear(window.getRenderer());
-}
-
 void GameScreen::displayStatistics(std::vector<std::vector<int>> statistics) {
     menus_drawer.displayStatistics(statistics);
 }

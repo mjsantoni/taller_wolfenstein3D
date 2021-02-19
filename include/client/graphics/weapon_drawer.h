@@ -28,7 +28,6 @@ public:
                  TextureManager& _texture_manager);
     void drawPlayersEquippedWeapon(int weapon_number);
     Area assembleScreenWeaponArea(ObjectInfo& object_info);
-    SDL_Texture* getWeaponSprite(ObjectInfo& o_i, Area& image_area);
     void displayPlayerAttacking(int weapon_number);
     void displayPlayerStopShooting(int weapon_number);
     void setDimensions(int _starting_point, int _width);

@@ -32,7 +32,7 @@ private:
     void fillDimensions(Area& source_area, Area& empty_area);
 
 public:
-    SdlSprite(SDL_Renderer *_renderer, ObjectInfo &object_info);
+    SdlSprite(SdlWindow &window, ObjectInfo &object_info);
     SDL_Texture* loadNextTexture(SDL_Renderer* renderer, Area& srcArea);
     SDL_Texture* loadTexture(SDL_Renderer* renderer, Area& srcArea,
                              int sprite_number);

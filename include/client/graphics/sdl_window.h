@@ -10,11 +10,9 @@
 #include <map>
 
 #include "area.h"
-#include "sdl_texture.h"
 #include "client/map_info.h"
 #include "client/sdl_exception.h"
 #include "client/drawable.h"
-#include "client/game/client_player.h"
 
 class SdlWindow {
 private:
@@ -34,16 +32,14 @@ public:
     SDL_Renderer* getRenderer() const;
     SDL_Surface* getSurface() const;
     void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-    void displayFullImage(SdlTexture& texture);
     void fillArea(Area area, int r, int g, int b, int a);
     void restore();
     int getWidth();
     int getHeight();
     void drawRectangle(Area& area, int r, int g, int b, int a);
     void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
-    void loadImage(SdlTexture &texture, Area &screen_area);
-    void loadImage(SdlTexture &texture, Area &image_area, Area &screen_area);
     //void loadImage(SdlSprite& sprite, Area &image_area, Area &screen_area);
+    Area getFullScreenArea();
 };
 
 

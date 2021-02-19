@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_MAPPARSER_H
 
 #include "yaml-cpp/yaml.h"
-#include "server/game/coordinate.h"
+#include "coordinate.h"
 #include <string>
 #include <unordered_map>
 

@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_RPG_H
 
 #include <vector>
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 
 class RPG {
 private:

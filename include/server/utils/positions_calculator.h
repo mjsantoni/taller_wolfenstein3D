@@ -1,7 +1,7 @@
 #ifndef TP_WOLFENSTEIN_POSITIONS_CALCULATOR_H
 #define TP_WOLFENSTEIN_POSITIONS_CALCULATOR_H
 
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include <vector>
 
 class PositionsCalculator {

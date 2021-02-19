@@ -11,6 +11,7 @@
 #include <client/object_info_provider.h>
 #include <client/drawable.h>
 #include <client/graphics/sdl_texture.h>
+#include <client/graphics/sdl_sprite.h>
 #include "sdl_window.h"
 
 class TextureManager {
@@ -27,6 +28,7 @@ public:
     std::vector<Area> getAllSpriteAreas(ObjectInfo &object_info);
     Area getAreaForEnemySprite(int object_type, int current_animation_no);
     Area getAreaForWeapon(int object_type, int current_animation_no);
+    ~TextureManager();
 };
 
 

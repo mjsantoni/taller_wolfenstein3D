@@ -14,6 +14,7 @@
 #include "menus_drawer.h"
 #include "weapon_drawer.h"
 #include "texture_manager.h"
+#include <client/graphics/sdl_texture.h>
 
 class GameScreen {
 private:
@@ -34,7 +35,6 @@ private:
 public:
     GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player,
                bool& _player_alive);
-    void render();
     void render(std::vector<int> boolean_vector);
     void displayDeadScreen();
     void displayRespawningScreen();
@@ -45,8 +45,6 @@ public:
     std::vector<Area> getKeyScreenAreas();
     void displayPlayerAttacking();
     void displayLoadingScreen(bool waiting_for_input);
-    void displayARespawningScreen();
-    void clearWindow();
     void displayStatistics(std::vector<std::vector<int>> statistics);
     void displayVictoryScreen();
     void displayNetworkConnectionErrorScreen(std::string message);

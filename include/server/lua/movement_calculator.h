@@ -1,6 +1,6 @@
 #ifndef TP_WOLFENSTEIN_MOVEMENT_CALCULATOR_H
 #define TP_WOLFENSTEIN_MOVEMENT_CALCULATOR_H
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include "lua_bot.h"
 #include <vector>
 

@@ -20,35 +20,17 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     int object_type = object_info.getObjectType();
     SdlTexture* texture = texture_manager.getTextureFromObjectType(object_type);
     Area image_area;
-    if (object_info.isSprite()) {
-        image_area = texture_manager.getAreaForEnemySprite(object_type,
-                                            object_info.getSpriteAnimationNo());
-        //std::cout << "Se dibuja un enemigo " << object_info.getObjectName() << " con animacion " << object_info.getSpriteAnimationNo() << std::endl;
-        //std::cout << "Area del enemigo:\n";
-        //std::cout << "x: " << image_area.getX() << std::endl;
-        //std::cout << "y: " << image_area.getY() << std::endl;
-        //std::cout << "width: " << image_area.getWidth() << std::endl;
-        //std::cout << "height: " << image_area.getHeight() << std::endl;
-    }
-    else {
-        image_area = texture_manager.getImageAreaFromObjectType(object_type);
-        image_area.setX((int)object_info.getHitGridPos()*image_area.getWidth());
-    }
     Area screen_area = assembleScreenArea(object_info, pl_ob_angle);
-    texture -> render(image_area, screen_area);
-    //window.loadImage(texture, image_area, screen_area);
-    bool debug_object_drawing_info = true;
-    if (!debug_object_drawing_info)
+    if (object_info.isSprite()) {
+        std::cout << "sprite no: " << object_info.getSpriteAnimationNo() << std::endl;
+        int sprite_no = object_info.getSpriteAnimationNo();
+        auto* sprite = (SdlSprite*) texture;
+        sprite -> render(screen_area, sprite_no);
         return;
-    //std::cout << "Objeto: " << object_info.getObjectName() << std::endl;
-    //std::cout << "Animacion: " << object_info.getSpriteAnimationNo() << std::endl;
-    //printf("Nombre de objeto: %s\n", object_info.getObjectName().c_str());
-    //printf("Distancia: %f\n", object_info.getHitDistance());
-    //printf("Pos x: %d\n", screen_area.getX());
-    //printf("Pos y: %d\n", screen_area.getY());
-    //printf("Altura: %d\n", screen_area.getHeight());
-    //printf("Ancho: %d\n", screen_area.getWidth());
-    //printf("Ancho de pantalla: %d\n", screen_width);
+    }
+    image_area = texture_manager.getImageAreaFromObjectType(object_type);
+    image_area.setX((int)object_info.getHitGridPos()*image_area.getWidth());
+    texture -> render(image_area, screen_area);
 }
 
 Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,

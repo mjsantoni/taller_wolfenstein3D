@@ -3,7 +3,6 @@
 //
 
 #include <SDL_ttf.h>
-#include <client/graphics/sdl_message.h>
 #include "client/graphics/ui_drawer.h"
 
 #define PLAYER_FACE_SPRITE_IMAGES 8
@@ -70,7 +69,7 @@ void UIDrawer::drawPlayersImage(double health_ratio) {
                      width/10 - 2*h_padding, ui_height - 30);
     int sprite_no = (int) (health_ratio*(PLAYER_FACE_SPRITE_IMAGES-1));
     ObjectInfo face_info = info_provider.getObjectInfo(UI_PLAYER_FACE);
-    SdlSprite player_face(window.getRenderer(), face_info);
+    SdlSprite player_face(window, face_info);
     //window.loadImage(player_face, img_area, screen_area);
     player_face.render(screen_area, sprite_no);
     box_starting_point += width / 10;
@@ -84,7 +83,7 @@ void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
     fillAreaWithBorder(rect_area, 8, 2, 175, 0);
     ObjectInfo object_info = info_provider.getObjectInfo(players_weapon
             + WEAPON_ICON_DELTA);
-    SdlTexture weapon_icon(window.getRenderer(), object_info.getImagePath());
+    SdlTexture weapon_icon(window, object_info.getImagePath());
     Area image_area = weapon_icon.getTextureArea();
     Area screen_area(text_starting_point,starting_point+15,
                      (4*width/10)-2*h_padding, ui_height - 30);
@@ -101,38 +100,28 @@ void UIDrawer::drawBox(const std::string& message, int value) {
     Area header_screen_area(text_starting_point, starting_point + 15,
                             width/10 - 2*h_padding, ui_height / 2 - 10);
     MessageParameters head_message_parameters(message);
-    SDL_Texture* head_message = createMessage(message, msg_area,
+    renderMessage(message, msg_area,
                                               header_screen_area, false,
                                               head_message_parameters);
 
-    putTextureAt(head_message, msg_area, header_screen_area);
     Area sub_screen_area(text_starting_point, starting_point + 15 +
             ui_height / 2 - 10, width / 10 - 2 * h_padding, ui_height / 2 - 10);
     MessageParameters sub_message_parameters(std::to_string(value));
-    SDL_Texture* sub_message = createMessage(std::to_string(value),
+    renderMessage(std::to_string(value),
                                              msg_area, sub_screen_area, true,
                                              sub_message_parameters);
 
-    putTextureAt(sub_message, msg_area, sub_screen_area);
-    SDL_DestroyTexture(head_message);
-    SDL_DestroyTexture(sub_message);
     box_starting_point += width / 10;
     text_starting_point += width / 10 - h_padding;
 }
 
-SDL_Texture * UIDrawer::createMessage(const std::string &message_text,
-                                      Area &msg_area,
-                                      Area &screen_area,
-                                      bool fill_text_area,
-                                      MessageParameters message_parameters) {
+void UIDrawer::renderMessage(const std::string &message_text,
+                             Area &msg_area,
+                             Area &screen_area,
+                             bool fill_text_area,
+                             MessageParameters message_parameters) {
     SdlMessage message(message_parameters);
-    SDL_Texture* message_texture;
-    if (fill_text_area)
-        message_texture =
-                message.loadMessage(window.getRenderer(), msg_area,screen_area);
-    else
-        message_texture = message.loadMessage(window.getRenderer(), msg_area);
-    return message_texture;
+    message.renderMessage(window, msg_area, screen_area);
 }
 
 void UIDrawer::fillArea(Area area, int r, int g, int b, int a) {

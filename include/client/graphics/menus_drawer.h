@@ -8,6 +8,7 @@
 #include "sdl_window.h"
 #include <client/graphics/message_parameters.h>
 #include <client/graphics/sdl_message.h>
+#include <client/graphics/sdl_texture.h>
 
 class MenusDrawer {
 private:
@@ -35,10 +36,19 @@ public:
     void displayRespawningScreen();
     void displayDeadScreen();
     void displayStatistics(std::vector<std::vector<int>> statistics);
-    SDL_Texture *createMessage(const std::string &message_text, Area &msg_area,
+    void renderMessage(const std::string &message_text, Area &msg_area,
                                Area &screen_area,
                                MessageParameters message_parameters);
     void displayVictoryScreen();
+    void renderMessage(const std::string &message_text, Area &msg_area,
+                       Area &screen_area);
+    void displayStatisticsHeaders();
+    void displayTopKillers(std::vector<int> top_killers,
+                           std::vector<int> top_killers_stats);
+    void displayTopShooters(std::vector<int> top_shooters,
+                            std::vector<int> top_shooters_stats);
+    void displayTopScorers(std::vector<int> top_scorers,
+                           std::vector<int> top_scorers_stats);
 };
 
 

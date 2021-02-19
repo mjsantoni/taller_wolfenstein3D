@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_COLISSION_HANDLER_H
 
 #include "server/game/map.h"
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 
 #define MOVE_SIZE 10
 #define SAFE_DISTANCE 10

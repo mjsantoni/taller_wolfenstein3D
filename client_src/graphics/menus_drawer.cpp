@@ -24,35 +24,36 @@ MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {
 }
 
 void MenusDrawer::displayIntro() {
-    SdlTexture intro_tex(window.getRenderer(),
-                         "../client_src/resources/menus/intro.jpg");
+    SdlTexture intro_tex(window, "../client_src/resources/menus/intro.jpg");
     displayFullImage(intro_tex);
     std::string message_text = "PRESS ANY KEY TO CONTINUE";
     Area screen_area(3*window_width/8, 5*window_height/6, window_width/2,
                      window_height/10);
     Area msg_area;
     MessageParameters msg_parms(message_text, "POLOBM__.TTF", 35);
-    SDL_Texture* message = createMessage(message_text, msg_area, screen_area,
-                                         msg_parms);
-    window.loadImage(message, msg_area, screen_area);
+    renderMessage(message_text, msg_area, screen_area, msg_parms);
     window.render();
 }
 
 void MenusDrawer::displayFullImage(SdlTexture& texture) {
     Area dest_area(0, 0, window_width, window_height);
-    window.loadImage(texture, dest_area);
+    texture.render(dest_area);
 }
 
-SDL_Texture * MenusDrawer::createMessage(const std::string &message_text,
-                                      Area &msg_area,
-                                      Area &screen_area,
-                                      MessageParameters message_parameters) {
+void MenusDrawer::renderMessage(const std::string &message_text,
+                                         Area &msg_area,
+                                         Area &screen_area,
+                                         MessageParameters message_parameters) {
     SdlMessage message(message_parameters);
-    SDL_Texture* message_texture;
-    message_texture =
-                message.loadMessage(window.getRenderer(), msg_area,screen_area);
+    message.renderMessage(window, msg_area, screen_area);
+}
 
-    return message_texture;
+void MenusDrawer::renderMessage(const std::string &message_text,
+                                Area &msg_area,
+                                Area &screen_area) {
+    MessageParameters message_parameters(message_text);
+    SdlMessage message(message_parameters);
+    message.renderMessage(window, msg_area, screen_area);
 }
 
 SDL_Texture* MenusDrawer::createMessage(const std::string& message,
@@ -84,7 +85,7 @@ void MenusDrawer::fillTextArea(TTF_Font* font,
 }
 
 void MenusDrawer::displayMatchModeMenu() {
-    SdlTexture menu_tex(window.getRenderer(),
+    SdlTexture menu_tex(window,
                         "../client_src/resources/menus/match_mode_menu.jpg");
     displayFullImage(menu_tex);
     std::string message_text_1 = "New Game";
@@ -138,7 +139,7 @@ void MenusDrawer::displayLevelSelectionMenu() {
 }
 
 void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
-    SdlTexture menu_tex(window.getRenderer(),
+    SdlTexture menu_tex(window,
                         "../client_src/resources/menus/loading_screen.png");
     displayFullImage(menu_tex);
     Area screen_area(5*window_width/8, 3*window_height/4, 5*window_width/16,
@@ -151,9 +152,7 @@ void MenusDrawer::displayLoadingScreen(bool waiting_for_input) {
     }
     Area msg_area;
     MessageParameters msg_parms(message_text, "Snowstorm Kraft.ttf", 35);
-    SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area, msg_parms);
-    window.loadImage(message, msg_area, screen_area);
+    renderMessage(message_text, msg_area, screen_area, msg_parms);
     window.render();
 }
 
@@ -164,9 +163,7 @@ void MenusDrawer::displayRespawningScreen() {
     screen_area = Area(window_width/4, window_height/4, window_width/2,
                       window_height/4);
     Area msg_area;
-    SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area);
-    window.loadImage(message, msg_area, screen_area);
+    renderMessage(message_text, msg_area, screen_area);
     window.render();
 }
 
@@ -177,9 +174,7 @@ void MenusDrawer::displayDeadScreen() {
     screen_area = Area(window_width/8, window_height/4, 3*window_width/4,
                        window_height/4);
     Area msg_area;
-    SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area);
-    window.loadImage(message, msg_area, screen_area);
+    renderMessage(message_text, msg_area, screen_area);
     window.render();
 }
 
@@ -192,65 +187,34 @@ void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
     std::vector<int> top_scorers_stats = statistics[5];
     Area screen_area(0, 0, window_width, window_height);
     window.drawRectangle(screen_area, 0, 0, 0, 0);
+    displayStatisticsHeaders();
+    displayTopKillers(top_killers, top_killers_stats);
+    displayTopShooters(top_shooters, top_shooters_stats);
+    displayTopScorers(top_scorers, top_scorers_stats);
+    window.render();
+    sleep(10);
+}
+
+void MenusDrawer::displayStatisticsHeaders() {
     std::string top_killer_header = "TOP KILLERS";
     std::string top_shooter_header = "TOP SHOOTERS";
     std::string top_scorer_header = "TOP SCORERS";
     Area header_area_1;
     Area header_area_2;
     Area header_area_3;
-    SDL_Texture* message_1 =
-            createMessage(top_killer_header, header_area_1, screen_area);
-    SDL_Texture* message_2 =
-            createMessage(top_shooter_header, header_area_2, screen_area);
-    SDL_Texture* message_3 =
-            createMessage(top_scorer_header, header_area_3, screen_area);
     Area screen_area_1 = Area(window_width/6, 0, window_width/8,
-                       window_height/12);
+                              window_height/12);
     Area screen_area_2 = Area(3*window_width/6, 0,
                               window_width/8, window_height/12);
     Area screen_area_3 = Area(5*window_width/6, 0,
                               window_width/8, window_height/12);
-    window.loadImage(message_1, header_area_1, screen_area_1);
-    window.loadImage(message_2, header_area_2, screen_area_2);
-    window.loadImage(message_3, header_area_3, screen_area_3);
-    for (int i = 0 ; i < top_killers.size() ; ++i) {
-        std::string msg_text_1 = "Player " + std::to_string(top_killers[i]) +
-                                 ": " + std::to_string(top_killers_stats[i]);
-        Area e_msg_area_1;
-        Area e_screen_area_1 = Area(window_width/6, (2+2*i)*window_height/12,
-                                    window_width/8, window_height/12);
-        SDL_Texture* e_message_1 =
-                createMessage(msg_text_1, e_msg_area_1, e_screen_area_1);
-        window.loadImage(e_message_1, e_msg_area_1, e_screen_area_1);
-    }
-
-    for (int i = 0 ; i < top_shooters.size() ; ++i) {
-        std::string msg_text_1 = "Player " + std::to_string(top_shooters[i]) +
-                                 ": " + std::to_string(top_shooters_stats[i]);
-        Area e_msg_area_1;
-        Area e_screen_area_1 = Area(3*window_width/6, (2+2*i)*window_height/12,
-                                    window_width/8, window_height/12);
-        SDL_Texture* e_message_1 =
-                createMessage(msg_text_1, e_msg_area_1, e_screen_area_1);
-        window.loadImage(e_message_1, e_msg_area_1, e_screen_area_1);
-    }
-
-    for (int i = 0 ; i < top_scorers.size() ; ++i) {
-        std::string msg_text_1 = "Player " + std::to_string(top_scorers[i]) +
-                                 ": " + std::to_string(top_scorers_stats[i]);
-        Area e_msg_area_1;
-        Area e_screen_area_1 = Area(3*window_width/4, (2+2*i)*window_height/12,
-                                    window_width/8, window_height/12);
-        SDL_Texture* e_message_1 =
-                createMessage(msg_text_1, e_msg_area_1, e_screen_area_1);
-        window.loadImage(e_message_1, e_msg_area_1, e_screen_area_1);
-    }
-    window.render();
-    sleep(10);
+    renderMessage(top_killer_header, header_area_1, screen_area_1);
+    renderMessage(top_shooter_header, header_area_2, screen_area_2);
+    renderMessage(top_scorer_header, header_area_3, screen_area_3);
 }
 
 void MenusDrawer::displayVictoryScreen() {
-    SdlTexture menu_tex(window.getRenderer(),
+    SdlTexture menu_tex(window,
                         "../client_src/resources/menus/victory_screen.jpg");
     displayFullImage(menu_tex);
     Area screen_area(3*window_width/8, 3*window_height/4, window_width/4,
@@ -258,9 +222,43 @@ void MenusDrawer::displayVictoryScreen() {
     std::string message_text = "VICTORY";
     MessageParameters msg_parms(message_text, "vikingsquadboldital.ttf", 75);
     Area msg_area;
-    SDL_Texture* message =
-            createMessage(message_text, msg_area, screen_area, msg_parms);
-    window.loadImage(message, msg_area, screen_area);
+    renderMessage(message_text, msg_area, screen_area, msg_parms);
     window.render();
     sleep(5);
+}
+
+void MenusDrawer::displayTopKillers(std::vector<int> top_killers,
+                                   std::vector<int> top_killers_stats) {
+    for (int i = 0 ; i < top_killers.size() ; ++i) {
+        std::string msg_text = "Player " + std::to_string(top_killers[i]) +
+                               ": " + std::to_string(top_killers_stats[i]);
+        Area msg_area;
+        Area screen_area = Area(window_width / 6, (2 + 2 * i) * window_height / 12,
+                                    window_width/8, window_height/12);
+        renderMessage(msg_text, msg_area, screen_area);
+    }
+}
+
+void MenusDrawer::displayTopShooters(std::vector<int> top_shooters,
+                                    std::vector<int> top_shooters_stats) {
+    for (int i = 0 ; i < top_shooters.size() ; ++i) {
+        std::string msg_text = "Player " + std::to_string(top_shooters[i]) +
+                               ": " + std::to_string(top_shooters_stats[i]);
+        Area msg_area;
+        Area screen_area = Area(3*window_width/6, (2+2*i)*window_height/12,
+                                    window_width/8, window_height/12);
+        renderMessage(msg_text, msg_area, screen_area);
+    }
+}
+
+void MenusDrawer::displayTopScorers(std::vector<int> top_scorers,
+                                    std::vector<int> top_scorers_stats) {
+    for (int i = 0 ; i < top_scorers.size() ; ++i) {
+        std::string msg_text = "Player " + std::to_string(top_scorers[i]) +
+                                 ": " + std::to_string(top_scorers_stats[i]);
+        Area msg_area;
+        Area screen_area = Area(3*window_width/4, (2+2*i)*window_height/12,
+                                    window_width/8, window_height/12);
+        renderMessage(msg_text, msg_area, screen_area);
+    }
 }

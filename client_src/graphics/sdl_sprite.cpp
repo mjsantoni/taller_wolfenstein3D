@@ -5,8 +5,8 @@
 #include <client/graphics/images.h>
 #include "client/graphics/sdl_sprite.h"
 
-SdlSprite::SdlSprite(SDL_Renderer *renderer, ObjectInfo &object_info) :
-                    SdlTexture(renderer, object_info.getImagePath()) {
+SdlSprite::SdlSprite(SdlWindow &window, ObjectInfo &object_info) :
+                    SdlTexture(window, object_info.getImagePath()) {
     whole_width = object_info.getImageWidth();
     whole_height = object_info.getImageHeight();
     cols = object_info.getSpriteCols();

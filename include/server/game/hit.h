@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_HIT_H
 
 #include <vector>
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include "server/game/drop.h"
 
 class Hit {

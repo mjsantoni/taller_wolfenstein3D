@@ -2,7 +2,7 @@
 #define TP_WOLFENSTEIN_DAMAGE_CALCULATOR_H
 
 #include "server/game/player.h"
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 
 class DamageCalculator {
 public:

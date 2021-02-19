@@ -27,14 +27,6 @@ void WeaponDrawer::drawPlayersEquippedWeapon(int weapon_number) {
     texture -> render(image_area, screen_area);
 }
 
-SDL_Texture* WeaponDrawer::getWeaponSprite(ObjectInfo& object_info,
-                                           Area& image_area) {
-    SdlSprite sprite(nullptr, object_info);
-    SDL_Texture* image = sprite.loadTexture(window.getRenderer(), image_area,
-                                            object_info.getSpriteAnimationNo());
-    return image;
-}
-
 Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
     int weapon_window_width = (int) (object_info.getObjectWidth() * width);
     int weapon_window_height = (int) (object_info.getObjectHeight()

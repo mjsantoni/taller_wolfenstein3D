@@ -74,13 +74,6 @@ void SdlWindow::fillArea(Area area, int r, int g, int b, int a) {
     SDL_RenderFillRect(renderer, &rect);
 }
 
-void SdlWindow::displayFullImage(SdlTexture& texture) {
-    Area src_area;
-    SDL_Texture* image = texture.loadTexture(renderer, src_area);
-    Area dest_area(0, 0, width, height);
-    putTextureAt(image, src_area, dest_area);
-}
-
 void SdlWindow::restore() {
     SDL_RestoreWindow(window);
 }
@@ -107,27 +100,9 @@ void SdlWindow::loadImage(SDL_Texture* texture,
     putTextureAt(texture, image_area, screen_area);
 }
 
-void SdlWindow::loadImage(SdlTexture& texture,
-                          Area& screen_area) {
-    SDL_Texture* sdl_texture = texture.getTexture();
-    Area image_area = texture.getTextureArea();
-    putTextureAt(sdl_texture, image_area, screen_area);
+Area SdlWindow::getFullScreenArea() {
+    return Area{0, 0, width, height};
 }
-
-void SdlWindow::loadImage(SdlTexture& texture,
-                          Area& image_area,
-                          Area& screen_area) {
-    SDL_Texture* sdl_texture = texture.getTexture();
-    putTextureAt(sdl_texture, image_area, screen_area);
-}
-/*
-void SdlWindow::loadImage(SdlSprite &sprite,
-                          Area &image_area,
-                          Area &screen_area) {
-    SDL_Texture* sdl_texture = sprite.getTexture();
-    putTextureAt(sdl_texture, image_area, screen_area);
-}
-*/
 
 
 

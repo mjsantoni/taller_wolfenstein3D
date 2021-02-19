@@ -4,6 +4,7 @@
 
 #include "client/graphics/sdl_message.h"
 #include <client/graphics/area.h>
+#include <client/graphics/sdl_window.h>
 
 #define FONTS_PATH "../client_src/resources/fonts/"
 /*
@@ -17,6 +18,15 @@ SdlMessage::SdlMessage(std::string _text,
     surface = TTF_RenderText_Solid(font, text.c_str(), color);
 }
 */
+
+SdlMessage::SdlMessage(MessageParameters &message_parameters) :
+        font(TTF_OpenFont((FONTS_PATH + message_parameters.getFontName()).c_str(),
+                          message_parameters.getFontSize())),
+        text(message_parameters.getText()) {
+    color = message_parameters.getFontColor();
+    surface = TTF_RenderText_Solid(font, text.c_str(), color);
+}
+
 SDL_Texture* SdlMessage::loadMessage(SDL_Renderer* renderer,
                                      Area& message_area) {
     SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surface);
@@ -50,10 +60,17 @@ void SdlMessage::fillScreenArea(Area& screen_area) {
     TTF_SizeText(font, text.c_str(), &text_width, &text_height);
 }
 
-SdlMessage::SdlMessage(MessageParameters &message_parameters) :
-      font(TTF_OpenFont((FONTS_PATH + message_parameters.getFontName()).c_str(),
-                message_parameters.getFontSize())),
-      text(message_parameters.getText()) {
-    color = message_parameters.getFontColor();
-    surface = TTF_RenderText_Solid(font, text.c_str(), color);
+void SdlMessage::renderMessage(SdlWindow &window,
+                               Area& src,
+                               Area& dest) {
+    SDL_Renderer* renderer = window.getRenderer();
+    SDL_Texture* texture = loadMessage(renderer, src, dest);
+    SDL_Rect sdlSrc = {
+            src.getX(), src.getY(), src.getWidth(), src.getHeight()
+    };
+    // donde se pega, y si hay diferencia de dimensiones
+    SDL_Rect sdlDest = {
+            dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
+    };
+    SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
 }

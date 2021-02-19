@@ -8,8 +8,6 @@
 #define TURN_VALUE M_PI/10
 
 #include <string>
-#include "client/graphics/sdl_texture.h"
-#include "client/graphics/sdl_sprite.h"
 
 class ClientPlayer {
 private:

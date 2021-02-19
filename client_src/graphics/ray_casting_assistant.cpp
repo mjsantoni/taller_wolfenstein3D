@@ -48,9 +48,7 @@ void RayCastingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
     image_area.setX((int) (object_info.getHitGridPos() *image_area.getWidth()));
     image_area.setWidth(image_area.getWidth()/map_grid_size);
     Area screen_area = assembleScreenArea(ray_no, object_info);
-    //window.loadImage(texture, image_area, screen_area);
     texture -> render(image_area, screen_area);
-    //SDL_DestroyTexture(texture);
 }
 /*
 SDL_Texture* RayCastingAssistant::loadWallTexture(ObjectInfo& object_info,

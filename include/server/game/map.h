@@ -9,7 +9,7 @@
 #include "server/entities/positionable.h"
 #include "server/game/player.h"
 #include "server/game/positionable_handler.h"
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include "common/config_parser.h"
 
 #define GRID_SIZE 64

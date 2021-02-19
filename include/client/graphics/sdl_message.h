@@ -10,6 +10,7 @@
 #include <string>
 #include "area.h"
 #include "message_parameters.h"
+#include "sdl_window.h"
 
 class SdlMessage {
 private:
@@ -20,13 +21,12 @@ private:
     int area_width;
     int area_height;
 public:
-    SdlMessage(std::string _text, std::string font_name, SDL_Color _color,
-               int _font_size);
     explicit SdlMessage(MessageParameters& message_parameters);
     SDL_Texture *loadMessage(SDL_Renderer *renderer, Area &message_area);
     SDL_Texture *
     loadMessage(SDL_Renderer *renderer, Area &message_area, Area &screen_area);
     void fillScreenArea(Area &screen_area);
+    void renderMessage(SdlWindow &window, Area &src, Area &dest);
 };
 
 #endif //TP_WOLFENSTEIN_SDL_MESSAGE_H

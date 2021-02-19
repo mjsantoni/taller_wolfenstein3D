@@ -5,7 +5,7 @@
 #include "common/change.h"
 #include "common/network_connection.h"
 #include "common/thread.h"
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 #include "server/entities/positionable.h"
 #include <atomic>
 #include <queue>

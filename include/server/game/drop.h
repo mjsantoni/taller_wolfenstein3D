@@ -3,7 +3,7 @@
 
 #include <utility>
 
-#include "server/game/coordinate.h"
+#include "common/coordinate.h"
 
 #define GUN_DROP 0
 #define KEY_DROP 1

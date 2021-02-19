@@ -63,7 +63,7 @@ void AudioManager::displayPlayerLosingHealthSound() {
 }
 
 void AudioManager::displayDogAttackingSound(double volume_ratio) {
-    audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
+    audio_player.playSound(getFilePath("dog_growling.mp3"), volume_ratio);
 }
 
 void AudioManager::displayDogGettingHit(double volume_ratio) {
@@ -76,9 +76,6 @@ void AudioManager::displayHumanGettingHit(double volume_ratio) {
 
 void AudioManager::displayDyingDog(double volume_ratio) {
     audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
-    //usleep(500000);
-    //audio_player.stopSound();
-    //audio_player.restoreVolume();
 }
 
 void AudioManager::displayPickUpSound() {

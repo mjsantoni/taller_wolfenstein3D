@@ -15,11 +15,11 @@ TextureManager::TextureManager(SdlWindow& _window,
     for (int object_type = GRAY_WALL; object_type < MISC_TABLE; ++object_type) {
         ObjectInfo object_info = info_provider.getObjectInfo(object_type);
         std::string image_path = object_info.getImagePath();
-        auto* texture = new SdlTexture(window.getRenderer(), image_path);
+        auto* texture = new SdlTexture(window, image_path);
         std::vector<Area> areas;
         if (object_info.isSprite()) {
             areas = getAllSpriteAreas(object_info);
-            texture = new SdlSprite(window.getRenderer(), object_info);
+            texture = new SdlSprite(window, object_info);
         }
         else
             areas = getSingleImageArea(texture);
@@ -29,7 +29,7 @@ TextureManager::TextureManager(SdlWindow& _window,
 }
 
 std::vector<Area> TextureManager::getAllSpriteAreas(ObjectInfo& object_info) {
-    SdlSprite sprite(window.getRenderer(), object_info);
+    SdlSprite sprite(window, object_info);
     return sprite.getAllTheAreas();
 }
 
@@ -56,6 +56,12 @@ Area TextureManager::getAreaForEnemySprite(int object_type,
 Area TextureManager::getAreaForWeapon(int object_type,
                                            int current_animation_no) {
     return areas_vector[object_type][current_animation_no];
+}
+
+TextureManager::~TextureManager() {
+    for (auto* texture : textures) {
+        free(texture);
+    }
 }
 
 
