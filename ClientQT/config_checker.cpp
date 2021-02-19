@@ -68,11 +68,14 @@ void ConfigChecker::showParameters() {
 
     QComboBox *join_combo = findChild<QComboBox*>("mapCombo");
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     join_combo->addItems(readAllMaps());
     try {
         MapParser parser(MAPS_PATH + join_combo->currentText().toStdString());
+        int max_players_size = parser.getSpecificCategory("players").size();
         max_players_spin->setMinimum(1);
-        max_players_spin->setMaximum(parser.getSpecificCategory("players").size());
+        min_players_spin->setMaximum(max_players_size);
+        max_players_spin->setMaximum(max_players_size);
     } catch (YAML::ParserException) {
     } catch (YAML::BadFile) {
     };
@@ -130,6 +133,9 @@ void ConfigChecker::connectEvents(){
     QPushButton* join_button = findChild<QPushButton*>("joinButton");
     QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
     QCommandLinkButton* join_confirm_button = findChild<QCommandLinkButton*>("joinConfirmButton");
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
+    QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
 
     connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
@@ -137,7 +143,7 @@ void ConfigChecker::connectEvents(){
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
-
+    // connect(bots_spin, &QSpinBox::valueChanged, min_players_spin, std::bind(&QSpinBox::setValue, this, max_players_spin->value()-bots_spin->value()));
 }
 
 void ConfigChecker::showConnectionError() {
