@@ -2,8 +2,12 @@
 #define TP_WOLFENSTEIN_CONFIG_CHECKER_H
 
 #include <iostream>
+#include <dirent.h>
 #include <QMainWindow>
 #include <QApplication>
+#include <QSpinBox>
+#include <QComboBox>
+#include <common/map_parser.h>
 #include <common/network_connection.h>
 #include <common/network_error.h>
 
@@ -33,6 +37,10 @@ public:
     void showParameters();
 
     void showIdSelection();
+
+    std::string getComboContent(const char *combo_name);
+
+    QStringList readAllMaps();
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H

@@ -1,7 +1,11 @@
-#include <QSpinBox>
-#include <QComboBox>
 #include "clientQT/config_checker.h"
 #include "ui_connect.h"
+
+#define CREATE_GAME "0"
+#define JOIN_GAME "1"
+#define MAPS_PATH "../ClientQT/maps/"
+#define SUCCESS "2"
+#define ERROR "3"
 
 
 ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
@@ -46,23 +50,32 @@ void ConfigChecker::createNewGame() {
     "Ingrese jugadores/bots/tiempo/id_mapa: ";
     std::string data;
     sk.send_msg("0");
-    data = getSpinContent("jugadoresSpin") + "/" + getSpinContent("botsSpin") + "/" + getLineContent("tiempoLine") + "/" + getLineContent("mapaLine");
+    data = getSpinContent("minPlayersSpin") + "/" + getSpinContent("maxPlayersSpin") + "/" + getSpinContent("botsSpin") + "/" + getSpinContent("timeSpin");
+    //qDebug(data.c_str());
+    sk.send_msg(data);
+    data = getComboContent("mapCombo");
+    //qDebug(data.c_str());
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
     std::cout << "Respuesta: " << answer << "\n";
-    /*
-    while(true) {
-        std::string answer;
-        sk.recv_msg(answer);
-        sleep(1);
-    }*/
 }
 
 void ConfigChecker::showParameters() {
     hideWidget("connectionWidget");
     showWidget("parametersWidget");
     showWidget("createConfirmButton");
+
+    QComboBox *join_combo = findChild<QComboBox*>("mapCombo");
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    join_combo->addItems(readAllMaps());
+    try {
+        MapParser parser(MAPS_PATH + join_combo->currentText().toStdString());
+        max_players_spin->setMinimum(1);
+        max_players_spin->setMaximum(parser.getSpecificCategory("players").size());
+    } catch (YAML::ParserException) {
+    } catch (YAML::BadFile) {
+    };
 }
 
 void ConfigChecker::showIdSelection() {
@@ -70,13 +83,14 @@ void ConfigChecker::showIdSelection() {
     hideWidget("createConfirmButton");
     showWidget("joinWidget");
     showWidget("joinConfirmButton");
-    QComboBox *join_combo = findChild<QComboBox*>("idCombo");
+    sk.send_msg(JOIN_GAME);
     std::string games;
     sk.recv_msg(games);
-    join_combo->addItem(QString(games.c_str()));
+    //join_combo->addItem(QString(games.c_str()));
 }
 
 void ConfigChecker::joinGame() {
+    qDebug("AFUERA DEs READ ALL MAPS");
     std::string data;
     QComboBox *join_combo = findChild<QComboBox*>("idCombo");
     data = join_combo->currentText().toStdString();
@@ -93,14 +107,19 @@ void ConfigChecker::joinGame() {
     }*/
 }
 
-std::string ConfigChecker::getLineContent(const char *lineName) {
-    QLineEdit* line = findChild<QLineEdit*>(lineName);
+std::string ConfigChecker::getLineContent(const char *line_name) {
+    QLineEdit* line = findChild<QLineEdit*>(line_name);
     return line->text().toStdString();
 }
 
-std::string ConfigChecker::getSpinContent(const char *spinName) {
-    QSpinBox* spin = findChild<QSpinBox*>(spinName);
+std::string ConfigChecker::getSpinContent(const char *spin_name) {
+    QSpinBox* spin = findChild<QSpinBox*>(spin_name);
     return std::to_string(spin->value());
+}
+
+std::string ConfigChecker::getComboContent(const char *combo_name) {
+    QComboBox* combo = findChild<QComboBox*>(combo_name);
+    return combo->currentText().toStdString();
 }
 
 void ConfigChecker::connectEvents(){
@@ -128,4 +147,17 @@ void ConfigChecker::showConnectionError() {
 
 void ConfigChecker::showLobby() {
 
+}
+
+QStringList ConfigChecker::readAllMaps() {
+    QStringList map_names;
+    if (auto dir = opendir(MAPS_PATH)) {
+        while (auto f = readdir(dir)) {
+            if (f->d_name[0] == '.')
+                continue;
+            map_names << f->d_name;
+        }
+        closedir(dir);
+    }
+    return map_names;
 }

@@ -64,7 +64,7 @@
       <string>Ok</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="errorLabel">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -159,7 +159,7 @@
      <rect>
       <x>300</x>
       <y>70</y>
-      <width>251</width>
+      <width>261</width>
       <height>211</height>
      </rect>
     </property>
@@ -168,7 +168,7 @@
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>211</width>
+       <width>201</width>
        <height>161</height>
       </rect>
      </property>
@@ -193,9 +193,9 @@
    <widget class="QWidget" name="parametersWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>250</x>
       <y>80</y>
-      <width>221</width>
+      <width>300</width>
       <height>181</height>
      </rect>
     </property>
@@ -204,50 +204,63 @@
       <rect>
        <x>0</x>
        <y>20</y>
-       <width>216</width>
-       <height>122</height>
+       <width>287</width>
+       <height>155</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="mapaLine"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="tiempoLine"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="jugadoresLabel">
-        <property name="text">
-         <string>Cantidad de jugadores</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="botsLabel">
         <property name="text">
-         <string>Cantidad de bots</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="tiempoLabel">
-        <property name="text">
-         <string>Tiempo de partida</string>
+         <string>Bots</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="mapaLabel">
+       <widget class="QLabel" name="timeLabel">
         <property name="text">
-         <string>Mapa</string>
+         <string>Game duration (mins)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="mapCombo"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="mapLabel">
+        <property name="text">
+         <string>Map</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="timeSpin"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="maxPlayersSpin"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="botsSpin"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="maxPlayersLabel">
+        <property name="text">
+         <string>Max players</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="minPlayersLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Min players</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="jugadoresSpin"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="botsSpin"/>
+       <widget class="QSpinBox" name="minPlayersSpin"/>
       </item>
      </layout>
     </widget>
@@ -270,7 +283,7 @@
      <rect>
       <x>300</x>
       <y>80</y>
-      <width>201</width>
+      <width>300</width>
       <height>151</height>
      </rect>
     </property>
@@ -303,6 +316,14 @@
      <string>Join</string>
     </property>
    </widget>
+   <zorder>connectButton</zorder>
+   <zorder>errorWidget</zorder>
+   <zorder>configWidget</zorder>
+   <zorder>connectionWidget</zorder>
+   <zorder>parametersWidget</zorder>
+   <zorder>createConfirmButton</zorder>
+   <zorder>joinConfirmButton</zorder>
+   <zorder>joinWidget</zorder>
   </widget>
  </widget>
  <resources/>
