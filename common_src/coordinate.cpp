@@ -25,7 +25,7 @@ void Coordinate::show() const {
 bool Coordinate::isValid() const { return x != -1 && y != -1; }
 
 int Coordinate::distanceTo(const Coordinate& other) const {
-    return (x - other.x) + (y - other.y);
+    return std::abs((x - other.x)) + std::abs((y - other.y));
 }
 
 bool Coordinate::operator==(const Coordinate& p) const { return x == p.x && y == p.y; }
