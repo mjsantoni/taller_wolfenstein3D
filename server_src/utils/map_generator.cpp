@@ -1,7 +1,9 @@
 #include "server/utils/map_generator.h"
 
+#define MAP_PATH "../ClientQT/maps/"
+
 MapGenerator::MapGenerator(const std::string& map_path) :
-                           mapParser(map_path) {}
+                           mapParser(MAP_PATH + map_path) {}
 
 std::unordered_map<std::string,
     std::vector<Coordinate>> MapGenerator::getWalls() {

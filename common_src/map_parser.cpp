@@ -1,9 +1,7 @@
 #include "common/map_parser.h"
 #include <iostream>
 
-#define MAP_PATH "../ClientQT/maps/"
-
-MapParser::MapParser(const std::string& path) : config(YAML::LoadFile( MAP_PATH + path)) {
+MapParser::MapParser(const std::string& path) : config(YAML::LoadFile(path)) {
     items = getCategory("items");
     players = getCategory("players");
     scenarios = getCategory("scenarios");
