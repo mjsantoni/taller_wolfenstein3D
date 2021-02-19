@@ -31,7 +31,8 @@ private:
     int min_players_in_lobby;
     int max_bots;
     int max_players;
-    int game_id;
+    int id;
+    std::string name;
     int game_duration;
 
 public:
@@ -59,6 +60,8 @@ public:
     bool ended();
 
     void endGame();
+
+    std::string getInformation();
 };
 
 

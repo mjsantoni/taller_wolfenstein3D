@@ -7,6 +7,82 @@ Server::Server(NetworkAcceptor socket) :
     maps.emplace_back("../map.yaml");
 }
 
+#define CREATE_GAME "0"
+#define JOIN_GAME "1"
+#define SUCCESS "2"
+#define ERROR "3"
+
+void Server::run() {
+    //std::string name = "map.yaml";
+    //createGame(name, 1, 5, 0,10);
+    //createGame(name, 1, 5, 0,10);
+    //createGame(name, 1, 5, 0,10);
+    //createGame(name, 1, 5, 0,10);
+    //createGame(name, 1, 5, 0,10);
+    //createGame(name, 1, 5, 0,10);
+    std::cout << "[Server] Started.\n";
+    while (accepting_connections) {
+        try {
+            NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
+            std::string player_choice;
+            socket.recv_msg(player_choice); // Recibo el tipo de evento
+            //std::cout << "Recibi tal opcion: " << player_choice << "\n";
+            while (true) {
+                if (player_choice == CREATE_GAME) {
+                    std::string options;
+                    socket.recv_msg(options);
+                    std::cout << "Me paso estas opciones: " << options << "\n";
+                    std::vector<int> game_options = split(options); // minimos/maximos/bots/duracion
+                    std::string map_path;
+                    socket.recv_msg(map_path);
+                    int new_game_id = createGame(map_path, game_options[0],
+                                                 game_options[1], game_options[2],
+                                                 game_options[3]);
+                    socket.send_msg(SUCCESS);
+                    joinGame(new_game_id, std::move(socket));
+                    break;
+
+                } else {
+                    //socket.send_msg(std::to_string(matches.size())); // envio cant de games disponibles
+                    sendGames(socket);
+
+                    std::string game_choice;
+                    socket.recv_msg(game_choice);
+
+                    int game_id_to_connect = std::stoi(game_choice);
+                    // id -> tiene que ser de 0 a n por indices del vector. LP pasarlo bien
+                    std::cout << "El player se quiere unir al game: " << game_choice << "\n";
+
+                    if (game_id_to_connect > (matches.size() - 1) || game_id_to_connect < 0) {
+                        socket.send_msg("No podes errarle tanto pa\n");
+                        continue;
+                    } else {
+                        if(!joinGame(game_id_to_connect, std::move(socket))) {
+                            std::string couldnt_connect("Bro no te pude conectar elegi otro lobby\n");
+                            socket.send_msg(couldnt_connect);
+                        } else {
+                            socket.send_msg("1\n");
+                            joinGame(game_id_to_connect, std::move(socket));
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch (const NetworkError& e) {
+            continue;
+        }
+
+        // Kill ended games
+        killDead();
+        usleep(100000);
+    }
+
+    for (auto& th_game : matches) {
+        th_game->join();
+        delete th_game;
+    }
+}
+
 static bool is_null(GameHandler* gh) { return !gh; }
 
 /* CLEAN DEAD GAMES */
@@ -24,12 +100,11 @@ void Server::killDead() {
                   matches.end());
 }
 
-int Server::createGame(int max_players, int bots, int game_duration,
-                       int map, int min_players_in_lobby) {
+int Server::createGame(std::string& map, int min_players, int max_players, int bots, int time) {
     std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
-    auto new_game = new GameHandler(maps[map], "../config.yaml",
-                                    min_players_in_lobby, max_players,
-                                    bots, matches.size(), game_duration);
+    auto new_game = new GameHandler(map, "../config.yaml",
+                                    min_players, max_players,
+                                    bots, matches.size(), time * 60);
     // pasarle game duration tambien
     new_game->start();
     matches.push_back(new_game);
@@ -62,76 +137,12 @@ std::vector<int> Server::split(const std::string& bytes) {
     return buffer;
 }
 
-#define CREATE_GAME "0"
-#define JOIN_GAME "1"
-
-void Server::run() {
-    std::cout << "[Server] Started.\n";
-    while (accepting_connections) {
-        try {
-            NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-            std::string player_choice;
-            socket.recv_msg(player_choice); // Recibo el tipo de evento
-            std::cout << "Recibi tal opcion: " << player_choice << "\n";
-            // Aca LP verifica que sea 1 o 0 sino ni lo manda porq no deberiamos revisar eso
-            while (true) {
-                if (player_choice == CREATE_GAME) {
-                    std::string options;
-                    socket.recv_msg(options);
-                    std::cout << "Me paso estas opciones: " << options << "\n";
-                    std::vector<int> game_options = split(options); // players/bots/duration/map_id
-                    if (game_options.size() > 4 || game_options.size() < 4) { //ACA VALIDAR LOS PARAMETROS
-                        socket.send_msg("?????\n");
-                        continue;
-                    } else {
-                        socket.send_msg("1\n"); // created
-                        int new_game_id = createGame(game_options[0], game_options[1], game_options[2], game_options[3],
-                                                     0);
-                        joinGame(new_game_id, std::move(socket));
-                        break;
-                    }
-                } else {
-                    socket.send_msg(std::to_string(matches.size())); // envio cant de games disponibles
-                    std::string game_choice;
-                    socket.recv_msg(game_choice);
-                    // game_id -> tiene que ser de 0 a n por indices del vector. LP pasarlo bien
-                    std::cout << "El player se quiere unir al game: " << game_choice << "\n";
-
-                    int game_id_to_connect;
-                    try { game_id_to_connect = std::stoi(game_choice); }
-                    catch (const std::invalid_argument& e) {
-                        socket.send_msg("Tenes que apretar un numero pa\n");
-                        continue;
-                    }
-
-                    if (game_id_to_connect > (matches.size() - 1) || game_id_to_connect < 0) {
-                        socket.send_msg("No podes errarle tanto pa\n");
-                        continue;
-                    } else {
-                        if(!joinGame(game_id_to_connect, std::move(socket))) {
-                            std::string couldnt_connect("Bro no te pude conectar elegi otro lobby\n");
-                            socket.send_msg(couldnt_connect);
-                        } else {
-                            socket.send_msg("1\n");
-                            joinGame(game_id_to_connect, std::move(socket));
-                        }
-                        break;
-                    }
-                }
-            }
-        } catch (const NetworkError& e) {
-            continue;
-        }
-
-        // Kill ended games
-        killDead();
-        usleep(100000);
+void Server::sendGames(NetworkConnection& socket) {
+    for (auto& game : matches) {
+        std::string name();
+        socket.send_msg(game->getInformation());
     }
-
-    for (auto& th_game : matches) {
-        th_game->join();
-        delete th_game;
-    }
+    socket.send_msg(SUCCESS);
 }
 
 void Server::stop() {
