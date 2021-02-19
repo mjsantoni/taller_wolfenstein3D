@@ -9,6 +9,16 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMimeData>
+#include <iostream>
+#include <fstream>
+#include <unordered_map>
+#include <QDebug>
+#include <QFileDialog>
+#include "yaml-cpp/yaml.h"
+#include "common/map_parser.h"
+#include "common/coordinate.h"
+#include "ui_editor.h"
+#include "editor/QGridButton.h"
 
 class Editor : public QMainWindow {
 public:

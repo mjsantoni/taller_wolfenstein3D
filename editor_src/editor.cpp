@@ -1,20 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <unordered_map>
-#include <QDebug>
-#include <QFileDialog>
-#include "yaml-cpp/yaml.h"
 #include "editor/editor.h"
-#include "server/map_parser.h"
-#include "ui_editor.h"
-#include "editor/QGridButton.h"
 
 #define DEF_HEIGHT 14
 #define DEF_WIDTH 14
 #define MAX_PLAYERS 8
 
-
-struct Coordinate { int x; int y; Coordinate(int coord_x, int coord_y) : x(coord_x), y(coord_y) {}};
 
 YAML::Emitter& operator << (YAML::Emitter& out, const Coordinate& coord) {
     out << YAML::Flow;
@@ -81,9 +70,8 @@ void Editor::loadMap(std::string path) {
     std::vector<std::string> categories;
     QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
     deleteWidgets(map_grid);
-    std::pair<int, int> dimensions = parser.getDimensions();
-    createButtonsMapGrid(map_grid, dimensions.first, dimensions.second, -1, -1);
-
+    Coordinate dimensions = parser.getDimensions();
+    createButtonsMapGrid(map_grid, dimensions.x, dimensions.y, -1, -1);
     QPixmap wood_pix("../client_src/resources/walls/brown_wall.png");
     QPixmap rock_pix("../client_src/resources/walls/rock_wall.jpg");
     QPixmap blue_pix("../client_src/resources/walls/blue_wall.png");
@@ -112,7 +100,7 @@ void Editor::loadMap(std::string path) {
     for(auto &category: categories){
         for(auto &items: parser.getCategory(category)){
             for(auto &positions: items.second){
-                QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.first, positions.second)->widget());
+                QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.x, positions.y)->widget());
                 if (items.first == "wood_wall") updateGridButton(button, QIcon(wood_pix), "wood_wall");
                 else if (items.first == "rock_wall") updateGridButton(button, QIcon(rock_pix), "rock_wall");
                 else if (items.first == "blue_wall") updateGridButton(button, QIcon(blue_pix), "blue_wall");
