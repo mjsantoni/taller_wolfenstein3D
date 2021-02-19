@@ -1,7 +1,7 @@
 #ifndef WATER_PUDDLE_H
 #define WATER_PUDDLE_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class WaterPuddle : public Positionable {
 private:

@@ -1,7 +1,7 @@
 #ifndef DOOR_H
 #define DOOR_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Door : public Positionable {
 protected:

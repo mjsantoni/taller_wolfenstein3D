@@ -1,7 +1,7 @@
 #ifndef HP_ITEM_H
 #define HP_ITEM_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class HPItem : public Positionable {
 protected:

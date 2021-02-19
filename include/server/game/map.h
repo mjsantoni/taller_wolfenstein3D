@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 #include <unordered_set>
-#include "server/game/positionable.h"
+#include "server/entities/positionable.h"
 #include "server/game/player.h"
 #include "server/game/positionable_handler.h"
 #include "server/game/coordinate.h"

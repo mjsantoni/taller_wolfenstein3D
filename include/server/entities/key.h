@@ -1,7 +1,7 @@
 #ifndef KEY_H
 #define KEY_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Key : public Positionable {
 private:

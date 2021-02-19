@@ -1,8 +1,10 @@
-#include "server/game/positionable.h"
+#include <utility>
+
+#include "server/entities/positionable.h"
 
 Positionable::Positionable(std::string _category, std::string _type,
                            int _id, bool _is_blocking) :
-                           category(_category), type(_type), id(_id),
+                           category(std::move(_category)), type(std::move(_type)), id(_id),
                            is_blocking(_is_blocking) {}
 
 std::string Positionable::getType() {

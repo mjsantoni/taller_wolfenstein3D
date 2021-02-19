@@ -11,7 +11,7 @@ private:
     Map& map;
 
 public:
-    DropHandler(std::string config_path, Map &_map);
+    DropHandler(const std::string& config_path, Map &_map);
 
     void processDrops(const std::vector<Drop> &drops);
 

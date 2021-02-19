@@ -24,7 +24,7 @@ public:
 
     void setCurrentPosition(int new_pos);
 
-    void setCurrentCoordinate(Coordinate coordinate);
+    void setCurrentCoordinate(const Coordinate& coordinate);
 
     const Coordinate& getCurrentCoord() const;
 

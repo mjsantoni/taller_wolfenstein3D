@@ -1,7 +1,7 @@
 #ifndef TP_WOLFENSTEIN_BOTS_MANAGER_H
 #define TP_WOLFENSTEIN_BOTS_MANAGER_H
 
-#include "server/game/positionable.h"
+#include "server/entities/positionable.h"
 #include "server/lua/lua_bot.h"
 #include "server/game/map.h"
 #include "server/utils/probability.h"

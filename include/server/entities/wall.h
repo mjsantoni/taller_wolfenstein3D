@@ -1,7 +1,7 @@
 #ifndef WALL_H
 #define WALL_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Wall : public Positionable {
 

@@ -1,7 +1,7 @@
 #ifndef TREASURE_H
 #define TREASURE_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Treasure : public Positionable {
 protected:

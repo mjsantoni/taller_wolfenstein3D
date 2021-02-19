@@ -3,7 +3,7 @@
 #include "server/entities/hp_item.h"
 #include <iostream>
 
-DropHandler::DropHandler(std::string config_path, Map &_map) :
+DropHandler::DropHandler(const std::string& config_path, Map &_map) :
                             configParser(config_path),
                             map(_map) {}
 

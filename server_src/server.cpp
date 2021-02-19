@@ -55,7 +55,7 @@ std::vector<int> Server::split(const std::string& bytes) {
     std::stringstream ss(bytes);
     std::string s;
     while (std::getline(ss, s, '/')) {
-        if (s.size() == 0) continue;
+        if (s.empty()) continue;
         buffer.push_back(std::stoi(s));
     }
     return buffer;

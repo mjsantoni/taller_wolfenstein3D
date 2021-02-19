@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include "server/game/positionable.h"
+#include "server/entities/positionable.h"
 #include "server/entities/gun.h"
 #include "server/entities/key.h"
 #include "server/utils/gun_hotkeys.h"

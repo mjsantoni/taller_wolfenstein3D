@@ -1,7 +1,7 @@
 #ifndef TP_WOLFENSTEIN_POSITIONABLEHANDLER_H
 #define TP_WOLFENSTEIN_POSITIONABLEHANDLER_H
 
-#include "server/game/positionable.h"
+#include "server/entities/positionable.h"
 #include "common/config_parser.h"
 
 class PositionableHandler {

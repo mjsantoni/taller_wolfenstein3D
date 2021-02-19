@@ -1,7 +1,7 @@
 #ifndef GUN_H
 #define GUN_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Gun : public Positionable {
 protected:

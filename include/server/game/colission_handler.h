@@ -20,7 +20,7 @@ public:
     std::vector<std::pair<Coordinate, Positionable>>
         getCloseItems(const Coordinate& old_pos, const Coordinate& new_pos);
 
-    Coordinate getCloseBlocking(Coordinate pos, double angle, std::string category);
+    Coordinate getCloseBlocking(const Coordinate& pos, double angle, const std::string& category);
 };
 
 #endif //TP_WOLFENSTEIN_COLISSION_HANDLER_H

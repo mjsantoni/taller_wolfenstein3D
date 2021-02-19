@@ -1,7 +1,7 @@
 #ifndef BULLETS_H
 #define BULLETS_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Bullets : public Positionable {
 private:

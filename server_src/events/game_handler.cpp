@@ -19,7 +19,6 @@ void GameHandler::run() {
     std::cout << "[Game Handler " << game_id << "] Started.\n";
     waitInLobby();
     addBots();
-    sleep(1);
     std::cout << "[Game Handler " << game_id << "] Game startGame.\n";
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);

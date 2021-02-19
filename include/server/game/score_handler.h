@@ -11,7 +11,7 @@ private:
     std::unordered_map<int,int> bulletsShot;
     std::unordered_map<int,int> treasurePoints;
 
-    std::vector<std::pair<int,int>> getTop(std::unordered_map<int,int> map, int n);
+    std::vector<std::pair<int,int>> getTop(const std::unordered_map<int,int>& map, int n);
 
 public:
 

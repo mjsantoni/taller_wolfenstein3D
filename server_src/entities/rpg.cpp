@@ -15,7 +15,7 @@ int RPG::getPlayerId() const { return player_id; }
 
 void RPG::setCurrentPosition(int new_pos) { current_position = new_pos; }
 
-void RPG::setCurrentCoordinate(Coordinate coordinate) { current_coord = coordinate; }
+void RPG::setCurrentCoordinate(const Coordinate& coordinate) { current_coord = coordinate; }
 
 const Coordinate& RPG::getCurrentCoord() const { return current_coord; }
 

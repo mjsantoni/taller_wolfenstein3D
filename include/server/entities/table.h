@@ -1,7 +1,7 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-#include "server/game/positionable.h"
+#include "positionable.h"
 
 class Table : public Positionable {
 private:
