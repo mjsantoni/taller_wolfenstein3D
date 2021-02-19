@@ -4,7 +4,7 @@
 Server::Server(NetworkAcceptor socket) :
         networkAcceptor(std::move(socket)),
         accepting_connections(true) {
-    maps.emplace_back("../map.yaml");
+    maps.emplace_back("map.yaml");
 }
 
 #define CREATE_GAME "0"
