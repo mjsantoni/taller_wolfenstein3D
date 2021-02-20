@@ -28,7 +28,6 @@ void RayCaster::renderBackground(int x, int y, double alpha) {
         double beta = Calculator::calculateBeta(angle, alpha);
         castProjectionLine(x, y, angle, beta, object_info);
         object_info = fillObjectInfo(object_info);
-        object_info.setHitDistance(object_info.getHitDistance()*cos(beta));
         assistant.putFloorAndCeiling(ray, object_info);
         assistant.putWall(ray, object_info);
         angle -= ray_angle_delta;
@@ -218,6 +217,6 @@ void RayCaster::saveRayInformation(double ray_angle, double distance) {
 
 void RayCaster::setDimensions(int width, int height) {
     projection_plane_width = width;
-    ray_angle_delta = (double) (double(60) / projection_plane_width * M_PI/180);
+    ray_angle_delta = (double) (double(FOV) /projection_plane_width * M_PI/180);
     assistant.setDimensions(width, height);
 }
