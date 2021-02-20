@@ -44,7 +44,7 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
     int value2 = change.value2;
 
     if (!player_alive || game_over)
-        processPostGameChanges(change);
+        return processPostGameChanges(change);
 
     //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
     // render ray_caster, render object_drawer, render ui_drawer
