@@ -15,6 +15,7 @@
 #include "client/graphics/effects.h"
 #include "image_manager.h"
 #include "client/calculator.h"
+#include "effects_handler.h"
 
 #define GRID_SIZE 64
 
@@ -31,6 +32,7 @@ private:
     std::vector<std::pair<int, int>> player_spawns;
     std::set<int> enemies_to_swipe;
     std::set<int> enemies_to_respawn;
+    EffectsHandler effects_handler;
     int grid_size = GRID_SIZE;
     int width;
     int height;
@@ -91,11 +93,8 @@ public:
     void killPlayer(int player_id);
     void setEnemyAttacking(int enemy_id);
     void setBloodEffectForEnemy(int enemy_id);
-
     int getEnemyTypeFromId(int enemy_id);
-
     double getEnemyDistanceRatio(int enemy_id);
-
     bool isLastPlayerStanding();
 };
 

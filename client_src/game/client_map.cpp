@@ -441,11 +441,12 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
     Drawable& enemy = enemies.at(enemy_id);
     std::pair<int, int> enemy_pos = enemy.getMapPosition();
     int enemy_type = enemy.getObjectType();
-    Drawable blood_effect(EFFECT_BLOOD,3);
+    Drawable blood_effect(EFFECT_BLOOD, 3);
+    int effect_id = effects_handler.getIdForEffect();
     if (enemy_type == ENEMY_DOG)
         blood_effect = Drawable(EFFECT_DOG_BLOOD, 3);
     blood_effect.setMapPosition(enemy_pos);
-    effects.insert(std::pair<int, Drawable>(BLOOD_EFFECT_ID, blood_effect));
+    effects.insert(std::pair<int, Drawable>(effect_id, blood_effect));
 }
 
 bool ClientMap::isLastPlayerStanding() {

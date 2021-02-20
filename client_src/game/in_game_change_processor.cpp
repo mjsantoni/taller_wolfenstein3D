@@ -6,6 +6,8 @@
 #define MAX_WEAPON_ANIMATION 3
 #define ENEMY_DEATH_ANIMATION 1
 #define ENEMY_ATTACKING_ANIMATION 1
+#define BLOOD_EFFECT_ANIMATION 3
+#define EXPLOSION_ANIMATION 3
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -165,6 +167,7 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
             double distance_ratio =
                     map.setRPGMissileExplosion(id, value1, value2);
             audio_manager.displayExplosionSound(distance_ratio);
+            updateMandatoryRenderingTurns(EXPLOSION_ANIMATION);
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
@@ -286,6 +289,7 @@ void InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
                 audio_manager.displayDogGettingHit(distance_ratio);
             else
                 audio_manager.displayHumanGettingHit(distance_ratio);
+            updateMandatoryRenderingTurns(BLOOD_EFFECT_ANIMATION + 1);
             return;
         }
         render_background_and_objects = false;
