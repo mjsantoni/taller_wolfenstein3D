@@ -20,6 +20,7 @@ private:
     int map_width;
     int id;
     int duration_on_map;
+    double hit_distance;
 public:
     int getId() const;
     void setId(int id);
@@ -42,10 +43,10 @@ public:
     int getSpriteAnimationNo();
     void setSpriteAnimationNo(int _sprite_animation_no);
     void setObjectType(int _object_type);
-
     int getDuration();
-
     void reduceDuration();
+    double getHitDistance();
+    void setHitDistance(double _hit_distance);
 };
 
 

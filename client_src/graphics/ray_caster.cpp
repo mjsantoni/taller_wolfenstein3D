@@ -53,7 +53,6 @@ void RayCaster::castProjectionLine(int x,
                                    double beta,
                                    ObjectInfo& object_info) {
     castProjectionLine_vertical(x, y, alpha, beta, object_info);
-
     castProjectionLine_horizontal(x, y, alpha, beta, object_info);
     saveRayInformation(beta, object_info.getHitDistance());
 }
@@ -213,9 +212,7 @@ int RayCaster::calculateBorderFactor(bool should_decrease, int position) {
 }
 
 void RayCaster::saveRayInformation(double ray_angle, double distance) {
-    double real_distance = distance/cos(ray_angle);
-    wall_distance_info.insert(std::pair<double, double>(ray_angle,
-                                                        real_distance));
+    wall_distance_info.insert(std::pair<double, double>(ray_angle, distance));
     angles_list.push_back(ray_angle);
 }
 

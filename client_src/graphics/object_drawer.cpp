@@ -2,7 +2,13 @@
 // Created by andy on 4/12/20.
 //
 
+#include <algorithm>
 #include "client/graphics/object_drawer.h"
+
+bool compareByDistance(Drawable& a, Drawable& b)
+{
+    return a.getHitDistance() > b.getHitDistance();
+}
 
 ObjectDrawer::ObjectDrawer(SdlWindow& _window,
                            ObjectInfoProvider& _object_info_provider,
@@ -17,6 +23,14 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
 
 void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     std::vector<Drawable> objects_vector = map.getAllDrawables();
+    std::sort(objects_vector.begin(), objects_vector.end(), compareByDistance);
+
+    for (auto& object : objects_vector) {
+        std::pair<int, int> object_pos = object.getMapPosition();
+        double distance = Calculator::calculateDistance(x - object_pos.first,
+                                                        y - object_pos.second);
+        object.setHitDistance(distance);
+    }
 
     for (auto& object : objects_vector) {
         double object_starting_angle =

@@ -77,3 +77,11 @@ void Drawable::reduceDuration() {
 int Drawable::getDuration() {
     return duration_on_map;
 }
+
+double Drawable::getHitDistance() {
+    return hit_distance;
+}
+
+void Drawable::setHitDistance(double _hit_distance) {
+    hit_distance = _hit_distance;
+}
