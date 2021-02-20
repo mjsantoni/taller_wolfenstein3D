@@ -33,6 +33,10 @@ void ClientMapGenerator::addObjectsToMap(ClientMap& map, MapParser& map_parser){
         for (auto& coord : object.second) {
             coord.x = (coord.x * grid_size) + (int) grid_size/2;
             coord.y = (coord.y * grid_size) + (int) grid_size/2;
+            if (object_type == MISC_BARREL || object_type == MISC_TABLE) {
+                coord.x = (coord.x * grid_size) + (int) grid_size/4;
+                coord.y = (coord.y * grid_size) + (int) grid_size/4;
+            }
             map.putObjectAt(object_type, coord.x, coord.y);
         }
     }
