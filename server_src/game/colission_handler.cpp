@@ -96,37 +96,9 @@ ColissionHandler::getCloseItems(const Coordinate& old_pos,
  * move size + safe distance de distancia total si existe una pared
  */
 Coordinate ColissionHandler::getCloseBlocking(const Coordinate& pos, double angle, const std::string& category) {
-    int x_move = std::round(cos(angle)*move_size);
-    int y_move = std::round(sin(angle)*move_size*-1);
-    int x_factor = (x_move < 0) ? -1 : 1;
-    int y_factor = (y_move < 0) ? -1 : 1;
-    //int new_x = pos.x + x_move + (safe_distance * x_factor);
-    //int new_y = pos.y + y_move + (safe_distance * y_factor);
-    //Coordinate pos_to_check(new_x, new_y);
-
-    Coordinate pospos = map.closeBlocking(DISTANCE_TO_DOOR, pos, angle);
-    if (!pospos.isValid()) return pospos;
-
-    /*
-    for (int i = 0; i < 9; i++) {
-        int new_x = pos.x + (x_move * i) ;
-        int new_y = pos.y + (y_move * i) ;
-        Coordinate pos_to_check(new_x, new_y);
-        std::cout << "CHEKING: "; pos_to_check.show();
-        if (map.isABlockingItemAt(pos_to_check)) {
-            if (map.getBlockingItemAt(pos_to_check).getCategory() == category) {
-                std::cout << "Hay un: " << map.getBlockingItemAt(pos_to_check).getCategory() << "\n";
-                return pos_to_check;
-            }
-        }
-    }*/
-
-
-    if (map.isABlockingItemAt(pospos)) {
-        if (map.getBlockingItemAt(pospos).getCategory() == category) {
-            //std::cout << "Hay un: " << map.getBlockingItemAt(pospos).getCategory() << "\n";
-            return pospos;
-        }
-    }
+    Coordinate blocking_pos = map.closeBlocking(DISTANCE_TO_DOOR, pos, angle);
+    if (!blocking_pos.isValid()) return blocking_pos;
+    if (map.isABlockingItemAt(blocking_pos) && map.getBlockingItemAt(blocking_pos).getCategory() == category)
+            return blocking_pos;
     return Coordinate(-1, -1);
 }

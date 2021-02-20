@@ -109,19 +109,12 @@ void Map::removeBlockingItemAt(const Coordinate& coordinates) {
 
 void Map::erasePositionableAt(const Coordinate& coord) {
     if (board.find(coord) != board.end()) {
-        //no deberia dar error, esto deberia borrar de una
-        //gasta recursos chequear esto
         board.erase(coord);
         itemsPositions.erase(coord);
-        //std::cout << "Borro en: (" << coord.x << ", " << coord.y << ")\n";
-    } else {
-        //std::cout << "No habia nada, error en la posicion recibida\n";
-    }
+    } else return;
 }
 
-void Map::removePlayer(int &i) {
-    player_positions[i] = Coordinate(-1, -1);
-}
+void Map::removePlayer(int &i) { player_positions[i] = Coordinate(-1, -1); }
 
 /* OTHERS */
 
@@ -152,27 +145,17 @@ double angleBetween(const Coordinate& self_pos,const Coordinate& other_pos) {
 
 Coordinate Map::closeBlocking(int units, const Coordinate &coord, double self_angle) {
     for (auto& blocking_coord : doors_and_fake_pos) {
-
-        std::cout << "CHEKING: "; blocking_coord.show();
         Coordinate blocking_centered(blocking_coord.x + 32, blocking_coord.y + 32);
-        std::cout << "CENTERED: "; blocking_centered.show();
         bool in_sight = insideAngle(self_angle, angleBetween(coord, blocking_centered));
-        std::cout << blocking_centered.distanceTo(coord)  << "\n";
-        if (blocking_centered.distanceTo(coord) <= units && in_sight) {
-            std::cout << "ENCONTRE UNA WALLDOOR\n";
-
-
+        if (blocking_centered.distanceTo(coord) <= units && in_sight)
             return blocking_coord;
-        }
     }
     return Coordinate(-1,-1);
 }
 
 void Map::respawnPlayer(int id) { addPlayer(id); }
 
-void Map::setPlayerPosition(int i, const Coordinate& coord) {
-    player_positions[i] = coord;
-}
+void Map::setPlayerPosition(int i, const Coordinate& coord) { player_positions[i] = coord; }
 
 /* MAP INITIALIZER FUNCTIONS */
 

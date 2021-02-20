@@ -12,6 +12,7 @@ LuaEngine::~LuaEngine() { lua_close(L); }
 void LuaEngine::pushFunction(std::string func) { lua_getglobal(L, func.c_str());}
 void LuaEngine::push(std::string& value) { lua_pushstring(L, value.c_str()); }
 void LuaEngine::push(int value) { lua_pushnumber(L, value); }
+void LuaEngine::push(double value) { lua_pushnumber(L, value); }
 void LuaEngine::pushTable(int value) { lua_pushvalue(L, value); }
 void LuaEngine::pushNill() { lua_pushnil(L); }
 void LuaEngine::callFunction(int recv, int back) { lua_pcall(L, recv, back, 0); }

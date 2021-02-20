@@ -15,7 +15,7 @@
 class MovementCalculator {
 private:
     int move_size = 10;
-    int safe_distance = 10;
+    int safe_distance = 15;
     // Ver que despues vengan por alguna especie de config y no queden hardcoded
 
 public:

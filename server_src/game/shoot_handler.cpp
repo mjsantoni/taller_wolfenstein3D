@@ -7,7 +7,7 @@
 #define ENEMY_DIES (-1)
 #define RPG_UNITS_MOVE_PER_TURN 5
 #define RPG_EXPLOSION_RADIUS 15     // esto viene del config
-#define SHOOT_AMPLITUDE 10
+#define SHOOT_AMPLITUDE 35
 
 std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
     std::vector<Change> changes; // Devuelve cambios en el mapa

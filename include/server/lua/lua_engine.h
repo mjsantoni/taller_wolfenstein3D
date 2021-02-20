@@ -22,6 +22,7 @@ public:
     void pushFunction(std::string func);
     void push(std::string& value);
     void push(int value);
+    void push(double value);
     void pushTable(int value);
     void pushNill();
     void callFunction(int recv, int back);
