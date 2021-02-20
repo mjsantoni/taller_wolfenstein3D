@@ -1,0 +1,4 @@
+QMainWindow {
+    background-image: url("../client_src/resources/menus/intro.jpg"); /* sets background of the menu */
+    border: 1px solid black;
+}

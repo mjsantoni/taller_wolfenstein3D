@@ -30,6 +30,7 @@ void ConfigChecker::lookForServer() {
         hideWidget("configWidget");
         QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
         connect_button->close();
+        hideWidget("errorWidget");
     } catch (const NetworkError& e) {
         showWidget("errorWidget");
     }
