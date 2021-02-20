@@ -61,9 +61,10 @@ void ConfigChecker::createNewGame() {
     sk.recv_msg(answer);
     qDebug(answer.c_str());
     if (answer == "2") {
-        //run client normal
+        //run client normal TODO
+        this->close();
     } else {
-        showWidget("creationError");
+        showError("Error creating the game");
     }
 }
 
@@ -98,24 +99,33 @@ void ConfigChecker::showIdSelection() {
     std::string games;
     sk.recv_msg(games);
     QStringList maps_names;
-    maps_names << games.c_str();
-    while (games != "2"){
-        qDebug(games.c_str());
-        sk.recv_msg(games);
-        qDebug(games.c_str());
+    while (games != SUCCESS){
         maps_names << games.c_str();
+        games.clear();
+        sk.recv_msg(games);
     }
     id_combo->addItems(maps_names);
 }
 
 void ConfigChecker::joinGame() {
-    qDebug("AFUERA DEs READ ALL MAPS");
     std::string data;
     QComboBox *id_combo = findChild<QComboBox*>("idCombo");
-    data = id_combo->currentText().toStdString();
+    std::stringstream ss(id_combo->currentText().toStdString());
+    std::string s;
+    int i = 0;
+    while (std::getline(ss, s, '/')) {
+        if (s.empty()) continue;
+        if (i > 0) data.push_back(s[i-1]);
+        i++;
+    }
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
+    if (answer == SUCCESS){
+        // run del cliente normal TODO
+        this->close();
+    }
+    else showError("Error en login");
 }
 
 std::string ConfigChecker::getLineContent(const char *line_name) {
@@ -154,7 +164,7 @@ void ConfigChecker::connectEvents(){
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
-    // connect(bots_spin, &QSpinBox::valueChanged, min_players_spin, std::bind(&QSpinBox::setValue, this, max_players_spin->value()-bots_spin->value()));
+    //connect(bots_spin, &QSpinBox::valueChanged, min_players_spin, std::bind(&QSpinBox::setValue, this, max_players_spin->value()-bots_spin->value()));
 }
 
 void ConfigChecker::showLobby() {
@@ -172,4 +182,12 @@ QStringList ConfigChecker::readAllMaps() {
         closedir(dir);
     }
     return maps_names;
+}
+
+void ConfigChecker::showError(const char *string) {
+    QWidget *widget = findChild<QWidget*>("errorWidget");
+    QLabel *label = findChild<QLabel*>("errorLAbel");
+    label->setText(QString(string));
+    widget->setEnabled(true);
+    widget->show();
 }

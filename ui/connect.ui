@@ -35,6 +35,9 @@
     <property name="text">
      <string>Connect</string>
     </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QWidget" name="errorWidget" native="true">
     <property name="enabled">
@@ -178,6 +181,9 @@
         <property name="text">
          <string>Create</string>
         </property>
+        <property name="default">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -234,7 +240,11 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSpinBox" name="timeSpin"/>
+       <widget class="QSpinBox" name="timeSpin">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="maxPlayersSpin"/>
@@ -277,6 +287,9 @@
     <property name="text">
      <string>Create</string>
     </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QWidget" name="joinWidget" native="true">
     <property name="geometry">
@@ -314,6 +327,12 @@
     </property>
     <property name="text">
      <string>Join</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QWidget" name="creationError" native="true">

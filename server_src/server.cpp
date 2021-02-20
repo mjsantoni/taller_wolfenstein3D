@@ -122,8 +122,6 @@ std::vector<int> Server::split(const std::string& bytes) {
 
 void Server::sendGames(NetworkConnection& socket) {
     for (auto& game : matches) {
-        std::string name();
-        std::cout << game->getInformation();
         socket.send_msg(game->getInformation());
     }
     socket.send_msg(SUCCESS);

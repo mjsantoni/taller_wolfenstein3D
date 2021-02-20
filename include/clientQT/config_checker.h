@@ -40,6 +40,8 @@ public:
     std::string getComboContent(const char *combo_name);
 
     QStringList readAllMaps();
+
+    void showError(const char *string);
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H
