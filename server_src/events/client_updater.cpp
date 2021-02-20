@@ -9,7 +9,7 @@ ClientUpdater::ClientUpdater(NetworkConnection& _sk, int id, std::unordered_map<
                             map(_map) {
 }
 
-ClientUpdater::~ClientUpdater() {}
+ClientUpdater::~ClientUpdater() { change_queue.close(); }
 
 void ClientUpdater::sendMap() {
     std::cout << "[Client Updater] Sending map.\n";
@@ -28,9 +28,10 @@ void ClientUpdater::run() {
     /* Envio el ID primero */
     sendMap();
     /* Despues el mapa */
-    while (alive) {
+    while (true) {
         Change change = change_queue.pop();
-        if (change.isInvalid()) continue;
+        if (change.isInvalid() && alive) continue;
+        if (change.isInvalid() && !alive) break;
         if (change.isGlobal() || change.getPlayerID() == player_id) {
             skt.send_msg(change.serialize());
             std::cout << "Server sends " << change.serialize() << std::endl;
@@ -38,13 +39,12 @@ void ClientUpdater::run() {
     }
     std::cout << "[Client Updater] Stopping.\n";
 }
-
 void ClientUpdater::update(Change change) { change_queue.push(change); }
 
 
 void ClientUpdater::stop() {
+    change_queue.push(Change());
     alive = false;
-    change_queue.close();
 }
 
 int ClientUpdater::getPlayerId() const {

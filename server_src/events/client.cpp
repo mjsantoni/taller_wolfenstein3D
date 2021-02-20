@@ -11,10 +11,10 @@ Client::Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id,
 void Client::update(Change &change) { clientUpdater.update(change); }
 
 void Client::stop() {
-    sk.shutdownAll();
-    clientHandler.stop();
     clientUpdater.stop();
     clientUpdater.join();
+    sk.shutdownAll();
+    clientHandler.stop();
     clientHandler.join();
     sk.closeSocket();
 }
