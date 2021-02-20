@@ -234,7 +234,13 @@ Drawable& ClientMap::getObjectById(int object_id) {
 }
 
 void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
-    removeObject(object_id);
+    Drawable door(UNLOCKED_DOOR);
+    door.setId(object_id);
+    door.setMapPosition(x_pos, y_pos);
+    std::pair<int, int> map_pos{x_pos, y_pos};
+    drawables_by_position.insert(std::pair<std::pair<int, int>, Drawable>
+                                         (map_pos, door));
+    walls.insert(std::pair<int, Drawable>(object_id, door));
 }
 
 void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {

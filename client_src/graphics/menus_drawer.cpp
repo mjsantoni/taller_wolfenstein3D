@@ -207,12 +207,28 @@ void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
     std::vector<int> top_scorers_stats = statistics[5];
     Area screen_area(0, 0, window_width, window_height);
     window.drawRectangle(screen_area, 0, 0, 0, 0);
+    if (top_killers.empty() && top_scorers.empty() && top_shooters.empty()) {
+        displayEmptyStatisticsScreen();
+        window.render();
+        sleep(2);
+        return;
+    }
     displayStatisticsHeaders();
     displayTopKillers(top_killers, top_killers_stats);
     displayTopShooters(top_shooters, top_shooters_stats);
     displayTopScorers(top_scorers, top_scorers_stats);
     window.render();
     sleep(10);
+}
+
+void MenusDrawer::displayEmptyStatisticsScreen() {
+    std::string message_text = "NO STATS TO SHOW";
+    Area screen_area = Area(window_width/4, window_height/4, window_width/2,
+                       window_height/4);
+    Area msg_area;
+    MessageParameters message_parameters(message_text,
+                                         "Action_Force.ttf", 50);
+    renderMessage(message_text, msg_area, screen_area, message_parameters);
 }
 
 void MenusDrawer::displayStatisticsHeaders() {
@@ -291,4 +307,19 @@ void MenusDrawer::displayDefeatScreen() {
                      window_height/6);
     window.render();
     sleep(5);
+}
+
+void MenusDrawer::displayTimeOverScreen() {
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 255, 255, 255, 0);
+    std::string message_text = "TIME OVER! IT'S A TIE!";
+    screen_area = Area(window_width/4, window_height/4, window_width/2,
+                       window_height/4);
+    Area msg_area;
+    SDL_Color color_black{0, 0, 0};
+    MessageParameters message_parameters(color_black, message_text,
+                                         "Action_Force.ttf", 50);
+    renderMessage(message_text, msg_area, screen_area, message_parameters);
+    window.render();
+    sleep(2);
 }

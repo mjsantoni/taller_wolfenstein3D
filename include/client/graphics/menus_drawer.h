@@ -51,6 +51,10 @@ public:
                            std::vector<int> top_scorers_stats);
     void displayDefeatScreen();
     void displayNetworkConnectingErrorScreen();
+
+    void displayTimeOverScreen();
+
+    void displayEmptyStatisticsScreen();
 };
 
 

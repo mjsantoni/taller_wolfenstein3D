@@ -52,6 +52,8 @@ public:
     void displayDefeatScreen();
 
     void setPlayerAttacking();
+
+    void displayTimeOverScreen();
 };
 
 

@@ -108,3 +108,7 @@ void GameScreen::setPlayerAttacking() {
     player_attacking = true;
     player_weapon_animation++;
 }
+
+void GameScreen::displayTimeOverScreen() {
+    menus_drawer.displayTimeOverScreen();
+}

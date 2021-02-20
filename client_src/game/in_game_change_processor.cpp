@@ -171,6 +171,10 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
             // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
             break;
         }
+        case (GAME_OVER): {
+            game_running = false;
+            screen.displayTimeOverScreen();
+        }
         /*
         case (TOTAL_PLAYERS_CONNECTED): {
             map.addPlayers(id, player.getId());
