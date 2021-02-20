@@ -38,31 +38,6 @@ Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
     return screen_area;
 }
 
-void WeaponDrawer::displayPlayerAttacking(int weapon_number) {
-    int object_type = weapon_number + EQ_WEAPON_DELTA;
-    ObjectInfo object_info = info_provider.getObjectInfo(object_type);
-    int sprite_animation_no =
-            ImageManager::getAttackingAnimationForWeapon(weapon_number);
-    object_info.setSpriteAnimationNo(sprite_animation_no);
-    Area screen_area = assembleScreenWeaponArea(object_info);
-    auto* texture = (SdlSprite*)
-            texture_manager.getTextureFromObjectType(object_type);
-    texture -> render(screen_area, sprite_animation_no);
-    //window.loadImage(texture, image_area, screen_area);
-    window.render();
-}
-
-void WeaponDrawer::displayPlayerStopShooting(int weapon_number) {
-    int object_type = weapon_number + EQ_WEAPON_DELTA;
-    ObjectInfo object_info = info_provider.getObjectInfo(object_type);
-    Area screen_area = assembleScreenWeaponArea(object_info);
-    auto* texture = (SdlSprite*)
-            texture_manager.getTextureFromObjectType(object_type);
-    texture -> render(screen_area, 0);
-    //window.loadImage(texture, image_area, screen_area);
-    window.render();
-}
-
 void WeaponDrawer::setDimensions(int _starting_point,
                                  int _width) {
     starting_point = _starting_point;
