@@ -131,7 +131,7 @@ void ConfigChecker::joinGame() {
         this->close();
         Client client(sk);
         //client.startGame();
-        // run del cliente normal TODO
+        //run del cliente normal TODO
     }
     else showError("Error en login");
 }
@@ -156,7 +156,6 @@ void ConfigChecker::connectEvents(){
     QWidget *creation_error_widget = findChild<QWidget*>("creationError");
     QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
     QPushButton* ok_button = findChild<QPushButton*>("okButton");
-    QPushButton* ok_creation_button = findChild<QPushButton*>("okCreationButton");
     QPushButton* create_button = findChild<QPushButton*>("createButton");
     QPushButton* join_button = findChild<QPushButton*>("joinButton");
     QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
@@ -168,7 +167,6 @@ void ConfigChecker::connectEvents(){
     connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
     connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
-    connect(ok_creation_button, SIGNAL(clicked()), creation_error_widget, SLOT(close()));
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
@@ -194,7 +192,7 @@ QStringList ConfigChecker::readAllMaps() {
 
 void ConfigChecker::showError(const char *string) {
     QWidget *widget = findChild<QWidget*>("errorWidget");
-    QLabel *label = findChild<QLabel*>("errorLAbel");
+    QLabel *label = findChild<QLabel*>("errorLabel");
     label->setText(QString(string));
     widget->setEnabled(true);
     widget->show();
