@@ -8,6 +8,7 @@ BlockingItemHandler::~BlockingItemHandler() {}
 int BlockingItemHandler::openDoor(Coordinate& coordinate, Player &player) {
     Positionable item = map.getBlockingItemAt(coordinate);
     if (item.getType() == "unlocked_door" || player.useKey()) {
+        std::cout << "LA LOGRE ABRIR\n";
         map.removeBlockingItemAt(coordinate);
         return item.getId();
     }

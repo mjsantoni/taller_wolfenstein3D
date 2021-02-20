@@ -92,16 +92,21 @@ std::pair<bool, int> Game::openDoor(int id) {
     /* No hay puertas cerca */
     if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
-    int player_keys_before = players[id].getKeys();
-    //int door_id = map.getBlockingItemAt(door_to_open).getId();
 
-    /* No tengo llave para abrir la puerta */
+    std::cout << "Hay una puerta valida\n";
+    int player_keys_before = players[id].getKeys();
+
+
+    /* Intento abrir la puerta */
     int door_id = blockingItemHandler.openDoor(door_to_open, players[id]);
     if (door_id == -1) return std::make_pair(false, -1);
 
+    std::cout << "Ahora veo si perdi llave o no\n";
     /* Exito al abrir la puerta (estaba abierta o gaste llave) */
     doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
     bool player_use_key = (player_keys_before != players[id].getKeys());
+    if (player_use_key) std::cout << "PERSDI UNA LLAVE\n";
+    else std::cout << "NADA SE GASTO\n";
     return std::make_pair(player_use_key,door_id);
 }
 
