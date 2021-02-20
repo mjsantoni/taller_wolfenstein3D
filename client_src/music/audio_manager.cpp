@@ -71,7 +71,7 @@ void AudioManager::displayDogGettingHit(double volume_ratio) {
 }
 
 void AudioManager::displayHumanGettingHit(double volume_ratio) {
-    audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
+    audio_player.playSound(getFilePath("enemy_hurt.mp3"), volume_ratio);
 }
 
 void AudioManager::displayDyingDog(double volume_ratio) {
