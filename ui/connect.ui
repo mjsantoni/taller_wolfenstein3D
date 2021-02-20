@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>950</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>950</width>
     <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
+    <width>950</width>
     <height>600</height>
    </size>
   </property>
@@ -75,7 +75,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>280</x>
       <y>500</y>
       <width>341</width>
       <height>80</height>
@@ -114,7 +114,7 @@
    <widget class="QWidget" name="configWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>200</x>
       <y>250</y>
       <width>461</width>
       <height>271</height>
@@ -193,7 +193,7 @@
    <widget class="QWidget" name="connectionWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>350</x>
       <y>250</y>
       <width>261</width>
       <height>211</height>
@@ -232,7 +232,7 @@
    <widget class="QWidget" name="parametersWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>280</x>
       <y>250</y>
       <width>300</width>
       <height>181</height>
@@ -331,7 +331,7 @@
    <widget class="QWidget" name="joinWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>330</x>
       <y>250</y>
       <width>300</width>
       <height>151</height>

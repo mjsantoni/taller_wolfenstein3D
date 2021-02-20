@@ -14,7 +14,7 @@ ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) 
     Ui::ConfigChecker checker;
     checker.setupUi(this);
     this->setWindowIcon(QIcon("../client_src/resources/menus/windowIcon.png"));
-    QPixmap bkgnd("../client_src/resources/menus/intro.jpg");
+    QPixmap bkgnd("../client_src/resources/menus/intro2.jpg");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);
