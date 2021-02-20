@@ -8,7 +8,7 @@
 #include <client/game/client_game.h>
 #include <client/communication/server_updater.h>
 
-#define TICK_DURATION 0.03
+#define TICK_DURATION 0.05
 
 
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
@@ -20,7 +20,7 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
         event_handler(change_queue),
         event_generator(player, event_handler, event_queue, player_alive),
         change_processor(screen, map, player, change_queue, audio_manager,
-                         statistics_manager, player_alive, game_running),
+            statistics_manager, player_alive, game_running),
         off_game_handler(screen, player, map, change_queue, event_queue) {
     //
 }

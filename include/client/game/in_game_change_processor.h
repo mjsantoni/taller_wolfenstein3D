@@ -25,6 +25,7 @@ private:
     SharedQueue<Change>& change_queue;
     bool render_background_and_objects = true;
     bool skip_rendering = false;
+    int mandatory_rendering_turns;
     bool game_over;
     bool& player_alive;
     bool& game_running;
