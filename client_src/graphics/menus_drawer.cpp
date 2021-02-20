@@ -163,7 +163,10 @@ void MenusDrawer::displayRespawningScreen() {
     screen_area = Area(window_width/4, window_height/4, window_width/2,
                       window_height/4);
     Area msg_area;
-    renderMessage(message_text, msg_area, screen_area);
+    SDL_Color color_black{0, 0, 0};
+    MessageParameters message_parameters(color_black, message_text,
+                                         "Action_Force.ttf", 50);
+    renderMessage(message_text, msg_area, screen_area, message_parameters);
     window.render();
 }
 
@@ -174,7 +177,24 @@ void MenusDrawer::displayDeadScreen() {
     screen_area = Area(window_width/8, window_height/4, 3*window_width/4,
                        window_height/4);
     Area msg_area;
-    renderMessage(message_text, msg_area, screen_area);
+    MessageParameters message_parameters(message_text,
+                                         "Action_Force.ttf", 50);
+    renderMessage(message_text, msg_area, screen_area, message_parameters);
+    window.render();
+}
+
+void MenusDrawer::displayNetworkConnectingErrorScreen() {
+    Area screen_area(0, 0, window_width, window_height);
+    window.drawRectangle(screen_area, 0, 0, 0, 0);
+    std::string message_text = "AN ERROR OCURRED WHILE CONNECTING TO THE SERVER"
+                               ": CONNECTION INTERRUPTED";
+    screen_area = Area(window_width/6, window_height/2, 4*window_width/6,
+                       window_height/6);
+    Area msg_area;
+    SDL_Color gray_color{224, 224, 224};
+    MessageParameters message_parameters(gray_color, message_text,
+                                         "accid__.ttf", 40);
+    renderMessage(message_text, msg_area, screen_area, message_parameters);
     window.render();
 }
 

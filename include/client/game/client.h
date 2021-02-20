@@ -23,7 +23,7 @@ private:
 
 public:
     explicit Client(NetworkConnection &skt);
-    void startGame();
+    void startGame(const std::string& map_name);
     void stop();
     bool isRunning();
 };

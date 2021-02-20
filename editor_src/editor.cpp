@@ -262,7 +262,7 @@ YAML::Emitter& operator << (YAML::Emitter& out, const std::vector<std::pair<int,
 }
 
 void Editor::exportMap() {
-    /* Height and width input */
+    /* Height and weapon_width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
     QString qHeight= QString("%1").arg(inputHeight->text());
@@ -327,7 +327,7 @@ void Editor::exportMap() {
 
     out << YAML::Key << "dimensions";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "width" << YAML::Value << width;
+    out << YAML::Key << "weapon_width" << YAML::Value << width;
     out << YAML::Key << "height" << YAML::Value << height;
     out << YAML::EndMap;
 
@@ -395,7 +395,7 @@ void Editor::exportMap() {
 }
 
 void Editor::refreshMapGrid(){
-    /* Height and width input */
+    /* Height and weapon_width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
     QString height= QString("%1").arg(inputHeight->text());
@@ -423,7 +423,7 @@ void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int 
         for (int j = 0; j < cols; ++j) {
             if (i < gridRows && j < gridCols) continue;
             QGridButton* buttonGrid = new QGridButton();
-            buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
+            buttonGrid->setStyleSheet("QGridButton::menu-indicator{weapon_width:0px;}");
             buttonGrid->setMaximumSize(70, 70);
             buttonGrid->setMinimumSize(50,50);
             buttonGrid->setIcon(buttonIcon);

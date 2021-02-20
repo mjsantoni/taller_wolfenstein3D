@@ -4,6 +4,8 @@
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 25
 #define MAX_WEAPON_ANIMATION 3
+#define ENEMY_DEATH_ANIMATION 1
+#define ENEMY_ATTACKING_ANIMATION 1
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -243,6 +245,7 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
         return;
     }
     map.setEnemyAttacking(enemy_id);
+    updateMandatoryRenderingTurns(ENEMY_ATTACKING_ANIMATION+1);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
     if (enemy_type == ENEMY_DOG)
         audio_manager.displayDogAttackingSound(distance_ratio);
@@ -266,7 +269,7 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
             audio_manager.displayKnifeStabbingSound();
             //screen.displayPlayerAttacking();
             screen.setPlayerAttacking();
-            mandatory_rendering_turns = MAX_WEAPON_ANIMATION+1;
+            updateMandatoryRenderingTurns(MAX_WEAPON_ANIMATION+1);
         }
     }
     player.updateAmmo(delta);
@@ -298,6 +301,7 @@ void InGameChangeProcessor::processPlayerHealthChange(int delta) {
 void InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
     std::cout << "AUDIO PERRO\n";
     map.respawnPlayer(enemy_id);
+    updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION+1);
     int enemy_type = map.getEnemyTypeFromId(enemy_id);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
     std::cout << "PASO\n";
@@ -320,6 +324,8 @@ void InGameChangeProcessor::processEnemyDying(int enemy_id) {
         screen.displayVictoryScreen();
         game_over = true;
     }
+    else
+        updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION+1);
 }
 
 void InGameChangeProcessor::processObjectRemoval(int object_id, int player_id) {
@@ -335,4 +341,9 @@ void InGameChangeProcessor::processObjectRemoval(int object_id, int player_id) {
         audio_manager.playDoorOpeningSound();
     else
         audio_manager.displayFakeWallDisappearingSound();
+}
+
+void InGameChangeProcessor::updateMandatoryRenderingTurns(int new_value) {
+    mandatory_rendering_turns = (new_value > mandatory_rendering_turns) ?
+            new_value : mandatory_rendering_turns;
 }

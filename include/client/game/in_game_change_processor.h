@@ -51,6 +51,8 @@ public:
     void processInGameChange(Change& change);
     void stop();
     void processInGameChanges();
+
+    void updateMandatoryRenderingTurns(int new_value);
 };
 
 

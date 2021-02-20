@@ -9,13 +9,13 @@ Client::Client(NetworkConnection& skt) : running(true),
                                          server_listener(skt, change_queue){
 }
 
-void Client::startGame() {
+void Client::startGame(const std::string& map_name) {
     try {
         ClientGame game(change_queue, event_queue);
         server_updater.start();
         server_listener.start();
         try {
-            game.startGame();
+            game.startGame(map_name);
         }
         catch(ConnectionException& e) {
             game.displayConnectionErrorScreen(std::string(e.what()));

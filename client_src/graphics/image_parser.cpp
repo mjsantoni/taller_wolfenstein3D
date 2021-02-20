@@ -38,8 +38,26 @@ void split(const std::string& str, Container& cont) {
 
 std::string getCorrectValue(std::string complete_value) {
     std::string aux = complete_value.substr(complete_value.find(':')+1);
-    if (aux[aux.length()-1] == ',')
-        return aux.substr(0, aux.length()-1);
+    if (aux[aux.length()-1] == ','){
+        std::string value = aux.substr(0, aux.length()-1);
+        return value;
+    }
+    return aux.substr(0, aux.length());
+}
+
+std::string parseFormat(std::string value) {
+    if (value.find('.') == std::string::npos)
+        return value;
+    int dec_point_pos = value.find('.');
+    value = value.replace(dec_point_pos, 1, ",");
+    return value;
+}
+
+std::string getCorrectDoubleValue(std::string complete_value) {
+    std::string aux = complete_value.substr(complete_value.find(':')+1);
+    if (aux[aux.length()-1] == ','){
+        return parseFormat(aux.substr(0, aux.length()-1));
+    }
     return aux.substr(0, aux.length());
 }
 
@@ -81,10 +99,10 @@ void ImageParser::processLine(std::vector<ObjectInfo>& vector,
     object_info.setIsSprite(stoi(getCorrectValue(aux[6])));
     if (object_info.isSprite())
         getSpriteInfo(object_info, aux[7], aux[8]);
-    object_info.setObjectWidth(stof(getCorrectValue(aux[1])));
-    object_info.setObjectHeight(stof(getCorrectValue(aux[2])));
+    object_info.setObjectWidth(stod(getCorrectDoubleValue(aux[1])));
+    object_info.setObjectHeight(stod(getCorrectDoubleValue(aux[2])));
     object_info.setObjectType(object_type);
-    vector.push_back(std::move(object_info));
+    vector.push_back(object_info);
 }
 
 

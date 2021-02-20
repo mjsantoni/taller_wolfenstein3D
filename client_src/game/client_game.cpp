@@ -25,9 +25,9 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
     //
 }
 
-void ClientGame::startGame() {
+void ClientGame::startGame(const std::string& map_name) {
     initializePlayer();
-    off_game_handler.displayMenus();
+    off_game_handler.displayMenus(map_name);
     screen.render(true);
     std::cout << "Se inicia la partida" << std::endl;
     processGame();
@@ -44,6 +44,7 @@ void ClientGame::initializePlayer() {
 
 void ClientGame::displayConnectionErrorScreen(std::string message) {
     screen.displayNetworkConnectionErrorScreen(std::move(message));
+    game_running = false;
 }
 
 void ClientGame::processGame() {

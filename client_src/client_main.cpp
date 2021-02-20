@@ -4,8 +4,13 @@
 
 #include <client/game/client.h>
 
+NetworkConnection connectToServer() {
+    return NetworkConnection("localhost", "8080");
+}
+/*
 int main() {
-    NetworkConnection socket("localhost", "8080");
+    NetworkConnection socket = connectToServer();
     Client client(socket);
     client.startGame();
 }
+*/

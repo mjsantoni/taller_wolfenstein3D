@@ -28,11 +28,11 @@ void WeaponDrawer::drawPlayersWeapon(int weapon_number, int sprite_no) {
 }
 
 Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {
-    int weapon_window_width = (int) (object_info.getObjectWidth() * width);
+    int weapon_window_width = (int) (object_info.getObjectWidth() * weapon_width);
     int weapon_window_height = (int) (object_info.getObjectHeight()
                                       * window_height);
     int starting_y_pos = starting_point - weapon_window_height;
-    int starting_x_pos = (width - weapon_window_width) / 2;
+    int starting_x_pos = (weapon_width - weapon_window_width) / 2;
     Area screen_area(starting_x_pos, starting_y_pos, weapon_window_width,
                      weapon_window_height);
     return screen_area;
@@ -42,6 +42,6 @@ void WeaponDrawer::setDimensions(int _starting_point,
                                  int _width) {
     starting_point = _starting_point;
     window_height = (int) (_starting_point / 0.8);
-    width = _width;
+    weapon_width = _width;
 }
 

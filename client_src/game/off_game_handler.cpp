@@ -18,16 +18,16 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
                            event_generator(event_queue, player) {
 }
 
-void OffGameHandler::displayMenus() {
-    event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
+void OffGameHandler::displayMenus(const std::string &map_name) {
+    //event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
     audio_manager.playSong();
-    displayIntro();
-    std::cout << "Se inicia el juego" << std::endl;
-    int game_mode = displayMatchModeMenu();
-    if (game_mode != 1)
-        return;
-    displayLevelSelectionMenu();
-    initializeMap();
+    //displayIntro();
+    //std::cout << "Se inicia el juego" << std::endl;
+    //int game_mode = displayMatchModeMenu();
+    //if (game_mode != 1)
+        //return;
+    //displayLevelSelectionMenu();
+    initializeMap(map_name);
     displayLoadingScreen();
     //sleep(1);
     audio_manager.stopSong();
@@ -66,7 +66,6 @@ void OffGameHandler::displayLevelSelectionMenu() {
         SDL_WaitEvent(&event);
         int chosen_map = event_handler.handleLevelSelectionEvent(event);
         if (chosen_map != 0) {
-            setMapPath(chosen_map);
             break;
         }
     }
@@ -94,14 +93,9 @@ void OffGameHandler::displayLoadingScreen() {
     std::cout << "TERMINA LA INTRO\n";
 }
 
-void OffGameHandler::setMapPath(int chosen_map) {
-    map_path =  "../map.yaml";
-}
-
-void OffGameHandler::initializeMap() {
+void OffGameHandler::initializeMap(const std::string &map_name) {
+    std::string map_path = "../ClientQT/maps/" + map_name;
     MapParser map_parser(map_path);
     ClientMapGenerator::create(map, map_parser);
-    //player.setMapPosition(std::pair<int, int>{128, 128});
-    //map.putPlayerAt(std::pair<int, int>(128, 128));
 }
 

@@ -97,7 +97,7 @@ void GameScreen::displayVictoryScreen() {
 }
 
 void GameScreen::displayNetworkConnectionErrorScreen(std::string message) {
-
+    menus_drawer.displayNetworkConnectingErrorScreen();
 }
 
 void GameScreen::displayDefeatScreen() {

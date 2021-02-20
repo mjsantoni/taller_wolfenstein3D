@@ -48,7 +48,7 @@ private:
 public:
     ClientGame(SharedQueue<Change>& change_queue,
                BlockingQueue<Event>& event_queue);
-    void startGame();
+    void startGame(const std::string& map_name);
     void killPlayer();
     void respawnPlayer();
     bool isRunning();

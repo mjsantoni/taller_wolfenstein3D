@@ -1,3 +1,5 @@
+#include <QtWidgets/QCommandLinkButton>
+#include <client/game/client.h>
 #include "clientQT/config_checker.h"
 #include "ui_connect.h"
 
@@ -39,7 +41,8 @@ void ConfigChecker::lookForServer() {
 
 void ConfigChecker::hideWidget(const char *widgetName) {
     QWidget *widget = findChild<QWidget*>(widgetName);
-    widget->hide();
+    if (widget)
+        widget->hide();
 }
 
 void ConfigChecker::showWidget(const char *widgetName) {
@@ -62,8 +65,10 @@ void ConfigChecker::createNewGame() {
     sk.recv_msg(answer);
     qDebug(answer.c_str());
     if (answer == "2") {
-        //run client normal TODO
         this->close();
+        Client client(sk);
+        client.startGame(data);
+        //run client normal TODO
     } else {
         showError("Error creating the game");
     }
@@ -123,8 +128,10 @@ void ConfigChecker::joinGame() {
     std::string answer;
     sk.recv_msg(answer);
     if (answer == SUCCESS){
-        // run del cliente normal TODO
         this->close();
+        Client client(sk);
+        //client.startGame();
+        // run del cliente normal TODO
     }
     else showError("Error en login");
 }

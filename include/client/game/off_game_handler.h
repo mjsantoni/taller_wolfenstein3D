@@ -23,20 +23,18 @@ private:
     OffGameEventHandler event_handler;
     bool player_ready = false;
     bool game_started = false;
-    std::string map_path;
     OffGameEventGenerator event_generator;
 public:
     OffGameHandler(GameScreen &_screen, ClientPlayer& player, ClientMap& _map,
                    SharedQueue<Change>& change_queue,
                    BlockingQueue<Event>& event_queue);
-    void setMapPath(int chosen_map);
     void displayLoadingScreen();
     void displayLevelSelectionMenu();
     int displayMatchModeMenu();
     void displayIntro();
-    void displayMenus();
+    void displayMenus(const std::string &map_name);
 
-    void initializeMap();
+    void initializeMap(const std::string &map_name);
 };
 
 

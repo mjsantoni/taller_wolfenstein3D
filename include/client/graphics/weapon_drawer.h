@@ -19,7 +19,7 @@ private:
     SdlWindow& window;
     ObjectInfoProvider& info_provider;
     TextureManager& texture_manager;
-    int width;
+    int weapon_width;
     int window_width;
     int window_height;
     int starting_point;

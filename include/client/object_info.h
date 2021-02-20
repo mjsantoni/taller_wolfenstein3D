@@ -43,7 +43,7 @@ public:
     bool isSprite() const;
     void setIsSprite(bool isSprite);
     double getObjectWidth() const;
-    void setObjectWidth(double mapWidth);
+    void setObjectWidth(double object_width);
     double getObjectHeight() const;
     void setObjectHeight(double _object_width);
     int getObjectSide() const;
