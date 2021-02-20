@@ -31,10 +31,6 @@
   <property name="windowTitle">
    <string>ConfigChecker</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>../../../Downloads/kisspng-wolfenstein-the-new-order-wolfenstein-ii-the-new-spear-5ad1eba7ef3bc1.5372481415237067919799.png</normaloff>../../../Downloads/kisspng-wolfenstein-the-new-order-wolfenstein-ii-the-new-spear-5ad1eba7ef3bc1.5372481415237067919799.png</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QCommandLinkButton" name="connectButton">
     <property name="enabled">
