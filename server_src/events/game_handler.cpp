@@ -27,6 +27,7 @@ void GameHandler::run() {
     waitInLobby();
     addBots();
     std::cout << "[Game Handler " << id << "] Game startGame.\n";
+    game.show();
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
     while (game.isNotOver() && alive) {

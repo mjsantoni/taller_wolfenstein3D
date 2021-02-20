@@ -1,10 +1,11 @@
 QLabel {
-    color: red;
+    color: gainsboro;
     font-size: 30px;
 }
 
 QLineEdit {
-    background-color: #C91F16;
+    background-color: #742100;
+    color: gainsboro;
     font-size: 25px;
     height: auto;
 }
