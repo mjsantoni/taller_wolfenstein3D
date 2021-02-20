@@ -13,6 +13,12 @@
 ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
     Ui::ConfigChecker checker;
     checker.setupUi(this);
+    QPixmap bkgnd("../client_src/resources/menus/intro.jpg");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
+
     hideWidget("connectionWidget");
     hideWidget("errorWidget");
     hideWidget("creationError");
@@ -54,7 +60,7 @@ void ConfigChecker::showWidget(const char *widgetName) {
 void ConfigChecker::createNewGame() {
     "Ingrese jugadores/bots/tiempo/id_mapa: ";
     std::string data;
-    sk.send_msg("0");
+    sk.send_msg(CREATE_GAME);
     data = getSpinContent("minPlayersSpin") + "/" + getSpinContent("maxPlayersSpin") + "/" + getSpinContent("botsSpin") + "/" + getSpinContent("timeSpin");
     //qDebug(data.c_str());
     sk.send_msg(data);
@@ -64,7 +70,7 @@ void ConfigChecker::createNewGame() {
     std::string answer;
     sk.recv_msg(answer);
     qDebug(answer.c_str());
-    if (answer == "2") {
+    if (answer == SUCCESS) {
         this->close();
         Client client(sk);
         client.startGame(data);
@@ -153,7 +159,6 @@ std::string ConfigChecker::getComboContent(const char *combo_name) {
 
 void ConfigChecker::connectEvents(){
     QWidget *error_widget = findChild<QWidget*>("errorWidget");
-    QWidget *creation_error_widget = findChild<QWidget*>("creationError");
     QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
     QPushButton* ok_button = findChild<QPushButton*>("okButton");
     QPushButton* create_button = findChild<QPushButton*>("createButton");
