@@ -1,7 +1,15 @@
 #ifndef TP_WOLFENSTEIN_MOVEMENT_CALCULATOR_H
 #define TP_WOLFENSTEIN_MOVEMENT_CALCULATOR_H
+
+#ifdef __cplusplus
+#include <lua5.3/lua.hpp>
+#else
+#include <lua5.3/lua.h>
+  #include <lua5.3/lualib.h>
+  #include <lua5.3/lauxlib.h>
+#endif
+
 #include "common/coordinate.h"
-#include "lua_bot.h"
 #include <vector>
 
 class MovementCalculator {
