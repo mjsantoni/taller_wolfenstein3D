@@ -72,9 +72,11 @@ GameScreen::render(bool render_background_and_objects) {
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
-    if (player_attacking)
+    if (player_attacking) {
         player_weapon_animation++;
-    if (player_weapon_animation == MAX_WEAPON_ANIMATION + 1) {
+        //player_weapon_animation %= (MAX_WEAPON_ANIMATION+1); // SOLO PARA ASEGURARME DE QUE NO SE PASE (NO DEBERIA)
+    }
+    if (player_weapon_animation > MAX_WEAPON_ANIMATION) {
         player_attacking = false;
         player_weapon_animation = 0;
     }
