@@ -270,7 +270,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="minPlayersSpin"/>
+       <widget class="QSpinBox" name="minPlayersSpin">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
