@@ -89,11 +89,13 @@ void ConfigChecker::showParameters() {
     QComboBox *join_combo = findChild<QComboBox*>("mapCombo");
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
+    QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
     join_combo->addItems(readAllMaps());
     try {
         MapParser parser(MAPS_PATH + join_combo->currentText().toStdString());
         int max_players_size = parser.getSpecificCategory("players").size();
         max_players_spin->setMinimum(1);
+        bots_spin->setMaximum(max_players_size-1);
         min_players_spin->setMaximum(max_players_size);
         max_players_spin->setMaximum(max_players_size);
     } catch (YAML::ParserException) {
@@ -169,6 +171,7 @@ void ConfigChecker::connectEvents(){
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
+    QComboBox *map_box = findChild<QComboBox*>("mapCombo");
 
     connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
@@ -176,7 +179,11 @@ void ConfigChecker::connectEvents(){
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
-    //connect(bots_spin, &QSpinBox::valueChanged, min_players_spin, std::bind(&QSpinBox::setValue, this, max_players_spin->value()-bots_spin->value()));
+
+    connect(min_players_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateBotsSpin);
+    connect(max_players_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateMaximums);
+    connect(map_box, &QComboBox::currentTextChanged, this, &ConfigChecker::updateMaxPlayerMap);
+    connect(bots_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateMinSpin);
 }
 
 void ConfigChecker::showLobby() {
@@ -202,4 +209,50 @@ void ConfigChecker::showError(const char *string) {
     label->setText(QString(string));
     widget->setEnabled(true);
     widget->show();
+}
+
+void ConfigChecker::updateBotsSpin() {
+    updateSpin("botsSpin", "minPlayersSpin");
+}
+
+void ConfigChecker::updateMaxPlayerMap() {
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
+    QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
+    QComboBox *map_box = findChild<QComboBox*>("mapCombo");
+    MapParser parser(MAPS_PATH + map_box->currentText().toStdString());
+    int max_players_size = parser.getSpecificCategory("players").size();
+    max_players_spin->setMaximum(max_players_size);
+
+    int value_max = max_players_spin->value();
+    min_players_spin->setMaximum(value_max);
+    if (value_max - 1 < 0)
+        value_max = 1;
+    bots_spin->setMaximum(value_max - 1);
+}
+
+void ConfigChecker::updateMinSpin() {
+    updateSpin( "minPlayersSpin", "botsSpin");
+}
+
+void ConfigChecker::updateSpin(const char *to_update, const char *updater) {
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    qDebug(to_update);
+    qDebug(updater);
+    QSpinBox *update = findChild<QSpinBox*>(to_update);
+    QSpinBox *updateree = findChild<QSpinBox*>(updater);
+
+    if (update->value() + updateree->value() > max_players_spin->value())
+        update->setValue(max_players_spin->value() - updateree->value());
+}
+
+void ConfigChecker::updateMaximums() {
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
+    QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
+    int value_max = max_players_spin->value();
+
+    bots_spin->setMaximum(value_max - 1);
+    min_players_spin->setMaximum(value_max);
+
 }

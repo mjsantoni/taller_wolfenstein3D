@@ -41,7 +41,14 @@ public:
 
     QStringList readAllMaps();
 
+    void updateMinSpin();
+
     void showError(const char *string);
+public slots:
+    void updateBotsSpin();
+    void updateMaxPlayerMap();
+    void updateMaximums();
+    void updateSpin(const char *to_update, const char *updater);
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H
