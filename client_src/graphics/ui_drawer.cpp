@@ -21,7 +21,7 @@ void UIDrawer::setDimensions(int _starting_point,
 }
 
 void UIDrawer::drawPlayerUI(ClientPlayer& player) {
-    //drawPlayersEquippedWeapon(player.getEquippedWeapon());
+    //drawPlayersWeapon(player.getEquippedWeapon());
     TTF_Init();
     Area ui_rect_area(0, starting_point, width, ui_height);
     fillArea(ui_rect_area, 3, 69, 64, 0);

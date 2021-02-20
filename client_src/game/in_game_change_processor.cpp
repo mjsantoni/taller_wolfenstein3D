@@ -30,7 +30,7 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
 /* Ejecuta los cambios */
 void InGameChangeProcessor::processInGameChange(Change &change) {
     if (change.isInvalid()) {
-        skip_rendering = true;
+        //skip_rendering = true;
         return;
     }
     int change_id = change.change_id;
@@ -250,17 +250,18 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
 void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
     if (delta < 0) {
         audio_manager.displayPlayerShootingSound();
-        screen.displayPlayerAttacking();
+        screen.setPlayerAttacking();
         render_background_and_objects = false;
     }
     else if (delta == 0) {
         if (player.getEquippedWeapon() != 1) {
             audio_manager.displayEmptyGunSound();
-            skip_rendering = true;
+            //skip_rendering = true;
         }
         else {
             audio_manager.displayKnifeStabbingSound();
-            screen.displayPlayerAttacking();
+            //screen.displayPlayerAttacking();
+            screen.setPlayerAttacking();
         }
     }
     player.updateAmmo(delta);

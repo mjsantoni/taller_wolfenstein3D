@@ -15,16 +15,17 @@ WeaponDrawer::WeaponDrawer(SdlWindow& _window,
 
 }
 
-void WeaponDrawer::drawPlayersEquippedWeapon(int weapon_number) {
+void WeaponDrawer::drawPlayersWeapon(int weapon_number, int sprite_no) {
     int object_type = weapon_number + EQ_WEAPON_DELTA;
     ObjectInfo object_info = info_provider.getObjectInfo(weapon_number
                                                          + EQ_WEAPON_DELTA);
-    SdlTexture* texture =
+    auto* texture = (SdlSprite*)
             texture_manager.getTextureFromObjectType(object_type);
-    Area image_area = texture_manager.getAreaForWeapon(object_type, 0);
+    Area image_area = texture_manager.getAreaForWeapon(object_type, sprite_no);
     Area screen_area = assembleScreenWeaponArea(object_info);
     //window.loadImage(texture, image_area, screen_area);
-    texture -> render(image_area, screen_area);
+    texture -> render(screen_area, sprite_no);
+    std::cout << "weapon sprite no: " << sprite_no << std::endl;
 }
 
 Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {

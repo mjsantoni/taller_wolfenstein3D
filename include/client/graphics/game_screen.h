@@ -31,6 +31,8 @@ private:
     std::map<double, double> wall_distance_info;
     std::vector<double> angles_list;
     bool& player_alive;
+    int player_weapon_animation = 0;
+    bool player_attacking = false;
 public:
     GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player,
                bool& _player_alive);
@@ -48,6 +50,8 @@ public:
     void displayVictoryScreen();
     void displayNetworkConnectionErrorScreen(std::string message);
     void displayDefeatScreen();
+
+    void setPlayerAttacking();
 };
 
 

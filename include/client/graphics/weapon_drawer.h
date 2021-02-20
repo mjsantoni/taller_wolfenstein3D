@@ -26,7 +26,7 @@ private:
 public:
     WeaponDrawer(SdlWindow &_window, ObjectInfoProvider &_info_provider,
                  TextureManager& _texture_manager);
-    void drawPlayersEquippedWeapon(int weapon_number);
+    void drawPlayersWeapon(int weapon_number, int sprite_no);
     Area assembleScreenWeaponArea(ObjectInfo& object_info);
     void displayPlayerAttacking(int weapon_number);
     void displayPlayerStopShooting(int weapon_number);

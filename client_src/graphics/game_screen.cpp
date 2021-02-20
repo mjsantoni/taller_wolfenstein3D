@@ -4,6 +4,8 @@
 
 #include "client/graphics/game_screen.h"
 
+#define MAX_WEAPON_ANIMATION 3
+
 GameScreen::GameScreen(int width,
                        int height,
                        ClientMap& _map,
@@ -61,7 +63,8 @@ GameScreen::render(bool render_background_and_objects) {
         object_drawer.loadObjects(x, y, player.getDirection());
     }
     if (player_alive) {
-        weapon_drawer.drawPlayersEquippedWeapon(player.getEquippedWeapon());
+        weapon_drawer.drawPlayersWeapon(player.getEquippedWeapon(),
+                                        player_weapon_animation);
         ui_drawer.drawPlayerUI(player);
     } else {
         ui_drawer.renderDeadMode();
@@ -69,24 +72,12 @@ GameScreen::render(bool render_background_and_objects) {
     window.render();
     wall_distance_info.clear();
     angles_list.clear();
-}
-
-void GameScreen::displayPlayerAttacking() {
-    int x = player.getXPosition();
-    int y = player.getYPosition();
-    ray_caster.renderBackground(x, y, player.getDirection());
-    object_drawer.loadObjects(x, y, player.getDirection());
-    weapon_drawer.displayPlayerAttacking(player.getEquippedWeapon());
-    ui_drawer.drawPlayerUI(player);
-    usleep(7500);
-    ray_caster.renderBackground(x, y, player.getDirection());
-    object_drawer.loadObjects(x, y, player.getDirection());
-    ui_drawer.drawPlayerUI(player);
-    usleep(7500);
-    weapon_drawer.displayPlayerStopShooting(player.getEquippedWeapon());
-    window.render();
-    wall_distance_info.clear();
-    angles_list.clear();
+    if (player_attacking)
+        player_weapon_animation++;
+    if (player_weapon_animation > MAX_WEAPON_ANIMATION) {
+        player_attacking = false;
+        player_weapon_animation = 0;
+    }
 }
 
 void GameScreen::displayLoadingScreen(bool waiting_for_input) {
@@ -113,3 +104,7 @@ void GameScreen::displayDefeatScreen() {
     menus_drawer.displayDefeatScreen();
 }
 
+void GameScreen::setPlayerAttacking() {
+    player_attacking = true;
+    player_weapon_animation++;
+}
