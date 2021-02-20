@@ -316,6 +316,48 @@
      <string>Join</string>
     </property>
    </widget>
+   <widget class="QWidget" name="creationError" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>370</y>
+      <width>191</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="okCreationButton">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>40</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ok</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="creationErrorLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>181</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Error creating the game</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>connectButton</zorder>
    <zorder>errorWidget</zorder>
    <zorder>configWidget</zorder>
@@ -324,6 +366,7 @@
    <zorder>createConfirmButton</zorder>
    <zorder>joinConfirmButton</zorder>
    <zorder>joinWidget</zorder>
+   <zorder>creationError</zorder>
   </widget>
  </widget>
  <resources/>

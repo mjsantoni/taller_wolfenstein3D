@@ -22,7 +22,6 @@ public:
     void lookForServer();
     void createNewGame();
     void joinGame();
-    void showConnectionError();
 
     void showLobby();
 

@@ -9,7 +9,7 @@
 #define ARG_PORT 1
 #define ARG_AMOUNT 2
 
-
+/*
 int main(int argc, char* args[]) {
 
     int min_players_in_lobby = std::stoi(args[1]);
@@ -36,8 +36,7 @@ int main(int argc, char* args[]) {
     gameHandler.join();
     return 0;
 }
-
-/*
+*/
 int main(int argc, char* argv[]) {
     if (argc != ARG_AMOUNT) {
         std::cerr << "[Server] Incorrect parameter amount." << std::endl;
@@ -64,4 +63,3 @@ int main(int argc, char* argv[]) {
     }
     return 0;
 }
-*/

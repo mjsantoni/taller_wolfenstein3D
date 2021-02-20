@@ -13,8 +13,8 @@ Server::Server(NetworkAcceptor socket) :
 #define ERROR "3"
 
 void Server::run() {
-    //std::string name = "map.yaml";
-    //createGame(name, 1, 5, 0,10);
+    std::string name = "map.yaml";
+    createGame(name, 1, 5, 0,10);
     //createGame(name, 1, 5, 0,10);
     //createGame(name, 1, 5, 0,10);
     //createGame(name, 1, 5, 0,10);
@@ -140,6 +140,7 @@ std::vector<int> Server::split(const std::string& bytes) {
 void Server::sendGames(NetworkConnection& socket) {
     for (auto& game : matches) {
         std::string name();
+        std::cout << game->getInformation();
         socket.send_msg(game->getInformation());
     }
     socket.send_msg(SUCCESS);
