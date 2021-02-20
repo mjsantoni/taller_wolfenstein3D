@@ -19,7 +19,7 @@ void ClientMapGenerator::addWallsToMap(ClientMap& map, MapParser& map_parser) {
         for (auto& coord : wall.second) {
             int x_pos = coord.x;
             int y_pos = coord.y;
-            map.putDrawableAt(std::pair<int, int>{x_pos, y_pos}, object_type);
+            map.putWallAt(std::pair<int, int>{x_pos, y_pos}, object_type);
         }
     }
 }

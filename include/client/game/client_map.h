@@ -16,11 +16,13 @@
 #include "image_manager.h"
 #include "client/calculator.h"
 #include "effects_handler.h"
+#include "client_map_board.h"
 
 #define GRID_SIZE 64
 
 class ClientMap {
 private:
+    ClientMapBoard board;
     std::map<std::pair<int, int>, Drawable> drawables_by_position;
     //std::map<std::pair<int, int>, Drawable> objects_by_position;
     //std::map<std::string, std::pair<int, int>> enemies_by_position;
@@ -60,11 +62,11 @@ public:
     Drawable& getDrawableAt(std::pair<int, int> coordinates);
     bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
     bool wallAtPerimeter(int x_pos, int y_pos, int x_factor, int y_factor);
-    void getMapInfoForObject(ObjectInfo& object_info, int x_pos, int y_pos,
-                             int x_factor, int y_factor);
+    void getMapInfoForWall(ObjectInfo& object_info, int x_pos, int y_pos,
+                           int x_factor, int y_factor);
     void putPlayerAt(std::pair<int, int> coord);
     void addWalls(std::vector<std::pair<int,int>> walls,std::vector<int> types);
-    void putDrawableAt(std::pair<int, int> coordinates, int object_type);
+    void putWallAt(std::pair<int, int> coordinates, int object_type);
     void putDrawableAt(int x_pos, int y_pos, int object_type);
     void setObjectId(std::pair<int, int> coordinates, int object_id);
     std::vector<Drawable> getAllDrawables();

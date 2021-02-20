@@ -196,8 +196,8 @@ void RayCaster::fillRayInfo(double beta,
                                 && object_info.getHitDistance() != 0)
         return;
     object_info.setHitDistance(final_distance);
-    map.getMapInfoForObject(object_info, x_pos + delta_x, y_pos + delta_y,
-                            x_factor, y_factor);
+    map.getMapInfoForWall(object_info, x_pos + delta_x, y_pos + delta_y,
+                          x_factor, y_factor);
     double hit_grid_pos = ((x_pos+delta_x)%GRID_SIZE == 0) ?
            double ((y_pos+delta_y)%GRID_SIZE)/GRID_SIZE :
            double ((x_pos+delta_x)%GRID_SIZE)/GRID_SIZE;
