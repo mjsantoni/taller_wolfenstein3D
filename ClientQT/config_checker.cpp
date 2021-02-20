@@ -13,6 +13,7 @@ ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) 
     checker.setupUi(this);
     hideWidget("connectionWidget");
     hideWidget("errorWidget");
+    hideWidget("creationError");
     hideWidget("parametersWidget");
     hideWidget("createConfirmButton");
     hideWidget("joinConfirmButton");
@@ -30,7 +31,7 @@ void ConfigChecker::lookForServer() {
         QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
         connect_button->close();
     } catch (const NetworkError& e) {
-        showConnectionError();
+        showWidget("errorWidget");
     }
 }
 
@@ -58,7 +59,12 @@ void ConfigChecker::createNewGame() {
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
-    std::cout << "Respuesta: " << answer << "\n";
+    qDebug(answer.c_str());
+    if (answer == "2") {
+        //run client normal
+    } else {
+        showWidget("creationError");
+    }
 }
 
 void ConfigChecker::showParameters() {
@@ -86,28 +92,30 @@ void ConfigChecker::showIdSelection() {
     hideWidget("createConfirmButton");
     showWidget("joinWidget");
     showWidget("joinConfirmButton");
+    QComboBox *id_combo = findChild<QComboBox*>("idCombo");
+
     sk.send_msg(JOIN_GAME);
     std::string games;
     sk.recv_msg(games);
-    //join_combo->addItem(QString(games.c_str()));
+    QStringList maps_names;
+    maps_names << games.c_str();
+    while (games != "2"){
+        qDebug(games.c_str());
+        sk.recv_msg(games);
+        qDebug(games.c_str());
+        maps_names << games.c_str();
+    }
+    id_combo->addItems(maps_names);
 }
 
 void ConfigChecker::joinGame() {
     qDebug("AFUERA DEs READ ALL MAPS");
     std::string data;
-    QComboBox *join_combo = findChild<QComboBox*>("idCombo");
-    data = join_combo->currentText().toStdString();
+    QComboBox *id_combo = findChild<QComboBox*>("idCombo");
+    data = id_combo->currentText().toStdString();
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
-    std::cout << "Respuesta: " << answer << "\n";
-    if (answer == "1\n");
-    /*
-    while(true) {
-        std::string answer;
-        sk.recv_msg(answer);
-        sleep(1);
-    }*/
 }
 
 std::string ConfigChecker::getLineContent(const char *line_name) {
@@ -127,8 +135,10 @@ std::string ConfigChecker::getComboContent(const char *combo_name) {
 
 void ConfigChecker::connectEvents(){
     QWidget *error_widget = findChild<QWidget*>("errorWidget");
+    QWidget *creation_error_widget = findChild<QWidget*>("creationError");
     QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
     QPushButton* ok_button = findChild<QPushButton*>("okButton");
+    QPushButton* ok_creation_button = findChild<QPushButton*>("okCreationButton");
     QPushButton* create_button = findChild<QPushButton*>("createButton");
     QPushButton* join_button = findChild<QPushButton*>("joinButton");
     QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
@@ -140,15 +150,11 @@ void ConfigChecker::connectEvents(){
     connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
     connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
+    connect(ok_creation_button, SIGNAL(clicked()), creation_error_widget, SLOT(close()));
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
     // connect(bots_spin, &QSpinBox::valueChanged, min_players_spin, std::bind(&QSpinBox::setValue, this, max_players_spin->value()-bots_spin->value()));
-}
-
-void ConfigChecker::showConnectionError() {
-    showWidget("errorWidget");
-    // qDebug("show");
 }
 
 void ConfigChecker::showLobby() {
@@ -156,14 +162,14 @@ void ConfigChecker::showLobby() {
 }
 
 QStringList ConfigChecker::readAllMaps() {
-    QStringList map_names;
+    QStringList maps_names;
     if (auto dir = opendir(MAPS_PATH)) {
         while (auto f = readdir(dir)) {
             if (f->d_name[0] == '.')
                 continue;
-            map_names << f->d_name;
+            maps_names << f->d_name;
         }
         closedir(dir);
     }
-    return map_names;
+    return maps_names;
 }
