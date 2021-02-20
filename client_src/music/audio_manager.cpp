@@ -55,7 +55,7 @@ void AudioManager::displayDyingEnemy(double volume_ratio) {
 }
 
 void AudioManager::displayEnemyShot(double volume_ratio) {
-    audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
+    audio_player.playSound(getFilePath("enemy_shot.mp3"), volume_ratio);
 }
 
 void AudioManager::displayPlayerLosingHealthSound() {
@@ -75,7 +75,7 @@ void AudioManager::displayHumanGettingHit(double volume_ratio) {
 }
 
 void AudioManager::displayDyingDog(double volume_ratio) {
-    audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
+    audio_player.playSound(getFilePath("dog_death.mp3"), volume_ratio);
 }
 
 void AudioManager::playAmmoPickUpSound() {

@@ -123,23 +123,17 @@ void ConfigChecker::showIdSelection() {
 }
 
 void ConfigChecker::joinGame() {
-    std::string data;
     QComboBox *id_combo = findChild<QComboBox*>("idCombo");
     std::stringstream ss(id_combo->currentText().toStdString());
-    std::string s;
-    int i = 0;
-    while (std::getline(ss, s, '/')) {
-        if (s.empty()) continue;
-        if (i > 0) data.push_back(s[i-1]);
-        i++;
-    }
-    sk.send_msg(data);
+    std::string map_name = ss.str().substr(0, ss.str().find('/')) + ".yaml";
+    std::string id = ss.str().substr(ss.str().find('/') + 1);
+    sk.send_msg(id);
     std::string answer;
     sk.recv_msg(answer);
     if (answer == SUCCESS){
         this->close();
         Client client(sk);
-        //client.startGame();
+        client.startGame(map_name);
         //run del cliente normal TODO
     }
     else showError("Error en login");
