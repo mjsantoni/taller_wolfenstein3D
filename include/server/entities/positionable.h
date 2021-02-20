@@ -7,8 +7,8 @@ class Positionable {
 public:
     Positionable(std::string _category, std::string _type, int _id, bool _is_blocking);
 
-    std::string getCategory();
-    std::string getType();
+    std::string getCategory() const;
+    std::string getType() const;
     int getId();
     bool isBlocking() const;
     ~Positionable() {}

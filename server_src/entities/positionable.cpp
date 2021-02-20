@@ -7,7 +7,7 @@ Positionable::Positionable(std::string _category, std::string _type,
                            category(std::move(_category)), type(std::move(_type)), id(_id),
                            is_blocking(_is_blocking) {}
 
-std::string Positionable::getType() {
+std::string Positionable::getType() const {
     return type;
 }
 
@@ -15,7 +15,7 @@ int Positionable::getId() {
     return id;
 }
 
-std::string Positionable::getCategory() {
+std::string Positionable::getCategory() const {
     return category;
 }
 

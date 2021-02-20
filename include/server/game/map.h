@@ -25,6 +25,7 @@ private:
     std::vector<Coordinate> player_positions; // player[0] = pos_player_0
     std::vector<Coordinate> player_spawns; // player[0] = spawn_player_0
     std::unordered_set<Coordinate, Coordinate::HashFunction> itemsPositions;
+    std::unordered_set<Coordinate, Coordinate::HashFunction> doors_and_fake_pos;
 
 public:
     Map(std::string map_path, int player_max_spawn_count);
@@ -32,7 +33,7 @@ public:
 
     /* ADDERS */
 
-    void putPositionableAt(const Positionable& item, const Coordinate& pos);
+    void putPositionableAt(const Positionable &item, const Coordinate& pos);
     void putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates);
     void addPlayer(int i);
 
@@ -79,6 +80,8 @@ public:
 
     /* MAP PRINT */
     void show();
+
+    Coordinate closeBlocking(int units, const Coordinate &coord, double self_angle);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

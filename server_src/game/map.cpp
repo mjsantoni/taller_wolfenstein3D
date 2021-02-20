@@ -24,9 +24,12 @@ Map::Map(std::string map_path, int player_max_spawn_count) : mapGenerator(map_pa
 
 /* ADDERS */
 
-void Map::putPositionableAt(const Positionable& item, const Coordinate& pos) {
+void Map::putPositionableAt(const Positionable &item, const Coordinate& pos) {
     board[pos] = item;
     if (!item.isBlocking()) itemsPositions.insert(pos);
+    if (item.getCategory() == "door" || item.getType() == "fake_wall") {
+        doors_and_fake_pos.insert(pos);
+    }
 }
 
 void Map::putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates) {
@@ -101,6 +104,7 @@ std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> Map::getB
 
 void Map::removeBlockingItemAt(const Coordinate& coordinates) {
     board.erase(getNormalizedCoordinate(coordinates));
+    doors_and_fake_pos.erase(getNormalizedCoordinate(coordinates));
 }
 
 void Map::erasePositionableAt(const Coordinate& coord) {
@@ -131,6 +135,37 @@ Coordinate Map::closePositionable(int units, const Coordinate& coord,
         }
     }
     return Coordinate(0,0);
+}
+
+
+bool insideAngle(double facing, double target) {
+    double dot = cos(facing)*cos(target) + sin(facing)*sin(target);
+    double interval = acos(dot);
+    return interval <= M_PI/6;
+}
+
+double angleBetween(const Coordinate& self_pos,const Coordinate& other_pos) {
+    int new_x = (-self_pos.x) - (-other_pos.x);
+    int new_y = (self_pos.y) - (other_pos.y);
+    return (atan2(new_y,new_x));
+}
+
+Coordinate Map::closeBlocking(int units, const Coordinate &coord, double self_angle) {
+    for (auto& blocking_coord : doors_and_fake_pos) {
+
+        std::cout << "CHEKING: "; blocking_coord.show();
+        Coordinate blocking_centered(blocking_coord.x + 32, blocking_coord.y + 32);
+        std::cout << "CENTERED: "; blocking_centered.show();
+        bool in_sight = insideAngle(self_angle, angleBetween(coord, blocking_centered));
+        std::cout << blocking_centered.distanceTo(coord)  << "\n";
+        if (blocking_centered.distanceTo(coord) <= units && in_sight) {
+            std::cout << "ENCONTRE UNA WALLDOOR\n";
+
+
+            return blocking_coord;
+        }
+    }
+    return Coordinate(-1,-1);
 }
 
 void Map::respawnPlayer(int id) { addPlayer(id); }
@@ -180,6 +215,9 @@ void Map::putBlockingItemAt(Coordinate coordinates,
     coordinates.x *= grid_size;
     coordinates.y *= grid_size;
     board[coordinates] = positionable;
+    if (positionable.getCategory() == "door" || positionable.getType() == "fake_wall") {
+        doors_and_fake_pos.insert(coordinates);
+    }
 }
 
 void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable) {
