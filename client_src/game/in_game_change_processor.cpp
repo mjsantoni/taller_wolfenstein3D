@@ -45,21 +45,14 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
     // render ray_caster, render object_drawer, render ui_drawer
     switch (change_id) {
         case (REMOVE_POSITIONABLE): {
-            map.removeObject(id);
-            if (value1 == player.getId())
-                audio_manager.displayPickUpSound();
-            // id: id del item
-            break;
+            return processObjectRemoval(id, value1);
         }
         case (MOVE_PLAYER): {
             if (player.getId() == id) {
-                //std::cout << "El cliente se mueve en el mapa\n";
                 player.updatePosition(value1, value2);
             } else {
-                //std::cout << "Otro jugador se mueve en el mapa\n";
                 map.moveEnemy(id, value1, value2);
             }
-            // id: player_id - value1: new_x - value2: new_y
             break;
         }
         case (CHANGE_POINTS): {
@@ -321,4 +314,19 @@ void InGameChangeProcessor::processEnemyDying(int enemy_id) {
         screen.displayVictoryScreen();
         game_over = true;
     }
+}
+
+void InGameChangeProcessor::processObjectRemoval(int object_id, int player_id) {
+    int object_type = map.getObjectTypeFromId(object_id);
+    map.removeObject(object_id);
+    if (player_id != player.getId())
+        return;
+    if (ImageManager::objectIsAmmoRelated(object_type))
+        audio_manager.playAmmoPickUpSound();
+    else if (!ImageManager::objectIsWall(object_type))
+        audio_manager.playItemPickUpSound();
+    else if (ImageManager::objectIsDoor(object_type))
+        audio_manager.playDoorOpeningSound();
+    else
+        audio_manager.displayFakeWallDisappearingSound();
 }

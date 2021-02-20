@@ -5,7 +5,7 @@
 #include "common/coordinate.h"
 
 #define MOVE_SIZE 10
-#define SAFE_DISTANCE 10
+#define SAFE_DISTANCE 50
 
 class ColissionHandler {
 private:

@@ -30,7 +30,7 @@ std::vector<Change> EventProcessor::process(Event& event) {
             break;
         }
         case (OPEN_DOOR): {
-            //std::cout << "INTENTO ABRIR PUERTA!\n";
+            std::cout << "INTENTO ABRIR PUERTA!\n";
             // Deberia hacer un chequeo si tiene paredes alrededor el cliente
             // antes de mandar el evento (para no gastar mucho recurso)
             std::pair<bool,int> opened_door = game.openDoor(player_id);

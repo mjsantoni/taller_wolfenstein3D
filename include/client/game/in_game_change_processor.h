@@ -34,6 +34,10 @@ private:
     void processPlayerAmmoChange(int delta);
     void processEnemyHealthChange(int enemy_id, int delta);
     void processPlayerHealthChange(int delta);
+    void processPostGameChanges(Change change);
+    void processEnemyRespawning(int enemy_id);
+    void processEnemyDying(int enemy_id);
+    void processObjectRemoval(int object_id, int player_id);
 public:
     InGameChangeProcessor(GameScreen& _screen,
                           ClientMap& _map,
@@ -46,11 +50,6 @@ public:
     void processInGameChange(Change& change);
     void stop();
     void processInGameChanges();
-    void processInGameChanges(std::vector<Change> changes);
-    std::vector<int> displayStatisticsAndCloseGame();
-    void processPostGameChanges(Change change);
-    void processEnemyRespawning(int enemy_id);
-    void processEnemyDying(int enemy_id);
 };
 
 

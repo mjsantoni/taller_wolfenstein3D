@@ -4,8 +4,6 @@
 
 #include "client/graphics/object_drawer.h"
 
-#define EFFECT_TO_IMAGE_DELTA 36
-
 ObjectDrawer::ObjectDrawer(SdlWindow& _window,
                            ObjectInfoProvider& _object_info_provider,
                            std::map<double, double>& _wall_distance_info,
@@ -56,9 +54,11 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
         return;
     ObjectInfo object_info =
             object_info_provider.getObjectInfo(object.getObjectType());
+    /*
     if (object_info.getObjectType() < 0)
         object_info.setObjectType(object_info.getObjectType() +
                                                     EFFECT_TO_IMAGE_DELTA);
+    */
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     //std::cout << "sprite no: " << object.getSpriteAnimationNo() << std::endl;

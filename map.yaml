@@ -6,8 +6,9 @@ scenarios:
   rock_wall: []
   stone_wall: []
   blue_wall: []
+  fake_wall: [[8, 9]]
   barrel: []
-  locked_door: [[8, 9]]
+  unlocked_door: []
   table: []
 items:
   machine_gun: []

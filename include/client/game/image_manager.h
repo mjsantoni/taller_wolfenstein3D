@@ -7,7 +7,6 @@
 
 #include <string>
 #include <client/graphics/images.h>
-#include <client/graphics/item_types.h>
 #include <common/weapons.h>
 #include <client/drawable.h>
 
@@ -15,6 +14,8 @@ class ImageManager {
 public:
     static int getImageNumberFromName(std::string name);
     static bool objectIsWall(int object_type);
+    static bool objectIsDoor(int object_type);
+    static bool objectIsAmmoRelated(int object_type);
     static int getImageNumberFromWeapon(int weapon_number);
     static int getAttackingAnimationForWeapon(int weapon_number);
     static std::vector<int> getMovingAnimationsForEnemy(int object_type);

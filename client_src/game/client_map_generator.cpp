@@ -59,5 +59,3 @@ void ClientMapGenerator::addPlayerSpawnsToMap(ClientMap& map,
         }
     }
 }
-
-

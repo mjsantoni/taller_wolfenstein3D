@@ -78,11 +78,11 @@ void AudioManager::displayDyingDog(double volume_ratio) {
     audio_player.playSound(getFilePath("dog_hurt.mp3"), volume_ratio);
 }
 
-void AudioManager::displayPickUpSound() {
-    audio_player.playSound(getFilePath("item_pick_up.mp3"), 400000);
+void AudioManager::playAmmoPickUpSound() {
+    audio_player.playSound(getFilePath("ammo_pick_up.mp3"));
 }
 
-std::string AudioManager::getFilePath(std::string file_name) {
+std::string AudioManager::getFilePath(const std::string &file_name) {
     return files_path + "/" + file_name;
 }
 
@@ -94,4 +94,16 @@ void AudioManager::playVictorySong() {
 void AudioManager::playDefeatSong() {
     std::unique_lock<std::mutex> lock(m);
     audio_player.playMusic(getFilePath("defeat_song.mp3"));
+}
+
+void AudioManager::playItemPickUpSound() {
+    audio_player.playSound(getFilePath("item_pick_up.mp3"));
+}
+
+void AudioManager::playDoorOpeningSound() {
+    audio_player.playSound(getFilePath("unlocked_door.mp3"));
+}
+
+void AudioManager::displayFakeWallDisappearingSound() {
+    audio_player.playSound(getFilePath("wall_moving.mp3"));
 }

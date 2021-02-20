@@ -215,16 +215,17 @@ std::vector<Drawable> ClientMap::getAllDrawables() {
     for (auto& pair : effects) {
         objects_vector.push_back(pair.second);
     }
-
     return objects_vector;
 }
 
 void ClientMap::removeObject(int object_id) {
-    if (objects.find(object_id) == objects.end())
-        return;
-    Drawable object = objects.at(object_id);
+    std::pair<int, int> object_position;
+    if (objects.find(object_id) != objects.end())
+        object_position = objects.at(object_id).getMapPosition();
+    if (walls.find(object_id) != walls.end())
+        object_position = walls.at(object_id).getMapPosition();
     objects.erase(object_id);
-    std::pair<int, int> object_position = object.getMapPosition();
+    walls.erase(object_id);
     drawables_by_position.erase(object_position);
 }
 
@@ -359,19 +360,21 @@ void ClientMap::addObjectId(int object_id, int x_pos, int y_pos) {
     Drawable& drawable = drawables_by_position.at(object_coords);
     drawable.setId(object_id);
     int object_type = drawable.getObjectType();
-    if (!ImageManager::objectIsWall(object_type)) {
-        Drawable new_drawable(object_type);
-        new_drawable.setMapPosition(x_pos, y_pos);
-        new_drawable.setId(object_id);
+    Drawable new_drawable(object_type);
+    new_drawable.setMapPosition(x_pos, y_pos);
+    new_drawable.setId(object_id);
+    if (ImageManager::objectIsWall(object_type))
+        walls.insert(std::pair<int, Drawable>(object_id, new_drawable));
+    else
         objects.insert(std::pair<int, Drawable>(object_id, new_drawable));
-    }
 }
 
 int ClientMap::getObjectTypeFromId(int object_id) {
-    if (objects.find(object_id) == objects.end())
-        return 0; // deberia lanzarse una excepcion
-    Drawable& drawable = objects.at(object_id);
-    return drawable.getObjectType();
+    if (objects.find(object_id) != objects.end())
+        return objects.at(object_id).getObjectType();
+    if (walls.find(object_id) != objects.end())
+        return walls.at(object_id).getObjectType();
+    return -1;
 }
 
 int ClientMap::getEnemyTypeFromId(int enemy_id) {

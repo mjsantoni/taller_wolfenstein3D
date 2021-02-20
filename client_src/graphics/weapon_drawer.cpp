@@ -4,7 +4,7 @@
 
 #include "client/graphics/weapon_drawer.h"
 
-#define EQ_WEAPON_DELTA 22
+#define EQ_WEAPON_DELTA SCREEN_WEAPON_KNIFE-1
 
 WeaponDrawer::WeaponDrawer(SdlWindow& _window,
                            ObjectInfoProvider& _info_provider,

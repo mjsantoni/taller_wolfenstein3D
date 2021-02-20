@@ -6,21 +6,23 @@
 #include <iostream>
 #include "client/game/image_manager.h"
 
-#define WEAPON_ENEMY_DELTA 17
+#define WEAPON_ENEMY_DELTA ENEMY_DOG-1
 
 int ImageManager::getImageNumberFromName(std::string name) {
     if (name == "wood_wall")
         return BROWN_WALL;
-    if (name == "stone_wall")
+    if (name == "gray_wall")
         return GRAY_WALL;
     if (name == "blue_wall")
         return BLUE_WALL;
-    if (name == "fake_wall")
+    if (name == "stone_wall")
         return STONE_WALL;
+    if (name == "fake_wall")
+        return FAKE_WALL;
     if (name == "unlocked_door")
-        return SILVER_DOOR;
+        return UNLOCKED_DOOR;
     if (name == "locked_door")
-        return SILVER_DOOR;
+        return LOCKED_DOOR;
     if (name == "crown")
         return ITEM_CROWN;
     if (name == "rpg_gun")
@@ -36,7 +38,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
     if (name == "cross")
         return ITEM_CROSS;
     if (name == "goblet")
-        return ITEM_CUP;
+        return ITEM_GOBLET;
     if (name == "table")
         return MISC_TABLE;
     if (name == "barrel")
@@ -51,8 +53,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
 }
 
 bool ImageManager::objectIsWall(int object_type) {
-    return object_type == GRAY_WALL || object_type == BLUE_WALL || object_type
-    == BROWN_WALL || object_type == STONE_WALL || object_type == SILVER_DOOR;
+    return object_type >= GRAY_WALL && object_type <= SILVER_DOOR;
 }
 
 int ImageManager::getImageNumberFromWeapon(int weapon_number) {
@@ -113,4 +114,14 @@ void ImageManager::setDyingAnimationForEnemy(Drawable &enemy) {
     }
     enemy.setSpriteAnimationNo(8); // HAY MAS
     std::cout << "El enemigo muere, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
+}
+
+bool ImageManager::objectIsDoor(int object_type) {
+    return object_type == SILVER_DOOR || object_type == LOCKED_DOOR ||
+        object_type == UNLOCKED_DOOR;
+}
+
+bool ImageManager::objectIsAmmoRelated(int object_type) {
+    return object_type == ITEM_MACHINE_GUN || object_type == ITEM_CHAIN_CANNON
+        || object_type == ITEM_ROCKET_LAUNCHER || object_type == ITEM_BULLETS;
 }

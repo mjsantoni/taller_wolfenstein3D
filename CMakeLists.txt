@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(tp_wolfenstein)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -pthread")
 
 INCLUDE(FindPkgConfig)
 
