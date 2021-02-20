@@ -28,6 +28,8 @@ public:
     std::vector<double> getSpecificGun(const std::string& type);
 
     ~ConfigParser();
+
+    std::pair<int, int> getResolution();
 };
 
 #endif //TP_WOLFENSTEIN_CONFIG_PARSER_H

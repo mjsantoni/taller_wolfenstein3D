@@ -21,3 +21,6 @@ player:
   max_bullets: 100
   max_hp: 8
   max_lives: 3
+resolution:
+  width: 1024
+  height: 768
