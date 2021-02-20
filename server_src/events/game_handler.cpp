@@ -125,7 +125,7 @@ bool GameHandler::canJoinPlayer() {
 }
 
 bool GameHandler::ended() {
-    return alive;
+    return !alive;
 }
 
 std::string GameHandler::getInformation() {

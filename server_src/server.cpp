@@ -13,13 +13,9 @@ Server::Server(NetworkAcceptor socket) :
 #define ERROR "3"
 
 void Server::run() {
-    std::string name = "map.yaml";
-    createGame(name, 1, 5, 0,10);
+    //std::string name = "map.yaml";
     //createGame(name, 1, 5, 0,10);
-    //createGame(name, 1, 5, 0,10);
-    //createGame(name, 1, 5, 0,10);
-    //createGame(name, 1, 5, 0,10);
-    //createGame(name, 1, 5, 0,10);
+
     std::cout << "[Server] Started.\n";
     while (accepting_connections) {
         try {
@@ -43,36 +39,23 @@ void Server::run() {
                     break;
 
                 } else {
-                    //socket.send_msg(std::to_string(matches.size())); // envio cant de games disponibles
                     sendGames(socket);
-
                     std::string game_choice;
                     socket.recv_msg(game_choice);
-
                     int game_id_to_connect = std::stoi(game_choice);
-                    // id -> tiene que ser de 0 a n por indices del vector. LP pasarlo bien
+
                     std::cout << "El player se quiere unir al game: " << game_choice << "\n";
 
-                    if (game_id_to_connect > (matches.size() - 1) || game_id_to_connect < 0) {
-                        socket.send_msg("No podes errarle tanto pa\n");
-                        continue;
+                    if (matches[game_id_to_connect]->canJoinPlayer()) {
+                        socket.send_msg(SUCCESS);
+                        joinGame(game_id_to_connect, std::move(socket));
                     } else {
-                        if(!joinGame(game_id_to_connect, std::move(socket))) {
-                            std::string couldnt_connect("Bro no te pude conectar elegi otro lobby\n");
-                            socket.send_msg(couldnt_connect);
-                        } else {
-                            socket.send_msg("1\n");
-                            joinGame(game_id_to_connect, std::move(socket));
-                        }
-                        break;
+                        socket.send_msg(ERROR);
+                        continue;
                     }
                 }
             }
-        } catch (const NetworkError& e) {
-            continue;
-        }
-
-        // Kill ended games
+        } catch (const NetworkError& e) { continue; }
         killDead();
         usleep(100000);
     }
@@ -113,7 +96,7 @@ int Server::createGame(std::string& map, int min_players, int max_players, int b
 }
 
 bool Server::joinGame(int game_id, NetworkConnection socket) {
-    if (matches[game_id]->canJoinPlayer()) {
+    if (matches[game_id]->canJoinPlayer()) { // Ya esta afuera esta logica
         try {
             matches[game_id]->addNewPlayer(std::move(socket));
             std::cout << "[Server] New player connected to game " << game_id << "\n";
