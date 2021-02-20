@@ -42,6 +42,7 @@ private:
     bool game_started;
     bool player_ready;
     bool player_alive = true;
+    bool can_skip_rendering = false;
     OffGameHandler off_game_handler;
     ClientPlayerInitializer player_initializer;
 public:

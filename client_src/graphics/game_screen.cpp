@@ -74,7 +74,7 @@ GameScreen::render(bool render_background_and_objects) {
     angles_list.clear();
     if (player_attacking)
         player_weapon_animation++;
-    if (player_weapon_animation > MAX_WEAPON_ANIMATION) {
+    if (player_weapon_animation == MAX_WEAPON_ANIMATION + 1) {
         player_attacking = false;
         player_weapon_animation = 0;
     }

@@ -25,7 +25,6 @@ void WeaponDrawer::drawPlayersWeapon(int weapon_number, int sprite_no) {
     Area screen_area = assembleScreenWeaponArea(object_info);
     //window.loadImage(texture, image_area, screen_area);
     texture -> render(screen_area, sprite_no);
-    std::cout << "weapon sprite no: " << sprite_no << std::endl;
 }
 
 Area WeaponDrawer::assembleScreenWeaponArea(ObjectInfo& object_info) {

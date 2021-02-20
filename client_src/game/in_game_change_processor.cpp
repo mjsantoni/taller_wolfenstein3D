@@ -3,6 +3,7 @@
 
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 25
+#define MAX_WEAPON_ANIMATION 3
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -30,7 +31,7 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
 /* Ejecuta los cambios */
 void InGameChangeProcessor::processInGameChange(Change &change) {
     if (change.isInvalid()) {
-        //skip_rendering = true;
+        skip_rendering = true;
         return;
     }
     int change_id = change.change_id;
@@ -190,7 +191,7 @@ void InGameChangeProcessor::processInGameChanges() {
     if (game_over) {
         return;
     }
-    if (!skip_rendering)
+    if (!skip_rendering || mandatory_rendering_turns != 0)
         screen.render(render_background_and_objects);
     if (counter % 10 == 0)
         map.updateEnemiesSprites();
@@ -198,6 +199,8 @@ void InGameChangeProcessor::processInGameChanges() {
     ++counter;
     render_background_and_objects = true;
     skip_rendering = false;
+    if (mandatory_rendering_turns > 0)
+        --mandatory_rendering_turns;
 }
 /*
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
@@ -251,6 +254,7 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
     if (delta < 0) {
         audio_manager.displayPlayerShootingSound();
         screen.setPlayerAttacking();
+        mandatory_rendering_turns = MAX_WEAPON_ANIMATION+1;
         render_background_and_objects = false;
     }
     else if (delta == 0) {
@@ -262,6 +266,7 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
             audio_manager.displayKnifeStabbingSound();
             //screen.displayPlayerAttacking();
             screen.setPlayerAttacking();
+            mandatory_rendering_turns = MAX_WEAPON_ANIMATION+1;
         }
     }
     player.updateAmmo(delta);
