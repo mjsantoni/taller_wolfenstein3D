@@ -1,6 +1,6 @@
 QLabel {
     color: gainsboro;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 QLineEdit {
