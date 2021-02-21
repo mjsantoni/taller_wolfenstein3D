@@ -1,11 +1,12 @@
 #include "server/events/bots_manager.h"
 #include <iostream>
+#include "routes_server.h"
 
 BotsManager::BotsManager(SharedQueue<Event>& sq) : sharedQueue(sq) {}
 
 void BotsManager::addBot(Player& player, double angle_turn) {
     std::cout << "[Bots Manager] Creating bot.\n";
-    LuaBot* bot = new LuaBot("../server_src/lua/bot.lua", player, cv, sharedQueue);
+    LuaBot* bot = new LuaBot(BOT_SCRIPT_PATH, player, cv, sharedQueue);
     bot->setGridSize(64); // map.getGridSize()
     bot->setAngleTurn(angle_turn);
     bot->start();

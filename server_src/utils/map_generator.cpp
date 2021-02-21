@@ -1,9 +1,8 @@
 #include "server/utils/map_generator.h"
-
-#define MAP_PATH "../maps/"
+#include "routes_server.h"
 
 MapGenerator::MapGenerator(const std::string& map_path) :
-                           mapParser(MAP_PATH + map_path) {}
+                           mapParser(MAPS_PATH_FOLDER + map_path) {}
 
 std::unordered_map<std::string,
     std::vector<Coordinate>> MapGenerator::getWalls() {

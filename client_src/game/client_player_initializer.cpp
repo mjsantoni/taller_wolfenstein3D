@@ -5,7 +5,7 @@
 #include "client/game/client_player_initializer.h"
 
 ClientPlayerInitializer::ClientPlayerInitializer() :
-                                config_parser("../config.yaml") {
+                                config_parser("../config/config.yaml") {
 
 }
 

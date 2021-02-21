@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "server/server.h"
+#include "routes_server.h"
 
 Server::Server(NetworkAcceptor socket) :
         networkAcceptor(std::move(socket)),
@@ -91,7 +92,7 @@ void Server::killDead() {
 
 int Server::createGame(std::string& map, int min_players, int max_players, int bots, int time) {
     std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
-    auto new_game = new GameHandler(map, "../config.yaml",
+    auto new_game = new GameHandler(map, CONFIG_PATH,
                                     min_players, max_players,
                                     bots, matches.size(), time * 60);
     // pasarle game duration tambien

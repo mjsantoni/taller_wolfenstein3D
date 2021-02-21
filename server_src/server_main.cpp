@@ -16,7 +16,7 @@ int main(int argc, char* args[]) {
     int bots = std::stoi(args[2]);
     int stop_after_seconds = std::stoi(args[3]);
 
-    GameHandler gameHandler("map.yaml", "../config.yaml", min_players_in_lobby, 8, bots, 0, 600);
+    GameHandler gameHandler("map.yaml", "../config/config.yaml", min_players_in_lobby, 8, bots, 0, 600);
     gameHandler.start();
     NetworkAcceptor networkAcceptor("8080");
 
