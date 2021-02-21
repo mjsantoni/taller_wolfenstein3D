@@ -210,7 +210,6 @@ void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
     if (top_killers.empty() && top_scorers.empty() && top_shooters.empty()) {
         displayEmptyStatisticsScreen();
         window.render();
-        sleep(2);
         return;
     }
     displayStatisticsHeaders();
@@ -218,7 +217,6 @@ void MenusDrawer::displayStatistics(std::vector<std::vector<int>> statistics) {
     displayTopShooters(top_shooters, top_shooters_stats);
     displayTopScorers(top_scorers, top_scorers_stats);
     window.render();
-    sleep(10);
 }
 
 void MenusDrawer::displayEmptyStatisticsScreen() {
@@ -269,7 +267,7 @@ void MenusDrawer::displayTopKillers(std::vector<int> top_killers,
         std::string msg_text = "Player " + std::to_string(top_killers[i]) +
                                ": " + std::to_string(top_killers_stats[i]);
         Area msg_area;
-        Area screen_area = Area(window_width / 6, (2 + 2 * i) * window_height / 12,
+        Area screen_area = Area(window_width / 6, (2 + 2 * i)* window_height/12,
                                     window_width/8, window_height/12);
         renderMessage(msg_text, msg_area, screen_area);
     }

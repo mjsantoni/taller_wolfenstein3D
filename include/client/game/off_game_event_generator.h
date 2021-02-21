@@ -14,10 +14,11 @@ class OffGameEventGenerator {
 private:
     BlockingQueue<Event>& event_queue;
     ClientPlayer& player;
+    bool ready_event_already_sent = false;
 public:
     OffGameEventGenerator(BlockingQueue<Event>& _event_queue,
                           ClientPlayer& _player);
-    void generateReadyEvent();
+    void generateReadyEventIfNecessary();
 };
 
 

@@ -99,9 +99,8 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
         case (KILL_PLAYER): {
             if (player.getId() == id) {
                 screen.displayDeadScreen();
-                sleep(2);
+                sleep(3);
                 player_alive = false;
-                //algo mas aca seguro
             } else {
                 processEnemyDying(id);
             }
