@@ -18,8 +18,7 @@ void BotsManager::sendMapToBot(LuaBot* bot, Map& map, std::vector<Player>& playe
         Positionable& positionable = item.second;
         if (positionable.getCategory() == "wall" ||
             positionable.getCategory() == "door" ||
-            positionable.getCategory() == "barrel" ||
-            positionable.getCategory() == "table") {
+            positionable.getCategory() == "misc") {
             bot->addBlocking(coord, positionable.getType());
         } else {
             bot->addPositionable(coord, positionable.getType());

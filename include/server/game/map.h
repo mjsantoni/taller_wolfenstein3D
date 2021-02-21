@@ -34,7 +34,6 @@ public:
     /* ADDERS */
 
     void putPositionableAt(const Positionable &item, const Coordinate& pos);
-    void putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates);
     void addPlayer(int i);
 
     /* VERIFIERS */
@@ -75,7 +74,7 @@ public:
     void addPlayerSpawns(std::unordered_map<std::string,
                          std::vector<Coordinate>>& spawns);
     void putBlockingItemAt(Coordinate coordinate, const Positionable& positionable);
-
+    void putBlockingItemAtCenter(Coordinate coordinates, const Positionable &blocking);
     void putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable);
 
     /* MAP PRINT */

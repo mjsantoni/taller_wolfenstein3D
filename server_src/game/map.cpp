@@ -32,9 +32,7 @@ void Map::putPositionableAt(const Positionable &item, const Coordinate& pos) {
     }
 }
 
-void Map::putBlockingAtExact(const Positionable& blocking, const Coordinate& coordinates) {
-    board[getNormalizedCoordinate(coordinates)] = blocking;
-}
+
 
 void Map::addPlayer(int i) {
     player_positions[i] = player_spawns[i];
@@ -165,7 +163,8 @@ void Map::addBlockingItems(std::unordered_map<std::string,
         for (auto& coord : type.second) {
             Positionable positionable = handler.createBlockingItem(type.first, global_id);
             global_id++;
-            putBlockingItemAt(coord, positionable);
+            if (positionable.getCategory() == "misc") putBlockingItemAtCenter(coord, positionable);
+            else putBlockingItemAt(coord, positionable);
         }
     }
 }
@@ -201,6 +200,12 @@ void Map::putBlockingItemAt(Coordinate coordinates,
     if (positionable.getCategory() == "door" || positionable.getType() == "fake_wall") {
         doors_and_fake_pos.insert(coordinates);
     }
+}
+
+void Map::putBlockingItemAtCenter(Coordinate coordinates, const Positionable &blocking) {
+    coordinates.x = (coordinates.x * grid_size) + (int) grid_size/2;
+    coordinates.y = (coordinates.y * grid_size) + (int) grid_size/2;
+    board[coordinates] = blocking;
 }
 
 void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable) {
