@@ -33,14 +33,16 @@ void ClientUpdater::run() {
         if (change.isInvalid() && alive) continue;
         if (change.isInvalid() && !alive) break;
         if (change.isGlobal() || change.getPlayerID() == player_id) {
-            skt.send_msg(change.serialize());
-            std::cout << "Server sends " << change.serialize() << std::endl;
+            try {
+                skt.send_msg(change.serialize());
+                std::cout << "Server sends " << change.serialize() << std::endl;
+            } catch (NetworkError& e) { break; }
         }
     }
     std::cout << "[Client Updater] Stopping.\n";
 }
-void ClientUpdater::update(Change change) { change_queue.push(change); }
 
+void ClientUpdater::update(Change change) { change_queue.push(change); }
 
 void ClientUpdater::stop() {
     alive = false;
