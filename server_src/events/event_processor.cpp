@@ -10,6 +10,11 @@ std::vector<Change> EventProcessor::process(Event& event) {
     int value = event.value;
     std::vector<Change> changes;
 
+
+    if (!game.isPlayerAlive(player_id)) {
+        std::cout << "Proceso cambio de un muerto\n";
+        return changes;
+    }
     switch (id) {
         case (CONNECT_PLAYER): {
             changes.emplace_back(TOTAL_PLAYERS_CONNECTED, game.getPlayersAlive(), INVALID, INVALID, true);

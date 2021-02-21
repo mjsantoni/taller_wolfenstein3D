@@ -154,6 +154,12 @@ int Game::getPlayersAlive() {
     return players_alive;
 }
 
+bool Game::isPlayerAlive(int id) {
+    std::unique_lock<std::mutex> lock(m);
+    return map.getPlayerPosition(id).isValid();
+}
+
+
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
@@ -250,4 +256,3 @@ void Game::addBot() {
 void Game::releaseBots() {
     botsManager.releaseBots(map, players);
 }
-
