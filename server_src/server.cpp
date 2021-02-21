@@ -11,6 +11,7 @@ Server::Server(NetworkAcceptor socket) :
 #define JOIN_GAME "1"
 #define SUCCESS "2"
 #define ERROR "3"
+#define BACK "4"
 
 void Server::run() {
     //std::string name = "map.yaml";
@@ -20,14 +21,16 @@ void Server::run() {
     while (accepting_connections) {
         try {
             NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-            std::string player_choice;
-            socket.recv_msg(player_choice); // Recibo el tipo de evento
             //std::cout << "Recibi tal opcion: " << player_choice << "\n";
             while (true) {
+                std::string player_choice;
+                socket.recv_msg(player_choice); // Recibo el tipo de evento
                 if (player_choice == CREATE_GAME) {
                     std::string options;
                     socket.recv_msg(options);
                     std::cout << "Me paso estas opciones: " << options << "\n";
+                    if (options == BACK) continue;
+
                     std::vector<int> game_options = split(options); // minimos/maximos/bots/duracion
                     std::string map_path;
                     socket.recv_msg(map_path);
@@ -43,10 +46,10 @@ void Server::run() {
                     sendGames(socket);
                     std::string game_choice;
                     socket.recv_msg(game_choice);
+                    if (game_choice == BACK) continue;
+                    
                     int game_id_to_connect = std::stoi(game_choice);
-
                     std::cout << "El player se quiere unir al game: " << game_choice << "\n";
-
                     if (matches[game_id_to_connect]->canJoinPlayer()) {
                         socket.send_msg(SUCCESS);
                         joinGame(game_id_to_connect, std::move(socket));
