@@ -43,6 +43,7 @@ private:
                       double object_angle, double x_prop, Drawable& object);
     double getGammaAngle(double player_angle, double object_angle);
     bool blockedByWall(double angle, double distance);
+    std::vector<Drawable> getMapObjects(int x, int y);
 public:
     ObjectDrawer(SdlWindow& _window, ObjectInfoProvider& object_info_provider,
                  std::map<double, double>& wall_distance_info,

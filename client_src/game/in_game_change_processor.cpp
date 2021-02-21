@@ -274,7 +274,7 @@ void InGameChangeProcessor::playAttackingSound(int players_weapon,
             mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
             break;
         case WEAPON_MACHINE_GUN:
-            audio_manager.displayMachineGunSound(0);
+            audio_manager.displayMachineGunSound(1);
             mandatory_rendering_turns = MAX_MACHINE_GUN_TURNS + 1;
             break;
         case WEAPON_ROCKET_LAUNCHER:

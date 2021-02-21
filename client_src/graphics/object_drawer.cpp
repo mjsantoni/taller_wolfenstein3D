@@ -21,18 +21,20 @@ ObjectDrawer::ObjectDrawer(SdlWindow& _window,
        angles_list(_angles_list), drawing_assistant(window, texture_manager) {
 }
 
-void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
+std::vector<Drawable> ObjectDrawer::getMapObjects(int x, int y) {
     std::vector<Drawable> objects_vector = map.getAllDrawables();
-    std::sort(objects_vector.begin(), objects_vector.end(), compareByDistance);
-
-    for (int i = 0; i < objects_vector.size(); ++i) {
-        Drawable& object = objects_vector[i];
+    for (auto& object : objects_vector) {
         std::pair<int, int> object_pos = object.getMapPosition();
         double distance = Calculator::calculateDistance(x - object_pos.first,
                                                         y - object_pos.second);
         object.setHitDistance(distance);
     }
+    std::sort(objects_vector.begin(), objects_vector.end(), compareByDistance);
+    return objects_vector;
+}
 
+void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
+    std::vector<Drawable> objects_vector = getMapObjects(x, y);
     for (auto& object : objects_vector) {
         double object_starting_angle =
                 getObjectAngle(x, y, object.getMapPosition());
