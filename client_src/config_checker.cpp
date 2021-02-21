@@ -1,5 +1,4 @@
 #include <QtWidgets/QCommandLinkButton>
-#include <client/game/client.h>
 #include "client/config_checker.h"
 #include "ui_connect.h"
 
@@ -13,7 +12,7 @@
 #define BACK "4"
 
 
-ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
+ConfigChecker::ConfigChecker(std::string &_map_data, QMainWindow *parent) : map_data(_map_data), QMainWindow(parent), sk(-1) {
     Ui::ConfigChecker checker;
     checker.setupUi(this);
     this->setWindowIcon(QIcon(WINDOW_ICON_PATH));
@@ -72,9 +71,8 @@ void ConfigChecker::createNewGame() {
     std::string answer;
     sk.recv_msg(answer);
     if (answer == SUCCESS) {
+        map_data = data;
         this->close();
-        Client client(sk);
-        client.startGame(data);
     } else {
         showError("Error creating the game");
     }
@@ -142,14 +140,13 @@ void ConfigChecker::joinGame() {
     std::stringstream ss(id_combo->currentText().toStdString());
     std::string map_name = ss.str().substr(0, ss.str().find('/')) + ".yaml";
     std::string id = ss.str().substr(ss.str().find('/') + 1);
-    sk.send_msg(id);
     std::string answer;
+    //try
+    sk.send_msg(id);
     sk.recv_msg(answer);
     if (answer == SUCCESS){
+        map_data = map_name;
         this->close();
-        Client client(sk);
-        client.startGame(map_name);
-        client.startGame(map_name);
     }
     else showError("Error en login");
 }
@@ -281,4 +278,8 @@ void ConfigChecker::backToMenu() {
     backed = true;
 
     sk.send_msg(BACK);
+}
+
+NetworkConnection ConfigChecker::getConnection() {
+    return std::move(sk);
 }

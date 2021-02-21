@@ -12,11 +12,12 @@
 #include <common/network_error.h>
 
 class ConfigChecker: public QMainWindow {
+    std::string &map_data;
     NetworkConnection sk;
     bool backed = false;
 public:
 
-    explicit ConfigChecker(QMainWindow *parent = 0);
+    explicit ConfigChecker(std::string &_map_data, QMainWindow *parent = 0);
 
     void connectEvents();
 
@@ -47,6 +48,8 @@ public:
     void showError(const char *string);
 
     void backToMenu();
+
+    NetworkConnection getConnection();
 public slots:
     void updateBotsSpin();
     void updateMaxPlayerMap();
