@@ -189,10 +189,10 @@ std::pair<std::string, bool> Player::getDropsFromDeath() {
         if (gun.getType() != "null" && gun.getType() != "knife" &&
             gun.getType() != "pistol") {
             drops.first = gun.getType();
+            guns[getGunHotkey(drops.first)] = Gun(); // Elimina el arma que va a dropear (reemplaza por nula)
         } // Asi como esta devuelve la ultima arma q tiene en este orden (machine,chain,rpg)
     }
     drops.second = useKey();
-    guns[getGunHotkey(drops.first)] = Gun(); // Elimina el arma que va a dropear (reemplaza por nula)
     return drops;
 }
 

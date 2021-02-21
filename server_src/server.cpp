@@ -39,6 +39,7 @@ void Server::run() {
                     break;
 
                 } else {
+                    killDead();
                     sendGames(socket);
                     std::string game_choice;
                     socket.recv_msg(game_choice);
@@ -61,9 +62,11 @@ void Server::run() {
     }
 
     for (auto& th_game : matches) {
+        th_game->stop();
         th_game->join();
         delete th_game;
     }
+    std::cout << "[Server] Finished all in-progress games\n";
 }
 
 static bool is_null(GameHandler* gh) { return !gh; }
@@ -122,7 +125,9 @@ std::vector<int> Server::split(const std::string& bytes) {
 
 void Server::sendGames(NetworkConnection& socket) {
     for (auto& game : matches) {
-        socket.send_msg(game->getInformation());
+        if (game->canJoinPlayer()) {
+            socket.send_msg(game->getInformation());
+        }
     }
     socket.send_msg(SUCCESS);
 }
