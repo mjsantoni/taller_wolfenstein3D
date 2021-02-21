@@ -10,6 +10,7 @@
 #define BACKGROUND_PATH "../client_src/resources/menus/intro2.jpg"
 #define SUCCESS "2"
 #define ERROR "3"
+#define BACK "4"
 
 
 ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
@@ -37,7 +38,6 @@ void ConfigChecker::lookForServer() {
     try {
         NetworkConnection connection(getLineContent("hostLine").c_str(), getLineContent("portLine").c_str());
         sk = std::move(connection);
-        server_found = true;
         showWidget("connectionWidget");
         hideWidget("configWidget");
         QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
@@ -66,19 +66,15 @@ void ConfigChecker::createNewGame() {
     std::string data;
     sk.send_msg(CREATE_GAME);
     data = getSpinContent("minPlayersSpin") + "/" + getSpinContent("maxPlayersSpin") + "/" + getSpinContent("botsSpin") + "/" + getSpinContent("timeSpin");
-    //qDebug(data.c_str());
     sk.send_msg(data);
     data = getComboContent("mapCombo");
-    //qDebug(data.c_str());
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
-    //qDebug(answer.c_str());
     if (answer == SUCCESS) {
         this->close();
         Client client(sk);
         client.startGame(data);
-        //run client normal TODO
     } else {
         showError("Error creating the game");
     }
@@ -89,7 +85,7 @@ void ConfigChecker::showParameters() {
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
-    join_combo->addItems(readAllMaps());
+    if (!backed) join_combo->addItems(readAllMaps());
     showWidget("backButton");
     if (join_combo->currentText().toStdString().empty()) {
         showError("No maps to create a game");
@@ -111,7 +107,7 @@ void ConfigChecker::showParameters() {
         showError("Error en el parseo del mapa");
     } catch (YAML::BadFile) {
         showError("Error en el archivo del mapa");
-    };
+    }
 }
 
 void ConfigChecker::showIdSelection() {
@@ -126,11 +122,15 @@ void ConfigChecker::showIdSelection() {
     sk.recv_msg(games);
     QStringList maps_names;
     while (games != SUCCESS){
-        maps_names << games.c_str();
+        if (!backed){
+            maps_names << games.c_str();
+        }
         games.clear();
         sk.recv_msg(games);
     }
-    id_combo->addItems(maps_names);
+    if (maps_names.size() > 0){
+        id_combo->addItems(maps_names);
+    }
 }
 
 void ConfigChecker::joinGame() {
@@ -149,7 +149,7 @@ void ConfigChecker::joinGame() {
         this->close();
         Client client(sk);
         client.startGame(map_name);
-        //run del cliente normal TODO
+        client.startGame(map_name);
     }
     else showError("Error en login");
 }
@@ -275,5 +275,10 @@ void ConfigChecker::backToMenu() {
     hideWidget("createConfirmButton");
     hideWidget("joinConfirmButton");
     hideWidget("joinWidget");
+    hideWidget("backButton");
     showWidget("connectionWidget");
+
+    backed = true;
+
+    sk.send_msg(BACK);
 }

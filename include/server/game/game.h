@@ -67,7 +67,7 @@ public:
     void playerIsReady(int i);
 
     /* GAME CHECK */
-    bool isNotOver();
+    bool isOver();
     int getPlayersAlive();
     bool isReady();
     int getPlayerGun(int id);

@@ -13,8 +13,7 @@
 
 class ConfigChecker: public QMainWindow {
     NetworkConnection sk;
-    bool server_found = false;
-    bool options_send = false;
+    bool backed = false;
 public:
 
     explicit ConfigChecker(QMainWindow *parent = 0);

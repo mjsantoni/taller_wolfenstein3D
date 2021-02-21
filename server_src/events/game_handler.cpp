@@ -30,7 +30,7 @@ void GameHandler::run() {
     game.show();
     Change change(GAME_START, INVALID, INVALID, INVALID, true);
     clientsManager.notifyClients(change);
-    while (game.isNotOver() && alive) {
+    while (!game.isOver() && alive) {
         auto start = std::chrono::system_clock::now();
         int total_events = 0;
         while (total_events < MAX_EVENTS) {

@@ -139,14 +139,14 @@ int Game::getPlayerGun(int id) {
 
 /* GAME CHECK */
 
-bool Game::isNotOver() {
+bool Game::isOver() {
     std::unique_lock<std::mutex> lock(m);
-    if (players_alive <= 1) return false;
+    if (players_alive <= 1) return true;
     /* Se termina por tiempo */
     auto current_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-    if (elapsed_seconds.count()  >= game_duration) return false; // debe ser >= minutos que dura el game
-    return true;
+    if (elapsed_seconds.count()  >= game_duration) return true; // debe ser >= minutos que dura el game
+    return false;
 }
 
 int Game::getPlayersAlive() {
@@ -157,7 +157,7 @@ int Game::getPlayersAlive() {
 bool Game::isReady() {
     std::unique_lock<std::mutex> lock(m);
     time_start = std::chrono::system_clock::now();
-    return (players_alive == min_players_in_lobby + 1 || players_ready.size() == min_players_in_lobby);
+    return (players_alive == max_players || players_ready.size() == min_players_in_lobby);
 }
 
 /* GAME CHANGERS */
