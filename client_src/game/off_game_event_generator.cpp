@@ -11,7 +11,10 @@ OffGameEventGenerator::OffGameEventGenerator(BlockingQueue<Event> &_event_queue,
 
 }
 
-void OffGameEventGenerator::generateReadyEvent() {
+void OffGameEventGenerator::generateReadyEventIfNecessary() {
+    if (ready_event_already_sent)
+        return;
     Event event = Event(PLAYER_READY, player.getId(), 0);
     event_queue.push(event);
+    ready_event_already_sent = true;
 }

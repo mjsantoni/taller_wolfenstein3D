@@ -48,7 +48,6 @@ void ClientGame::displayConnectionErrorScreen(std::string message) {
 }
 
 void ClientGame::processGame() {
-    SDL_Event event;
     while (game_running) {
         auto initial_time = std::chrono::system_clock::now();
         change_processor.processInGameChanges();
@@ -62,5 +61,13 @@ void ClientGame::processGame() {
 }
 
 void ClientGame::displayStatistics() {
-    screen.displayStatistics(statistics_manager.getStatistics());
+    while (true) {
+        screen.displayStatistics(statistics_manager.getStatistics());
+        SDL_Event event;
+        if (SDL_PollEvent(&event) == 0) {
+            continue;
+        }
+        if (event.type == SDL_KEYDOWN || event.type == SDL_QUIT)
+            return;
+    }
 }

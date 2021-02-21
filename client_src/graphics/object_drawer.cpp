@@ -69,7 +69,6 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
         return;
     ObjectInfo object_info =
             object_info_provider.getObjectInfo(object.getObjectType());
-    std::cout << "Se dibuja objeto: " << object_info.getImagePath() << std::endl;
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     //std::cout << "sprite no: " << object.getSpriteAnimationNo() << std::endl;

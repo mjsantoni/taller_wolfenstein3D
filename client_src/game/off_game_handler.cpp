@@ -23,22 +23,15 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
 void OffGameHandler::displayMenus(const std::string &map_name) {
     //event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
     audio_manager.playSong();
-    //displayIntro();
-    //std::cout << "Se inicia el juego" << std::endl;
-    //int game_mode = displayMatchModeMenu();
-    //if (game_mode != 1)
-        //return;
-    //displayLevelSelectionMenu();
+    displayIntro();
     initializeMap(map_name);
     displayLoadingScreen();
-    //sleep(1);
     audio_manager.stopSong();
 }
 
 void OffGameHandler::displayIntro() {
     screen.displayIntro();
     while (true) {
-        //SDL_Delay(1);
         SDL_Event event;
         SDL_WaitEvent(&event);
         if (event.type == SDL_KEYDOWN)
@@ -46,51 +39,21 @@ void OffGameHandler::displayIntro() {
     }
 }
 
-int OffGameHandler::displayMatchModeMenu() {
-    screen.displayMatchModeMenu();
-    int ret_code = 0;
-    while (true) {
-        //SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        ret_code = event_handler.handleMatchModeScreenEvent(event);
-        if (ret_code != 0)
-            break;
-    }
-    return ret_code;
-}
-
-void OffGameHandler::displayLevelSelectionMenu() {
-    screen.displayLevelSelectionMenu();
-    while (true) {
-        //SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        int chosen_map = event_handler.handleLevelSelectionEvent(event);
-        if (chosen_map != 0) {
-            break;
-        }
-    }
-}
-
 void OffGameHandler::displayLoadingScreen() {
     screen.displayLoadingScreen(true);
-    while (!player_ready)
+    SDL_Event event;
+    while (!player_ready || !game_started) {
+        usleep(30000);
         change_processor.processOffGameChanges();
-    while (true) {
-        //SDL_Delay(1);
-        SDL_Event event;
-        SDL_WaitEvent(&event);
+        if (SDL_PollEvent(&event) == 0)
+            continue;
         bool player_pressed_p = event_handler.handleLoadingScreenEvent(event);
         if (player_pressed_p) {
-            event_generator.generateReadyEvent();
-            break;
+            event_generator.generateReadyEventIfNecessary();
+            screen.displayLoadingScreen(false);
         }
-    }
-    while (!game_started) {
-        usleep(30000);
-        screen.displayLoadingScreen(false);
-        change_processor.processOffGameChanges();
+        //std::cout << "Player ready: " << player_ready << std::endl;
+        //std::cout << "Game started: " << game_started << std::endl;
     }
     std::cout << "TERMINA LA INTRO\n";
 }
