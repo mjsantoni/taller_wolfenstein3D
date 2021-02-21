@@ -24,7 +24,6 @@ public:
     void displayPlayerPistolSound(double volume_ratio);
     void displayEmptyGunSound();
     void displayExplosionSound(double volume_ratio);
-
     void displayPlayerLosingHealthSound();
     std::string getFilePath(const std::string &file_name);
     void displayEnemyShot(double volume_ratio);
@@ -41,6 +40,9 @@ public:
     void playDefeatSong();
     void displayRocketLauncherSound(double volume_ratio);
     void displayMachineGunSound(double volume_ratio);
+    void playGameSong();
+    void stopGameSong();
+    void setMusicVolume(int volume);
 };
 
 

@@ -98,6 +98,7 @@ public:
     int getEnemyTypeFromId(int enemy_id);
     double getEnemyDistanceRatio(int enemy_id);
     bool isLastPlayerStanding();
+    int getEnemiesAlive();
 };
 
 

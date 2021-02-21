@@ -173,8 +173,8 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
             break;
         }
         case (GAME_OVER): {
+            map.updateEvents();
             game_running = false;
-            screen.displayTimeOverScreen();
         }
         /*
         case (TOTAL_PLAYERS_CONNECTED): {
@@ -227,11 +227,8 @@ void InGameChangeProcessor::stop() {
 void InGameChangeProcessor::processPostGameChanges(Change change) {
     int change_id = change.getChangeID();
     if (change_id == GAME_OVER) {
+        map.updateEvents();
         game_running = false;
-        if (!player_alive) {
-            audio_manager.playDefeatSong();
-            screen.displayDefeatScreen();
-        }
         return;
     }
     if (change_id < TOP_KILLER || change_id > TOP_SCORER)
@@ -354,11 +351,8 @@ void InGameChangeProcessor::processEnemyDying(int enemy_id) {
         audio_manager.displayDyingDog(1-distance_ratio);
     else
         audio_manager.displayDyingEnemy(1-distance_ratio);
-    if (map.isLastPlayerStanding()) {
-        audio_manager.playVictorySong();
-        screen.displayVictoryScreen();
+    if (map.isLastPlayerStanding())
         game_over = true;
-    }
     else
         updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION+1);
 }

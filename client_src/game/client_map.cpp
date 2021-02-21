@@ -322,3 +322,7 @@ void ClientMap::setBloodEffectForEnemy(int enemy_id) {
 bool ClientMap::isLastPlayerStanding() {
     return enemies.size() == 1;
 }
+
+int ClientMap::getEnemiesAlive() {
+    return enemies.size();
+}

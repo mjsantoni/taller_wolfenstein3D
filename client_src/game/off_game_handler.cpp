@@ -22,11 +22,11 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
 
 void OffGameHandler::displayMenus(const std::string &map_name) {
     //event_handler.defineKeyScreenAreas(screen.getKeyScreenAreas());
-    audio_manager.playSong();
+    //audio_manager.playSong();
     displayIntro();
     initializeMap(map_name);
     displayLoadingScreen();
-    audio_manager.stopSong();
+    //audio_manager.stopSong();
 }
 
 void OffGameHandler::displayIntro() {

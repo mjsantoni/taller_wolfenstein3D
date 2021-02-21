@@ -103,3 +103,16 @@ void AudioManager::displayMachineGunSound(double volume_ratio) {
 void AudioManager::displayRocketLauncherSound(double volume_ratio) {
     audio_player.playSound(getFilePath("rocket_launcher.mp3"), volume_ratio);
 }
+
+void AudioManager::playGameSong() {
+    audio_player.playMusic(getFilePath("whole_song.mp3"));
+}
+
+void AudioManager::stopGameSong() {
+    audio_player.stopMusic();
+    audio_player.restoreMusicVolume();
+}
+
+void AudioManager::setMusicVolume(int volume) {
+    audio_player.setMusicVolume(volume);
+}

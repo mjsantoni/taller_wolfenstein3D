@@ -48,6 +48,7 @@ private:
 public:
     ClientGame(SharedQueue<Change>& change_queue,
                BlockingQueue<Event>& event_queue);
+    ~ClientGame();
     void startGame(const std::string& map_name);
     void killPlayer();
     void respawnPlayer();
@@ -57,6 +58,10 @@ public:
     void displayConnectionErrorScreen(std::basic_string<char> exception);
     void processGame();
     void displayStatistics();
+
+    void displayResultScreen(int game_result);
+
+    int processGameResult();
 };
 
 

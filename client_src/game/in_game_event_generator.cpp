@@ -7,11 +7,13 @@
 InGameEventGenerator::InGameEventGenerator(ClientPlayer &_player,
                                            InGameEventHandler &_event_handler,
                                            BlockingQueue<Event>& _event_queue,
-                                           bool& _player_alive) :
+                                           bool& _player_alive,
+                                           bool& _game_running) :
         player(_player),
         event_handler(_event_handler),
         event_queue(_event_queue),
-        player_alive(_player_alive) {
+        player_alive(_player_alive),
+        game_running(_game_running) {
 }
 
 void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
@@ -110,7 +112,13 @@ void InGameEventGenerator::generateInGameEvents() {
             generateInGameEvent(event);
             break;
         case SDL_QUIT:
+            game_running = false;
+            player_quitted = true;
             puts("Saliendo");
             return;
     }
+}
+
+bool InGameEventGenerator::playerQuitted() {
+    return player_quitted;
 }

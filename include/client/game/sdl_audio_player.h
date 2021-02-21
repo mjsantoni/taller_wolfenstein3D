@@ -19,6 +19,10 @@ public:
     void restoreVolume();
     void setVolume(int volume_level);
     void playMusic(const std::string &file_name);
+    void playMusic(const std::string &file_name, int volume);
+    void stopMusic();
+    void setMusicVolume(int volume);
+    void restoreMusicVolume();
 };
 
 
