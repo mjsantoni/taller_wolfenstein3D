@@ -25,7 +25,8 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
     std::vector<Drawable> objects_vector = map.getAllDrawables();
     std::sort(objects_vector.begin(), objects_vector.end(), compareByDistance);
 
-    for (auto& object : objects_vector) {
+    for (int i = 0; i < objects_vector.size(); ++i) {
+        Drawable& object = objects_vector[i];
         std::pair<int, int> object_pos = object.getMapPosition();
         double distance = Calculator::calculateDistance(x - object_pos.first,
                                                         y - object_pos.second);
@@ -68,11 +69,7 @@ void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
         return;
     ObjectInfo object_info =
             object_info_provider.getObjectInfo(object.getObjectType());
-    /*
-    if (object_info.getObjectType() < 0)
-        object_info.setObjectType(object_info.getObjectType() +
-                                                    EFFECT_TO_IMAGE_DELTA);
-    */
+    std::cout << "Se dibuja objeto: " << object_info.getImagePath() << std::endl;
     object_info.setHitDistance(distance);
     object_info.setHitGridPos(x_prop);
     //std::cout << "sprite no: " << object.getSpriteAnimationNo() << std::endl;

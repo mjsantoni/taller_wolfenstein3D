@@ -13,7 +13,7 @@ class ClientMapGenerator {
 private:
 public:
     static void create(ClientMap& map, MapParser& parser);
-    static void addWallsToMap(ClientMap &map, MapParser& map_parser);
+    static void addScenariosToMap(ClientMap &map, MapParser& map_parser);
     static void addObjectsToMap(ClientMap &map, MapParser &map_parser);
     static void setMapDimensions(ClientMap &map, MapParser &map_parser);
     static void addPlayerSpawnsToMap(ClientMap &map, MapParser &map_parser);

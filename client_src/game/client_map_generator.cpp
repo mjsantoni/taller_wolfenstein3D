@@ -6,20 +6,28 @@
 
 void ClientMapGenerator::create(ClientMap& map, MapParser& map_parser) {
     setMapDimensions(map, map_parser);
-    addWallsToMap(map, map_parser);
+    addScenariosToMap(map, map_parser);
     addObjectsToMap(map, map_parser);
     addPlayerSpawnsToMap(map, map_parser);
 }
 
-void ClientMapGenerator::addWallsToMap(ClientMap& map, MapParser& map_parser) {
+void ClientMapGenerator::addScenariosToMap(ClientMap& map,
+                                           MapParser& map_parser) {
     std::unordered_map<std::string, std::vector<Coordinate>> walls =
             map_parser.getSpecificCategory("scenarios");
     for (auto& wall : walls) {
         int object_type = ImageManager::getImageNumberFromName(wall.first);
         for (auto& coord : wall.second) {
-            int x_pos = coord.x;
-            int y_pos = coord.y;
-            map.putWallAt(std::pair<int, int>{x_pos, y_pos}, object_type);
+            if (ImageManager::objectIsWall(object_type)) {
+                int x_pos = coord.x;
+                int y_pos = coord.y;
+                map.putWallAt(std::pair<int, int>{x_pos, y_pos}, object_type);
+            } else {
+                int grid_size = map.getGridSize();
+                coord.x = (coord.x * grid_size) + (int) grid_size/2;
+                coord.y = (coord.y * grid_size) + (int) grid_size/2;
+                map.putObjectAt(object_type, coord.x, coord.y);
+            }
         }
     }
 }
