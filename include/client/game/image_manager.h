@@ -23,6 +23,7 @@ public:
     static void setAttackingAnimationForEnemy(Drawable& enemy);
     static void setMovingAnimationForEnemy(Drawable& drawable,
                                            int current_animation);
+    static int getWeaponNumberFromEnemy(int enemy_type);
 };
 
 

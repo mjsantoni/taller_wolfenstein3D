@@ -20,7 +20,7 @@ public:
     void stopSound();
     void displayPlayerAttackingSound(int equipped_weapon);
     void displayKnifeStabbingSound();
-    void displayPlayerShootingSound();
+    void displayPlayerPistolSound(double volume_ratio);
     void displayEmptyGunSound();
     void displayExplosionSound(double volume_ratio);
 
@@ -38,6 +38,8 @@ public:
     void displayFakeWallDisappearingSound();
     void playVictorySong();
     void playDefeatSong();
+    void displayRocketLauncherSound(double volume_ratio);
+    void displayMachineGunSound(double volume_ratio);
 };
 
 

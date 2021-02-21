@@ -260,7 +260,7 @@ double ClientMap::getEnemyDistanceRatio(int enemy_id) {
     int delta_x = player_coord.first - enemy_pos.first;
     int delta_y = player_coord.first - enemy_pos.second;
     double enemy_distance = Calculator::calculateDistance(delta_x, delta_y);
-    return enemy_distance/max_distance;
+    return 1 - (enemy_distance/max_distance);
 }
 
 void ClientMap::updateEvents() {

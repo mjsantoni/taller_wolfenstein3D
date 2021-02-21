@@ -125,3 +125,7 @@ bool ImageManager::objectIsAmmoRelated(int object_type) {
     return object_type == ITEM_MACHINE_GUN || object_type == ITEM_CHAIN_CANNON
         || object_type == ITEM_ROCKET_LAUNCHER || object_type == ITEM_BULLETS;
 }
+
+int ImageManager::getWeaponNumberFromEnemy(int enemy_type) {
+    return enemy_type - WEAPON_ENEMY_DELTA;
+}

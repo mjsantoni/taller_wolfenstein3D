@@ -30,8 +30,8 @@ void AudioManager::displayKnifeStabbingSound() {
     audio_player.playSound(getFilePath("knife_stab.mp3"));
 }
 
-void AudioManager::displayPlayerShootingSound() {
-    audio_player.playSound(getFilePath("gun_fire.wav"));
+void AudioManager::displayPlayerPistolSound(double volume_ratio) {
+    audio_player.playSound(getFilePath("gun_fire.wav"), volume_ratio);
 }
 
 void AudioManager::displayExplosionSound(double volume_ratio) {
@@ -94,4 +94,12 @@ void AudioManager::playDoorOpeningSound() {
 
 void AudioManager::displayFakeWallDisappearingSound() {
     audio_player.playSound(getFilePath("wall_moving.mp3"));
+}
+
+void AudioManager::displayMachineGunSound(double volume_ratio) {
+    audio_player.playSound(getFilePath("machine_gun.mp3"), volume_ratio);
+}
+
+void AudioManager::displayRocketLauncherSound(double volume_ratio) {
+    audio_player.playSound(getFilePath("rocket_launcher.mp3"), volume_ratio);
 }

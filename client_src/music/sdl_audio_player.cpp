@@ -27,7 +27,7 @@ void SdlAudioPlayer::playSound(const std::string& file_name) {
 
 void SdlAudioPlayer::playSound(const std::string& file_name,
                                double volume_ratio) {
-    int volume = (int) ((1-volume_ratio) * MIX_MAX_VOLUME);
+    int volume = (int) (volume_ratio * MIX_MAX_VOLUME);
     Mix_Volume(-1, volume);
     std::unique_lock<std::mutex> lock(m);
     Mix_Chunk* sound = Mix_LoadWAV(file_name.c_str());

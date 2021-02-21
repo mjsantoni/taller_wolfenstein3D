@@ -3,7 +3,8 @@
 
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 25
-#define MAX_WEAPON_ANIMATION 3
+#define MAX_WEAPON_TURNS 3
+#define MAX_MACHINE_GUN_TURNS 20
 #define ENEMY_DEATH_ANIMATION 1
 #define ENEMY_ATTACKING_ANIMATION 1
 #define BLOOD_EFFECT_ANIMATION 3
@@ -89,7 +90,7 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
         case (CHANGE_WEAPON): {
             if (player.getId() == id) {
                 player.changeWeapon(value1);
-                render_background_and_objects = false;
+                updateMandatoryRenderingTurns(1);
             }
             else {
                 map.changeEnemyImage(id, value1);
@@ -253,17 +254,43 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
     map.setEnemyAttacking(enemy_id);
     updateMandatoryRenderingTurns(ENEMY_ATTACKING_ANIMATION+1);
     double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+    int enemy_weapon = ImageManager::getWeaponNumberFromEnemy(enemy_type);
     if (enemy_type == ENEMY_DOG)
         audio_manager.displayDogAttackingSound(distance_ratio);
     else
-        audio_manager.displayEnemyShot(distance_ratio);
+        playAttackingSound(enemy_weapon, distance_ratio);
+}
+
+void InGameChangeProcessor::playAttackingSound(int players_weapon,
+                                               double distance_ratio) {
+    switch(players_weapon) {
+        case WEAPON_KNIFE:
+            audio_manager.displayKnifeStabbingSound();
+            mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+            break;
+        case WEAPON_PISTOL:
+            audio_manager.displayPlayerPistolSound(distance_ratio);
+            mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+            break;
+        case WEAPON_MACHINE_GUN:
+            audio_manager.displayMachineGunSound(0);
+            mandatory_rendering_turns = MAX_MACHINE_GUN_TURNS + 1;
+            break;
+        case WEAPON_ROCKET_LAUNCHER:
+            audio_manager.displayRocketLauncherSound(distance_ratio);
+            mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+            break;
+        default:
+            audio_manager.displayPlayerPistolSound(distance_ratio);
+            mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+            break;
+    }
 }
 
 void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
     if (delta < 0) {
-        audio_manager.displayPlayerShootingSound();
-        screen.setPlayerAttacking();
-        mandatory_rendering_turns = MAX_WEAPON_ANIMATION+1;
+        playAttackingSound(player.getEquippedWeapon(), 1);
+        screen.setPlayerAttacking(player.getEquippedWeapon());
         render_background_and_objects = false;
     }
     else if (delta == 0) {
@@ -272,10 +299,10 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
             //skip_rendering = true;
         }
         else {
-            audio_manager.displayKnifeStabbingSound();
+            playAttackingSound(WEAPON_KNIFE, 1);
             //screen.displayPlayerAttacking();
-            screen.setPlayerAttacking();
-            updateMandatoryRenderingTurns(MAX_WEAPON_ANIMATION+1);
+            screen.setPlayerAttacking(WEAPON_KNIFE);
+            updateMandatoryRenderingTurns(MAX_WEAPON_TURNS + 1);
         }
     }
     player.updateAmmo(delta);
