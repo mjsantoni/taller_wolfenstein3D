@@ -45,5 +45,6 @@ path:../client_src/resources/effects/dog_blood_effect.png, obj_width:0.1, obj_he
 
 path:../client_src/resources/misc/barrel.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:barrel, is_sprite:0
 path:../client_src/resources/misc/table.png, obj_width:0.3, obj_height:0.3, img_width:153, img_height:139, name:table, is_sprite:0
+path:../client_src/resources/misc/water_puddle.png, obj_width:0.3, obj_height:0.3, img_width:72, img_height:74, name:table, is_sprite:0
 
 path:../client_src/resources/ui/player_face.png, obj_width:0, obj_height:0, img_width:184, img_height:124, name:table, is_sprite:1, sprite_dim:2x4, sprite_padding:0x3

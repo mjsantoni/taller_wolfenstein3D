@@ -26,18 +26,6 @@ void AudioManager::displayEmptyGunSound() {
     audio_player.playSound(getFilePath("empty_gun.mp3"), 200000);
 }
 
-void AudioManager::displayPlayerAttackingSound(int equipped_weapon) {
-    std::unique_lock<std::mutex> lock(m);
-    switch (equipped_weapon) {
-        case 1:
-            displayKnifeStabbingSound();
-            break;
-        default:
-            displayPlayerShootingSound();
-            break;
-    }
-}
-
 void AudioManager::displayKnifeStabbingSound() {
     audio_player.playSound(getFilePath("knife_stab.mp3"));
 }

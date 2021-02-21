@@ -46,7 +46,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
     if (name == "medkit")
         return ITEM_MEDICAL_KIT;
     if (name == "water_puddle")
-        return ITEM_BLOOD;
+        return MISC_WATER;
     if (name == "food")
         return ITEM_FOOD;
     return ITEM_KEY;

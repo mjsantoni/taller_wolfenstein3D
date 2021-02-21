@@ -53,7 +53,8 @@
 
 #define MISC_BARREL 40
 #define MISC_TABLE 41
+#define MISC_WATER 42
 
-#define UI_PLAYER_FACE 42
+#define UI_PLAYER_FACE 43
 
 #endif //TP_WOLFENSTEIN_IMAGES_H
