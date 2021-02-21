@@ -6,7 +6,7 @@
 #include <SDL_timer.h>
 #include "client/game/off_game_handler.h"
 
-#define MAPS_PATH "../maps/ww"
+#define MAPS_PATH "../maps/"
 
 OffGameHandler::OffGameHandler(GameScreen& _screen,
                                ClientPlayer& player,
