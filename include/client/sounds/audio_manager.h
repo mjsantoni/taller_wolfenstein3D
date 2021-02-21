@@ -8,12 +8,13 @@
 #include <zconf.h>
 #include <client/game/sdl_audio_player.h>
 #include <mutex>
+#include "../../../client_src/client_routes.h"
 
 class AudioManager {
 private:
     std::mutex m;
     SdlAudioPlayer audio_player;
-    std::string files_path = "../client_src/resources/sounds/";
+    std::string files_path = CLIENT_SOUNDS_ROUTE;
 public:
     void playSong();
     void stopSong();

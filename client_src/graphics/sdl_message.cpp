@@ -3,39 +3,15 @@
 //
 
 #include "client/graphics/sdl_message.h"
-#include <client/graphics/area.h>
-#include <client/graphics/sdl_window.h>
-
-#define FONTS_PATH "../client_src/resources/fonts/"
-/*
-SdlMessage::SdlMessage(std::string _text,
-                       std::string font_name,
-                       SDL_Color _color,
-                       int _font_size) :
-        font(TTF_OpenFont((FONTS_PATH + font_name).c_str(), _font_size)),
-        text(std::move(_text)) {
-    color = _color;
-    surface = TTF_RenderText_Solid(font, text.c_str(), color);
-}
-*/
+#include "../client_routes.h"
 
 SdlMessage::SdlMessage(MessageParameters &message_parameters) :
-        font(TTF_OpenFont((FONTS_PATH + message_parameters.getFontName()).c_str(),
+        font(TTF_OpenFont((CLIENT_FONTS_ROUTE +
+            message_parameters.getFontName()).c_str(),
                           message_parameters.getFontSize())),
         text(message_parameters.getText()) {
     color = message_parameters.getFontColor();
     surface = TTF_RenderText_Solid(font, text.c_str(), color);
-}
-
-SDL_Texture* SdlMessage::loadMessage(SDL_Renderer* renderer,
-                                     Area& message_area) {
-    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_QueryTexture(message, nullptr, nullptr, &area_width, &area_height);
-    message_area.setWidth(area_width);
-    message_area.setHeight(area_height);
-    SDL_FreeSurface(surface);
-    TTF_CloseFont(font);
-    return message;
 }
 
 SDL_Texture* SdlMessage::loadMessage(SDL_Renderer* renderer,

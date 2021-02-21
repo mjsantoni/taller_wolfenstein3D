@@ -10,6 +10,7 @@
 #include <client/graphics/sdl_message.h>
 #include <client/graphics/sdl_texture.h>
 
+
 class MenusDrawer {
 private:
     SdlWindow& window;
@@ -24,12 +25,8 @@ private:
 public:
     explicit MenusDrawer(SdlWindow& _window);
     void displayIntro();
-    SDL_Texture* createMessage(const std::string &message,
-                               Area &msg_area,Area &screen_area);
     void fillTextArea(TTF_Font *font, const std::string &message,
                       Area &screen_area);
-    void displayMatchModeMenu();
-    void displayLevelSelectionMenu();
     void displayFullImage(SdlTexture &texture);
     std::vector<Area> getKeyAreas();
     void displayLoadingScreen(bool waiting_for_input);
@@ -51,9 +48,7 @@ public:
                            std::vector<int> top_scorers_stats);
     void displayDefeatScreen();
     void displayNetworkConnectingErrorScreen();
-
     void displayTimeOverScreen();
-
     void displayEmptyStatisticsScreen();
 };
 

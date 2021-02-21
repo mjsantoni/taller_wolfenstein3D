@@ -71,7 +71,7 @@ void AudioManager::playAmmoPickUpSound() {
 }
 
 std::string AudioManager::getFilePath(const std::string &file_name) {
-    return files_path + "/" + file_name;
+    return CLIENT_SOUNDS_ROUTE + file_name;
 }
 
 void AudioManager::playVictorySong() {

@@ -43,16 +43,8 @@ void GameScreen::displayIntro() {
     menus_drawer.displayIntro();
 }
 
-void GameScreen::displayMatchModeMenu() {
-    menus_drawer.displayMatchModeMenu();
-}
-
 std::vector<Area> GameScreen::getKeyScreenAreas() {
     return menus_drawer.getKeyAreas();
-}
-
-void GameScreen::displayLevelSelectionMenu() {
-    return menus_drawer.displayLevelSelectionMenu();
 }
 
 void

@@ -92,7 +92,9 @@ void ImageParser::processLine(std::vector<ObjectInfo>& vector,
     ObjectInfo object_info;
     std::vector<std::string> aux;
     split(line, aux);
-    object_info.setImagePath(getCorrectValue(aux[0]));
+    std::string image_specific_path = getCorrectValue(aux[0]);
+    std::string image_path = CLIENT_IMAGES_ROUTE + image_specific_path;
+    object_info.setImagePath(image_path);
     object_info.setImageWidth(stoi(getCorrectValue(aux[3])));
     object_info.setImageHeight(stoi(getCorrectValue(aux[4])));
     object_info.setObjectName(getStringValue(aux[5]));
