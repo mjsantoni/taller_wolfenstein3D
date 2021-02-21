@@ -96,7 +96,10 @@ void NetworkConnection::send_size(std::uint32_t len) {
     while (total_bytes < sizeof(std::uint32_t)) {
         int bytes = send(this->file_descriptor, &((char*)&len)[total_bytes],
                          sizeof(std::uint32_t) - total_bytes, MSG_NOSIGNAL);
-        if (bytes == -1) return;
+        if (bytes == -1) throw NetworkError("Error sending size: %s\n",
+                                            strerror(errno));;
+        if (bytes == 0) throw NetworkError("Communication closed: %s\n",
+                                           strerror(errno));
         total_bytes += bytes;
     }
 }
@@ -108,7 +111,10 @@ int NetworkConnection::send_msg(std::string msg) {
     while (total_bytes < len) {
         int bytes = send(this->file_descriptor, &msg[total_bytes],
                          len - total_bytes, MSG_NOSIGNAL);
-        if (bytes == -1) return 1;
+        if (bytes == -1) throw NetworkError("Error sending: %s\n",
+                                            strerror(errno));
+        if (bytes == 0) throw NetworkError("Communication closed: %s\n",
+                                           strerror(errno));;
         total_bytes += bytes;
     }
     return 0;
