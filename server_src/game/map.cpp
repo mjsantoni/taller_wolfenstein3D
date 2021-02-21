@@ -42,8 +42,9 @@ void Map::addPlayer(int i) {
 
 bool Map::isABlockingItemAt(const Coordinate& coordinates) {
     Coordinate normalize = getNormalizedCoordinate(coordinates);
-    if(board.find(normalize) != board.end())
-        return board.at(normalize).isBlocking();
+    Coordinate centered = getCenteredCoordinate(coordinates);
+    if (board.find(centered) != board.end()) return board.at(centered).isBlocking();
+    if (board.find(normalize) != board.end()) return board.at(normalize).isBlocking();
     return false;
 }
 
@@ -72,6 +73,15 @@ Coordinate Map::getNormalizedCoordinate(const Coordinate& coordinates) {
     int x_normalize = trunc(coordinates.x / grid_size) * grid_size;
     int y_normalize = trunc(coordinates.y / grid_size) * grid_size;
     Coordinate normalize(x_normalize, y_normalize);
+    return normalize;
+}
+
+Coordinate Map::getCenteredCoordinate(const Coordinate& coordinates) {
+    int x_normalize = trunc(coordinates.x / grid_size);
+    int y_normalize = trunc(coordinates.y / grid_size);
+    Coordinate normalize(x_normalize, y_normalize);
+    normalize.x = (normalize.x * grid_size) + (int) grid_size/2;
+    normalize.y = (normalize.y * grid_size) + (int) grid_size/2;
     return normalize;
 }
 

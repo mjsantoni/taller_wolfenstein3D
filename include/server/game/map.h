@@ -81,6 +81,8 @@ public:
     void show();
 
     Coordinate closeBlocking(int units, const Coordinate &coord, double self_angle);
+
+    Coordinate getCenteredCoordinate(const Coordinate &coordinates);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H
