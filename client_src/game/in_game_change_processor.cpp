@@ -94,6 +94,7 @@ void InGameChangeProcessor::processInGameChange(Change &change) {
             }
             else {
                 map.changeEnemyImage(id, value1);
+                updateMandatoryRenderingTurns(1);
             }
             break;
         }
