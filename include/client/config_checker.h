@@ -46,6 +46,8 @@ public:
     void updateMinSpin();
 
     void showError(const char *string);
+
+    void backToMenu();
 public slots:
     void updateBotsSpin();
     void updateMaxPlayerMap();
