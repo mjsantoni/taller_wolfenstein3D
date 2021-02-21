@@ -7,6 +7,7 @@
 #include <atomic>
 #include <common/change.h>
 #include <common/network_connection.h>
+#include <common/network_error.h>
 
 class ServerListener : public Thread {
 private:
