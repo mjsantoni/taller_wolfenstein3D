@@ -83,6 +83,7 @@ void Editor::dragLeaveEvent(QDragLeaveEvent* event) {
 void Editor::mousePressEvent(QMouseEvent *event){
     if(event->button()==Qt::LeftButton) {
         setCursor(Qt::ArrowCursor);
+        currentCursor = "empty";
     }
 }
 
