@@ -1,16 +1,14 @@
-//
-// Created by andy on 10/12/20.
-//
+#include <QFile>
+#include "client/config_checker.h"
 
-#include <client/game/client.h>
-
-NetworkConnection connectToServer() {
-    return NetworkConnection("localhost", "8080");
+int main(int argc, char* args[]) {
+    QApplication app(argc, args);
+    ConfigChecker checker;
+    QFile file("../client_src/client.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    app.setStyleSheet(styleSheet);
+    checker.show();
+    app.exec();
+    app.quit();
 }
-/*
-int main() {
-    NetworkConnection socket = connectToServer();
-    Client client(socket);
-    client.startGame();
-}
-*/

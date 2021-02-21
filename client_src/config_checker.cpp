@@ -1,6 +1,6 @@
 #include <QtWidgets/QCommandLinkButton>
 #include <client/game/client.h>
-#include "clientQT/config_checker.h"
+#include "client/config_checker.h"
 #include "ui_connect.h"
 
 #define CREATE_GAME "0"

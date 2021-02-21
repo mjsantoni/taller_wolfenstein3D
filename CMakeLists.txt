@@ -1,5 +1,3 @@
-
-
 cmake_minimum_required(VERSION 3.10)
 project(tp_wolfenstein)
 
@@ -20,16 +18,6 @@ pkg_check_modules(SDL2_Mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include ${PROJECT_BINARY_DIR} ${YAML_INCLUDE_DIRS})
 set(CMAKE_AUTOMOC on)
 set(CMAKE_CXX_STANDARD 11)
-
-file(GLOB All_SRC
-    "server_src/server_main.cpp"
-    "editor_src/*.cpp"
-    "server_src/*.cpp"
-    "server_src/*/*.cpp"
-    "client_src/*.cpp"
-    "common_src/*.cpp"
-    "server_src/*/*.cpp"
-)
 
 file(GLOB CLIENT_SRC
         "client_src/*/*.cpp"
@@ -55,20 +43,11 @@ file(GLOB EDITOR_SRC
         "editor_src/*/*.cpp"
         )
 
-file(GLOB CLIENT2_SRC
-        "ClientQT/*.cpp"
-        "common_src/*.cpp")
-
-#add_executable(tp_wolfenstein ${All_SRC} ${UIS_HEADERS})
 add_executable(server ${SERVER_SRC})
-add_executable(client ${CLIENT_SRC})
-add_executable(ClientQT ${CLIENT_SRC} ${CLIENT2_SRC} ${UIS_HEADERS})
+add_executable(client ${CLIENT_SRC} ${UIS_HEADERS})
 add_executable(editor ${EDITOR_SRC} ${UIS_HEADERS})
 
 
-#target_link_libraries(lua_bot lua5.3)
-#TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} PkgConfig::SDL2_Mixer ${YAML_CPP_LIBRARIES} Qt5::Widgets)
-TARGET_LINK_LIBRARIES(ClientQT ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${YAML_CPP_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
 TARGET_LINK_LIBRARIES(server ${YAML_CPP_LIBRARIES} lua5.3)
 TARGET_LINK_LIBRARIES(editor ${YAML_CPP_LIBRARIES} Qt5::Widgets)
 TARGET_LINK_LIBRARIES(client ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${YAML_CPP_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
