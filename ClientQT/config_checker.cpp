@@ -5,7 +5,9 @@
 
 #define CREATE_GAME "0"
 #define JOIN_GAME "1"
-#define MAPS_PATH "../ClientQT/maps/"
+#define MAPS_PATH "../maps/"
+#define WINDOW_ICON_PATH "../client_src/resources/menus/windowIcon.png"
+#define BACKGROUND_PATH "../client_src/resources/menus/intro2.jpg"
 #define SUCCESS "2"
 #define ERROR "3"
 
@@ -13,11 +15,11 @@
 ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) {
     Ui::ConfigChecker checker;
     checker.setupUi(this);
-    this->setWindowIcon(QIcon("../client_src/resources/menus/windowIcon.png"));
-    QPixmap bkgnd("../client_src/resources/menus/intro2.jpg");
-    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    this->setWindowIcon(QIcon(WINDOW_ICON_PATH));
+    QPixmap background(BACKGROUND_PATH);
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
+    palette.setBrush(QPalette::Background, background);
     this->setPalette(palette);
 
     hideWidget("connectionWidget");
@@ -70,7 +72,7 @@ void ConfigChecker::createNewGame() {
     sk.send_msg(data);
     std::string answer;
     sk.recv_msg(answer);
-    qDebug(answer.c_str());
+    //qDebug(answer.c_str());
     if (answer == SUCCESS) {
         this->close();
         Client client(sk);
@@ -99,7 +101,9 @@ void ConfigChecker::showParameters() {
         min_players_spin->setMaximum(max_players_size);
         max_players_spin->setMaximum(max_players_size);
     } catch (YAML::ParserException) {
+        showError("Error en el parseo del mapa");
     } catch (YAML::BadFile) {
+        showError("Error en el archivo del mapa");
     };
 }
 
@@ -205,7 +209,13 @@ void ConfigChecker::showError(const char *string) {
     widget->show();
 }
 
-void ConfigChecker::updateBotsSpin() {
+void ConfigChecker::updateBotsSpin() {\
+    QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+    QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
+
+    if (max_players_spin->value() < min_players_spin->value()) {
+        max_players_spin->setValue(min_players_spin->value());
+    }
     updateSpin("botsSpin", "minPlayersSpin");
 }
 
@@ -231,8 +241,6 @@ void ConfigChecker::updateMinSpin() {
 
 void ConfigChecker::updateSpin(const char *to_update, const char *updater) {
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
-    qDebug(to_update);
-    qDebug(updater);
     QSpinBox *update = findChild<QSpinBox*>(to_update);
     QSpinBox *updateree = findChild<QSpinBox*>(updater);
 

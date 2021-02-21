@@ -4,7 +4,7 @@
 #define DEF_WIDTH 14
 #define MAX_PLAYERS 8
 #define CURSOR_SIZE 50
-#define EMPTY_PATH "../editor_src/resources/empty.jpg"
+#define EMPTY_PATH "../editor_src/resources/empty.png"
 #define WOOD_WALL_PATH "../editor_src/resources/walls/brown_wall.png"
 #define ROCK_WALL_PATH "../editor_src/resources/walls/rock_wall.jpg"
 #define LOCKED_DOOR_PATH "../client_src/resources/walls/locked_door.png"
@@ -123,7 +123,7 @@ void Editor::loadMap(std::string path) {
     categories.push_back("players");
 
     for(auto &category: categories){
-        for(auto &items: parser.getCategory(category)){
+        for(auto &items: parser.getSpecificCategory(category)){
             for(auto &positions: items.second){
                 QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.x, positions.y)->widget());
                 if (items.first == "wood_wall") updateGridButton(button, QIcon(wood_pix), "wood_wall");
@@ -294,7 +294,7 @@ YAML::Emitter& operator << (YAML::Emitter& out, const std::vector<std::pair<int,
 }
 
 void Editor::exportMap() {
-    /* Height and weapon_width input */
+    /* Height and width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
     QString qHeight= QString("%1").arg(inputHeight->text());
@@ -363,7 +363,7 @@ void Editor::exportMap() {
 
     out << YAML::Key << "dimensions";
     out << YAML::Value << YAML::BeginMap;
-    out << YAML::Key << "weapon_width" << YAML::Value << width;
+    out << YAML::Key << "width" << YAML::Value << width;
     out << YAML::Key << "height" << YAML::Value << height;
     out << YAML::EndMap;
 
@@ -435,7 +435,7 @@ void Editor::exportMap() {
 }
 
 void Editor::refreshMapGrid(){
-    /* Height and weapon_width input */
+    /* Height and width input */
     QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
     QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
     QString height= QString("%1").arg(inputHeight->text());
@@ -463,7 +463,7 @@ void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int 
         for (int j = 0; j < cols; ++j) {
             if (i < gridRows && j < gridCols) continue;
             QGridButton* buttonGrid = new QGridButton();
-            buttonGrid->setStyleSheet("QGridButton::menu-indicator{weapon_width:0px;}");
+            buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
             buttonGrid->setMaximumSize(70, 70);
             buttonGrid->setMinimumSize(50,50);
             buttonGrid->setIcon(buttonIcon);
@@ -478,13 +478,13 @@ void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int 
 
 std::string Editor::saveYamlPath() {
     return QFileDialog::getSaveFileName(this,
-                                        tr("Save map"), ".yaml",
+                                        tr("Save map"), "../maps/",
                                         tr("YAML file (*.yaml)")).toStdString();
 }
 
 std::string Editor::getYamlPath() {
    return QFileDialog::getOpenFileName(this,
-                                       tr("Load map"), "",
+                                       tr("Load map"), "../maps/",
                                        tr("YAML file (*.yaml)")).toStdString();
 }
 

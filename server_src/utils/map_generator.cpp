@@ -1,6 +1,6 @@
 #include "server/utils/map_generator.h"
 
-#define MAP_PATH "../ClientQT/maps/"
+#define MAP_PATH "../maps/"
 
 MapGenerator::MapGenerator(const std::string& map_path) :
                            mapParser(MAP_PATH + map_path) {}

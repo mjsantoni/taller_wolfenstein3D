@@ -6,6 +6,8 @@
 #include <SDL_timer.h>
 #include "client/game/off_game_handler.h"
 
+#define MAPS_PATH "../maps/ww"
+
 OffGameHandler::OffGameHandler(GameScreen& _screen,
                                ClientPlayer& player,
                                ClientMap& _map,
@@ -94,7 +96,7 @@ void OffGameHandler::displayLoadingScreen() {
 }
 
 void OffGameHandler::initializeMap(const std::string &map_name) {
-    std::string map_path = "../ClientQT/maps/" + map_name;
+    std::string map_path = MAPS_PATH + map_name;
     MapParser map_parser(map_path);
     ClientMapGenerator::create(map, map_parser);
 }

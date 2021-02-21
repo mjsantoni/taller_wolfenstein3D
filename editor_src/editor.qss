@@ -7,10 +7,8 @@ QWidget {
 }
 
 QGridButton {
-    color: red;
-    background-color: black;
     border-style: outset;
-    border-width: 1px;
+    border-width: 2px;
     border-color: gray;
     font-family: Samanata;
 }
