@@ -1,0 +1,3 @@
+[submodule "include/common/yaml-cpp/yaml-cpp"]
+	path = include/common/yaml-cpp/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp

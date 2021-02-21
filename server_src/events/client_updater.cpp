@@ -43,8 +43,8 @@ void ClientUpdater::update(Change change) { change_queue.push(change); }
 
 
 void ClientUpdater::stop() {
-    change_queue.push(Change());
     alive = false;
+    change_queue.push(Change());
 }
 
 int ClientUpdater::getPlayerId() const {

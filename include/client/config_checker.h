@@ -18,12 +18,14 @@ class ConfigChecker: public QMainWindow {
 public:
 
     explicit ConfigChecker(QMainWindow *parent = 0);
-    void connectEvents();
-    void lookForServer();
-    void createNewGame();
-    void joinGame();
 
-    void showLobby();
+    void connectEvents();
+
+    void lookForServer();
+
+    void createNewGame();
+
+    void joinGame();
 
     std::string getLineContent(const char *lineName);
 

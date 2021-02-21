@@ -84,15 +84,21 @@ void ConfigChecker::createNewGame() {
 }
 
 void ConfigChecker::showParameters() {
-    hideWidget("connectionWidget");
-    showWidget("parametersWidget");
-    showWidget("createConfirmButton");
-
     QComboBox *join_combo = findChild<QComboBox*>("mapCombo");
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
     join_combo->addItems(readAllMaps());
+
+    if (join_combo->currentText().toStdString().empty()) {
+        showError("No maps to create a game");
+        return;
+    }
+
+    hideWidget("connectionWidget");
+    showWidget("parametersWidget");
+    showWidget("createConfirmButton");
+
     try {
         MapParser parser(MAPS_PATH + join_combo->currentText().toStdString());
         int max_players_size = parser.getSpecificCategory("players").size();
@@ -128,6 +134,10 @@ void ConfigChecker::showIdSelection() {
 
 void ConfigChecker::joinGame() {
     QComboBox *id_combo = findChild<QComboBox*>("idCombo");
+    if (id_combo->currentText().toStdString().empty()) {
+        showError("No matches to join");
+        return;
+    }
     std::stringstream ss(id_combo->currentText().toStdString());
     std::string map_name = ss.str().substr(0, ss.str().find('/')) + ".yaml";
     std::string id = ss.str().substr(ss.str().find('/') + 1);
@@ -177,15 +187,10 @@ void ConfigChecker::connectEvents(){
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
     connect(join_button, &QCommandLinkButton::clicked,this, &ConfigChecker::showIdSelection);
-
     connect(min_players_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateBotsSpin);
     connect(max_players_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateMaximums);
     connect(map_box, &QComboBox::currentTextChanged, this, &ConfigChecker::updateMaxPlayerMap);
     connect(bots_spin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ConfigChecker::updateMinSpin);
-}
-
-void ConfigChecker::showLobby() {
-
 }
 
 QStringList ConfigChecker::readAllMaps() {
