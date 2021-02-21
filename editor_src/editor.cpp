@@ -4,6 +4,7 @@
 #define DEF_WIDTH 14
 #define MAX_PLAYERS 8
 #define CURSOR_SIZE 50
+
 #define EMPTY_PATH "../editor_src/resources/empty.png"
 #define WOOD_WALL_PATH "../editor_src/resources/walls/brown_wall.png"
 #define ROCK_WALL_PATH "../editor_src/resources/walls/rock_wall.jpg"

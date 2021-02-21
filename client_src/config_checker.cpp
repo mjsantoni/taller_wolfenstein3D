@@ -28,6 +28,7 @@ ConfigChecker::ConfigChecker(QMainWindow *parent) : QMainWindow(parent), sk(-1) 
     hideWidget("parametersWidget");
     hideWidget("createConfirmButton");
     hideWidget("joinConfirmButton");
+    hideWidget("backButton");
     hideWidget("joinWidget");
     connectEvents();
 }
@@ -89,7 +90,7 @@ void ConfigChecker::showParameters() {
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
     join_combo->addItems(readAllMaps());
-
+    showWidget("backButton");
     if (join_combo->currentText().toStdString().empty()) {
         showError("No maps to create a game");
         return;
@@ -119,7 +120,7 @@ void ConfigChecker::showIdSelection() {
     showWidget("joinWidget");
     showWidget("joinConfirmButton");
     QComboBox *id_combo = findChild<QComboBox*>("idCombo");
-
+    showWidget("backButton");
     sk.send_msg(JOIN_GAME);
     std::string games;
     sk.recv_msg(games);
@@ -171,11 +172,12 @@ std::string ConfigChecker::getComboContent(const char *combo_name) {
 void ConfigChecker::connectEvents(){
     QWidget *error_widget = findChild<QWidget*>("errorWidget");
     QCommandLinkButton* connect_button = findChild<QCommandLinkButton*>("connectButton");
+    QCommandLinkButton* join_confirm_button = findChild<QCommandLinkButton*>("joinConfirmButton");
+    QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
     QPushButton* ok_button = findChild<QPushButton*>("okButton");
+    QPushButton* back_button = findChild<QPushButton*>("backButton");
     QPushButton* create_button = findChild<QPushButton*>("createButton");
     QPushButton* join_button = findChild<QPushButton*>("joinButton");
-    QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
-    QCommandLinkButton* join_confirm_button = findChild<QCommandLinkButton*>("joinConfirmButton");
     QSpinBox *max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
     QSpinBox *min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
@@ -183,6 +185,7 @@ void ConfigChecker::connectEvents(){
 
     connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
     connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
+    connect(back_button, &QCommandLinkButton::clicked, this, &ConfigChecker::backToMenu);
     connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
     connect(connect_button, &QPushButton::clicked,this, &ConfigChecker::lookForServer);
     connect(create_button, &QPushButton::clicked,this, &ConfigChecker::showParameters);
@@ -262,4 +265,15 @@ void ConfigChecker::updateMaximums() {
     bots_spin->setMaximum(value_max - 1);
     min_players_spin->setMaximum(value_max);
 
+}
+
+void ConfigChecker::backToMenu() {
+    hideWidget("configWidget");
+    hideWidget("errorWidget");
+    hideWidget("creationError");
+    hideWidget("parametersWidget");
+    hideWidget("createConfirmButton");
+    hideWidget("joinConfirmButton");
+    hideWidget("joinWidget");
+    showWidget("connectionWidget");
 }

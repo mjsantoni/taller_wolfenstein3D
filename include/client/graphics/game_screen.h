@@ -33,6 +33,7 @@ private:
     bool& player_alive;
     int player_weapon_animation = 0;
     bool player_attacking = false;
+    int max_animation_turns = 0;
 public:
     GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player,
                bool& _player_alive);
@@ -50,10 +51,8 @@ public:
     void displayVictoryScreen();
     void displayNetworkConnectionErrorScreen(std::string message);
     void displayDefeatScreen();
-
-    void setPlayerAttacking();
-
     void displayTimeOverScreen();
+    void setPlayerAttacking(int weapon_no);
 };
 
 

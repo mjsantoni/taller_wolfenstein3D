@@ -53,6 +53,8 @@ public:
     void processInGameChanges();
 
     void updateMandatoryRenderingTurns(int new_value);
+
+    void playAttackingSound(int players_weapon, double distance_ratio);
 };
 
 
