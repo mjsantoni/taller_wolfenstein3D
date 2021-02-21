@@ -1,6 +1,5 @@
 QMenu {
-background-image: url("/resources/background.jpg"); /* sets background of the menu */
-border: 1px solid black;
+    border: 1px solid black;
 }
 
 QWidget {
@@ -11,7 +10,7 @@ QGridButton {
     color: red;
     background-color: black;
     border-style: outset;
-    border-weapon_width: 1px;
+    border-width: 1px;
     border-color: gray;
     font-family: Samanata;
 }
@@ -41,7 +40,6 @@ QScrollArea {
 
 
 QMainWindow {
-    background-image: url("/taller_wolfenstein3D/editor_src/resources/background.jpg");
     background-color: slategray;
     font-family: Samanata;
 }

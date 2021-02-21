@@ -4,7 +4,29 @@
 #define DEF_WIDTH 14
 #define MAX_PLAYERS 8
 #define CURSOR_SIZE 50
-
+#define EMPTY_PATH "../editor_src/resources/empty.jpg"
+#define WOOD_WALL_PATH "../editor_src/resources/walls/brown_wall.png"
+#define ROCK_WALL_PATH "../editor_src/resources/walls/rock_wall.jpg"
+#define LOCKED_DOOR_PATH "../client_src/resources/walls/locked_door.png"
+#define UNLOCKED_DOOR_PATH "../client_src/resources/walls/unlocked_door.png"
+#define FAKE_WALL_PATH "../client_src/resources/walls/fake_wall.png"
+#define BLUE_WALL_PATH  "../editor_src/resources/walls/blue_wall.png"
+#define STONE_WALL_PATH "../editor_src/resources/walls/stone_wall.png"
+#define RPG_PATH "../editor_src/resources/items/rocket_launcher.png"
+#define MACHINE_GUN_PATH "../editor_src/resources/items/machine_gun.png"
+#define CHAIN_GUN_PATH "../editor_src/resources/items/chain_cannon.png"
+#define BARREL_PATH  "../editor_src/resources/misc/barrel.png"
+#define TABLE_PATH "../editor_src/resources/misc/table.png"
+#define BULLETS_PATH "../editor_src/resources/items/bullets.png"
+#define CHEST_PATH "../editor_src/resources/items/chest.png"
+#define CROSS_PATH "../editor_src/resources/items/cross.png"
+#define CROWN_PATH "../editor_src/resources/items/crown.png"
+#define GOBLET_PATH "../editor_src/resources/items/goblet.png"
+#define FOOD_PATH "../editor_src/resources/items/food.png"
+#define KEY_PATH "../editor_src/resources/items/key.png"
+#define MEDKIT_PATH "../editor_src/resources/items/medical_kit.png"
+#define WATER_PATH "../editor_src/resources/items/water_puddle.png"
+#define PLAYER_PATH "../editor_src/resources/player.png"
 
 YAML::Emitter& operator << (YAML::Emitter& out, const Coordinate& coord) {
     out << YAML::Flow;
@@ -73,26 +95,28 @@ void Editor::loadMap(std::string path) {
     deleteWidgets(map_grid);
     Coordinate dimensions = parser.getDimensions();
     createButtonsMapGrid(map_grid, dimensions.x, dimensions.y, -1, -1);
-    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../editor_src/resources/walls/blue_wall.png");
-    QPixmap stone_pix("../editor_src/resources/walls/stone_wall.png");
-    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
-    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
-    QPixmap table_pix("../editor_src/resources/misc/table.png");
-    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
-    QPixmap chest_pix("../editor_src/resources/items/chest.png");
-    QPixmap cross_pix("../editor_src/resources/items/cross.png");
-    QPixmap crown_pix("../editor_src/resources/items/crown.png");
-    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
-    QPixmap food_pix("../editor_src/resources/items/food.png");
-    QPixmap key_pix("../editor_src/resources/items/key.png");
-    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
-    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
-    QPixmap player_pix("../editor_src/resources/player.png");
+    QPixmap wood_pix(WOOD_WALL_PATH);
+    QPixmap rock_pix(ROCK_WALL_PATH);
+    QPixmap blue_pix(BLUE_WALL_PATH);
+    QPixmap stone_pix(STONE_WALL_PATH);
+    QPixmap rpg_pix(RPG_PATH);
+    QPixmap chain_pix(CHAIN_GUN_PATH);
+    QPixmap machine_pix(MACHINE_GUN_PATH);
+    QPixmap locked_pix(LOCKED_DOOR_PATH);
+    QPixmap unlocked_pix(UNLOCKED_DOOR_PATH);
+    QPixmap fake_pix(FAKE_WALL_PATH);
+    QPixmap barrel_pix(BARREL_PATH);
+    QPixmap table_pix(TABLE_PATH);
+    QPixmap bullets_pix(BULLETS_PATH);
+    QPixmap chest_pix(CHEST_PATH);
+    QPixmap cross_pix(CROSS_PATH);
+    QPixmap crown_pix(CROWN_PATH);
+    QPixmap goblet_pix(GOBLET_PATH);
+    QPixmap food_pix(FOOD_PATH);
+    QPixmap key_pix(KEY_PATH);
+    QPixmap medic_pix(MEDKIT_PATH);
+    QPixmap water_pix(WATER_PATH);
+    QPixmap player_pix(PLAYER_PATH);
 
     categories.push_back("scenarios");
     categories.push_back("items");
@@ -106,6 +130,8 @@ void Editor::loadMap(std::string path) {
                 else if (items.first == "rock_wall") updateGridButton(button, QIcon(rock_pix), "rock_wall");
                 else if (items.first == "blue_wall") updateGridButton(button, QIcon(blue_pix), "blue_wall");
                 else if (items.first == "stone_wall") updateGridButton(button, QIcon(stone_pix), "stone_wall");
+                else if (items.first == "unlocked_door") updateGridButton(button, QIcon(unlocked_pix), "unlocked_door");
+                else if (items.first == "fake_wall") updateGridButton(button, QIcon(fake_pix), "fake_wall");
                 else if (items.first == "rpg_gun") updateGridButton(button, QIcon(rpg_pix), "rpg_gun");
                 else if (items.first == "chain_gun") updateGridButton(button, QIcon(chain_pix), "chain_gun");
                 else if (items.first == "machine_gun") updateGridButton(button, QIcon(machine_pix), "machine_gun");
@@ -147,25 +173,27 @@ void Editor::updateGridButtonWithCursor(QGridButton *button) {
 }
 
 QMenu* Editor::createGridButtonMenu(QGridButton *button) {
-    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../editor_src/resources/walls/blue_wall.png");
-    QPixmap stone_pix("../editor_src/resources/walls/stone_wall.png");
-    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
-    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
-    QPixmap table_pix("../editor_src/resources/misc/table.png");
-    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
-    QPixmap chest_pix("../editor_src/resources/items/chest.png");
-    QPixmap cross_pix("../editor_src/resources/items/cross.png");
-    QPixmap crown_pix("../editor_src/resources/items/crown.png");
-    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
-    QPixmap food_pix("../editor_src/resources/items/food.png");
-    QPixmap key_pix("../editor_src/resources/items/key.png");
-    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
-    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
+    QPixmap wood_pix(WOOD_WALL_PATH);
+    QPixmap rock_pix(ROCK_WALL_PATH);
+    QPixmap blue_pix(BLUE_WALL_PATH);
+    QPixmap stone_pix(STONE_WALL_PATH);
+    QPixmap rpg_pix(RPG_PATH);
+    QPixmap chain_pix(CHAIN_GUN_PATH);
+    QPixmap machine_pix(MACHINE_GUN_PATH);
+    QPixmap locked_pix(LOCKED_DOOR_PATH);
+    QPixmap unlocked_pix(UNLOCKED_DOOR_PATH);
+    QPixmap fake_pix(FAKE_WALL_PATH);
+    QPixmap barrel_pix(BARREL_PATH);
+    QPixmap table_pix(TABLE_PATH);
+    QPixmap bullets_pix(BULLETS_PATH);
+    QPixmap chest_pix(CHEST_PATH);
+    QPixmap cross_pix(CROSS_PATH);
+    QPixmap crown_pix(CROWN_PATH);
+    QPixmap goblet_pix(GOBLET_PATH);
+    QPixmap food_pix(FOOD_PATH);
+    QPixmap key_pix(KEY_PATH);
+    QPixmap medic_pix(MEDKIT_PATH);
+    QPixmap water_pix(WATER_PATH);
 
     QIcon wood_icon(wood_pix);
     QIcon rock_icon(rock_pix);
@@ -175,6 +203,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QIcon chain_icon(chain_pix);
     QIcon machine_icon(machine_pix);
     QIcon locked_icon(locked_pix);
+    QIcon unlocked_icon(unlocked_pix);
+    QIcon fake_icon(fake_pix);
     QIcon barrel_icon(barrel_pix);
     QIcon table_icon(table_pix);
     QIcon bullets_icon(bullets_pix);
@@ -188,7 +218,7 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QIcon water_icon(water_pix);
 
     QMenu* menu = new QMenu();
-    QMenu* menu_walls = new QMenu("Walls");
+    QMenu* menu_walls = new QMenu("Scenario");
     QMenu* menu_weapons = new QMenu("Weapons");
     QMenu* menu_items = new QMenu("Items");
 
@@ -201,8 +231,11 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QAction* blue_action = menu_walls->addAction(blue_icon, "Blue wall");
     QAction* stone_action = menu_walls->addAction(stone_icon, "Stone wall");
     QAction* locked_action = menu_walls->addAction(locked_icon, "Locked door");
+    QAction* unlocked_action = menu_walls->addAction(unlocked_icon, "Unlocked door");
+    QAction* fake_action = menu_walls->addAction(fake_icon, "Fake wall");
     QAction* barrel_action = menu_walls->addAction(barrel_icon, "Barrel");
-    QAction* table_action = menu_items->addAction(table_icon, "Table");
+    QAction* water_action = menu_walls->addAction(water_icon, "Water puddle");
+    QAction* table_action = menu_walls->addAction(table_icon, "Table");
     QAction* rpg_action = menu_weapons->addAction(rpg_icon, "Rocket launcher");
     QAction* chain_action = menu_weapons->addAction(chain_icon, "Chain cannon");
     QAction* machine_action = menu_weapons->addAction(machine_icon, "Machine gun");
@@ -214,7 +247,6 @@ QMenu* Editor::createGridButtonMenu(QGridButton *button) {
     QAction* food_action = menu_items->addAction(food_icon, "Food");
     QAction* key_action = menu_items->addAction(key_icon, "Key");
     QAction* medic_action = menu_items->addAction(medic_icon, "Medkit");
-    QAction* water_action = menu_items->addAction(water_icon, "Water puddle");
 
     menu->addMenu(menu_walls);
     menu->addMenu(menu_items);
@@ -276,6 +308,9 @@ void Editor::exportMap() {
     std::vector<std::pair<int, int>> rock_positions;
     std::vector<std::pair<int, int>> stone_positions;
     std::vector<std::pair<int, int>> blue_positions;
+    std::vector<std::pair<int, int>> locked_positions;
+    std::vector<std::pair<int, int>> unlocked_positions;
+    std::vector<std::pair<int, int>> fake_positions;
     std::vector<std::pair<int, int>> rpg_positions;
     std::vector<std::pair<int, int>> chain_positions;
     std::vector<std::pair<int, int>> machine_positions;
@@ -287,7 +322,6 @@ void Editor::exportMap() {
     std::vector<std::pair<int, int>> food_positions;
     std::vector<std::pair<int, int>> key_positions;
     std::vector<std::pair<int, int>> medkit_positions;
-    std::vector<std::pair<int, int>> locked_positions;
     std::vector<std::pair<int, int>> barrel_positions;
     std::vector<std::pair<int, int>> table_positions;
     std::vector<std::pair<int, int>> water_positions;
@@ -315,6 +349,8 @@ void Editor::exportMap() {
             if (variantTexture == "key") key_positions.emplace_back(i, j);
             if (variantTexture == "medkit") medkit_positions.emplace_back(i, j);
             if (variantTexture == "locked_door") locked_positions.emplace_back(i, j);
+            if (variantTexture == "unlocked_door") unlocked_positions.emplace_back(i, j);
+            if (variantTexture == "fake_wall") fake_positions.emplace_back(i, j);
             if (variantTexture == "barrel") barrel_positions.emplace_back(i, j);
             if (variantTexture == "table") table_positions.emplace_back(i, j);
             if (variantTexture == "water_puddle") water_positions.emplace_back(i, j);
@@ -345,6 +381,10 @@ void Editor::exportMap() {
     out << YAML::Value << barrel_positions << YAML::EndSeq;
     out << YAML::Key << "locked_door";
     out << YAML::Value << locked_positions << YAML::EndSeq;
+    out << YAML::Key << "unlocked_door";
+    out << YAML::Value << unlocked_positions << YAML::EndSeq;
+    out << YAML::Key << "fake_wall";
+    out << YAML::Value << fake_positions << YAML::EndSeq;
     out << YAML::Key << "table";
     out << YAML::Value << table_positions << YAML::EndSeq;
     out << YAML::EndMap;
@@ -379,7 +419,7 @@ void Editor::exportMap() {
 
     out << YAML::Key << "players";
     out << YAML::Value << YAML::BeginMap;
-    for (int i = 0; i < MAX_PLAYERS; i++) {
+    for (int i = 0; i < player_positions.size(); i++) {
         out << YAML::Key << std::to_string(i);
         out << YAML::Value << YAML::Flow << YAML::BeginSeq << player_positions[i] << YAML::EndSeq;
     }
@@ -415,7 +455,7 @@ void Editor::refreshMapGrid(){
 }
 
 void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
-    QPixmap pixmap("../editor_src/resources/empty.jpg");
+    QPixmap pixmap(EMPTY_PATH);
     QIcon buttonIcon(pixmap);
 
 
@@ -481,20 +521,24 @@ void Editor::createTextureGrid() {
 void Editor::renderScenarioGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap wood_pix("../editor_src/resources/walls/brown_wall.png");
-    QPixmap rock_pix("../editor_src/resources/walls/rock_wall.jpg");
-    QPixmap blue_pix("../editor_src/resources//walls/blue_wall.png");
-    QPixmap stone_pix("../editor_src/resources//walls/stone_wall.png");
-    QPixmap locked_pix("../editor_src/resources/walls/silver_door.png");
-    QPixmap barrel_pix("../editor_src/resources/misc/barrel.png");
-    QPixmap table_pix("../editor_src/resources/misc/table.png");
-    QPixmap water_pix("../editor_src/resources/items/water_puddle.png");
+    QPixmap wood_pix(WOOD_WALL_PATH);
+    QPixmap rock_pix(ROCK_WALL_PATH);
+    QPixmap blue_pix(BLUE_WALL_PATH);
+    QPixmap stone_pix(STONE_WALL_PATH);
+    QPixmap unlocked_pix(UNLOCKED_DOOR_PATH);
+    QPixmap locked_pix(LOCKED_DOOR_PATH);
+    QPixmap fake_pix(FAKE_WALL_PATH);
+    QPixmap barrel_pix(BARREL_PATH);
+    QPixmap table_pix(TABLE_PATH);
+    QPixmap water_pix(WATER_PATH);
 
     icons.emplace_back(QIcon(wood_pix), "wood_wall");
     icons.emplace_back(QIcon(rock_pix), "stone_wall");
     icons.emplace_back(QIcon(blue_pix), "blue_wall");
     icons.emplace_back(QIcon(stone_pix), "stone_wall");
     icons.emplace_back(QIcon(locked_pix), "locked_door");
+    icons.emplace_back(QIcon(unlocked_pix), "unlocked_door");
+    icons.emplace_back(QIcon(fake_pix), "fake_wall");
     icons.emplace_back(QIcon(barrel_pix), "barrel");
     icons.emplace_back(QIcon(table_pix), "table");
     icons.emplace_back(QIcon(water_pix), "water_puddle");
@@ -510,14 +554,14 @@ void Editor::changeCursor(QPixmap pix, std::string texture_name) {
 void Editor::renderItemsGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap bullets_pix("../editor_src/resources/items/bullets.png");
-    QPixmap chest_pix("../editor_src/resources/items/chest.png");
-    QPixmap cross_pix("../editor_src/resources/items/cross.png");
-    QPixmap crown_pix("../editor_src/resources/items/crown.png");
-    QPixmap goblet_pix("../editor_src/resources/items/goblet.png");
-    QPixmap food_pix("../editor_src/resources/items/food.png");
-    QPixmap key_pix("../editor_src/resources/items/key.png");
-    QPixmap medic_pix("../editor_src/resources/items/medical_kit.png");
+    QPixmap bullets_pix(BULLETS_PATH);
+    QPixmap chest_pix(CHEST_PATH);
+    QPixmap cross_pix(CROSS_PATH);
+    QPixmap crown_pix(CROWN_PATH);
+    QPixmap goblet_pix(GOBLET_PATH);
+    QPixmap food_pix(FOOD_PATH);
+    QPixmap key_pix(KEY_PATH);
+    QPixmap medic_pix(MEDKIT_PATH);
 
     icons.emplace_back(QIcon(bullets_pix), "bullets");
     icons.emplace_back(QIcon(chest_pix), "chest");
@@ -534,9 +578,9 @@ void Editor::renderItemsGrid(QGridLayout *texture_grid) {
 void Editor::renderWeaponsGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap rpg_pix("../editor_src/resources/items/rocket_launcher.png");
-    QPixmap chain_pix("../editor_src/resources/items/chain_cannon.png");
-    QPixmap machine_pix("../editor_src/resources/items/machine_gun.png");
+    QPixmap rpg_pix(RPG_PATH);
+    QPixmap chain_pix(CHAIN_GUN_PATH);
+    QPixmap machine_pix(MACHINE_GUN_PATH);
 
     icons.emplace_back(QIcon(rpg_pix), "rpg_gun");
     icons.emplace_back(QIcon(chain_pix), "chain_gun");
@@ -548,7 +592,7 @@ void Editor::renderWeaponsGrid(QGridLayout *texture_grid) {
 void Editor::renderPlayersGrid(QGridLayout *texture_grid) {
     std::vector<std::pair<QIcon, std::string>> icons;
 
-    QPixmap player_pix("../editor_src/resources/player.png");
+    QPixmap player_pix(PLAYER_PATH);
 
     icons.emplace_back(QIcon(player_pix), "player");
 
