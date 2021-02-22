@@ -240,19 +240,28 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
 void InGameChangeProcessor::playAttackingSound(int players_weapon,
                                                double distance_ratio) {
   switch (players_weapon) {
-    case WEAPON_KNIFE:audio_manager.displayKnifeStabbingSound();
+    case WEAPON_KNIFE:
+      audio_manager.displayKnifeStabbingSound();
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_PISTOL:audio_manager.displayPlayerPistolSound(distance_ratio);
+    case WEAPON_PISTOL:
+      audio_manager.displayPlayerPistolSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_MACHINE_GUN:audio_manager.displayMachineGunSound(1);
+    case WEAPON_MACHINE_GUN:
+        audio_manager.displayMachineGunSound(distance_ratio);
       mandatory_rendering_turns = MACHINE_GUN_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_ROCKET_LAUNCHER:audio_manager.displayRocketLauncherSound(distance_ratio);
+    case WEAPON_ROCKET_LAUNCHER:
+      audio_manager.displayRocketLauncherSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    default:audio_manager.displayPlayerPistolSound(distance_ratio);
+    case WEAPON_CHAIN_CANNON:
+      audio_manager.displayMachineGunSound(distance_ratio);
+      mandatory_rendering_turns = MACHINE_GUN_ANIMATION_TURNS + 1;
+      break;
+    default:
+      audio_manager.displayPlayerPistolSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
   }

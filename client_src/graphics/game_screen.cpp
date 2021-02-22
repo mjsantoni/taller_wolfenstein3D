@@ -98,7 +98,7 @@ void GameScreen::displayDefeatScreen() {
 void GameScreen::setPlayerAttacking(int weapon_no) {
   player_attacking = true;
   player_weapon_animation++;
-  if (weapon_no == WEAPON_MACHINE_GUN)
+  if (weapon_no == WEAPON_MACHINE_GUN || weapon_no == WEAPON_CHAIN_CANNON)
     max_animation_turns = MACHINE_GUN_ANIMATION_TURNS;
   else
     max_animation_turns = WEAPON_SHOOTING_ANIMATION_TURNS;
