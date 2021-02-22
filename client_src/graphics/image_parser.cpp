@@ -7,6 +7,7 @@
 #include <iterator>
 #include <fstream>
 #include "client/graphics/image_parser.h"
+#include "client_routes.h"
 
 void ImageParser::addFakeObject(std::vector<ObjectInfo>& vector) {
   ObjectInfo object_info;
@@ -14,7 +15,7 @@ void ImageParser::addFakeObject(std::vector<ObjectInfo>& vector) {
 }
 
 void ImageParser::fillImageVector(std::vector<ObjectInfo>& vector) {
-  std::ifstream infile("../client_src/resources/objects_info.txt");
+  std::ifstream infile(CLIENT_OBJECTS_ROUTE);
   if (!infile)
     throw FileException("Archivo de imagenes no encontrado");
   std::string line;

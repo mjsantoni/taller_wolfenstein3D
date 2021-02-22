@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "server/server.h"
-#include "routes_server.h"
+#include "server_routes.h"
 
 Server::Server(NetworkAcceptor socket) :
     networkAcceptor(std::move(socket)),

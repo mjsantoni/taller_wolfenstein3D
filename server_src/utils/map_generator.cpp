@@ -1,5 +1,5 @@
 #include "server/utils/map_generator.h"
-#include "routes_server.h"
+#include "server_routes.h"
 
 MapGenerator::MapGenerator(const std::string& map_path) :
     mapParser(MAPS_PATH_FOLDER + map_path) {}

@@ -1,15 +1,15 @@
 #include <sys/stat.h>
 #include <fstream>
 #include <iostream>
+#include <unistd.h>
 #include <QFile>
 #include <client/game/client.h>
 #include "client/config_checker.h"
 #include "client_routes.h"
 
 int main(int argc, char* args[]) {
-/*
   struct stat sb;
-  if (!(stat("../resources", &sb) == 0 && S_ISDIR(sb.st_mode))) {
+  if (!(stat("../maps", &sb) == 0 && S_ISDIR(sb.st_mode))) {
     if (chdir("/usr/local/share/wolfenstein3d-client/routing") < 0) {
       std::cerr
           << "FATAL ERROR: Game files not found."
@@ -17,7 +17,7 @@ int main(int argc, char* args[]) {
       return -1;
     }
   }
-*/
+
   std::string map_name;
   QApplication app(argc, args);
   ConfigChecker checker(map_name);

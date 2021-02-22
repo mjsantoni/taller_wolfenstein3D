@@ -1,4 +1,5 @@
 #include "editor/editor.h"
+#include "editor_routes.h"
 
 #define DEF_HEIGHT 14
 #define DEF_WIDTH 14
@@ -6,30 +7,6 @@
 #define TEXTURES_GRID_WIDTH 4
 #define BUTTON_MAXIMUM_SIZE 70
 #define BUTTON_MINIMUM_SIZE 50
-
-#define EMPTY_PATH "../editor_src/resources/empty.png"
-#define WOOD_WALL_PATH "../editor_src/resources/walls/brown_wall.png"
-#define ROCK_WALL_PATH "../editor_src/resources/walls/rock_wall.jpg"
-#define LOCKED_DOOR_PATH "../client_src/resources/walls/locked_door.png"
-#define UNLOCKED_DOOR_PATH "../client_src/resources/walls/unlocked_door.png"
-#define FAKE_WALL_PATH "../client_src/resources/walls/fake_wall.png"
-#define BLUE_WALL_PATH  "../editor_src/resources/walls/blue_wall.png"
-#define STONE_WALL_PATH "../editor_src/resources/walls/stone_wall.png"
-#define RPG_PATH "../editor_src/resources/items/rocket_launcher.png"
-#define MACHINE_GUN_PATH "../editor_src/resources/items/machine_gun.png"
-#define CHAIN_GUN_PATH "../editor_src/resources/items/chain_cannon.png"
-#define BARREL_PATH  "../editor_src/resources/misc/barrel.png"
-#define TABLE_PATH "../editor_src/resources/misc/table.png"
-#define BULLETS_PATH "../editor_src/resources/items/bullets.png"
-#define CHEST_PATH "../editor_src/resources/items/chest.png"
-#define CROSS_PATH "../editor_src/resources/items/cross.png"
-#define CROWN_PATH "../editor_src/resources/items/crown.png"
-#define GOBLET_PATH "../editor_src/resources/items/goblet.png"
-#define FOOD_PATH "../editor_src/resources/items/food.png"
-#define KEY_PATH "../editor_src/resources/items/key.png"
-#define MEDKIT_PATH "../editor_src/resources/items/medical_kit.png"
-#define WATER_PATH "../editor_src/resources/items/water_puddle.png"
-#define PLAYER_PATH "../editor_src/resources/player.png"
 
 #define WOOD_WALL_STRING "wood_wall"
 #define STONE_WALL_STRING "stone_wall"
@@ -459,13 +436,13 @@ void Editor::createButtonsMapGrid(QGridLayout* map_grid, int rows, int cols, int
 
 std::string Editor::saveYamlPath() {
   return QFileDialog::getSaveFileName(this,
-                                      tr("Save map"), "../maps/untitled.yaml",
+                                      tr("Save map"), UNTITLED_MAP_PATH,
                                       tr("YAML file (*.yaml)")).toStdString();
 }
 
 std::string Editor::getYamlPath() {
   return QFileDialog::getOpenFileName(this,
-                                      tr("Load map"), "../maps/",
+                                      tr("Load map"), MAP_FOLDER_PATH,
                                       tr("YAML file (*.yaml)")).toStdString();
 }
 

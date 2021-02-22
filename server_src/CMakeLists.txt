@@ -17,6 +17,8 @@ file(GLOB SERVER_SRC
         "../common_src/*.cpp"
         )
 
-add_executable(wolfenstein-server ${SERVER_SRC})
+add_executable(wolfenstein3d-server ${SERVER_SRC})
 
-TARGET_LINK_LIBRARIES(wolfenstein-server yaml-cpp lua5.3)
+TARGET_LINK_LIBRARIES(wolfenstein3d-server yaml-cpp lua5.3)
+
+install(DIRECTORY ../maps ../config DESTINATION ${CMAKE_SOURCE_DIR})

@@ -6,18 +6,18 @@ PROJECT_SOURCE_DIR := ../..
 RESOURCES_DIR := $(CLIENT_SOURCE_DIR)/resources
 MAPS_DIR := $(PROJECT_SOURCE_DIR)/maps/
 CONFIG_DIR := $(PROJECT_SOURCE_DIR)/config/
-BIN_FILE := $(CLIENT_SOURCE_DIR)/build/client
+BIN_FILE := $(CLIENT_SOURCE_DIR)/build/wolfenstein3d-client
 
-PACKAGE_NAME := wolfenstein3D-client
+PACKAGE_NAME := wolfenstein3d-client
 VERSION := 0.1
 REVISION := 1
 
-PACKAGE_DIR := ./$(PACKAGE_NAME)_$(VERSION)-$(REVISION)
+PACKAGE_DIR := ./$(PACKAGE_NAME)_$(VERSION)
 PACKAGE_FILENAME := $(PACKAGE_DIR).deb
 
 define DEBFILE_BODY
 Package: $(PACKAGE_NAME)
-Version: $(VERSION)-$(REVISION)
+Version: $(VERSION)
 Section: base
 Priority: optional
 Architecture: amd64
@@ -31,9 +31,11 @@ export DEBFILE_BODY
 generate_package: build_all copy_files create_control_file
 	dpkg-deb --build $(PACKAGE_DIR)
 	rm -rf $(PACKAGE_DIR)
+	rm -rf ../build
 
 build_all:
 	cd .. && \
+	rm -rf build && \
 	mkdir build && \
 	cd build && \
 	cmake .. && \
@@ -47,18 +49,24 @@ create_package_dirs: clean
 	mkdir $(PACKAGE_DIR)/usr/local
 	mkdir $(PACKAGE_DIR)/usr/local/bin
 	mkdir $(PACKAGE_DIR)/usr/local/share
-	mkdir $(PACKAGE_DIR)/usr/local/share/wolfenstein3D-client
-	mkdir $(PACKAGE_DIR)/usr/local/share/wolfenstein3D-client/routing
+	mkdir $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-client
+	mkdir $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-client/routing
 	mkdir $(PACKAGE_DIR)/DEBIAN
 
 create_control_file: create_package_dirs
 	echo "$$DEBFILE_BODY" > $(PACKAGE_DIR)/DEBIAN/control
 
 copy_files: create_package_dirs
-	cp -rf $(RESOURCES_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3D-client
-	cp -rf $(MAPS_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3D-client
-	cp -rf $(CONFIG_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3D-client
+	cp -rf $(RESOURCES_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-client
+	cp -rf $(MAPS_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-client
+	cp -rf $(CONFIG_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-client
 	cp -f $(BIN_FILE) $(PACKAGE_DIR)/usr/local/bin
+
+install: generate_package
+	sudo dpkg --install $(PACKAGE_FILENAME)
+
+remove:
+	sudo apt-get remove ${PACKAGE_NAME}	
 
 clean: 
 	rm -rf $(PACKAGE_DIR) $(PACKAGE_FILENAME)

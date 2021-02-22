@@ -27,6 +27,8 @@ file(GLOB CLIENT_SRC
         "../common_src/*.cpp"
         )
 
-add_executable(wolfenstein-client ${CLIENT_SRC} ${UIS_HEADERS})
+add_executable(wolfenstein3d-client ${CLIENT_SRC} ${UIS_HEADERS})
 
-TARGET_LINK_LIBRARIES(wolfenstein-client yaml-cpp ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
+TARGET_LINK_LIBRARIES(wolfenstein3d-client yaml-cpp ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
+
+install(DIRECTORY ../maps ../config DESTINATION ${CMAKE_SOURCE_DIR})

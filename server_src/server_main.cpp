@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <fstream>
 #include <iostream>
+#include <unistd.h>
 
 #define STOP_CHAR "q"
 #define ARG_PORT 1
