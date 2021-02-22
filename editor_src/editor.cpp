@@ -1,10 +1,11 @@
 #include "editor/editor.h"
-#include "editor/map_exporter.h"
 
 #define DEF_HEIGHT 14
 #define DEF_WIDTH 14
-#define MAX_PLAYERS 8
 #define CURSOR_SIZE 50
+#define TEXTURES_GRID_WIDTH 4
+#define BUTTON_MAXIMUM_SIZE 70
+#define BUTTON_MINIMUM_SIZE 50
 
 #define EMPTY_PATH "../editor_src/resources/empty.png"
 #define WOOD_WALL_PATH "../editor_src/resources/walls/brown_wall.png"
@@ -54,7 +55,6 @@
 #define PLAYER_STRING "player"
 
 
-
 Editor::Editor(QMainWindow* parent) : QMainWindow(parent) {
   Ui::Editor editor;
   editor.setupUi(this);
@@ -89,7 +89,6 @@ void Editor::dropEvent(QDropEvent* e) {
       QString fileName = url.toLocalFile();
       loadMap(fileName.toStdString());
     }
-
 }
 
 void Editor::dragMoveEvent(QDragMoveEvent* event) {
@@ -110,7 +109,10 @@ void Editor::mousePressEvent(QMouseEvent* event) {
 void Editor::loadMap(std::string path) {
   if (path.empty()) path = getYamlPath();
   if (path.empty()) return;
-  MapParser parser(path);
+    try {
+        MapParser parser(path);
+
+    }
   std::vector<std::string> categories;
   QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
   deleteWidgets(map_grid);
@@ -175,16 +177,16 @@ void Editor::loadMap(std::string path) {
 }
 
 void Editor::createMapGrid() {
-  QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
-  QWidget* scrollAreaContent = new QWidget;
-  scrollAreaContent->setStyleSheet("QWidget{background-color: #29172B;}");
-  scrollAreaContent->setLayout(mapGrid);
-  QScrollArea* scrollArea = findChild<QScrollArea*>("scrollArea");
-  scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-  scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-  scrollArea->setWidgetResizable(true);
-  scrollArea->setWidget(scrollAreaContent);
-  createButtonsMapGrid(mapGrid, DEF_WIDTH, DEF_HEIGHT, -1, -1);
+  QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+  QWidget* scroll_area_content = new QWidget;
+  scroll_area_content->setStyleSheet("QWidget{background-color: #29172B;}");
+  scroll_area_content->setLayout(map_grid);
+  QScrollArea* scroll_area = findChild<QScrollArea*>("scrollArea");
+  scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  scroll_area->setWidgetResizable(true);
+  scroll_area->setWidget(scroll_area_content);
+  createButtonsMapGrid(map_grid, DEF_WIDTH, DEF_HEIGHT, -1, -1);
 }
 
 void Editor::updateGridButtonWithCursor(QGridButton* button) {
@@ -214,6 +216,7 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   QPixmap key_pix(KEY_PATH);
   QPixmap medic_pix(MEDKIT_PATH);
   QPixmap water_pix(WATER_PATH);
+  QPixmap player_pix(PLAYER_PATH);
 
   QIcon wood_icon(wood_pix);
   QIcon rock_icon(rock_pix);
@@ -236,15 +239,18 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   QIcon key_icon(key_pix);
   QIcon medic_icon(medic_pix);
   QIcon water_icon(water_pix);
+  QIcon player_icon(player_pix);
 
   QMenu* menu = new QMenu();
   QMenu* menu_walls = new QMenu("Scenario");
   QMenu* menu_weapons = new QMenu("Weapons");
   QMenu* menu_items = new QMenu("Items");
+  QMenu* menu_players= new QMenu("Players");
 
   menu_walls->setIcon(wood_icon);
   menu_weapons->setIcon(rpg_icon);
   menu_items->setIcon(medic_icon);
+  menu_players->setIcon(player_icon);
 
   QAction* wood_action = menu_walls->addAction(wood_icon, "Wood wall");
   QAction* rock_action = menu_walls->addAction(rock_icon, "Rock wall");
@@ -267,10 +273,12 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   QAction* food_action = menu_items->addAction(food_icon, "Food");
   QAction* key_action = menu_items->addAction(key_icon, "Key");
   QAction* medic_action = menu_items->addAction(medic_icon, "Medkit");
+  QAction* player_action = menu_players->addAction(player_icon, "Spawn");
 
   menu->addMenu(menu_walls);
   menu->addMenu(menu_items);
   menu->addMenu(menu_weapons);
+  menu->addMenu(menu_players);
 
   connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, WOOD_WALL_STRING));
   connect(rock_action,
@@ -281,6 +289,8 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, stone_icon, STONE_WALL_STRING));
   connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, RPG_STRING));
+    connect(fake_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, fake_icon, FAKE_WALL_STRING));
+    connect(unlocked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, unlocked_icon, UNLOCKED_STRING));
   connect(chain_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, chain_icon, CHAIN_STRING));
@@ -309,6 +319,7 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   connect(water_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, water_icon, WATER_STRING));
+    connect(player_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, player_icon, PLAYER_STRING));
 
   return menu;
 }
@@ -320,12 +331,12 @@ void Editor::updateGridButton(QGridButton* button, QIcon icon, const char* textu
 
 void Editor::exportMap() {
   /* Height and width input */
-  QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
-  QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
-  QString qHeight = QString("%1").arg(inputHeight->text());
-  QString qWidth = QString("%1").arg(inputWidth->text());
-  std::string height = qHeight.toStdString();
-  std::string width = qWidth.toStdString();
+  QLineEdit* input_height = findChild<QLineEdit*>("inputHeight");
+  QLineEdit* input_width = findChild<QLineEdit*>("inputWidth");
+  QString q_height = QString("%1").arg(input_height->text());
+  QString q_width = QString("%1").arg(input_width->text());
+  std::string height = q_height.toStdString();
+  std::string width = q_width.toStdString();
   if (height.empty()) height = "14";
   if (width.empty()) width = "14";
 
@@ -377,13 +388,13 @@ void Editor::exportMap() {
   positions[WATER_STRING] = water_positions;
   positions [PLAYER_STRING] = player_positions;
 
-  QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
-  for (int i = 0; i < mapGrid->rowCount(); ++i) {
-    for (int j = 0; j < mapGrid->columnCount(); ++j) {
-      QGridButton* buttonGrid = qobject_cast<QGridButton*>(mapGrid->itemAtPosition(i, j)->widget());
-      std::string variantTexture = buttonGrid->property("texture").toString().toStdString();
+  QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+  for (int i = 0; i < map_grid->rowCount(); ++i) {
+    for (int j = 0; j < map_grid->columnCount(); ++j) {
+      QGridButton* button_grid = qobject_cast<QGridButton*>(map_grid->itemAtPosition(i, j)->widget());
+      std::string variantTexture = button_grid->property("texture").toString().toStdString();
       if (positions.find(variantTexture) != positions.end()){
-          positions[buttonGrid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
+          positions[button_grid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
       }
     }
   }
@@ -401,51 +412,51 @@ void Editor::exportMap() {
 
 void Editor::refreshMapGrid() {
   /* Height and width input */
-  QLineEdit* inputHeight = findChild<QLineEdit*>("inputHeight");
-  QLineEdit* inputWidth = findChild<QLineEdit*>("inputWidth");
-  QString height = QString("%1").arg(inputHeight->text());
-  QString width = QString("%1").arg(inputWidth->text());
+  QLineEdit* input_height = findChild<QLineEdit*>("inputHeight");
+  QLineEdit* input_width = findChild<QLineEdit*>("inputWidth");
+  QString height = QString("%1").arg(input_height->text());
+  QString width = QString("%1").arg(input_width->text());
 
-  QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
-  int gridRows = mapGrid->rowCount();
-  int gridCols = mapGrid->columnCount();
-  int newCols = width.toInt();
-  int newRows = height.toInt();
-  int rows = gridRows >= newRows ? gridRows : newRows;
-  int cols = gridCols >= newCols ? gridCols : newCols;
+  QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+  int grid_rows = map_grid->rowCount();
+  int grid_cols = map_grid->columnCount();
+  int new_cols = width.toInt();
+  int new_rows = height.toInt();
+  int rows = grid_rows >= new_rows ? grid_rows : new_rows;
+  int cols = grid_cols >= new_cols ? grid_cols : new_cols;
 
-  createButtonsMapGrid(mapGrid, rows, cols, gridRows, gridCols);
+  createButtonsMapGrid(map_grid, rows, cols, grid_rows, grid_cols);
 
   // TODO Agregar sacar celdas
 }
 
-void Editor::createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols) {
+void Editor::createButtonsMapGrid(QGridLayout* map_grid, int rows, int cols, int grid_rows, int grid_cols) {
   QPixmap pixmap(EMPTY_PATH);
   QIcon buttonIcon(pixmap);
 
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
-      if (i < gridRows && j < gridCols) continue;
-      QGridButton* buttonGrid = new QGridButton();
-      buttonGrid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
-      buttonGrid->setMaximumSize(70, 70);
-      buttonGrid->setMinimumSize(50, 50);
-      buttonGrid->setIcon(buttonIcon);
-      buttonGrid->setIconSize(pixmap.rect().size());
-      QMenu* menu = createGridButtonMenu(buttonGrid);
-      buttonGrid->setMenu(menu);
-      connect(buttonGrid,
+      if (i < grid_rows && j < grid_cols) continue;
+      QGridButton* button_grid = new QGridButton();
+      button_grid->setStyleSheet("QGridButton::menu-indicator{width:0px;}");
+      button_grid->setMaximumSize(BUTTON_MAXIMUM_SIZE, BUTTON_MAXIMUM_SIZE);
+      button_grid->setMinimumSize(BUTTON_MINIMUM_SIZE, BUTTON_MINIMUM_SIZE);
+      button_grid->setIcon(buttonIcon);
+      button_grid->setIconSize(pixmap.rect().size());
+      QMenu* menu = createGridButtonMenu(button_grid);
+      button_grid->setMenu(menu);
+      connect(button_grid,
               &QGridButton::rightClicked,
               this,
-              std::bind(&Editor::updateGridButtonWithCursor, this, buttonGrid));
-      mapGrid->addWidget(buttonGrid, i, j);
+              std::bind(&Editor::updateGridButtonWithCursor, this, button_grid));
+      map_grid->addWidget(button_grid, i, j);
     }
   }
 }
 
 std::string Editor::saveYamlPath() {
   return QFileDialog::getSaveFileName(this,
-                                      tr("Save map"), "../maps/",
+                                      tr("Save map"), "../maps/untitled.yaml",
                                       tr("YAML file (*.yaml)")).toStdString();
 }
 
@@ -579,7 +590,7 @@ void Editor::renderTextureGrid(QGridLayout* texture_grid, std::vector<std::pair<
             std::bind(&Editor::changeCursor, this, icon.first.pixmap(CURSOR_SIZE), icon.second));
     texture_grid->addWidget(button, j, i);
     ++i;
-    if (i % 4 == 0) {
+    if (i % TEXTURES_GRID_WIDTH == 0) {
       ++j;
       i = 0;
     }

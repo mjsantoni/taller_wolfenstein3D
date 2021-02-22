@@ -11,7 +11,6 @@ QLineEdit {
 }
 
 QAbstractButton {
-    background-image: url("../client_src/resources/blood_button.jpg");
     color: red;
     height: 40px;
 }

@@ -2,7 +2,6 @@
 #define TP_WOLFENSTEIN_EDITOR_H
 
 #include <QMainWindow>
-#include "QGridButton.h"
 #include <QActionGroup>
 #include <QLabel>
 #include <QGridLayout>
@@ -14,58 +13,85 @@
 #include <unordered_map>
 #include <QDebug>
 #include <QFileDialog>
+#include "QGridButton.h"
 #include "yaml-cpp/yaml.h"
 #include "common/map_parser.h"
 #include "common/coordinate.h"
+#include "editor/map_exporter.h"
 #include "ui_editor.h"
 #include "editor/QGridButton.h"
 
+/* This class is the main window of the editor app, handles events
+ * updating buttons and saves and loads the maps created*/
+
 class Editor : public QMainWindow {
- public:
-  explicit Editor(QMainWindow* parent = 0);
-  void updateGridButton(QGridButton* button, QIcon icon, const char* texture);
- private:
-  void createMapGrid();
-  void refreshMapGrid();
-  QMenu* createGridButtonMenu(QGridButton* button);
-  void exportMap();
-  void connectEvents();
-  std::string getYamlPath();
-  std::string saveYamlPath();
-  void loadMap(std::string path);
-  void updateTextureGrid(std::string texture_type);
 
-  void createTextureGrid();
+public:
 
-  void renderScenarioGrid(QGridLayout* texture_grid);
+    explicit Editor(QMainWindow* parent = 0);
 
-  void renderItemsGrid(QGridLayout* texture_grid);
+private:
+    /* Attribute to know whats the current texture name in te cursor */
+    std::string currentCursor;
 
-  void renderPlayersGrid(QGridLayout* texture_grid);
+    void createMapGrid();
 
-  void dragEnterEvent(QDragEnterEvent* e);
+    /* Creates all the buttons needed on the map grid*/
+    void createButtonsMapGrid(QGridLayout* map_grid, int rows, int cols, int grid_rows, int grid_cols);
 
-  void dropEvent(QDropEvent* e);
+    QMenu* createGridButtonMenu(QGridButton* button);
 
-  void dragMoveEvent(QDragMoveEvent* event);
+    void createTextureGrid();
 
-  void dragLeaveEvent(QDragLeaveEvent* event);
+    void updateGridButton(QGridButton* button, QIcon icon, const char* texture);
 
-  void mousePressEvent(QMouseEvent* event);
+    /*Changes the grid of textures on the right side of the editor to the desired texture type (Scenario, items, etc)*/
+    void updateTextureGrid(std::string texture_type);
 
-  void updateGridButtonWithCursor(QGridButton* button);
+    void updateGridButtonWithCursor(QGridButton* button);
 
-  void renderWeaponsGrid(QGridLayout* pLayout);
+    void refreshMapGrid();
 
-  void changeCursor(QPixmap pix, std::string texture_name);
+    /*Exports the map while parsing it to the file selected in saveYamlPath()*/
+    void exportMap();
 
-  void renderTextureGrid(QGridLayout* texture_grid, std::vector<std::pair<QIcon, std::string>> icons);
+    /*Connect the majority of the buttons to their action*/
+    void connectEvents();
 
-  std::string currentCursor;
+    /*Loads the map from the file obtained in getYamlPath*/
+    void loadMap(std::string path);
 
-  void createButtonsMapGrid(QGridLayout* mapGrid, int rows, int cols, int gridRows, int gridCols);
+    std::string getYamlPath();
 
-  void deleteWidgets(QGridLayout* pLayout);
+    std::string saveYamlPath();
+
+    void renderItemsGrid(QGridLayout* texture_grid);
+
+    void renderPlayersGrid(QGridLayout* texture_grid);
+
+    void renderScenarioGrid(QGridLayout* texture_grid);
+
+    void renderWeaponsGrid(QGridLayout* texture_grid);
+
+    /* This method renders all the "render" wrappers with the vector of icons of the callee function.*/
+    void renderTextureGrid(QGridLayout* texture_grid, std::vector<std::pair<QIcon, std::string>> icons);
+
+    void changeCursor(QPixmap pix, std::string texture_name);
+
+    /*Drag events used to implement the map drag and drop-load functionality*/
+    void dropEvent(QDropEvent* e);
+
+    void dragMoveEvent(QDragMoveEvent* event);
+
+    void dragEnterEvent(QDragEnterEvent* e);
+
+    void dragLeaveEvent(QDragLeaveEvent* event);
+
+    /*Resets the texture on the cursor when pressed on any place of the window*/
+    void mousePressEvent(QMouseEvent* event);
+
+    /*Deletes all the widgets within a layout*/
+    void deleteWidgets(QGridLayout* layout);
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

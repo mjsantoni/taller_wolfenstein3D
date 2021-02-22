@@ -1,479 +1,482 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>ConfigChecker</class>
-    <widget class="QMainWindow" name="ConfigChecker">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>950</width>
-                <height>600</height>
-            </rect>
+ <class>ConfigChecker</class>
+ <widget class="QMainWindow" name="ConfigChecker">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>950</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>950</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>950</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>ConfigChecker</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QCommandLinkButton" name="connectButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>520</y>
+      <width>120</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::PreventContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="text">
+     <string>Connect</string>
+    </property>
+    <property name="autoDefault">
+     <bool>true</bool>
+    </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="errorWidget" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>470</y>
+      <width>351</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string/>
+    </property>
+    <widget class="QWidget" name="formLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>30</y>
+       <width>231</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="errorLabel">
+        <property name="text">
+         <string>Error in host/port</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="okButton">
         <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-            </sizepolicy>
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="minimumSize">
-            <size>
-                <width>950</width>
-                <height>600</height>
-            </size>
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
         </property>
         <property name="maximumSize">
-            <size>
-                <width>950</width>
-                <height>600</height>
-            </size>
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
         </property>
-        <property name="windowTitle">
-            <string>ConfigChecker</string>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
-        <widget class="QWidget" name="centralwidget">
-            <widget class="QCommandLinkButton" name="connectButton">
-                <property name="enabled">
-                    <bool>true</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>690</x>
-                        <y>520</y>
-                        <width>120</width>
-                        <height>40</height>
-                    </rect>
-                </property>
-                <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="cursor">
-                    <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="contextMenuPolicy">
-                    <enum>Qt::PreventContextMenu</enum>
-                </property>
-                <property name="autoFillBackground">
-                    <bool>true</bool>
-                </property>
-                <property name="text">
-                    <string>Connect</string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QWidget" name="errorWidget" native="true">
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>250</x>
-                        <y>470</y>
-                        <width>351</width>
-                        <height>151</height>
-                    </rect>
-                </property>
-                <property name="statusTip">
-                    <string/>
-                </property>
-                <widget class="QWidget" name="formLayoutWidget">
-                    <property name="geometry">
-                        <rect>
-                            <x>90</x>
-                            <y>30</y>
-                            <width>231</width>
-                            <height>81</height>
-                        </rect>
-                    </property>
-                    <layout class="QFormLayout" name="formLayout">
-                        <item row="0" column="0">
-                            <widget class="QLabel" name="errorLabel">
-                                <property name="text">
-                                    <string>Error in host/port</string>
-                                </property>
-                                <property name="alignment">
-                                    <set>Qt::AlignCenter</set>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="1" column="0">
-                            <widget class="QPushButton" name="okButton">
-                                <property name="sizePolicy">
-                                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="minimumSize">
-                                    <size>
-                                        <width>100</width>
-                                        <height>25</height>
-                                    </size>
-                                </property>
-                                <property name="maximumSize">
-                                    <size>
-                                        <width>100</width>
-                                        <height>25</height>
-                                    </size>
-                                </property>
-                                <property name="layoutDirection">
-                                    <enum>Qt::LeftToRight</enum>
-                                </property>
-                                <property name="text">
-                                    <string>Ok</string>
-                                </property>
-                            </widget>
-                        </item>
-                    </layout>
-                </widget>
-            </widget>
-            <widget class="QWidget" name="configWidget" native="true">
-                <property name="geometry">
-                    <rect>
-                        <x>200</x>
-                        <y>250</y>
-                        <width>461</width>
-                        <height>271</height>
-                    </rect>
-                </property>
-                <widget class="QWidget" name="verticalLayoutWidget">
-                    <property name="geometry">
-                        <rect>
-                            <x>20</x>
-                            <y>10</y>
-                            <width>411</width>
-                            <height>241</height>
-                        </rect>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout">
-                        <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout">
-                                <item>
-                                    <widget class="QLabel" name="hostLabel">
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                        <property name="text">
-                                            <string>Host</string>
-                                        </property>
-                                        <property name="textFormat">
-                                            <enum>Qt::PlainText</enum>
-                                        </property>
-                                    </widget>
-                                </item>
-                                <item>
-                                    <widget class="QLineEdit" name="hostLine">
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                    </widget>
-                                </item>
-                            </layout>
-                        </item>
-                        <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_2">
-                                <item>
-                                    <widget class="QLabel" name="portLabel">
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                        <property name="text">
-                                            <string>Port</string>
-                                        </property>
-                                    </widget>
-                                </item>
-                                <item>
-                                    <widget class="QLineEdit" name="portLine">
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                    </widget>
-                                </item>
-                            </layout>
-                        </item>
-                    </layout>
-                </widget>
-            </widget>
-            <widget class="QWidget" name="connectionWidget" native="true">
-                <property name="geometry">
-                    <rect>
-                        <x>350</x>
-                        <y>250</y>
-                        <width>261</width>
-                        <height>211</height>
-                    </rect>
-                </property>
-                <widget class="QWidget" name="verticalLayoutWidget_2">
-                    <property name="geometry">
-                        <rect>
-                            <x>20</x>
-                            <y>30</y>
-                            <width>201</width>
-                            <height>161</height>
-                        </rect>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_2">
-                        <item>
-                            <widget class="QPushButton" name="createButton">
-                                <property name="text">
-                                    <string>Create</string>
-                                </property>
-                                <property name="default">
-                                    <bool>true</bool>
-                                </property>
-                            </widget>
-                        </item>
-                        <item>
-                            <widget class="QPushButton" name="joinButton">
-                                <property name="text">
-                                    <string>Join</string>
-                                </property>
-                            </widget>
-                        </item>
-                    </layout>
-                </widget>
-            </widget>
-            <widget class="QWidget" name="parametersWidget" native="true">
-                <property name="geometry">
-                    <rect>
-                        <x>280</x>
-                        <y>250</y>
-                        <width>300</width>
-                        <height>181</height>
-                    </rect>
-                </property>
-                <widget class="QWidget" name="gridLayoutWidget">
-                    <property name="geometry">
-                        <rect>
-                            <x>0</x>
-                            <y>20</y>
-                            <width>287</width>
-                            <height>155</height>
-                        </rect>
-                    </property>
-                    <layout class="QGridLayout" name="gridLayout">
-                        <item row="2" column="0">
-                            <widget class="QLabel" name="botsLabel">
-                                <property name="text">
-                                    <string>Bots</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="3" column="0">
-                            <widget class="QLabel" name="timeLabel">
-                                <property name="text">
-                                    <string>Game duration (mins)</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="4" column="1">
-                            <widget class="QComboBox" name="mapCombo"/>
-                        </item>
-                        <item row="4" column="0">
-                            <widget class="QLabel" name="mapLabel">
-                                <property name="text">
-                                    <string>Map</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="3" column="1">
-                            <widget class="QSpinBox" name="timeSpin">
-                                <property name="minimum">
-                                    <number>1</number>
-                                </property>
-                                <property name="value">
-                                    <number>5</number>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="1" column="1">
-                            <widget class="QSpinBox" name="maxPlayersSpin"/>
-                        </item>
-                        <item row="2" column="1">
-                            <widget class="QSpinBox" name="botsSpin"/>
-                        </item>
-                        <item row="1" column="0">
-                            <widget class="QLabel" name="maxPlayersLabel">
-                                <property name="text">
-                                    <string>Max players</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="0" column="0">
-                            <widget class="QLabel" name="minPlayersLabel">
-                                <property name="enabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Min players</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item row="0" column="1">
-                            <widget class="QSpinBox" name="minPlayersSpin">
-                                <property name="minimum">
-                                    <number>1</number>
-                                </property>
-                            </widget>
-                        </item>
-                    </layout>
-                </widget>
-            </widget>
-            <widget class="QCommandLinkButton" name="createConfirmButton">
-                <property name="geometry">
-                    <rect>
-                        <x>690</x>
-                        <y>520</y>
-                        <width>120</width>
-                        <height>40</height>
-                    </rect>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="text">
-                    <string>Create</string>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QWidget" name="joinWidget" native="true">
-                <property name="geometry">
-                    <rect>
-                        <x>330</x>
-                        <y>250</y>
-                        <width>300</width>
-                        <height>151</height>
-                    </rect>
-                </property>
-                <widget class="QWidget" name="verticalLayoutWidget_3">
-                    <property name="geometry">
-                        <rect>
-                            <x>20</x>
-                            <y>30</y>
-                            <width>160</width>
-                            <height>80</height>
-                        </rect>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_3">
-                        <item>
-                            <widget class="QComboBox" name="idCombo"/>
-                        </item>
-                    </layout>
-                </widget>
-            </widget>
-            <widget class="QCommandLinkButton" name="joinConfirmButton">
-                <property name="geometry">
-                    <rect>
-                        <x>690</x>
-                        <y>520</y>
-                        <width>120</width>
-                        <height>40</height>
-                    </rect>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>120</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="text">
-                    <string>Join</string>
-                </property>
-                <property name="checkable">
-                    <bool>false</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QCommandLinkButton" name="backButton">
-                <property name="geometry">
-                    <rect>
-                        <x>80</x>
-                        <y>520</y>
-                        <width>80</width>
-                        <height>40</height>
-                    </rect>
-                </property>
-                <property name="minimumSize">
-                    <size>
-                        <width>80</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="maximumSize">
-                    <size>
-                        <width>80</width>
-                        <height>40</height>
-                    </size>
-                </property>
-                <property name="text">
-                    <string>Back</string>
-                </property>
-                <property name="autoDefault">
-                    <bool>false</bool>
-                </property>
-            </widget>
-            <zorder>connectButton</zorder>
-            <zorder>errorWidget</zorder>
-            <zorder>configWidget</zorder>
-            <zorder>connectionWidget</zorder>
-            <zorder>parametersWidget</zorder>
-            <zorder>createConfirmButton</zorder>
-            <zorder>joinConfirmButton</zorder>
-            <zorder>joinWidget</zorder>
-            <zorder>backButton</zorder>
-        </widget>
+        <property name="text">
+         <string>Ok</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
-    <resources/>
-    <connections/>
+   </widget>
+   <widget class="QWidget" name="configWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>250</y>
+      <width>461</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>411</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="hostLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Host</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="hostLine">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="portLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="portLine">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="connectionWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>250</y>
+      <width>261</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>201</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="createButton">
+        <property name="text">
+         <string>Create</string>
+        </property>
+        <property name="default">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="joinButton">
+        <property name="text">
+         <string>Join</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="parametersWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>250</y>
+      <width>361</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>331</width>
+       <height>155</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="horizontalSpacing">
+       <number>20</number>
+      </property>
+      <item row="2" column="0">
+       <widget class="QLabel" name="botsLabel">
+        <property name="text">
+         <string>Bots</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="timeLabel">
+        <property name="text">
+         <string>Game duration (mins)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="mapCombo"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="mapLabel">
+        <property name="text">
+         <string>Map</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="timeSpin">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="maxPlayersSpin"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="botsSpin"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="maxPlayersLabel">
+        <property name="text">
+         <string>Max players</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="minPlayersLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Min players</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="minPlayersSpin">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QCommandLinkButton" name="createConfirmButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>520</y>
+      <width>120</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Create</string>
+    </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="joinWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>250</y>
+      <width>300</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>160</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QComboBox" name="idCombo"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QCommandLinkButton" name="joinConfirmButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>520</y>
+      <width>120</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>120</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Join</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="backButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>520</y>
+      <width>80</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>80</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>80</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <zorder>connectButton</zorder>
+   <zorder>errorWidget</zorder>
+   <zorder>configWidget</zorder>
+   <zorder>connectionWidget</zorder>
+   <zorder>parametersWidget</zorder>
+   <zorder>createConfirmButton</zorder>
+   <zorder>joinConfirmButton</zorder>
+   <zorder>joinWidget</zorder>
+   <zorder>backButton</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>

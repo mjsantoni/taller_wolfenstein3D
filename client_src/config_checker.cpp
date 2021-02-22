@@ -78,18 +78,26 @@ void ConfigChecker::createNewGame() {
 }
 
 void ConfigChecker::showParameters() {
-  sk.send_msg(CREATE_GAME);
+    try {
+        sk.send_msg(CREATE_GAME);
+    } catch (NetworkError) {
+        showError("Server currently down");
+        return;
+    }
+
   QComboBox* join_combo = findChild<QComboBox*>("mapCombo");
   QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
   QSpinBox* bots_spin = findChild<QSpinBox*>("botsSpin");
-  if (!backed) join_combo->addItems(readAllMaps());
-  showWidget("backButton");
-  if (join_combo->currentText().toStdString().empty()) {
-    showError("No maps to create a game");
-    return;
-  }
 
+  if (join_combo->currentText().toStdString().empty()) {
+      showError("No maps to create a game");
+      sk.send_msg(BACK);
+      return;
+  }
+  if (!backed) join_combo->addItems(readAllMaps());
+
+  showWidget("backButton");
   hideWidget("connectionWidget");
   showWidget("parametersWidget");
   showWidget("createConfirmButton");
@@ -98,15 +106,18 @@ void ConfigChecker::showParameters() {
     MapParser parser(MAPS_PATH_FOLDER + join_combo->currentText().toStdString());
     int max_players_size = parser.getSpecificCategory("players").size();
     max_players_spin->setMinimum(1);
-    bots_spin->setMaximum(max_players_size - 1);
-    min_players_spin->setMaximum(max_players_size);
-    max_players_spin->setMaximum(max_players_size);
+    if (max_players_size > 0) {
+        min_players_spin->setMaximum(max_players_size);
+        bots_spin->setMaximum(max_players_size - 1);
+        max_players_spin->setMaximum(max_players_size);
+    }
   } catch (YAML::ParserException) {
-    showError("Error en el parseo del mapa");
+    showError("Error parsing the map");
   } catch (YAML::BadFile) {
-    showError("Error en el archivo del mapa");
+    showError("Error in the map file");
   }
 }
+
 
 void ConfigChecker::showIdSelection() {
   hideWidget("connectionWidget");
@@ -114,21 +125,31 @@ void ConfigChecker::showIdSelection() {
   showWidget("joinWidget");
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
-  showWidget("backButton");
-  sk.send_msg(JOIN_GAME);
+
+  try {
+      sk.send_msg(JOIN_GAME);
+  } catch (NetworkError) {
+      showError("Server currently down");
+      return;
+  }
+
   std::string games;
   sk.recv_msg(games);
   QStringList maps_names;
+
   while (games != SUCCESS) {
-    if (!backed) {
-      maps_names << games.c_str();
-    }
-    games.clear();
-    sk.recv_msg(games);
+      if (!backed) {
+          maps_names << games.c_str();
+      }
+      games.clear();
+      sk.recv_msg(games);
   }
+
   if (maps_names.size() > 0) {
-    id_combo->addItems(maps_names);
+      id_combo->addItems(maps_names);
   }
+
+  showWidget("backButton");
 }
 
 void ConfigChecker::joinGame() {
@@ -139,15 +160,17 @@ void ConfigChecker::joinGame() {
   }
   std::stringstream ss(id_combo->currentText().toStdString());
   std::string map_name = ss.str().substr(0, ss.str().find('/')) + ".yaml";
+
   std::string id = ss.str().substr(ss.str().find('/') + 1);
-  std::string answer;
-  //try
   sk.send_msg(id);
+
+  std::string answer;
   sk.recv_msg(answer);
+
   if (answer == SUCCESS) {
     map_data = map_name;
     this->close();
-  } else showError("Error en login");
+  } else showError("Error login the server");
 }
 
 std::string ConfigChecker::getLineContent(const char* line_name) {
@@ -214,8 +237,7 @@ void ConfigChecker::showError(const char* string) {
 }
 
 void ConfigChecker::updateBotsSpin() {
-  \
-    QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
+  QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
 
   if (max_players_spin->value() < min_players_spin->value()) {
@@ -250,6 +272,7 @@ void ConfigChecker::updateSpin(const char* to_update, const char* updater) {
   QSpinBox* updateree = findChild<QSpinBox*>(updater);
 
   if (update->value() + updateree->value() > max_players_spin->value())
+    qDebug(to_update);
     update->setValue(max_players_spin->value() - updateree->value());
 }
 
@@ -259,12 +282,14 @@ void ConfigChecker::updateMaximums() {
   QSpinBox* bots_spin = findChild<QSpinBox*>("botsSpin");
   int value_max = max_players_spin->value();
 
-  if (max_players_spin->value() == min_players_spin->value()) {
-    bots_spin->setValue(bots_spin->value() - 1);
+  if (value_max > 0) {
+      if (value_max == min_players_spin->value()){
+          bots_spin->setValue(bots_spin->value() - 1);
+      }
+      bots_spin->setMaximum(value_max - 1);
+      min_players_spin->setMaximum(value_max);
   }
 
-  bots_spin->setMaximum(value_max - 1);
-  min_players_spin->setMaximum(value_max);
 
 }
 
