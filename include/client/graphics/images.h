@@ -6,7 +6,7 @@
 #define TP_WOLFENSTEIN_IMAGES_H
 
 #define INVALID_IMAGE 0
-#define GRAY_WALL 1
+#define ROCK_WALL 1
 #define BLUE_WALL 2
 #define BROWN_WALL 3
 #define STONE_WALL 4

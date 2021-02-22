@@ -12,7 +12,7 @@ TextureManager::TextureManager(SdlWindow& _window,
   auto* fake_texture = (SdlTexture*) nullptr;
   textures.push_back(fake_texture);
   areas_vector.push_back(fake_vector);
-  for (int object_type = GRAY_WALL; object_type <= UI_PLAYER_FACE;
+  for (int object_type = ROCK_WALL; object_type <= UI_PLAYER_FACE;
        ++object_type) {
     ObjectInfo object_info = info_provider.getObjectInfo(object_type);
     std::string image_path = object_info.getImagePath();

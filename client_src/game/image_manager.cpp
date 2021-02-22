@@ -12,7 +12,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
   if (name == "wood_wall")
     return BROWN_WALL;
   if (name == "rock_wall")
-    return GRAY_WALL;
+    return ROCK_WALL;
   if (name == "blue_wall")
     return BLUE_WALL;
   if (name == "stone_wall")
@@ -53,7 +53,7 @@ int ImageManager::getImageNumberFromName(std::string name) {
 }
 
 bool ImageManager::objectIsWall(int object_type) {
-  return object_type >= GRAY_WALL && object_type <= SILVER_DOOR;
+  return object_type >= ROCK_WALL && object_type <= SILVER_DOOR;
 }
 
 int ImageManager::getImageNumberFromWeapon(int weapon_number) {
