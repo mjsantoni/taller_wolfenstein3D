@@ -1,7 +1,7 @@
 #ifndef SETTING_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define SETTING_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -14,7 +14,7 @@
 namespace YAML {
 class SettingChangeBase;
 
-template <typename T>
+template<typename T>
 class Setting {
  public:
   Setting() : m_value() {}
@@ -34,7 +34,7 @@ class SettingChangeBase {
   virtual void pop() = 0;
 };
 
-template <typename T>
+template<typename T>
 class SettingChange : public SettingChangeBase {
  public:
   SettingChange(Setting<T>* pSetting)
@@ -53,7 +53,7 @@ class SettingChange : public SettingChangeBase {
   Setting<T> m_oldSetting;
 };
 
-template <typename T>
+template<typename T>
 inline std::unique_ptr<SettingChangeBase> Setting<T>::set(const T& value) {
   std::unique_ptr<SettingChangeBase> pChange(new SettingChange<T>(this));
   m_value = value;

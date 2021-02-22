@@ -90,30 +90,34 @@ class TersePrinter : public EmptyTestEventListener {
   }
 };  // class TersePrinter
 
-TEST(CustomOutputTest, PrintsMessage) {
-  printf("Printing something from the test body...\n");
+TEST(CustomOutputTest, PrintsMessage
+) {
+printf("Printing something from the test body...\n");
 }
 
-TEST(CustomOutputTest, Succeeds) {
-  SUCCEED() << "SUCCEED() has been invoked from here";
+TEST(CustomOutputTest, Succeeds
+) {
+SUCCEED()
+<< "SUCCEED() has been invoked from here";
 }
 
-TEST(CustomOutputTest, Fails) {
-  EXPECT_EQ(1, 2)
-      << "This test fails in order to demonstrate alternative failure messages";
+TEST(CustomOutputTest, Fails
+) {
+EXPECT_EQ(1, 2)
+<< "This test fails in order to demonstrate alternative failure messages";
 }
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   InitGoogleTest(&argc, argv);
 
   bool terse_output = false;
-  if (argc > 1 && strcmp(argv[1], "--terse_output") == 0 )
+  if (argc > 1 && strcmp(argv[1], "--terse_output") == 0)
     terse_output = true;
   else
     printf("%s\n", "Run this program with --terse_output to change the way "
-           "it prints its output.");
+                   "it prints its output.");
 
   UnitTest& unit_test = *UnitTest::GetInstance();
 

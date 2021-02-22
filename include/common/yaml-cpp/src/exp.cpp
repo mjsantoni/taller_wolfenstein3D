@@ -59,10 +59,10 @@ std::string Escape(Stream& in, int codeLength) {
     return Str(0xC0 + (value >> 6)) + Str(0x80 + (value & 0x3F));
   else if (value <= 0xFFFF)
     return Str(0xE0 + (value >> 12)) + Str(0x80 + ((value >> 6) & 0x3F)) +
-           Str(0x80 + (value & 0x3F));
+        Str(0x80 + (value & 0x3F));
   else
     return Str(0xF0 + (value >> 18)) + Str(0x80 + ((value >> 12) & 0x3F)) +
-           Str(0x80 + ((value >> 6) & 0x3F)) + Str(0x80 + (value & 0x3F));
+        Str(0x80 + ((value >> 6) & 0x3F)) + Str(0x80 + (value & 0x3F));
 }
 
 // Escape
@@ -84,49 +84,28 @@ std::string Escape(Stream& in) {
   // now do the slash (we're not gonna check if it's a slash - you better pass
   // one!)
   switch (ch) {
-    case '0':
-      return std::string(1, '\x00');
-    case 'a':
-      return "\x07";
-    case 'b':
-      return "\x08";
+    case '0':return std::string(1, '\x00');
+    case 'a':return "\x07";
+    case 'b':return "\x08";
     case 't':
-    case '\t':
-      return "\x09";
-    case 'n':
-      return "\x0A";
-    case 'v':
-      return "\x0B";
-    case 'f':
-      return "\x0C";
-    case 'r':
-      return "\x0D";
-    case 'e':
-      return "\x1B";
-    case ' ':
-      return "\x20";
-    case '\"':
-      return "\"";
-    case '\'':
-      return "\'";
-    case '\\':
-      return "\\";
-    case '/':
-      return "/";
-    case 'N':
-      return "\x85";
-    case '_':
-      return "\xA0";
-    case 'L':
-      return "\xE2\x80\xA8";  // LS (#x2028)
-    case 'P':
-      return "\xE2\x80\xA9";  // PS (#x2029)
-    case 'x':
-      return Escape(in, 2);
-    case 'u':
-      return Escape(in, 4);
-    case 'U':
-      return Escape(in, 8);
+    case '\t':return "\x09";
+    case 'n':return "\x0A";
+    case 'v':return "\x0B";
+    case 'f':return "\x0C";
+    case 'r':return "\x0D";
+    case 'e':return "\x1B";
+    case ' ':return "\x20";
+    case '\"':return "\"";
+    case '\'':return "\'";
+    case '\\':return "\\";
+    case '/':return "/";
+    case 'N':return "\x85";
+    case '_':return "\xA0";
+    case 'L':return "\xE2\x80\xA8";  // LS (#x2028)
+    case 'P':return "\xE2\x80\xA9";  // PS (#x2029)
+    case 'x':return Escape(in, 2);
+    case 'u':return Escape(in, 4);
+    case 'U':return Escape(in, 8);
   }
 
   std::stringstream msg;

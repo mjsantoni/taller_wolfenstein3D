@@ -168,6 +168,8 @@ INSTANTIATE_TEST_CASE_P(MeaningfulTestParameters,
 // all and consequently complain about missing entry point defined in
 // that library (fatal error LNK1561: entry point must be
 // defined). This dummy test keeps gtest_main linked in.
-TEST(DummyTest, CombineIsNotSupportedOnThisPlatform) {}
+TEST(DummyTest, CombineIsNotSupportedOnThisPlatform
+) {
+}
 
 #endif  // GTEST_HAS_COMBINE

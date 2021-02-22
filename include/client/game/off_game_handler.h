@@ -15,27 +15,26 @@
 #include <client/game/client_map_generator.h>
 
 class OffGameHandler {
-private:
-    GameScreen& screen;
-    ClientMap& map;
-    AudioManager audio_manager;
-    OffGameChangeProcessor change_processor;
-    OffGameEventHandler event_handler;
-    bool player_ready = false;
-    bool game_started = false;
-    OffGameEventGenerator event_generator;
-public:
-    OffGameHandler(GameScreen &_screen, ClientPlayer& player, ClientMap& _map,
-                   SharedQueue<Change>& change_queue,
-                   BlockingQueue<Event>& event_queue);
-    void displayLoadingScreen();
-    void displayLevelSelectionMenu();
-    int displayMatchModeMenu();
-    void displayIntro();
-    void displayMenus(const std::string &map_name);
+ private:
+  GameScreen& screen;
+  ClientMap& map;
+  AudioManager audio_manager;
+  OffGameChangeProcessor change_processor;
+  OffGameEventHandler event_handler;
+  bool player_ready = false;
+  bool game_started = false;
+  OffGameEventGenerator event_generator;
+ public:
+  OffGameHandler(GameScreen& _screen, ClientPlayer& player, ClientMap& _map,
+                 SharedQueue<Change>& change_queue,
+                 BlockingQueue<Event>& event_queue);
+  void displayLoadingScreen();
+  void displayLevelSelectionMenu();
+  int displayMatchModeMenu();
+  void displayIntro();
+  void displayMenus(const std::string& map_name);
 
-    void initializeMap(const std::string &map_name);
+  void initializeMap(const std::string& map_name);
 };
-
 
 #endif //TP_WOLFENSTEIN_OFF_GAME_HANDLER_H

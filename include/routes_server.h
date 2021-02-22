@@ -12,6 +12,4 @@
 #define MAPS_PATH_FOLDER_DEB_SERVER "/usr/local/share/wolfenstein3d-server/maps/"
 #define MAPS_PATH_FOLDER_DEB_CLIENT "/usr/local/share/wolfenstein3d-client/maps/"
 
-
-
 #endif //TP_WOLFENSTEIN_ROUTES_H

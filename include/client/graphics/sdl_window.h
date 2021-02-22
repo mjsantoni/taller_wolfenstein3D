@@ -15,33 +15,32 @@
 #include "client/drawable.h"
 
 class SdlWindow {
-private:
-    int width;
-    int height;
-    double width_prop;
-    double height_prop;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+ private:
+  int width;
+  int height;
+  double width_prop;
+  double height_prop;
+  SDL_Window* window;
+  SDL_Renderer* renderer;
 
-public:
-    SdlWindow(int width, int height);
-    ~SdlWindow();
-    void fill();
-    void fill(int r, int g, int b, int alpha);
-    void render();
-    SDL_Renderer* getRenderer() const;
-    SDL_Surface* getSurface() const;
-    void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-    void fillArea(Area area, int r, int g, int b, int a);
-    void restore();
-    int getWidth();
-    int getHeight();
-    void drawRectangle(Area& area, int r, int g, int b, int a);
-    void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
-    //void loadImage(SdlSprite& sprite, Area &image_area, Area &screen_area);
-    Area getFullScreenArea();
+ public:
+  SdlWindow(int width, int height);
+  ~SdlWindow();
+  void fill();
+  void fill(int r, int g, int b, int alpha);
+  void render();
+  SDL_Renderer* getRenderer() const;
+  SDL_Surface* getSurface() const;
+  void putTextureAt(SDL_Texture* texture, Area src, Area dest);
+  void fillArea(Area area, int r, int g, int b, int a);
+  void restore();
+  int getWidth();
+  int getHeight();
+  void drawRectangle(Area& area, int r, int g, int b, int a);
+  void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
+  //void loadImage(SdlSprite& sprite, Area &image_area, Area &screen_area);
+  Area getFullScreenArea();
 };
-
 
 #endif //TP_WOLFENSTEIN_SDLWINDOW_H
 

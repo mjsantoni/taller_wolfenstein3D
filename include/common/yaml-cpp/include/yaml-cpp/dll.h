@@ -1,7 +1,7 @@
 #ifndef DLL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define DLL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -17,9 +17,9 @@
 #undef YAML_CPP_API
 
 #ifdef YAML_CPP_DLL      // Using or Building YAML-CPP DLL (definition defined
-                         // manually)
+// manually)
 #ifdef yaml_cpp_EXPORTS  // Building YAML-CPP DLL (definition created by CMake
-                         // or defined manually)
+// or defined manually)
 //	#pragma message( "Defining YAML_CPP_API for DLL export" )
 #define YAML_CPP_API __declspec(dllexport)
 #else  // yaml_cpp_EXPORTS

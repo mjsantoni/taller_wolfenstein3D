@@ -9,14 +9,12 @@
 #define BUF_LEN 256
 
 class SdlException : std::exception {
-public:
-    explicit SdlException(const char* message, const char* error) noexcept;
-    const char* what() const noexcept override;
-    virtual ~SdlException() noexcept;
-private:
-    char msg_error[BUF_LEN];
+ public:
+  explicit SdlException(const char* message, const char* error) noexcept;
+  const char* what() const noexcept override;
+  virtual ~SdlException() noexcept;
+ private:
+  char msg_error[BUF_LEN];
 };
-
-
 
 #endif //TP_WOLFENSTEIN_SDL_EXCEPTION_H

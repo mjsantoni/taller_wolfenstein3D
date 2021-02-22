@@ -4,15 +4,15 @@
 #include "positionable.h"
 
 class Treasure : public Positionable {
-protected:
-    int points_given;
+ protected:
+  int points_given;
 
-public:
-    Treasure(std::string type, int id, int _points_given);
+ public:
+  Treasure(std::string type, int id, int _points_given);
 
-    int getPoints();
+  int getPoints();
 
-    ~Treasure();
+  ~Treasure();
 };
 
 #endif // TREASURE_H

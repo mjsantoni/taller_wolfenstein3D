@@ -37,16 +37,17 @@ namespace testing {
 // TODO(wan@google.com): support using environment variables to
 // control the flag values, like what Google Test does.
 
-GMOCK_DEFINE_bool_(catch_leaked_mocks, true,
-                   "true iff Google Mock should report leaked mock objects "
-                   "as failures.");
+GMOCK_DEFINE_bool_(catch_leaked_mocks,
+true,
+"true iff Google Mock should report leaked mock objects "
+"as failures.");
 
 GMOCK_DEFINE_string_(verbose, internal::kWarningVerbosity,
-                     "Controls how verbose Google Mock's output is."
-                     "  Valid values:\n"
-                     "  info    - prints all messages.\n"
-                     "  warning - prints warnings and errors.\n"
-                     "  error   - prints errors only.");
+"Controls how verbose Google Mock's output is."
+"  Valid values:\n"
+"  info    - prints all messages.\n"
+"  warning - prints warnings and errors.\n"
+"  error   - prints errors only.");
 
 namespace internal {
 
@@ -106,7 +107,7 @@ static bool ParseGoogleMockBoolFlag(const char* str, const char* flag,
 //
 // On success, stores the value of the flag in *value, and returns
 // true.  On failure, returns false without changing *value.
-template <typename String>
+template<typename String>
 static bool ParseGoogleMockStringFlag(const char* str, const char* flag,
                                       String* value) {
   // Gets the value of the flag as a string.
@@ -124,7 +125,7 @@ static bool ParseGoogleMockStringFlag(const char* str, const char* flag,
 //
 // The type parameter CharType can be instantiated to either char or
 // wchar_t.
-template <typename CharType>
+template<typename CharType>
 void InitGoogleMockImpl(int* argc, CharType** argv) {
   // Makes sure Google Test is initialized.  InitGoogleTest() is
   // idempotent, so it's fine if the user has already called it.

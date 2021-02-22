@@ -1,7 +1,7 @@
 #ifndef NODE_NODE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define NODE_NODE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -34,17 +34,19 @@ class YAML_CPP_API Node {
   friend struct detail::iterator_value;
   friend class detail::node;
   friend class detail::node_data;
-  template <typename>
-  friend class detail::iterator_base;
-  template <typename T, typename S>
-  friend struct as_if;
+  template<typename>
+  friend
+  class detail::iterator_base;
+  template<typename T, typename S>
+  friend
+  struct as_if;
 
   typedef YAML::iterator iterator;
   typedef YAML::const_iterator const_iterator;
 
   Node();
   explicit Node(NodeType::value type);
-  template <typename T>
+  template<typename T>
   explicit Node(const T& rhs);
   explicit Node(const detail::iterator_value& rhs);
   Node(const Node& rhs);
@@ -63,9 +65,9 @@ class YAML_CPP_API Node {
   bool operator!() const { return !IsDefined(); }
 
   // access
-  template <typename T>
+  template<typename T>
   T as() const;
-  template <typename T, typename S>
+  template<typename T, typename S>
   T as(const S& fallback) const;
   const std::string& Scalar() const;
 
@@ -79,7 +81,7 @@ class YAML_CPP_API Node {
 
   // assignment
   bool is(const Node& rhs) const;
-  template <typename T>
+  template<typename T>
   Node& operator=(const T& rhs);
   Node& operator=(const Node& rhs);
   void reset(const Node& rhs = Node());
@@ -94,16 +96,16 @@ class YAML_CPP_API Node {
   iterator end();
 
   // sequence
-  template <typename T>
+  template<typename T>
   void push_back(const T& rhs);
   void push_back(const Node& rhs);
 
   // indexing
-  template <typename Key>
+  template<typename Key>
   const Node operator[](const Key& key) const;
-  template <typename Key>
+  template<typename Key>
   Node operator[](const Key& key);
-  template <typename Key>
+  template<typename Key>
   bool remove(const Key& key);
 
   const Node operator[](const Node& key) const;
@@ -111,7 +113,7 @@ class YAML_CPP_API Node {
   bool remove(const Node& key);
 
   // map
-  template <typename Key, typename Value>
+  template<typename Key, typename Value>
   void force_insert(const Key& key, const Value& value);
 
  private:
@@ -122,7 +124,7 @@ class YAML_CPP_API Node {
 
   void EnsureNodeExists() const;
 
-  template <typename T>
+  template<typename T>
   void Assign(const T& rhs);
   void Assign(const char* rhs);
   void Assign(char* rhs);
@@ -142,7 +144,7 @@ YAML_CPP_API bool operator==(const Node& lhs, const Node& rhs);
 
 YAML_CPP_API Node Clone(const Node& node);
 
-template <typename T>
+template<typename T>
 struct convert;
 }
 

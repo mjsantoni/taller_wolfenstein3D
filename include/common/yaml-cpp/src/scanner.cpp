@@ -35,14 +35,14 @@ void Scanner::pop() {
 Token& Scanner::peek() {
   EnsureTokensInQueue();
   assert(!m_tokens.empty());  // should we be asserting here? I mean, we really
-                              // just be checking
-                              // if it's empty before peeking.
+  // just be checking
+  // if it's empty before peeking.
 
 #if 0
-		static Token *pLast = 0;
-		if(pLast != &m_tokens.front())
-			std::cerr << "peek: " << m_tokens.front() << "\n";
-		pLast = &m_tokens.front();
+  static Token *pLast = 0;
+  if(pLast != &m_tokens.front())
+      std::cerr << "peek: " << m_tokens.front() << "\n";
+  pLast = &m_tokens.front();
 #endif
 
   return m_tokens.front();
@@ -155,7 +155,7 @@ void Scanner::ScanNextToken() {
 
   // special scalars
   if (InBlockContext() && (INPUT.peek() == Keys::LiteralScalar ||
-                           INPUT.peek() == Keys::FoldedScalar)) {
+      INPUT.peek() == Keys::FoldedScalar)) {
     return ScanBlockScalar();
   }
 
@@ -165,7 +165,7 @@ void Scanner::ScanNextToken() {
 
   // plain scalars
   if ((InBlockContext() ? Exp::PlainScalar() : Exp::PlainScalarInFlow())
-          .Matches(INPUT)) {
+      .Matches(INPUT)) {
     return ScanPlainScalar();
   }
 
@@ -271,12 +271,9 @@ Token* Scanner::PushToken(Token::TYPE type) {
 
 Token::TYPE Scanner::GetStartTokenFor(IndentMarker::INDENT_TYPE type) const {
   switch (type) {
-    case IndentMarker::SEQ:
-      return Token::BLOCK_SEQ_START;
-    case IndentMarker::MAP:
-      return Token::BLOCK_MAP_START;
-    case IndentMarker::NONE:
-      assert(false);
+    case IndentMarker::SEQ:return Token::BLOCK_SEQ_START;
+    case IndentMarker::MAP:return Token::BLOCK_MAP_START;
+    case IndentMarker::NONE:assert(false);
       break;
   }
   assert(false);
@@ -300,7 +297,7 @@ Scanner::IndentMarker* Scanner::PushIndentTo(int column,
   }
   if (indent.column == lastIndent.column &&
       !(indent.type == IndentMarker::SEQ &&
-        lastIndent.type == IndentMarker::MAP)) {
+          lastIndent.type == IndentMarker::MAP)) {
     return nullptr;
   }
 
@@ -327,7 +324,7 @@ void Scanner::PopIndentToHere() {
     }
     if (indent.column == INPUT.column() &&
         !(indent.type == IndentMarker::SEQ &&
-          !Exp::BlockEntry().Matches(INPUT))) {
+            !Exp::BlockEntry().Matches(INPUT))) {
       break;
     }
 
@@ -335,7 +332,7 @@ void Scanner::PopIndentToHere() {
   }
 
   while (!m_indents.empty() &&
-         m_indents.top()->status == IndentMarker::INVALID) {
+      m_indents.top()->status == IndentMarker::INVALID) {
     PopIndent();
   }
 }

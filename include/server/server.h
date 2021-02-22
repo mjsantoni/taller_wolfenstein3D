@@ -9,32 +9,30 @@
 #include "common/network_connection.h"
 #include "common/thread.h"
 
-
 class Server : public Thread {
-private:
-    std::vector<GameHandler*> matches;
-    NetworkAcceptor networkAcceptor;
-    std::vector<std::string> maps;
-    std::atomic<bool> accepting_connections;
+ private:
+  std::vector<GameHandler*> matches;
+  NetworkAcceptor networkAcceptor;
+  std::vector<std::string> maps;
+  std::atomic<bool> accepting_connections;
 
+ public:
+  Server(NetworkAcceptor socket);
+  ~Server() override;
 
-public:
-    Server(NetworkAcceptor socket);
-    ~Server() override;
+  void run() override;
 
-    void run() override;
+  void stop();
 
-    void stop();
+  bool joinGame(int game_id, NetworkConnection socket);
 
-    bool joinGame(int game_id, NetworkConnection socket);
+  int createGame(std::string& map, int min_players, int max_players, int bots, int time);
 
-    int createGame(std::string& map, int min_players, int max_players, int bots, int time);
+  void killDead();
 
-    void killDead();
+  std::vector<int> split(const std::string& bytes);
 
-    std::vector<int> split(const std::string& bytes);
-
-    void sendGames(NetworkConnection &socket);
+  void sendGames(NetworkConnection& socket);
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_H

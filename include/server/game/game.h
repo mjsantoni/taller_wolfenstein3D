@@ -22,72 +22,72 @@
 #include "server/lua/lua_bot.h"
 
 class Game {
-private:
-    Map map;
-    ConfigParser configParser;
-    ScoreHandler scoreHandler;
-    ColissionHandler colHandler;
-    BlockingItemHandler blockingItemHandler;
-    ShootHandler shootHandler;
-    PickUpHandler pickUpHandler;
-    DropHandler dropHandler;
-    HitHandler hitHandler;
-    std::vector<Player> players;
+ private:
+  Map map;
+  ConfigParser configParser;
+  ScoreHandler scoreHandler;
+  ColissionHandler colHandler;
+  BlockingItemHandler blockingItemHandler;
+  ShootHandler shootHandler;
+  PickUpHandler pickUpHandler;
+  DropHandler dropHandler;
+  HitHandler hitHandler;
+  std::vector<Player> players;
 
-    std::map<Coordinate,int> doors_to_close;
-    std::chrono::time_point<std::chrono::system_clock> time_start;
+  std::map<Coordinate, int> doors_to_close;
+  std::chrono::time_point<std::chrono::system_clock> time_start;
 
-    std::set<int> players_ready;
-    int players_ids = 0;
-    int players_alive = 0;
-    int min_players_in_lobby;
-    int game_duration;
-    int max_players;
+  std::set<int> players_ready;
+  int players_ids = 0;
+  int players_alive = 0;
+  int min_players_in_lobby;
+  int game_duration;
+  int max_players;
 
-    /* Bot stuff */
-    BotsManager& botsManager;
-    std::mutex m;
+  /* Bot stuff */
+  BotsManager& botsManager;
+  std::mutex m;
 
-    /* Functions */
-    static double getAngleToMove(int direction);
+  /* Functions */
+  static double getAngleToMove(int direction);
 
-public:
-    Game(const std::string &map_path, std::string config_path, BotsManager &bm, int _min_players_in_lobby,
-         int _game_duration, int _max_players);
-    ~Game();
+ public:
+  Game(const std::string& map_path, std::string config_path, BotsManager& bm, int _min_players_in_lobby,
+       int _game_duration, int _max_players);
+  ~Game();
 
-    /* RECEIVED EVENTS */
-    std::pair<int,std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> connectPlayer();
-    std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id, int move_direction, bool& has_ammo);
-    std::pair<Hit, std::vector<Change>> shoot(int id);
-    std::pair<bool, int> openDoor(int id);
-    int pushWall(int id);
-    void rotate(int id, int rotation);
-    int changeGun(int id, int hotkey);
-    void playerIsReady(int i);
+  /* RECEIVED EVENTS */
+  std::pair<int, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> connectPlayer();
+  std::pair<Coordinate, std::vector<Positionable>> movePlayer(int id, int move_direction, bool& has_ammo);
+  std::pair<Hit, std::vector<Change>> shoot(int id);
+  std::pair<bool, int> openDoor(int id);
+  int pushWall(int id);
+  void rotate(int id, int rotation);
+  int changeGun(int id, int hotkey);
+  void playerIsReady(int i);
 
-    /* GAME CHECK */
-    bool isOver();
-    int getPlayersAlive();
-    bool isPlayerAlive(int id);
-    bool isReady();
+  /* GAME CHECK */
+  bool isOver();
+  int getPlayersAlive();
+  bool isPlayerAlive(int id);
+  bool isReady();
 
-    int getPlayerGun(int id);
-    /* GAME CHANGERS */
-    void playerDies(Hit& hit);
-    void addDropsToHitEvent(const std::pair<std::string, bool> &drops,
-                            Hit &hit, const Coordinate& pos);
-    void closeDoors(std::vector<Change>& vector);
+  int getPlayerGun(int id);
+  /* GAME CHANGERS */
+  void playerDies(Hit& hit);
+  void addDropsToHitEvent(const std::pair<std::string, bool>& drops,
+                          Hit& hit, const Coordinate& pos);
+  void closeDoors(std::vector<Change>& vector);
 
-    std::vector<Change> passTime();
-    /* GAME PRINT */
-    void show();
+  std::vector<Change> passTime();
+  /* GAME PRINT */
+  void show();
 
-    std::vector<std::pair<int, int>> getTop(const std::string& type, int n);
-    /* LUA SCRIPT */
-    void addBot();
+  std::vector<std::pair<int, int>> getTop(const std::string& type, int n);
+  /* LUA SCRIPT */
+  void addBot();
 
-    void releaseBots();
+  void releaseBots();
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_GAME_H

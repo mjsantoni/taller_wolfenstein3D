@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_SDLSPRITE_H
 #define TP_WOLFENSTEIN_SDLSPRITE_H
 
-
 #include <vector>
 #include <server/game/map.h>
 #include "sdl_texture.h"
@@ -14,28 +13,27 @@
 #include <client/object_info.h>
 
 class SdlSprite : public SdlTexture {
-private:
-    int h_padding = 0;
-    int v_padding = 0;
-    int whole_width;
-    int whole_height;
-    int rows;
-    int cols;
-    bool already_loaded = false;
-    int each_img_width;
-    int each_img_height;
-    int object_type;
-    std::vector<Area> dimensions;
-    std::map<int, Area> dimensions_map;
-    int current_pos = 0;
-    void loadIndividualDimensions();
-    void fillDimensions(Area& source_area, Area& empty_area);
+ private:
+  int h_padding = 0;
+  int v_padding = 0;
+  int whole_width;
+  int whole_height;
+  int rows;
+  int cols;
+  bool already_loaded = false;
+  int each_img_width;
+  int each_img_height;
+  int object_type;
+  std::vector<Area> dimensions;
+  std::map<int, Area> dimensions_map;
+  int current_pos = 0;
+  void loadIndividualDimensions();
+  void fillDimensions(Area& source_area, Area& empty_area);
 
-public:
-    SdlSprite(SdlWindow &window, ObjectInfo &object_info);
-    std::vector<Area> getAllTheAreas();
-    void render(Area& screen_area, int sprite_no);
+ public:
+  SdlSprite(SdlWindow& window, ObjectInfo& object_info);
+  std::vector<Area> getAllTheAreas();
+  void render(Area& screen_area, int sprite_no);
 };
-
 
 #endif //TP_WOLFENSTEIN_SDLSPRITE_H

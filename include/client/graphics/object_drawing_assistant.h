@@ -5,7 +5,6 @@
 #ifndef TP_WOLFENSTEIN_OBJECT_DRAWING_ASSISTANT_H
 #define TP_WOLFENSTEIN_OBJECT_DRAWING_ASSISTANT_H
 
-
 #include <SDL_render.h>
 #include <client/graphics/sdl_sprite.h>
 #include <client/graphics/sdl_texture.h>
@@ -17,25 +16,24 @@
 #include "screen_drawing_values.h"
 
 class ObjectDrawingAssistant {
-private:
-    SdlWindow& window;
-    int screen_width;
-    int screen_height;
-    int view_dist;
-    int width_factor;
-    int height_factor;
-    int map_grid_size = 64;
-    int proj_plane_distance;
-    TextureManager& texture_manager;
-public:
-    ObjectDrawingAssistant(SdlWindow &_window,TextureManager& _texture_manager);
-    void put3DObject(ObjectInfo &object_info, double pl_ob_angle);
-    Area assembleScreenArea(ObjectInfo &object_info, double pl_ob_angle);
-    Area findObjectProportions(ObjectInfo &object_info, double pl_ob_angle);
-    void setDimensions(int width, int height);
-    double findObjectHeight(double distance);
-    int findObjectStartingPoint(double object_height);
+ private:
+  SdlWindow& window;
+  int screen_width;
+  int screen_height;
+  int view_dist;
+  int width_factor;
+  int height_factor;
+  int map_grid_size = 64;
+  int proj_plane_distance;
+  TextureManager& texture_manager;
+ public:
+  ObjectDrawingAssistant(SdlWindow& _window, TextureManager& _texture_manager);
+  void put3DObject(ObjectInfo& object_info, double pl_ob_angle);
+  Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
+  Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
+  void setDimensions(int width, int height);
+  double findObjectHeight(double distance);
+  int findObjectStartingPoint(double object_height);
 };
-
 
 #endif //TP_WOLFENSTEIN_OBJECT_DRAWING_ASSISTANT_H

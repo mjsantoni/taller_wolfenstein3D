@@ -1,10 +1,9 @@
-
-
 # Defining a Mock Class #
 
 ## Mocking a Normal Class ##
 
 Given
+
 ```
 class Foo {
   ...
@@ -15,7 +14,9 @@ class Foo {
   virtual bool Process(Bar elem, int count) = 0;
 };
 ```
+
 (note that `~Foo()` **must** be virtual) we can define its mock as
+
 ```
 #include <gmock/gmock.h>
 
@@ -27,8 +28,9 @@ class MockFoo : public Foo {
 };
 ```
 
-To create a "nice" mock object which ignores all uninteresting calls,
-or a "strict" mock object, which treats them as failures:
+To create a "nice" mock object which ignores all uninteresting calls, or a "strict" mock object, which treats them as
+failures:
+
 ```
 NiceMock<MockFoo> nice_foo;     // The type is a subclass of MockFoo.
 StrictMock<MockFoo> strict_foo; // The type is a subclass of MockFoo.
@@ -37,6 +39,7 @@ StrictMock<MockFoo> strict_foo; // The type is a subclass of MockFoo.
 ## Mocking a Class Template ##
 
 To mock
+
 ```
 template <typename Elem>
 class StackInterface {
@@ -47,7 +50,9 @@ class StackInterface {
   virtual void Push(const Elem& x) = 0;
 };
 ```
+
 (note that `~StackInterface()` **must** be virtual) just append `_T` to the `MOCK_*` macros:
+
 ```
 template <typename Elem>
 class MockStack : public StackInterface<Elem> {
@@ -60,27 +65,33 @@ class MockStack : public StackInterface<Elem> {
 
 ## Specifying Calling Conventions for Mock Functions ##
 
-If your mock function doesn't use the default calling convention, you
-can specify it by appending `_WITH_CALLTYPE` to any of the macros
-described in the previous two sections and supplying the calling
-convention as the first argument to the macro. For example,
+If your mock function doesn't use the default calling convention, you can specify it by appending `_WITH_CALLTYPE` to
+any of the macros described in the previous two sections and supplying the calling convention as the first argument to
+the macro. For example,
+
 ```
   MOCK_METHOD_1_WITH_CALLTYPE(STDMETHODCALLTYPE, Foo, bool(int n));
   MOCK_CONST_METHOD2_WITH_CALLTYPE(STDMETHODCALLTYPE, Bar, int(double x, double y));
 ```
+
 where `STDMETHODCALLTYPE` is defined by `<objbase.h>` on Windows.
 
 # Using Mocks in Tests #
 
 The typical flow is:
-  1. Import the Google Mock names you need to use. All Google Mock names are in the `testing` namespace unless they are macros or otherwise noted.
-  1. Create the mock objects.
-  1. Optionally, set the default actions of the mock objects.
-  1. Set your expectations on the mock objects (How will they be called? What wil they do?).
-  1. Exercise code that uses the mock objects; if necessary, check the result using [Google Test](http://code.google.com/p/googletest/) assertions.
-  1. When a mock objects is destructed, Google Mock automatically verifies that all expectations on it have been satisfied.
+
+1. Import the Google Mock names you need to use. All Google Mock names are in the `testing` namespace unless they are
+   macros or otherwise noted.
+1. Create the mock objects.
+1. Optionally, set the default actions of the mock objects.
+1. Set your expectations on the mock objects (How will they be called? What wil they do?).
+1. Exercise code that uses the mock objects; if necessary, check the result
+   using [Google Test](http://code.google.com/p/googletest/) assertions.
+1. When a mock objects is destructed, Google Mock automatically verifies that all expectations on it have been
+   satisfied.
 
 Here is an example:
+
 ```
 using ::testing::Return;                            // #1
 
@@ -102,10 +113,11 @@ TEST(BarTest, DoesThis) {
 
 # Setting Default Actions #
 
-Google Mock has a **built-in default action** for any function that
-returns `void`, `bool`, a numeric value, or a pointer.
+Google Mock has a **built-in default action** for any function that returns `void`, `bool`, a numeric value, or a
+pointer.
 
 To customize the default action for functions with return type `T` globally:
+
 ```
 using ::testing::DefaultValue;
 
@@ -115,6 +127,7 @@ DefaultValue<T>::Clear();     // Resets the default value.
 ```
 
 To customize the default action for a particular method, use `ON_CALL()`:
+
 ```
 ON_CALL(mock_object, method(matchers))
     .With(multi_argument_matcher)  ?
@@ -123,8 +136,8 @@ ON_CALL(mock_object, method(matchers))
 
 # Setting Expectations #
 
-`EXPECT_CALL()` sets **expectations** on a mock method (How will it be
-called? What will it do?):
+`EXPECT_CALL()` sets **expectations** on a mock method (How will it be called? What will it do?):
+
 ```
 EXPECT_CALL(mock_object, method(matchers))
     .With(multi_argument_matcher)  ?
@@ -138,29 +151,29 @@ EXPECT_CALL(mock_object, method(matchers))
 
 If `Times()` is omitted, the cardinality is assumed to be:
 
-  * `Times(1)` when there is neither `WillOnce()` nor `WillRepeatedly()`;
-  * `Times(n)` when there are `n WillOnce()`s but no `WillRepeatedly()`, where `n` >= 1; or
-  * `Times(AtLeast(n))` when there are `n WillOnce()`s and a `WillRepeatedly()`, where `n` >= 0.
+* `Times(1)` when there is neither `WillOnce()` nor `WillRepeatedly()`;
+* `Times(n)` when there are `n WillOnce()`s but no `WillRepeatedly()`, where `n` >= 1; or
+* `Times(AtLeast(n))` when there are `n WillOnce()`s and a `WillRepeatedly()`, where `n` >= 0.
 
-A method with no `EXPECT_CALL()` is free to be invoked _any number of times_, and the default action will be taken each time.
+A method with no `EXPECT_CALL()` is free to be invoked _any number of times_, and the default action will be taken each
+time.
 
 # Matchers #
 
-A **matcher** matches a _single_ argument.  You can use it inside
-`ON_CALL()` or `EXPECT_CALL()`, or use it to validate a value
-directly:
+A **matcher** matches a _single_ argument. You can use it inside
+`ON_CALL()` or `EXPECT_CALL()`, or use it to validate a value directly:
 
 | `EXPECT_THAT(value, matcher)` | Asserts that `value` matches `matcher`. |
 |:------------------------------|:----------------------------------------|
-| `ASSERT_THAT(value, matcher)` | The same as `EXPECT_THAT(value, matcher)`, except that it generates a **fatal** failure. |
+| `ASSERT_THAT(value, matcher)` | The same as `EXPECT_THAT(value, matcher)`, except that it generates a **
+fatal** failure. |
 
-Built-in matchers (where `argument` is the function argument) are
-divided into several categories:
+Built-in matchers (where `argument` is the function argument) are divided into several categories:
 
 ## Wildcard ##
-|`_`|`argument` can be any value of the correct type.|
-|:--|:-----------------------------------------------|
-|`A<type>()` or `An<type>()`|`argument` can be any value of type `type`.     |
+
+|`_`|`argument` can be any value of the correct type.| |:--|:-----------------------------------------------|
+|`A<type>()` or `An<type>()`|`argument` can be any value of type `type`. |
 
 ## Generic Comparison ##
 
@@ -176,12 +189,11 @@ divided into several categories:
 |`Ref(variable)`       |`argument` is a reference to `variable`.|
 |`TypedEq<type>(value)`|`argument` has type `type` and is equal to `value`. You may need to use this instead of `Eq(value)` when the mock function is overloaded.|
 
-Except `Ref()`, these matchers make a _copy_ of `value` in case it's
-modified or destructed later. If the compiler complains that `value`
-doesn't have a public copy constructor, try wrap it in `ByRef()`,
-e.g. `Eq(ByRef(non_copyable_value))`. If you do that, make sure
-`non_copyable_value` is not changed afterwards, or the meaning of your
-matcher will be changed.
+Except `Ref()`, these matchers make a _copy_ of `value` in case it's modified or destructed later. If the compiler
+complains that `value`
+doesn't have a public copy constructor, try wrap it in `ByRef()`, e.g. `Eq(ByRef(non_copyable_value))`. If you do that,
+make sure
+`non_copyable_value` is not changed afterwards, or the meaning of your matcher will be changed.
 
 ## Floating-Point Matchers ##
 
@@ -192,12 +204,10 @@ matcher will be changed.
 |`NanSensitiveFloatEq(a_float)`|`argument` is a `float` value approximately equal to `a_float`, treating two NaNs as equal.    |
 
 The above matchers use ULP-based comparison (the same as used in
-[Google Test](http://code.google.com/p/googletest/)). They
-automatically pick a reasonable error bound based on the absolute
-value of the expected value.  `DoubleEq()` and `FloatEq()` conform to
-the IEEE standard, which requires comparing two NaNs for equality to
-return false. The `NanSensitive*` version instead treats two NaNs as
-equal, which is often what a user wants.
+[Google Test](http://code.google.com/p/googletest/)). They automatically pick a reasonable error bound based on the
+absolute value of the expected value.  `DoubleEq()` and `FloatEq()` conform to the IEEE standard, which requires
+comparing two NaNs for equality to return false. The `NanSensitive*` version instead treats two NaNs as equal, which is
+often what a user wants.
 
 ## String Matchers ##
 
@@ -214,15 +224,13 @@ The `argument` can be either a C string or a C++ string object:
 |`StrEq(string)`        |`argument` is equal to `string`.                |
 |`StrNe(string)`        |`argument` is not equal to `string`.            |
 
-`StrCaseEq()`, `StrCaseNe()`, `StrEq()`, and `StrNe()` work for wide
-strings as well.
+`StrCaseEq()`, `StrCaseNe()`, `StrEq()`, and `StrNe()` work for wide strings as well.
 
 ## Container Matchers ##
 
 Most STL-style containers support `==`, so you can use
-`Eq(expected_container)` or simply `expected_container` to match a
-container exactly.   If you want to write the elements in-line,
-match them more flexibly, or get more informative messages, you can use:
+`Eq(expected_container)` or simply `expected_container` to match a container exactly. If you want to write the elements
+in-line, match them more flexibly, or get more informative messages, you can use:
 
 | `Contains(e)` | `argument` contains an element that matches `e`, which can be either a value or a matcher. |
 |:--------------|:-------------------------------------------------------------------------------------------|
@@ -232,18 +240,24 @@ match them more flexibly, or get more informative messages, you can use:
 
 These matchers can also match:
 
-  1. a native array passed by reference (e.g. in `Foo(const int (&a)[5])`), and
-  1. an array passed as a pointer and a count (e.g. in `Bar(const T* buffer, int len)` -- see [Multi-argument Matchers](#Multiargument_Matchers.md)).
+1. a native array passed by reference (e.g. in `Foo(const int (&a)[5])`), and
+1. an array passed as a pointer and a count (e.g. in `Bar(const T* buffer, int len)` --
+   see [Multi-argument Matchers](#Multiargument_Matchers.md)).
 
 where the array may be multi-dimensional (i.e. its elements can be arrays).
 
 ## Member Matchers ##
 
-|`Field(&class::field, m)`|`argument.field` (or `argument->field` when `argument` is a plain pointer) matches matcher `m`, where `argument` is an object of type _class_.|
-|:------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|
-|`Key(e)`                 |`argument.first` matches `e`, which can be either a value or a matcher. E.g. `Contains(Key(Le(5)))` can verify that a `map` contains a key `<= 5`.|
-|`Pair(m1, m2)`           |`argument` is an `std::pair` whose `first` field matches `m1` and `second` field matches `m2`.                                                |
-|`Property(&class::property, m)`|`argument.property()` (or `argument->property()` when `argument` is a plain pointer) matches matcher `m`, where `argument` is an object of type _class_.|
+|`Field(&class::field, m)`|`argument.field` (or `argument->field` when `argument` is a plain pointer) matches
+matcher `m`, where `argument` is an object of type _
+class_.| |:------------------------|:
+---------------------------------------------------------------------------------------------------------------------------------------------|
+|`Key(e)`                 |`argument.first` matches `e`, which can be either a value or a matcher.
+E.g. `Contains(Key(Le(5)))` can verify that a `map` contains a key `<= 5`.| |`Pair(m1, m2)`           |`argument` is
+an `std::pair` whose `first` field matches `m1` and `second` field matches `m2`. | |`Property(&class::property, m)`
+|`argument.property()` (or `argument->property()` when `argument` is a plain pointer) matches matcher `m`,
+where `argument` is an object of type _
+class_.|
 
 ## Matching the Result of a Function or Functor ##
 
@@ -308,9 +322,10 @@ You can make a matcher from one or more other matchers:
 
 **Notes:**
 
-  1. The `MATCHER*` macros cannot be used inside a function or class.
-  1. The matcher body must be _purely functional_ (i.e. it cannot have any side effect, and the result must not depend on anything other than the value being matched and the matcher parameters).
-  1. You can use `PrintToString(x)` to convert a value `x` of any type to a string.
+1. The `MATCHER*` macros cannot be used inside a function or class.
+1. The matcher body must be _purely functional_ (i.e. it cannot have any side effect, and the result must not depend on
+   anything other than the value being matched and the matcher parameters).
+1. You can use `PrintToString(x)` to convert a value `x` of any type to a string.
 
 ## Matchers as Test Assertions ##
 
@@ -338,7 +353,7 @@ You can make a matcher from one or more other matchers:
 |:-------------------------|:--------------------------|
 | `DeleteArg<N>()`         | Delete the `N`-th (0-based) argument, which must be a pointer. |
 | `SaveArg<N>(pointer)`    | Save the `N`-th (0-based) argument to `*pointer`. |
-| `SetArgReferee<N>(value)` |	Assign value to the variable referenced by the `N`-th (0-based) argument. |
+| `SetArgReferee<N>(value)` |    Assign value to the variable referenced by the `N`-th (0-based) argument. |
 |`SetArgumentPointee<N>(value)`|Assign `value` to the variable pointed by the `N`-th (0-based) argument.|
 |`SetArrayArgument<N>(first, last)`|Copies the elements in source range [`first`, `last`) to the array pointed to by the `N`-th (0-based) argument, which can be either a pointer or an iterator. The action does not take ownership of the elements in the source range.|
 |`SetErrnoAndReturn(error, value)`|Set `errno` to `error` and return `value`.|
@@ -353,10 +368,10 @@ You can make a matcher from one or more other matchers:
 |`InvokeWithoutArgs(object_pointer, &class::method)`|Invoke the method on the object, which takes no arguments.                                                        |
 |`InvokeArgument<N>(arg1, arg2, ..., argk)`|Invoke the mock function's `N`-th (0-based) argument, which must be a function or a functor, with the `k` arguments.|
 
-The return value of the invoked function is used as the return value
-of the action.
+The return value of the invoked function is used as the return value of the action.
 
 When defining a function or functor to be used with `Invoke*()`, you can declare any unused parameters as `Unused`:
+
 ```
   double Distance(Unused, double x, double y) { return sqrt(x*x + y*y); }
   ...
@@ -364,9 +379,11 @@ When defining a function or functor to be used with `Invoke*()`, you can declare
 ```
 
 In `InvokeArgument<N>(...)`, if an argument needs to be passed by reference, wrap it inside `ByRef()`. For example,
+
 ```
   InvokeArgument<2>(5, string("Hi"), ByRef(foo))
 ```
+
 calls the mock function's #2 argument, passing to it `5` and `string("Hi")` by value, and `foo` by reference.
 
 ## Default Action ##
@@ -374,7 +391,8 @@ calls the mock function's #2 argument, passing to it `5` and `string("Hi")` by v
 |`DoDefault()`|Do the default action (specified by `ON_CALL()` or the built-in one).|
 |:------------|:--------------------------------------------------------------------|
 
-**Note:** due to technical reasons, `DoDefault()` cannot be used inside  a composite action - trying to do so will result in a run-time error.
+**Note:** due to technical reasons, `DoDefault()` cannot be used inside a composite action - trying to do so will result
+in a run-time error.
 
 ## Composite Actions ##
 
@@ -407,10 +425,8 @@ These are used in `Times()` to specify how many times a mock function will be ca
 
 # Expectation Order #
 
-By default, the expectations can be matched in _any_ order.  If some
-or all expectations must be matched in a given order, there are two
-ways to specify it.  They can be used either independently or
-together.
+By default, the expectations can be matched in _any_ order. If some or all expectations must be matched in a given
+order, there are two ways to specify it. They can be used either independently or together.
 
 ## The After Clause ##
 
@@ -422,11 +438,12 @@ Expectation init_y = EXPECT_CALL(foo, InitY());
 EXPECT_CALL(foo, Bar())
     .After(init_x, init_y);
 ```
+
 says that `Bar()` can be called only after both `InitX()` and
 `InitY()` have been called.
 
-If you don't know how many pre-requisites an expectation has when you
-write it, you can use an `ExpectationSet` to collect them:
+If you don't know how many pre-requisites an expectation has when you write it, you can use an `ExpectationSet` to
+collect them:
 
 ```
 using ::testing::ExpectationSet;
@@ -438,20 +455,17 @@ for (int i = 0; i < element_count; i++) {
 EXPECT_CALL(foo, Bar())
     .After(all_inits);
 ```
-says that `Bar()` can be called only after all elements have been
-initialized (but we don't care about which elements get initialized
-before the others).
 
-Modifying an `ExpectationSet` after using it in an `.After()` doesn't
-affect the meaning of the `.After()`.
+says that `Bar()` can be called only after all elements have been initialized (but we don't care about which elements
+get initialized before the others).
+
+Modifying an `ExpectationSet` after using it in an `.After()` doesn't affect the meaning of the `.After()`.
 
 ## Sequences ##
 
-When you have a long chain of sequential expectations, it's easier to
-specify the order using **sequences**, which don't require you to given
-each expectation in the chain a different name.  <i>All expected<br>
-calls</i> in the same sequence must occur in the order they are
-specified.
+When you have a long chain of sequential expectations, it's easier to specify the order using **sequences**, which don't
+require you to given each expectation in the chain a different name.  <i>All expected<br>
+calls</i> in the same sequence must occur in the order they are specified.
 
 ```
 using ::testing::Sequence;
@@ -467,10 +481,12 @@ EXPECT_CALL(foo, Describe(A<const char*>()))
     .InSequence(s2)
     .WillOnce(Return("dummy"));
 ```
+
 says that `Reset()` must be called before _both_ `GetSize()` _and_
 `Describe()`, and the latter two can occur in any order.
 
 To put many expectations in a sequence conveniently:
+
 ```
 using ::testing::InSequence;
 {
@@ -482,12 +498,13 @@ using ::testing::InSequence;
   EXPECT_CALL(...)...;
 }
 ```
-says that all expected calls in the scope of `dummy` must occur in
-strict order. The name `dummy` is irrelevant.)
+
+says that all expected calls in the scope of `dummy` must occur in strict order. The name `dummy` is irrelevant.)
 
 # Verifying and Resetting a Mock #
 
 Google Mock will verify the expectations on a mock object when it is destructed, or you can do it earlier:
+
 ```
 using ::testing::Mock;
 ...
@@ -501,8 +518,8 @@ Mock::VerifyAndClearExpectations(&mock_obj);
 Mock::VerifyAndClear(&mock_obj);
 ```
 
-You can also tell Google Mock that a mock object can be leaked and doesn't
-need to be verified:
+You can also tell Google Mock that a mock object can be leaked and doesn't need to be verified:
+
 ```
 Mock::AllowLeak(&mock_obj);
 ```
@@ -510,12 +527,14 @@ Mock::AllowLeak(&mock_obj);
 # Mock Classes #
 
 Google Mock defines a convenient mock class template
+
 ```
 class MockFunction<R(A1, ..., An)> {
  public:
   MOCK_METHODn(Call, R(A1, ..., An));
 };
 ```
+
 See this [recipe](V1_5_CookBook#Using_Check_Points.md) for one application of it.
 
 # Flags #

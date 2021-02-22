@@ -1,7 +1,7 @@
 #ifndef EMITTERSTATE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define EMITTERSTATE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -115,7 +115,7 @@ class EmitterState {
   std::size_t GetDoublePrecision() const { return m_doublePrecision.get(); }
 
  private:
-  template <typename T>
+  template<typename T>
   void _Set(Setting<T>& fmt, T value, FmtScope::value scope);
 
   void StartedNode();
@@ -187,20 +187,17 @@ class EmitterState {
   std::size_t m_docCount;
 };
 
-template <typename T>
+template<typename T>
 void EmitterState::_Set(Setting<T>& fmt, T value, FmtScope::value scope) {
   switch (scope) {
-    case FmtScope::Local:
-      m_modifiedSettings.push(fmt.set(value));
+    case FmtScope::Local:m_modifiedSettings.push(fmt.set(value));
       break;
-    case FmtScope::Global:
-      fmt.set(value);
+    case FmtScope::Global:fmt.set(value);
       m_globalModifiedSettings.push(
           fmt.set(value));  // this pushes an identity set, so when we restore,
       // it restores to the value here, and not the previous one
       break;
-    default:
-      assert(false);
+    default:assert(false);
   }
 }
 }  // namespace YAML

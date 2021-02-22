@@ -6,15 +6,14 @@
 
 class PositionableHandler {
 
-public:
-    PositionableHandler();
+ public:
+  PositionableHandler();
 
-    Positionable createBlockingItem(const std::string& type, int id);
-    Positionable createItem(const std::string& type, int id);
-    //Positionable createSpawns(std::string type);
+  Positionable createBlockingItem(const std::string& type, int id);
+  Positionable createItem(const std::string& type, int id);
+  //Positionable createSpawns(std::string type);
 
-    ~PositionableHandler() {}
+  ~PositionableHandler() {}
 };
-
 
 #endif //TP_WOLFENSTEIN_POSITIONABLEHANDLER_H

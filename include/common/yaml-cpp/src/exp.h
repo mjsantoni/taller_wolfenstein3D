@@ -1,7 +1,7 @@
 #ifndef EXP_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define EXP_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -69,9 +69,9 @@ inline const RegEx& Hex() {
 inline const RegEx& NotPrintable() {
   static const RegEx e =
       RegEx(0) |
-      RegEx("\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x7F", REGEX_OR) |
-      RegEx(0x0E, 0x1F) |
-      (RegEx('\xC2') + (RegEx('\x80', '\x84') | RegEx('\x86', '\x9F')));
+          RegEx("\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x7F", REGEX_OR) |
+          RegEx(0x0E, 0x1F) |
+          (RegEx('\xC2') + (RegEx('\x80', '\x84') | RegEx('\x86', '\x9F')));
   return e;
 }
 inline const RegEx& Utf8_ByteOrderMark() {
@@ -131,12 +131,12 @@ inline const RegEx& AnchorEnd() {
 }
 inline const RegEx& URI() {
   static const RegEx e = Word() | RegEx("#;/?:@&=+$,_.!~*'()[]", REGEX_OR) |
-                         (RegEx('%') + Hex() + Hex());
+      (RegEx('%') + Hex() + Hex());
   return e;
 }
 inline const RegEx& Tag() {
   static const RegEx e = Word() | RegEx("#;/?:@&=+$_.~*'()", REGEX_OR) |
-                         (RegEx('%') + Hex() + Hex());
+      (RegEx('%') + Hex() + Hex());
   return e;
 }
 
@@ -149,13 +149,13 @@ inline const RegEx& Tag() {
 inline const RegEx& PlainScalar() {
   static const RegEx e =
       !(BlankOrBreak() | RegEx(",[]{}#&*!|>\'\"%@`", REGEX_OR) |
-        (RegEx("-?:", REGEX_OR) + (BlankOrBreak() | RegEx())));
+          (RegEx("-?:", REGEX_OR) + (BlankOrBreak() | RegEx())));
   return e;
 }
 inline const RegEx& PlainScalarInFlow() {
   static const RegEx e =
       !(BlankOrBreak() | RegEx("?,[]{}#&*!|>\'\"%@`", REGEX_OR) |
-        (RegEx("-:", REGEX_OR) + Blank()));
+          (RegEx("-:", REGEX_OR) + Blank()));
   return e;
 }
 inline const RegEx& EndScalar() {
@@ -165,7 +165,7 @@ inline const RegEx& EndScalar() {
 inline const RegEx& EndScalarInFlow() {
   static const RegEx e =
       (RegEx(':') + (BlankOrBreak() | RegEx() | RegEx(",]}", REGEX_OR))) |
-      RegEx(",?[]{}", REGEX_OR);
+          RegEx(",?[]{}", REGEX_OR);
   return e;
 }
 
@@ -193,8 +193,8 @@ inline const RegEx& ChompIndicator() {
 }
 inline const RegEx& Chomp() {
   static const RegEx e = (ChompIndicator() + Digit()) |
-                         (Digit() + ChompIndicator()) | ChompIndicator() |
-                         Digit();
+      (Digit() + ChompIndicator()) | ChompIndicator() |
+      Digit();
   return e;
 }
 

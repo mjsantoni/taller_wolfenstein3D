@@ -8,22 +8,21 @@
 #include <atomic>
 
 class ClientHandler : public Thread {
-private:
-    NetworkConnection& skt;
-    EventFactory eventFactory;
-    std::atomic<bool> alive;
-    int player_id;
+ private:
+  NetworkConnection& skt;
+  EventFactory eventFactory;
+  std::atomic<bool> alive;
+  int player_id;
 
-public:
-    explicit ClientHandler(NetworkConnection& _skt, SharedQueue<Event> &event_queue, int id);
-    ~ClientHandler();
+ public:
+  explicit ClientHandler(NetworkConnection& _skt, SharedQueue<Event>& event_queue, int id);
+  ~ClientHandler();
 
-    void run() override;
+  void run() override;
 
-    int getPlayerId() const;
+  int getPlayerId() const;
 
-    void stop();
+  void stop();
 };
-
 
 #endif //TP_WOLFENSTEIN_CLIENT_HANDLER_H

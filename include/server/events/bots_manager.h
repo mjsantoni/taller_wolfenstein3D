@@ -10,24 +10,24 @@
 #include <zconf.h>
 
 class BotsManager {
-private:
-    std::vector<LuaBot*> bots;
-    std::condition_variable cv;
-    SharedQueue<Event>& sharedQueue;
-    Probability probability;
+ private:
+  std::vector<LuaBot*> bots;
+  std::condition_variable cv;
+  SharedQueue<Event>& sharedQueue;
+  Probability probability;
 
-public:
-    BotsManager(SharedQueue<Event>& sq);
+ public:
+  BotsManager(SharedQueue<Event>& sq);
 
-    void addBot(Player& player, double angle_turn);
+  void addBot(Player& player, double angle_turn);
 
-    void sendMapToBot(LuaBot* bot, Map& map, std::vector<Player>& players);
+  void sendMapToBot(LuaBot* bot, Map& map, std::vector<Player>& players);
 
-    void releaseBots(Map& map, std::vector<Player>& players);
+  void releaseBots(Map& map, std::vector<Player>& players);
 
-    void destroyBots();
+  void destroyBots();
 
-    ~BotsManager();
+  ~BotsManager();
 };
 
 #endif //TP_WOLFENSTEIN_BOTS_MANAGER_H

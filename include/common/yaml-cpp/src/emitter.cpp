@@ -93,36 +93,27 @@ Emitter& Emitter::SetLocalValue(EMITTER_MANIP value) {
     return *this;
 
   switch (value) {
-    case BeginDoc:
-      EmitBeginDoc();
+    case BeginDoc:EmitBeginDoc();
       break;
-    case EndDoc:
-      EmitEndDoc();
+    case EndDoc:EmitEndDoc();
       break;
-    case BeginSeq:
-      EmitBeginSeq();
+    case BeginSeq:EmitBeginSeq();
       break;
-    case EndSeq:
-      EmitEndSeq();
+    case EndSeq:EmitEndSeq();
       break;
-    case BeginMap:
-      EmitBeginMap();
+    case BeginMap:EmitBeginMap();
       break;
-    case EndMap:
-      EmitEndMap();
+    case EndMap:EmitEndMap();
       break;
     case Key:
     case Value:
       // deprecated (these can be deduced by the parity of nodes in a map)
       break;
-    case TagByKind:
-      EmitKindTag();
+    case TagByKind:EmitKindTag();
       break;
-    case Newline:
-      EmitNewline();
+    case Newline:EmitNewline();
       break;
-    default:
-      m_pState->SetLocalValue(value);
+    default:m_pState->SetLocalValue(value);
       break;
   }
   return *this;
@@ -259,24 +250,18 @@ bool Emitter::CanEmitNewline() const { return true; }
 // E.g., if we're in a sequence, write the "- "
 void Emitter::PrepareNode(EmitterNodeType::value child) {
   switch (m_pState->CurGroupNodeType()) {
-    case EmitterNodeType::NoType:
-      PrepareTopNode(child);
+    case EmitterNodeType::NoType:PrepareTopNode(child);
       break;
-    case EmitterNodeType::FlowSeq:
-      FlowSeqPrepareNode(child);
+    case EmitterNodeType::FlowSeq:FlowSeqPrepareNode(child);
       break;
-    case EmitterNodeType::BlockSeq:
-      BlockSeqPrepareNode(child);
+    case EmitterNodeType::BlockSeq:BlockSeqPrepareNode(child);
       break;
-    case EmitterNodeType::FlowMap:
-      FlowMapPrepareNode(child);
+    case EmitterNodeType::FlowMap:FlowMapPrepareNode(child);
       break;
-    case EmitterNodeType::BlockMap:
-      BlockMapPrepareNode(child);
+    case EmitterNodeType::BlockMap:BlockMapPrepareNode(child);
       break;
     case EmitterNodeType::Property:
-    case EmitterNodeType::Scalar:
-      assert(false);
+    case EmitterNodeType::Scalar:assert(false);
       break;
   }
 }
@@ -289,8 +274,7 @@ void Emitter::PrepareTopNode(EmitterNodeType::value child) {
     EmitBeginDoc();
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -321,8 +305,7 @@ void Emitter::FlowSeqPrepareNode(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -332,8 +315,7 @@ void Emitter::FlowSeqPrepareNode(EmitterNodeType::value child) {
           lastIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      assert(false);
+    case EmitterNodeType::BlockMap:assert(false);
       break;
   }
 }
@@ -354,16 +336,13 @@ void Emitter::BlockSeqPrepareNode(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
-    case EmitterNodeType::FlowMap:
-      SpaceOrIndentTo(m_pState->HasBegunContent(), nextIndent);
+    case EmitterNodeType::FlowMap:SpaceOrIndentTo(m_pState->HasBegunContent(), nextIndent);
       break;
-    case EmitterNodeType::BlockSeq:
-      m_stream << "\n";
+    case EmitterNodeType::BlockSeq:m_stream << "\n";
       break;
     case EmitterNodeType::BlockMap:
       if (m_pState->HasBegunContent() || m_stream.comment())
@@ -403,8 +382,7 @@ void Emitter::FlowMapPrepareLongKey(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -414,8 +392,7 @@ void Emitter::FlowMapPrepareLongKey(EmitterNodeType::value child) {
           lastIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      assert(false);
+    case EmitterNodeType::BlockMap:assert(false);
       break;
   }
 }
@@ -431,8 +408,7 @@ void Emitter::FlowMapPrepareLongKeyValue(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -442,8 +418,7 @@ void Emitter::FlowMapPrepareLongKeyValue(EmitterNodeType::value child) {
           lastIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      assert(false);
+    case EmitterNodeType::BlockMap:assert(false);
       break;
   }
 }
@@ -462,8 +437,7 @@ void Emitter::FlowMapPrepareSimpleKey(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -473,8 +447,7 @@ void Emitter::FlowMapPrepareSimpleKey(EmitterNodeType::value child) {
           lastIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      assert(false);
+    case EmitterNodeType::BlockMap:assert(false);
       break;
   }
 }
@@ -490,8 +463,7 @@ void Emitter::FlowMapPrepareSimpleKeyValue(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
@@ -501,8 +473,7 @@ void Emitter::FlowMapPrepareSimpleKeyValue(EmitterNodeType::value child) {
           lastIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      assert(false);
+    case EmitterNodeType::BlockMap:assert(false);
       break;
   }
 }
@@ -546,17 +517,14 @@ void Emitter::BlockMapPrepareLongKey(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
-    case EmitterNodeType::FlowMap:
-      SpaceOrIndentTo(true, curIndent + 1);
+    case EmitterNodeType::FlowMap:SpaceOrIndentTo(true, curIndent + 1);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      break;
+    case EmitterNodeType::BlockMap:break;
   }
 }
 
@@ -573,15 +541,13 @@ void Emitter::BlockMapPrepareLongKeyValue(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
     case EmitterNodeType::FlowMap:
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      SpaceOrIndentTo(true, curIndent + 1);
+    case EmitterNodeType::BlockMap:SpaceOrIndentTo(true, curIndent + 1);
       break;
   }
 }
@@ -600,17 +566,14 @@ void Emitter::BlockMapPrepareSimpleKey(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
-    case EmitterNodeType::FlowMap:
-      SpaceOrIndentTo(m_pState->HasBegunContent(), curIndent);
+    case EmitterNodeType::FlowMap:SpaceOrIndentTo(m_pState->HasBegunContent(), curIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      break;
+    case EmitterNodeType::BlockMap:break;
   }
 }
 
@@ -623,17 +586,14 @@ void Emitter::BlockMapPrepareSimpleKeyValue(EmitterNodeType::value child) {
   }
 
   switch (child) {
-    case EmitterNodeType::NoType:
-      break;
+    case EmitterNodeType::NoType:break;
     case EmitterNodeType::Property:
     case EmitterNodeType::Scalar:
     case EmitterNodeType::FlowSeq:
-    case EmitterNodeType::FlowMap:
-      SpaceOrIndentTo(true, nextIndent);
+    case EmitterNodeType::FlowMap:SpaceOrIndentTo(true, nextIndent);
       break;
     case EmitterNodeType::BlockSeq:
-    case EmitterNodeType::BlockMap:
-      m_stream << "\n";
+    case EmitterNodeType::BlockMap:m_stream << "\n";
       break;
   }
 }
@@ -651,19 +611,15 @@ void Emitter::SpaceOrIndentTo(bool requireSpace, std::size_t indent) {
 void Emitter::PrepareIntegralStream(std::stringstream& stream) const {
 
   switch (m_pState->GetIntFormat()) {
-    case Dec:
-      stream << std::dec;
+    case Dec:stream << std::dec;
       break;
-    case Hex:
-      stream << "0x";
+    case Hex:stream << "0x";
       stream << std::hex;
       break;
-    case Oct:
-      stream << "0";
+    case Oct:stream << "0";
       stream << std::oct;
       break;
-    default:
-      assert(false);
+    default:assert(false);
   }
 }
 
@@ -687,14 +643,11 @@ Emitter& Emitter::Write(const std::string& str) {
   PrepareNode(EmitterNodeType::Scalar);
 
   switch (strFormat) {
-    case StringFormat::Plain:
-      m_stream << str;
+    case StringFormat::Plain:m_stream << str;
       break;
-    case StringFormat::SingleQuoted:
-      Utils::WriteSingleQuotedString(m_stream, str);
+    case StringFormat::SingleQuoted:Utils::WriteSingleQuotedString(m_stream, str);
       break;
-    case StringFormat::DoubleQuoted:
-      Utils::WriteDoubleQuotedString(m_stream, str, escapeNonAscii);
+    case StringFormat::DoubleQuoted:Utils::WriteDoubleQuotedString(m_stream, str, escapeNonAscii);
       break;
     case StringFormat::Literal:
       Utils::WriteLiteralString(m_stream, str,
@@ -717,51 +670,38 @@ std::size_t Emitter::GetDoublePrecision() const {
 
 const char* Emitter::ComputeFullBoolName(bool b) const {
   const EMITTER_MANIP mainFmt = (m_pState->GetBoolLengthFormat() == ShortBool
-                                     ? YesNoBool
-                                     : m_pState->GetBoolFormat());
+                                 ? YesNoBool
+                                 : m_pState->GetBoolFormat());
   const EMITTER_MANIP caseFmt = m_pState->GetBoolCaseFormat();
   switch (mainFmt) {
     case YesNoBool:
       switch (caseFmt) {
-        case UpperCase:
-          return b ? "YES" : "NO";
-        case CamelCase:
-          return b ? "Yes" : "No";
-        case LowerCase:
-          return b ? "yes" : "no";
-        default:
-          break;
+        case UpperCase:return b ? "YES" : "NO";
+        case CamelCase:return b ? "Yes" : "No";
+        case LowerCase:return b ? "yes" : "no";
+        default:break;
       }
       break;
     case OnOffBool:
       switch (caseFmt) {
-        case UpperCase:
-          return b ? "ON" : "OFF";
-        case CamelCase:
-          return b ? "On" : "Off";
-        case LowerCase:
-          return b ? "on" : "off";
-        default:
-          break;
+        case UpperCase:return b ? "ON" : "OFF";
+        case CamelCase:return b ? "On" : "Off";
+        case LowerCase:return b ? "on" : "off";
+        default:break;
       }
       break;
     case TrueFalseBool:
       switch (caseFmt) {
-        case UpperCase:
-          return b ? "TRUE" : "FALSE";
-        case CamelCase:
-          return b ? "True" : "False";
-        case LowerCase:
-          return b ? "true" : "false";
-        default:
-          break;
+        case UpperCase:return b ? "TRUE" : "FALSE";
+        case CamelCase:return b ? "True" : "False";
+        case LowerCase:return b ? "true" : "false";
+        default:break;
       }
       break;
-    default:
-      break;
+    default:break;
   }
   return b ? "y" : "n";  // should never get here, but it can't hurt to give
-                         // these answers
+  // these answers
 }
 
 Emitter& Emitter::Write(bool b) {

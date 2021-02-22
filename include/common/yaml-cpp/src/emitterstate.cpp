@@ -7,7 +7,7 @@ namespace YAML {
 EmitterState::EmitterState()
     : m_isGood(true),
       m_lastError{},
-      // default global manipulators
+    // default global manipulators
       m_charset(EmitNonAscii),
       m_strFmt(Auto),
       m_boolFmt(TrueFalseBool),
@@ -22,7 +22,7 @@ EmitterState::EmitterState()
       m_mapKeyFmt(Auto),
       m_floatPrecision(std::numeric_limits<float>::max_digits10),
       m_doublePrecision(std::numeric_limits<double>::max_digits10),
-      //
+    //
       m_modifiedSettings{},
       m_globalModifiedSettings{},
       m_groups{},
@@ -224,11 +224,9 @@ bool EmitterState::SetOutputCharset(EMITTER_MANIP value,
                                     FmtScope::value scope) {
   switch (value) {
     case EmitNonAscii:
-    case EscapeNonAscii:
-      _Set(m_charset, value, scope);
+    case EscapeNonAscii:_Set(m_charset, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -237,11 +235,9 @@ bool EmitterState::SetStringFormat(EMITTER_MANIP value, FmtScope::value scope) {
     case Auto:
     case SingleQuoted:
     case DoubleQuoted:
-    case Literal:
-      _Set(m_strFmt, value, scope);
+    case Literal:_Set(m_strFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -249,11 +245,9 @@ bool EmitterState::SetBoolFormat(EMITTER_MANIP value, FmtScope::value scope) {
   switch (value) {
     case OnOffBool:
     case TrueFalseBool:
-    case YesNoBool:
-      _Set(m_boolFmt, value, scope);
+    case YesNoBool:_Set(m_boolFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -261,11 +255,9 @@ bool EmitterState::SetBoolLengthFormat(EMITTER_MANIP value,
                                        FmtScope::value scope) {
   switch (value) {
     case LongBool:
-    case ShortBool:
-      _Set(m_boolLengthFmt, value, scope);
+    case ShortBool:_Set(m_boolLengthFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -274,11 +266,9 @@ bool EmitterState::SetBoolCaseFormat(EMITTER_MANIP value,
   switch (value) {
     case UpperCase:
     case LowerCase:
-    case CamelCase:
-      _Set(m_boolCaseFmt, value, scope);
+    case CamelCase:_Set(m_boolCaseFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -286,11 +276,9 @@ bool EmitterState::SetIntFormat(EMITTER_MANIP value, FmtScope::value scope) {
   switch (value) {
     case Dec:
     case Hex:
-    case Oct:
-      _Set(m_intFmt, value, scope);
+    case Oct:_Set(m_intFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -324,11 +312,9 @@ bool EmitterState::SetFlowType(GroupType::value groupType, EMITTER_MANIP value,
                                FmtScope::value scope) {
   switch (value) {
     case Block:
-    case Flow:
-      _Set(groupType == GroupType::Seq ? m_seqFmt : m_mapFmt, value, scope);
+    case Flow:_Set(groupType == GroupType::Seq ? m_seqFmt : m_mapFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 
@@ -344,11 +330,9 @@ EMITTER_MANIP EmitterState::GetFlowType(GroupType::value groupType) const {
 bool EmitterState::SetMapKeyFormat(EMITTER_MANIP value, FmtScope::value scope) {
   switch (value) {
     case Auto:
-    case LongKey:
-      _Set(m_mapKeyFmt, value, scope);
+    case LongKey:_Set(m_mapKeyFmt, value, scope);
       return true;
-    default:
-      return false;
+    default:return false;
   }
 }
 

@@ -6,17 +6,16 @@
 #include "server/game/drop.h"
 
 class DropHandler {
-private:
-    ConfigParser configParser;
-    Map& map;
+ private:
+  ConfigParser configParser;
+  Map& map;
 
-public:
-    DropHandler(const std::string& config_path, Map &_map);
+ public:
+  DropHandler(const std::string& config_path, Map& _map);
 
-    void processDrops(const std::vector<Drop> &drops);
+  void processDrops(const std::vector<Drop>& drops);
 
-    ~DropHandler();
+  ~DropHandler();
 };
-
 
 #endif //TP_WOLFENSTEIN_DROP_HANDLER_H

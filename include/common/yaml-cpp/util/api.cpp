@@ -46,7 +46,7 @@ int main() {
     other[3][0] = 0;           // &1 [0, ~, two, *1]   # since it's a true alias
     other.push_back(Copy(root));  // &1 [0, ~, two, *1, &2 [0, ~, two, *2]]
     other[4][0] = 5;  // &1 [0, ~, two, *1, &2 [5, ~, two, *2]]  # they're
-                      // really different
+    // really different
   }
 
   {
@@ -55,9 +55,9 @@ int main() {
     node["key"] = 5;     // {0: 1, key: 5}  # auto-turn it into a map
     node.push_back(10);  // error, can't turn a map into a sequence
     node.erase("key");  // {0: 1}  # still a map, even if we remove the key that
-                        // caused the problem
+    // caused the problem
     node = "Hello";  // Hello  # assignment overwrites everything, so it's now
-                     // just a plain scalar
+    // just a plain scalar
   }
 
   {
@@ -81,9 +81,9 @@ int main() {
     subnode = "value";  // {key: value}  # now it is
     YAML::Value subnode2 = node["key2"];
     node["key3"] = subnode2;  // subnode2 is still not instantiated, but
-                              // node["key3"] is "pseudo" aliased to it
+    // node["key3"] is "pseudo" aliased to it
     subnode2 = "monkey";  // {key: value, key2: &1 monkey, key3: *1}  # bam! it
-                          // instantiates both
+    // instantiates both
   }
 
   {
@@ -91,7 +91,7 @@ int main() {
     seq[0] = "zero";  // [zero]
     seq[1] = seq[0];  // [&1 zero, *1]
     seq[0] = seq[1];  // [&1 zero, *1]  # no-op (they both alias the same thing,
-                      // so setting them equal is nothing)
+    // so setting them equal is nothing)
     Is(seq[0], seq[1]);  // true
     seq[1] = "one";      // [&1 one, *1]
     UnAlias(seq[1]);     // [one, one]
@@ -105,7 +105,7 @@ int main() {
     root.push_back("two");
     YAML::Value two = root[2];
     root = "scalar";  // 'two' is still "two", even though 'root' is "scalar"
-                      // (the sequence effectively no longer exists)
+    // (the sequence effectively no longer exists)
 
     // Note: in all likelihood, the memory for nodes "zero" and "one" is still
     // allocated. How can it go away? Weak pointers?

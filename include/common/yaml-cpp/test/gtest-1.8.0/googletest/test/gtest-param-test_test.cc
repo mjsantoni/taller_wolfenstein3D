@@ -1027,13 +1027,14 @@ INSTANTIATE_TEST_CASE_P(RangeZeroToFive, ParameterizedDerivedTest, Range(0, 5));
 
 #endif  // GTEST_HAS_PARAM_TEST
 
-TEST(CompileTest, CombineIsDefinedOnlyWhenGtestHasParamTestIsDefined) {
+TEST(CompileTest, CombineIsDefinedOnlyWhenGtestHasParamTestIsDefined
+) {
 #if GTEST_HAS_COMBINE && !GTEST_HAS_PARAM_TEST
-  FAIL() << "GTEST_HAS_COMBINE is defined while GTEST_HAS_PARAM_TEST is not\n"
+FAIL() << "GTEST_HAS_COMBINE is defined while GTEST_HAS_PARAM_TEST is not\n"
 #endif
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 #if GTEST_HAS_PARAM_TEST
   // Used in TestGenerationTest test case.
   AddGlobalTestEnvironment(TestGenerationTest::Environment::Instance());

@@ -1,7 +1,7 @@
 #ifndef SCANNER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define SCANNER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -29,7 +29,7 @@ class RegEx;
  */
 class Scanner {
  public:
-  explicit Scanner(std::istream &in);
+  explicit Scanner(std::istream& in);
   ~Scanner();
 
   /** Returns true if there are no more tokens to be read. */
@@ -39,7 +39,7 @@ class Scanner {
   void pop();
 
   /** Returns, but does not remove, the next token in the queue. */
-  Token &peek();
+  Token& peek();
 
   /** Returns the current mark in the input stream. */
   Mark mark() const;
@@ -54,7 +54,7 @@ class Scanner {
     int column;
     INDENT_TYPE type;
     STATUS status;
-    Token *pStartToken;
+    Token* pStartToken;
   };
 
   enum FLOW_MARKER { FLOW_MAP, FLOW_SEQ };
@@ -84,7 +84,7 @@ class Scanner {
   /** Closes out the stream, finish up, etc. */
   void EndStream();
 
-  Token *PushToken(Token::TYPE type);
+  Token* PushToken(Token::TYPE type);
 
   bool InFlowContext() const { return !m_flows.empty(); }
   bool InBlockContext() const { return m_flows.empty(); }
@@ -98,7 +98,7 @@ class Scanner {
    *
    * @return the indent marker it generates (if any).
    */
-  IndentMarker *PushIndentTo(int column, IndentMarker::INDENT_TYPE type);
+  IndentMarker* PushIndentTo(int column, IndentMarker::INDENT_TYPE type);
 
   /**
    * Pops indentations off the stack until it reaches the current indentation
@@ -129,25 +129,25 @@ class Scanner {
    * Throws a ParserException with the current token location (if available),
    * and does not parse any more tokens.
    */
-  void ThrowParserException(const std::string &msg) const;
+  void ThrowParserException(const std::string& msg) const;
 
   bool IsWhitespaceToBeEaten(char ch);
 
   /**
    * Returns the appropriate regex to check if the next token is a value token.
    */
-  const RegEx &GetValueRegex() const;
+  const RegEx& GetValueRegex() const;
 
   struct SimpleKey {
-    SimpleKey(const Mark &mark_, std::size_t flowLevel_);
+    SimpleKey(const Mark& mark_, std::size_t flowLevel_);
 
     void Validate();
     void Invalidate();
 
     Mark mark;
     std::size_t flowLevel;
-    IndentMarker *pIndent;
-    Token *pMapStart, *pKey;
+    IndentMarker* pIndent;
+    Token* pMapStart, * pKey;
   };
 
   // and the tokens
@@ -181,7 +181,7 @@ class Scanner {
   bool m_simpleKeyAllowed;
   bool m_canBeJSONFlow;
   std::stack<SimpleKey> m_simpleKeys;
-  std::stack<IndentMarker *> m_indents;
+  std::stack<IndentMarker*> m_indents;
   ptr_vector<IndentMarker> m_indentRefs;  // for "garbage collection"
   std::stack<FLOW_MARKER> m_flows;
 };

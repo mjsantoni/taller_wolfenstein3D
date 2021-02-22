@@ -61,41 +61,68 @@ using std::pair;
 namespace testing {
 namespace internal {
 
-TEST(IsXDigitTest, WorksForNarrowAscii) {
-  EXPECT_TRUE(IsXDigit('0'));
-  EXPECT_TRUE(IsXDigit('9'));
-  EXPECT_TRUE(IsXDigit('A'));
-  EXPECT_TRUE(IsXDigit('F'));
-  EXPECT_TRUE(IsXDigit('a'));
-  EXPECT_TRUE(IsXDigit('f'));
+TEST(IsXDigitTest, WorksForNarrowAscii
+) {
+EXPECT_TRUE(IsXDigit('0')
+);
+EXPECT_TRUE(IsXDigit('9')
+);
+EXPECT_TRUE(IsXDigit('A')
+);
+EXPECT_TRUE(IsXDigit('F')
+);
+EXPECT_TRUE(IsXDigit('a')
+);
+EXPECT_TRUE(IsXDigit('f')
+);
 
-  EXPECT_FALSE(IsXDigit('-'));
-  EXPECT_FALSE(IsXDigit('g'));
-  EXPECT_FALSE(IsXDigit('G'));
+EXPECT_FALSE(IsXDigit('-')
+);
+EXPECT_FALSE(IsXDigit('g')
+);
+EXPECT_FALSE(IsXDigit('G')
+);
 }
 
-TEST(IsXDigitTest, ReturnsFalseForNarrowNonAscii) {
-  EXPECT_FALSE(IsXDigit('\x80'));
-  EXPECT_FALSE(IsXDigit(static_cast<char>('0' | '\x80')));
+TEST(IsXDigitTest, ReturnsFalseForNarrowNonAscii
+) {
+EXPECT_FALSE(IsXDigit('\x80')
+);
+EXPECT_FALSE(IsXDigit(static_cast<char>('0' | '\x80'))
+);
 }
 
-TEST(IsXDigitTest, WorksForWideAscii) {
-  EXPECT_TRUE(IsXDigit(L'0'));
-  EXPECT_TRUE(IsXDigit(L'9'));
-  EXPECT_TRUE(IsXDigit(L'A'));
-  EXPECT_TRUE(IsXDigit(L'F'));
-  EXPECT_TRUE(IsXDigit(L'a'));
-  EXPECT_TRUE(IsXDigit(L'f'));
+TEST(IsXDigitTest, WorksForWideAscii
+) {
+EXPECT_TRUE(IsXDigit(L'0')
+);
+EXPECT_TRUE(IsXDigit(L'9')
+);
+EXPECT_TRUE(IsXDigit(L'A')
+);
+EXPECT_TRUE(IsXDigit(L'F')
+);
+EXPECT_TRUE(IsXDigit(L'a')
+);
+EXPECT_TRUE(IsXDigit(L'f')
+);
 
-  EXPECT_FALSE(IsXDigit(L'-'));
-  EXPECT_FALSE(IsXDigit(L'g'));
-  EXPECT_FALSE(IsXDigit(L'G'));
+EXPECT_FALSE(IsXDigit(L'-')
+);
+EXPECT_FALSE(IsXDigit(L'g')
+);
+EXPECT_FALSE(IsXDigit(L'G')
+);
 }
 
-TEST(IsXDigitTest, ReturnsFalseForWideNonAscii) {
-  EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(0x80)));
-  EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(L'0' | 0x80)));
-  EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(L'0' | 0x100)));
+TEST(IsXDigitTest, ReturnsFalseForWideNonAscii
+) {
+EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(0x80))
+);
+EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(L'0' | 0x80))
+);
+EXPECT_FALSE(IsXDigit(static_cast<wchar_t>(L'0' | 0x100))
+);
 }
 
 class Base {
@@ -116,15 +143,25 @@ class Derived : public Base {
   explicit Derived(int n) : Base(n) {}
 };
 
-TEST(ImplicitCastTest, ConvertsPointers) {
-  Derived derived(0);
-  EXPECT_TRUE(&derived == ::testing::internal::ImplicitCast_<Base*>(&derived));
+TEST(ImplicitCastTest, ConvertsPointers
+) {
+Derived derived(0);
+EXPECT_TRUE(& derived
+==
+::testing::internal::ImplicitCast_<Base*>(& derived)
+);
 }
 
-TEST(ImplicitCastTest, CanUseInheritance) {
-  Derived derived(1);
-  Base base = ::testing::internal::ImplicitCast_<Base>(derived);
-  EXPECT_EQ(derived.member(), base.member());
+TEST(ImplicitCastTest, CanUseInheritance
+) {
+Derived derived(1);
+Base base = ::testing::internal::ImplicitCast_<Base>(derived);
+EXPECT_EQ(derived
+.
+member(), base
+.
+member()
+);
 }
 
 class Castable {
@@ -139,11 +176,12 @@ class Castable {
   bool* converted_;
 };
 
-TEST(ImplicitCastTest, CanUseNonConstCastOperator) {
-  bool converted = false;
-  Castable castable(&converted);
-  Base base = ::testing::internal::ImplicitCast_<Base>(castable);
-  EXPECT_TRUE(converted);
+TEST(ImplicitCastTest, CanUseNonConstCastOperator
+) {
+bool converted = false;
+Castable castable(&converted);
+Base base = ::testing::internal::ImplicitCast_<Base>(castable);
+EXPECT_TRUE(converted);
 }
 
 class ConstCastable {
@@ -158,11 +196,12 @@ class ConstCastable {
   bool* converted_;
 };
 
-TEST(ImplicitCastTest, CanUseConstCastOperatorOnConstValues) {
-  bool converted = false;
-  const ConstCastable const_castable(&converted);
-  Base base = ::testing::internal::ImplicitCast_<Base>(const_castable);
-  EXPECT_TRUE(converted);
+TEST(ImplicitCastTest, CanUseConstCastOperatorOnConstValues
+) {
+bool converted = false;
+const ConstCastable const_castable(&converted);
+Base base = ::testing::internal::ImplicitCast_<Base>(const_castable);
+EXPECT_TRUE(converted);
 }
 
 class ConstAndNonConstCastable {
@@ -183,20 +222,21 @@ class ConstAndNonConstCastable {
   bool* const_converted_;
 };
 
-TEST(ImplicitCastTest, CanSelectBetweenConstAndNonConstCasrAppropriately) {
-  bool converted = false;
-  bool const_converted = false;
-  ConstAndNonConstCastable castable(&converted, &const_converted);
-  Base base = ::testing::internal::ImplicitCast_<Base>(castable);
-  EXPECT_TRUE(converted);
-  EXPECT_FALSE(const_converted);
+TEST(ImplicitCastTest, CanSelectBetweenConstAndNonConstCasrAppropriately
+) {
+bool converted = false;
+bool const_converted = false;
+ConstAndNonConstCastable castable(&converted, &const_converted);
+Base base = ::testing::internal::ImplicitCast_<Base>(castable);
+EXPECT_TRUE(converted);
+EXPECT_FALSE(const_converted);
 
-  converted = false;
-  const_converted = false;
-  const ConstAndNonConstCastable const_castable(&converted, &const_converted);
-  base = ::testing::internal::ImplicitCast_<Base>(const_castable);
-  EXPECT_FALSE(converted);
-  EXPECT_TRUE(const_converted);
+converted = false;
+const_converted = false;
+const ConstAndNonConstCastable const_castable(&converted, &const_converted);
+base = ::testing::internal::ImplicitCast_<Base>(const_castable);
+EXPECT_FALSE(converted);
+EXPECT_TRUE(const_converted);
 }
 
 class To {
@@ -204,104 +244,128 @@ class To {
   To(bool* converted) { *converted = true; }  // NOLINT
 };
 
-TEST(ImplicitCastTest, CanUseImplicitConstructor) {
-  bool converted = false;
-  To to = ::testing::internal::ImplicitCast_<To>(&converted);
-  (void)to;
-  EXPECT_TRUE(converted);
+TEST(ImplicitCastTest, CanUseImplicitConstructor
+) {
+bool converted = false;
+To to = ::testing::internal::ImplicitCast_<To>(&converted);
+(void)
+to;
+EXPECT_TRUE(converted);
 }
 
-TEST(IteratorTraitsTest, WorksForSTLContainerIterators) {
-  StaticAssertTypeEq<int,
-      IteratorTraits< ::std::vector<int>::const_iterator>::value_type>();
-  StaticAssertTypeEq<bool,
-      IteratorTraits< ::std::list<bool>::iterator>::value_type>();
+TEST(IteratorTraitsTest, WorksForSTLContainerIterators
+) {
+StaticAssertTypeEq<int,
+                   IteratorTraits<::std::vector<int>::const_iterator>::value_type>();
+StaticAssertTypeEq<bool,
+                   IteratorTraits<::std::list<bool>::iterator>::value_type>();
 }
 
-TEST(IteratorTraitsTest, WorksForPointerToNonConst) {
-  StaticAssertTypeEq<char, IteratorTraits<char*>::value_type>();
-  StaticAssertTypeEq<const void*, IteratorTraits<const void**>::value_type>();
+TEST(IteratorTraitsTest, WorksForPointerToNonConst
+) {
+StaticAssertTypeEq<char, IteratorTraits<char*>::value_type>();
+StaticAssertTypeEq<const void*, IteratorTraits<const void**>::value_type>();
 }
 
-TEST(IteratorTraitsTest, WorksForPointerToConst) {
-  StaticAssertTypeEq<char, IteratorTraits<const char*>::value_type>();
-  StaticAssertTypeEq<const void*,
-      IteratorTraits<const void* const*>::value_type>();
+TEST(IteratorTraitsTest, WorksForPointerToConst
+) {
+StaticAssertTypeEq<char, IteratorTraits<const char*>::value_type>();
+StaticAssertTypeEq<const void*,
+                   IteratorTraits<const void* const*>::value_type>();
 }
 
 // Tests that the element_type typedef is available in scoped_ptr and refers
 // to the parameter type.
-TEST(ScopedPtrTest, DefinesElementType) {
-  StaticAssertTypeEq<int, ::testing::internal::scoped_ptr<int>::element_type>();
+TEST(ScopedPtrTest, DefinesElementType
+) {
+StaticAssertTypeEq<int, ::testing::internal::scoped_ptr<int>::element_type>();
 }
 
 // TODO(vladl@google.com): Implement THE REST of scoped_ptr tests.
 
-TEST(GtestCheckSyntaxTest, BehavesLikeASingleStatement) {
-  if (AlwaysFalse())
-    GTEST_CHECK_(false) << "This should never be executed; "
-                           "It's a compilation test only.";
+TEST(GtestCheckSyntaxTest, BehavesLikeASingleStatement
+) {
+if (
+AlwaysFalse()
+)
+GTEST_CHECK_(false) << "This should never be executed; "
+"It's a compilation test only.";
 
-  if (AlwaysTrue())
-    GTEST_CHECK_(true);
-  else
-    ;  // NOLINT
+if (
+AlwaysTrue()
+)
+GTEST_CHECK_(true);
+else;  // NOLINT
 
-  if (AlwaysFalse())
-    ;  // NOLINT
-  else
-    GTEST_CHECK_(true) << "";
+if (
+AlwaysFalse()
+);  // NOLINT
+else
+GTEST_CHECK_(true) << "";
 }
 
-TEST(GtestCheckSyntaxTest, WorksWithSwitch) {
-  switch (0) {
-    case 1:
-      break;
-    default:
-      GTEST_CHECK_(true);
-  }
+TEST(GtestCheckSyntaxTest, WorksWithSwitch
+) {
+switch (0) {
+case 1:
+break;
+default:
+GTEST_CHECK_(true);
+}
 
-  switch (0)
-    case 0:
-      GTEST_CHECK_(true) << "Check failed in switch case";
+switch (0)
+case 0:
+GTEST_CHECK_(true) << "Check failed in switch case";
 }
 
 // Verifies behavior of FormatFileLocation.
-TEST(FormatFileLocationTest, FormatsFileLocation) {
-  EXPECT_PRED_FORMAT2(IsSubstring, "foo.cc", FormatFileLocation("foo.cc", 42));
-  EXPECT_PRED_FORMAT2(IsSubstring, "42", FormatFileLocation("foo.cc", 42));
+TEST(FormatFileLocationTest, FormatsFileLocation
+) {
+EXPECT_PRED_FORMAT2(IsSubstring,
+"foo.cc", FormatFileLocation("foo.cc", 42));
+EXPECT_PRED_FORMAT2(IsSubstring,
+"42", FormatFileLocation("foo.cc", 42));
 }
 
-TEST(FormatFileLocationTest, FormatsUnknownFile) {
-  EXPECT_PRED_FORMAT2(
-      IsSubstring, "unknown file", FormatFileLocation(NULL, 42));
-  EXPECT_PRED_FORMAT2(IsSubstring, "42", FormatFileLocation(NULL, 42));
+TEST(FormatFileLocationTest, FormatsUnknownFile
+) {
+EXPECT_PRED_FORMAT2(
+    IsSubstring,
+"unknown file", FormatFileLocation(NULL, 42));
+EXPECT_PRED_FORMAT2(IsSubstring,
+"42", FormatFileLocation(NULL, 42));
 }
 
-TEST(FormatFileLocationTest, FormatsUknownLine) {
-  EXPECT_EQ("foo.cc:", FormatFileLocation("foo.cc", -1));
+TEST(FormatFileLocationTest, FormatsUknownLine
+) {
+EXPECT_EQ("foo.cc:", FormatFileLocation("foo.cc", -1));
 }
 
-TEST(FormatFileLocationTest, FormatsUknownFileAndLine) {
-  EXPECT_EQ("unknown file:", FormatFileLocation(NULL, -1));
+TEST(FormatFileLocationTest, FormatsUknownFileAndLine
+) {
+EXPECT_EQ("unknown file:", FormatFileLocation(NULL, -1));
 }
 
 // Verifies behavior of FormatCompilerIndependentFileLocation.
-TEST(FormatCompilerIndependentFileLocationTest, FormatsFileLocation) {
-  EXPECT_EQ("foo.cc:42", FormatCompilerIndependentFileLocation("foo.cc", 42));
+TEST(FormatCompilerIndependentFileLocationTest, FormatsFileLocation
+) {
+EXPECT_EQ("foo.cc:42", FormatCompilerIndependentFileLocation("foo.cc", 42));
 }
 
-TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownFile) {
-  EXPECT_EQ("unknown file:42",
-            FormatCompilerIndependentFileLocation(NULL, 42));
+TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownFile
+) {
+EXPECT_EQ("unknown file:42",
+FormatCompilerIndependentFileLocation(NULL, 42));
 }
 
-TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownLine) {
-  EXPECT_EQ("foo.cc", FormatCompilerIndependentFileLocation("foo.cc", -1));
+TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownLine
+) {
+EXPECT_EQ("foo.cc", FormatCompilerIndependentFileLocation("foo.cc", -1));
 }
 
-TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownFileAndLine) {
-  EXPECT_EQ("unknown file", FormatCompilerIndependentFileLocation(NULL, -1));
+TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownFileAndLine
+) {
+EXPECT_EQ("unknown file", FormatCompilerIndependentFileLocation(NULL, -1));
 }
 
 #if GTEST_OS_LINUX || GTEST_OS_MAC || GTEST_OS_QNX
@@ -345,25 +409,30 @@ TEST(GetThreadCountTest, ReturnsCorrectValue) {
   EXPECT_EQ(starting_count, GetThreadCount());
 }
 #else
-TEST(GetThreadCountTest, ReturnsZeroWhenUnableToCountThreads) {
-  EXPECT_EQ(0U, GetThreadCount());
+TEST(GetThreadCountTest, ReturnsZeroWhenUnableToCountThreads
+) {
+EXPECT_EQ(0U,
+GetThreadCount()
+);
 }
 #endif  // GTEST_OS_LINUX || GTEST_OS_MAC || GTEST_OS_QNX
 
-TEST(GtestCheckDeathTest, DiesWithCorrectOutputOnFailure) {
-  const bool a_false_condition = false;
-  const char regex[] =
+TEST(GtestCheckDeathTest, DiesWithCorrectOutputOnFailure
+) {
+const bool a_false_condition = false;
+const char regex[] =
 #ifdef _MSC_VER
-     "gtest-port_test\\.cc\\(\\d+\\):"
+    "gtest-port_test\\.cc\\(\\d+\\):"
 #elif GTEST_USES_POSIX_RE
-     "gtest-port_test\\.cc:[0-9]+"
+    "gtest-port_test\\.cc:[0-9]+"
 #else
-     "gtest-port_test\\.cc:\\d+"
-#endif  // _MSC_VER
-     ".*a_false_condition.*Extra info.*";
+    "gtest-port_test\\.cc:\\d+"
+    #endif  // _MSC_VER
+    ".*a_false_condition.*Extra info.*";
 
-  EXPECT_DEATH_IF_SUPPORTED(GTEST_CHECK_(a_false_condition) << "Extra info",
-                            regex);
+EXPECT_DEATH_IF_SUPPORTED(GTEST_CHECK_(a_false_condition)
+<< "Extra info",
+regex);
 }
 
 #if GTEST_HAS_DEATH_TEST
@@ -381,15 +450,16 @@ TEST(GtestCheckDeathTest, LivesSilentlyOnSuccess) {
 // Verifies that Google Test choose regular expression engine appropriate to
 // the platform. The test will produce compiler errors in case of failure.
 // For simplicity, we only cover the most important platforms here.
-TEST(RegexEngineSelectionTest, SelectsCorrectRegexEngine) {
+TEST(RegexEngineSelectionTest, SelectsCorrectRegexEngine
+) {
 #if !GTEST_USES_PCRE
 # if GTEST_HAS_POSIX_RE
 
-  EXPECT_TRUE(GTEST_USES_POSIX_RE);
+EXPECT_TRUE(GTEST_USES_POSIX_RE);
 
 # else
 
-  EXPECT_TRUE(GTEST_USES_SIMPLE_RE);
+EXPECT_TRUE(GTEST_USES_SIMPLE_RE);
 
 # endif
 #endif  // !GTEST_USES_PCRE
@@ -929,63 +999,103 @@ TEST(RETest, PartialMatchWorks) {
 
 #if !GTEST_OS_WINDOWS_MOBILE
 
-TEST(CaptureTest, CapturesStdout) {
-  CaptureStdout();
-  fprintf(stdout, "abc");
-  EXPECT_STREQ("abc", GetCapturedStdout().c_str());
+TEST(CaptureTest, CapturesStdout
+) {
+CaptureStdout();
+fprintf(stdout,
+"abc");
+EXPECT_STREQ("abc",
+GetCapturedStdout()
+.
+c_str()
+);
 
-  CaptureStdout();
-  fprintf(stdout, "def%cghi", '\0');
-  EXPECT_EQ(::std::string("def\0ghi", 7), ::std::string(GetCapturedStdout()));
+CaptureStdout();
+fprintf(stdout,
+"def%cghi", '\0');
+EXPECT_EQ(::std::string("def\0ghi", 7), ::std::string(GetCapturedStdout())
+);
 }
 
-TEST(CaptureTest, CapturesStderr) {
-  CaptureStderr();
-  fprintf(stderr, "jkl");
-  EXPECT_STREQ("jkl", GetCapturedStderr().c_str());
+TEST(CaptureTest, CapturesStderr
+) {
+CaptureStderr();
+fprintf(stderr,
+"jkl");
+EXPECT_STREQ("jkl",
+GetCapturedStderr()
+.
+c_str()
+);
 
-  CaptureStderr();
-  fprintf(stderr, "jkl%cmno", '\0');
-  EXPECT_EQ(::std::string("jkl\0mno", 7), ::std::string(GetCapturedStderr()));
+CaptureStderr();
+fprintf(stderr,
+"jkl%cmno", '\0');
+EXPECT_EQ(::std::string("jkl\0mno", 7), ::std::string(GetCapturedStderr())
+);
 }
 
 // Tests that stdout and stderr capture don't interfere with each other.
-TEST(CaptureTest, CapturesStdoutAndStderr) {
-  CaptureStdout();
-  CaptureStderr();
-  fprintf(stdout, "pqr");
-  fprintf(stderr, "stu");
-  EXPECT_STREQ("pqr", GetCapturedStdout().c_str());
-  EXPECT_STREQ("stu", GetCapturedStderr().c_str());
+TEST(CaptureTest, CapturesStdoutAndStderr
+) {
+CaptureStdout();
+CaptureStderr();
+fprintf(stdout,
+"pqr");
+fprintf(stderr,
+"stu");
+EXPECT_STREQ("pqr",
+GetCapturedStdout()
+.
+c_str()
+);
+EXPECT_STREQ("stu",
+GetCapturedStderr()
+.
+c_str()
+);
 }
 
-TEST(CaptureDeathTest, CannotReenterStdoutCapture) {
-  CaptureStdout();
-  EXPECT_DEATH_IF_SUPPORTED(CaptureStdout(),
-                            "Only one stdout capturer can exist at a time");
-  GetCapturedStdout();
+TEST(CaptureDeathTest, CannotReenterStdoutCapture
+) {
+CaptureStdout();
+EXPECT_DEATH_IF_SUPPORTED(CaptureStdout(),
+"Only one stdout capturer can exist at a time");
+GetCapturedStdout();
 
-  // We cannot test stderr capturing using death tests as they use it
-  // themselves.
+// We cannot test stderr capturing using death tests as they use it
+// themselves.
 }
 
 #endif  // !GTEST_OS_WINDOWS_MOBILE
 
-TEST(ThreadLocalTest, DefaultConstructorInitializesToDefaultValues) {
-  ThreadLocal<int> t1;
-  EXPECT_EQ(0, t1.get());
+TEST(ThreadLocalTest, DefaultConstructorInitializesToDefaultValues
+) {
+ThreadLocal<int> t1;
+EXPECT_EQ(0, t1.
+get()
+);
 
-  ThreadLocal<void*> t2;
-  EXPECT_TRUE(t2.get() == NULL);
+ThreadLocal<void*> t2;
+EXPECT_TRUE(t2
+.
+get()
+== NULL);
 }
 
-TEST(ThreadLocalTest, SingleParamConstructorInitializesToParam) {
-  ThreadLocal<int> t1(123);
-  EXPECT_EQ(123, t1.get());
+TEST(ThreadLocalTest, SingleParamConstructorInitializesToParam
+) {
+ThreadLocal<int> t1(123);
+EXPECT_EQ(123, t1.
+get()
+);
 
-  int i = 0;
-  ThreadLocal<int*> t2(&i);
-  EXPECT_EQ(&i, t2.get());
+int i = 0;
+ThreadLocal<int*> t2(&i);
+EXPECT_EQ(& i, t2
+.
+get()
+);
 }
 
 class NoDefaultContructor {
@@ -994,30 +1104,54 @@ class NoDefaultContructor {
   NoDefaultContructor(const NoDefaultContructor&) {}
 };
 
-TEST(ThreadLocalTest, ValueDefaultContructorIsNotRequiredForParamVersion) {
-  ThreadLocal<NoDefaultContructor> bar(NoDefaultContructor("foo"));
-  bar.pointer();
+TEST(ThreadLocalTest, ValueDefaultContructorIsNotRequiredForParamVersion
+) {
+ThreadLocal <NoDefaultContructor> bar(NoDefaultContructor("foo"));
+bar.
+pointer();
 }
 
-TEST(ThreadLocalTest, GetAndPointerReturnSameValue) {
-  ThreadLocal<std::string> thread_local_string;
+TEST(ThreadLocalTest, GetAndPointerReturnSameValue
+) {
+ThreadLocal <std::string> thread_local_string;
 
-  EXPECT_EQ(thread_local_string.pointer(), &(thread_local_string.get()));
+EXPECT_EQ(thread_local_string
+.
+pointer(), & (thread_local_string
+.
+get()
+));
 
-  // Verifies the condition still holds after calling set.
-  thread_local_string.set("foo");
-  EXPECT_EQ(thread_local_string.pointer(), &(thread_local_string.get()));
+// Verifies the condition still holds after calling set.
+thread_local_string.set("foo");
+EXPECT_EQ(thread_local_string
+.
+pointer(), & (thread_local_string
+.
+get()
+));
 }
 
-TEST(ThreadLocalTest, PointerAndConstPointerReturnSameValue) {
-  ThreadLocal<std::string> thread_local_string;
-  const ThreadLocal<std::string>& const_thread_local_string =
-      thread_local_string;
+TEST(ThreadLocalTest, PointerAndConstPointerReturnSameValue
+) {
+ThreadLocal <std::string> thread_local_string;
+const ThreadLocal <std::string>& const_thread_local_string =
+    thread_local_string;
 
-  EXPECT_EQ(thread_local_string.pointer(), const_thread_local_string.pointer());
+EXPECT_EQ(thread_local_string
+.
+pointer(), const_thread_local_string
+.
+pointer()
+);
 
-  thread_local_string.set("foo");
-  EXPECT_EQ(thread_local_string.pointer(), const_thread_local_string.pointer());
+thread_local_string.set("foo");
+EXPECT_EQ(thread_local_string
+.
+pointer(), const_thread_local_string
+.
+pointer()
+);
 }
 
 #if GTEST_IS_THREADSAFE

@@ -91,17 +91,19 @@ class MyEnvironment : public testing::Environment {
 
 int g_should_fail_count = 0;
 
-TEST(FooTest, ShouldFail) {
-  g_should_fail_count++;
-  EXPECT_EQ(0, 1) << "Expected failure.";
+TEST(FooTest, ShouldFail
+) {
+g_should_fail_count++;
+EXPECT_EQ(0, 1) << "Expected failure.";
 }
 
 // A test that should pass.
 
 int g_should_pass_count = 0;
 
-TEST(FooTest, ShouldPass) {
-  g_should_pass_count++;
+TEST(FooTest, ShouldPass
+) {
+g_should_pass_count++;
 }
 
 // A test that contains a thread-safe death test and a fast death
@@ -109,14 +111,17 @@ TEST(FooTest, ShouldPass) {
 
 int g_death_test_count = 0;
 
-TEST(BarDeathTest, ThreadSafeAndFast) {
-  g_death_test_count++;
+TEST(BarDeathTest, ThreadSafeAndFast
+) {
+g_death_test_count++;
 
-  GTEST_FLAG(death_test_style) = "threadsafe";
-  EXPECT_DEATH_IF_SUPPORTED(::testing::internal::posix::Abort(), "");
+GTEST_FLAG(death_test_style) = "threadsafe";
+EXPECT_DEATH_IF_SUPPORTED(::testing::internal::posix::Abort(),
+"");
 
-  GTEST_FLAG(death_test_style) = "fast";
-  EXPECT_DEATH_IF_SUPPORTED(::testing::internal::posix::Abort(), "");
+GTEST_FLAG(death_test_style) = "fast";
+EXPECT_DEATH_IF_SUPPORTED(::testing::internal::posix::Abort(),
+"");
 }
 
 #if GTEST_HAS_PARAM_TEST
@@ -226,7 +231,7 @@ void TestRepeatWithFilterForFailedTests(int repeat) {
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   testing::AddGlobalTestEnvironment(new MyEnvironment);
 

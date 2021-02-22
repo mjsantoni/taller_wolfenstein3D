@@ -42,7 +42,8 @@ class Mock {
  public:
   Mock() {}
 
-  MOCK_METHOD0(DoThis, void());
+  MOCK_METHOD0(DoThis,
+  void());
 
  private:
   GTEST_DISALLOW_COPY_AND_ASSIGN_(Mock);
@@ -78,8 +79,12 @@ class MockFoo : public Foo {
   MockFoo() {}
   void Delete() { delete this; }
 
-  MOCK_METHOD0(DoThis, void());
-  MOCK_METHOD1(DoThat, int(bool flag));
+  MOCK_METHOD0(DoThis,
+  void());
+  MOCK_METHOD1(DoThat,
+  int(
+  bool flag
+  ));
 
  private:
   GTEST_DISALLOW_COPY_AND_ASSIGN_(MockFoo);
@@ -99,8 +104,10 @@ class MockBar {
 
   const string& str() const { return str_; }
 
-  MOCK_METHOD0(This, int());
-  MOCK_METHOD2(That, string(int, bool));
+  MOCK_METHOD0(This,
+  int());
+  MOCK_METHOD2(That, string(int, bool)
+  );
 
  private:
   string str_;
@@ -201,40 +208,56 @@ TEST(NiceMockTest, InfoForUninterestingCall) {
 #endif  // GTEST_HAS_STREAM_REDIRECTION
 
 // Tests that a nice mock allows expected calls.
-TEST(NiceMockTest, AllowsExpectedCall) {
-  NiceMock<MockFoo> nice_foo;
+TEST(NiceMockTest, AllowsExpectedCall
+) {
+NiceMock<MockFoo> nice_foo;
 
-  EXPECT_CALL(nice_foo, DoThis());
-  nice_foo.DoThis();
+EXPECT_CALL(nice_foo, DoThis()
+);
+nice_foo.
+DoThis();
 }
 
 // Tests that an unexpected call on a nice mock fails.
-TEST(NiceMockTest, UnexpectedCallFails) {
-  NiceMock<MockFoo> nice_foo;
+TEST(NiceMockTest, UnexpectedCallFails
+) {
+NiceMock <MockFoo> nice_foo;
 
-  EXPECT_CALL(nice_foo, DoThis()).Times(0);
-  EXPECT_NONFATAL_FAILURE(nice_foo.DoThis(), "called more times than expected");
+EXPECT_CALL(nice_foo, DoThis()
+).Times(0);
+EXPECT_NONFATAL_FAILURE(nice_foo
+.
+DoThis(),
+"called more times than expected");
 }
 
 // Tests that NiceMock works with a mock class that has a non-default
 // constructor.
-TEST(NiceMockTest, NonDefaultConstructor) {
-  NiceMock<MockBar> nice_bar("hi");
-  EXPECT_EQ("hi", nice_bar.str());
+TEST(NiceMockTest, NonDefaultConstructor
+) {
+NiceMock <MockBar> nice_bar("hi");
+EXPECT_EQ("hi", nice_bar.
+str()
+);
 
-  nice_bar.This();
-  nice_bar.That(5, true);
+nice_bar.
+This();
+nice_bar.That(5, true);
 }
 
 // Tests that NiceMock works with a mock class that has a 10-ary
 // non-default constructor.
-TEST(NiceMockTest, NonDefaultConstructor10) {
-  NiceMock<MockBar> nice_bar('a', 'b', "c", "d", 'e', 'f',
-                             "g", "h", true, false);
-  EXPECT_EQ("abcdefghTF", nice_bar.str());
+TEST(NiceMockTest, NonDefaultConstructor10
+) {
+NiceMock <MockBar> nice_bar('a', 'b', "c", "d", 'e', 'f',
+                            "g", "h", true, false);
+EXPECT_EQ("abcdefghTF", nice_bar.
+str()
+);
 
-  nice_bar.This();
-  nice_bar.That(5, true);
+nice_bar.
+This();
+nice_bar.That(5, true);
 }
 
 #if !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
@@ -246,10 +269,13 @@ TEST(NiceMockTest, NonDefaultConstructor10) {
 //
 // We have to skip this test on Symbian and Windows Mobile, as it
 // causes the program to crash there, for reasons unclear to us yet.
-TEST(NiceMockTest, AcceptsClassNamedMock) {
-  NiceMock< ::Mock> nice;
-  EXPECT_CALL(nice, DoThis());
-  nice.DoThis();
+TEST(NiceMockTest, AcceptsClassNamedMock
+) {
+NiceMock<::Mock> nice;
+EXPECT_CALL(nice, DoThis()
+);
+nice.
+DoThis();
 }
 #endif  // !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
 
@@ -293,41 +319,56 @@ TEST(NaggyMockTest, WarningForUninterestingCallAfterDeath) {
 #endif  // GTEST_HAS_STREAM_REDIRECTION
 
 // Tests that a naggy mock allows expected calls.
-TEST(NaggyMockTest, AllowsExpectedCall) {
-  NaggyMock<MockFoo> naggy_foo;
+TEST(NaggyMockTest, AllowsExpectedCall
+) {
+NaggyMock <MockFoo> naggy_foo;
 
-  EXPECT_CALL(naggy_foo, DoThis());
-  naggy_foo.DoThis();
+EXPECT_CALL(naggy_foo, DoThis()
+);
+naggy_foo.
+DoThis();
 }
 
 // Tests that an unexpected call on a naggy mock fails.
-TEST(NaggyMockTest, UnexpectedCallFails) {
-  NaggyMock<MockFoo> naggy_foo;
+TEST(NaggyMockTest, UnexpectedCallFails
+) {
+NaggyMock <MockFoo> naggy_foo;
 
-  EXPECT_CALL(naggy_foo, DoThis()).Times(0);
-  EXPECT_NONFATAL_FAILURE(naggy_foo.DoThis(),
-                          "called more times than expected");
+EXPECT_CALL(naggy_foo, DoThis()
+).Times(0);
+EXPECT_NONFATAL_FAILURE(naggy_foo
+.
+DoThis(),
+"called more times than expected");
 }
 
 // Tests that NaggyMock works with a mock class that has a non-default
 // constructor.
-TEST(NaggyMockTest, NonDefaultConstructor) {
-  NaggyMock<MockBar> naggy_bar("hi");
-  EXPECT_EQ("hi", naggy_bar.str());
+TEST(NaggyMockTest, NonDefaultConstructor
+) {
+NaggyMock <MockBar> naggy_bar("hi");
+EXPECT_EQ("hi", naggy_bar.
+str()
+);
 
-  naggy_bar.This();
-  naggy_bar.That(5, true);
+naggy_bar.
+This();
+naggy_bar.That(5, true);
 }
 
 // Tests that NaggyMock works with a mock class that has a 10-ary
 // non-default constructor.
-TEST(NaggyMockTest, NonDefaultConstructor10) {
-  NaggyMock<MockBar> naggy_bar('0', '1', "2", "3", '4', '5',
-                               "6", "7", true, false);
-  EXPECT_EQ("01234567TF", naggy_bar.str());
+TEST(NaggyMockTest, NonDefaultConstructor10
+) {
+NaggyMock <MockBar> naggy_bar('0', '1', "2", "3", '4', '5',
+                              "6", "7", true, false);
+EXPECT_EQ("01234567TF", naggy_bar.
+str()
+);
 
-  naggy_bar.This();
-  naggy_bar.That(5, true);
+naggy_bar.
+This();
+naggy_bar.That(5, true);
 }
 
 #if !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
@@ -339,69 +380,96 @@ TEST(NaggyMockTest, NonDefaultConstructor10) {
 //
 // We have to skip this test on Symbian and Windows Mobile, as it
 // causes the program to crash there, for reasons unclear to us yet.
-TEST(NaggyMockTest, AcceptsClassNamedMock) {
-  NaggyMock< ::Mock> naggy;
-  EXPECT_CALL(naggy, DoThis());
-  naggy.DoThis();
+TEST(NaggyMockTest, AcceptsClassNamedMock
+) {
+NaggyMock<::Mock> naggy;
+EXPECT_CALL(naggy, DoThis()
+);
+naggy.
+DoThis();
 }
 #endif  // !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
 
 // Tests that a strict mock allows expected calls.
-TEST(StrictMockTest, AllowsExpectedCall) {
-  StrictMock<MockFoo> strict_foo;
+TEST(StrictMockTest, AllowsExpectedCall
+) {
+StrictMock <MockFoo> strict_foo;
 
-  EXPECT_CALL(strict_foo, DoThis());
-  strict_foo.DoThis();
+EXPECT_CALL(strict_foo, DoThis()
+);
+strict_foo.
+DoThis();
 }
 
 // Tests that an unexpected call on a strict mock fails.
-TEST(StrictMockTest, UnexpectedCallFails) {
-  StrictMock<MockFoo> strict_foo;
+TEST(StrictMockTest, UnexpectedCallFails
+) {
+StrictMock <MockFoo> strict_foo;
 
-  EXPECT_CALL(strict_foo, DoThis()).Times(0);
-  EXPECT_NONFATAL_FAILURE(strict_foo.DoThis(),
-                          "called more times than expected");
+EXPECT_CALL(strict_foo, DoThis()
+).Times(0);
+EXPECT_NONFATAL_FAILURE(strict_foo
+.
+DoThis(),
+"called more times than expected");
 }
 
 // Tests that an uninteresting call on a strict mock fails.
-TEST(StrictMockTest, UninterestingCallFails) {
-  StrictMock<MockFoo> strict_foo;
+TEST(StrictMockTest, UninterestingCallFails
+) {
+StrictMock <MockFoo> strict_foo;
 
-  EXPECT_NONFATAL_FAILURE(strict_foo.DoThis(),
-                          "Uninteresting mock function call");
+EXPECT_NONFATAL_FAILURE(strict_foo
+.
+DoThis(),
+"Uninteresting mock function call");
 }
 
 // Tests that an uninteresting call on a strict mock fails, even if
 // the call deletes the mock object.
-TEST(StrictMockTest, UninterestingCallFailsAfterDeath) {
-  StrictMock<MockFoo>* const strict_foo = new StrictMock<MockFoo>;
+TEST(StrictMockTest, UninterestingCallFailsAfterDeath
+) {
+StrictMock <MockFoo>* const strict_foo = new StrictMock<MockFoo>;
 
-  ON_CALL(*strict_foo, DoThis())
-      .WillByDefault(Invoke(strict_foo, &MockFoo::Delete));
+ON_CALL(* strict_foo, DoThis()
+)
+.
+WillByDefault(Invoke(strict_foo, &MockFoo::Delete)
+);
 
-  EXPECT_NONFATAL_FAILURE(strict_foo->DoThis(),
-                          "Uninteresting mock function call");
+EXPECT_NONFATAL_FAILURE(strict_foo
+->
+DoThis(),
+"Uninteresting mock function call");
 }
 
 // Tests that StrictMock works with a mock class that has a
 // non-default constructor.
-TEST(StrictMockTest, NonDefaultConstructor) {
-  StrictMock<MockBar> strict_bar("hi");
-  EXPECT_EQ("hi", strict_bar.str());
+TEST(StrictMockTest, NonDefaultConstructor
+) {
+StrictMock <MockBar> strict_bar("hi");
+EXPECT_EQ("hi", strict_bar.
+str()
+);
 
-  EXPECT_NONFATAL_FAILURE(strict_bar.That(5, true),
-                          "Uninteresting mock function call");
+EXPECT_NONFATAL_FAILURE(strict_bar
+.That(5, true),
+"Uninteresting mock function call");
 }
 
 // Tests that StrictMock works with a mock class that has a 10-ary
 // non-default constructor.
-TEST(StrictMockTest, NonDefaultConstructor10) {
-  StrictMock<MockBar> strict_bar('a', 'b', "c", "d", 'e', 'f',
-                                 "g", "h", true, false);
-  EXPECT_EQ("abcdefghTF", strict_bar.str());
+TEST(StrictMockTest, NonDefaultConstructor10
+) {
+StrictMock <MockBar> strict_bar('a', 'b', "c", "d", 'e', 'f',
+                                "g", "h", true, false);
+EXPECT_EQ("abcdefghTF", strict_bar.
+str()
+);
 
-  EXPECT_NONFATAL_FAILURE(strict_bar.That(5, true),
-                          "Uninteresting mock function call");
+EXPECT_NONFATAL_FAILURE(strict_bar
+.That(5, true),
+"Uninteresting mock function call");
 }
 
 #if !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
@@ -413,10 +481,13 @@ TEST(StrictMockTest, NonDefaultConstructor10) {
 //
 // We have to skip this test on Symbian and Windows Mobile, as it
 // causes the program to crash there, for reasons unclear to us yet.
-TEST(StrictMockTest, AcceptsClassNamedMock) {
-  StrictMock< ::Mock> strict;
-  EXPECT_CALL(strict, DoThis());
-  strict.DoThis();
+TEST(StrictMockTest, AcceptsClassNamedMock
+) {
+StrictMock<::Mock> strict;
+EXPECT_CALL(strict, DoThis()
+);
+strict.
+DoThis();
 }
 #endif  // !GTEST_OS_SYMBIAN && !GTEST_OS_WINDOWS_MOBILE
 

@@ -1,7 +1,7 @@
 #ifndef NODE_CONVERT_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define NODE_CONVERT_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -24,7 +24,7 @@
 namespace YAML {
 class Binary;
 struct _Null;
-template <typename T>
+template<typename T>
 struct convert;
 }  // namespace YAML
 
@@ -32,7 +32,7 @@ namespace YAML {
 namespace conversion {
 inline bool IsInfinity(const std::string& input) {
   return input == ".inf" || input == ".Inf" || input == ".INF" ||
-         input == "+.inf" || input == "+.Inf" || input == "+.INF";
+      input == "+.inf" || input == "+.Inf" || input == "+.INF";
 }
 
 inline bool IsNegativeInfinity(const std::string& input) {
@@ -45,7 +45,7 @@ inline bool IsNaN(const std::string& input) {
 }
 
 // Node
-template <>
+template<>
 struct convert<Node> {
   static Node encode(const Node& rhs) { return rhs; }
 
@@ -56,7 +56,7 @@ struct convert<Node> {
 };
 
 // std::string
-template <>
+template<>
 struct convert<std::string> {
   static Node encode(const std::string& rhs) { return Node(rhs); }
 
@@ -69,17 +69,17 @@ struct convert<std::string> {
 };
 
 // C-strings can only be encoded
-template <>
+template<>
 struct convert<const char*> {
   static Node encode(const char*& rhs) { return Node(rhs); }
 };
 
-template <std::size_t N>
+template<std::size_t N>
 struct convert<const char[N]> {
-  static Node encode(const char(&rhs)[N]) { return Node(rhs); }
+  static Node encode(const char(& rhs)[N]) { return Node(rhs); }
 };
 
-template <>
+template<>
 struct convert<_Null> {
   static Node encode(const _Null& /* rhs */) { return Node(); }
 
@@ -155,7 +155,7 @@ YAML_DEFINE_CONVERT_STREAMABLE_SIGNED(long double);
 #undef YAML_DEFINE_CONVERT_STREAMABLE
 
 // bool
-template <>
+template<>
 struct convert<bool> {
   static Node encode(bool rhs) { return rhs ? Node("true") : Node("false"); }
 
@@ -163,7 +163,7 @@ struct convert<bool> {
 };
 
 // std::map
-template <typename K, typename V>
+template<typename K, typename V>
 struct convert<std::map<K, V>> {
   static Node encode(const std::map<K, V>& rhs) {
     Node node(NodeType::Map);
@@ -183,14 +183,14 @@ struct convert<std::map<K, V>> {
       // workaround for GCC 3:
       rhs[it->first.template as<K>()] = it->second.template as<V>();
 #else
-      rhs[it->first.as<K>()] = it->second.as<V>();
+        rhs[it->first.as<K>()] = it->second.as<V>();
 #endif
     return true;
   }
 };
 
 // std::vector
-template <typename T>
+template<typename T>
 struct convert<std::vector<T>> {
   static Node encode(const std::vector<T>& rhs) {
     Node node(NodeType::Sequence);
@@ -210,14 +210,14 @@ struct convert<std::vector<T>> {
       // workaround for GCC 3:
       rhs.push_back(it->template as<T>());
 #else
-      rhs.push_back(it->as<T>());
+        rhs.push_back(it->as<T>());
 #endif
     return true;
   }
 };
 
 // std::list
-template <typename T>
+template<typename T>
 struct convert<std::list<T>> {
   static Node encode(const std::list<T>& rhs) {
     Node node(NodeType::Sequence);
@@ -237,14 +237,14 @@ struct convert<std::list<T>> {
       // workaround for GCC 3:
       rhs.push_back(it->template as<T>());
 #else
-      rhs.push_back(it->as<T>());
+        rhs.push_back(it->as<T>());
 #endif
     return true;
   }
 };
 
 // std::array
-template <typename T, std::size_t N>
+template<typename T, std::size_t N>
 struct convert<std::array<T, N>> {
   static Node encode(const std::array<T, N>& rhs) {
     Node node(NodeType::Sequence);
@@ -277,7 +277,7 @@ struct convert<std::array<T, N>> {
 };
 
 // std::pair
-template <typename T, typename U>
+template<typename T, typename U>
 struct convert<std::pair<T, U>> {
   static Node encode(const std::pair<T, U>& rhs) {
     Node node(NodeType::Sequence);
@@ -309,7 +309,7 @@ struct convert<std::pair<T, U>> {
 };
 
 // binary
-template <>
+template<>
 struct convert<Binary> {
   static Node encode(const Binary& rhs) {
     return Node(EncodeBase64(rhs.data(), rhs.size()));

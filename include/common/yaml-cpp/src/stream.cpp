@@ -128,18 +128,12 @@ inline UtfIntroCharType IntroCharTypeOf(std::istream::int_type ch) {
   }
 
   switch (ch) {
-    case 0:
-      return uict00;
-    case 0xBB:
-      return uictBB;
-    case 0xBF:
-      return uictBF;
-    case 0xEF:
-      return uictEF;
-    case 0xFE:
-      return uictFE;
-    case 0xFF:
-      return uictFF;
+    case 0:return uict00;
+    case 0xBB:return uictBB;
+    case 0xBF:return uictBF;
+    case 0xEF:return uictEF;
+    case 0xFE:return uictFE;
+    case 0xFF:return uictFF;
   }
 
   if ((ch > 0) && (ch < 0xFF)) {
@@ -216,23 +210,17 @@ Stream::Stream(std::istream& input)
   }
 
   switch (state) {
-    case uis_utf8:
-      m_charSet = utf8;
+    case uis_utf8:m_charSet = utf8;
       break;
-    case uis_utf16le:
-      m_charSet = utf16le;
+    case uis_utf16le:m_charSet = utf16le;
       break;
-    case uis_utf16be:
-      m_charSet = utf16be;
+    case uis_utf16be:m_charSet = utf16be;
       break;
-    case uis_utf32le:
-      m_charSet = utf32le;
+    case uis_utf32le:m_charSet = utf32le;
       break;
-    case uis_utf32be:
-      m_charSet = utf32be;
+    case uis_utf32be:m_charSet = utf32be;
       break;
-    default:
-      m_charSet = utf8;
+    default:m_charSet = utf8;
       break;
   }
 
@@ -251,7 +239,7 @@ char Stream::peek() const {
 
 Stream::operator bool() const {
   return m_input.good() ||
-         (!m_readahead.empty() && m_readahead[0] != Stream::eof());
+      (!m_readahead.empty() && m_readahead[0] != Stream::eof());
 }
 
 // get
@@ -298,20 +286,15 @@ void Stream::AdvanceCurrent() {
 bool Stream::_ReadAheadTo(size_t i) const {
   while (m_input.good() && (m_readahead.size() <= i)) {
     switch (m_charSet) {
-      case utf8:
-        StreamInUtf8();
+      case utf8:StreamInUtf8();
         break;
-      case utf16le:
-        StreamInUtf16();
+      case utf16le:StreamInUtf16();
         break;
-      case utf16be:
-        StreamInUtf16();
+      case utf16be:StreamInUtf16();
         break;
-      case utf32le:
-        StreamInUtf32();
+      case utf32le:StreamInUtf32();
         break;
-      case utf32be:
-        StreamInUtf32();
+      case utf32be:StreamInUtf32();
         break;
     }
   }
@@ -341,7 +324,7 @@ void Stream::StreamInUtf16() const {
     return;
   }
   ch = (static_cast<unsigned long>(bytes[nBigEnd]) << 8) |
-       static_cast<unsigned long>(bytes[1 ^ nBigEnd]);
+      static_cast<unsigned long>(bytes[1 ^ nBigEnd]);
 
   if (ch >= 0xDC00 && ch < 0xE000) {
     // Trailing (low) surrogate...ugh, wrong order
@@ -361,7 +344,7 @@ void Stream::StreamInUtf16() const {
         return;
       }
       unsigned long chLow = (static_cast<unsigned long>(bytes[nBigEnd]) << 8) |
-                            static_cast<unsigned long>(bytes[1 ^ nBigEnd]);
+          static_cast<unsigned long>(bytes[1 ^ nBigEnd]);
       if (chLow < 0xDC00 || chLow >= 0xE000) {
         // Trouble...not a low surrogate.  Dump a REPLACEMENT CHARACTER into the
         // stream.

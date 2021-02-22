@@ -1,7 +1,7 @@
 #ifndef EMITTER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define EMITTER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -75,14 +75,14 @@ class YAML_CPP_API Emitter {
   Emitter& Write(const _Null& n);
   Emitter& Write(const Binary& binary);
 
-  template <typename T>
+  template<typename T>
   Emitter& WriteIntegralType(T value);
 
-  template <typename T>
+  template<typename T>
   Emitter& WriteStreamable(T value);
 
  private:
-  template <typename T>
+  template<typename T>
   void SetStreamablePrecision(std::stringstream&) {}
   std::size_t GetFloatPrecision() const;
   std::size_t GetDoublePrecision() const;
@@ -130,7 +130,7 @@ class YAML_CPP_API Emitter {
   ostream_wrapper m_stream;
 };
 
-template <typename T>
+template<typename T>
 inline Emitter& Emitter::WriteIntegralType(T value) {
   if (!good())
     return *this;
@@ -147,7 +147,7 @@ inline Emitter& Emitter::WriteIntegralType(T value) {
   return *this;
 }
 
-template <typename T>
+template<typename T>
 inline Emitter& Emitter::WriteStreamable(T value) {
   if (!good())
     return *this;
@@ -160,7 +160,7 @@ inline Emitter& Emitter::WriteStreamable(T value) {
   bool special = false;
   if (std::is_floating_point<T>::value) {
     if ((std::numeric_limits<T>::has_quiet_NaN ||
-         std::numeric_limits<T>::has_signaling_NaN) &&
+        std::numeric_limits<T>::has_signaling_NaN) &&
         std::isnan(value)) {
       special = true;
       stream << ".nan";
@@ -185,12 +185,12 @@ inline Emitter& Emitter::WriteStreamable(T value) {
   return *this;
 }
 
-template <>
+template<>
 inline void Emitter::SetStreamablePrecision<float>(std::stringstream& stream) {
   stream.precision(static_cast<std::streamsize>(GetFloatPrecision()));
 }
 
-template <>
+template<>
 inline void Emitter::SetStreamablePrecision<double>(std::stringstream& stream) {
   stream.precision(static_cast<std::streamsize>(GetDoublePrecision()));
 }

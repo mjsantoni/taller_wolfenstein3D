@@ -1,7 +1,7 @@
 #ifndef EXCEPTIONS_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define EXCEPTIONS_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -16,9 +16,9 @@
 // This is here for compatibility with older versions of Visual Studio
 // which don't support noexcept
 #if defined(_MSC_VER) && _MSC_VER < 1900
-    #define YAML_CPP_NOEXCEPT _NOEXCEPT
+#define YAML_CPP_NOEXCEPT _NOEXCEPT
 #else
-    #define YAML_CPP_NOEXCEPT noexcept
+#define YAML_CPP_NOEXCEPT noexcept
 #endif
 
 namespace YAML {
@@ -95,7 +95,7 @@ const char* const INVALID_ALIAS = "invalid alias";
 const char* const INVALID_TAG = "invalid tag";
 const char* const BAD_FILE = "bad file";
 
-template <typename T>
+template<typename T>
 inline const std::string KEY_NOT_FOUND_WITH_KEY(
     const T&, typename disable_if<is_numeric<T>>::type* = 0) {
   return KEY_NOT_FOUND;
@@ -107,7 +107,7 @@ inline const std::string KEY_NOT_FOUND_WITH_KEY(const std::string& key) {
   return stream.str();
 }
 
-template <typename T>
+template<typename T>
 inline const std::string KEY_NOT_FOUND_WITH_KEY(
     const T& key, typename enable_if<is_numeric<T>>::type* = 0) {
   std::stringstream stream;
@@ -115,7 +115,7 @@ inline const std::string KEY_NOT_FOUND_WITH_KEY(
   return stream.str();
 }
 
-template <typename T>
+template<typename T>
 inline const std::string BAD_SUBSCRIPT_WITH_KEY(
     const T&, typename disable_if<is_numeric<T>>::type* = nullptr) {
   return BAD_SUBSCRIPT;
@@ -127,7 +127,7 @@ inline const std::string BAD_SUBSCRIPT_WITH_KEY(const std::string& key) {
   return stream.str();
 }
 
-template <typename T>
+template<typename T>
 inline const std::string BAD_SUBSCRIPT_WITH_KEY(
     const T& key, typename enable_if<is_numeric<T>>::type* = nullptr) {
   std::stringstream stream;
@@ -197,7 +197,7 @@ class YAML_CPP_API InvalidScalar : public RepresentationException {
 
 class YAML_CPP_API KeyNotFound : public RepresentationException {
  public:
-  template <typename T>
+  template<typename T>
   KeyNotFound(const Mark& mark_, const T& key_)
       : RepresentationException(mark_, ErrorMsg::KEY_NOT_FOUND_WITH_KEY(key_)) {
   }
@@ -205,7 +205,7 @@ class YAML_CPP_API KeyNotFound : public RepresentationException {
   virtual ~KeyNotFound() YAML_CPP_NOEXCEPT;
 };
 
-template <typename T>
+template<typename T>
 class YAML_CPP_API TypedKeyNotFound : public KeyNotFound {
  public:
   TypedKeyNotFound(const Mark& mark_, const T& key_)
@@ -215,7 +215,7 @@ class YAML_CPP_API TypedKeyNotFound : public KeyNotFound {
   T key;
 };
 
-template <typename T>
+template<typename T>
 inline TypedKeyNotFound<T> MakeTypedKeyNotFound(const Mark& mark,
                                                 const T& key) {
   return TypedKeyNotFound<T>(mark, key);
@@ -238,7 +238,7 @@ class YAML_CPP_API BadConversion : public RepresentationException {
   virtual ~BadConversion() YAML_CPP_NOEXCEPT;
 };
 
-template <typename T>
+template<typename T>
 class TypedBadConversion : public BadConversion {
  public:
   explicit TypedBadConversion(const Mark& mark_) : BadConversion(mark_) {}
@@ -254,7 +254,7 @@ class YAML_CPP_API BadDereference : public RepresentationException {
 
 class YAML_CPP_API BadSubscript : public RepresentationException {
  public:
-  template <typename Key>
+  template<typename Key>
   BadSubscript(const Key& key)
       : RepresentationException(Mark::null_mark(),
                                 ErrorMsg::BAD_SUBSCRIPT_WITH_KEY(key)) {}

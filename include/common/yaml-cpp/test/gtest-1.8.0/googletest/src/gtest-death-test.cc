@@ -86,33 +86,34 @@ static const char kDefaultDeathTestStyle[] = "fast";
 GTEST_DEFINE_string_(
     death_test_style,
     internal::StringFromGTestEnv("death_test_style", kDefaultDeathTestStyle),
-    "Indicates how to run a death test in a forked child process: "
-    "\"threadsafe\" (child process re-executes the test binary "
-    "from the beginning, running only the specific death test) or "
-    "\"fast\" (child process runs the death test immediately "
-    "after forking).");
+"Indicates how to run a death test in a forked child process: "
+"\"threadsafe\" (child process re-executes the test binary "
+"from the beginning, running only the specific death test) or "
+"\"fast\" (child process runs the death test immediately "
+"after forking).");
 
 GTEST_DEFINE_bool_(
     death_test_use_fork,
     internal::BoolFromGTestEnv("death_test_use_fork", false),
-    "Instructs to use fork()/_exit() instead of clone() in death tests. "
-    "Ignored and always uses fork() on POSIX systems where clone() is not "
-    "implemented. Useful when running under valgrind or similar tools if "
-    "those do not support clone(). Valgrind 3.3.1 will just fail if "
-    "it sees an unsupported combination of clone() flags. "
-    "It is not recommended to use this flag w/o valgrind though it will "
-    "work in 99% of the cases. Once valgrind is fixed, this flag will "
-    "most likely be removed.");
+"Instructs to use fork()/_exit() instead of clone() in death tests. "
+"Ignored and always uses fork() on POSIX systems where clone() is not "
+"implemented. Useful when running under valgrind or similar tools if "
+"those do not support clone(). Valgrind 3.3.1 will just fail if "
+"it sees an unsupported combination of clone() flags. "
+"It is not recommended to use this flag w/o valgrind though it will "
+"work in 99% of the cases. Once valgrind is fixed, this flag will "
+"most likely be removed.");
 
 namespace internal {
 GTEST_DEFINE_string_(
-    internal_run_death_test, "",
-    "Indicates the file, line number, temporal index of "
-    "the single death test to run, and a file descriptor to "
-    "which a success code may be sent, all separated by "
-    "the '|' characters.  This flag is specified if and only if the current "
-    "process is a sub-process launched for running a thread-safe "
-    "death test.  FOR INTERNAL USE ONLY.");
+    internal_run_death_test,
+"",
+"Indicates the file, line number, temporal index of "
+"the single death test to run, and a file descriptor to "
+"which a success code may be sent, all separated by "
+"the '|' characters.  This flag is specified if and only if the current "
+"process is a sub-process launched for running a thread-safe "
+"death test.  FOR INTERNAL USE ONLY.");
 }  // namespace internal
 
 #if GTEST_HAS_DEATH_TEST

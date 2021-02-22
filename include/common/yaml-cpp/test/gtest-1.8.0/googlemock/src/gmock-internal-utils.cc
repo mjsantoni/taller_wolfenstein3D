@@ -51,7 +51,8 @@ namespace internal {
 // words.  Each maximum substring of the form [A-Za-z][a-z]*|\d+ is
 // treated as one word.  For example, both "FooBar123" and
 // "foo_bar_123" are converted to "foo bar 123".
-GTEST_API_ string ConvertIdentifierNameToWords(const char* id_name) {
+GTEST_API_ string
+ConvertIdentifierNameToWords(const char* id_name) {
   string result;
   char prev_char = '\0';
   for (const char* p = id_name; *p != '\0'; prev_char = *(p++)) {
@@ -91,7 +92,9 @@ class GoogleTestFailureReporter : public FailureReporterInterface {
 
 // Returns the global failure reporter.  Will create a
 // GoogleTestFailureReporter and return it the first time called.
-GTEST_API_ FailureReporterInterface* GetFailureReporter() {
+GTEST_API_ FailureReporterInterface
+*
+GetFailureReporter() {
   // Points to the global failure reporter used by Google Mock.  gcc
   // guarantees that the following use of failure_reporter is
   // thread-safe.  We may need to add additional synchronization to
@@ -164,8 +167,8 @@ GTEST_API_ void Log(LogSeverity severity,
       std::cout << "\n";
     }
     std::cout << "Stack trace:\n"
-         << ::testing::internal::GetCurrentOsStackTraceExceptTop(
-             ::testing::UnitTest::GetInstance(), actual_to_skip);
+              << ::testing::internal::GetCurrentOsStackTraceExceptTop(
+                  ::testing::UnitTest::GetInstance(), actual_to_skip);
   }
   std::cout << ::std::flush;
 }

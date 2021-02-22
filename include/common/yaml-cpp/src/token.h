@@ -1,7 +1,7 @@
 #ifndef TOKEN_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define TOKEN_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -14,11 +14,11 @@
 
 namespace YAML {
 const std::string TokenNames[] = {
-    "DIRECTIVE",        "DOC_START",      "DOC_END",       "BLOCK_SEQ_START",
-    "BLOCK_MAP_START",  "BLOCK_SEQ_END",  "BLOCK_MAP_END", "BLOCK_ENTRY",
-    "FLOW_SEQ_START",   "FLOW_MAP_START", "FLOW_SEQ_END",  "FLOW_MAP_END",
-    "FLOW_MAP_COMPACT", "FLOW_ENTRY",     "KEY",           "VALUE",
-    "ANCHOR",           "ALIAS",          "TAG",           "SCALAR"};
+    "DIRECTIVE", "DOC_START", "DOC_END", "BLOCK_SEQ_START",
+    "BLOCK_MAP_START", "BLOCK_SEQ_END", "BLOCK_MAP_END", "BLOCK_ENTRY",
+    "FLOW_SEQ_START", "FLOW_MAP_START", "FLOW_SEQ_END", "FLOW_MAP_END",
+    "FLOW_MAP_COMPACT", "FLOW_ENTRY", "KEY", "VALUE",
+    "ANCHOR", "ALIAS", "TAG", "SCALAR"};
 
 struct Token {
   // enums

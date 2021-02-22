@@ -9,23 +9,23 @@
 #include "common/shared_queue.h"
 
 class ClientsManager {
-private:
-    std::vector<Client*> clients;
-    std::mutex m;
+ private:
+  std::vector<Client*> clients;
+  std::mutex m;
 
-public:
-    ClientsManager();
+ public:
+  ClientsManager();
 
-    void addNewPlayer(NetworkConnection socket, int id,
-                      SharedQueue<Event>& eventQueue,
-                      std::unordered_map<Coordinate,
-                      Positionable, Coordinate::HashFunction> map);
+  void addNewPlayer(NetworkConnection socket, int id,
+                    SharedQueue<Event>& eventQueue,
+                    std::unordered_map<Coordinate,
+                                       Positionable, Coordinate::HashFunction> map);
 
-    void notifyClients(Change& change);
+  void notifyClients(Change& change);
 
-    void killPlayers();
+  void killPlayers();
 
-    ~ClientsManager();
+  ~ClientsManager();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENTS_MANAGER_H

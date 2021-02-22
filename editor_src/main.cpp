@@ -4,17 +4,17 @@
 #include <QStyle>
 #include <QStyleFactory>
 
-int main( int argc, char* args[] ) {
-    QApplication app(argc, args);
-    QFile file("../editor_src/editor.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
+int main(int argc, char* args[]) {
+  QApplication app(argc, args);
+  QFile file("../editor_src/editor.qss");
+  file.open(QFile::ReadOnly);
+  QString styleSheet = QLatin1String(file.readAll());
 
-    app.setStyleSheet(styleSheet);
-    Editor editor;
-    editor.show();
-    app.exec();
+  app.setStyleSheet(styleSheet);
+  Editor editor;
+  editor.show();
+  app.exec();
 
-    return 0;
+  return 0;
 }
 

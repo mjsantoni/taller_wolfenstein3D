@@ -58,7 +58,7 @@ using ::std::ostream;
 
 // Prints a segment of bytes in the given object.
 GTEST_ATTRIBUTE_NO_SANITIZE_MEMORY_
-GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
+    GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
 GTEST_ATTRIBUTE_NO_SANITIZE_THREAD_
 void PrintByteSegmentInObjectTo(const unsigned char* obj_bytes, size_t start,
                                 size_t count, ostream* os) {
@@ -96,7 +96,7 @@ void PrintBytesInObjectToImpl(const unsigned char* obj_bytes, size_t count,
     PrintByteSegmentInObjectTo(obj_bytes, 0, kChunkSize, os);
     *os << " ... ";
     // Rounds up to 2-byte boundary.
-    const size_t resume_pos = (count - kChunkSize + 1)/2*2;
+    const size_t resume_pos = (count - kChunkSize + 1) / 2 * 2;
     PrintByteSegmentInObjectTo(obj_bytes, resume_pos, count - resume_pos, os);
   }
   *os << ">";
@@ -142,38 +142,28 @@ inline bool IsPrintableAscii(wchar_t c) {
 // quotes, escaping it when necessary; returns how c was formatted.
 // The template argument UnsignedChar is the unsigned version of Char,
 // which is the type of c.
-template <typename UnsignedChar, typename Char>
+template<typename UnsignedChar, typename Char>
 static CharFormat PrintAsCharLiteralTo(Char c, ostream* os) {
   switch (static_cast<wchar_t>(c)) {
-    case L'\0':
-      *os << "\\0";
+    case L'\0':*os << "\\0";
       break;
-    case L'\'':
-      *os << "\\'";
+    case L'\'':*os << "\\'";
       break;
-    case L'\\':
-      *os << "\\\\";
+    case L'\\':*os << "\\\\";
       break;
-    case L'\a':
-      *os << "\\a";
+    case L'\a':*os << "\\a";
       break;
-    case L'\b':
-      *os << "\\b";
+    case L'\b':*os << "\\b";
       break;
-    case L'\f':
-      *os << "\\f";
+    case L'\f':*os << "\\f";
       break;
-    case L'\n':
-      *os << "\\n";
+    case L'\n':*os << "\\n";
       break;
-    case L'\r':
-      *os << "\\r";
+    case L'\r':*os << "\\r";
       break;
-    case L'\t':
-      *os << "\\t";
+    case L'\t':*os << "\\t";
       break;
-    case L'\v':
-      *os << "\\v";
+    case L'\v':*os << "\\v";
       break;
     default:
       if (IsPrintableAscii(c)) {
@@ -191,14 +181,11 @@ static CharFormat PrintAsCharLiteralTo(Char c, ostream* os) {
 // necessary; returns how c was formatted.
 static CharFormat PrintAsStringLiteralTo(wchar_t c, ostream* os) {
   switch (c) {
-    case L'\'':
-      *os << "'";
+    case L'\'':*os << "'";
       return kAsIs;
-    case L'"':
-      *os << "\\\"";
+    case L'"':*os << "\\\"";
       return kSpecialEscape;
-    default:
-      return PrintAsCharLiteralTo<wchar_t>(c, os);
+    default:return PrintAsCharLiteralTo<wchar_t>(c, os);
   }
 }
 
@@ -213,7 +200,7 @@ static CharFormat PrintAsStringLiteralTo(char c, ostream* os) {
 // as "'\\0'", other unprintable characters are also properly escaped
 // using the standard C++ escape sequence.  The template argument
 // UnsignedChar is the unsigned version of Char, which is the type of c.
-template <typename UnsignedChar, typename Char>
+template<typename UnsignedChar, typename Char>
 void PrintCharAndCodeTo(Char c, ostream* os) {
   // First, print c as a literal in the most readable form we can find.
   *os << ((sizeof(c) > 1) ? "L'" : "'");
@@ -255,9 +242,9 @@ void PrintTo(wchar_t wc, ostream* os) {
 // char or wchar_t.
 // The array starts at begin, the length is len, it may include '\0' characters
 // and may not be NUL-terminated.
-template <typename CharType>
+template<typename CharType>
 GTEST_ATTRIBUTE_NO_SANITIZE_MEMORY_
-GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
+    GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
 GTEST_ATTRIBUTE_NO_SANITIZE_THREAD_
 static void PrintCharsAsStringTo(
     const CharType* begin, size_t len, ostream* os) {
@@ -279,9 +266,9 @@ static void PrintCharsAsStringTo(
 
 // Prints a (const) char/wchar_t array of 'len' elements, starting at address
 // 'begin'.  CharType must be either char or wchar_t.
-template <typename CharType>
+template<typename CharType>
 GTEST_ATTRIBUTE_NO_SANITIZE_MEMORY_
-GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
+    GTEST_ATTRIBUTE_NO_SANITIZE_ADDRESS_
 GTEST_ATTRIBUTE_NO_SANITIZE_THREAD_
 static void UniversalPrintCharArray(
     const CharType* begin, size_t len, ostream* os) {

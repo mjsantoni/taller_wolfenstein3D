@@ -36,16 +36,15 @@
 
 #include <stddef.h>
 
-
 // Queue is a simple queue implemented as a singled-linked list.
 //
 // The element type must support copy constructor.
-template <typename E>  // E is the element type
+template<typename E>  // E is the element type
 class Queue;
 
 // QueueNode is a node in a Queue, which consists of an element of
 // type E and a pointer to the next node.
-template <typename E>  // E is the element type
+template<typename E>  // E is the element type
 class QueueNode {
   friend class Queue<E>;
 
@@ -63,14 +62,14 @@ class QueueNode {
   explicit QueueNode(const E& an_element) : element_(an_element), next_(NULL) {}
 
   // We disable the default assignment operator and copy c'tor.
-  const QueueNode& operator = (const QueueNode&);
+  const QueueNode& operator=(const QueueNode&);
   QueueNode(const QueueNode&);
 
   E element_;
   QueueNode* next_;
 };
 
-template <typename E>  // E is the element type.
+template<typename E>  // E is the element type.
 class Queue {
  public:
   // Creates an empty queue.
@@ -85,7 +84,7 @@ class Queue {
       // 1. Deletes every node.
       QueueNode<E>* node = head_;
       QueueNode<E>* next = node->next();
-      for (; ;) {
+      for (;;) {
         delete node;
         node = next;
         if (node == NULL) break;
@@ -149,7 +148,7 @@ class Queue {
   // Applies a function/functor on each element of the queue, and
   // returns the result in a new queue.  The original queue is not
   // affected.
-  template <typename F>
+  template<typename F>
   Queue* Map(F function) const {
     Queue* new_queue = new Queue();
     for (const QueueNode<E>* node = head_; node != NULL; node = node->next_) {
@@ -166,7 +165,7 @@ class Queue {
 
   // We disallow copying a queue.
   Queue(const Queue&);
-  const Queue& operator = (const Queue&);
+  const Queue& operator=(const Queue&);
 };
 
 #endif  // GTEST_SAMPLES_SAMPLE3_INL_H_

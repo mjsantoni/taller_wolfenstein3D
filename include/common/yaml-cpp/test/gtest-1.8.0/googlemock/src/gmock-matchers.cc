@@ -102,14 +102,12 @@ namespace internal {
 
 // Joins a vector of strings as if they are fields of a tuple; returns
 // the joined string.
-GTEST_API_ string JoinAsTuple(const Strings& fields) {
+GTEST_API_ string
+JoinAsTuple(const Strings& fields) {
   switch (fields.size()) {
-    case 0:
-      return "";
-    case 1:
-      return fields[0];
-    default:
-      string result = "(" + fields[0];
+    case 0:return "";
+    case 1:return fields[0];
+    default:string result = "(" + fields[0];
       for (size_t i = 1; i < fields.size(); i++) {
         result += ", ";
         result += fields[i];
@@ -124,9 +122,10 @@ GTEST_API_ string JoinAsTuple(const Strings& fields) {
 // 'negation' is false; otherwise returns the description of the
 // negation of the matcher.  'param_values' contains a list of strings
 // that are the print-out of the matcher's parameters.
-GTEST_API_ string FormatMatcherDescription(bool negation,
-                                           const char* matcher_name,
-                                           const Strings& param_values) {
+GTEST_API_ string
+FormatMatcherDescription(bool negation,
+                         const char* matcher_name,
+                         const Strings& param_values) {
   string result = ConvertIdentifierNameToWords(matcher_name);
   if (param_values.size() >= 1)
     result += " " + JoinAsTuple(param_values);
@@ -314,7 +313,7 @@ static void LogElementMatcherPairVec(const ElementMatcherPairs& pairs,
   typedef ElementMatcherPairs::const_iterator Iter;
   ::std::ostream& os = *stream;
   os << "{";
-  const char *sep = "";
+  const char* sep = "";
   for (Iter it = pairs.begin(); it != pairs.end(); ++it) {
     os << sep << "\n  ("
        << "element #" << it->first << ", "
@@ -345,7 +344,7 @@ GTEST_API_ bool FindPairing(const MatchMatrix& matrix,
 
   if (matches.size() > 1) {
     if (listener->IsInterested()) {
-      const char *sep = "where:\n";
+      const char* sep = "where:\n";
       for (size_t mi = 0; mi < matches.size(); ++mi) {
         *listener << sep << " - element #" << matches[mi].first
                   << " is matched by matcher #" << matches[mi].second;
@@ -381,7 +380,7 @@ void MatchMatrix::Randomize() {
 
 string MatchMatrix::DebugString() const {
   ::std::stringstream ss;
-  const char *sep = "";
+  const char* sep = "";
   for (size_t i = 0; i < LhsSize(); ++i) {
     ss << sep;
     for (size_t j = 0; j < RhsSize(); ++j) {

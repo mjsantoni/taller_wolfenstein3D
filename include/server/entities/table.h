@@ -4,12 +4,12 @@
 #include "positionable.h"
 
 class Table : public Positionable {
-private:
-    
-public:
-    Table(int id);
+ private:
 
-    ~Table();
+ public:
+  Table(int id);
+
+  ~Table();
 };
 
 #endif // TABLE_H

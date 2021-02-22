@@ -1,7 +1,7 @@
 #ifndef NODE_DETAIL_NODE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define NODE_DETAIL_NODE_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -33,7 +33,7 @@ class node {
   const std::string& tag() const { return m_pRef->tag(); }
   EmitterStyle::value style() const { return m_pRef->style(); }
 
-  template <typename T>
+  template<typename T>
   bool equals(const T& rhs, shared_memory_holder pMemory);
   bool equals(const char* rhs, shared_memory_holder pMemory);
 
@@ -117,20 +117,20 @@ class node {
   }
 
   // indexing
-  template <typename Key>
+  template<typename Key>
   node* get(const Key& key, shared_memory_holder pMemory) const {
     // NOTE: this returns a non-const node so that the top-level Node can wrap
     // it, and returns a pointer so that it can be NULL (if there is no such
     // key).
     return static_cast<const node_ref&>(*m_pRef).get(key, pMemory);
   }
-  template <typename Key>
+  template<typename Key>
   node& get(const Key& key, shared_memory_holder pMemory) {
     node& value = m_pRef->get(key, pMemory);
     value.add_dependency(*this);
     return value;
   }
-  template <typename Key>
+  template<typename Key>
   bool remove(const Key& key, shared_memory_holder pMemory) {
     return m_pRef->remove(key, pMemory);
   }
@@ -152,7 +152,7 @@ class node {
   }
 
   // map
-  template <typename Key, typename Value>
+  template<typename Key, typename Value>
   void force_insert(const Key& key, const Value& value,
                     shared_memory_holder pMemory) {
     m_pRef->force_insert(key, value, pMemory);

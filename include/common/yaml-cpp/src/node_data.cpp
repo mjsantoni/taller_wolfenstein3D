@@ -52,19 +52,14 @@ void node_data::set_type(NodeType::value type) {
   m_type = type;
 
   switch (m_type) {
-    case NodeType::Null:
+    case NodeType::Null:break;
+    case NodeType::Scalar:m_scalar.clear();
       break;
-    case NodeType::Scalar:
-      m_scalar.clear();
+    case NodeType::Sequence:reset_sequence();
       break;
-    case NodeType::Sequence:
-      reset_sequence();
+    case NodeType::Map:reset_map();
       break;
-    case NodeType::Map:
-      reset_map();
-      break;
-    case NodeType::Undefined:
-      assert(false);
+    case NodeType::Undefined:assert(false);
       break;
   }
 }
@@ -90,14 +85,11 @@ std::size_t node_data::size() const {
     return 0;
 
   switch (m_type) {
-    case NodeType::Sequence:
-      compute_seq_size();
+    case NodeType::Sequence:compute_seq_size();
       return m_seqSize;
-    case NodeType::Map:
-      compute_map_size();
+    case NodeType::Map:compute_map_size();
       return m_map.size() - m_undefinedPairs.size();
-    default:
-      return 0;
+    default:return 0;
   }
   return 0;
 }
@@ -122,12 +114,9 @@ const_node_iterator node_data::begin() const {
     return const_node_iterator();
 
   switch (m_type) {
-    case NodeType::Sequence:
-      return const_node_iterator(m_sequence.begin());
-    case NodeType::Map:
-      return const_node_iterator(m_map.begin(), m_map.end());
-    default:
-      return const_node_iterator();
+    case NodeType::Sequence:return const_node_iterator(m_sequence.begin());
+    case NodeType::Map:return const_node_iterator(m_map.begin(), m_map.end());
+    default:return const_node_iterator();
   }
 }
 
@@ -136,12 +125,9 @@ node_iterator node_data::begin() {
     return node_iterator();
 
   switch (m_type) {
-    case NodeType::Sequence:
-      return node_iterator(m_sequence.begin());
-    case NodeType::Map:
-      return node_iterator(m_map.begin(), m_map.end());
-    default:
-      return node_iterator();
+    case NodeType::Sequence:return node_iterator(m_sequence.begin());
+    case NodeType::Map:return node_iterator(m_map.begin(), m_map.end());
+    default:return node_iterator();
   }
 }
 
@@ -150,12 +136,9 @@ const_node_iterator node_data::end() const {
     return const_node_iterator();
 
   switch (m_type) {
-    case NodeType::Sequence:
-      return const_node_iterator(m_sequence.end());
-    case NodeType::Map:
-      return const_node_iterator(m_map.end(), m_map.end());
-    default:
-      return const_node_iterator();
+    case NodeType::Sequence:return const_node_iterator(m_sequence.end());
+    case NodeType::Map:return const_node_iterator(m_map.end(), m_map.end());
+    default:return const_node_iterator();
   }
 }
 
@@ -164,12 +147,9 @@ node_iterator node_data::end() {
     return node_iterator();
 
   switch (m_type) {
-    case NodeType::Sequence:
-      return node_iterator(m_sequence.end());
-    case NodeType::Map:
-      return node_iterator(m_map.end(), m_map.end());
-    default:
-      return node_iterator();
+    case NodeType::Sequence:return node_iterator(m_sequence.end());
+    case NodeType::Map:return node_iterator(m_map.end(), m_map.end());
+    default:return node_iterator();
   }
 }
 
@@ -188,15 +168,12 @@ void node_data::push_back(node& node, shared_memory_holder /* pMemory */) {
 
 void node_data::insert(node& key, node& value, shared_memory_holder pMemory) {
   switch (m_type) {
-    case NodeType::Map:
-      break;
+    case NodeType::Map:break;
     case NodeType::Undefined:
     case NodeType::Null:
-    case NodeType::Sequence:
-      convert_to_map(pMemory);
+    case NodeType::Sequence:convert_to_map(pMemory);
       break;
-    case NodeType::Scalar:
-      throw BadSubscript(key);
+    case NodeType::Scalar:throw BadSubscript(key);
   }
 
   insert_map_pair(key, value);
@@ -218,15 +195,12 @@ node* node_data::get(node& key, shared_memory_holder /* pMemory */) const {
 
 node& node_data::get(node& key, shared_memory_holder pMemory) {
   switch (m_type) {
-    case NodeType::Map:
-      break;
+    case NodeType::Map:break;
     case NodeType::Undefined:
     case NodeType::Null:
-    case NodeType::Sequence:
-      convert_to_map(pMemory);
+    case NodeType::Sequence:convert_to_map(pMemory);
       break;
-    case NodeType::Scalar:
-      throw BadSubscript(key);
+    case NodeType::Scalar:throw BadSubscript(key);
   }
 
   for (node_map::const_iterator it = m_map.begin(); it != m_map.end(); ++it) {
@@ -281,17 +255,13 @@ void node_data::insert_map_pair(node& key, node& value) {
 void node_data::convert_to_map(shared_memory_holder pMemory) {
   switch (m_type) {
     case NodeType::Undefined:
-    case NodeType::Null:
-      reset_map();
+    case NodeType::Null:reset_map();
       m_type = NodeType::Map;
       break;
-    case NodeType::Sequence:
-      convert_sequence_to_map(pMemory);
+    case NodeType::Sequence:convert_sequence_to_map(pMemory);
       break;
-    case NodeType::Map:
-      break;
-    case NodeType::Scalar:
-      assert(false);
+    case NodeType::Map:break;
+    case NodeType::Scalar:assert(false);
       break;
   }
 }

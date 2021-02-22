@@ -7,14 +7,14 @@
 #include "client/sdl_exception.h"
 
 SdlException::SdlException(const char* message, const char* error) noexcept {
-    std::string join(": ");
-    std::string string_final = std::string(message) + join + std::string(error);
-    strncpy(msg_error, string_final.c_str(),string_final.length());
-    msg_error[string_final.length()] = '\0';
+  std::string join(": ");
+  std::string string_final = std::string(message) + join + std::string(error);
+  strncpy(msg_error, string_final.c_str(), string_final.length());
+  msg_error[string_final.length()] = '\0';
 }
 
 SdlException::~SdlException() noexcept = default;
 
-const char *SdlException::what() const noexcept {
-    return msg_error;
+const char* SdlException::what() const noexcept {
+  return msg_error;
 }

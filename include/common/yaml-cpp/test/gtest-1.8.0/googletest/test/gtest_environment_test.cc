@@ -61,14 +61,11 @@ class MyEnvironment : public testing::Environment {
     set_up_was_run_ = true;
 
     switch (failure_in_set_up_) {
-      case NON_FATAL_FAILURE:
-        ADD_FAILURE() << "Expected non-fatal failure in global set-up.";
+      case NON_FATAL_FAILURE:ADD_FAILURE() << "Expected non-fatal failure in global set-up.";
         break;
-      case FATAL_FAILURE:
-        FAIL() << "Expected fatal failure in global set-up.";
+      case FATAL_FAILURE:FAIL() << "Expected fatal failure in global set-up.";
         break;
-      default:
-        break;
+      default:break;
     }
   }
 
@@ -108,8 +105,9 @@ bool test_was_run;
 
 // The sole purpose of this TEST is to enable us to check whether it
 // was run.
-TEST(FooTest, Bar) {
-  test_was_run = true;
+TEST(FooTest, Bar
+) {
+test_was_run = true;
 }
 
 // Prints the message and aborts the program if condition is false.
@@ -134,7 +132,7 @@ int RunAllTests(MyEnvironment* env, FailureType failure) {
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
 
   // Registers a global test environment, and verifies that the

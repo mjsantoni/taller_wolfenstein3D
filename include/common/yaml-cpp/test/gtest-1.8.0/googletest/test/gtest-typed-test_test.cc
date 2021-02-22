@@ -41,7 +41,7 @@ using testing::Test;
 // Used for testing that SetUpTestCase()/TearDownTestCase(), fixture
 // ctor/dtor, and SetUp()/TearDown() work correctly in typed tests and
 // type-parameterized test.
-template <typename T>
+template<typename T>
 class CommonTest : public Test {
   // For some technical reason, SetUpTestCase() and TearDownTestCase()
   // must be public.
@@ -81,7 +81,7 @@ class CommonTest : public Test {
   static T* shared_;
 };
 
-template <typename T>
+template<typename T>
 T* CommonTest<T>::shared_ = NULL;
 
 // This #ifdef block tests typed tests.
@@ -375,6 +375,8 @@ INSTANTIATE_TYPED_TEST_CASE_P(My, TrimmedTest, TrimTypes);
 // that library at all and consequently complain about missing entry
 // point defined in that library (fatal error LNK1561: entry point
 // must be defined). This dummy test keeps gtest_main linked in.
-TEST(DummyTest, TypedTestsAreNotSupportedOnThisPlatform) {}
+TEST(DummyTest, TypedTestsAreNotSupportedOnThisPlatform
+) {
+}
 
 #endif  // #if !defined(GTEST_HAS_TYPED_TEST) && !defined(GTEST_HAS_TYPED_TEST_P)

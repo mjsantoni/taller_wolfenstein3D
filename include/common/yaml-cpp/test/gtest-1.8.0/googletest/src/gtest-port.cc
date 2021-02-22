@@ -877,7 +877,7 @@ const char kUnknownFile[] = "unknown file";
 
 // Formats a source file path and a line number as they would appear
 // in an error message from the compiler used to compile this code.
-GTEST_API_ ::std::string FormatFileLocation(const char* file, int line) {
+GTEST_API_::std::string FormatFileLocation(const char* file, int line) {
   const std::string file_name(file == NULL ? kUnknownFile : file);
 
   if (line < 0) {
@@ -895,7 +895,7 @@ GTEST_API_ ::std::string FormatFileLocation(const char* file, int line) {
 // FormatFileLocation in order to contrast the two functions.
 // Note that FormatCompilerIndependentFileLocation() does NOT append colon
 // to the file location it produces, unlike FormatFileLocation().
-GTEST_API_ ::std::string FormatCompilerIndependentFileLocation(
+GTEST_API_::std::string FormatCompilerIndependentFileLocation(
     const char* file, int line) {
   const std::string file_name(file == NULL ? kUnknownFile : file);
 
@@ -908,9 +908,9 @@ GTEST_API_ ::std::string FormatCompilerIndependentFileLocation(
 GTestLog::GTestLog(GTestLogSeverity severity, const char* file, int line)
     : severity_(severity) {
   const char* const marker =
-      severity == GTEST_INFO ?    "[  INFO ]" :
+      severity == GTEST_INFO ? "[  INFO ]" :
       severity == GTEST_WARNING ? "[WARNING]" :
-      severity == GTEST_ERROR ?   "[ ERROR ]" : "[ FATAL ]";
+      severity == GTEST_ERROR ? "[ ERROR ]" : "[ FATAL ]";
   GetStream() << ::std::endl << marker << " "
               << FormatFileLocation(file, line).c_str() << ": ";
 }
@@ -1090,7 +1090,7 @@ std::string ReadEntireFile(FILE* file) {
   // Keeps reading the file until we cannot read further or the
   // pre-determined file size is reached.
   do {
-    bytes_last_read = fread(buffer+bytes_read, 1, file_size-bytes_read, file);
+    bytes_last_read = fread(buffer + bytes_read, 1, file_size - bytes_read, file);
     bytes_read += bytes_last_read;
   } while (bytes_last_read > 0 && bytes_read < file_size);
 
@@ -1169,7 +1169,7 @@ bool ParseInt32(const Message& src_text, const char* str, Int32* value) {
       // The parsed value overflows as a long.  (strtol() returns
       // LONG_MAX or LONG_MIN when the input overflows.)
       result != long_value
-      // The parsed value overflows as an Int32.
+    // The parsed value overflows as an Int32.
       ) {
     Message msg;
     msg << "WARNING: " << src_text
@@ -1195,7 +1195,7 @@ bool BoolFromGTestEnv(const char* flag, bool default_value) {
   const std::string env_var = FlagToEnvVar(flag);
   const char* const string_value = posix::GetEnv(env_var.c_str());
   return string_value == NULL ?
-      default_value : strcmp(string_value, "0") != 0;
+         default_value : strcmp(string_value, "0") != 0;
 }
 
 // Reads and returns a 32-bit integer stored in the environment

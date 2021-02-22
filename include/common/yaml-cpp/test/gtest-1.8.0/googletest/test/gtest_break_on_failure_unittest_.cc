@@ -49,8 +49,9 @@
 namespace {
 
 // A test that's expected to fail.
-TEST(Foo, Bar) {
-  EXPECT_EQ(2, 3);
+TEST(Foo, Bar
+) {
+EXPECT_EQ(2, 3);
 }
 
 #if GTEST_HAS_SEH && !GTEST_OS_WINDOWS_MOBILE
@@ -63,7 +64,7 @@ LONG WINAPI ExitWithExceptionCode(
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 #if GTEST_OS_WINDOWS
   // Suppresses display of the Windows error dialog upon encountering
   // a general protection fault (segment violation).

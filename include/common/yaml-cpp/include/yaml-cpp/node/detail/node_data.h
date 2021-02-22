@@ -1,7 +1,7 @@
 #ifndef VALUE_DETAIL_NODE_DATA_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define VALUE_DETAIL_NODE_DATA_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -64,11 +64,11 @@ class YAML_CPP_API node_data {
   void insert(node& key, node& value, shared_memory_holder pMemory);
 
   // indexing
-  template <typename Key>
+  template<typename Key>
   node* get(const Key& key, shared_memory_holder pMemory) const;
-  template <typename Key>
+  template<typename Key>
   node& get(const Key& key, shared_memory_holder pMemory);
-  template <typename Key>
+  template<typename Key>
   bool remove(const Key& key, shared_memory_holder pMemory);
 
   node* get(node& key, shared_memory_holder pMemory) const;
@@ -76,7 +76,7 @@ class YAML_CPP_API node_data {
   bool remove(node& key, shared_memory_holder pMemory);
 
   // map
-  template <typename Key, typename Value>
+  template<typename Key, typename Value>
   void force_insert(const Key& key, const Value& value,
                     shared_memory_holder pMemory);
 
@@ -94,7 +94,7 @@ class YAML_CPP_API node_data {
   void convert_to_map(shared_memory_holder pMemory);
   void convert_sequence_to_map(shared_memory_holder pMemory);
 
-  template <typename T>
+  template<typename T>
   static node& convert_to_node(const T& rhs, shared_memory_holder pMemory);
 
  private:

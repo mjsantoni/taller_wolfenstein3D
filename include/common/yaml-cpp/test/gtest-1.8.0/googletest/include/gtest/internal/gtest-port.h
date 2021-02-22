@@ -341,7 +341,7 @@
 // this date, so check for those versions by their date stamps.
 // https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html#abi.versioning
 #if GTEST_LANG_CXX11 && \
-    (!defined(__GLIBCXX__) || ( \
+    (!defined(__GLIBCXX__) || (\
         __GLIBCXX__ >= 20110325ul &&  /* GCC >= 4.6.0 */ \
         /* Blacklist of patch releases of older branches: */ \
         __GLIBCXX__ != 20110416ul &&  /* GCC 4.4.6 */ \
@@ -651,7 +651,7 @@ struct _RTL_CRITICAL_SECTION;
 // support TR1 tuple.  libc++ only provides std::tuple, in C++11 mode,
 // and it can be used with some compilers that define __GNUC__.
 # if (defined(__GNUC__) && !defined(__CUDACC__) && (GTEST_GCC_VER_ >= 40000) \
-      && !GTEST_OS_QNX && !defined(_LIBCPP_VERSION)) || _MSC_VER >= 1600
+ && !GTEST_OS_QNX && !defined(_LIBCPP_VERSION)) || _MSC_VER >= 1600
 #  define GTEST_ENV_HAS_TR1_TUPLE_ 1
 # endif
 
@@ -1080,10 +1080,10 @@ template <bool>
 // StaticAssertTypeEqHelper is used by StaticAssertTypeEq defined in gtest.h.
 //
 // This template is declared, but intentionally undefined.
-template <typename T1, typename T2>
+template<typename T1, typename T2>
 struct StaticAssertTypeEqHelper;
 
-template <typename T>
+template<typename T>
 struct StaticAssertTypeEqHelper<T, T> {
   enum { value = true };
 };
@@ -1111,7 +1111,7 @@ GTEST_API_ bool IsTrue(bool condition);
 
 // This implementation of scoped_ptr is PARTIAL - it only contains
 // enough stuff to satisfy Google Test's need.
-template <typename T>
+template<typename T>
 class scoped_ptr {
  public:
   typedef T element_type;
@@ -1363,7 +1363,8 @@ inline To ImplicitCast_(To x) { return x; }
 // This relatively ugly name is intentional. It prevents clashes with
 // similar functions users may have (e.g., down_cast). The internal
 // namespace alone is not enough because the function can be found by ADL.
-template<typename To, typename From>  // use like this: DownCast_<T*>(foo);
+template<typename To, typename From>
+// use like this: DownCast_<T*>(foo);
 inline To DownCast_(From* f) {  // so we only accept pointers
   // Ensures that To is a sub-type of From *.  This test is here only
   // for compile-time type checking, and has no overhead in an
@@ -1371,7 +1372,7 @@ inline To DownCast_(From* f) {  // so we only accept pointers
   // completely.
   GTEST_INTENTIONAL_CONST_COND_PUSH_()
   if (false) {
-  GTEST_INTENTIONAL_CONST_COND_POP_()
+    GTEST_INTENTIONAL_CONST_COND_POP_()
     const To to = NULL;
     ::testing::internal::ImplicitCast_<From*>(to);
   }
@@ -1388,7 +1389,7 @@ inline To DownCast_(From* f) {  // so we only accept pointers
 // point to a class of type Derived, not any subclass of it.
 // When RTTI is available, the function performs a runtime
 // check to enforce this.
-template <class Derived, class Base>
+template<class Derived, class Base>
 Derived* CheckedDowncastToActualType(Base* base) {
 #if GTEST_HAS_RTTI
   GTEST_CHECK_(typeid(*base) == typeid(Derived));
@@ -2158,7 +2159,7 @@ class GTestMutexLock {
 
 typedef GTestMutexLock MutexLock;
 
-template <typename T>
+template<typename T>
 class ThreadLocal {
  public:
   ThreadLocal() : value_() {}
@@ -2199,33 +2200,33 @@ GTEST_API_ size_t GetThreadCount();
 # define GTEST_NEEDS_IS_POINTER_ 1
 #endif
 
-template <bool bool_value>
+template<bool bool_value>
 struct bool_constant {
   typedef bool_constant<bool_value> type;
   static const bool value = bool_value;
 };
-template <bool bool_value> const bool bool_constant<bool_value>::value;
+template<bool bool_value> const bool bool_constant<bool_value>::value;
 
 typedef bool_constant<false> false_type;
 typedef bool_constant<true> true_type;
 
-template <typename T>
+template<typename T>
 struct is_pointer : public false_type {};
 
-template <typename T>
+template<typename T>
 struct is_pointer<T*> : public true_type {};
 
-template <typename Iterator>
+template<typename Iterator>
 struct IteratorTraits {
   typedef typename Iterator::value_type value_type;
 };
 
-template <typename T>
+template<typename T>
 struct IteratorTraits<T*> {
   typedef T value_type;
 };
 
-template <typename T>
+template<typename T>
 struct IteratorTraits<const T*> {
   typedef T value_type;
 };
@@ -2368,7 +2369,7 @@ inline FILE* FOpen(const char* path, const char* mode) {
   return fopen(path, mode);
 }
 #if !GTEST_OS_WINDOWS_MOBILE
-inline FILE *FReopen(const char* path, const char* mode, FILE* stream) {
+inline FILE* FReopen(const char* path, const char* mode, FILE* stream) {
   return freopen(path, mode, stream);
 }
 inline FILE* FDOpen(int fd, const char* mode) { return fdopen(fd, mode); }
@@ -2437,7 +2438,7 @@ inline void Abort() { abort(); }
 // are not part of standard C++ and numeric_limits doesn't need to be
 // defined for them.
 const BiggestInt kMaxBiggestInt =
-    ~(static_cast<BiggestInt>(1) << (8*sizeof(BiggestInt) - 1));
+    ~(static_cast<BiggestInt>(1) << (8 * sizeof(BiggestInt) - 1));
 
 // This template class serves as a compile-time function from size to
 // type.  It maps a size in bytes to a primitive type with that
@@ -2457,7 +2458,7 @@ const BiggestInt kMaxBiggestInt =
 // For now it only handles UInt (unsigned int) as that's all Google Test
 // needs.  Other types can be easily added in the future if need
 // arises.
-template <size_t size>
+template<size_t size>
 class TypeWithSize {
  public:
   // This prevents the user from using TypeWithSize<N> with incorrect
@@ -2466,7 +2467,7 @@ class TypeWithSize {
 };
 
 // The specialization for size 4.
-template <>
+template<>
 class TypeWithSize<4> {
  public:
   // unsigned int has size 4 in both gcc and MSVC.
@@ -2478,7 +2479,7 @@ class TypeWithSize<4> {
 };
 
 // The specialization for size 8.
-template <>
+template<>
 class TypeWithSize<8> {
  public:
 #if GTEST_OS_WINDOWS

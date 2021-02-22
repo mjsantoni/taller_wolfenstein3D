@@ -95,29 +95,33 @@ class LeakChecker : public EmptyTestEventListener {
   int initially_allocated_;
 };
 
-TEST(ListenersTest, DoesNotLeak) {
-  Water* water = new Water;
-  delete water;
+TEST(ListenersTest, DoesNotLeak
+) {
+Water* water = new Water;
+delete
+water;
 }
 
 // This should fail when the --check_for_leaks command line flag is
 // specified.
-TEST(ListenersTest, LeaksWater) {
-  Water* water = new Water;
-  EXPECT_TRUE(water != NULL);
+TEST(ListenersTest, LeaksWater
+) {
+Water* water = new Water;
+EXPECT_TRUE(water
+!= NULL);
 }
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   InitGoogleTest(&argc, argv);
 
   bool check_for_leaks = false;
-  if (argc > 1 && strcmp(argv[1], "--check_for_leaks") == 0 )
+  if (argc > 1 && strcmp(argv[1], "--check_for_leaks") == 0)
     check_for_leaks = true;
   else
     printf("%s\n", "Run this program with --check_for_leaks to enable "
-           "custom leak checking in the tests.");
+                   "custom leak checking in the tests.");
 
   // If we are given the --check_for_leaks command line flag, installs the
   // leak checker.

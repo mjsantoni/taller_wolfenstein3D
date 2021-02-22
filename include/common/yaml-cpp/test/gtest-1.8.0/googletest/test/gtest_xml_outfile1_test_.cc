@@ -44,6 +44,7 @@ class PropertyOne : public testing::Test {
   }
 };
 
-TEST_F(PropertyOne, TestSomeProperties) {
-  RecordProperty("TestSomeProperty", 1);
+TEST_F(PropertyOne, TestSomeProperties
+) {
+RecordProperty("TestSomeProperty", 1);
 }

@@ -1,7 +1,7 @@
 #ifndef NODE_IMPL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define NODE_IMPL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -27,7 +27,7 @@ inline Node::Node(NodeType::value type)
   m_pNode->set_type(type);
 }
 
-template <typename T>
+template<typename T>
 inline Node::Node(const T& rhs)
     : m_isValid(true),
       m_invalidKey{},
@@ -92,7 +92,7 @@ inline NodeType::value Node::Type() const {
 // access
 
 // template helpers
-template <typename T, typename S>
+template<typename T, typename S>
 struct as_if {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
@@ -108,7 +108,7 @@ struct as_if {
   }
 };
 
-template <typename S>
+template<typename S>
 struct as_if<std::string, S> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
@@ -120,7 +120,7 @@ struct as_if<std::string, S> {
   }
 };
 
-template <typename T>
+template<typename T>
 struct as_if<T, void> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
@@ -136,7 +136,7 @@ struct as_if<T, void> {
   }
 };
 
-template <>
+template<>
 struct as_if<std::string, void> {
   explicit as_if(const Node& node_) : node(node_) {}
   const Node& node;
@@ -149,14 +149,14 @@ struct as_if<std::string, void> {
 };
 
 // access functions
-template <typename T>
+template<typename T>
 inline T Node::as() const {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
   return as_if<T, void>(*this)();
 }
 
-template <typename T, typename S>
+template<typename T, typename S>
 inline T Node::as(const S& fallback) const {
   if (!m_isValid)
     return fallback;
@@ -204,7 +204,7 @@ inline bool Node::is(const Node& rhs) const {
   return m_pNode->is(*rhs.m_pNode);
 }
 
-template <typename T>
+template<typename T>
 inline Node& Node::operator=(const T& rhs) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -228,14 +228,14 @@ inline void Node::reset(const YAML::Node& rhs) {
   m_pNode = rhs.m_pNode;
 }
 
-template <typename T>
+template<typename T>
 inline void Node::Assign(const T& rhs) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
   AssignData(convert<T>::encode(rhs));
 }
 
-template <>
+template<>
 inline void Node::Assign(const std::string& rhs) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -316,7 +316,7 @@ inline iterator Node::end() {
 }
 
 // sequence
-template <typename T>
+template<typename T>
 inline void Node::push_back(const T& rhs) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -335,7 +335,7 @@ inline void Node::push_back(const Node& rhs) {
 
 // helpers for indexing
 namespace detail {
-template <typename T>
+template<typename T>
 struct to_value_t {
   explicit to_value_t(const T& t_) : t(t_) {}
   const T& t;
@@ -344,7 +344,7 @@ struct to_value_t {
   const T& operator()() const { return t; }
 };
 
-template <>
+template<>
 struct to_value_t<const char*> {
   explicit to_value_t(const char* t_) : t(t_) {}
   const char* t;
@@ -353,7 +353,7 @@ struct to_value_t<const char*> {
   const std::string operator()() const { return t; }
 };
 
-template <>
+template<>
 struct to_value_t<char*> {
   explicit to_value_t(char* t_) : t(t_) {}
   const char* t;
@@ -362,7 +362,7 @@ struct to_value_t<char*> {
   const std::string operator()() const { return t; }
 };
 
-template <std::size_t N>
+template<std::size_t N>
 struct to_value_t<char[N]> {
   explicit to_value_t(const char* t_) : t(t_) {}
   const char* t;
@@ -372,7 +372,7 @@ struct to_value_t<char[N]> {
 };
 
 // converts C-strings to std::strings so they can be copied
-template <typename T>
+template<typename T>
 inline typename to_value_t<T>::return_type to_value(const T& t) {
   return to_value_t<T>(t)();
 }
@@ -384,7 +384,7 @@ std::string key_to_string(const Key& key) {
 }
 
 // indexing
-template <typename Key>
+template<typename Key>
 inline const Node Node::operator[](const Key& key) const {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -397,7 +397,7 @@ inline const Node Node::operator[](const Key& key) const {
   return Node(*value, m_pMemory);
 }
 
-template <typename Key>
+template<typename Key>
 inline Node Node::operator[](const Key& key) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -406,7 +406,7 @@ inline Node Node::operator[](const Key& key) {
   return Node(value, m_pMemory);
 }
 
-template <typename Key>
+template<typename Key>
 inline bool Node::remove(const Key& key) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);
@@ -447,7 +447,7 @@ inline bool Node::remove(const Node& key) {
 }
 
 // map
-template <typename Key, typename Value>
+template<typename Key, typename Value>
 inline void Node::force_insert(const Key& key, const Value& value) {
   if (!m_isValid)
     throw InvalidNode(m_invalidKey);

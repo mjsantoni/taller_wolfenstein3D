@@ -5,25 +5,25 @@
 #include <sstream>
 
 class Event {
-public:
-    int event_id;
-    int player_id;
-    int value;
+ public:
+  int event_id;
+  int player_id;
+  int value;
 
-    /* Server-side constructor */
-    Event(int _event_id,int _player_id, int _value);
+  /* Server-side constructor */
+  Event(int _event_id, int _player_id, int _value);
 
-    /* Invalid default constructor */
-    Event();
+  /* Invalid default constructor */
+  Event();
 
-    bool isInvalid() const;
+  bool isInvalid() const;
 
-    int getEventID() const;
-    int getPlayerID() const;
-    int getValue() const;
+  int getEventID() const;
+  int getPlayerID() const;
+  int getValue() const;
 
-    /* Serializa sus valores a bytes para enviar */
-    std::string serialize();
+  /* Serializa sus valores a bytes para enviar */
+  std::string serialize();
 };
 
 #endif //TP_WOLFENSTEIN_EVENT_H

@@ -5,10 +5,9 @@
 
 class Wall : public Positionable {
 
-public:
-    Wall(std::string _wall_type, int id);
-    ~Wall();
+ public:
+  Wall(std::string _wall_type, int id);
+  ~Wall();
 };
-
 
 #endif // WALL_H

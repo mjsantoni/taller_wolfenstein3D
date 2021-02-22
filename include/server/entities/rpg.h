@@ -5,34 +5,34 @@
 #include "common/coordinate.h"
 
 class RPG {
-private:
-    int current_position;
-    std::vector<Coordinate> path;
-    int player_id;
-    Coordinate current_coord;
-    int rpg_id;
-    bool rpg_exploded = false;
+ private:
+  int current_position;
+  std::vector<Coordinate> path;
+  int player_id;
+  Coordinate current_coord;
+  int rpg_id;
+  bool rpg_exploded = false;
 
-public:
-    RPG(int _current_position, std::vector<Coordinate> _path, int _player_id, int _rpg_id);
+ public:
+  RPG(int _current_position, std::vector<Coordinate> _path, int _player_id, int _rpg_id);
 
-    int getCurrentPosition() const;
+  int getCurrentPosition() const;
 
-    std::vector<Coordinate>& getPath();
+  std::vector<Coordinate>& getPath();
 
-    int getPlayerId() const;
+  int getPlayerId() const;
 
-    void setCurrentPosition(int new_pos);
+  void setCurrentPosition(int new_pos);
 
-    void setCurrentCoordinate(const Coordinate& coordinate);
+  void setCurrentCoordinate(const Coordinate& coordinate);
 
-    const Coordinate& getCurrentCoord() const;
+  const Coordinate& getCurrentCoord() const;
 
-    int getRpgId() const;
+  int getRpgId() const;
 
-    bool exploded() const;
+  bool exploded() const;
 
-    void explode();
+  void explode();
 };
 
 #endif //TP_WOLFENSTEIN_RPG_H

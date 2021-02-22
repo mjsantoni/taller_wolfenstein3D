@@ -12,21 +12,19 @@
 #include <client/game/client_game.h>
 #include <common/connection_exception.h>
 
-
 class Client {
-private:
-    std::atomic<bool> running;
-    ServerUpdater server_updater;
-    ServerListener server_listener;
-    SharedQueue<Change> change_queue;
-    BlockingQueue<Event> event_queue;
+ private:
+  std::atomic<bool> running;
+  ServerUpdater server_updater;
+  ServerListener server_listener;
+  SharedQueue<Change> change_queue;
+  BlockingQueue<Event> event_queue;
 
-public:
-    explicit Client(NetworkConnection &skt);
-    void startGame(const std::string& map_name);
-    void stop();
-    bool isRunning();
+ public:
+  explicit Client(NetworkConnection& skt);
+  void startGame(const std::string& map_name);
+  void stop();
+  bool isRunning();
 };
-
 
 #endif //TP_WOLFENSTEIN_CLIENT_H

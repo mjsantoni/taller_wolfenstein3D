@@ -14,26 +14,28 @@
 #include <unordered_map>
 
 class ClientUpdater : public Thread {
-private:
-    NetworkConnection& skt;
-    BlockingQueue<Change> change_queue;
-    std::atomic<bool> alive;
-    int player_id;
-    std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map;
+ private:
+  NetworkConnection& skt;
+  BlockingQueue<Change> change_queue;
+  std::atomic<bool> alive;
+  int player_id;
+  std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map;
 
-public:
-    explicit ClientUpdater(NetworkConnection& _sk, int i, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map);
-    ~ClientUpdater();
+ public:
+  explicit ClientUpdater(NetworkConnection& _sk,
+                         int i,
+                         std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map);
+  ~ClientUpdater();
 
-    void run() override;
+  void run() override;
 
-    void stop();
+  void stop();
 
-    void update(Change change);
+  void update(Change change);
 
-    int getPlayerId() const;
+  int getPlayerId() const;
 
-    void sendMap();
+  void sendMap();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_UPDATER_H

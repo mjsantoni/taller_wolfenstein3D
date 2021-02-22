@@ -87,7 +87,7 @@ class MatchResultListener {
 
   // Streams x to the underlying ostream; does nothing if the ostream
   // is NULL.
-  template <typename T>
+  template<typename T>
   MatchResultListener& operator<<(const T& x) {
     if (stream_ != NULL)
       *stream_ << x;
@@ -139,7 +139,7 @@ class MatcherDescriberInterface {
 };
 
 // The implementation of a matcher.
-template <typename T>
+template<typename T>
 class MatcherInterface : public MatcherDescriberInterface {
  public:
   // Returns true iff the matcher matches x; also explains the match
@@ -200,27 +200,27 @@ class StringMatchResultListener : public MatchResultListener {
 namespace internal {
 
 struct AnyEq {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a == b; }
 };
 struct AnyNe {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a != b; }
 };
 struct AnyLt {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a < b; }
 };
 struct AnyGt {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a > b; }
 };
 struct AnyLe {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a <= b; }
 };
 struct AnyGe {
-  template <typename A, typename B>
+  template<typename A, typename B>
   bool operator()(const A& a, const B& b) const { return a >= b; }
 };
 
@@ -248,7 +248,7 @@ class StreamMatchResultListener : public MatchResultListener {
 // An internal class for implementing Matcher<T>, which will derive
 // from it.  We put functionalities common to all Matcher<T>
 // specializations here to avoid code duplication.
-template <typename T>
+template<typename T>
 class MatcherBase {
  public:
   // Returns true iff the matcher matches x; also explains the match
@@ -315,7 +315,7 @@ class MatcherBase {
 // implementation of Matcher<T> is just a linked_ptr to const
 // MatcherInterface<T>, so copying is fairly cheap.  Don't inherit
 // from Matcher!
-template <typename T>
+template<typename T>
 class Matcher : public internal::MatcherBase<T> {
  public:
   // Constructs a null matcher.  Needed for storing Matcher objects in STL
@@ -335,38 +335,38 @@ class Matcher : public internal::MatcherBase<T> {
 // The following two specializations allow the user to write str
 // instead of Eq(str) and "foo" instead of Eq("foo") when a string
 // matcher is expected.
-template <>
+template<>
 class GTEST_API_ Matcher<const internal::string&>
-    : public internal::MatcherBase<const internal::string&> {
- public:
-  Matcher() {}
+: public internal::MatcherBase<const internal::string&> {
+public:
+Matcher() {}
 
-  explicit Matcher(const MatcherInterface<const internal::string&>* impl)
-      : internal::MatcherBase<const internal::string&>(impl) {}
+explicit Matcher(const MatcherInterface<const internal::string&>* impl)
+    : internal::MatcherBase<const internal::string&>(impl) {}
 
-  // Allows the user to write str instead of Eq(str) sometimes, where
-  // str is a string object.
-  Matcher(const internal::string& s);  // NOLINT
+// Allows the user to write str instead of Eq(str) sometimes, where
+// str is a string object.
+Matcher(const internal::string& s);  // NOLINT
 
-  // Allows the user to write "foo" instead of Eq("foo") sometimes.
-  Matcher(const char* s);  // NOLINT
+// Allows the user to write "foo" instead of Eq("foo") sometimes.
+Matcher(const char* s);  // NOLINT
 };
 
-template <>
+template<>
 class GTEST_API_ Matcher<internal::string>
-    : public internal::MatcherBase<internal::string> {
- public:
-  Matcher() {}
+: public internal::MatcherBase <internal::string> {
+public:
+Matcher() {}
 
-  explicit Matcher(const MatcherInterface<internal::string>* impl)
-      : internal::MatcherBase<internal::string>(impl) {}
+explicit Matcher(const MatcherInterface <internal::string>* impl)
+    : internal::MatcherBase<internal::string>(impl) {}
 
-  // Allows the user to write str instead of Eq(str) sometimes, where
-  // str is a string object.
-  Matcher(const internal::string& s);  // NOLINT
+// Allows the user to write str instead of Eq(str) sometimes, where
+// str is a string object.
+Matcher(const internal::string& s);  // NOLINT
 
-  // Allows the user to write "foo" instead of Eq("foo") sometimes.
-  Matcher(const char* s);  // NOLINT
+// Allows the user to write "foo" instead of Eq("foo") sometimes.
+Matcher(const char* s);  // NOLINT
 };
 
 #if GTEST_HAS_STRING_PIECE_
@@ -426,7 +426,7 @@ class GTEST_API_ Matcher<StringPiece>
 //                        MatchResultListener* listener) const;
 //
 // See the definition of NotNull() for a complete example.
-template <class Impl>
+template<class Impl>
 class PolymorphicMatcher {
  public:
   explicit PolymorphicMatcher(const Impl& an_impl) : impl_(an_impl) {}
@@ -439,13 +439,13 @@ class PolymorphicMatcher {
   // implementation object.
   const Impl& impl() const { return impl_; }
 
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return Matcher<T>(new MonomorphicImpl<T>(impl_));
   }
 
  private:
-  template <typename T>
+  template<typename T>
   class MonomorphicImpl : public MatcherInterface<T> {
    public:
     explicit MonomorphicImpl(const Impl& impl) : impl_(impl) {}
@@ -480,8 +480,8 @@ class PolymorphicMatcher {
 //   MakeMatcher(foo);
 // vs
 //   Matcher<const string&>(foo);
-template <typename T>
-inline Matcher<T> MakeMatcher(const MatcherInterface<T>* impl) {
+template<typename T>
+inline Matcher<T> MakeMatcher(const MatcherInterface <T>* impl) {
   return Matcher<T>(impl);
 }
 
@@ -492,7 +492,7 @@ inline Matcher<T> MakeMatcher(const MatcherInterface<T>* impl) {
 //   MakePolymorphicMatcher(foo);
 // vs
 //   PolymorphicMatcher<TypeOfFoo>(foo);
-template <class Impl>
+template<class Impl>
 inline PolymorphicMatcher<Impl> MakePolymorphicMatcher(const Impl& impl) {
   return PolymorphicMatcher<Impl>(impl);
 }
@@ -511,7 +511,7 @@ namespace internal {
 // polymorphic matcher (i.e. something that can be converted to a
 // Matcher but is not one yet; for example, Eq(value)) or a value (for
 // example, "hello").
-template <typename T, typename M>
+template<typename T, typename M>
 class MatcherCastImpl {
  public:
   static Matcher<T> Cast(const M& polymorphic_matcher_or_value) {
@@ -559,7 +559,7 @@ class MatcherCastImpl {
 // This more specialized version is used when MatcherCast()'s argument
 // is already a Matcher.  This only compiles when type T can be
 // statically converted to type U.
-template <typename T, typename U>
+template<typename T, typename U>
 class MatcherCastImpl<T, Matcher<U> > {
  public:
   static Matcher<T> Cast(const Matcher<U>& source_matcher) {
@@ -594,7 +594,7 @@ class MatcherCastImpl<T, Matcher<U> > {
 
 // This even more specialized version is used for efficiently casting
 // a matcher to its own type.
-template <typename T>
+template<typename T>
 class MatcherCastImpl<T, Matcher<T> > {
  public:
   static Matcher<T> Cast(const Matcher<T>& matcher) { return matcher; }
@@ -606,7 +606,7 @@ class MatcherCastImpl<T, Matcher<T> > {
 // types is done explicitly via MatcherCast<T>(m), which takes a
 // matcher m and returns a Matcher<T>.  It compiles only when T can be
 // statically converted to the argument type of m.
-template <typename T, typename M>
+template<typename T, typename M>
 inline Matcher<T> MatcherCast(const M& matcher) {
   return internal::MatcherCastImpl<T, M>::Cast(matcher);
 }
@@ -618,12 +618,12 @@ inline Matcher<T> MatcherCast(const M& matcher) {
 // template <T, M> ... (M) and
 // template <T, U> ... (const Matcher<U>&)
 // for function templates but can for member function templates.
-template <typename T>
+template<typename T>
 class SafeMatcherCastImpl {
  public:
   // This overload handles polymorphic matchers and values only since
   // monomorphic matchers are handled by the next one.
-  template <typename M>
+  template<typename M>
   static inline Matcher<T> Cast(const M& polymorphic_matcher_or_value) {
     return internal::MatcherCastImpl<T, M>::Cast(polymorphic_matcher_or_value);
   }
@@ -637,7 +637,7 @@ class SafeMatcherCastImpl {
   // The only exception is when U is a reference and T is not, as the
   // underlying Matcher<U> may be interested in the argument's address, which
   // is not preserved in the conversion from T to U.
-  template <typename U>
+  template<typename U>
   static inline Matcher<T> Cast(const Matcher<U>& matcher) {
     // Enforce that T can be implicitly converted to U.
     GTEST_COMPILE_ASSERT_((internal::ImplicitlyConvertible<T, U>::value),
@@ -649,25 +649,27 @@ class SafeMatcherCastImpl {
         cannot_convert_non_referentce_arg_to_reference);
     // In case both T and U are arithmetic types, enforce that the
     // conversion is not lossy.
-    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(T) RawT;
-    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(U) RawU;
+    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(T)
+    RawT;
+    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(U)
+    RawU;
     const bool kTIsOther = GMOCK_KIND_OF_(RawT) == internal::kOther;
     const bool kUIsOther = GMOCK_KIND_OF_(RawU) == internal::kOther;
     GTEST_COMPILE_ASSERT_(
         kTIsOther || kUIsOther ||
-        (internal::LosslessArithmeticConvertible<RawT, RawU>::value),
+            (internal::LosslessArithmeticConvertible<RawT, RawU>::value),
         conversion_of_arithmetic_types_must_be_lossless);
     return MatcherCast<T>(matcher);
   }
 };
 
-template <typename T, typename M>
+template<typename T, typename M>
 inline Matcher<T> SafeMatcherCast(const M& polymorphic_matcher) {
   return SafeMatcherCastImpl<T>::Cast(polymorphic_matcher);
 }
 
 // A<T>() returns a matcher that matches any value of type T.
-template <typename T>
+template<typename T>
 Matcher<T> A();
 
 // Anything inside the 'internal' namespace IS INTERNAL IMPLEMENTATION
@@ -689,7 +691,7 @@ inline bool IsReadableTypeName(const string& type_name) {
   // We consider a type name readable if it's short or doesn't contain
   // a template or function type.
   return (type_name.length() <= 20 ||
-          type_name.find_first_of("<(") == string::npos);
+      type_name.find_first_of("<(") == string::npos);
 }
 
 // Matches the value against the given matcher, prints the value and explains
@@ -697,7 +699,7 @@ inline bool IsReadableTypeName(const string& type_name) {
 // 'listener' must not be NULL.
 // Value cannot be passed by const reference, because some matchers take a
 // non-const argument.
-template <typename Value, typename T>
+template<typename Value, typename T>
 bool MatchPrintAndExplain(Value& value, const Matcher<T>& matcher,
                           MatchResultListener* listener) {
   if (!listener->IsInterested()) {
@@ -722,13 +724,13 @@ bool MatchPrintAndExplain(Value& value, const Matcher<T>& matcher,
 
 // An internal helper class for doing compile-time loop on a tuple's
 // fields.
-template <size_t N>
+template<size_t N>
 class TuplePrefix {
  public:
   // TuplePrefix<N>::Matches(matcher_tuple, value_tuple) returns true
   // iff the first N fields of matcher_tuple matches the first N
   // fields of value_tuple, respectively.
-  template <typename MatcherTuple, typename ValueTuple>
+  template<typename MatcherTuple, typename ValueTuple>
   static bool Matches(const MatcherTuple& matcher_tuple,
                       const ValueTuple& value_tuple) {
     return TuplePrefix<N - 1>::Matches(matcher_tuple, value_tuple)
@@ -739,7 +741,7 @@ class TuplePrefix {
   // describes failures in matching the first N fields of matchers
   // against the first N fields of values.  If there is no failure,
   // nothing will be streamed to os.
-  template <typename MatcherTuple, typename ValueTuple>
+  template<typename MatcherTuple, typename ValueTuple>
   static void ExplainMatchFailuresTo(const MatcherTuple& matchers,
                                      const ValueTuple& values,
                                      ::std::ostream* os) {
@@ -772,16 +774,16 @@ class TuplePrefix {
 };
 
 // The base case.
-template <>
+template<>
 class TuplePrefix<0> {
  public:
-  template <typename MatcherTuple, typename ValueTuple>
+  template<typename MatcherTuple, typename ValueTuple>
   static bool Matches(const MatcherTuple& /* matcher_tuple */,
                       const ValueTuple& /* value_tuple */) {
     return true;
   }
 
-  template <typename MatcherTuple, typename ValueTuple>
+  template<typename MatcherTuple, typename ValueTuple>
   static void ExplainMatchFailuresTo(const MatcherTuple& /* matchers */,
                                      const ValueTuple& /* values */,
                                      ::std::ostream* /* os */) {}
@@ -792,21 +794,21 @@ class TuplePrefix<0> {
 // value_tuple.  It is a compiler error if matcher_tuple and
 // value_tuple have different number of fields or incompatible field
 // types.
-template <typename MatcherTuple, typename ValueTuple>
+template<typename MatcherTuple, typename ValueTuple>
 bool TupleMatches(const MatcherTuple& matcher_tuple,
                   const ValueTuple& value_tuple) {
   // Makes sure that matcher_tuple and value_tuple have the same
   // number of fields.
   GTEST_COMPILE_ASSERT_(tuple_size<MatcherTuple>::value ==
-                        tuple_size<ValueTuple>::value,
+                            tuple_size<ValueTuple>::value,
                         matcher_and_value_have_different_numbers_of_fields);
   return TuplePrefix<tuple_size<ValueTuple>::value>::
-      Matches(matcher_tuple, value_tuple);
+  Matches(matcher_tuple, value_tuple);
 }
 
 // Describes failures in matching matchers against values.  If there
 // is no failure, nothing will be streamed to os.
-template <typename MatcherTuple, typename ValueTuple>
+template<typename MatcherTuple, typename ValueTuple>
 void ExplainMatchFailureTupleTo(const MatcherTuple& matchers,
                                 const ValueTuple& values,
                                 ::std::ostream* os) {
@@ -818,7 +820,7 @@ void ExplainMatchFailureTupleTo(const MatcherTuple& matchers,
 //
 // TransformTupleValuesHelper hides the internal machinery that
 // TransformTupleValues uses to implement a tuple traversal.
-template <typename Tuple, typename Func, typename OutIter>
+template<typename Tuple, typename Func, typename OutIter>
 class TransformTupleValuesHelper {
  private:
   typedef ::testing::tuple_size<Tuple> TupleSize;
@@ -831,16 +833,16 @@ class TransformTupleValuesHelper {
   }
 
  private:
-  template <typename Tup, size_t kRemainingSize>
+  template<typename Tup, size_t kRemainingSize>
   struct IterateOverTuple {
-    OutIter operator() (Func f, const Tup& t, OutIter out) const {
+    OutIter operator()(Func f, const Tup& t, OutIter out) const {
       *out++ = f(::testing::get<TupleSize::value - kRemainingSize>(t));
       return IterateOverTuple<Tup, kRemainingSize - 1>()(f, t, out);
     }
   };
-  template <typename Tup>
+  template<typename Tup>
   struct IterateOverTuple<Tup, 0> {
-    OutIter operator() (Func /* f */, const Tup& /* t */, OutIter out) const {
+    OutIter operator()(Func /* f */, const Tup& /* t */, OutIter out) const {
       return out;
     }
   };
@@ -849,13 +851,13 @@ class TransformTupleValuesHelper {
 // Successively invokes 'f(element)' on each element of the tuple 't',
 // appending each result to the 'out' iterator. Returns the final value
 // of 'out'.
-template <typename Tuple, typename Func, typename OutIter>
+template<typename Tuple, typename Func, typename OutIter>
 OutIter TransformTupleValues(Func f, const Tuple& t, OutIter out) {
   return TransformTupleValuesHelper<Tuple, Func, OutIter>::Run(f, t, out);
 }
 
 // Implements A<T>().
-template <typename T>
+template<typename T>
 class AnyMatcherImpl : public MatcherInterface<T> {
  public:
   virtual bool MatchAndExplain(
@@ -875,7 +877,7 @@ class AnyMatcherImpl : public MatcherInterface<T> {
 // type T.
 class AnythingMatcher {
  public:
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const { return A<T>(); }
 };
 
@@ -889,17 +891,17 @@ class AnythingMatcher {
 //
 // The following template definition assumes that the Rhs parameter is
 // a "bare" type (i.e. neither 'const T' nor 'T&').
-template <typename D, typename Rhs, typename Op>
+template<typename D, typename Rhs, typename Op>
 class ComparisonBase {
  public:
   explicit ComparisonBase(const Rhs& rhs) : rhs_(rhs) {}
-  template <typename Lhs>
+  template<typename Lhs>
   operator Matcher<Lhs>() const {
     return MakeMatcher(new Impl<Lhs>(rhs_));
   }
 
  private:
-  template <typename Lhs>
+  template<typename Lhs>
   class Impl : public MatcherInterface<Lhs> {
    public:
     explicit Impl(const Rhs& rhs) : rhs_(rhs) {}
@@ -912,7 +914,7 @@ class ComparisonBase {
       UniversalPrint(rhs_, os);
     }
     virtual void DescribeNegationTo(::std::ostream* os) const {
-      *os << D::NegatedDesc() <<  " ";
+      *os << D::NegatedDesc() << " ";
       UniversalPrint(rhs_, os);
     }
    private:
@@ -923,51 +925,51 @@ class ComparisonBase {
   GTEST_DISALLOW_ASSIGN_(ComparisonBase);
 };
 
-template <typename Rhs>
+template<typename Rhs>
 class EqMatcher : public ComparisonBase<EqMatcher<Rhs>, Rhs, AnyEq> {
  public:
   explicit EqMatcher(const Rhs& rhs)
-      : ComparisonBase<EqMatcher<Rhs>, Rhs, AnyEq>(rhs) { }
+      : ComparisonBase<EqMatcher<Rhs>, Rhs, AnyEq>(rhs) {}
   static const char* Desc() { return "is equal to"; }
   static const char* NegatedDesc() { return "isn't equal to"; }
 };
-template <typename Rhs>
+template<typename Rhs>
 class NeMatcher : public ComparisonBase<NeMatcher<Rhs>, Rhs, AnyNe> {
  public:
   explicit NeMatcher(const Rhs& rhs)
-      : ComparisonBase<NeMatcher<Rhs>, Rhs, AnyNe>(rhs) { }
+      : ComparisonBase<NeMatcher<Rhs>, Rhs, AnyNe>(rhs) {}
   static const char* Desc() { return "isn't equal to"; }
   static const char* NegatedDesc() { return "is equal to"; }
 };
-template <typename Rhs>
+template<typename Rhs>
 class LtMatcher : public ComparisonBase<LtMatcher<Rhs>, Rhs, AnyLt> {
  public:
   explicit LtMatcher(const Rhs& rhs)
-      : ComparisonBase<LtMatcher<Rhs>, Rhs, AnyLt>(rhs) { }
+      : ComparisonBase<LtMatcher<Rhs>, Rhs, AnyLt>(rhs) {}
   static const char* Desc() { return "is <"; }
   static const char* NegatedDesc() { return "isn't <"; }
 };
-template <typename Rhs>
+template<typename Rhs>
 class GtMatcher : public ComparisonBase<GtMatcher<Rhs>, Rhs, AnyGt> {
  public:
   explicit GtMatcher(const Rhs& rhs)
-      : ComparisonBase<GtMatcher<Rhs>, Rhs, AnyGt>(rhs) { }
+      : ComparisonBase<GtMatcher<Rhs>, Rhs, AnyGt>(rhs) {}
   static const char* Desc() { return "is >"; }
   static const char* NegatedDesc() { return "isn't >"; }
 };
-template <typename Rhs>
+template<typename Rhs>
 class LeMatcher : public ComparisonBase<LeMatcher<Rhs>, Rhs, AnyLe> {
  public:
   explicit LeMatcher(const Rhs& rhs)
-      : ComparisonBase<LeMatcher<Rhs>, Rhs, AnyLe>(rhs) { }
+      : ComparisonBase<LeMatcher<Rhs>, Rhs, AnyLe>(rhs) {}
   static const char* Desc() { return "is <="; }
   static const char* NegatedDesc() { return "isn't <="; }
 };
-template <typename Rhs>
+template<typename Rhs>
 class GeMatcher : public ComparisonBase<GeMatcher<Rhs>, Rhs, AnyGe> {
  public:
   explicit GeMatcher(const Rhs& rhs)
-      : ComparisonBase<GeMatcher<Rhs>, Rhs, AnyGe>(rhs) { }
+      : ComparisonBase<GeMatcher<Rhs>, Rhs, AnyGe>(rhs) {}
   static const char* Desc() { return "is >="; }
   static const char* NegatedDesc() { return "isn't >="; }
 };
@@ -976,7 +978,7 @@ class GeMatcher : public ComparisonBase<GeMatcher<Rhs>, Rhs, AnyGe> {
 // pointer that is NULL.
 class IsNullMatcher {
  public:
-  template <typename Pointer>
+  template<typename Pointer>
   bool MatchAndExplain(const Pointer& p,
                        MatchResultListener* /* listener */) const {
 #if GTEST_LANG_CXX11
@@ -996,7 +998,7 @@ class IsNullMatcher {
 // pointer that is not NULL.
 class NotNullMatcher {
  public:
-  template <typename Pointer>
+  template<typename Pointer>
   bool MatchAndExplain(const Pointer& p,
                        MatchResultListener* /* listener */) const {
 #if GTEST_LANG_CXX11
@@ -1025,10 +1027,10 @@ class NotNullMatcher {
 //   int n;
 //   Matcher<int> m1 = Ref(n);   // This won't compile.
 //   Matcher<int&> m2 = Ref(n);  // This will compile.
-template <typename T>
+template<typename T>
 class RefMatcher;
 
-template <typename T>
+template<typename T>
 class RefMatcher<T&> {
   // Google Mock is a generic framework and thus needs to support
   // mocking any function types, including those that take non-const
@@ -1041,7 +1043,7 @@ class RefMatcher<T&> {
   // non-const reference.
   explicit RefMatcher(T& x) : object_(x) {}  // NOLINT
 
-  template <typename Super>
+  template<typename Super>
   operator Matcher<Super&>() const {
     // By passing object_ (type T&) to Impl(), which expects a Super&,
     // we make sure that Super is a super type of T.  In particular,
@@ -1052,7 +1054,7 @@ class RefMatcher<T&> {
   }
 
  private:
-  template <typename Super>
+  template<typename Super>
   class Impl : public MatcherInterface<Super&> {
    public:
     explicit Impl(Super& x) : object_(x) {}  // NOLINT
@@ -1098,7 +1100,7 @@ inline bool CaseInsensitiveCStringEquals(const wchar_t* lhs,
 
 // String comparison for narrow or wide strings that can have embedded NUL
 // characters.
-template <typename StringType>
+template<typename StringType>
 bool CaseInsensitiveStringEquals(const StringType& s1,
                                  const StringType& s2) {
   // Are the heads equal?
@@ -1122,7 +1124,7 @@ bool CaseInsensitiveStringEquals(const StringType& s1,
 // String matchers.
 
 // Implements equality-based string matchers like StrEq, StrCaseNe, and etc.
-template <typename StringType>
+template<typename StringType>
 class StrEqualityMatcher {
  public:
   StrEqualityMatcher(const StringType& str, bool expect_eq,
@@ -1134,7 +1136,7 @@ class StrEqualityMatcher {
   //   char*
   //   const wchar_t*
   //   wchar_t*
-  template <typename CharType>
+  template<typename CharType>
   bool MatchAndExplain(CharType* s, MatchResultListener* listener) const {
     if (s == NULL) {
       return !expect_eq_;
@@ -1146,12 +1148,12 @@ class StrEqualityMatcher {
   //
   // This is a template, not just a plain function with const StringType&,
   // because StringPiece has some interfering non-explicit constructors.
-  template <typename MatcheeStringType>
+  template<typename MatcheeStringType>
   bool MatchAndExplain(const MatcheeStringType& s,
                        MatchResultListener* /* listener */) const {
     const StringType& s2(s);
     const bool eq = case_sensitive_ ? s2 == string_ :
-        CaseInsensitiveStringEquals(s2, string_);
+                    CaseInsensitiveStringEquals(s2, string_);
     return expect_eq_ == eq;
   }
 
@@ -1183,7 +1185,7 @@ class StrEqualityMatcher {
 // Implements the polymorphic HasSubstr(substring) matcher, which
 // can be used as a Matcher<T> as long as T can be converted to a
 // string.
-template <typename StringType>
+template<typename StringType>
 class HasSubstrMatcher {
  public:
   explicit HasSubstrMatcher(const StringType& substring)
@@ -1194,7 +1196,7 @@ class HasSubstrMatcher {
   //   char*
   //   const wchar_t*
   //   wchar_t*
-  template <typename CharType>
+  template<typename CharType>
   bool MatchAndExplain(CharType* s, MatchResultListener* listener) const {
     return s != NULL && MatchAndExplain(StringType(s), listener);
   }
@@ -1203,7 +1205,7 @@ class HasSubstrMatcher {
   //
   // This is a template, not just a plain function with const StringType&,
   // because StringPiece has some interfering non-explicit constructors.
-  template <typename MatcheeStringType>
+  template<typename MatcheeStringType>
   bool MatchAndExplain(const MatcheeStringType& s,
                        MatchResultListener* /* listener */) const {
     const StringType& s2(s);
@@ -1230,7 +1232,7 @@ class HasSubstrMatcher {
 // Implements the polymorphic StartsWith(substring) matcher, which
 // can be used as a Matcher<T> as long as T can be converted to a
 // string.
-template <typename StringType>
+template<typename StringType>
 class StartsWithMatcher {
  public:
   explicit StartsWithMatcher(const StringType& prefix) : prefix_(prefix) {
@@ -1241,7 +1243,7 @@ class StartsWithMatcher {
   //   char*
   //   const wchar_t*
   //   wchar_t*
-  template <typename CharType>
+  template<typename CharType>
   bool MatchAndExplain(CharType* s, MatchResultListener* listener) const {
     return s != NULL && MatchAndExplain(StringType(s), listener);
   }
@@ -1250,7 +1252,7 @@ class StartsWithMatcher {
   //
   // This is a template, not just a plain function with const StringType&,
   // because StringPiece has some interfering non-explicit constructors.
-  template <typename MatcheeStringType>
+  template<typename MatcheeStringType>
   bool MatchAndExplain(const MatcheeStringType& s,
                        MatchResultListener* /* listener */) const {
     const StringType& s2(s);
@@ -1277,7 +1279,7 @@ class StartsWithMatcher {
 // Implements the polymorphic EndsWith(substring) matcher, which
 // can be used as a Matcher<T> as long as T can be converted to a
 // string.
-template <typename StringType>
+template<typename StringType>
 class EndsWithMatcher {
  public:
   explicit EndsWithMatcher(const StringType& suffix) : suffix_(suffix) {}
@@ -1287,7 +1289,7 @@ class EndsWithMatcher {
   //   char*
   //   const wchar_t*
   //   wchar_t*
-  template <typename CharType>
+  template<typename CharType>
   bool MatchAndExplain(CharType* s, MatchResultListener* listener) const {
     return s != NULL && MatchAndExplain(StringType(s), listener);
   }
@@ -1296,7 +1298,7 @@ class EndsWithMatcher {
   //
   // This is a template, not just a plain function with const StringType&,
   // because StringPiece has some interfering non-explicit constructors.
-  template <typename MatcheeStringType>
+  template<typename MatcheeStringType>
   bool MatchAndExplain(const MatcheeStringType& s,
                        MatchResultListener* /* listener */) const {
     const StringType& s2(s);
@@ -1333,7 +1335,7 @@ class MatchesRegexMatcher {
   //   char*
   //   const wchar_t*
   //   wchar_t*
-  template <typename CharType>
+  template<typename CharType>
   bool MatchAndExplain(CharType* s, MatchResultListener* listener) const {
     return s != NULL && MatchAndExplain(internal::string(s), listener);
   }
@@ -1342,12 +1344,12 @@ class MatchesRegexMatcher {
   //
   // This is a template, not just a plain function with const internal::string&,
   // because StringPiece has some interfering non-explicit constructors.
-  template <class MatcheeStringType>
+  template<class MatcheeStringType>
   bool MatchAndExplain(const MatcheeStringType& s,
                        MatchResultListener* /* listener */) const {
     const internal::string& s2(s);
     return full_match_ ? RE::FullMatch(s2, *regex_) :
-        RE::PartialMatch(s2, *regex_);
+           RE::PartialMatch(s2, *regex_);
   }
 
   void DescribeTo(::std::ostream* os) const {
@@ -1377,14 +1379,14 @@ class MatchesRegexMatcher {
 // used to match a tuple<int, short>, a tuple<const long&, double>,
 // etc).  Therefore we use a template type conversion operator in the
 // implementation.
-template <typename D, typename Op>
+template<typename D, typename Op>
 class PairMatchBase {
  public:
-  template <typename T1, typename T2>
-  operator Matcher< ::testing::tuple<T1, T2> >() const {
-    return MakeMatcher(new Impl< ::testing::tuple<T1, T2> >);
+  template<typename T1, typename T2>
+  operator Matcher<::testing::tuple<T1, T2> >() const {
+    return MakeMatcher(new Impl<::testing::tuple<T1, T2> >);
   }
-  template <typename T1, typename T2>
+  template<typename T1, typename T2>
   operator Matcher<const ::testing::tuple<T1, T2>&>() const {
     return MakeMatcher(new Impl<const ::testing::tuple<T1, T2>&>);
   }
@@ -1394,7 +1396,7 @@ class PairMatchBase {
     return os << D::Desc();
   }
 
-  template <typename Tuple>
+  template<typename Tuple>
   class Impl : public MatcherInterface<Tuple> {
    public:
     virtual bool MatchAndExplain(
@@ -1440,7 +1442,7 @@ class Ge2Matcher : public PairMatchBase<Ge2Matcher, AnyGe> {
 // We do not nest it inside the NotMatcher class template, as that
 // will prevent different instantiations of NotMatcher from sharing
 // the same NotMatcherImpl<T> class.
-template <typename T>
+template<typename T>
 class NotMatcherImpl : public MatcherInterface<T> {
  public:
   explicit NotMatcherImpl(const Matcher<T>& matcher)
@@ -1466,14 +1468,14 @@ class NotMatcherImpl : public MatcherInterface<T> {
 
 // Implements the Not(m) matcher, which matches a value that doesn't
 // match matcher m.
-template <typename InnerMatcher>
+template<typename InnerMatcher>
 class NotMatcher {
  public:
   explicit NotMatcher(InnerMatcher matcher) : matcher_(matcher) {}
 
   // This template type conversion operator allows Not(m) to be used
   // to match any type m can match.
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return Matcher<T>(new NotMatcherImpl<T>(SafeMatcherCast<T>(matcher_)));
   }
@@ -1488,7 +1490,7 @@ class NotMatcher {
 // T. We do not nest it inside the BothOfMatcher class template, as
 // that will prevent different instantiations of BothOfMatcher from
 // sharing the same BothOfMatcherImpl<T> class.
-template <typename T>
+template<typename T>
 class BothOfMatcherImpl : public MatcherInterface<T> {
  public:
   BothOfMatcherImpl(const Matcher<T>& matcher1, const Matcher<T>& matcher2)
@@ -1634,7 +1636,7 @@ using AllOfMatcher = VariadicMatcher<BothOfMatcherImpl, Args...>;
 
 // Used for implementing the AllOf(m_1, ..., m_n) matcher, which
 // matches a value that matches all of the matchers m_1, ..., and m_n.
-template <typename Matcher1, typename Matcher2>
+template<typename Matcher1, typename Matcher2>
 class BothOfMatcher {
  public:
   BothOfMatcher(Matcher1 matcher1, Matcher2 matcher2)
@@ -1643,7 +1645,7 @@ class BothOfMatcher {
   // This template type conversion operator allows a
   // BothOfMatcher<Matcher1, Matcher2> object to match any type that
   // both Matcher1 and Matcher2 can match.
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return Matcher<T>(new BothOfMatcherImpl<T>(SafeMatcherCast<T>(matcher1_),
                                                SafeMatcherCast<T>(matcher2_)));
@@ -1660,7 +1662,7 @@ class BothOfMatcher {
 // T.  We do not nest it inside the AnyOfMatcher class template, as
 // that will prevent different instantiations of AnyOfMatcher from
 // sharing the same EitherOfMatcherImpl<T> class.
-template <typename T>
+template<typename T>
 class EitherOfMatcherImpl : public MatcherInterface<T> {
  public:
   EitherOfMatcherImpl(const Matcher<T>& matcher1, const Matcher<T>& matcher2)
@@ -1729,7 +1731,7 @@ using AnyOfMatcher = VariadicMatcher<EitherOfMatcherImpl, Args...>;
 // Used for implementing the AnyOf(m_1, ..., m_n) matcher, which
 // matches a value that matches at least one of the matchers m_1, ...,
 // and m_n.
-template <typename Matcher1, typename Matcher2>
+template<typename Matcher1, typename Matcher2>
 class EitherOfMatcher {
  public:
   EitherOfMatcher(Matcher1 matcher1, Matcher2 matcher2)
@@ -1738,7 +1740,7 @@ class EitherOfMatcher {
   // This template type conversion operator allows a
   // EitherOfMatcher<Matcher1, Matcher2> object to match any type that
   // both Matcher1 and Matcher2 can match.
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return Matcher<T>(new EitherOfMatcherImpl<T>(
         SafeMatcherCast<T>(matcher1_), SafeMatcherCast<T>(matcher2_)));
@@ -1753,7 +1755,7 @@ class EitherOfMatcher {
 
 // Used for implementing Truly(pred), which turns a predicate into a
 // matcher.
-template <typename Predicate>
+template<typename Predicate>
 class TrulyMatcher {
  public:
   explicit TrulyMatcher(Predicate pred) : predicate_(pred) {}
@@ -1762,7 +1764,7 @@ class TrulyMatcher {
   // for type T where T is the argument type of predicate 'pred'.  The
   // argument is passed by reference as the predicate may be
   // interested in the address of the argument.
-  template <typename T>
+  template<typename T>
   bool MatchAndExplain(T& x,  // NOLINT
                        MatchResultListener* /* listener */) const {
     // Without the if-statement, MSVC sometimes warns about converting
@@ -1792,7 +1794,7 @@ class TrulyMatcher {
 
 // Used for implementing Matches(matcher), which turns a matcher into
 // a predicate.
-template <typename M>
+template<typename M>
 class MatcherAsPredicate {
  public:
   explicit MatcherAsPredicate(M matcher) : matcher_(matcher) {}
@@ -1803,7 +1805,7 @@ class MatcherAsPredicate {
   // The argument x is passed by reference instead of by value, as
   // some matcher may be interested in its address (e.g. as in
   // Matches(Ref(n))(x)).
-  template <typename T>
+  template<typename T>
   bool operator()(const T& x) const {
     // We let matcher_ commit to a particular type here instead of
     // when the MatcherAsPredicate object was constructed.  This
@@ -1830,7 +1832,7 @@ class MatcherAsPredicate {
 
 // For implementing ASSERT_THAT() and EXPECT_THAT().  The template
 // argument M must be a type that can be converted to a matcher.
-template <typename M>
+template<typename M>
 class PredicateFormatterFromMatcher {
  public:
   explicit PredicateFormatterFromMatcher(M m) : matcher_(internal::move(m)) {}
@@ -1838,7 +1840,7 @@ class PredicateFormatterFromMatcher {
   // This template () operator allows a PredicateFormatterFromMatcher
   // object to act as a predicate-formatter suitable for using with
   // Google Test's EXPECT_PRED_FORMAT1() macro.
-  template <typename T>
+  template<typename T>
   AssertionResult operator()(const char* value_text, const T& x) const {
     // We convert matcher_ to a Matcher<const T&> *now* instead of
     // when the PredicateFormatterFromMatcher object was constructed,
@@ -1874,7 +1876,7 @@ class PredicateFormatterFromMatcher {
 // without the user needing to explicitly write the type.  This is
 // used for implementing ASSERT_THAT() and EXPECT_THAT().
 // Implementation detail: 'matcher' is received by-value to force decaying.
-template <typename M>
+template<typename M>
 inline PredicateFormatterFromMatcher<M>
 MakePredicateFormatterFromMatcher(M matcher) {
   return PredicateFormatterFromMatcher<M>(internal::move(matcher));
@@ -1884,7 +1886,7 @@ MakePredicateFormatterFromMatcher(M matcher) {
 // two float values using ULP-based approximation or, optionally, a
 // user-specified epsilon.  The template is meant to be instantiated with
 // FloatType being either float or double.
-template <typename FloatType>
+template<typename FloatType>
 class FloatingEqMatcher {
  public:
   // Constructor for FloatingEqMatcher.
@@ -1894,7 +1896,7 @@ class FloatingEqMatcher {
   // negative max_abs_error_ term to indicate that ULP-based approximation will
   // be used for comparison.
   FloatingEqMatcher(FloatType expected, bool nan_eq_nan) :
-    expected_(expected), nan_eq_nan_(nan_eq_nan), max_abs_error_(-1) {
+      expected_(expected), nan_eq_nan_(nan_eq_nan), max_abs_error_(-1) {
   }
 
   // Constructor that supports a user-specified max_abs_error that will be used
@@ -1910,7 +1912,7 @@ class FloatingEqMatcher {
   }
 
   // Implements floating point equality matcher as a Matcher<T>.
-  template <typename T>
+  template<typename T>
   class Impl : public MatcherInterface<T> {
    public:
     Impl(FloatType expected, bool nan_eq_nan, FloatType max_abs_error)
@@ -1920,7 +1922,7 @@ class FloatingEqMatcher {
 
     virtual bool MatchAndExplain(T value,
                                  MatchResultListener* listener) const {
-      const FloatingPoint<FloatType> actual(value), expected(expected_);
+      const FloatingPoint <FloatType> actual(value), expected(expected_);
 
       // Compares NaNs first, if nan_eq_nan_ is true.
       if (actual.is_nan() || expected.is_nan()) {
@@ -2039,7 +2041,7 @@ class FloatingEqMatcher {
 
 // Implements the Pointee(m) matcher for matching a pointer whose
 // pointee matches matcher m.  The pointer can be either raw or smart.
-template <typename InnerMatcher>
+template<typename InnerMatcher>
 class PointeeMatcher {
  public:
   explicit PointeeMatcher(const InnerMatcher& matcher) : matcher_(matcher) {}
@@ -2052,14 +2054,14 @@ class PointeeMatcher {
   // The reason we do this instead of relying on
   // MakePolymorphicMatcher() is that the latter is not flexible
   // enough for implementing the DescribeTo() method of Pointee().
-  template <typename Pointer>
+  template<typename Pointer>
   operator Matcher<Pointer>() const {
     return MakeMatcher(new Impl<Pointer>(matcher_));
   }
 
  private:
   // The monomorphic implementation that works for a particular pointer type.
-  template <typename Pointer>
+  template<typename Pointer>
   class Impl : public MatcherInterface<Pointer> {
    public:
     typedef typename PointeeOf<GTEST_REMOVE_CONST_(  // NOLINT
@@ -2104,7 +2106,7 @@ class PointeeMatcher {
 // If To is a pointer and the cast fails, the inner matcher will receive NULL.
 // If To is a reference and the cast fails, this matcher returns false
 // immediately.
-template <typename To>
+template<typename To>
 class WhenDynamicCastToMatcherBase {
  public:
   explicit WhenDynamicCastToMatcherBase(const Matcher<To>& matcher)
@@ -2141,13 +2143,13 @@ class WhenDynamicCastToMatcherBase {
 
 // Primary template.
 // To is a pointer. Cast and forward the result.
-template <typename To>
+template<typename To>
 class WhenDynamicCastToMatcher : public WhenDynamicCastToMatcherBase<To> {
  public:
   explicit WhenDynamicCastToMatcher(const Matcher<To>& matcher)
       : WhenDynamicCastToMatcherBase<To>(matcher) {}
 
-  template <typename From>
+  template<typename From>
   bool MatchAndExplain(From from, MatchResultListener* listener) const {
     // TODO(sbenza): Add more detail on failures. ie did the dyn_cast fail?
     To to = dynamic_cast<To>(from);
@@ -2157,13 +2159,13 @@ class WhenDynamicCastToMatcher : public WhenDynamicCastToMatcherBase<To> {
 
 // Specialize for references.
 // In this case we return false if the dynamic_cast fails.
-template <typename To>
+template<typename To>
 class WhenDynamicCastToMatcher<To&> : public WhenDynamicCastToMatcherBase<To&> {
  public:
   explicit WhenDynamicCastToMatcher(const Matcher<To&>& matcher)
       : WhenDynamicCastToMatcherBase<To&>(matcher) {}
 
-  template <typename From>
+  template<typename From>
   bool MatchAndExplain(From& from, MatchResultListener* listener) const {
     // We don't want an std::bad_cast here, so do the cast with pointers.
     To* to = dynamic_cast<To*>(&from);
@@ -2177,7 +2179,7 @@ class WhenDynamicCastToMatcher<To&> : public WhenDynamicCastToMatcherBase<To&> {
 
 // Implements the Field() matcher for matching a field (i.e. member
 // variable) of an object.
-template <typename Class, typename FieldType>
+template<typename Class, typename FieldType>
 class FieldMatcher {
  public:
   FieldMatcher(FieldType Class::*field,
@@ -2194,11 +2196,11 @@ class FieldMatcher {
     matcher_.DescribeNegationTo(os);
   }
 
-  template <typename T>
+  template<typename T>
   bool MatchAndExplain(const T& value, MatchResultListener* listener) const {
     return MatchAndExplainImpl(
-        typename ::testing::internal::
-            is_pointer<GTEST_REMOVE_CONST_(T)>::type(),
+        typename::testing::internal::
+        is_pointer<GTEST_REMOVE_CONST_(T)>::type(),
         value, listener);
   }
 
@@ -2232,14 +2234,15 @@ class FieldMatcher {
 
 // Implements the Property() matcher for matching a property
 // (i.e. return value of a getter method) of an object.
-template <typename Class, typename PropertyType>
+template<typename Class, typename PropertyType>
 class PropertyMatcher {
  public:
   // The property may have a reference type, so 'const PropertyType&'
   // may cause double references and fail to compile.  That's why we
   // need GTEST_REFERENCE_TO_CONST, which works regardless of
   // PropertyType being a reference or not.
-  typedef GTEST_REFERENCE_TO_CONST_(PropertyType) RefToConstProperty;
+  typedef GTEST_REFERENCE_TO_CONST_(PropertyType)
+  RefToConstProperty;
 
   PropertyMatcher(PropertyType (Class::*property)() const,
                   const Matcher<RefToConstProperty>& matcher)
@@ -2255,11 +2258,11 @@ class PropertyMatcher {
     matcher_.DescribeNegationTo(os);
   }
 
-  template <typename T>
-  bool MatchAndExplain(const T&value, MatchResultListener* listener) const {
+  template<typename T>
+  bool MatchAndExplain(const T& value, MatchResultListener* listener) const {
     return MatchAndExplainImpl(
-        typename ::testing::internal::
-            is_pointer<GTEST_REMOVE_CONST_(T)>::type(),
+        typename::testing::internal::
+        is_pointer<GTEST_REMOVE_CONST_(T)>::type(),
         value, listener);
   }
 
@@ -2305,35 +2308,35 @@ class PropertyMatcher {
 // The default template specifies features for functor objects.
 // Functor classes have to typedef argument_type and result_type
 // to be compatible with ResultOf.
-template <typename Functor>
+template<typename Functor>
 struct CallableTraits {
   typedef typename Functor::result_type ResultType;
   typedef Functor StorageType;
 
   static void CheckIsValid(Functor /* functor */) {}
-  template <typename T>
+  template<typename T>
   static ResultType Invoke(Functor f, T arg) { return f(arg); }
 };
 
 // Specialization for function pointers.
-template <typename ArgType, typename ResType>
+template<typename ArgType, typename ResType>
 struct CallableTraits<ResType(*)(ArgType)> {
   typedef ResType ResultType;
-  typedef ResType(*StorageType)(ArgType);
+  typedef ResType(* StorageType)(ArgType);
 
-  static void CheckIsValid(ResType(*f)(ArgType)) {
+  static void CheckIsValid(ResType(* f)(ArgType)) {
     GTEST_CHECK_(f != NULL)
         << "NULL function pointer is passed into ResultOf().";
   }
-  template <typename T>
-  static ResType Invoke(ResType(*f)(ArgType), T arg) {
+  template<typename T>
+  static ResType Invoke(ResType(* f)(ArgType), T arg) {
     return (*f)(arg);
   }
 };
 
 // Implements the ResultOf() matcher for matching a return value of a
 // unary function of an object.
-template <typename Callable>
+template<typename Callable>
 class ResultOfMatcher {
  public:
   typedef typename CallableTraits<Callable>::ResultType ResultType;
@@ -2343,7 +2346,7 @@ class ResultOfMatcher {
     CallableTraits<Callable>::CheckIsValid(callable_);
   }
 
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return Matcher<T>(new Impl<T>(callable_, matcher_));
   }
@@ -2351,7 +2354,7 @@ class ResultOfMatcher {
  private:
   typedef typename CallableTraits<Callable>::StorageType CallableStorageType;
 
-  template <typename T>
+  template<typename T>
   class Impl : public MatcherInterface<T> {
    public:
     Impl(CallableStorageType callable, const Matcher<ResultType>& matcher)
@@ -2395,23 +2398,23 @@ class ResultOfMatcher {
 };
 
 // Implements a matcher that checks the size of an STL-style container.
-template <typename SizeMatcher>
+template<typename SizeMatcher>
 class SizeIsMatcher {
  public:
   explicit SizeIsMatcher(const SizeMatcher& size_matcher)
-       : size_matcher_(size_matcher) {
+      : size_matcher_(size_matcher) {
   }
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(new Impl<Container>(size_matcher_));
   }
 
-  template <typename Container>
+  template<typename Container>
   class Impl : public MatcherInterface<Container> {
    public:
     typedef internal::StlContainerView<
-         GTEST_REMOVE_REFERENCE_AND_CONST_(Container)> ContainerView;
+        GTEST_REMOVE_REFERENCE_AND_CONST_(Container)> ContainerView;
     typedef typename ContainerView::type::size_type SizeType;
     explicit Impl(const SizeMatcher& size_matcher)
         : size_matcher_(MatcherCast<SizeType>(size_matcher)) {}
@@ -2448,18 +2451,18 @@ class SizeIsMatcher {
 
 // Implements a matcher that checks the begin()..end() distance of an STL-style
 // container.
-template <typename DistanceMatcher>
+template<typename DistanceMatcher>
 class BeginEndDistanceIsMatcher {
  public:
   explicit BeginEndDistanceIsMatcher(const DistanceMatcher& distance_matcher)
       : distance_matcher_(distance_matcher) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(new Impl<Container>(distance_matcher_));
   }
 
-  template <typename Container>
+  template<typename Container>
   class Impl : public MatcherInterface<Container> {
    public:
     typedef internal::StlContainerView<
@@ -2517,7 +2520,7 @@ class BeginEndDistanceIsMatcher {
 //
 // Uses the container's const_iterator, value_type, operator ==,
 // begin(), and end().
-template <typename Container>
+template<typename Container>
 class ContainerEqMatcher {
  public:
   typedef internal::StlContainerView<Container> View;
@@ -2530,8 +2533,8 @@ class ContainerEqMatcher {
       : expected_(View::Copy(expected)) {
     // Makes sure the user doesn't instantiate this class template
     // with a const or reference type.
-    (void)testing::StaticAssertTypeEq<Container,
-        GTEST_REMOVE_REFERENCE_AND_CONST_(Container)>();
+    (void) testing::StaticAssertTypeEq<Container,
+                                       GTEST_REMOVE_REFERENCE_AND_CONST_(Container)>();
   }
 
   void DescribeTo(::std::ostream* os) const {
@@ -2543,7 +2546,7 @@ class ContainerEqMatcher {
     UniversalPrint(expected_, os);
   }
 
-  template <typename LhsContainer>
+  template<typename LhsContainer>
   bool MatchAndExplain(const LhsContainer& lhs,
                        MatchResultListener* listener) const {
     // GTEST_REMOVE_CONST_() is needed to work around an MSVC 8.0 bug
@@ -2560,7 +2563,7 @@ class ContainerEqMatcher {
       // Something is different. Check for extra values first.
       bool printed_header = false;
       for (typename LhsStlContainer::const_iterator it =
-               lhs_stl_container.begin();
+          lhs_stl_container.begin();
            it != lhs_stl_container.end(); ++it) {
         if (internal::ArrayAwareFind(expected_.begin(), expected_.end(), *it) ==
             expected_.end()) {
@@ -2579,7 +2582,7 @@ class ContainerEqMatcher {
       for (typename StlContainer::const_iterator it = expected_.begin();
            it != expected_.end(); ++it) {
         if (internal::ArrayAwareFind(
-                lhs_stl_container.begin(), lhs_stl_container.end(), *it) ==
+            lhs_stl_container.begin(), lhs_stl_container.end(), *it) ==
             lhs_stl_container.end()) {
           if (printed_header2) {
             *os << ", ";
@@ -2604,28 +2607,28 @@ class ContainerEqMatcher {
 
 // A comparator functor that uses the < operator to compare two values.
 struct LessComparator {
-  template <typename T, typename U>
+  template<typename T, typename U>
   bool operator()(const T& lhs, const U& rhs) const { return lhs < rhs; }
 };
 
 // Implements WhenSortedBy(comparator, container_matcher).
-template <typename Comparator, typename ContainerMatcher>
+template<typename Comparator, typename ContainerMatcher>
 class WhenSortedByMatcher {
  public:
   WhenSortedByMatcher(const Comparator& comparator,
                       const ContainerMatcher& matcher)
       : comparator_(comparator), matcher_(matcher) {}
 
-  template <typename LhsContainer>
+  template<typename LhsContainer>
   operator Matcher<LhsContainer>() const {
     return MakeMatcher(new Impl<LhsContainer>(comparator_, matcher_));
   }
 
-  template <typename LhsContainer>
+  template<typename LhsContainer>
   class Impl : public MatcherInterface<LhsContainer> {
    public:
     typedef internal::StlContainerView<
-         GTEST_REMOVE_REFERENCE_AND_CONST_(LhsContainer)> LhsView;
+        GTEST_REMOVE_REFERENCE_AND_CONST_(LhsContainer)> LhsView;
     typedef typename LhsView::type LhsStlContainer;
     typedef typename LhsView::const_reference LhsStlContainerReference;
     // Transforms std::pair<const Key, Value> into std::pair<Key, Value>
@@ -2652,7 +2655,7 @@ class WhenSortedByMatcher {
       ::std::vector<LhsValue> sorted_container(lhs_stl_container.begin(),
                                                lhs_stl_container.end());
       ::std::sort(
-           sorted_container.begin(), sorted_container.end(), comparator_);
+          sorted_container.begin(), sorted_container.end(), comparator_);
 
       if (!listener->IsInterested()) {
         // If the listener is not interested, we do not need to
@@ -2689,7 +2692,7 @@ class WhenSortedByMatcher {
 // must be able to be safely cast to Matcher<tuple<const T1&, const
 // T2&> >, where T1 and T2 are the types of elements in the LHS
 // container and the RHS container respectively.
-template <typename TupleMatcher, typename RhsContainer>
+template<typename TupleMatcher, typename RhsContainer>
 class PointwiseMatcher {
  public:
   typedef internal::StlContainerView<RhsContainer> RhsView;
@@ -2702,20 +2705,20 @@ class PointwiseMatcher {
       : tuple_matcher_(tuple_matcher), rhs_(RhsView::Copy(rhs)) {
     // Makes sure the user doesn't instantiate this class template
     // with a const or reference type.
-    (void)testing::StaticAssertTypeEq<RhsContainer,
-        GTEST_REMOVE_REFERENCE_AND_CONST_(RhsContainer)>();
+    (void) testing::StaticAssertTypeEq<RhsContainer,
+                                       GTEST_REMOVE_REFERENCE_AND_CONST_(RhsContainer)>();
   }
 
-  template <typename LhsContainer>
+  template<typename LhsContainer>
   operator Matcher<LhsContainer>() const {
     return MakeMatcher(new Impl<LhsContainer>(tuple_matcher_, rhs_));
   }
 
-  template <typename LhsContainer>
+  template<typename LhsContainer>
   class Impl : public MatcherInterface<LhsContainer> {
    public:
     typedef internal::StlContainerView<
-         GTEST_REMOVE_REFERENCE_AND_CONST_(LhsContainer)> LhsView;
+        GTEST_REMOVE_REFERENCE_AND_CONST_(LhsContainer)> LhsView;
     typedef typename LhsView::type LhsStlContainer;
     typedef typename LhsView::const_reference LhsStlContainerReference;
     typedef typename LhsStlContainer::value_type LhsValue;
@@ -2726,7 +2729,7 @@ class PointwiseMatcher {
     typedef ::testing::tuple<const LhsValue&, const RhsValue&> InnerMatcherArg;
 
     Impl(const TupleMatcher& tuple_matcher, const RhsStlContainer& rhs)
-        // mono_tuple_matcher_ holds a monomorphic version of the tuple matcher.
+    // mono_tuple_matcher_ holds a monomorphic version of the tuple matcher.
         : mono_tuple_matcher_(SafeMatcherCast<InnerMatcherArg>(tuple_matcher)),
           rhs_(rhs) {}
 
@@ -2763,7 +2766,7 @@ class PointwiseMatcher {
         if (listener->IsInterested()) {
           StringMatchResultListener inner_listener;
           if (!mono_tuple_matcher_.MatchAndExplain(
-                  value_pair, &inner_listener)) {
+              value_pair, &inner_listener)) {
             *listener << "where the value pair (";
             UniversalPrint(*left, listener->stream());
             *listener << ", ";
@@ -2796,19 +2799,20 @@ class PointwiseMatcher {
 };
 
 // Holds the logic common to ContainsMatcherImpl and EachMatcherImpl.
-template <typename Container>
+template<typename Container>
 class QuantifierMatcherImpl : public MatcherInterface<Container> {
  public:
-  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
-  typedef StlContainerView<RawContainer> View;
+  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container)
+  RawContainer;
+  typedef StlContainerView <RawContainer> View;
   typedef typename View::type StlContainer;
   typedef typename View::const_reference StlContainerReference;
   typedef typename StlContainer::value_type Element;
 
-  template <typename InnerMatcher>
+  template<typename InnerMatcher>
   explicit QuantifierMatcherImpl(InnerMatcher inner_matcher)
       : inner_matcher_(
-           testing::SafeMatcherCast<const Element&>(inner_matcher)) {}
+      testing::SafeMatcherCast<const Element&>(inner_matcher)) {}
 
   // Checks whether:
   // * All elements in the container match, if all_elements_should_match.
@@ -2841,10 +2845,10 @@ class QuantifierMatcherImpl : public MatcherInterface<Container> {
 
 // Implements Contains(element_matcher) for the given argument type Container.
 // Symmetric to EachMatcherImpl.
-template <typename Container>
+template<typename Container>
 class ContainsMatcherImpl : public QuantifierMatcherImpl<Container> {
  public:
-  template <typename InnerMatcher>
+  template<typename InnerMatcher>
   explicit ContainsMatcherImpl(InnerMatcher inner_matcher)
       : QuantifierMatcherImpl<Container>(inner_matcher) {}
 
@@ -2870,10 +2874,10 @@ class ContainsMatcherImpl : public QuantifierMatcherImpl<Container> {
 
 // Implements Each(element_matcher) for the given argument type Container.
 // Symmetric to ContainsMatcherImpl.
-template <typename Container>
+template<typename Container>
 class EachMatcherImpl : public QuantifierMatcherImpl<Container> {
  public:
-  template <typename InnerMatcher>
+  template<typename InnerMatcher>
   explicit EachMatcherImpl(InnerMatcher inner_matcher)
       : QuantifierMatcherImpl<Container>(inner_matcher) {}
 
@@ -2898,12 +2902,12 @@ class EachMatcherImpl : public QuantifierMatcherImpl<Container> {
 };
 
 // Implements polymorphic Contains(element_matcher).
-template <typename M>
+template<typename M>
 class ContainsMatcher {
  public:
   explicit ContainsMatcher(M m) : inner_matcher_(m) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(new ContainsMatcherImpl<Container>(inner_matcher_));
   }
@@ -2915,12 +2919,12 @@ class ContainsMatcher {
 };
 
 // Implements polymorphic Each(element_matcher).
-template <typename M>
+template<typename M>
 class EachMatcher {
  public:
   explicit EachMatcher(M m) : inner_matcher_(m) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(new EachMatcherImpl<Container>(inner_matcher_));
   }
@@ -2935,16 +2939,17 @@ class EachMatcher {
 // Key(inner_matcher) matches an std::pair whose 'first' field matches
 // inner_matcher.  For example, Contains(Key(Ge(5))) can be used to match an
 // std::map that contains at least one element whose key is >= 5.
-template <typename PairType>
+template<typename PairType>
 class KeyMatcherImpl : public MatcherInterface<PairType> {
  public:
-  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(PairType) RawPairType;
+  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(PairType)
+  RawPairType;
   typedef typename RawPairType::first_type KeyType;
 
-  template <typename InnerMatcher>
+  template<typename InnerMatcher>
   explicit KeyMatcherImpl(InnerMatcher inner_matcher)
       : inner_matcher_(
-          testing::SafeMatcherCast<const KeyType&>(inner_matcher)) {
+      testing::SafeMatcherCast<const KeyType&>(inner_matcher)) {
   }
 
   // Returns true iff 'key_value.first' (the key) matches the inner matcher.
@@ -2979,12 +2984,12 @@ class KeyMatcherImpl : public MatcherInterface<PairType> {
 };
 
 // Implements polymorphic Key(matcher_for_key).
-template <typename M>
+template<typename M>
 class KeyMatcher {
  public:
   explicit KeyMatcher(M m) : matcher_for_key_(m) {}
 
-  template <typename PairType>
+  template<typename PairType>
   operator Matcher<PairType>() const {
     return MakeMatcher(new KeyMatcherImpl<PairType>(matcher_for_key_));
   }
@@ -2997,17 +3002,18 @@ class KeyMatcher {
 
 // Implements Pair(first_matcher, second_matcher) for the given argument pair
 // type with its two matchers. See Pair() function below.
-template <typename PairType>
+template<typename PairType>
 class PairMatcherImpl : public MatcherInterface<PairType> {
  public:
-  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(PairType) RawPairType;
+  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(PairType)
+  RawPairType;
   typedef typename RawPairType::first_type FirstType;
   typedef typename RawPairType::second_type SecondType;
 
-  template <typename FirstMatcher, typename SecondMatcher>
+  template<typename FirstMatcher, typename SecondMatcher>
   PairMatcherImpl(FirstMatcher first_matcher, SecondMatcher second_matcher)
       : first_matcher_(
-            testing::SafeMatcherCast<const FirstType&>(first_matcher)),
+      testing::SafeMatcherCast<const FirstType&>(first_matcher)),
         second_matcher_(
             testing::SafeMatcherCast<const SecondType&>(second_matcher)) {
   }
@@ -3036,7 +3042,7 @@ class PairMatcherImpl : public MatcherInterface<PairType> {
       // If the listener is not interested, we don't need to construct the
       // explanation.
       return first_matcher_.Matches(a_pair.first) &&
-             second_matcher_.Matches(a_pair.second);
+          second_matcher_.Matches(a_pair.second);
     }
     StringMatchResultListener first_inner_listener;
     if (!first_matcher_.MatchAndExplain(a_pair.first,
@@ -3083,14 +3089,14 @@ class PairMatcherImpl : public MatcherInterface<PairType> {
 };
 
 // Implements polymorphic Pair(first_matcher, second_matcher).
-template <typename FirstMatcher, typename SecondMatcher>
+template<typename FirstMatcher, typename SecondMatcher>
 class PairMatcher {
  public:
   PairMatcher(FirstMatcher first_matcher, SecondMatcher second_matcher)
       : first_matcher_(first_matcher), second_matcher_(second_matcher) {}
 
-  template <typename PairType>
-  operator Matcher<PairType> () const {
+  template<typename PairType>
+  operator Matcher<PairType>() const {
     return MakeMatcher(
         new PairMatcherImpl<PairType>(
             first_matcher_, second_matcher_));
@@ -3104,10 +3110,11 @@ class PairMatcher {
 };
 
 // Implements ElementsAre() and ElementsAreArray().
-template <typename Container>
+template<typename Container>
 class ElementsAreMatcherImpl : public MatcherInterface<Container> {
  public:
-  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
+  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container)
+  RawContainer;
   typedef internal::StlContainerView<RawContainer> View;
   typedef typename View::type StlContainer;
   typedef typename View::const_reference StlContainerReference;
@@ -3115,7 +3122,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 
   // Constructs the matcher from a sequence of element values or
   // element matchers.
-  template <typename InputIter>
+  template<typename InputIter>
   ElementsAreMatcherImpl(InputIter first, InputIter last) {
     while (first != last) {
       matchers_.push_back(MatcherCast<const Element&>(*first++));
@@ -3254,44 +3261,44 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 // Initially, there are no edges.
 // Use NextGraph() to iterate over all possible edge configurations.
 // Use Randomize() to generate a random edge configuration.
-class GTEST_API_ MatchMatrix {
- public:
-  MatchMatrix(size_t num_elements, size_t num_matchers)
-      : num_elements_(num_elements),
-        num_matchers_(num_matchers),
-        matched_(num_elements_* num_matchers_, 0) {
-  }
+class GTEST_API_ MatchMatrix{
+    public:
+    MatchMatrix(size_t num_elements, size_t num_matchers)
+    : num_elements_(num_elements),
+    num_matchers_(num_matchers),
+    matched_(num_elements_* num_matchers_, 0) {
+    }
 
-  size_t LhsSize() const { return num_elements_; }
-  size_t RhsSize() const { return num_matchers_; }
-  bool HasEdge(size_t ilhs, size_t irhs) const {
-    return matched_[SpaceIndex(ilhs, irhs)] == 1;
-  }
-  void SetEdge(size_t ilhs, size_t irhs, bool b) {
-    matched_[SpaceIndex(ilhs, irhs)] = b ? 1 : 0;
-  }
+    size_t LhsSize() const { return num_elements_; }
+    size_t RhsSize() const { return num_matchers_; }
+    bool HasEdge(size_t ilhs, size_t irhs) const {
+      return matched_[SpaceIndex(ilhs, irhs)] == 1;
+    }
+    void SetEdge(size_t ilhs, size_t irhs, bool b) {
+      matched_[SpaceIndex(ilhs, irhs)] = b ? 1 : 0;
+    }
 
-  // Treating the connectivity matrix as a (LhsSize()*RhsSize())-bit number,
-  // adds 1 to that number; returns false if incrementing the graph left it
-  // empty.
-  bool NextGraph();
+    // Treating the connectivity matrix as a (LhsSize()*RhsSize())-bit number,
+    // adds 1 to that number; returns false if incrementing the graph left it
+    // empty.
+    bool NextGraph();
 
-  void Randomize();
+    void Randomize();
 
-  string DebugString() const;
+    string DebugString() const;
 
- private:
-  size_t SpaceIndex(size_t ilhs, size_t irhs) const {
-    return ilhs * num_matchers_ + irhs;
-  }
+    private:
+    size_t SpaceIndex(size_t ilhs, size_t irhs) const {
+      return ilhs * num_matchers_ + irhs;
+    }
 
-  size_t num_elements_;
-  size_t num_matchers_;
+    size_t num_elements_;
+    size_t num_matchers_;
 
-  // Each element is a char interpreted as bool. They are stored as a
-  // flattened array in lhs-major order, use 'SpaceIndex()' to translate
-  // a (ilhs, irhs) matrix coordinate into an offset.
-  ::std::vector<char> matched_;
+    // Each element is a char interpreted as bool. They are stored as a
+    // flattened array in lhs-major order, use 'SpaceIndex()' to translate
+    // a (ilhs, irhs) matrix coordinate into an offset.
+    ::std::vector<char> matched_;
 };
 
 typedef ::std::pair<size_t, size_t> ElementMatcherPair;
@@ -3308,45 +3315,46 @@ GTEST_API_ bool FindPairing(const MatchMatrix& matrix,
 // Untyped base class for implementing UnorderedElementsAre.  By
 // putting logic that's not specific to the element type here, we
 // reduce binary bloat and increase compilation speed.
-class GTEST_API_ UnorderedElementsAreMatcherImplBase {
- protected:
-  // A vector of matcher describers, one for each element matcher.
-  // Does not own the describers (and thus can be used only when the
-  // element matchers are alive).
-  typedef ::std::vector<const MatcherDescriberInterface*> MatcherDescriberVec;
+class GTEST_API_ UnorderedElementsAreMatcherImplBase{
+    protected:
+    // A vector of matcher describers, one for each element matcher.
+    // Does not own the describers (and thus can be used only when the
+    // element matchers are alive).
+    typedef::std::vector<const MatcherDescriberInterface*> MatcherDescriberVec;
 
-  // Describes this UnorderedElementsAre matcher.
-  void DescribeToImpl(::std::ostream* os) const;
+    // Describes this UnorderedElementsAre matcher.
+    void DescribeToImpl(::std::ostream* os) const;
 
-  // Describes the negation of this UnorderedElementsAre matcher.
-  void DescribeNegationToImpl(::std::ostream* os) const;
+    // Describes the negation of this UnorderedElementsAre matcher.
+    void DescribeNegationToImpl(::std::ostream* os) const;
 
-  bool VerifyAllElementsAndMatchersAreMatched(
-      const ::std::vector<string>& element_printouts,
-      const MatchMatrix& matrix,
-      MatchResultListener* listener) const;
+    bool VerifyAllElementsAndMatchersAreMatched(
+    const::std::vector<string>& element_printouts,
+    const MatchMatrix& matrix,
+    MatchResultListener* listener) const;
 
-  MatcherDescriberVec& matcher_describers() {
-    return matcher_describers_;
-  }
+    MatcherDescriberVec& matcher_describers() {
+      return matcher_describers_;
+    }
 
-  static Message Elements(size_t n) {
-    return Message() << n << " element" << (n == 1 ? "" : "s");
-  }
+    static Message Elements(size_t n) {
+      return Message() << n << " element" << (n == 1 ? "" : "s");
+    }
 
- private:
-  MatcherDescriberVec matcher_describers_;
+    private:
+    MatcherDescriberVec matcher_describers_;
 
-  GTEST_DISALLOW_ASSIGN_(UnorderedElementsAreMatcherImplBase);
+    GTEST_DISALLOW_ASSIGN_(UnorderedElementsAreMatcherImplBase);
 };
 
 // Implements unordered ElementsAre and unordered ElementsAreArray.
-template <typename Container>
+template<typename Container>
 class UnorderedElementsAreMatcherImpl
     : public MatcherInterface<Container>,
       public UnorderedElementsAreMatcherImplBase {
  public:
-  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
+  typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container)
+  RawContainer;
   typedef internal::StlContainerView<RawContainer> View;
   typedef typename View::type StlContainer;
   typedef typename View::const_reference StlContainerReference;
@@ -3355,7 +3363,7 @@ class UnorderedElementsAreMatcherImpl
 
   // Constructs the matcher from a sequence of element values or
   // element matchers.
-  template <typename InputIter>
+  template<typename InputIter>
   UnorderedElementsAreMatcherImpl(InputIter first, InputIter last) {
     for (; first != last; ++first) {
       matchers_.push_back(MatcherCast<const Element&>(*first));
@@ -3399,13 +3407,13 @@ class UnorderedElementsAreMatcherImpl
 
     return VerifyAllElementsAndMatchersAreMatched(element_printouts,
                                                   matrix, listener) &&
-           FindPairing(matrix, listener);
+        FindPairing(matrix, listener);
   }
 
  private:
   typedef ::std::vector<Matcher<const Element&> > MatcherVec;
 
-  template <typename ElementIter>
+  template<typename ElementIter>
   MatchMatrix AnalyzeElements(ElementIter elem_first, ElementIter elem_last,
                               ::std::vector<string>* element_printouts,
                               MatchResultListener* listener) const {
@@ -3438,24 +3446,25 @@ class UnorderedElementsAreMatcherImpl
 
 // Functor for use in TransformTuple.
 // Performs MatcherCast<Target> on an input argument of any type.
-template <typename Target>
+template<typename Target>
 struct CastAndAppendTransform {
-  template <typename Arg>
+  template<typename Arg>
   Matcher<Target> operator()(const Arg& a) const {
     return MatcherCast<Target>(a);
   }
 };
 
 // Implements UnorderedElementsAre.
-template <typename MatcherTuple>
+template<typename MatcherTuple>
 class UnorderedElementsAreMatcher {
  public:
   explicit UnorderedElementsAreMatcher(const MatcherTuple& args)
       : matchers_(args) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
-    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
+    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container)
+    RawContainer;
     typedef typename internal::StlContainerView<RawContainer>::type View;
     typedef typename View::value_type Element;
     typedef ::std::vector<Matcher<const Element&> > MatcherVec;
@@ -3464,7 +3473,7 @@ class UnorderedElementsAreMatcher {
     TransformTupleValues(CastAndAppendTransform<const Element&>(), matchers_,
                          ::std::back_inserter(matchers));
     return MakeMatcher(new UnorderedElementsAreMatcherImpl<Container>(
-                           matchers.begin(), matchers.end()));
+        matchers.begin(), matchers.end()));
   }
 
  private:
@@ -3473,14 +3482,15 @@ class UnorderedElementsAreMatcher {
 };
 
 // Implements ElementsAre.
-template <typename MatcherTuple>
+template<typename MatcherTuple>
 class ElementsAreMatcher {
  public:
   explicit ElementsAreMatcher(const MatcherTuple& args) : matchers_(args) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
-    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container) RawContainer;
+    typedef GTEST_REMOVE_REFERENCE_AND_CONST_(Container)
+    RawContainer;
     typedef typename internal::StlContainerView<RawContainer>::type View;
     typedef typename View::value_type Element;
     typedef ::std::vector<Matcher<const Element&> > MatcherVec;
@@ -3489,7 +3499,7 @@ class ElementsAreMatcher {
     TransformTupleValues(CastAndAppendTransform<const Element&>(), matchers_,
                          ::std::back_inserter(matchers));
     return MakeMatcher(new ElementsAreMatcherImpl<Container>(
-                           matchers.begin(), matchers.end()));
+        matchers.begin(), matchers.end()));
   }
 
  private:
@@ -3498,16 +3508,16 @@ class ElementsAreMatcher {
 };
 
 // Implements UnorderedElementsAreArray().
-template <typename T>
+template<typename T>
 class UnorderedElementsAreArrayMatcher {
  public:
   UnorderedElementsAreArrayMatcher() {}
 
-  template <typename Iter>
+  template<typename Iter>
   UnorderedElementsAreArrayMatcher(Iter first, Iter last)
       : matchers_(first, last) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(
         new UnorderedElementsAreMatcherImpl<Container>(matchers_.begin(),
@@ -3521,13 +3531,13 @@ class UnorderedElementsAreArrayMatcher {
 };
 
 // Implements ElementsAreArray().
-template <typename T>
+template<typename T>
 class ElementsAreArrayMatcher {
  public:
-  template <typename Iter>
+  template<typename Iter>
   ElementsAreArrayMatcher(Iter first, Iter last) : matchers_(first, last) {}
 
-  template <typename Container>
+  template<typename Container>
   operator Matcher<Container>() const {
     return MakeMatcher(new ElementsAreMatcherImpl<Container>(
         matchers_.begin(), matchers_.end()));
@@ -3548,13 +3558,13 @@ class ElementsAreArrayMatcher {
 // BoundSecondMatcher is copyable and assignable, as we need to put
 // instances of this class in a vector when implementing
 // UnorderedPointwise().
-template <typename Tuple2Matcher, typename Second>
+template<typename Tuple2Matcher, typename Second>
 class BoundSecondMatcher {
  public:
   BoundSecondMatcher(const Tuple2Matcher& tm, const Second& second)
       : tuple2_matcher_(tm), second_value_(second) {}
 
-  template <typename T>
+  template<typename T>
   operator Matcher<T>() const {
     return MakeMatcher(new Impl<T>(tuple2_matcher_, second_value_));
   }
@@ -3572,7 +3582,7 @@ class BoundSecondMatcher {
   }
 
  private:
-  template <typename T>
+  template<typename T>
   class Impl : public MatcherInterface<T> {
    public:
     typedef ::testing::tuple<T, Second> ArgTuple;
@@ -3608,7 +3618,7 @@ class BoundSecondMatcher {
 // MatcherBindSecond(tm, second) returns a matcher that matches a
 // value x iff tm matches tuple (x, second).  Useful for implementing
 // UnorderedPointwise() in terms of UnorderedElementsAreArray().
-template <typename Tuple2Matcher, typename Second>
+template<typename Tuple2Matcher, typename Second>
 BoundSecondMatcher<Tuple2Matcher, Second> MatcherBindSecond(
     const Tuple2Matcher& tm, const Second& second) {
   return BoundSecondMatcher<Tuple2Matcher, Second>(tm, second);
@@ -3619,9 +3629,10 @@ BoundSecondMatcher<Tuple2Matcher, Second> MatcherBindSecond(
 // 'negation' is false; otherwise returns the description of the
 // negation of the matcher.  'param_values' contains a list of strings
 // that are the print-out of the matcher's parameters.
-GTEST_API_ string FormatMatcherDescription(bool negation,
-                                           const char* matcher_name,
-                                           const Strings& param_values);
+GTEST_API_ string
+FormatMatcherDescription(bool negation,
+                         const char* matcher_name,
+                         const Strings& param_values);
 
 }  // namespace internal
 
@@ -3640,7 +3651,7 @@ GTEST_API_ string FormatMatcherDescription(bool negation,
 //
 // All forms of ElementsAreArray() make a copy of the input matcher sequence.
 
-template <typename Iter>
+template<typename Iter>
 inline internal::ElementsAreArrayMatcher<
     typename ::std::iterator_traits<Iter>::value_type>
 ElementsAreArray(Iter first, Iter last) {
@@ -3648,19 +3659,19 @@ ElementsAreArray(Iter first, Iter last) {
   return internal::ElementsAreArrayMatcher<T>(first, last);
 }
 
-template <typename T>
+template<typename T>
 inline internal::ElementsAreArrayMatcher<T> ElementsAreArray(
     const T* pointer, size_t count) {
   return ElementsAreArray(pointer, pointer + count);
 }
 
-template <typename T, size_t N>
+template<typename T, size_t N>
 inline internal::ElementsAreArrayMatcher<T> ElementsAreArray(
-    const T (&array)[N]) {
+    const T (& array)[N]) {
   return ElementsAreArray(array, N);
 }
 
-template <typename Container>
+template<typename Container>
 inline internal::ElementsAreArrayMatcher<typename Container::value_type>
 ElementsAreArray(const Container& container) {
   return ElementsAreArray(container.begin(), container.end());
@@ -3682,7 +3693,7 @@ ElementsAreArray(::std::initializer_list<T> xs) {
 //
 // The UnorderedElementsAreArray() functions are like
 // ElementsAreArray(...), but allow matching the elements in any order.
-template <typename Iter>
+template<typename Iter>
 inline internal::UnorderedElementsAreArrayMatcher<
     typename ::std::iterator_traits<Iter>::value_type>
 UnorderedElementsAreArray(Iter first, Iter last) {
@@ -3690,19 +3701,19 @@ UnorderedElementsAreArray(Iter first, Iter last) {
   return internal::UnorderedElementsAreArrayMatcher<T>(first, last);
 }
 
-template <typename T>
+template<typename T>
 inline internal::UnorderedElementsAreArrayMatcher<T>
 UnorderedElementsAreArray(const T* pointer, size_t count) {
   return UnorderedElementsAreArray(pointer, pointer + count);
 }
 
-template <typename T, size_t N>
+template<typename T, size_t N>
 inline internal::UnorderedElementsAreArrayMatcher<T>
-UnorderedElementsAreArray(const T (&array)[N]) {
+UnorderedElementsAreArray(const T (& array)[N]) {
   return UnorderedElementsAreArray(array, N);
 }
 
-template <typename Container>
+template<typename Container>
 inline internal::UnorderedElementsAreArrayMatcher<
     typename Container::value_type>
 UnorderedElementsAreArray(const Container& container) {
@@ -3728,22 +3739,22 @@ UnorderedElementsAreArray(::std::initializer_list<T> xs) {
 //   3. c-style has approved of using _ in this case.
 const internal::AnythingMatcher _ = {};
 // Creates a matcher that matches any value of the given type T.
-template <typename T>
+template<typename T>
 inline Matcher<T> A() { return MakeMatcher(new internal::AnyMatcherImpl<T>()); }
 
 // Creates a matcher that matches any value of the given type T.
-template <typename T>
+template<typename T>
 inline Matcher<T> An() { return A<T>(); }
 
 // Creates a polymorphic matcher that matches anything equal to x.
 // Note: if the parameter of Eq() were declared as const T&, Eq("foo")
 // wouldn't compile.
-template <typename T>
+template<typename T>
 inline internal::EqMatcher<T> Eq(T x) { return internal::EqMatcher<T>(x); }
 
 // Constructs a Matcher<T> from a 'value' of type T.  The constructed
 // matcher matches any value that's equal to 'value'.
-template <typename T>
+template<typename T>
 Matcher<T>::Matcher(T value) { *this = Eq(value); }
 
 // Creates a monomorphic matcher that matches anything with type Lhs
@@ -3758,54 +3769,54 @@ Matcher<T>::Matcher(T value) { *this = Eq(value); }
 // it yet as those are used much less than Eq() in practice.  A user
 // can always write Matcher<T>(Lt(5)) to be explicit about the type,
 // for example.
-template <typename Lhs, typename Rhs>
+template<typename Lhs, typename Rhs>
 inline Matcher<Lhs> TypedEq(const Rhs& rhs) { return Eq(rhs); }
 
 // Creates a polymorphic matcher that matches anything >= x.
-template <typename Rhs>
+template<typename Rhs>
 inline internal::GeMatcher<Rhs> Ge(Rhs x) {
   return internal::GeMatcher<Rhs>(x);
 }
 
 // Creates a polymorphic matcher that matches anything > x.
-template <typename Rhs>
+template<typename Rhs>
 inline internal::GtMatcher<Rhs> Gt(Rhs x) {
   return internal::GtMatcher<Rhs>(x);
 }
 
 // Creates a polymorphic matcher that matches anything <= x.
-template <typename Rhs>
+template<typename Rhs>
 inline internal::LeMatcher<Rhs> Le(Rhs x) {
   return internal::LeMatcher<Rhs>(x);
 }
 
 // Creates a polymorphic matcher that matches anything < x.
-template <typename Rhs>
+template<typename Rhs>
 inline internal::LtMatcher<Rhs> Lt(Rhs x) {
   return internal::LtMatcher<Rhs>(x);
 }
 
 // Creates a polymorphic matcher that matches anything != x.
-template <typename Rhs>
+template<typename Rhs>
 inline internal::NeMatcher<Rhs> Ne(Rhs x) {
   return internal::NeMatcher<Rhs>(x);
 }
 
 // Creates a polymorphic matcher that matches any NULL pointer.
-inline PolymorphicMatcher<internal::IsNullMatcher > IsNull() {
+inline PolymorphicMatcher<internal::IsNullMatcher> IsNull() {
   return MakePolymorphicMatcher(internal::IsNullMatcher());
 }
 
 // Creates a polymorphic matcher that matches any non-NULL pointer.
 // This is convenient as Not(NULL) doesn't compile (the compiler
 // thinks that that expression is comparing a pointer with an integer).
-inline PolymorphicMatcher<internal::NotNullMatcher > NotNull() {
+inline PolymorphicMatcher<internal::NotNullMatcher> NotNull() {
   return MakePolymorphicMatcher(internal::NotNullMatcher());
 }
 
 // Creates a polymorphic matcher that matches any argument that
 // references variable x.
-template <typename T>
+template<typename T>
 inline internal::RefMatcher<T&> Ref(T& x) {  // NOLINT
   return internal::RefMatcher<T&>(x);
 }
@@ -3868,7 +3879,7 @@ inline internal::FloatingEqMatcher<float> NanSensitiveFloatNear(
 
 // Creates a matcher that matches a pointer (raw or smart) that points
 // to a value that matches inner_matcher.
-template <typename InnerMatcher>
+template<typename InnerMatcher>
 inline internal::PointeeMatcher<InnerMatcher> Pointee(
     const InnerMatcher& inner_matcher) {
   return internal::PointeeMatcher<InnerMatcher>(inner_matcher);
@@ -3880,7 +3891,7 @@ inline internal::PointeeMatcher<InnerMatcher> Pointee(
 // If To is a pointer and the cast fails, the inner matcher will receive NULL.
 // If To is a reference and the cast fails, this matcher returns false
 // immediately.
-template <typename To>
+template<typename To>
 inline PolymorphicMatcher<internal::WhenDynamicCastToMatcher<To> >
 WhenDynamicCastTo(const Matcher<To>& inner_matcher) {
   return MakePolymorphicMatcher(
@@ -3891,9 +3902,9 @@ WhenDynamicCastTo(const Matcher<To>& inner_matcher) {
 // 'matcher'.  For example,
 //   Field(&Foo::number, Ge(5))
 // matches a Foo object x iff x.number >= 5.
-template <typename Class, typename FieldType, typename FieldMatcher>
+template<typename Class, typename FieldType, typename FieldMatcher>
 inline PolymorphicMatcher<
-  internal::FieldMatcher<Class, FieldType> > Field(
+    internal::FieldMatcher<Class, FieldType> > Field(
     FieldType Class::*field, const FieldMatcher& matcher) {
   return MakePolymorphicMatcher(
       internal::FieldMatcher<Class, FieldType>(
@@ -3908,9 +3919,9 @@ inline PolymorphicMatcher<
 // matches 'matcher'.  For example,
 //   Property(&Foo::str, StartsWith("hi"))
 // matches a Foo object x iff x.str() starts with "hi".
-template <typename Class, typename PropertyType, typename PropertyMatcher>
+template<typename Class, typename PropertyType, typename PropertyMatcher>
 inline PolymorphicMatcher<
-  internal::PropertyMatcher<Class, PropertyType> > Property(
+    internal::PropertyMatcher<Class, PropertyType> > Property(
     PropertyType (Class::*property)() const, const PropertyMatcher& matcher) {
   return MakePolymorphicMatcher(
       internal::PropertyMatcher<Class, PropertyType>(
@@ -3935,13 +3946,13 @@ inline PolymorphicMatcher<
 //     concurrent access.
 //   * If it is a function object, it has to define type result_type.
 //     We recommend deriving your functor classes from std::unary_function.
-template <typename Callable, typename ResultOfMatcher>
+template<typename Callable, typename ResultOfMatcher>
 internal::ResultOfMatcher<Callable> ResultOf(
     Callable callable, const ResultOfMatcher& matcher) {
   return internal::ResultOfMatcher<Callable>(
-          callable,
-          MatcherCast<typename internal::CallableTraits<Callable>::ResultType>(
-              matcher));
+      callable,
+      MatcherCast<typename internal::CallableTraits<Callable>::ResultType>(
+          matcher));
   // The call to MatcherCast() is required for supporting inner
   // matchers of compatible types.  For example, it allows
   //   ResultOf(Function, m)
@@ -3952,28 +3963,28 @@ internal::ResultOfMatcher<Callable> ResultOf(
 
 // Matches a string equal to str.
 inline PolymorphicMatcher<internal::StrEqualityMatcher<internal::string> >
-    StrEq(const internal::string& str) {
+StrEq(const internal::string& str) {
   return MakePolymorphicMatcher(internal::StrEqualityMatcher<internal::string>(
       str, true, true));
 }
 
 // Matches a string not equal to str.
 inline PolymorphicMatcher<internal::StrEqualityMatcher<internal::string> >
-    StrNe(const internal::string& str) {
+StrNe(const internal::string& str) {
   return MakePolymorphicMatcher(internal::StrEqualityMatcher<internal::string>(
       str, false, true));
 }
 
 // Matches a string equal to str, ignoring case.
 inline PolymorphicMatcher<internal::StrEqualityMatcher<internal::string> >
-    StrCaseEq(const internal::string& str) {
+StrCaseEq(const internal::string& str) {
   return MakePolymorphicMatcher(internal::StrEqualityMatcher<internal::string>(
       str, true, false));
 }
 
 // Matches a string not equal to str, ignoring case.
 inline PolymorphicMatcher<internal::StrEqualityMatcher<internal::string> >
-    StrCaseNe(const internal::string& str) {
+StrCaseNe(const internal::string& str) {
   return MakePolymorphicMatcher(internal::StrEqualityMatcher<internal::string>(
       str, false, false));
 }
@@ -3981,21 +3992,21 @@ inline PolymorphicMatcher<internal::StrEqualityMatcher<internal::string> >
 // Creates a matcher that matches any string, std::string, or C string
 // that contains the given substring.
 inline PolymorphicMatcher<internal::HasSubstrMatcher<internal::string> >
-    HasSubstr(const internal::string& substring) {
+HasSubstr(const internal::string& substring) {
   return MakePolymorphicMatcher(internal::HasSubstrMatcher<internal::string>(
       substring));
 }
 
 // Matches a string that starts with 'prefix' (case-sensitive).
 inline PolymorphicMatcher<internal::StartsWithMatcher<internal::string> >
-    StartsWith(const internal::string& prefix) {
+StartsWith(const internal::string& prefix) {
   return MakePolymorphicMatcher(internal::StartsWithMatcher<internal::string>(
       prefix));
 }
 
 // Matches a string that ends with 'suffix' (case-sensitive).
 inline PolymorphicMatcher<internal::EndsWithMatcher<internal::string> >
-    EndsWith(const internal::string& suffix) {
+EndsWith(const internal::string& suffix) {
   return MakePolymorphicMatcher(internal::EndsWithMatcher<internal::string>(
       suffix));
 }
@@ -4103,7 +4114,7 @@ inline internal::Ne2Matcher Ne() { return internal::Ne2Matcher(); }
 
 // Creates a matcher that matches any value of type T that m doesn't
 // match.
-template <typename InnerMatcher>
+template<typename InnerMatcher>
 inline internal::NotMatcher<InnerMatcher> Not(InnerMatcher m) {
   return internal::NotMatcher<InnerMatcher>(m);
 }
@@ -4111,7 +4122,7 @@ inline internal::NotMatcher<InnerMatcher> Not(InnerMatcher m) {
 // Returns a matcher that matches anything that satisfies the given
 // predicate.  The predicate can be any unary function or functor
 // whose return type can be implicitly converted to bool.
-template <typename Predicate>
+template<typename Predicate>
 inline PolymorphicMatcher<internal::TrulyMatcher<Predicate> >
 Truly(Predicate pred) {
   return MakePolymorphicMatcher(internal::TrulyMatcher<Predicate>(pred));
@@ -4123,7 +4134,7 @@ Truly(Predicate pred) {
 // matcher. For instance:
 //   EXPECT_THAT(container, SizeIs(2));     // Checks container has 2 elements.
 //   EXPECT_THAT(container, SizeIs(Le(2));  // Checks container has at most 2.
-template <typename SizeMatcher>
+template<typename SizeMatcher>
 inline internal::SizeIsMatcher<SizeMatcher>
 SizeIs(const SizeMatcher& size_matcher) {
   return internal::SizeIsMatcher<SizeMatcher>(size_matcher);
@@ -4134,7 +4145,7 @@ SizeIs(const SizeMatcher& size_matcher) {
 // can be used instead of SizeIs with containers such as std::forward_list which
 // do not implement size(). The container must provide const_iterator (with
 // valid iterator_traits), begin() and end().
-template <typename DistanceMatcher>
+template<typename DistanceMatcher>
 inline internal::BeginEndDistanceIsMatcher<DistanceMatcher>
 BeginEndDistanceIs(const DistanceMatcher& distance_matcher) {
   return internal::BeginEndDistanceIsMatcher<DistanceMatcher>(distance_matcher);
@@ -4144,20 +4155,21 @@ BeginEndDistanceIs(const DistanceMatcher& distance_matcher) {
 // This matcher behaves like Eq(), but in the event of mismatch lists the
 // values that are included in one container but not the other. (Duplicate
 // values and order differences are not explained.)
-template <typename Container>
+template<typename Container>
 inline PolymorphicMatcher<internal::ContainerEqMatcher<  // NOLINT
-                            GTEST_REMOVE_CONST_(Container)> >
-    ContainerEq(const Container& rhs) {
+    GTEST_REMOVE_CONST_(Container)> >
+ContainerEq(const Container& rhs) {
   // This following line is for working around a bug in MSVC 8.0,
   // which causes Container to be a const type sometimes.
-  typedef GTEST_REMOVE_CONST_(Container) RawContainer;
+  typedef GTEST_REMOVE_CONST_(Container)
+  RawContainer;
   return MakePolymorphicMatcher(
       internal::ContainerEqMatcher<RawContainer>(rhs));
 }
 
 // Returns a matcher that matches a container that, when sorted using
 // the given comparator, matches container_matcher.
-template <typename Comparator, typename ContainerMatcher>
+template<typename Comparator, typename ContainerMatcher>
 inline internal::WhenSortedByMatcher<Comparator, ContainerMatcher>
 WhenSortedBy(const Comparator& comparator,
              const ContainerMatcher& container_matcher) {
@@ -4167,7 +4179,7 @@ WhenSortedBy(const Comparator& comparator,
 
 // Returns a matcher that matches a container that, when sorted using
 // the < operator, matches container_matcher.
-template <typename ContainerMatcher>
+template<typename ContainerMatcher>
 inline internal::WhenSortedByMatcher<internal::LessComparator, ContainerMatcher>
 WhenSorted(const ContainerMatcher& container_matcher) {
   return
@@ -4181,14 +4193,15 @@ WhenSorted(const ContainerMatcher& container_matcher) {
 // TupleMatcher must be able to be safely cast to Matcher<tuple<const
 // T1&, const T2&> >, where T1 and T2 are the types of elements in the
 // LHS container and the RHS container respectively.
-template <typename TupleMatcher, typename Container>
+template<typename TupleMatcher, typename Container>
 inline internal::PointwiseMatcher<TupleMatcher,
                                   GTEST_REMOVE_CONST_(Container)>
 Pointwise(const TupleMatcher& tuple_matcher, const Container& rhs) {
   // This following line is for working around a bug in MSVC 8.0,
   // which causes Container to be a const type sometimes (e.g. when
   // rhs is a const int[])..
-  typedef GTEST_REMOVE_CONST_(Container) RawContainer;
+  typedef GTEST_REMOVE_CONST_(Container)
+  RawContainer;
   return internal::PointwiseMatcher<TupleMatcher, RawContainer>(
       tuple_matcher, rhs);
 }
@@ -4215,17 +4228,18 @@ inline internal::PointwiseMatcher<TupleMatcher, std::vector<T> > Pointwise(
 //
 // This is like Pointwise(pair_matcher, rhs), except that the element
 // order doesn't matter.
-template <typename Tuple2Matcher, typename RhsContainer>
+template<typename Tuple2Matcher, typename RhsContainer>
 inline internal::UnorderedElementsAreArrayMatcher<
     typename internal::BoundSecondMatcher<
         Tuple2Matcher, typename internal::StlContainerView<GTEST_REMOVE_CONST_(
-                           RhsContainer)>::type::value_type> >
+            RhsContainer)>::type::value_type> >
 UnorderedPointwise(const Tuple2Matcher& tuple2_matcher,
                    const RhsContainer& rhs_container) {
   // This following line is for working around a bug in MSVC 8.0,
   // which causes RhsContainer to be a const type sometimes (e.g. when
   // rhs_container is a const int[]).
-  typedef GTEST_REMOVE_CONST_(RhsContainer) RawRhsContainer;
+  typedef GTEST_REMOVE_CONST_(RhsContainer)
+  RawRhsContainer;
 
   // RhsView allows the same code to handle RhsContainer being a
   // STL-style container and it being a native C-style array.
@@ -4278,7 +4292,7 @@ UnorderedPointwise(const Tuple2Matcher& tuple2_matcher,
 //
 //   const char* user_ids[] = { "joe", "mike", "tom" };
 //   EXPECT_THAT(user_ids, Contains(Eq(::std::string("tom"))));
-template <typename M>
+template<typename M>
 inline internal::ContainsMatcher<M> Contains(M matcher) {
   return internal::ContainsMatcher<M>(matcher);
 }
@@ -4310,7 +4324,7 @@ inline internal::ContainsMatcher<M> Contains(M matcher) {
 //
 //   const char* user_ids[] = { "joe", "mike", "tom" };
 //   EXPECT_THAT(user_ids, Not(Each(Eq(::std::string("tom")))));
-template <typename M>
+template<typename M>
 inline internal::EachMatcher<M> Each(M matcher) {
   return internal::EachMatcher<M>(matcher);
 }
@@ -4318,7 +4332,7 @@ inline internal::EachMatcher<M> Each(M matcher) {
 // Key(inner_matcher) matches an std::pair whose 'first' field matches
 // inner_matcher.  For example, Contains(Key(Ge(5))) can be used to match an
 // std::map that contains at least one element whose key is >= 5.
-template <typename M>
+template<typename M>
 inline internal::KeyMatcher<M> Key(M inner_matcher) {
   return internal::KeyMatcher<M>(inner_matcher);
 }
@@ -4328,7 +4342,7 @@ inline internal::KeyMatcher<M> Key(M inner_matcher) {
 // example, EXPECT_THAT(map_type, ElementsAre(Pair(Ge(5), "foo"))) can be used
 // to match a std::map<int, string> that contains exactly one element whose key
 // is >= 5 and whose value equals "foo".
-template <typename FirstMatcher, typename SecondMatcher>
+template<typename FirstMatcher, typename SecondMatcher>
 inline internal::PairMatcher<FirstMatcher, SecondMatcher>
 Pair(FirstMatcher first_matcher, SecondMatcher second_matcher) {
   return internal::PairMatcher<FirstMatcher, SecondMatcher>(
@@ -4337,20 +4351,20 @@ Pair(FirstMatcher first_matcher, SecondMatcher second_matcher) {
 
 // Returns a predicate that is satisfied by anything that matches the
 // given matcher.
-template <typename M>
+template<typename M>
 inline internal::MatcherAsPredicate<M> Matches(M matcher) {
   return internal::MatcherAsPredicate<M>(matcher);
 }
 
 // Returns true iff the value matches the matcher.
-template <typename T, typename M>
+template<typename T, typename M>
 inline bool Value(const T& value, M matcher) {
   return testing::Matches(matcher)(value);
 }
 
 // Matches the value against the given matcher and explains the match
 // result to listener.
-template <typename T, typename M>
+template<typename T, typename M>
 inline bool ExplainMatchResult(
     M matcher, const T& value, MatchResultListener* listener) {
   return SafeMatcherCast<const T&>(matcher).MatchAndExplain(value, listener);
@@ -4378,7 +4392,7 @@ inline internal::AnyOfMatcher<Args...> AnyOf(const Args&... matchers) {
 // which is easier to read than
 //
 //   EXPECT_CALL(foo, Bar(_, _)).With(Eq());
-template <typename InnerMatcher>
+template<typename InnerMatcher>
 inline InnerMatcher AllArgs(const InnerMatcher& matcher) { return matcher; }
 
 // These macros allow using matchers to check values in Google Test

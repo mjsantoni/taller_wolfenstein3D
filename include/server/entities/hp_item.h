@@ -4,15 +4,15 @@
 #include "positionable.h"
 
 class HPItem : public Positionable {
-protected:
-    int hp_given;
-    
-public:
-    HPItem(std::string type, int id, int _hp_given);
+ protected:
+  int hp_given;
 
-    int getHP();
+ public:
+  HPItem(std::string type, int id, int _hp_given);
 
-    ~HPItem();
+  int getHP();
+
+  ~HPItem();
 };
 
 #endif // HP_ITEM_H

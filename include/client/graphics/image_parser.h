@@ -12,12 +12,11 @@
 #include "client_routes.h"
 
 class ImageParser {
-private:
-    void processLine(std::vector<ObjectInfo>& vector, std::string line,
-                           int object_type);
-public:
-    void fillImageVector(std::vector<ObjectInfo>& vector);
+ private:
+  void processLine(std::vector<ObjectInfo>& vector, std::string line,
+                   int object_type);
+ public:
+  void fillImageVector(std::vector<ObjectInfo>& vector);
 };
-
 
 #endif //TP_WOLFENSTEIN_IMAGE_PARSER_H

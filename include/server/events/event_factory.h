@@ -5,15 +5,15 @@
 #include "common/event.h"
 
 class EventFactory {
-private:
-    SharedQueue<Event>& eventQueue;
+ private:
+  SharedQueue<Event>& eventQueue;
 
-public:
-    explicit EventFactory(SharedQueue<Event>& _event_queue);
+ public:
+  explicit EventFactory(SharedQueue<Event>& _event_queue);
 
-    void createAndPushFromBytes(char* bytes);
+  void createAndPushFromBytes(char* bytes);
 
-    void pushNewEvent(Event &event);
+  void pushNewEvent(Event& event);
 };
 
 #endif //TP_WOLFENSTEIN_EVENT_FACTORY_H

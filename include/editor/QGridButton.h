@@ -4,18 +4,18 @@
 #include <QPushButton>
 #include <QMouseEvent>
 
-class QGridButton : public QPushButton{
-Q_OBJECT
-public:
-    explicit QGridButton(QWidget *parent = 0);
+class QGridButton : public QPushButton {
+ Q_OBJECT
+ public:
+  explicit QGridButton(QWidget* parent = 0);
 
-private slots:
-    void mousePressEvent(QMouseEvent *e);
+ private slots:
+  void mousePressEvent(QMouseEvent* e);
 
-signals:
-    void rightClicked();
+ signals:
+  void rightClicked();
 
-public slots:
+ public slots:
 
 };
 

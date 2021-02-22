@@ -7,28 +7,28 @@
 #include <unordered_map>
 
 class MapParser {
-private:
-    std::unordered_map<std::string,
-            std::vector<Coordinate>> items;
-    std::unordered_map<std::string,
-            std::vector<Coordinate>> players;
-    std::unordered_map<std::string,
-            std::vector<Coordinate>> scenarios;
+ private:
+  std::unordered_map<std::string,
+                     std::vector<Coordinate>> items;
+  std::unordered_map<std::string,
+                     std::vector<Coordinate>> players;
+  std::unordered_map<std::string,
+                     std::vector<Coordinate>> scenarios;
 
-public:
-    YAML::Node config;
+ public:
+  YAML::Node config;
 
-    explicit MapParser(const std::string& path);
+  explicit MapParser(const std::string& path);
 
-    std::unordered_map<std::string,
-    std::vector<Coordinate>> getCategory(const std::string& node);
+  std::unordered_map<std::string,
+                     std::vector<Coordinate>> getCategory(const std::string& node);
 
-    Coordinate getDimensions();
+  Coordinate getDimensions();
 
-    std::unordered_map<std::string,
-    std::vector<Coordinate>> getSpecificCategory(const std::string& category);
+  std::unordered_map<std::string,
+                     std::vector<Coordinate>> getSpecificCategory(const std::string& category);
 
-    ~MapParser();
+  ~MapParser();
 };
 
 #endif //TP_WOLFENSTEIN_MAPPARSER_H

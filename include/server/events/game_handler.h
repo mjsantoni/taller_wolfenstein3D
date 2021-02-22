@@ -18,51 +18,50 @@
 #include "server/events/clients_manager.h"
 
 class GameHandler : public Thread {
-private:
-    SharedQueue<Event> eventQueue;
-    BotsManager botsManager;
-    Game game;
-    ClientsManager clientsManager;
-    EventProcessor eventProcessor;
-    std::atomic<bool> alive;
-    std::atomic<bool> can_join_player;
-    std::mutex m;
+ private:
+  SharedQueue<Event> eventQueue;
+  BotsManager botsManager;
+  Game game;
+  ClientsManager clientsManager;
+  EventProcessor eventProcessor;
+  std::atomic<bool> alive;
+  std::atomic<bool> can_join_player;
+  std::mutex m;
 
-    int min_players_in_lobby;
-    int max_bots;
-    int max_players;
-    int id;
-    std::string name;
-    int game_duration;
+  int min_players_in_lobby;
+  int max_bots;
+  int max_players;
+  int id;
+  std::string name;
+  int game_duration;
 
-public:
-    GameHandler(const std::string &map_path, const std::string &config_path, int _min_players_in_lobby,
-                int _max_players, int _max_bots, int _game_id, int _game_duration);
+ public:
+  GameHandler(const std::string& map_path, const std::string& config_path, int _min_players_in_lobby,
+              int _max_players, int _max_bots, int _game_id, int _game_duration);
 
-    void run() override;
+  void run() override;
 
-    void addNewPlayer(NetworkConnection fd);
+  void addNewPlayer(NetworkConnection fd);
 
-    void stop();
+  void stop();
 
-    void notifyClients(std::vector<Change> &changes);
+  void notifyClients(std::vector<Change>& changes);
 
-    void waitInLobby();
+  void waitInLobby();
 
-    void sendTops();
+  void sendTops();
 
-    void notifyTop(std::vector<std::pair<int, int>> top, int change_id);
+  void notifyTop(std::vector<std::pair<int, int>> top, int change_id);
 
-    void addBots();
+  void addBots();
 
-    bool canJoinPlayer();
+  bool canJoinPlayer();
 
-    bool ended();
+  bool ended();
 
-    void endGame();
+  void endGame();
 
-    std::string getInformation();
+  std::string getInformation();
 };
-
 
 #endif //TP_WOLFENSTEIN_GAME_HANDLER_H

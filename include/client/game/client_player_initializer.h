@@ -9,12 +9,11 @@
 #include "client_player.h"
 
 class ClientPlayerInitializer {
-private:
-    ConfigParser config_parser;
-public:
-    ClientPlayerInitializer();
-    void initializePlayer(ClientPlayer& player);
+ private:
+  ConfigParser config_parser;
+ public:
+  ClientPlayerInitializer();
+  void initializePlayer(ClientPlayer& player);
 };
-
 
 #endif //TP_WOLFENSTEIN_CLIENT_PLAYER_INITIALIZER_H

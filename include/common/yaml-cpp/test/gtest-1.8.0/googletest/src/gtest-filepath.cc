@@ -105,7 +105,7 @@ FilePath FilePath::GetCurrentDir() {
   char cwd[GTEST_PATH_MAX_ + 1] = { '\0' };
   return FilePath(_getcwd(cwd, sizeof(cwd)) == NULL ? "" : cwd);
 #else
-  char cwd[GTEST_PATH_MAX_ + 1] = { '\0' };
+  char cwd[GTEST_PATH_MAX_ + 1] = {'\0'};
   char* result = getcwd(cwd, sizeof(cwd));
 # if GTEST_OS_NACL
   // getcwd will likely fail in NaCl due to the sandbox, so return something
@@ -299,7 +299,7 @@ FilePath FilePath::GenerateUniqueFileName(const FilePath& directory,
 // This does NOT check that a directory (or file) actually exists.
 bool FilePath::IsDirectory() const {
   return !pathname_.empty() &&
-         IsPathSeparator(pathname_.c_str()[pathname_.length() - 1]);
+      IsPathSeparator(pathname_.c_str()[pathname_.length() - 1]);
 }
 
 // Create directories so that path exists. Returns true if successful or if
@@ -345,8 +345,8 @@ bool FilePath::CreateFolder() const {
 // On Windows platform, uses \ as the separator, other platforms use /.
 FilePath FilePath::RemoveTrailingPathSeparator() const {
   return IsDirectory()
-      ? FilePath(pathname_.substr(0, pathname_.length() - 1))
-      : *this;
+         ? FilePath(pathname_.substr(0, pathname_.length() - 1))
+         : *this;
 }
 
 // Removes any redundant separators that might be in the pathname.

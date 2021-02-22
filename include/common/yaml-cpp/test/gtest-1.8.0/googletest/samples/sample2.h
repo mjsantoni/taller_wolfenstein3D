@@ -36,7 +36,6 @@
 
 #include <string.h>
 
-
 // A simple string class.
 class MyString {
  private:
@@ -80,6 +79,5 @@ class MyString {
   // Sets the 0-terminated C string this MyString object represents.
   void Set(const char* c_string);
 };
-
 
 #endif  // GTEST_SAMPLES_SAMPLE2_H_

@@ -125,6 +125,8 @@ INSTANTIATE_TEST_CASE_P(
 // that library at all and consequently complain about missing entry
 // point defined in that library (fatal error LNK1561: entry point
 // must be defined). This dummy test keeps gtest_main linked in.
-TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
+TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform
+) {
+}
 
 #endif  // GTEST_HAS_PARAM_TEST

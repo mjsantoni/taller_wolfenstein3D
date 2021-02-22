@@ -1,7 +1,7 @@
 #ifndef VALUE_DETAIL_NODE_ITERATOR_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define VALUE_DETAIL_NODE_ITERATOR_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -22,7 +22,7 @@ struct iterator_type {
   enum value { NoneType, Sequence, Map };
 };
 
-template <typename V>
+template<typename V>
 struct node_iterator_value : public std::pair<V*, V*> {
   typedef std::pair<V*, V*> kv;
 
@@ -39,19 +39,19 @@ struct node_iterator_value : public std::pair<V*, V*> {
 typedef std::vector<node*> node_seq;
 typedef std::vector<std::pair<node*, node*>> node_map;
 
-template <typename V>
+template<typename V>
 struct node_iterator_type {
   typedef node_seq::iterator seq;
   typedef node_map::iterator map;
 };
 
-template <typename V>
+template<typename V>
 struct node_iterator_type<const V> {
   typedef node_seq::const_iterator seq;
   typedef node_map::const_iterator map;
 };
 
-template <typename V>
+template<typename V>
 class node_iterator_base
     : public std::iterator<std::forward_iterator_tag, node_iterator_value<V>,
                            std::ptrdiff_t, node_iterator_value<V>*,
@@ -87,7 +87,7 @@ class node_iterator_base
     m_mapIt = increment_until_defined(m_mapIt);
   }
 
-  template <typename W>
+  template<typename W>
   node_iterator_base(const node_iterator_base<W>& rhs,
                      typename std::enable_if<std::is_convertible<W*, V*>::value,
                                              enabler>::type = enabler())
@@ -96,39 +96,34 @@ class node_iterator_base
         m_mapIt(rhs.m_mapIt),
         m_mapEnd(rhs.m_mapEnd) {}
 
-  template <typename>
-  friend class node_iterator_base;
+  template<typename>
+  friend
+  class node_iterator_base;
 
-  template <typename W>
+  template<typename W>
   bool operator==(const node_iterator_base<W>& rhs) const {
     if (m_type != rhs.m_type)
       return false;
 
     switch (m_type) {
-      case iterator_type::NoneType:
-        return true;
-      case iterator_type::Sequence:
-        return m_seqIt == rhs.m_seqIt;
-      case iterator_type::Map:
-        return m_mapIt == rhs.m_mapIt;
+      case iterator_type::NoneType:return true;
+      case iterator_type::Sequence:return m_seqIt == rhs.m_seqIt;
+      case iterator_type::Map:return m_mapIt == rhs.m_mapIt;
     }
     return true;
   }
 
-  template <typename W>
+  template<typename W>
   bool operator!=(const node_iterator_base<W>& rhs) const {
     return !(*this == rhs);
   }
 
   node_iterator_base<V>& operator++() {
     switch (m_type) {
-      case iterator_type::NoneType:
+      case iterator_type::NoneType:break;
+      case iterator_type::Sequence:++m_seqIt;
         break;
-      case iterator_type::Sequence:
-        ++m_seqIt;
-        break;
-      case iterator_type::Map:
-        ++m_mapIt;
+      case iterator_type::Map:++m_mapIt;
         m_mapIt = increment_until_defined(m_mapIt);
         break;
     }
@@ -143,12 +138,9 @@ class node_iterator_base
 
   value_type operator*() const {
     switch (m_type) {
-      case iterator_type::NoneType:
-        return value_type();
-      case iterator_type::Sequence:
-        return value_type(**m_seqIt);
-      case iterator_type::Map:
-        return value_type(*m_mapIt->first, *m_mapIt->second);
+      case iterator_type::NoneType:return value_type();
+      case iterator_type::Sequence:return value_type(**m_seqIt);
+      case iterator_type::Map:return value_type(*m_mapIt->first, *m_mapIt->second);
     }
     return value_type();
   }

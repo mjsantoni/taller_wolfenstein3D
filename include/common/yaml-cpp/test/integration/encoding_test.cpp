@@ -10,7 +10,7 @@ using ::testing::InSequence;
 
 namespace YAML {
 namespace {
-typedef void (*EncodingFn)(std::ostream&, int);
+typedef void (* EncodingFn)(std::ostream&, int);
 
 inline char Byte(int ch) {
   return static_cast<char>(
@@ -129,54 +129,74 @@ class EncodingTest : public HandlerTest {
   }
 };
 
-TEST_F(EncodingTest, UTF8_noBOM) {
-  SetUpEncoding(&EncodeToUtf8, false);
-  Run();
+TEST_F(EncodingTest, UTF8_noBOM
+) {
+SetUpEncoding(& EncodeToUtf8,
+false);
+Run();
 }
 
-TEST_F(EncodingTest, UTF8_BOM) {
-  SetUpEncoding(&EncodeToUtf8, true);
-  Run();
+TEST_F(EncodingTest, UTF8_BOM
+) {
+SetUpEncoding(& EncodeToUtf8,
+true);
+Run();
 }
 
-TEST_F(EncodingTest, UTF16LE_noBOM) {
-  SetUpEncoding(&EncodeToUtf16LE, false);
-  Run();
+TEST_F(EncodingTest, UTF16LE_noBOM
+) {
+SetUpEncoding(& EncodeToUtf16LE,
+false);
+Run();
 }
 
-TEST_F(EncodingTest, UTF16LE_BOM) {
-  SetUpEncoding(&EncodeToUtf16LE, true);
-  Run();
+TEST_F(EncodingTest, UTF16LE_BOM
+) {
+SetUpEncoding(& EncodeToUtf16LE,
+true);
+Run();
 }
 
-TEST_F(EncodingTest, UTF16BE_noBOM) {
-  SetUpEncoding(&EncodeToUtf16BE, false);
-  Run();
+TEST_F(EncodingTest, UTF16BE_noBOM
+) {
+SetUpEncoding(& EncodeToUtf16BE,
+false);
+Run();
 }
 
-TEST_F(EncodingTest, UTF16BE_BOM) {
-  SetUpEncoding(&EncodeToUtf16BE, true);
-  Run();
+TEST_F(EncodingTest, UTF16BE_BOM
+) {
+SetUpEncoding(& EncodeToUtf16BE,
+true);
+Run();
 }
 
-TEST_F(EncodingTest, UTF32LE_noBOM) {
-  SetUpEncoding(&EncodeToUtf32LE, false);
-  Run();
+TEST_F(EncodingTest, UTF32LE_noBOM
+) {
+SetUpEncoding(& EncodeToUtf32LE,
+false);
+Run();
 }
 
-TEST_F(EncodingTest, UTF32LE_BOM) {
-  SetUpEncoding(&EncodeToUtf32LE, true);
-  Run();
+TEST_F(EncodingTest, UTF32LE_BOM
+) {
+SetUpEncoding(& EncodeToUtf32LE,
+true);
+Run();
 }
 
-TEST_F(EncodingTest, UTF32BE_noBOM) {
-  SetUpEncoding(&EncodeToUtf32BE, false);
-  Run();
+TEST_F(EncodingTest, UTF32BE_noBOM
+) {
+SetUpEncoding(& EncodeToUtf32BE,
+false);
+Run();
 }
 
-TEST_F(EncodingTest, UTF32BE_BOM) {
-  SetUpEncoding(&EncodeToUtf32BE, true);
-  Run();
+TEST_F(EncodingTest, UTF32BE_BOM
+) {
+SetUpEncoding(& EncodeToUtf32BE,
+true);
+Run();
 }
 }
 }

@@ -8,5 +8,4 @@
 #define EXPLOSION_EFFECT_ID -1
 #define BLOOD_EFFECT_ID -2
 
-
 #endif //TP_WOLFENSTEIN_EFFECTS_H

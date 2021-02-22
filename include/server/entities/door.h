@@ -4,12 +4,12 @@
 #include "positionable.h"
 
 class Door : public Positionable {
-protected:
+ protected:
 
-public:
-    Door(std::string type, int id);
+ public:
+  Door(std::string type, int id);
 
-    ~Door();
+  ~Door();
 };
 
 #endif // DOOR_H

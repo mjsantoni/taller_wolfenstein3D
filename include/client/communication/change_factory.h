@@ -9,14 +9,13 @@
 #include <common/change.h>
 
 class ChangeFactory {
-private:
-    SharedQueue<Change>& change_queue;
-    // Es de Event* o Event?
+ private:
+  SharedQueue<Change>& change_queue;
+  // Es de Event* o Event?
 
-public:
-    explicit ChangeFactory(SharedQueue<Change>& _event_queue);
-    Change createFromBytes(char* bytes);
+ public:
+  explicit ChangeFactory(SharedQueue<Change>& _event_queue);
+  Change createFromBytes(char* bytes);
 };
-
 
 #endif //TP_WOLFENSTEIN_CHANGE_FACTORY_H

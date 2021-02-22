@@ -38,28 +38,28 @@ int main(int argc, char* args[]) {
 }
 */
 int main(int argc, char* argv[]) {
-    if (argc != ARG_AMOUNT) {
-        std::cerr << "[Server] Incorrect parameter amount." << std::endl;
-        return 1;
-    }
-    const char* port = argv[ARG_PORT];
+  if (argc != ARG_AMOUNT) {
+    std::cerr << "[Server] Incorrect parameter amount." << std::endl;
+    return 1;
+  }
+  const char* port = argv[ARG_PORT];
 
-    try {
-        NetworkAcceptor networkAcceptor(port);
-        Server server(std::move(networkAcceptor));
-        std::string buffer_stop;
-        server.start();
-        while (std::getline(std::cin, buffer_stop)) {
-            if (buffer_stop == STOP_CHAR) break;
-        }
-        server.stop();
-        server.join();
-    } catch (const NetworkError& e) {
-        std::cerr << e.what();
-    } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
-    } catch (...) {
-        std::cerr << "Unknown error." << std::endl;
+  try {
+    NetworkAcceptor networkAcceptor(port);
+    Server server(std::move(networkAcceptor));
+    std::string buffer_stop;
+    server.start();
+    while (std::getline(std::cin, buffer_stop)) {
+      if (buffer_stop == STOP_CHAR) break;
     }
-    return 0;
+    server.stop();
+    server.join();
+  } catch (const NetworkError& e) {
+    std::cerr << e.what();
+  } catch (const std::exception& e) {
+    std::cerr << e.what() << std::endl;
+  } catch (...) {
+    std::cerr << "Unknown error." << std::endl;
+  }
+  return 0;
 }

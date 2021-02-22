@@ -7,16 +7,16 @@
 #include "common/config_parser.h"
 
 class EventProcessor {
-private:
-    Game& game;
-    ConfigParser configParser;
+ private:
+  Game& game;
+  ConfigParser configParser;
 
-public:
-    EventProcessor(Game &_game, const std::string& config_path);
+ public:
+  EventProcessor(Game& _game, const std::string& config_path);
 
-    std::vector<Change> process(Event& event);
+  std::vector<Change> process(Event& event);
 
-    void movePlayer(int player_id, int value, std::vector<Change> &changes);
+  void movePlayer(int player_id, int value, std::vector<Change>& changes);
 };
 
 #endif //TP_WOLFENSTEIN_EVENT_PROCESSOR_H

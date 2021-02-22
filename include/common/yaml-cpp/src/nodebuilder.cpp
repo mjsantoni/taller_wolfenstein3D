@@ -89,7 +89,7 @@ detail::node& NodeBuilder::Push(const Mark& mark, anchor_t anchor) {
 void NodeBuilder::Push(detail::node& node) {
   const bool needsKey =
       (!m_stack.empty() && m_stack.back()->type() == NodeType::Map &&
-       m_keys.size() < m_mapDepth);
+          m_keys.size() < m_mapDepth);
 
   m_stack.push_back(&node);
   if (needsKey)

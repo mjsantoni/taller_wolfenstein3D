@@ -50,14 +50,11 @@ void EmitFromEvents::OnSequenceStart(const Mark&, const std::string& tag,
   BeginNode();
   EmitProps(tag, anchor);
   switch (style) {
-    case EmitterStyle::Block:
-      m_emitter << Block;
+    case EmitterStyle::Block:m_emitter << Block;
       break;
-    case EmitterStyle::Flow:
-      m_emitter << Flow;
+    case EmitterStyle::Flow:m_emitter << Flow;
       break;
-    default:
-      break;
+    default:break;
   }
   m_emitter << BeginSeq;
   m_stateStack.push(State::WaitingForSequenceEntry);
@@ -74,14 +71,11 @@ void EmitFromEvents::OnMapStart(const Mark&, const std::string& tag,
   BeginNode();
   EmitProps(tag, anchor);
   switch (style) {
-    case EmitterStyle::Block:
-      m_emitter << Block;
+    case EmitterStyle::Block:m_emitter << Block;
       break;
-    case EmitterStyle::Flow:
-      m_emitter << Flow;
+    case EmitterStyle::Flow:m_emitter << Flow;
       break;
-    default:
-      break;
+    default:break;
   }
   m_emitter << BeginMap;
   m_stateStack.push(State::WaitingForKey);
@@ -98,16 +92,13 @@ void EmitFromEvents::BeginNode() {
     return;
 
   switch (m_stateStack.top()) {
-    case State::WaitingForKey:
-      m_emitter << Key;
+    case State::WaitingForKey:m_emitter << Key;
       m_stateStack.top() = State::WaitingForValue;
       break;
-    case State::WaitingForValue:
-      m_emitter << Value;
+    case State::WaitingForValue:m_emitter << Value;
       m_stateStack.top() = State::WaitingForKey;
       break;
-    default:
-      break;
+    default:break;
   }
 }
 

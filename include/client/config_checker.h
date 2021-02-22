@@ -11,50 +11,50 @@
 #include <common/network_connection.h>
 #include <common/network_error.h>
 
-class ConfigChecker: public QMainWindow {
-    std::string &map_data;
-    NetworkConnection sk;
-    bool backed = false;
-public:
+class ConfigChecker : public QMainWindow {
+  std::string& map_data;
+  NetworkConnection sk;
+  bool backed = false;
+ public:
 
-    explicit ConfigChecker(std::string &_map_data, QMainWindow *parent = 0);
+  explicit ConfigChecker(std::string& _map_data, QMainWindow* parent = 0);
 
-    void connectEvents();
+  void connectEvents();
 
-    void lookForServer();
+  void lookForServer();
 
-    void createNewGame();
+  void createNewGame();
 
-    void joinGame();
+  void joinGame();
 
-    std::string getLineContent(const char *lineName);
+  std::string getLineContent(const char* lineName);
 
-    std::string getSpinContent(const char *spinName);
+  std::string getSpinContent(const char* spinName);
 
-    void hideWidget(const char *widgetName);
+  void hideWidget(const char* widgetName);
 
-    void showWidget(const char *widgetName);
+  void showWidget(const char* widgetName);
 
-    void showParameters();
+  void showParameters();
 
-    void showIdSelection();
+  void showIdSelection();
 
-    std::string getComboContent(const char *combo_name);
+  std::string getComboContent(const char* combo_name);
 
-    QStringList readAllMaps();
+  QStringList readAllMaps();
 
-    void updateMinSpin();
+  void updateMinSpin();
 
-    void showError(const char *string);
+  void showError(const char* string);
 
-    void backToMenu();
+  void backToMenu();
 
-    NetworkConnection getConnection();
-public slots:
-    void updateBotsSpin();
-    void updateMaxPlayerMap();
-    void updateMaximums();
-    void updateSpin(const char *to_update, const char *updater);
+  NetworkConnection getConnection();
+ public slots:
+  void updateBotsSpin();
+  void updateMaxPlayerMap();
+  void updateMaximums();
+  void updateSpin(const char* to_update, const char* updater);
 };
 
 #endif //TP_WOLFENSTEIN_CONNECTION_CHECKER_H

@@ -26,7 +26,7 @@ class HandlerTest : public ::testing::Test {
   }
 
   InSequence sequence;
-  StrictMock<MockEventHandler> handler;
-  NiceMock<MockEventHandler> nice_handler;
+  StrictMock <MockEventHandler> handler;
+  NiceMock <MockEventHandler> nice_handler;
 };
 }

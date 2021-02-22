@@ -14,25 +14,24 @@
 #include "in_game_event_handler.h"
 
 class InGameEventGenerator {
-private:
-    bool& game_running;
-    bool& player_alive;
-    bool player_quitted = false;
-    ClientPlayer& player;
-    InGameEventHandler& event_handler;
-    BlockingQueue<Event>& event_queue;
-public:
-    InGameEventGenerator(ClientPlayer& _player,
-                         InGameEventHandler& _event_handler,
-                         BlockingQueue<Event>& _event_queue,
-                         bool& _player_alive,
-                         bool& _game_running);
-    //Event parseEvent(SDL_Event event);
-    void generateInGameEvent(SDL_Event sdl_event);
-    void generateInGameEvents();
+ private:
+  bool& game_running;
+  bool& player_alive;
+  bool player_quitted = false;
+  ClientPlayer& player;
+  InGameEventHandler& event_handler;
+  BlockingQueue<Event>& event_queue;
+ public:
+  InGameEventGenerator(ClientPlayer& _player,
+                       InGameEventHandler& _event_handler,
+                       BlockingQueue<Event>& _event_queue,
+                       bool& _player_alive,
+                       bool& _game_running);
+  //Event parseEvent(SDL_Event event);
+  void generateInGameEvent(SDL_Event sdl_event);
+  void generateInGameEvents();
 
-    bool playerQuitted();
+  bool playerQuitted();
 };
-
 
 #endif //TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H

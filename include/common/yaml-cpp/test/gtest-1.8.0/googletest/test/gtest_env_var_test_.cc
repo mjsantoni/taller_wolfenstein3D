@@ -47,7 +47,8 @@ namespace testing {
 // The purpose of this is to make the test more realistic by ensuring
 // that the UnitTest singleton is created before main() is entered.
 // We don't actual run the TEST itself.
-TEST(GTestEnvVarTest, Dummy) {
+TEST(GTestEnvVarTest, Dummy
+) {
 }
 
 void PrintFlag(const char* flag) {

@@ -48,31 +48,69 @@ using ::testing::internal::scoped_ptr;
 // to print the test names before/after shuffling.
 
 class A : public Test {};
-TEST_F(A, A) {}
-TEST_F(A, B) {}
+TEST_F(A, A
+) {
+}
+TEST_F(A, B
+) {
+}
 
-TEST(ADeathTest, A) {}
-TEST(ADeathTest, B) {}
-TEST(ADeathTest, C) {}
+TEST(ADeathTest, A
+) {
+}
+TEST(ADeathTest, B
+) {
+}
+TEST(ADeathTest, C
+) {
+}
 
-TEST(B, A) {}
-TEST(B, B) {}
-TEST(B, C) {}
-TEST(B, DISABLED_D) {}
-TEST(B, DISABLED_E) {}
+TEST(B, A
+) {
+}
+TEST(B, B
+) {
+}
+TEST(B, C
+) {
+}
+TEST(B, DISABLED_D
+) {
+}
+TEST(B, DISABLED_E
+) {
+}
 
-TEST(BDeathTest, A) {}
-TEST(BDeathTest, B) {}
+TEST(BDeathTest, A
+) {
+}
+TEST(BDeathTest, B
+) {
+}
 
-TEST(C, A) {}
-TEST(C, B) {}
-TEST(C, C) {}
-TEST(C, DISABLED_D) {}
+TEST(C, A
+) {
+}
+TEST(C, B
+) {
+}
+TEST(C, C
+) {
+}
+TEST(C, DISABLED_D
+) {
+}
 
-TEST(CDeathTest, A) {}
+TEST(CDeathTest, A
+) {
+}
 
-TEST(DISABLED_D, A) {}
-TEST(DISABLED_D, DISABLED_B) {}
+TEST(DISABLED_D, A
+) {
+}
+TEST(DISABLED_D, DISABLED_B
+) {
+}
 
 // This printer prints the full test names only, starting each test
 // iteration with a "----" marker.
@@ -90,7 +128,7 @@ class TestNamePrinter : public EmptyTestEventListener {
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   InitGoogleTest(&argc, argv);
 
   // Replaces the default printer with TestNamePrinter, which prints

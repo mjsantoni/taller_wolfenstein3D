@@ -8,19 +8,19 @@
 #include "common/event.h"
 
 class Client {
-private:
-    NetworkConnection sk;
-    ClientHandler clientHandler;
-    ClientUpdater clientUpdater;
+ private:
+  NetworkConnection sk;
+  ClientHandler clientHandler;
+  ClientUpdater clientUpdater;
 
-public:
-    Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id,
-           std::unordered_map<Coordinate,
-           Positionable, Coordinate::HashFunction> map);
+ public:
+  Client(NetworkConnection _sk, SharedQueue<Event>& _sq, int id,
+         std::unordered_map<Coordinate,
+                            Positionable, Coordinate::HashFunction> map);
 
-    void update(Change &change);
+  void update(Change& change);
 
-    void stop();
+  void stop();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_H

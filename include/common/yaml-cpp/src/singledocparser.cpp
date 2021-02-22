@@ -94,27 +94,22 @@ void SingleDocParser::HandleNode(EventHandler& eventHandler) {
   // now split based on what kind of node we should be
   switch (token.type) {
     case Token::PLAIN_SCALAR:
-    case Token::NON_PLAIN_SCALAR:
-      eventHandler.OnScalar(mark, tag, anchor, token.value);
+    case Token::NON_PLAIN_SCALAR:eventHandler.OnScalar(mark, tag, anchor, token.value);
       m_scanner.pop();
       return;
-    case Token::FLOW_SEQ_START:
-      eventHandler.OnSequenceStart(mark, tag, anchor, EmitterStyle::Flow);
+    case Token::FLOW_SEQ_START:eventHandler.OnSequenceStart(mark, tag, anchor, EmitterStyle::Flow);
       HandleSequence(eventHandler);
       eventHandler.OnSequenceEnd();
       return;
-    case Token::BLOCK_SEQ_START:
-      eventHandler.OnSequenceStart(mark, tag, anchor, EmitterStyle::Block);
+    case Token::BLOCK_SEQ_START:eventHandler.OnSequenceStart(mark, tag, anchor, EmitterStyle::Block);
       HandleSequence(eventHandler);
       eventHandler.OnSequenceEnd();
       return;
-    case Token::FLOW_MAP_START:
-      eventHandler.OnMapStart(mark, tag, anchor, EmitterStyle::Flow);
+    case Token::FLOW_MAP_START:eventHandler.OnMapStart(mark, tag, anchor, EmitterStyle::Flow);
       HandleMap(eventHandler);
       eventHandler.OnMapEnd();
       return;
-    case Token::BLOCK_MAP_START:
-      eventHandler.OnMapStart(mark, tag, anchor, EmitterStyle::Block);
+    case Token::BLOCK_MAP_START:eventHandler.OnMapStart(mark, tag, anchor, EmitterStyle::Block);
       HandleMap(eventHandler);
       eventHandler.OnMapEnd();
       return;
@@ -128,8 +123,7 @@ void SingleDocParser::HandleNode(EventHandler& eventHandler) {
         return;
       }
       break;
-    default:
-      break;
+    default:break;
   }
 
   if (tag == "?")
@@ -141,14 +135,11 @@ void SingleDocParser::HandleNode(EventHandler& eventHandler) {
 void SingleDocParser::HandleSequence(EventHandler& eventHandler) {
   // split based on start token
   switch (m_scanner.peek().type) {
-    case Token::BLOCK_SEQ_START:
-      HandleBlockSequence(eventHandler);
+    case Token::BLOCK_SEQ_START:HandleBlockSequence(eventHandler);
       break;
-    case Token::FLOW_SEQ_START:
-      HandleFlowSequence(eventHandler);
+    case Token::FLOW_SEQ_START:HandleFlowSequence(eventHandler);
       break;
-    default:
-      break;
+    default:break;
   }
 }
 
@@ -221,20 +212,15 @@ void SingleDocParser::HandleFlowSequence(EventHandler& eventHandler) {
 void SingleDocParser::HandleMap(EventHandler& eventHandler) {
   // split based on start token
   switch (m_scanner.peek().type) {
-    case Token::BLOCK_MAP_START:
-      HandleBlockMap(eventHandler);
+    case Token::BLOCK_MAP_START:HandleBlockMap(eventHandler);
       break;
-    case Token::FLOW_MAP_START:
-      HandleFlowMap(eventHandler);
+    case Token::FLOW_MAP_START:HandleFlowMap(eventHandler);
       break;
-    case Token::KEY:
-      HandleCompactMap(eventHandler);
+    case Token::KEY:HandleCompactMap(eventHandler);
       break;
-    case Token::VALUE:
-      HandleCompactMapWithNoKey(eventHandler);
+    case Token::VALUE:HandleCompactMapWithNoKey(eventHandler);
       break;
-    default:
-      break;
+    default:break;
   }
 }
 
@@ -372,14 +358,11 @@ void SingleDocParser::ParseProperties(std::string& tag, anchor_t& anchor,
       return;
 
     switch (m_scanner.peek().type) {
-      case Token::TAG:
-        ParseTag(tag);
+      case Token::TAG:ParseTag(tag);
         break;
-      case Token::ANCHOR:
-        ParseAnchor(anchor, anchor_name);
+      case Token::ANCHOR:ParseAnchor(anchor, anchor_name);
         break;
-      default:
-        return;
+      default:return;
     }
   }
 }

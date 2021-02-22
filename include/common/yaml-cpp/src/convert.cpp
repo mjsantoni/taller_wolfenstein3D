@@ -14,7 +14,7 @@ std::string tolower(const std::string& str) {
   return s;
 }
 
-template <typename T>
+template<typename T>
 bool IsEntirely(const std::string& str, T func) {
   for (std::size_t i = 0; i < str.size(); i++)
     if (!func(str[i]))

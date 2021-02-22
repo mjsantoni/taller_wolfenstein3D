@@ -41,21 +41,21 @@
 // the implementations.  You may be able to skip this step if all your
 // implementations can be constructed the same way.
 
-template <class T>
+template<class T>
 PrimeTable* CreatePrimeTable();
 
-template <>
+template<>
 PrimeTable* CreatePrimeTable<OnTheFlyPrimeTable>() {
   return new OnTheFlyPrimeTable;
 }
 
-template <>
+template<>
 PrimeTable* CreatePrimeTable<PreCalculatedPrimeTable>() {
   return new PreCalculatedPrimeTable(10000);
 }
 
 // Then we define a test fixture class template.
-template <class T>
+template<class T>
 class PrimeTableTest : public testing::Test {
  protected:
   // The ctor calls the factory function to create a prime table

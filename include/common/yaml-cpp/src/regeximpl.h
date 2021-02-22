@@ -1,7 +1,7 @@
 #ifndef REGEXIMPL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define REGEXIMPL_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
-#if defined(_MSC_VER) ||                                            \
+#if defined(_MSC_VER) || \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
 #pragma once
@@ -25,7 +25,7 @@ inline bool RegEx::Matches(const std::string& str) const {
 
 inline bool RegEx::Matches(const Stream& in) const { return Match(in) >= 0; }
 
-template <typename Source>
+template<typename Source>
 inline bool RegEx::Matches(const Source& source) const {
   return Match(source) >= 0;
 }
@@ -47,45 +47,36 @@ inline int RegEx::Match(const Stream& in) const {
   return Match(source);
 }
 
-template <typename Source>
+template<typename Source>
 inline bool RegEx::IsValidSource(const Source& source) const {
   return source;
 }
 
-template <>
+template<>
 inline bool RegEx::IsValidSource<StringCharSource>(
     const StringCharSource& source) const {
   switch (m_op) {
     case REGEX_MATCH:
-    case REGEX_RANGE:
-      return source;
-    default:
-      return true;
+    case REGEX_RANGE:return source;
+    default:return true;
   }
 }
 
-template <typename Source>
+template<typename Source>
 inline int RegEx::Match(const Source& source) const {
   return IsValidSource(source) ? MatchUnchecked(source) : -1;
 }
 
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchUnchecked(const Source& source) const {
   switch (m_op) {
-    case REGEX_EMPTY:
-      return MatchOpEmpty(source);
-    case REGEX_MATCH:
-      return MatchOpMatch(source);
-    case REGEX_RANGE:
-      return MatchOpRange(source);
-    case REGEX_OR:
-      return MatchOpOr(source);
-    case REGEX_AND:
-      return MatchOpAnd(source);
-    case REGEX_NOT:
-      return MatchOpNot(source);
-    case REGEX_SEQ:
-      return MatchOpSeq(source);
+    case REGEX_EMPTY:return MatchOpEmpty(source);
+    case REGEX_MATCH:return MatchOpMatch(source);
+    case REGEX_RANGE:return MatchOpRange(source);
+    case REGEX_OR:return MatchOpOr(source);
+    case REGEX_AND:return MatchOpAnd(source);
+    case REGEX_NOT:return MatchOpNot(source);
+    case REGEX_SEQ:return MatchOpSeq(source);
   }
 
   return -1;
@@ -98,21 +89,21 @@ inline int RegEx::MatchUnchecked(const Source& source) const {
 //       So we do all our checks *before* we call these functions
 
 // EmptyOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpEmpty(const Source& source) const {
   return source[0] == Stream::eof() ? 0 : -1;
 }
 
-template <>
+template<>
 inline int RegEx::MatchOpEmpty<StringCharSource>(
     const StringCharSource& source) const {
   return !source
-             ? 0
-             : -1;  // the empty regex only is successful on the empty string
+         ? 0
+         : -1;  // the empty regex only is successful on the empty string
 }
 
 // MatchOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpMatch(const Source& source) const {
   if (source[0] != m_a)
     return -1;
@@ -120,7 +111,7 @@ inline int RegEx::MatchOpMatch(const Source& source) const {
 }
 
 // RangeOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpRange(const Source& source) const {
   if (m_a > source[0] || m_z < source[0])
     return -1;
@@ -128,7 +119,7 @@ inline int RegEx::MatchOpRange(const Source& source) const {
 }
 
 // OrOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpOr(const Source& source) const {
   for (std::size_t i = 0; i < m_params.size(); i++) {
     int n = m_params[i].MatchUnchecked(source);
@@ -142,7 +133,7 @@ inline int RegEx::MatchOpOr(const Source& source) const {
 // Note: 'AND' is a little funny, since we may be required to match things
 //       of different lengths. If we find a match, we return the length of
 //       the FIRST entry on the list.
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpAnd(const Source& source) const {
   int first = -1;
   for (std::size_t i = 0; i < m_params.size(); i++) {
@@ -156,7 +147,7 @@ inline int RegEx::MatchOpAnd(const Source& source) const {
 }
 
 // NotOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpNot(const Source& source) const {
   if (m_params.empty())
     return -1;
@@ -166,14 +157,14 @@ inline int RegEx::MatchOpNot(const Source& source) const {
 }
 
 // SeqOperator
-template <typename Source>
+template<typename Source>
 inline int RegEx::MatchOpSeq(const Source& source) const {
   int offset = 0;
   for (std::size_t i = 0; i < m_params.size(); i++) {
     int n = m_params[i].Match(source + offset);  // note Match, not
-                                                 // MatchUnchecked because we
-                                                 // need to check validity after
-                                                 // the offset
+    // MatchUnchecked because we
+    // need to check validity after
+    // the offset
     if (n == -1)
       return -1;
     offset += n;

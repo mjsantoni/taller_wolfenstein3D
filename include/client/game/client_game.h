@@ -29,40 +29,39 @@
 #include <common/connection_exception.h>
 
 class ClientGame {
-private:
-    GameScreen screen;
-    ClientMap map;
-    ClientPlayer player = ClientPlayer("Player 1");
-    AudioManager audio_manager;
-    bool game_running;
-    InGameEventGenerator event_generator;
-    InGameEventHandler event_handler;
-    InGameChangeProcessor change_processor;
-    StatisticsManager statistics_manager;
-    bool game_started;
-    bool player_ready;
-    bool player_alive = true;
-    bool can_skip_rendering = false;
-    OffGameHandler off_game_handler;
-    ClientPlayerInitializer player_initializer;
-public:
-    ClientGame(SharedQueue<Change>& change_queue,
-               BlockingQueue<Event>& event_queue);
-    ~ClientGame();
-    void startGame(const std::string& map_name);
-    void killPlayer();
-    void respawnPlayer();
-    bool isRunning();
-    void initializePlayer();
-    void initializeMap();
-    void displayConnectionErrorScreen(std::basic_string<char> exception);
-    void processGame();
-    void displayStatistics();
+ private:
+  GameScreen screen;
+  ClientMap map;
+  ClientPlayer player = ClientPlayer("Player 1");
+  AudioManager audio_manager;
+  bool game_running;
+  InGameEventGenerator event_generator;
+  InGameEventHandler event_handler;
+  InGameChangeProcessor change_processor;
+  StatisticsManager statistics_manager;
+  bool game_started;
+  bool player_ready;
+  bool player_alive = true;
+  bool can_skip_rendering = false;
+  OffGameHandler off_game_handler;
+  ClientPlayerInitializer player_initializer;
+ public:
+  ClientGame(SharedQueue<Change>& change_queue,
+             BlockingQueue<Event>& event_queue);
+  ~ClientGame();
+  void startGame(const std::string& map_name);
+  void killPlayer();
+  void respawnPlayer();
+  bool isRunning();
+  void initializePlayer();
+  void initializeMap();
+  void displayConnectionErrorScreen(std::basic_string<char> exception);
+  void processGame();
+  void displayStatistics();
 
-    void displayResultScreen(int game_result);
+  void displayResultScreen(int game_result);
 
-    int processGameResult();
+  int processGameResult();
 };
-
 
 #endif //TP_WOLFENSTEIN_CLIENT_GAME_H

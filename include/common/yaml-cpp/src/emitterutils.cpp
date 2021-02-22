@@ -29,8 +29,7 @@ bool IsAnchorChar(int ch) {  // test for ns-anchor-char
     case 0xA:
     case 0xD:  // b-char
       return false;
-    case 0x85:
-      return true;
+    case 0x85:return true;
   }
 
   if (ch < 0x20) {
@@ -70,17 +69,12 @@ int Utf8BytesIndicated(char ch) {
     case 4:
     case 5:
     case 6:
-    case 7:
-      return 1;
+    case 7:return 1;
     case 12:
-    case 13:
-      return 2;
-    case 14:
-      return 3;
-    case 15:
-      return 4;
-    default:
-      return -1;
+    case 13:return 2;
+    case 14:return 3;
+    case 15:return 4;
+    default:return -1;
   }
 }
 
@@ -174,12 +168,12 @@ bool IsValidPlainScalar(const std::string& str, FlowType::value flowType,
   // then check until something is disallowed
   static const RegEx& disallowed_flow =
       Exp::EndScalarInFlow() | (Exp::BlankOrBreak() + Exp::Comment()) |
-      Exp::NotPrintable() | Exp::Utf8_ByteOrderMark() | Exp::Break() |
-      Exp::Tab();
+          Exp::NotPrintable() | Exp::Utf8_ByteOrderMark() | Exp::Break() |
+          Exp::Tab();
   static const RegEx& disallowed_block =
       Exp::EndScalar() | (Exp::BlankOrBreak() + Exp::Comment()) |
-      Exp::NotPrintable() | Exp::Utf8_ByteOrderMark() | Exp::Break() |
-      Exp::Tab();
+          Exp::NotPrintable() | Exp::Utf8_ByteOrderMark() | Exp::Break() |
+          Exp::Tab();
   const RegEx& disallowed =
       flowType == FlowType::Flow ? disallowed_flow : disallowed_block;
 
@@ -275,15 +269,13 @@ StringFormat::value ComputeStringFormat(const std::string& str,
         return StringFormat::SingleQuoted;
       }
       return StringFormat::DoubleQuoted;
-    case DoubleQuoted:
-      return StringFormat::DoubleQuoted;
+    case DoubleQuoted:return StringFormat::DoubleQuoted;
     case Literal:
       if (IsValidLiteralScalar(str, flowType, escapeNonAscii)) {
         return StringFormat::Literal;
       }
       return StringFormat::DoubleQuoted;
-    default:
-      break;
+    default:break;
   }
 
   return StringFormat::DoubleQuoted;
@@ -296,7 +288,7 @@ bool WriteSingleQuotedString(ostream_wrapper& out, const std::string& str) {
        GetNextCodePointAndAdvance(codePoint, i, str.end());) {
     if (codePoint == '\n') {
       return false;  // We can't handle a new line and the attendant indentation
-                     // yet
+      // yet
     }
 
     if (codePoint == '\'') {
@@ -316,31 +308,25 @@ bool WriteDoubleQuotedString(ostream_wrapper& out, const std::string& str,
   for (std::string::const_iterator i = str.begin();
        GetNextCodePointAndAdvance(codePoint, i, str.end());) {
     switch (codePoint) {
-      case '\"':
-        out << "\\\"";
+      case '\"':out << "\\\"";
         break;
-      case '\\':
-        out << "\\\\";
+      case '\\':out << "\\\\";
         break;
-      case '\n':
-        out << "\\n";
+      case '\n':out << "\\n";
         break;
-      case '\t':
-        out << "\\t";
+      case '\t':out << "\\t";
         break;
-      case '\r':
-        out << "\\r";
+      case '\r':out << "\\r";
         break;
-      case '\b':
-        out << "\\b";
+      case '\b':out << "\\b";
         break;
       default:
         if (codePoint < 0x20 ||
             (codePoint >= 0x80 &&
-             codePoint <= 0xA0)) {  // Control characters and non-breaking space
+                codePoint <= 0xA0)) {  // Control characters and non-breaking space
           WriteDoubleQuoteEscapeSequence(out, codePoint);
         } else if (codePoint == 0xFEFF) {  // Byte order marks (ZWNS) should be
-                                           // escaped (YAML 1.2, sec. 5.2)
+          // escaped (YAML 1.2, sec. 5.2)
           WriteDoubleQuoteEscapeSequence(out, codePoint);
         } else if (escapeNonAscii && codePoint > 0x7E) {
           WriteDoubleQuoteEscapeSequence(out, codePoint);

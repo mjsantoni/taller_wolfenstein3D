@@ -118,9 +118,9 @@ std::string ScanScalar(Stream& INPUT, ScanScalarParams& params) {
 
     // first the required indentation
     while (INPUT.peek() == ' ' &&
-           (INPUT.column() < params.indent ||
+        (INPUT.column() < params.indent ||
             (params.detectIndent && !foundNonEmptyLine)) &&
-           !params.end->Matches(INPUT)) {
+        !params.end->Matches(INPUT)) {
       INPUT.eat(1);
     }
 
@@ -158,8 +158,7 @@ std::string ScanScalar(Stream& INPUT, ScanScalarParams& params) {
     // (not fold or keep)
     if (pastOpeningBreak) {
       switch (params.fold) {
-        case DONT_FOLD:
-          scalar += "\n";
+        case DONT_FOLD:scalar += "\n";
           break;
         case FOLD_BLOCK:
           if (!emptyLine && !nextEmptyLine && !moreIndented &&
@@ -227,7 +226,8 @@ std::string ScanScalar(Stream& INPUT, ScanScalarParams& params) {
       } else if (pos + 1 < scalar.size()) {
         scalar.erase(pos + 2);
       }
-    } break;
+    }
+      break;
     case STRIP: {
       std::size_t pos = scalar.find_last_not_of('\n');
       if (lastEscapedChar != std::string::npos) {
@@ -240,9 +240,9 @@ std::string ScanScalar(Stream& INPUT, ScanScalarParams& params) {
       } else if (pos < scalar.size()) {
         scalar.erase(pos + 1);
       }
-    } break;
-    default:
+    }
       break;
+    default:break;
   }
 
   return scalar;

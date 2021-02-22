@@ -1,292 +1,292 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Editor</class>
- <widget class="QMainWindow" name="Editor">
-  <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
-  </property>
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="palette">
-   <palette>
-    <active>
-     <colorrole role="Highlight">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>239</red>
-        <green>41</green>
-        <blue>41</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>239</red>
-        <green>41</green>
-        <blue>41</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </active>
-    <inactive>
-     <colorrole role="Highlight">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>239</red>
-        <green>41</green>
-        <blue>41</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>239</red>
-        <green>41</green>
-        <blue>41</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </inactive>
-    <disabled>
-     <colorrole role="Highlight">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>145</red>
-        <green>145</green>
-        <blue>145</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>239</red>
-        <green>41</green>
-        <blue>41</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </disabled>
-   </palette>
-  </property>
-  <property name="acceptDrops">
-   <bool>false</bool>
-  </property>
-  <property name="windowTitle">
-   <string>Editor</string>
-  </property>
-  <property name="tabShape">
-   <enum>QTabWidget::Triangular</enum>
-  </property>
-  <property name="dockOptions">
-   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
-  </property>
-  <property name="unifiedTitleAndToolBarOnMac">
-   <bool>false</bool>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>800</width>
-     <height>600</height>
-    </size>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="buttonExport">
-        <property name="text">
-         <string>Export</string>
+    <class>Editor</class>
+    <widget class="QMainWindow" name="Editor">
+        <property name="windowModality">
+            <enum>Qt::WindowModal</enum>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>1</number>
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1920</width>
+                <height>1080</height>
+            </rect>
         </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
         </property>
-        <item>
-         <layout class="QGridLayout" name="gridDimensions">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetNoConstraint</enum>
-          </property>
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item row="1" column="1">
-           <widget class="QLabel" name="labelWidth">
-            <property name="text">
-             <string>Width</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLineEdit" name="inputWidth">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="buttonRefresh">
-            <property name="text">
-             <string>Refresh</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="default">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLineEdit" name="inputHeight">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="labelHeight">
-            <property name="text">
-             <string>Height</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="buttonScenario">
-            <property name="text">
-             <string>Scenario</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonItems">
-            <property name="text">
-             <string>Items</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="autoDefault">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonWeapons">
-            <property name="text">
-             <string>Weapons</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonPlayers">
-            <property name="text">
-             <string>Players</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QGridLayout" name="texturesGrid">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0">
-       <widget class="QScrollArea" name="scrollArea">
-        <property name="widgetResizable">
-         <bool>true</bool>
+        <property name="palette">
+            <palette>
+                <active>
+                    <colorrole role="Highlight">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>239</red>
+                                <green>41</green>
+                                <blue>41</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                    <colorrole role="Link">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>239</red>
+                                <green>41</green>
+                                <blue>41</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                </active>
+                <inactive>
+                    <colorrole role="Highlight">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>239</red>
+                                <green>41</green>
+                                <blue>41</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                    <colorrole role="Link">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>239</red>
+                                <green>41</green>
+                                <blue>41</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                </inactive>
+                <disabled>
+                    <colorrole role="Highlight">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>145</red>
+                                <green>145</green>
+                                <blue>145</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                    <colorrole role="Link">
+                        <brush brushstyle="SolidPattern">
+                            <color alpha="255">
+                                <red>239</red>
+                                <green>41</green>
+                                <blue>41</blue>
+                            </color>
+                        </brush>
+                    </colorrole>
+                </disabled>
+            </palette>
         </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>945</width>
-           <height>983</height>
-          </rect>
-         </property>
-         <widget class="QWidget" name="gridLayoutWidget">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>10</y>
-            <width>571</width>
-            <height>701</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="mapGrid">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-          </layout>
-         </widget>
+        <property name="acceptDrops">
+            <bool>false</bool>
+        </property>
+        <property name="windowTitle">
+            <string>Editor</string>
+        </property>
+        <property name="tabShape">
+            <enum>QTabWidget::Triangular</enum>
+        </property>
+        <property name="dockOptions">
+            <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+        </property>
+        <property name="unifiedTitleAndToolBarOnMac">
+            <bool>false</bool>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>800</width>
+                    <height>600</height>
+                </size>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                    <layout class="QGridLayout" name="gridLayout">
+                        <property name="sizeConstraint">
+                            <enum>QLayout::SetMinimumSize</enum>
+                        </property>
+                        <item row="1" column="1">
+                            <widget class="QPushButton" name="buttonExport">
+                                <property name="text">
+                                    <string>Export</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="0" column="1">
+                            <layout class="QVBoxLayout" name="verticalLayout">
+                                <property name="spacing">
+                                    <number>1</number>
+                                </property>
+                                <property name="sizeConstraint">
+                                    <enum>QLayout::SetDefaultConstraint</enum>
+                                </property>
+                                <item>
+                                    <layout class="QGridLayout" name="gridDimensions">
+                                        <property name="sizeConstraint">
+                                            <enum>QLayout::SetNoConstraint</enum>
+                                        </property>
+                                        <property name="spacing">
+                                            <number>1</number>
+                                        </property>
+                                        <item row="1" column="1">
+                                            <widget class="QLabel" name="labelWidth">
+                                                <property name="text">
+                                                    <string>Width</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="1" column="2">
+                                            <widget class="QLineEdit" name="inputWidth">
+                                                <property name="text">
+                                                    <string/>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="2" column="2">
+                                            <widget class="QPushButton" name="buttonRefresh">
+                                                <property name="text">
+                                                    <string>Refresh</string>
+                                                </property>
+                                                <property name="checkable">
+                                                    <bool>false</bool>
+                                                </property>
+                                                <property name="default">
+                                                    <bool>false</bool>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="0" column="2">
+                                            <widget class="QLineEdit" name="inputHeight">
+                                                <property name="text">
+                                                    <string/>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="0" column="1">
+                                            <widget class="QLabel" name="labelHeight">
+                                                <property name="text">
+                                                    <string>Height</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <layout class="QHBoxLayout" name="horizontalLayout">
+                                        <property name="spacing">
+                                            <number>1</number>
+                                        </property>
+                                        <item>
+                                            <widget class="QPushButton" name="buttonScenario">
+                                                <property name="text">
+                                                    <string>Scenario</string>
+                                                </property>
+                                                <property name="checkable">
+                                                    <bool>false</bool>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="buttonItems">
+                                                <property name="text">
+                                                    <string>Items</string>
+                                                </property>
+                                                <property name="checkable">
+                                                    <bool>false</bool>
+                                                </property>
+                                                <property name="autoDefault">
+                                                    <bool>false</bool>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="buttonWeapons">
+                                                <property name="text">
+                                                    <string>Weapons</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="buttonPlayers">
+                                                <property name="text">
+                                                    <string>Players</string>
+                                                </property>
+                                                <property name="checkable">
+                                                    <bool>false</bool>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <layout class="QGridLayout" name="texturesGrid">
+                                        <property name="spacing">
+                                            <number>1</number>
+                                        </property>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </item>
+                        <item row="0" column="0">
+                            <widget class="QScrollArea" name="scrollArea">
+                                <property name="widgetResizable">
+                                    <bool>true</bool>
+                                </property>
+                                <widget class="QWidget" name="scrollAreaWidgetContents">
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>0</x>
+                                            <y>0</y>
+                                            <width>945</width>
+                                            <height>983</height>
+                                        </rect>
+                                    </property>
+                                    <widget class="QWidget" name="gridLayoutWidget">
+                                        <property name="geometry">
+                                            <rect>
+                                                <x>0</x>
+                                                <y>10</y>
+                                                <width>571</width>
+                                                <height>701</height>
+                                            </rect>
+                                        </property>
+                                        <layout class="QGridLayout" name="mapGrid">
+                                            <property name="spacing">
+                                                <number>0</number>
+                                            </property>
+                                        </layout>
+                                    </widget>
+                                </widget>
+                            </widget>
+                        </item>
+                    </layout>
+                </item>
+            </layout>
         </widget>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1920</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
- </widget>
- <resources/>
- <connections/>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>1920</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

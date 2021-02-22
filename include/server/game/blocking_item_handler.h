@@ -8,16 +8,16 @@
 #include <queue>
 
 class BlockingItemHandler {
-private:
-    Map& map;
+ private:
+  Map& map;
 
-public:
-    explicit BlockingItemHandler(Map &_map);
-    ~BlockingItemHandler();
+ public:
+  explicit BlockingItemHandler(Map& _map);
+  ~BlockingItemHandler();
 
-    int openDoor(Coordinate& coordinate, Player &player);
+  int openDoor(Coordinate& coordinate, Player& player);
 
-    int pushWall(const Coordinate& coordinate);
+  int pushWall(const Coordinate& coordinate);
 };
 
 #endif //TP_WOLFENSTEIN_BLOCKING_ITEM_HANDLER_H
