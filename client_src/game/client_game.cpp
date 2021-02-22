@@ -105,7 +105,3 @@ void ClientGame::displayStatistics() {
       return;
   }
 }
-
-ClientGame::~ClientGame() {
-  audio_manager.stopGameSong();
-}

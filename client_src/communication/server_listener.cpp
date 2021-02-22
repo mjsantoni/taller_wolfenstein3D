@@ -15,11 +15,15 @@ void ServerListener::run() {
     std::string msg;
     try { skt.recv_msg(msg); }
     catch (NetworkError& e) {
-      change_queue.push(Change(GAME_OVER, INVALID, INVALID, INVALID));
+      change_queue.push(Change(GAME_OVER_NETWORK_ERROR,
+                               INVALID, INVALID, INVALID));
+      stop();
       break;
     }
-    Change change = change_factory.createFromBytes(const_cast<char*>(msg.c_str()));
-    if (change.getChangeID() == GAME_OVER_NETWORK_ERROR) stop();
+    Change change =
+            change_factory.createFromBytes(const_cast<char*>(msg.c_str()));
+    if (change.getChangeID() == GAME_OVER)
+        stop();
     change_queue.push(change);
   }
 }

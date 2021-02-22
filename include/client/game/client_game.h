@@ -49,7 +49,6 @@ class ClientGame {
   ClientGame(int screen_width, int screen_height,
              SharedQueue<Change>& change_queue,
              BlockingQueue<Event>& event_queue);
-  ~ClientGame();
   void startGame(const std::string& map_name);
   void initializePlayer();
   void displayConnectionErrorScreen();

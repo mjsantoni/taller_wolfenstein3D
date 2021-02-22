@@ -46,7 +46,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
       game_started = true;
       break;
     }
-    case (GAME_OVER): {
+    case (GAME_OVER_NETWORK_ERROR): {
       std::cout << "Se recibe cambio para iniciar el juego\n";
       server_down = true;
       break;
