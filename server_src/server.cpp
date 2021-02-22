@@ -49,7 +49,7 @@ void Server::run() {
           if (matches[game_id_to_connect]->canJoinPlayer()) {
             socket.send_msg(SUCCESS);
             joinGame(game_id_to_connect, std::move(socket));
-          } else { socket.send_msg(ERROR) };
+          } else { socket.send_msg(ERROR); }
         }
       }
     } catch (const NetworkError& e) { continue; }
