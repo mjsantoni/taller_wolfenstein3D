@@ -4,7 +4,7 @@ project(tp_wolfenstein)
 add_subdirectory("include/common/yaml-cpp")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -pthread")
 
 INCLUDE(FindPkgConfig)
 

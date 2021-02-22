@@ -9,7 +9,7 @@
 #include "image_info.h"
 #include "client/object_info.h"
 #include "client/file_exception.h"
-#include "../../../client_src/client_routes.h"
+#include "client_routes.h"
 
 class ImageParser {
 private:

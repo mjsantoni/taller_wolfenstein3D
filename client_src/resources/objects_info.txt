@@ -16,7 +16,7 @@ path:items/crown.png, obj_width:0.3, obj_height:0.1, img_width:22, img_height:19
 path:items/chest.png, obj_width:0.4, obj_height:0.4, img_width:103, img_height:113, name:chest, is_sprite:0
 path:items/cross.png, obj_width:0.2, obj_height:0.2, img_width:26, img_height:17, name:life, is_sprite:0
 path:items/medical_kit.png, obj_width:0.4, obj_height:0.3, img_width:64, img_height:64, name:medical_kit, is_sprite:0
-path:items/bullets.png, obj_width:0.05, obj_heigkht:0.05, img_width:15, img_height:12, name:medical_kit, is_sprite:0
+path:items/bullets.png, obj_width:0.05, obj_height:0.05, img_width:15, img_height:12, name:medical_kit, is_sprite:0
 path:items/blood.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
 path:items/food.png, obj_width:0.4, obj_height:0.05, img_width:64, img_height:10, name:medical_kit, is_sprite:0
 
@@ -32,7 +32,7 @@ path:weapons/machine_gun.png, obj_width:0.2, obj_height:0.4, img_width:129, img_
 path:weapons/chain_cannon.png, obj_width:0.2, obj_height:0.2, img_width:207, img_height:52, name:chain_cannon, is_sprite:1, sprite_dim:1x4, sprite_padding:0x8
 path:weapons/rocket_launcher.png, obj_width:0.2, obj_height:0.2, img_width:117, img_height:40, name:rocket_launcher, is_sprite:1, sprite_dim:1x4, sprite_padding:0x0
 
-path:ui/knife_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:kninfe_icon, is_sprite:0
+path:ui/knife_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:knife_icon, is_sprite:0
 path:ui/pistol_icon.png, obj_width:0.2, obj_height:0.2, img_width:83, img_height:64, name:pistol_icon, is_sprite:0
 path:ui/machine_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:machine_gun_icon, is_sprite:0
 path:ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:chain_gun_icon, is_sprite:0

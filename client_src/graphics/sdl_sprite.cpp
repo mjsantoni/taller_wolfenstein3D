@@ -17,20 +17,6 @@ SdlSprite::SdlSprite(SdlWindow &window, ObjectInfo &object_info) :
     loadIndividualDimensions();
 }
 
-SDL_Texture* SdlSprite::loadNextTexture(SDL_Renderer *renderer, Area& srcArea) {
-    SDL_Texture* new_texture = IMG_LoadTexture(renderer, file_name.c_str());
-    if (!new_texture)
-        throw SdlException("Error en la carga de la textura", SDL_GetError());
-    if (!already_loaded) {
-        loadIndividualDimensions();
-        already_loaded = true;
-    }
-    texture = new_texture;
-    //fillDimensions(srcArea);
-    current_pos++;
-    return new_texture;
-}
-
 void SdlSprite::loadIndividualDimensions() {
     each_img_width = whole_width/cols-h_padding/2;
     each_img_height = whole_height/rows-v_padding/2;
@@ -51,18 +37,6 @@ void SdlSprite::loadIndividualDimensions() {
     }
 }
 
-SDL_Texture* SdlSprite::loadTexture(SDL_Renderer *renderer,
-                                    Area &srcArea,
-                                    int sprite_number) {
-    SDL_Texture* new_texture = IMG_LoadTexture(renderer, file_name.c_str());
-    if (!new_texture)
-        throw SdlException("Error en la carga de la textura", SDL_GetError());
-    Area image_area = dimensions[sprite_number];
-    fillDimensions(image_area, srcArea);
-    texture = new_texture;
-    return new_texture;
-}
-
 void SdlSprite::fillDimensions(Area& source_area, Area& empty_area) {
     empty_area.setX(source_area.getX());
     empty_area.setY(source_area.getY());
@@ -72,10 +46,6 @@ void SdlSprite::fillDimensions(Area& source_area, Area& empty_area) {
 
 std::vector<Area> SdlSprite::getAllTheAreas() {
     return dimensions;
-}
-
-Area SdlSprite::getTextureArea(int sprite_no) {
-    return dimensions[sprite_no];
 }
 
 void SdlSprite::render(Area &screen_area, int sprite_no) {

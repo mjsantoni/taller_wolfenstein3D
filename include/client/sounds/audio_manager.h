@@ -8,7 +8,7 @@
 #include <zconf.h>
 #include <client/game/sdl_audio_player.h>
 #include <mutex>
-#include "../../../client_src/client_routes.h"
+#include "client_routes.h"
 
 class AudioManager {
 private:

@@ -13,6 +13,7 @@
 #include "sdl_window.h"
 #include <client/graphics/area.h>
 #include <client/graphics/sdl_window.h>
+#include "client_routes.h"
 
 class SdlMessage {
 private:
@@ -24,6 +25,7 @@ private:
     int area_height;
 public:
     explicit SdlMessage(MessageParameters& message_parameters);
+    ~SdlMessage();
     SDL_Texture *
     loadMessage(SDL_Renderer *renderer, Area &message_area, Area &screen_area);
     void fillScreenArea(Area &screen_area);

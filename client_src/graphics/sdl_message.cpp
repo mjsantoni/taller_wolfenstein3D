@@ -3,12 +3,11 @@
 //
 
 #include "client/graphics/sdl_message.h"
-#include "../client_routes.h"
 
 SdlMessage::SdlMessage(MessageParameters &message_parameters) :
         font(TTF_OpenFont((CLIENT_FONTS_ROUTE +
             message_parameters.getFontName()).c_str(),
-                          message_parameters.getFontSize())),
+            message_parameters.getFontSize())),
         text(message_parameters.getText()) {
     color = message_parameters.getFontColor();
     surface = TTF_RenderText_Solid(font, text.c_str(), color);
@@ -22,8 +21,6 @@ SDL_Texture* SdlMessage::loadMessage(SDL_Renderer* renderer,
     message_area.setWidth(area_width);
     message_area.setHeight(area_height);
     fillScreenArea(screen_area);
-    SDL_FreeSurface(surface);
-    TTF_CloseFont(font);
     return message;
 }
 
@@ -49,4 +46,9 @@ void SdlMessage::renderMessage(SdlWindow &window,
             dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
     };
     SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
+}
+
+SdlMessage::~SdlMessage() {
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
 }
