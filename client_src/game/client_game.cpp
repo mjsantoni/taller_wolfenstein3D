@@ -101,7 +101,7 @@ void ClientGame::displayStatistics() {
     if (SDL_PollEvent(&event) == 0) {
       continue;
     }
-    if (event.type == SDL_KEYDOWN || event.type == SDL_QUIT)
+    if (event.type == SDL_QUIT)
       return;
   }
 }
