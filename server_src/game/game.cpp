@@ -2,7 +2,6 @@
 #include <iostream>
 #include <algorithm>
 
-#define MAX_PLAYERS 8
 #define MAX_DOOR_OPEN 80 // aprox 5seg con un tickrate de 0,6
 #define TURN_ANGLE (M_PI/20)
 #define DROP_DISTANCE 5
@@ -15,7 +14,7 @@
 Game::Game(const std::string& map_path, std::string config_path, BotsManager &bm,
            int _min_players_in_lobby,
            int _game_duration, int _max_players) :
-        map(map_path, MAX_PLAYERS),
+        map(map_path, _max_players),
         configParser(config_path),
         colHandler(map),
         blockingItemHandler(map),
