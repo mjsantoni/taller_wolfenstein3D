@@ -227,7 +227,7 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   menu_items->setIcon(medic_icon);
 
   QAction* wood_action = menu_walls->addAction(wood_icon, "Wood wall");
-  QAction* rock_action = menu_walls->addAction(rock_icon, "Gray wall");
+  QAction* rock_action = menu_walls->addAction(rock_icon, "Rock wall");
   QAction* blue_action = menu_walls->addAction(blue_icon, "Blue wall");
   QAction* stone_action = menu_walls->addAction(stone_icon, "Stone wall");
   QAction* locked_action = menu_walls->addAction(locked_icon, "Locked door");
@@ -552,7 +552,7 @@ void Editor::renderScenarioGrid(QGridLayout* texture_grid) {
   QPixmap water_pix(WATER_PATH);
 
   icons.emplace_back(QIcon(wood_pix), "wood_wall");
-  icons.emplace_back(QIcon(rock_pix), "stone_wall");
+  icons.emplace_back(QIcon(rock_pix), "rock_wall");
   icons.emplace_back(QIcon(blue_pix), "blue_wall");
   icons.emplace_back(QIcon(stone_pix), "stone_wall");
   icons.emplace_back(QIcon(locked_pix), "locked_door");
