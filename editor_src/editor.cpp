@@ -102,7 +102,7 @@ void Editor::dragLeaveEvent(QDragLeaveEvent* event) {
 void Editor::mousePressEvent(QMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
     setCursor(Qt::ArrowCursor);
-    currentCursor = "empty";
+    current_cursor = "empty";
   }
 }
 
@@ -112,9 +112,15 @@ void Editor::loadMap(std::string path) {
   MapParser parser(path);
   std::vector<std::string> categories;
   QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
+  QLineEdit* input_height = findChild<QLineEdit*>("inputHeight");
+  QLineEdit* input_width = findChild<QLineEdit*>("inputWidth");
+
   deleteWidgets(map_grid);
   Coordinate dimensions = parser.getDimensions();
   createButtonsMapGrid(map_grid, dimensions.x, dimensions.y, -1, -1);
+  input_height->setText(QString(std::to_string(dimensions.x).c_str()));
+  input_width->setText(QString(std::to_string(dimensions.y).c_str()));
+
   QPixmap wood_pix(WOOD_WALL_PATH);
   QPixmap rock_pix(ROCK_WALL_PATH);
   QPixmap blue_pix(BLUE_WALL_PATH);
@@ -188,7 +194,7 @@ void Editor::createMapGrid() {
 
 void Editor::updateGridButtonWithCursor(QGridButton* button) {
   QIcon icon(cursor().pixmap());
-  updateGridButton(button, icon, currentCursor.c_str());
+  updateGridButton(button, icon, current_cursor.c_str());
 }
 
 QMenu* Editor::createGridButtonMenu(QGridButton* button) {
@@ -388,7 +394,7 @@ void Editor::exportMap() {
   QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
   for (int i = 0; i < map_grid->rowCount(); ++i) {
     for (int j = 0; j < map_grid->columnCount(); ++j) {
-      QGridButton* button_grid = qobject_cast<QGridButton*>(map_grid->itemAtPosition(i, j)->widget());
+      QGridButton* button_grid = qobject_cast<QGridButton*>(map_grid->itemAtPosition(j, i)->widget());
       std::string variantTexture = button_grid->property("texture").toString().toStdString();
       if (positions.find(variantTexture) != positions.end()){
           positions[button_grid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
@@ -522,7 +528,7 @@ void Editor::renderScenarioGrid(QGridLayout* texture_grid) {
 
 void Editor::changeCursor(QPixmap pix, std::string texture_name) {
   setCursor(QCursor(pix));
-  currentCursor = texture_name;
+  current_cursor = texture_name;
 }
 
 void Editor::renderItemsGrid(QGridLayout* texture_grid) {

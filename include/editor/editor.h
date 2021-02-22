@@ -32,7 +32,7 @@ public:
 
 private:
     /* Attribute to know whats the current texture name in te cursor */
-    std::string currentCursor;
+    std::string current_cursor;
 
     void createMapGrid();
 
