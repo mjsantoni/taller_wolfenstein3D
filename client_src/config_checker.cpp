@@ -90,12 +90,12 @@ void ConfigChecker::showParameters() {
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
   QSpinBox* bots_spin = findChild<QSpinBox*>("botsSpin");
 
-  if (join_combo->currentText().toStdString().empty()) {
-      showError("No maps to create a game");
-      sk.send_msg(BACK);
-      return;
-  }
   if (!backed) join_combo->addItems(readAllMaps());
+  if (join_combo->currentText().toStdString().empty()) {
+    showError("No maps to create a game");
+    sk.send_msg(BACK);
+    return;
+  }
 
   showWidget("backButton");
   hideWidget("connectionWidget");
