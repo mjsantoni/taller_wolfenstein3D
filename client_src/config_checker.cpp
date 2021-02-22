@@ -271,7 +271,6 @@ void ConfigChecker::updateSpin(const char* to_update, const char* updater) {
   QSpinBox* updateree = findChild<QSpinBox*>(updater);
 
   if (update->value() + updateree->value() > max_players_spin->value())
-    qDebug(to_update);
     update->setValue(max_players_spin->value() - updateree->value());
 }
 
