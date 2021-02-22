@@ -115,7 +115,6 @@ void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
 void ClientMap::processRPGMissile(int object_id,
                                  int new_x,
                                  int new_y) {
-    std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
     if (objects.find(object_id) == objects.end())
         return createRPGMissile(object_id, new_x, new_y);
     updateRPGMissile(object_id, new_x, new_y);
@@ -136,13 +135,11 @@ void ClientMap::createRPGMissile(int object_id,
 }
 
 void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
-    std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
     Drawable& missile = objects.at(object_id);
     missile.setMapPosition(new_x, new_y);
 }
 
 double ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
-  std::cout << "Misil explota en (" << exp_x << "," << exp_y << ")\n";
   removeObject(object_id);
   Drawable explosion(EFFECT_EXPLOSION, 3);
   explosion.setMapPosition(exp_x, exp_y);
