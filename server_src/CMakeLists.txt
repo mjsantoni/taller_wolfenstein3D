@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(wolfenstein3d_server)
 
-add_subdirectory("include/common/yaml-cpp")
+add_subdirectory("../include/common/yaml-cpp" [binary_dir])
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
@@ -17,6 +17,6 @@ file(GLOB SERVER_SRC
         "../common_src/*.cpp"
         )
 
-add_executable(server ${SERVER_SRC})
+add_executable(wolfenstein-server ${SERVER_SRC})
 
-TARGET_LINK_LIBRARIES(server yaml-cpp lua5.3)
+TARGET_LINK_LIBRARIES(wolfenstein-server yaml-cpp lua5.3)

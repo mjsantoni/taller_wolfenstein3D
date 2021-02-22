@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(wolfenstein3d_client)
 
-add_subdirectory("include/common/yaml-cpp")
+add_subdirectory("../include/common/yaml-cpp" [binary_dir])
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread")
 
@@ -27,6 +27,6 @@ file(GLOB CLIENT_SRC
         "../common_src/*.cpp"
         )
 
-add_executable(client ${CLIENT_SRC} ${UIS_HEADERS})
+add_executable(wolfenstein-client ${CLIENT_SRC} ${UIS_HEADERS})
 
-TARGET_LINK_LIBRARIES(client yaml-cpp ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
+TARGET_LINK_LIBRARIES(wolfenstein-client yaml-cpp ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} Qt5::Widgets PkgConfig::SDL2_Mixer)
