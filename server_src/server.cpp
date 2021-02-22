@@ -15,17 +15,14 @@ Server::Server(NetworkAcceptor socket) :
 #define BACK "4"
 
 void Server::run() {
-  //std::string name = "map.yaml";
-  //createGame(name, 1, 5, 0,10);
-
   std::cout << "[Server] Started.\n";
   while (accepting_connections) {
     try {
       NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-      //std::cout << "Recibi tal opcion: " << player_choice << "\n";
       while (true) {
         std::string player_choice;
         socket.recv_msg(player_choice); // Recibo el tipo de evento
+
         if (player_choice == CREATE_GAME) {
           std::string options;
           socket.recv_msg(options);
@@ -42,29 +39,23 @@ void Server::run() {
           joinGame(new_game_id, std::move(socket));
           break;
 
-        } else {
+        } else if (player_choice == JOIN_GAME){
           killDead();
           sendGames(socket);
           std::string game_choice;
           socket.recv_msg(game_choice);
           if (game_choice == BACK) continue;
-
           int game_id_to_connect = std::stoi(game_choice);
-          std::cout << "El player se quiere unir al game: " << game_choice << "\n";
           if (matches[game_id_to_connect]->canJoinPlayer()) {
             socket.send_msg(SUCCESS);
             joinGame(game_id_to_connect, std::move(socket));
-          } else {
-            socket.send_msg(ERROR);
-            continue;
-          }
+          } else { socket.send_msg(ERROR); }
         }
       }
     } catch (const NetworkError& e) { continue; }
     killDead();
     usleep(100000);
   }
-
   for (auto& th_game : matches) {
     th_game->stop();
     th_game->join();

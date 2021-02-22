@@ -14,6 +14,7 @@ ConfigChecker::ConfigChecker(std::string& _map_data, QMainWindow* parent)
   Ui::ConfigChecker checker;
   checker.setupUi(this);
   this->setWindowIcon(QIcon(WINDOW_ICON_PATH));
+  this->setWindowTitle("Wolfenstein 3D");
   QPixmap background(BACKGROUND_PATH);
   background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
   QPalette palette;
@@ -60,7 +61,6 @@ void ConfigChecker::showWidget(const char* widgetName) {
 void ConfigChecker::createNewGame() {
   "Ingrese jugadores/bots/tiempo/id_mapa: ";
   std::string data;
-  sk.send_msg(CREATE_GAME);
   data =
       getSpinContent("minPlayersSpin") + "/" + getSpinContent("maxPlayersSpin") + "/" + getSpinContent("botsSpin") + "/"
           + getSpinContent("timeSpin");
@@ -78,6 +78,7 @@ void ConfigChecker::createNewGame() {
 }
 
 void ConfigChecker::showParameters() {
+  sk.send_msg(CREATE_GAME);
   QComboBox* join_combo = findChild<QComboBox*>("mapCombo");
   QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
