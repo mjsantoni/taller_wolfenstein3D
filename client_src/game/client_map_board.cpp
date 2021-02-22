@@ -2,6 +2,7 @@
 // Created by andy on 20/2/21.
 //
 
+
 #include "client/game/client_map_board.h"
 
 ClientMapBoard::ClientMapBoard(int _grid_size,
@@ -58,11 +59,11 @@ void ClientMapBoard::setDimensions(int _width, int _height) {
   max_distance = Calculator::calculateDistance(real_width, real_height);
 }
 
-void ClientMapBoard::loadWallInfo(ObjectInfo& object_info,
+void ClientMapBoard::loadWallInfo(RayInfo& ray_info,
                                   std::pair<int, int> grid_coordinates) {
   Drawable drawable = drawables_by_position.at(grid_coordinates);
-  object_info.setObjectType(drawable.getObjectType());
-  object_info.setMapStartingPos(drawable.getMapPosition());
+    ray_info.setObjectType(drawable.getObjectType());
+    ray_info.setMapStartingPosition(drawable.getMapPosition());
 }
 
 void ClientMapBoard::putWallAt(std::pair<int, int> coordinates,
@@ -93,7 +94,7 @@ void ClientMapBoard::updateUnlockedDoor(Drawable& door,
                                    (map_pos, door));
 }
 
-void ClientMapBoard::getMapInfoForWall(ObjectInfo& object_info,
+void ClientMapBoard::getMapInfoForWall(RayInfo& ray_info,
                                        int x_pos,
                                        int y_pos,
                                        int x_factor,
@@ -107,5 +108,5 @@ void ClientMapBoard::getMapInfoForWall(ObjectInfo& object_info,
     y_coord = 0;
   std::pair<int, int> grid_coordinates{x_coord, y_coord};
   if (wallAtGrid(x_pos, y_pos, x_factor, y_factor))
-    loadWallInfo(object_info, grid_coordinates);
+    loadWallInfo(ray_info, grid_coordinates);
 }

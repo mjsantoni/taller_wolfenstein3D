@@ -8,6 +8,7 @@
 #include <zconf.h>
 #include <functional>
 #include <iostream>
+#include <client/graphics/ray_info.h>
 #include "client/game/client_map.h"
 
 ClientMap::ClientMap(int width, int height, int grid_size) :
@@ -47,17 +48,12 @@ bool ClientMap::wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor) {
   return board.wallAtGrid(x_pos, y_pos, x_factor, y_factor);
 }
 
-void ClientMap::getMapInfoForWall(ObjectInfo& object_info,
+void ClientMap::getMapInfoForWall(RayInfo& ray_info,
                                   int x_pos,
                                   int y_pos,
                                   int x_factor,
                                   int y_factor) {
-  board.getMapInfoForWall(object_info, x_pos, y_pos, x_factor, y_factor);
-}
-
-void ClientMap::loadWallInfo(ObjectInfo& object_info,
-                             std::pair<int, int> grid_coordinates) {
-  return board.loadWallInfo(object_info, grid_coordinates);
+  board.getMapInfoForWall(ray_info, x_pos, y_pos, x_factor, y_factor);
 }
 
 void ClientMap::putWallAt(std::pair<int, int> coordinates, int object_type) {

@@ -7,7 +7,7 @@
 #include "client_routes.h"
 
 int main(int argc, char* args[]) {
-
+/*
   struct stat sb;
   if (!(stat("../resources", &sb) == 0 && S_ISDIR(sb.st_mode))) {
     if (chdir("/usr/local/share/wolfenstein3d-client/routing") < 0) {
@@ -17,7 +17,7 @@ int main(int argc, char* args[]) {
       return -1;
     }
   }
-
+*/
   std::string map_name;
   QApplication app(argc, args);
   ConfigChecker checker(map_name);

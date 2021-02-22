@@ -10,6 +10,7 @@
 #include <client/game/image_manager.h>
 #include <client/calculator.h>
 #include <client/object_info.h>
+#include <client/graphics/ray_info.h>
 #include <map>
 
 class ClientMapBoard {
@@ -31,7 +32,7 @@ class ClientMapBoard {
   std::pair<int, int>
   calculateGrid(int x_pos, int y_pos, int x_factor, int y_factor);
   void
-  loadWallInfo(ObjectInfo& object_info, std::pair<int, int> grid_coordinates);
+  loadWallInfo(RayInfo& ray_info, std::pair<int, int> grid_coordinates);
   void putWallAt(std::pair<int, int> coordinates, int object_type);
 
   void putObjectAt(int object_type, int x_pos, int y_pos);
@@ -40,7 +41,7 @@ class ClientMapBoard {
                           int y_pos);
 
   void
-  getMapInfoForWall(ObjectInfo& object_info, int x_pos, int y_pos,
+  getMapInfoForWall(RayInfo& ray_info, int x_pos, int y_pos,
                     int x_factor,
                     int y_factor);
 };

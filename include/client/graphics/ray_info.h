@@ -5,23 +5,23 @@
 #ifndef TP_WOLFENSTEIN_RAYINFO_H
 #define TP_WOLFENSTEIN_RAYINFO_H
 
+#include <utility>
+
 class RayInfo {
- public:
-  int vertical_hit_x = 0;
-  int vertical_hit_y = 0;
-  int horizontal_hit_x = 0;
-  int horizontal_hit_y = 0;
-  double vertical_distance = 0;
-  double horizontal_distance = 0;
-  int vertical_object_type = 0;
-  int horizontal_object_type = 0;
-  int vertical_grid_pos = 0;
-  int horizontal_grid_pos = 0;
-  double distance = 0;
-  int hit_x = 0;
-  int hit_y = 0;
-  int grid_pos = 0;
-  int object_type = 0;
+private:
+    int object_type;
+    double hit_distance;
+    double hit_grid_position;
+    std::pair<int, int> map_starting_position;
+public:
+    int getObjectType() const;
+    void setObjectType(int objectType);
+    double getHitDistance() const;
+    void setHitDistance(double hitDistance);
+    double getHitGridPosition() const;
+    void setHitGridPosition(double hitGridPosition);
+    std::pair<int, int> getMapStartingPosition() const;
+    void setMapStartingPosition(std::pair<int, int> _map_starting_position);
 };
 
 #endif //TP_WOLFENSTEIN_RAYINFO_H

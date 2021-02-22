@@ -42,8 +42,6 @@ private:
     int real_height;
     int total_players = 0;
     double max_distance;
-    void loadWallInfo(ObjectInfo& object_info,
-                      std::pair<int, int> grid_coordinates);
     void putEnemyAt(int x_pos, int y_pos, int object_type, int id);
 public:
     ClientMap(int width, int height, int grid_size);
@@ -52,23 +50,13 @@ public:
     int getGridSize();
     bool outOfVerticalBounds(int y_pos);
     bool outOfHorizontalBounds(int x_pos);
-    bool wallAtGrid(std::pair<int, int> grid_coordinates);
     int getMaxDistance();
     int getWidth();
     int getHeight();
-    std::pair<int, int> calculateGrid(int x_pos, int y_pos, int x_factor,
-                                      int y_factor);
-    std::pair<int, int> calculateGrid(int x_pos, int y_pos);
-    Drawable& getDrawableAt(std::pair<int, int> coordinates);
     bool wallAtGrid(int x_pos, int y_pos, int x_factor, int y_factor);
-    bool wallAtPerimeter(int x_pos, int y_pos, int x_factor, int y_factor);
-    void getMapInfoForWall(ObjectInfo& object_info, int x_pos, int y_pos,
+    void getMapInfoForWall(RayInfo& ray_info, int x_pos, int y_pos,
                            int x_factor, int y_factor);
-    void putPlayerAt(std::pair<int, int> coord);
-    void addWalls(std::vector<std::pair<int,int>> walls,std::vector<int> types);
     void putWallAt(std::pair<int, int> coordinates, int object_type);
-    void putDrawableAt(int x_pos, int y_pos, int object_type);
-    void setObjectId(std::pair<int, int> coordinates, int object_id);
     std::vector<Drawable> getAllDrawables();
     void removeObject(int object_id);
     void moveEnemy(int object_id, int new_x, int new_y);
@@ -79,11 +67,9 @@ public:
     void updateRPGMissile(int object_id, int new_x, int new_y);
     double setRPGMissileExplosion(int object_id, int exp_x, int exp_y);
     void setDimensions(int _width, int _height);
-    void moveObject(int object_id, std::pair<int, int> new_coordinates);
     void addPlayerSpawnAt(int x_pos, int y_pos);
     void addPlayers(int number_of_players, int own_player_id);
     std::pair<int, int> getSpawnPositionForPlayer(int player_id);
-    void erasePlayer(int player_id);
     void updateTotalPlayers(int _total_players);
     void respawnPlayer(int player_id);
     void changeEnemyImage(int player_id, int weapon);
