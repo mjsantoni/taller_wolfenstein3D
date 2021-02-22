@@ -1,11 +1,8 @@
-//
-// Created by andy on 8/2/21.
-//
-
 #include "client/game/client_player_initializer.h"
+#include "client_routes.h"
 
 ClientPlayerInitializer::ClientPlayerInitializer() :
-    config_parser("../config/config.yaml") {
+    config_parser(CONFIG_PATH) {
 
 }
 

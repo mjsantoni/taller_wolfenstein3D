@@ -1,6 +1,8 @@
 #ifndef TP_WOLFENSTEIN_CLIENT_ROUTES_H
 #define TP_WOLFENSTEIN_CLIENT_ROUTES_H
 
+#define CONFIG_PATH "../config/config.yaml"
+
 // SDL
 #define CLIENT_IMAGES_ROUTE "../client_src/resources/"
 #define CLIENT_SOUNDS_ROUTE "../client_src/resources/sounds/"
