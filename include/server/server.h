@@ -13,7 +13,6 @@ class Server : public Thread {
  private:
   std::vector<GameHandler*> matches;
   NetworkAcceptor networkAcceptor;
-  std::vector<std::string> maps;
   std::atomic<bool> accepting_connections;
 
  public:
