@@ -109,10 +109,7 @@ void Editor::mousePressEvent(QMouseEvent* event) {
 void Editor::loadMap(std::string path) {
   if (path.empty()) path = getYamlPath();
   if (path.empty()) return;
-    try {
-        MapParser parser(path);
-
-    }
+  MapParser parser(path);
   std::vector<std::string> categories;
   QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
   deleteWidgets(map_grid);
