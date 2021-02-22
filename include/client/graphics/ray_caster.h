@@ -11,7 +11,7 @@
 #include "client/map_info.h"
 #include "sdl_window.h"
 #include "client/calculator.h"
-#include "ray_casting_assistant.h"
+#include "ray_caster_drawing_assistant.h"
 #include "texture_manager.h"
 
 class RayCaster {
@@ -24,7 +24,7 @@ class RayCaster {
  private:
   SdlWindow window;
   ClientMap& map;
-  RayCastingAssistant assistant;
+  RayCasterDrawingAssistant assistant;
   ObjectInfoProvider& info_provider;
   std::map<double, double>& wall_distance_info;
   std::vector<double>& angles_list;

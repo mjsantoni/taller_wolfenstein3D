@@ -11,12 +11,14 @@
 #define TICK_DURATION 0.03
 #define IN_GAME_VOLUME 20
 
-ClientGame::ClientGame(SharedQueue<Change>& change_queue,
+ClientGame::ClientGame(int screen_width,
+                       int screen_height,
+                       SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
     game_running(true),
     game_started(false),
     player_ready(false),
-    screen(1024, 768, map, player, player_alive),
+    screen(screen_width, screen_height, map, player, player_alive),
     event_handler(change_queue),
     event_generator(player, event_handler, event_queue, player_alive,
                     game_running, skip_stats),
@@ -35,10 +37,6 @@ void ClientGame::startGame(const std::string& map_name) {
   screen.render(true);
   audio_manager.setMusicVolume(IN_GAME_VOLUME);
   processGame();
-}
-
-bool ClientGame::isRunning() {
-  return game_running;
 }
 
 void ClientGame::initializePlayer() {

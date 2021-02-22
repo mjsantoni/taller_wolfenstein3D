@@ -19,9 +19,9 @@ class Client {
   ServerListener server_listener;
   SharedQueue<Change> change_queue;
   BlockingQueue<Event> event_queue;
-
+  ConfigParser config_parser;
  public:
-  explicit Client(NetworkConnection& skt);
+  explicit Client(NetworkConnection& skt, const std::string& config_file);
   void startGame(const std::string& map_name);
   void stop();
   bool isRunning();

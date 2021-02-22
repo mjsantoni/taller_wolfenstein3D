@@ -19,15 +19,12 @@
 
 class ObjectDrawer {
  private:
-  SDL_Renderer* renderer;
   SdlWindow& window;
   ObjectInfoProvider& object_info_provider;
   int map_grid_size = 64;
   std::map<double, double>& wall_distance_info;
   std::vector<double>& angles_list;
   ClientMap& map;
-  int safe_distance = 30;
-  int sprite_counter = 0;
   ObjectDrawingAssistant drawing_assistant;
   bool shouldDraw(double player_angle, double os_angle, double of_angle,
                   double& diff_angle);

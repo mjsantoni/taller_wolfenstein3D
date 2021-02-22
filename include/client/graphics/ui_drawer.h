@@ -21,6 +21,7 @@
 class UIDrawer {
  private:
   SdlWindow& window;
+    ObjectInfoProvider& info_provider;
   int starting_point;
   int window_height;
   int ui_height;
@@ -29,7 +30,6 @@ class UIDrawer {
   int text_starting_point = 0;
   int h_padding = 10;
   int v_padding = 0;
-  ObjectInfoProvider& info_provider;
   void renderMessage(const std::string& message_text, Area& msg_area,
                      Area& screen_area, MessageParameters message_parameters);
   void drawPlayersKeys(int players_level);

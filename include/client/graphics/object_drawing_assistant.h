@@ -18,6 +18,7 @@
 class ObjectDrawingAssistant {
  private:
   SdlWindow& window;
+  TextureManager& texture_manager;
   int screen_width;
   int screen_height;
   int view_dist;
@@ -25,7 +26,6 @@ class ObjectDrawingAssistant {
   int height_factor;
   int map_grid_size = 64;
   int proj_plane_distance;
-  TextureManager& texture_manager;
  public:
   ObjectDrawingAssistant(SdlWindow& _window, TextureManager& _texture_manager);
   void put3DObject(ObjectInfo& object_info, double pl_ob_angle);

@@ -29,6 +29,7 @@ int main(int argc, char* args[]) {
   NetworkConnection sk(std::move(checker.getConnection()));
   app.quit();
   if (map_name.empty()) return 0;
-  Client client(sk);
+  std::string config_file = "../config/config.yaml";
+  Client client(sk, config_file);
   client.startGame(map_name);
 }

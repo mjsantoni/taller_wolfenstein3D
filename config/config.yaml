@@ -22,5 +22,5 @@ player:
   max_hp: 8
   max_lives: 3
 resolution:
-  width: 1024
-  height: 768
+  width: 800
+  height: 600

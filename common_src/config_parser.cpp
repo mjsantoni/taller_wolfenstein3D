@@ -44,7 +44,7 @@ std::unordered_map<std::string, int> ConfigParser::getCategory(const std::string
 }
 
 std::pair<int, int> ConfigParser::getResolution() {
-  return std::make_pair(this->config["resolution"]["weapon_width"].as<int>(),
+  return std::make_pair(this->config["resolution"]["width"].as<int>(),
                         this->config["resolution"]["height"].as<int>());
 }
 

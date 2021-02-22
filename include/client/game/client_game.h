@@ -46,7 +46,8 @@ class ClientGame {
   OffGameHandler off_game_handler;
   ClientPlayerInitializer player_initializer;
  public:
-  ClientGame(SharedQueue<Change>& change_queue,
+  ClientGame(int screen_width, int screen_height,
+             SharedQueue<Change>& change_queue,
              BlockingQueue<Event>& event_queue);
   ~ClientGame();
   void startGame(const std::string& map_name);

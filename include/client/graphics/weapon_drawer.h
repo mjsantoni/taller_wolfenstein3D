@@ -20,7 +20,6 @@ class WeaponDrawer {
   ObjectInfoProvider& info_provider;
   TextureManager& texture_manager;
   int weapon_width;
-  int window_width;
   int window_height;
   int starting_point;
  public:
@@ -28,8 +27,6 @@ class WeaponDrawer {
                TextureManager& _texture_manager);
   void drawPlayersWeapon(int weapon_number, int sprite_no);
   Area assembleScreenWeaponArea(ObjectInfo& object_info);
-  void displayPlayerAttacking(int weapon_number);
-  void displayPlayerStopShooting(int weapon_number);
   void setDimensions(int _starting_point, int _width);
 };
 

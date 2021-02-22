@@ -1,16 +1,21 @@
 #include "client/game/client.h"
 #include <iostream>
 
-Client::Client(NetworkConnection& skt) : running(true),
+Client::Client(NetworkConnection& skt, const std::string& config_file) :
+                                         running(true),
                                          change_queue(Change()),
                                          event_queue(Event()),
                                          server_updater(skt, event_queue),
-                                         server_listener(skt, change_queue) {
+                                         server_listener(skt, change_queue),
+                                         config_parser(config_file){
 }
 
 void Client::startGame(const std::string& map_name) {
+    std::pair<int, int> screen_res = config_parser.getResolution();
+    int screen_width = screen_res.first;
+    int screen_height = screen_res.second;
   try {
-    ClientGame game(change_queue, event_queue);
+    ClientGame game(screen_width, screen_height, change_queue, event_queue);
     server_updater.start();
     server_listener.start();
     try {

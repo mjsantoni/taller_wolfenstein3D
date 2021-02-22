@@ -11,7 +11,7 @@
 int ImageManager::getImageNumberFromName(std::string name) {
   if (name == "wood_wall")
     return BROWN_WALL;
-  if (name == "gray_wall")
+  if (name == "rock_wall")
     return GRAY_WALL;
   if (name == "blue_wall")
     return BLUE_WALL;
