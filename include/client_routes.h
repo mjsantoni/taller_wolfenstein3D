@@ -2,6 +2,7 @@
 #define TP_WOLFENSTEIN_CLIENT_ROUTES_H
 
 #define CONFIG_PATH "../config/config.yaml"
+#define QSS_PATH "../client_src/client.qss"
 
 // SDL
 #define CLIENT_IMAGES_ROUTE "../client_src/resources/"

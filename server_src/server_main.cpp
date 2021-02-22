@@ -12,17 +12,17 @@
 #define ARG_AMOUNT 2
 
 int main(int argc, char* argv[]) {
-  /*
+
   struct stat sb;
-  if (!(stat("./maps", &sb) == 0 && S_ISDIR(sb.st_mode))) {
-    if (chdir("/usr/local/share/wolfenstein3d-server") < 0) {
+  if (!(stat("../maps", &sb) == 0 && S_ISDIR(sb.st_mode))) {
+    if (chdir("/usr/local/share/wolfenstein3d-server/routing") < 0) {
       std::cerr
           << "FATAL ERROR: Game files not found."
           << std::endl;
       return -1;
     }
   }
-  */
+
   if (argc != ARG_AMOUNT) {
     std::cerr << "[Server] Incorrect parameter amount." << std::endl;
     return 1;
