@@ -4,7 +4,7 @@
 
 #include <zconf.h>
 #include "client/graphics/menus_drawer.h"
-#include "../client_routes.h"
+#include "client_routes.h"
 
 
 MenusDrawer::MenusDrawer(SdlWindow& _window) : window(_window) {

@@ -21,7 +21,6 @@ public:
     SdlTexture();
     SdlTexture(SdlWindow &window, const std::string &_file_name);
     ~SdlTexture();
-    SDL_Texture* loadTexture(SDL_Renderer* _renderer, Area& srcArea);
     SDL_Texture* getTexture();
     Area getTextureArea();
     void operator=(const SdlTexture&) = delete;

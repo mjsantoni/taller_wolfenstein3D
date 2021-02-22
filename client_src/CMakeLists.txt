@@ -3,7 +3,7 @@ project(wolfenstein3d_client)
 
 add_subdirectory("include/common/yaml-cpp")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -pthread")
 
 INCLUDE(FindPkgConfig)
 
