@@ -125,31 +125,30 @@ void ConfigChecker::showIdSelection() {
   showWidget("joinWidget");
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
-
+  showWidget("backButton");
   try {
-      sk.send_msg(JOIN_GAME);
+    sk.send_msg(JOIN_GAME);
   } catch (NetworkError) {
       showError("Server currently down");
       return;
   }
 
-  std::string games;
-  sk.recv_msg(games);
-  QStringList maps_names;
+    std::string games;
+    sk.recv_msg(games);
+    QStringList maps_names;
 
-  while (games != SUCCESS) {
+    while (games != SUCCESS) {
       if (!backed) {
           maps_names << games.c_str();
       }
       games.clear();
       sk.recv_msg(games);
-  }
+    }
 
-  if (maps_names.size() > 0) {
+    if (maps_names.size() > 0) {
       id_combo->addItems(maps_names);
-  }
+    }
 
-  showWidget("backButton");
 }
 
 void ConfigChecker::joinGame() {

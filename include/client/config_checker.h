@@ -11,10 +11,14 @@
 #include <common/network_connection.h>
 #include <common/network_error.h>
 
+
+/*Class that extends a window from QT making an intro/configuration of the game*/
 class ConfigChecker : public QMainWindow {
+
   std::string& map_data;
   NetworkConnection sk;
   bool backed = false;
+
  public:
 
   explicit ConfigChecker(std::string& _map_data, QMainWindow* parent = 0);
@@ -50,10 +54,15 @@ class ConfigChecker : public QMainWindow {
   void backToMenu();
 
   NetworkConnection getConnection();
+
  public slots:
+
   void updateBotsSpin();
+
   void updateMaxPlayerMap();
+
   void updateMaximums();
+
   void updateSpin(const char* to_update, const char* updater);
 };
 
