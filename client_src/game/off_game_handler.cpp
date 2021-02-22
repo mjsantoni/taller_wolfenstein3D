@@ -43,7 +43,6 @@ void OffGameHandler::displayLoadingScreen() {
         return;
     }
     if (server_down) {
-        std::cout << "Salgo aca 2\n";
         screen.displayNetworkConnectionErrorScreen();
         sleep(2);
         game_running = false;
@@ -51,7 +50,6 @@ void OffGameHandler::displayLoadingScreen() {
         return;
     }
   }
-  std::cout << "TERMINA LA INTRO\n";
 }
 
 void OffGameHandler::initializeMap(const std::string& map_name) {

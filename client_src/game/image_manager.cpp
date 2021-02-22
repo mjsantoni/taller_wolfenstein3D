@@ -98,7 +98,6 @@ void ImageManager::setAttackingAnimationForEnemy(Drawable& enemy) {
     enemy.setSpriteAnimationNo(6);
   else
     enemy.setSpriteAnimationNo(3);
-  std::cout << "El enemigo ataca, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }
 
 void ImageManager::setDyingAnimationForEnemy(Drawable& enemy) {
@@ -107,7 +106,6 @@ void ImageManager::setDyingAnimationForEnemy(Drawable& enemy) {
     return;
   }
   enemy.setSpriteAnimationNo(8); // HAY MAS
-  std::cout << "El enemigo muere, animacion: " << enemy.getSpriteAnimationNo() << std::endl;
 }
 
 bool ImageManager::objectIsDoor(int object_type) {

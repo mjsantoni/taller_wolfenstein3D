@@ -41,13 +41,11 @@ void OffGameChangeProcessor::processOffGameChanges() {
       break;
     }
     case (GAME_START): {
-      std::cout << "Se recibe cambio para iniciar el juego\n";
       map.addEnemies(player.getId());
       game_started = true;
       break;
     }
     case (GAME_OVER_NETWORK_ERROR): {
-      std::cout << "Se recibe cambio para iniciar el juego\n";
       server_down = true;
       break;
 }
