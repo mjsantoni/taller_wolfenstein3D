@@ -122,14 +122,14 @@ void MenusDrawer::displayDeadScreen() {
 void MenusDrawer::displayNetworkConnectingErrorScreen() {
   Area screen_area(0, 0, window_width, window_height);
   window.drawRectangle(screen_area, 0, 0, 0, 0);
-  std::string message_text = "AN ERROR OCURRED WHILE CONNECTING TO THE SERVER"
+  std::string message_text = "ERROR WHILE CONNECTING TO THE SERVER"
                              ": CONNECTION INTERRUPTED";
-  screen_area = Area(window_width / 6, window_height / 2, 4 * window_width / 6,
-                     window_height / 6);
+  screen_area = Area(window_width / 4, window_height / 3, window_width/2,
+                     window_height / 3);
   Area msg_area;
   SDL_Color gray_color{224, 224, 224};
   MessageParameters message_parameters(gray_color, message_text,
-                                       "accid__.ttf", 40);
+                                       "accid__.ttf", 35);
   renderMessage(message_text, msg_area, screen_area, message_parameters);
   window.render();
 }

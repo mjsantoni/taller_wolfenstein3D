@@ -8,7 +8,8 @@
 #include <client/game/client_game.h>
 #include <client/communication/server_updater.h>
 
-#define TICK_DURATION 0.05
+#define TICK_DURATION 0.03
+#define IN_GAME_VOLUME 20
 
 ClientGame::ClientGame(SharedQueue<Change>& change_queue,
                        BlockingQueue<Event>& event_queue) :
@@ -18,21 +19,22 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
     screen(1024, 768, map, player, player_alive),
     event_handler(change_queue),
     event_generator(player, event_handler, event_queue, player_alive,
-                    game_running),
+                    game_running, player_quitted),
     change_processor(screen, map, player, change_queue, audio_manager,
                      statistics_manager, player_alive, game_running),
-    off_game_handler(screen, player, map, change_queue, event_queue) {
+    off_game_handler(screen, player, map, change_queue, event_queue,
+                     player_quitted, game_running) {
   audio_manager.playGameSong();
 }
 
 void ClientGame::startGame(const std::string& map_name) {
   initializePlayer();
   off_game_handler.displayMenus(map_name);
+  if (!game_running)
+     return;
   screen.render(true);
-  std::cout << "Se inicia la partida" << std::endl;
-  audio_manager.setMusicVolume(20);
+  audio_manager.setMusicVolume(IN_GAME_VOLUME);
   processGame();
-  std::cout << "Frena change processor" << std::endl;
 }
 
 bool ClientGame::isRunning() {
@@ -43,8 +45,8 @@ void ClientGame::initializePlayer() {
   player_initializer.initializePlayer(player);
 }
 
-void ClientGame::displayConnectionErrorScreen(std::string message) {
-  screen.displayNetworkConnectionErrorScreen(std::move(message));
+void ClientGame::displayConnectionErrorScreen() {
+  screen.displayNetworkConnectionErrorScreen();
   game_running = false;
 }
 
@@ -92,7 +94,7 @@ void ClientGame::displayResultScreen(int game_result) {
 
 void ClientGame::displayStatistics() {
   audio_manager.stopGameSong();
-  if (event_generator.playerQuitted())
+  if (player_quitted)
     return;
   int game_result = processGameResult();
   displayResultScreen(game_result);

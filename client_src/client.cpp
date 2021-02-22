@@ -17,7 +17,7 @@ void Client::startGame(const std::string& map_name) {
       game.startGame(map_name);
     }
     catch (ConnectionException& e) {
-      game.displayConnectionErrorScreen(std::string(e.what()));
+      game.displayConnectionErrorScreen();
     }
     game.displayStatistics();
     server_updater.stop();

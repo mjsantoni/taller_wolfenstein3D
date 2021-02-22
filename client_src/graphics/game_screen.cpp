@@ -92,7 +92,7 @@ void GameScreen::displayVictoryScreen() {
   menus_drawer.displayVictoryScreen();
 }
 
-void GameScreen::displayNetworkConnectionErrorScreen(std::string message) {
+void GameScreen::displayNetworkConnectionErrorScreen() {
   menus_drawer.displayNetworkConnectingErrorScreen();
 }
 

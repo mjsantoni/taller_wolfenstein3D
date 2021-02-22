@@ -49,7 +49,7 @@ class GameScreen {
   void displayLoadingScreen(bool waiting_for_input);
   void displayStatistics(std::vector<std::vector<int>> statistics);
   void displayVictoryScreen();
-  void displayNetworkConnectionErrorScreen(std::string message);
+  void displayNetworkConnectionErrorScreen();
   void displayDefeatScreen();
   void displayTimeOverScreen();
   void setPlayerAttacking(int weapon_no);

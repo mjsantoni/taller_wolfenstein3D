@@ -24,7 +24,10 @@ void ServerListener::run() {
   }
 }
 
-void ServerListener::stop() { alive = false; }
+void ServerListener::stop() {
+    alive = false;
+    skt.shutdownRecv();
+}
 
 
 

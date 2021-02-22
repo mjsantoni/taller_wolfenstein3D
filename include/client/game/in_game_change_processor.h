@@ -12,7 +12,6 @@
 #include "client/graphics/images.h"
 #include "client_player_initializer.h"
 #include "off_game_change_processor.h"
-#include "off_game_event_handler.h"
 #include "statistics_manager.h"
 #include <client/game/client_map_generator.h>
 

@@ -8,12 +8,14 @@ OffGameChangeProcessor::OffGameChangeProcessor(ClientMap& _map,
                                                ClientPlayer& _player,
                                                SharedQueue<Change>& _change_queue,
                                                bool& _game_started,
-                                               bool& _player_ready) :
+                                               bool& _player_ready,
+                                               bool& _server_down) :
     game_started(_game_started),
     player_ready(_player_ready),
     map(_map),
     player(_player),
-    change_queue(_change_queue) {
+    change_queue(_change_queue),
+    server_down(_server_down) {
 }
 
 void OffGameChangeProcessor::processOffGameChanges() {
@@ -47,6 +49,12 @@ void OffGameChangeProcessor::processOffGameChanges() {
       // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
       break;
     }
+    case (GAME_OVER): {
+      std::cout << "Se recibe cambio para iniciar el juego\n";
+      server_down = true;
+      // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
+      break;
+}
   }
 }
 

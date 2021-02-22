@@ -8,7 +8,6 @@
 #include <client/sounds/audio_manager.h>
 #include <client/graphics/game_screen.h>
 #include "off_game_change_processor.h"
-#include "off_game_event_handler.h"
 #include "in_game_event_generator.h"
 #include "off_game_event_generator.h"
 #include <common/map_parser.h>
@@ -16,25 +15,25 @@
 
 class OffGameHandler {
  private:
-  GameScreen& screen;
-  ClientMap& map;
-  AudioManager audio_manager;
-  OffGameChangeProcessor change_processor;
-  OffGameEventHandler event_handler;
-  bool player_ready = false;
-  bool game_started = false;
-  OffGameEventGenerator event_generator;
+    GameScreen& screen;
+    ClientMap& map;
+    AudioManager audio_manager;
+    OffGameChangeProcessor change_processor;
+    bool player_ready = false;
+    bool game_started = false;
+    OffGameEventGenerator event_generator;
+    bool& player_quitted;
+    bool& game_running;
+    bool server_down = false;
+    int handleLoadingScreenEvent(SDL_Event event);
  public:
-  OffGameHandler(GameScreen& _screen, ClientPlayer& player, ClientMap& _map,
+    OffGameHandler(GameScreen& _screen, ClientPlayer& player, ClientMap& _map,
                  SharedQueue<Change>& change_queue,
-                 BlockingQueue<Event>& event_queue);
-  void displayLoadingScreen();
-  void displayLevelSelectionMenu();
-  int displayMatchModeMenu();
-  void displayIntro();
-  void displayMenus(const std::string& map_name);
-
-  void initializeMap(const std::string& map_name);
+                 BlockingQueue<Event>& event_queue,
+                 bool& _player_quitted, bool& _game_running);
+    void displayLoadingScreen();
+    void displayMenus(const std::string& map_name);
+    void initializeMap(const std::string& map_name);
 };
 
 #endif //TP_WOLFENSTEIN_OFF_GAME_HANDLER_H

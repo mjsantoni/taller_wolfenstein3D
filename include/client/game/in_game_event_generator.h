@@ -17,7 +17,7 @@ class InGameEventGenerator {
  private:
   bool& game_running;
   bool& player_alive;
-  bool player_quitted = false;
+  bool& player_quitted;
   ClientPlayer& player;
   InGameEventHandler& event_handler;
   BlockingQueue<Event>& event_queue;
@@ -26,7 +26,8 @@ class InGameEventGenerator {
                        InGameEventHandler& _event_handler,
                        BlockingQueue<Event>& _event_queue,
                        bool& _player_alive,
-                       bool& _game_running);
+                       bool& _game_running,
+                       bool& _player_quitted);
   //Event parseEvent(SDL_Event event);
   void generateInGameEvent(SDL_Event sdl_event);
   void generateInGameEvents();

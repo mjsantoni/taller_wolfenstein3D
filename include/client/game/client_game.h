@@ -42,7 +42,7 @@ class ClientGame {
   bool game_started;
   bool player_ready;
   bool player_alive = true;
-  bool can_skip_rendering = false;
+  bool player_quitted = false;
   OffGameHandler off_game_handler;
   ClientPlayerInitializer player_initializer;
  public:
@@ -55,7 +55,7 @@ class ClientGame {
   bool isRunning();
   void initializePlayer();
   void initializeMap();
-  void displayConnectionErrorScreen(std::basic_string<char> exception);
+  void displayConnectionErrorScreen();
   void processGame();
   void displayStatistics();
 
