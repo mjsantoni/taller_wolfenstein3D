@@ -259,6 +259,10 @@ void ConfigChecker::updateMaximums() {
     QSpinBox *bots_spin = findChild<QSpinBox*>("botsSpin");
     int value_max = max_players_spin->value();
 
+    if (max_players_spin->value() == min_players_spin->value()) {
+        bots_spin->setValue(bots_spin->value()-1);
+    }
+
     bots_spin->setMaximum(value_max - 1);
     min_players_spin->setMaximum(value_max);
 

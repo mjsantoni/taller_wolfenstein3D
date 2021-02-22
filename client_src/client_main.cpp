@@ -14,6 +14,7 @@ int main(int argc, char* args[]) {
     app.exec();
     NetworkConnection sk(std::move(checker.getConnection()));
     app.quit();
+    if (map_name.empty()) return 0;
     Client client(sk);
     client.startGame(map_name);
 }
