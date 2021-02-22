@@ -39,7 +39,8 @@ path:ui/chain_gun_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_hei
 path:ui/rocket_launcher_icon.png, obj_width:0.2, obj_height:0.2, img_width:64, img_height:64, name:rocket_launcher_icon, is_sprite:0
 
 path:effects/explosion.png, obj_width:0.2, obj_height:0.2, img_width:57, img_height:55, name:explosion, is_sprite:0
-path:effects/missile.png, obj_width:0.1, obj_height:0.1, img_width:64, img_height:64, name:explosion, is_sprite:0
+path:effects/missile.png, obj_width:0.1, obj_height:0.1, img_width:120, img_height:138, name:explosion, is_sprite:0
+path:effects/missile_incoming.png, obj_width:0.1, obj_height:0.1, img_width:120, img_height:138, name:explosion, is_sprite:0
 path:effects/blood_effect.png, obj_width:0.1, obj_height:0.1, img_width:338, img_height:283, name:explosion, is_sprite:0
 path:effects/dog_blood_effect.png, obj_width:0.1, obj_height:0.1, img_width:338, img_height:283, name:explosion, is_sprite:0
 

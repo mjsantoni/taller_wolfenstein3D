@@ -120,13 +120,33 @@ void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
   walls.insert(std::pair<int, Drawable>(object_id, door));
 }
 
+void ClientMap::processRPGMissile(int object_id,
+                                 int new_x,
+                                 int new_y) {
+    std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
+    if (objects.find(object_id) == objects.end())
+        return createRPGMissile(object_id, new_x, new_y);
+    updateRPGMissile(object_id, new_x, new_y);
+}
+
+void ClientMap::createRPGMissile(int object_id,
+                                 int new_x,
+                                 int new_y) {
+    Drawable missile(EFFECT_MISSILE);
+    int delta_x = new_x - player_coord.first;
+    int delta_y = new_y - player_coord.second;
+    double distance = Calculator::calculateDistance(delta_x, delta_y);
+    if (distance > grid_size)
+        missile =  Drawable(EFFECT_INCOMING_MISSILE);
+    missile.setMapPosition(new_x, new_y);
+    missile.setId(object_id);
+    objects.insert(std::pair<int, Drawable>(object_id, missile));
+}
+
 void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
-  std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
-  removeObject(object_id);
-  Drawable missile(EFFECT_MISSILE);
-  missile.setMapPosition(new_x, new_y);
-  missile.setId(object_id);
-  objects.insert(std::pair<int, Drawable>(object_id, missile));
+    std::cout << "Hay un misil en (" << new_x << "," << new_y << ")\n";
+    Drawable& missile = objects.at(object_id);
+    missile.setMapPosition(new_x, new_y);
 }
 
 double ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
@@ -325,4 +345,9 @@ bool ClientMap::isLastPlayerStanding() {
 
 int ClientMap::getEnemiesAlive() {
   return enemies.size();
+}
+
+void ClientMap::updatePlayerPosition(int x_pos, int y_pos) {
+    player_coord.first = x_pos;
+    player_coord.second = y_pos;
 }

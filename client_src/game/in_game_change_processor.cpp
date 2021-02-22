@@ -56,6 +56,7 @@ void InGameChangeProcessor::processInGameChange(Change& change) {
     case (MOVE_PLAYER): {
       if (player.getId() == id) {
         player.updatePosition(value1, value2);
+        map.updatePlayerPosition(value1, value2);
       } else {
         map.moveEnemy(id, value1, value2);
       }
@@ -159,7 +160,7 @@ void InGameChangeProcessor::processInGameChange(Change& change) {
       break;
     }
     case (RPG_MOVE_TO): {
-      map.updateRPGMissile(id, value1, value2);
+      map.processRPGMissile(id, value1, value2);
       // id: mismo rpg_id - value1: new_x - value2: new_y (utilizar los viejos x,y para hacer la animacion)
       break;
     }
@@ -167,7 +168,7 @@ void InGameChangeProcessor::processInGameChange(Change& change) {
       double distance_ratio =
           map.setRPGMissileExplosion(id, value1, value2);
       audio_manager.displayExplosionSound(distance_ratio);
-      updateMandatoryRenderingTurns(EXPLOSION_ANIMATION);
+      updateMandatoryRenderingTurns(EXPLOSION_ANIMATION+1);
       // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
       break;
     }

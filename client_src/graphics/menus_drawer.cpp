@@ -194,7 +194,6 @@ void MenusDrawer::displayVictoryScreen() {
   Area msg_area;
   renderMessage(message_text, msg_area, screen_area, msg_parms);
   window.render();
-  sleep(5);
 }
 
 void MenusDrawer::displayTopKillers(std::vector<int> top_killers,
@@ -240,7 +239,6 @@ void MenusDrawer::displayDefeatScreen() {
   Area screen_area(3 * window_width / 8, 3 * window_height / 4, window_width / 4,
                    window_height / 6);
   window.render();
-  sleep(5);
 }
 
 void MenusDrawer::displayTimeOverScreen() {
@@ -255,5 +253,4 @@ void MenusDrawer::displayTimeOverScreen() {
                                        "Action_Force.ttf", 50);
   renderMessage(message_text, msg_area, screen_area, message_parameters);
   window.render();
-  sleep(2);
 }

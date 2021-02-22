@@ -71,17 +71,23 @@ int ClientGame::processGameResult() {
 
 void ClientGame::displayResultScreen(int game_result) {
   switch (game_result) {
-    case -1:audio_manager.playDefeatSong();
-      screen.displayDefeatScreen();
+    case -1:
+        audio_manager.playDefeatSong();
+        screen.displayDefeatScreen();
+        sleep(4);
       break;
-    case 0:screen.displayTimeOverScreen();
+    case 0:
+        screen.displayTimeOverScreen();
+        sleep(2);
       break;
-    case 1:audio_manager.playVictorySong();
-      screen.displayVictoryScreen();
+    case 1:
+        audio_manager.playVictorySong();
+        screen.displayVictoryScreen();
+        sleep(4);
       break;
     default:break;
   }
-  sleep(2);
+
 }
 
 void ClientGame::displayStatistics() {
