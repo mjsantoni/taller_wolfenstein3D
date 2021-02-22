@@ -60,7 +60,7 @@ void ObjectDrawer::renderObject(double player_angle, double object_angle,
   double pl_ob_angle =
       getGammaAngle(player_angle, object_angle);
   double beta = convertToBeta(pl_ob_angle);
-  if (blockedByWall(beta, object.getHitDistance()))
+  if (blockedByWall(beta, object.getHitDistance(), object.getObjectType()))
     return;
   ObjectInfo object_info =
       object_info_provider.getObjectInfo(object.getObjectType());
@@ -152,7 +152,11 @@ double ObjectDrawer::getGammaAngle(double player_angle, double object_angle) {
   return 2 * M_PI - (object_angle - player_angle);
 }
 
-bool ObjectDrawer::blockedByWall(double angle, double distance) {
+bool ObjectDrawer::blockedByWall(double angle,
+                                 double distance,
+                                 int object_type) {
+  if (object_type == EFFECT_EXPLOSION)// LOS MISILES PUEDEN EXPLOTAR EN LA PARED
+      return false;
   double nearest_distance = 0;
   double angle_found = 0;
   if (wall_distance_info.find(angle) != wall_distance_info.end()) {
