@@ -48,7 +48,7 @@ Hit ShootHandler::shootRPG(int bullets_to_shoot, Player& player, std::vector<Coo
                            std::vector<std::pair<int, int>>& enemy_dmg_done, std::vector<Player>& players,
                            std::vector<Change>& changes) {
   if (player.getBullets() < bullets_to_shoot) {
-    return Hit(player.getID(), 0, enemy_dmg_done, false);
+    return Hit(player.getID(), 0, enemy_dmg_done, true);
   }
   scoreHandler.addBulletsShot(player.getID(), bullets_to_shoot);
   player.reduceAmmo(bullets_to_shoot);
