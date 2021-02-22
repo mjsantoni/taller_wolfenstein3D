@@ -161,12 +161,14 @@ void InGameChangeProcessor::processChange(Change& change) {
     case (GAME_OVER): {
       map.updateEvents();
       game_running = false;
+      break;
     }
      case (GAME_OVER_NETWORK_ERROR): {
        screen.displayNetworkConnectionErrorScreen();
        sleep(2);
        skip_stats = true;
        game_running = false;
+       break;
       }
     case (CL_UPDATE_DIRECTION): {
       player.updateDirection(value2);
