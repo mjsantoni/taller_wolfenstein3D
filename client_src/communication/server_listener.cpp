@@ -19,7 +19,7 @@ void ServerListener::run() {
       break;
     }
     Change change = change_factory.createFromBytes(const_cast<char*>(msg.c_str()));
-    if (change.getChangeID() == GAME_OVER) stop();
+    if (change.getChangeID() == GAME_OVER_NETWORK_ERROR) stop();
     change_queue.push(change);
   }
 }

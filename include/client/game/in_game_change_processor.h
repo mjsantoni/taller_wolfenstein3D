@@ -28,6 +28,7 @@ class InGameChangeProcessor {
   bool game_over;
   bool& player_alive;
   bool& game_running;
+  bool& skip_stats;
   int counter = 0;
   StatisticsManager& statistics_manager;
   void processEnemyAmmoChange(int enemy_id, int value);
@@ -46,7 +47,8 @@ class InGameChangeProcessor {
                         AudioManager& _audio_manager,
                         StatisticsManager& _statistics_manager,
                         bool& _player_alive,
-                        bool& _game_running);
+                        bool& _game_running,
+                        bool& _skip_stats);
   void processInGameChange(Change& change);
   void stop();
   void processInGameChanges();

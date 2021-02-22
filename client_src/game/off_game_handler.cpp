@@ -8,15 +8,15 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
                                ClientMap& _map,
                                SharedQueue<Change>& change_queue,
                                BlockingQueue<Event>& event_queue,
-                               bool& _player_quitted,
+                               bool& _skip_stats,
                                bool& _game_running) :
-    screen(_screen),
-    map(_map),
-    change_processor(_map, player, change_queue, game_started, player_ready,
+        screen(_screen),
+        map(_map),
+        change_processor(_map, player, change_queue, game_started, player_ready,
                      server_down),
-    event_generator(event_queue, player),
-    player_quitted(_player_quitted),
-    game_running(_game_running) {
+        event_generator(event_queue, player),
+        skip_stats(_skip_stats),
+        game_running(_game_running) {
 }
 
 void OffGameHandler::displayMenus(const std::string& map_name) {
@@ -38,7 +38,7 @@ void OffGameHandler::displayLoadingScreen() {
       event_generator.generateReadyEventIfNecessary();
       screen.displayLoadingScreen(false);
     }
-    if (player_quitted) {
+    if (skip_stats) {
         game_running = false;
         return;
     }
@@ -47,7 +47,7 @@ void OffGameHandler::displayLoadingScreen() {
         screen.displayNetworkConnectionErrorScreen();
         sleep(2);
         game_running = false;
-        player_quitted = true;
+        skip_stats = true;
         return;
     }
     //std::cout << "Player ready: " << player_ready << std::endl;
@@ -64,7 +64,7 @@ void OffGameHandler::initializeMap(const std::string& map_name) {
 
 int OffGameHandler::handleLoadingScreenEvent(SDL_Event event) {
     if (event.type == SDL_QUIT) {
-        player_quitted = true;
+        skip_stats = true;
         return 0;
     }
     if (event.type != SDL_KEYDOWN)

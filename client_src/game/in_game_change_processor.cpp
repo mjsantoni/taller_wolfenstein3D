@@ -21,16 +21,18 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
                                              AudioManager& _audio_manager,
                                              StatisticsManager& _statistics_manager,
                                              bool& _player_alive,
-                                             bool& _game_running) :
-    screen(_screen),
-    map(_map),
-    player(_player),
-    change_queue(_change_queue),
-    game_over(false),
-    audio_manager(_audio_manager),
-    statistics_manager(_statistics_manager),
-    player_alive(_player_alive),
-    game_running(_game_running) {
+                                             bool& _game_running,
+                                             bool& _skip_stats) :
+        screen(_screen),
+        map(_map),
+        player(_player),
+        change_queue(_change_queue),
+        game_over(false),
+        audio_manager(_audio_manager),
+        statistics_manager(_statistics_manager),
+        player_alive(_player_alive),
+        game_running(_game_running),
+        skip_stats(_skip_stats){
 }
 
 /* Ejecuta los cambios */
@@ -176,6 +178,12 @@ void InGameChangeProcessor::processInGameChange(Change& change) {
       map.updateEvents();
       game_running = false;
     }
+     case (GAME_OVER_NETWORK_ERROR): {
+       screen.displayNetworkConnectionErrorScreen();
+       sleep(2);
+       skip_stats = true;
+       game_running = false;
+      }
       /*
       case (TOTAL_PLAYERS_CONNECTED): {
           map.addPlayers(id, player.getId());

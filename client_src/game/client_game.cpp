@@ -19,11 +19,11 @@ ClientGame::ClientGame(SharedQueue<Change>& change_queue,
     screen(1024, 768, map, player, player_alive),
     event_handler(change_queue),
     event_generator(player, event_handler, event_queue, player_alive,
-                    game_running, player_quitted),
+                    game_running, skip_stats),
     change_processor(screen, map, player, change_queue, audio_manager,
-                     statistics_manager, player_alive, game_running),
+                    statistics_manager, player_alive, game_running, skip_stats),
     off_game_handler(screen, player, map, change_queue, event_queue,
-                     player_quitted, game_running) {
+                     skip_stats, game_running) {
   audio_manager.playGameSong();
 }
 
@@ -94,7 +94,7 @@ void ClientGame::displayResultScreen(int game_result) {
 
 void ClientGame::displayStatistics() {
   audio_manager.stopGameSong();
-  if (player_quitted)
+  if (skip_stats)
     return;
   int game_result = processGameResult();
   displayResultScreen(game_result);

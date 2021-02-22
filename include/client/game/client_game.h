@@ -42,7 +42,7 @@ class ClientGame {
   bool game_started;
   bool player_ready;
   bool player_alive = true;
-  bool player_quitted = false;
+  bool skip_stats = false;
   OffGameHandler off_game_handler;
   ClientPlayerInitializer player_initializer;
  public:
