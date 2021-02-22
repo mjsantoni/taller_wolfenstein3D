@@ -1,4 +1,5 @@
 #include "editor/editor.h"
+#include "editor/map_exporter.h"
 
 #define DEF_HEIGHT 14
 #define DEF_WIDTH 14
@@ -29,11 +30,30 @@
 #define WATER_PATH "../editor_src/resources/items/water_puddle.png"
 #define PLAYER_PATH "../editor_src/resources/player.png"
 
-YAML::Emitter& operator<<(YAML::Emitter& out, const Coordinate& coord) {
-  out << YAML::Flow;
-  out << YAML::BeginSeq << coord.x << coord.y << YAML::EndSeq;
-  return out;
-}
+#define WOOD_WALL_STRING "wood_wall"
+#define STONE_WALL_STRING "stone_wall"
+#define BLUE_WALL_STRING "blue_wall"
+#define ROCK_WALL_STRING "rock_wall"
+#define RPG_STRING "rpg_gun"
+#define CHAIN_STRING "chain_gun"
+#define MACHINE_STRING "machine_gun"
+#define BULLETS_STRING "bullets"
+#define CHEST_STRING "chest"
+#define GOBLET_STRING "goblet"
+#define CROSS_STRING "cross"
+#define CROWN_STRING "crown"
+#define FOOD_STRING "food"
+#define KEY_STRING "key"
+#define MEDKIT_STRING "medkit"
+#define LOCKED_STRING "locked_door"
+#define UNLOCKED_STRING "unlocked_door"
+#define FAKE_WALL_STRING "fake_wall"
+#define BARREL_STRING "barrel"
+#define TABLE_STRING "table"
+#define WATER_STRING "water_puddle"
+#define PLAYER_STRING "player"
+
+
 
 Editor::Editor(QMainWindow* parent) : QMainWindow(parent) {
   Ui::Editor editor;
@@ -126,29 +146,29 @@ void Editor::loadMap(std::string path) {
   for (auto& category: categories) {
     for (auto& items: parser.getSpecificCategory(category)) {
       for (auto& positions: items.second) {
-        QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.x, positions.y)->widget());
-        if (items.first == "wood_wall") updateGridButton(button, QIcon(wood_pix), "wood_wall");
-        else if (items.first == "rock_wall") updateGridButton(button, QIcon(rock_pix), "rock_wall");
-        else if (items.first == "blue_wall") updateGridButton(button, QIcon(blue_pix), "blue_wall");
-        else if (items.first == "stone_wall") updateGridButton(button, QIcon(stone_pix), "stone_wall");
-        else if (items.first == "unlocked_door") updateGridButton(button, QIcon(unlocked_pix), "unlocked_door");
-        else if (items.first == "fake_wall") updateGridButton(button, QIcon(fake_pix), "fake_wall");
-        else if (items.first == "rpg_gun") updateGridButton(button, QIcon(rpg_pix), "rpg_gun");
-        else if (items.first == "chain_gun") updateGridButton(button, QIcon(chain_pix), "chain_gun");
-        else if (items.first == "machine_gun") updateGridButton(button, QIcon(machine_pix), "machine_gun");
-        else if (items.first == "locked_door") updateGridButton(button, QIcon(locked_pix), "locked_door");
-        else if (items.first == "barrel") updateGridButton(button, QIcon(barrel_pix), "barrel");
-        else if (items.first == "table") updateGridButton(button, QIcon(table_pix), "table");
-        else if (items.first == "bullets") updateGridButton(button, QIcon(bullets_pix), "bullets");
-        else if (items.first == "chest") updateGridButton(button, QIcon(chest_pix), "chest");
-        else if (items.first == "goblet") updateGridButton(button, QIcon(goblet_pix), "goblet");
-        else if (items.first == "cross") updateGridButton(button, QIcon(cross_pix), "cross");
-        else if (items.first == "crown") updateGridButton(button, QIcon(crown_pix), "crown");
-        else if (items.first == "food") updateGridButton(button, QIcon(food_pix), "food");
-        else if (items.first == "key") updateGridButton(button, QIcon(key_pix), "key");
-        else if (items.first == "medkit") updateGridButton(button, QIcon(medic_pix), "medkit");
-        else if (items.first == "water_puddle") updateGridButton(button, QIcon(water_pix), "water_puddle");
-        else if (items.first.length() == 1) updateGridButton(button, QIcon(player_pix), "player");
+        QGridButton* button = qobject_cast<QGridButton*>(map_grid->itemAtPosition(positions.y, positions.x)->widget());
+        if (items.first == WOOD_WALL_STRING) updateGridButton(button, QIcon(wood_pix), WOOD_WALL_STRING);
+        else if (items.first == ROCK_WALL_STRING) updateGridButton(button, QIcon(rock_pix), ROCK_WALL_STRING);
+        else if (items.first == BLUE_WALL_STRING) updateGridButton(button, QIcon(blue_pix), BLUE_WALL_STRING);
+        else if (items.first == STONE_WALL_STRING) updateGridButton(button, QIcon(stone_pix), STONE_WALL_STRING);
+        else if (items.first == UNLOCKED_STRING) updateGridButton(button, QIcon(unlocked_pix), UNLOCKED_STRING);
+        else if (items.first == FAKE_WALL_STRING) updateGridButton(button, QIcon(fake_pix), FAKE_WALL_STRING);
+        else if (items.first == RPG_STRING) updateGridButton(button, QIcon(rpg_pix), RPG_STRING);
+        else if (items.first == CHAIN_STRING) updateGridButton(button, QIcon(chain_pix), CHAIN_STRING);
+        else if (items.first == MACHINE_STRING) updateGridButton(button, QIcon(machine_pix), MACHINE_STRING);
+        else if (items.first == LOCKED_STRING) updateGridButton(button, QIcon(locked_pix), LOCKED_STRING);
+        else if (items.first == BARREL_STRING) updateGridButton(button, QIcon(barrel_pix), BARREL_STRING);
+        else if (items.first == TABLE_STRING) updateGridButton(button, QIcon(table_pix), TABLE_STRING);
+        else if (items.first == BULLETS_STRING) updateGridButton(button, QIcon(bullets_pix), BULLETS_STRING);
+        else if (items.first == CHEST_STRING) updateGridButton(button, QIcon(chest_pix), CHEST_STRING);
+        else if (items.first == GOBLET_STRING) updateGridButton(button, QIcon(goblet_pix), GOBLET_STRING);
+        else if (items.first == CROSS_STRING) updateGridButton(button, QIcon(cross_pix), CROSS_STRING);
+        else if (items.first == CROWN_STRING) updateGridButton(button, QIcon(crown_pix), CROWN_STRING);
+        else if (items.first == FOOD_STRING) updateGridButton(button, QIcon(food_pix), FOOD_STRING);
+        else if (items.first == KEY_STRING) updateGridButton(button, QIcon(key_pix), KEY_STRING);
+        else if (items.first == MEDKIT_STRING) updateGridButton(button, QIcon(medic_pix), MEDKIT_STRING);
+        else if (items.first == WATER_STRING) updateGridButton(button, QIcon(water_pix), WATER_STRING);
+        else if (items.first.length() == 1) updateGridButton(button, QIcon(player_pix), PLAYER_STRING);
       }
     }
   }
@@ -252,43 +272,43 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   menu->addMenu(menu_items);
   menu->addMenu(menu_weapons);
 
-  connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, "wood_wall"));
+  connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, WOOD_WALL_STRING));
   connect(rock_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, rock_icon, "stone_wall"));
-  connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, "blue_wall"));
+          std::bind(&Editor::updateGridButton, this, button, rock_icon, STONE_WALL_STRING));
+  connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, BLUE_WALL_STRING));
   connect(stone_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, stone_icon, "stone_wall"));
-  connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, "rpg_gun"));
+          std::bind(&Editor::updateGridButton, this, button, stone_icon, STONE_WALL_STRING));
+  connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, RPG_STRING));
   connect(chain_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, chain_icon, "chain_gun"));
+          std::bind(&Editor::updateGridButton, this, button, chain_icon, CHAIN_STRING));
   connect(machine_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, machine_icon, "machine_gun"));
+          std::bind(&Editor::updateGridButton, this, button, machine_icon, MACHINE_STRING));
   connect(locked_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, locked_icon, "locked_door"));
+          std::bind(&Editor::updateGridButton, this, button, locked_icon, LOCKED_STRING));
   connect(barrel_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, barrel_icon, "barrel"));
-  connect(table_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, table_icon, "table"));
+          std::bind(&Editor::updateGridButton, this, button, barrel_icon, BARREL_STRING));
+  connect(table_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, table_icon, TABLE_STRING));
   connect(bullets_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, bullets_icon, "bullets"));
-  connect(chest_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chest_icon, "chest"));
-  connect(cross_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, cross_icon, "cross"));
-  connect(crown_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, crown_icon, "crown"));
+          std::bind(&Editor::updateGridButton, this, button, bullets_icon, BULLETS_STRING));
+  connect(chest_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chest_icon, CHEST_STRING));
+  connect(cross_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, cross_icon, CROSS_STRING));
+  connect(crown_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, crown_icon, CROWN_STRING));
   connect(goblet_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, goblet_icon, "goblet"));
-  connect(food_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, food_icon, "food"));
-  connect(key_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, key_icon, "key"));
-  connect(medic_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, medic_icon, "medkit"));
+          std::bind(&Editor::updateGridButton, this, button, goblet_icon, GOBLET_STRING));
+  connect(food_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, food_icon, FOOD_STRING));
+  connect(key_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, key_icon, KEY_STRING));
+  connect(medic_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, medic_icon, MEDKIT_STRING));
   connect(water_action,
           &QAction::triggered,
-          std::bind(&Editor::updateGridButton, this, button, water_icon, "water_puddle"));
+          std::bind(&Editor::updateGridButton, this, button, water_icon, WATER_STRING));
 
   return menu;
 }
@@ -296,19 +316,6 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
 void Editor::updateGridButton(QGridButton* button, QIcon icon, const char* texture) {
   button->setIcon(icon);
   button->setProperty("texture", QVariant(texture));
-}
-
-YAML::Emitter& operator<<(YAML::Emitter& out, const std::pair<int, int>& pair) {
-  out << YAML::Flow << YAML::BeginSeq << pair.first << pair.second << YAML::EndSeq;
-  return out;
-}
-
-YAML::Emitter& operator<<(YAML::Emitter& out, const std::vector<std::pair<int, int>>& v) {
-  out << YAML::Flow << YAML::BeginSeq;
-  for (int i = 0; i < v.size(); ++i) {
-    out << v[i];
-  }
-  return out;
 }
 
 void Editor::exportMap() {
@@ -321,6 +328,8 @@ void Editor::exportMap() {
   std::string width = qWidth.toStdString();
   if (height.empty()) height = "14";
   if (width.empty()) width = "14";
+
+  std::unordered_map<std::string, std::vector<std::pair <int, int>>> positions;
 
   std::vector<std::pair<int, int>> wood_positions;
   std::vector<std::pair<int, int>> rock_positions;
@@ -345,110 +354,48 @@ void Editor::exportMap() {
   std::vector<std::pair<int, int>> water_positions;
   std::vector<std::pair<int, int>> player_positions;
 
-  /* Map input */
+  positions[WOOD_WALL_STRING] = wood_positions;
+  positions[STONE_WALL_STRING] = rock_positions;
+  positions[BLUE_WALL_STRING] = stone_positions;
+  positions[ROCK_WALL_STRING] = blue_positions;
+  positions[RPG_STRING] = locked_positions;
+  positions[CHAIN_STRING] = unlocked_positions;
+  positions[MACHINE_STRING] = fake_positions;
+  positions[BULLETS_STRING] = rpg_positions;
+  positions[CHEST_STRING] = chain_positions;
+  positions[GOBLET_STRING] = machine_positions;
+  positions[CROSS_STRING] = bullets_positions;
+  positions[CROWN_STRING] = chest_positions;
+  positions[FOOD_STRING] = goblet_positions;
+  positions[KEY_STRING] = cross_positions;
+  positions[MEDKIT_STRING] = crown_positions;
+  positions[LOCKED_STRING] = food_positions;
+  positions[UNLOCKED_STRING] = key_positions;
+  positions[FAKE_WALL_STRING] = medkit_positions;
+  positions[BARREL_STRING] = barrel_positions;
+  positions[TABLE_STRING] = table_positions;
+  positions[WATER_STRING] = water_positions;
+  positions [PLAYER_STRING] = player_positions;
+
   QGridLayout* mapGrid = findChild<QGridLayout*>("mapGrid");
   for (int i = 0; i < mapGrid->rowCount(); ++i) {
     for (int j = 0; j < mapGrid->columnCount(); ++j) {
       QGridButton* buttonGrid = qobject_cast<QGridButton*>(mapGrid->itemAtPosition(i, j)->widget());
       std::string variantTexture = buttonGrid->property("texture").toString().toStdString();
-      if (variantTexture == "wood_wall") wood_positions.emplace_back(i, j);
-      if (variantTexture == "stone_wall") stone_positions.emplace_back(i, j);
-      if (variantTexture == "blue_wall") blue_positions.emplace_back(i, j);
-      if (variantTexture == "rock_wall") rock_positions.emplace_back(i, j);
-      if (variantTexture == "rpg_gun") rpg_positions.emplace_back(i, j);
-      if (variantTexture == "chain_gun") chain_positions.emplace_back(i, j);
-      if (variantTexture == "machine_gun") machine_positions.emplace_back(i, j);
-      if (variantTexture == "bullets") bullets_positions.emplace_back(i, j);
-      if (variantTexture == "chest") chest_positions.emplace_back(i, j);
-      if (variantTexture == "goblet") goblet_positions.emplace_back(i, j);
-      if (variantTexture == "cross") cross_positions.emplace_back(i, j);
-      if (variantTexture == "crown") crown_positions.emplace_back(i, j);
-      if (variantTexture == "food") food_positions.emplace_back(i, j);
-      if (variantTexture == "key") key_positions.emplace_back(i, j);
-      if (variantTexture == "medkit") medkit_positions.emplace_back(i, j);
-      if (variantTexture == "locked_door") locked_positions.emplace_back(i, j);
-      if (variantTexture == "unlocked_door") unlocked_positions.emplace_back(i, j);
-      if (variantTexture == "fake_wall") fake_positions.emplace_back(i, j);
-      if (variantTexture == "barrel") barrel_positions.emplace_back(i, j);
-      if (variantTexture == "table") table_positions.emplace_back(i, j);
-      if (variantTexture == "water_puddle") water_positions.emplace_back(i, j);
-      if (variantTexture == "player") player_positions.emplace_back(i, j);
+      if (positions.find(variantTexture) != positions.end()){
+          positions[buttonGrid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
+      }
     }
   }
 
-  YAML::Emitter out;
-  out << YAML::BeginMap;
 
-  out << YAML::Key << "dimensions";
-  out << YAML::Value << YAML::BeginMap;
-  out << YAML::Key << "width" << YAML::Value << width;
-  out << YAML::Key << "height" << YAML::Value << height;
-  out << YAML::EndMap;
 
-  out << YAML::Key << "scenarios";
-  out << YAML::Value << YAML::BeginMap;
-  out << YAML::Key << "wood_wall";
-  out << YAML::Value << wood_positions << YAML::EndSeq;
-  out << YAML::Key << "rock_wall";
-  out << YAML::Value << rock_positions << YAML::EndSeq;
-  out << YAML::Key << "stone_wall";
-  out << YAML::Value << stone_positions << YAML::EndSeq;
-  out << YAML::Key << "blue_wall";
-  out << YAML::Value << blue_positions << YAML::EndSeq;
-  out << YAML::Key << "barrel";
-  out << YAML::Value << barrel_positions << YAML::EndSeq;
-  out << YAML::Key << "locked_door";
-  out << YAML::Value << locked_positions << YAML::EndSeq;
-  out << YAML::Key << "unlocked_door";
-  out << YAML::Value << unlocked_positions << YAML::EndSeq;
-  out << YAML::Key << "fake_wall";
-  out << YAML::Value << fake_positions << YAML::EndSeq;
-  out << YAML::Key << "table";
-  out << YAML::Value << table_positions << YAML::EndSeq;
-  out << YAML::EndMap;
-
-  out << YAML::Key << "items";
-  out << YAML::Value << YAML::BeginMap;
-  out << YAML::Key << "machine_gun";
-  out << YAML::Value << machine_positions << YAML::EndSeq;
-  out << YAML::Key << "rpg_gun";
-  out << YAML::Value << rpg_positions << YAML::EndSeq;
-  out << YAML::Key << "chain_gun";
-  out << YAML::Value << chain_positions << YAML::EndSeq;
-  out << YAML::Key << "bullets";
-  out << YAML::Value << bullets_positions << YAML::EndSeq;
-  out << YAML::Key << "chest";
-  out << YAML::Value << chest_positions << YAML::EndSeq;
-  out << YAML::Key << "cross";
-  out << YAML::Value << cross_positions << YAML::EndSeq;
-  out << YAML::Key << "crown";
-  out << YAML::Value << crown_positions << YAML::EndSeq;
-  out << YAML::Key << "goblet";
-  out << YAML::Value << goblet_positions << YAML::EndSeq;
-  out << YAML::Key << "food";
-  out << YAML::Value << food_positions << YAML::EndSeq;
-  out << YAML::Key << "key";
-  out << YAML::Value << key_positions << YAML::EndSeq;
-  out << YAML::Key << "medkit";
-  out << YAML::Value << medkit_positions << YAML::EndSeq;
-  out << YAML::Key << "water_puddle";
-  out << YAML::Value << water_positions << YAML::EndSeq;
-  out << YAML::EndMap;
-
-  out << YAML::Key << "players";
-  out << YAML::Value << YAML::BeginMap;
-  for (int i = 0; i < player_positions.size(); i++) {
-    out << YAML::Key << std::to_string(i);
-    out << YAML::Value << YAML::Flow << YAML::BeginSeq << player_positions[i] << YAML::EndSeq;
-  }
-  out << YAML::EndMap;
-
-  out << YAML::EndMap;
+  MapExporter exporter(width, height, positions);
 
   std::string savePath = saveYamlPath();
   if (savePath.empty()) return;
   std::fstream file(savePath, std::ios::out);
-  file << out.c_str();
+  file << exporter.getMapParsed();
   file.close();
 }
 
@@ -551,16 +498,16 @@ void Editor::renderScenarioGrid(QGridLayout* texture_grid) {
   QPixmap table_pix(TABLE_PATH);
   QPixmap water_pix(WATER_PATH);
 
-  icons.emplace_back(QIcon(wood_pix), "wood_wall");
-  icons.emplace_back(QIcon(rock_pix), "rock_wall");
-  icons.emplace_back(QIcon(blue_pix), "blue_wall");
-  icons.emplace_back(QIcon(stone_pix), "stone_wall");
-  icons.emplace_back(QIcon(locked_pix), "locked_door");
-  icons.emplace_back(QIcon(unlocked_pix), "unlocked_door");
-  icons.emplace_back(QIcon(fake_pix), "fake_wall");
-  icons.emplace_back(QIcon(barrel_pix), "barrel");
-  icons.emplace_back(QIcon(table_pix), "table");
-  icons.emplace_back(QIcon(water_pix), "water_puddle");
+  icons.emplace_back(QIcon(wood_pix), WOOD_WALL_STRING);
+  icons.emplace_back(QIcon(rock_pix), ROCK_WALL_STRING);
+  icons.emplace_back(QIcon(blue_pix), BLUE_WALL_STRING);
+  icons.emplace_back(QIcon(stone_pix), STONE_WALL_STRING);
+  icons.emplace_back(QIcon(locked_pix), LOCKED_STRING);
+  icons.emplace_back(QIcon(unlocked_pix), UNLOCKED_STRING);
+  icons.emplace_back(QIcon(fake_pix), FAKE_WALL_STRING);
+  icons.emplace_back(QIcon(barrel_pix), BARREL_STRING);
+  icons.emplace_back(QIcon(table_pix), TABLE_STRING);
+  icons.emplace_back(QIcon(water_pix), WATER_STRING);
 
   renderTextureGrid(texture_grid, icons);
 }
@@ -582,14 +529,14 @@ void Editor::renderItemsGrid(QGridLayout* texture_grid) {
   QPixmap key_pix(KEY_PATH);
   QPixmap medic_pix(MEDKIT_PATH);
 
-  icons.emplace_back(QIcon(bullets_pix), "bullets");
-  icons.emplace_back(QIcon(chest_pix), "chest");
-  icons.emplace_back(QIcon(cross_pix), "cross");
-  icons.emplace_back(QIcon(crown_pix), "crown");
-  icons.emplace_back(QIcon(goblet_pix), "goblet");
-  icons.emplace_back(QIcon(food_pix), "food");
-  icons.emplace_back(QIcon(key_pix), "key");
-  icons.emplace_back(QIcon(medic_pix), "medkit");
+  icons.emplace_back(QIcon(bullets_pix), BULLETS_STRING);
+  icons.emplace_back(QIcon(chest_pix), CHEST_STRING);
+  icons.emplace_back(QIcon(cross_pix), CROSS_STRING);
+  icons.emplace_back(QIcon(crown_pix), CROWN_STRING);
+  icons.emplace_back(QIcon(goblet_pix), GOBLET_STRING);
+  icons.emplace_back(QIcon(food_pix), FOOD_STRING);
+  icons.emplace_back(QIcon(key_pix), KEY_STRING);
+  icons.emplace_back(QIcon(medic_pix), MEDKIT_STRING);
 
   renderTextureGrid(texture_grid, icons);
 }
@@ -601,9 +548,9 @@ void Editor::renderWeaponsGrid(QGridLayout* texture_grid) {
   QPixmap chain_pix(CHAIN_GUN_PATH);
   QPixmap machine_pix(MACHINE_GUN_PATH);
 
-  icons.emplace_back(QIcon(rpg_pix), "rpg_gun");
-  icons.emplace_back(QIcon(chain_pix), "chain_gun");
-  icons.emplace_back(QIcon(machine_pix), "machine_gun");
+  icons.emplace_back(QIcon(rpg_pix), RPG_STRING);
+  icons.emplace_back(QIcon(chain_pix), CHAIN_STRING);
+  icons.emplace_back(QIcon(machine_pix), MACHINE_STRING);
 
   renderTextureGrid(texture_grid, icons);
 }
@@ -613,7 +560,7 @@ void Editor::renderPlayersGrid(QGridLayout* texture_grid) {
 
   QPixmap player_pix(PLAYER_PATH);
 
-  icons.emplace_back(QIcon(player_pix), "player");
+  icons.emplace_back(QIcon(player_pix), PLAYER_STRING);
 
   renderTextureGrid(texture_grid, icons);
 }

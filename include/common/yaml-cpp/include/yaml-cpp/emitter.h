@@ -34,7 +34,7 @@ class YAML_CPP_API Emitter {
  public:
   Emitter();
   explicit Emitter(std::ostream& stream);
-  Emitter(const Emitter&) = delete;
+  Emitter(const Emitter&) = default;
   Emitter& operator=(const Emitter&) = delete;
   ~Emitter();
 
