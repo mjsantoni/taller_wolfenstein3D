@@ -114,7 +114,7 @@ void MenusDrawer::displayDeadScreen() {
                      window_height / 4);
   Area msg_area;
   MessageParameters message_parameters(message_text,
-                                       "Action_Force.ttf", 50);
+                                       "Action_Force.ttf", 40);
   renderMessage(message_text, msg_area, screen_area, message_parameters);
   window.render();
 }

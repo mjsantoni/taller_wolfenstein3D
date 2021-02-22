@@ -36,7 +36,7 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
 }
 
 /* Ejecuta los cambios */
-void InGameChangeProcessor::processInGameChange(Change& change) {
+void InGameChangeProcessor::processChange(Change& change) {
   if (change.isInvalid()) {
     skip_rendering = true;
     return;
@@ -205,7 +205,7 @@ void InGameChangeProcessor::processInGameChange(Change& change) {
 
 void InGameChangeProcessor::processInGameChanges() {
   Change change = change_queue.pop();
-  processInGameChange(change);
+    processChange(change);
   if (game_over) {
     return;
   }
@@ -224,7 +224,7 @@ void InGameChangeProcessor::processInGameChanges() {
 void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
     for (auto& change : changes) {
         std::cout << "Se procesa un cambio " << change.getChangeID() << std::endl;
-        processInGameChange(change);
+        processChange(change);
     }
 }
 */

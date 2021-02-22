@@ -81,7 +81,6 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
   }
   if (event.isInvalid())
     return;
-  //std::cout << "Se encola el evento " << event.getEventID() << std::endl;
   event_queue.push(event);
 }
 

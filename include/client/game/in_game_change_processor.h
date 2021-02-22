@@ -49,7 +49,7 @@ class InGameChangeProcessor {
                         bool& _player_alive,
                         bool& _game_running,
                         bool& _skip_stats);
-  void processInGameChange(Change& change);
+  void processChange(Change& change);
   void stop();
   void processInGameChanges();
 

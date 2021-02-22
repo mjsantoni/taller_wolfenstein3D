@@ -41,12 +41,12 @@ void ObjectDrawer::loadObjects(int x, int y, double player_angle) {
                                                               player_angle);
     double object_final_angle = getObjectAngle(x, y, object_final_pos);
     double diff_angle = 0;
-    if (shouldDraw(player_angle, object_starting_angle, object_final_angle,
-                   diff_angle)) {
+    if (isInsidePlayersFOV(player_angle, object_starting_angle,
+                           object_final_angle, diff_angle)) {
       double x_prop = calculateObjectStartingXPos(object_starting_angle,
                                                   object_final_angle, diff_angle);
-      renderObject(x, y, player_angle, object_starting_angle + diff_angle,
-                   x_prop, object);
+        renderObject(player_angle, object_starting_angle + diff_angle,
+                     x_prop, object);
     }
   }
 }
@@ -55,22 +55,16 @@ double convertToBeta(double pl_ob_angle) {
   return -pl_ob_angle;
 }
 
-void ObjectDrawer::renderObject(int x_pos, int y_pos, double player_angle,
-                                double object_angle, double x_prop,
-                                Drawable& object) {
-  std::pair<int, int> object_position = object.getMapPosition();
-  int object_x = object_position.first;
-  int object_y = object_position.second;
+void ObjectDrawer::renderObject(double player_angle, double object_angle,
+                                double x_prop, Drawable &object) {
   double pl_ob_angle =
       getGammaAngle(player_angle, object_angle);
-  double distance = Calculator::calculateDistance(x_pos - object_x,
-                                                  y_pos - object_y);
   double beta = convertToBeta(pl_ob_angle);
-  if (blockedByWall(beta, distance))
+  if (blockedByWall(beta, object.getHitDistance()))
     return;
   ObjectInfo object_info =
       object_info_provider.getObjectInfo(object.getObjectType());
-  object_info.setHitDistance(distance);
+  object_info.setHitDistance(object.getHitDistance());
   object_info.setHitGridPos(x_prop);
   //std::cout << "sprite no: " << object.getSpriteAnimationNo() << std::endl;
   object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
@@ -104,10 +98,10 @@ int ObjectDrawer::getObjectWidth(Drawable& drawable) {
   return (int) (object_info.getObjectWidth() * map_grid_size);
 }
 
-bool ObjectDrawer::shouldDraw(double player_angle,
-                              double os_angle,
-                              double of_angle,
-                              double& diff_angle) {
+bool ObjectDrawer::isInsidePlayersFOV(double player_angle,
+                                      double os_angle,
+                                      double of_angle,
+                                      double& diff_angle) {
   double fov_starting_angle = Calculator::normalize(player_angle + 0.523599);
   double fov_finishing_angle = Calculator::normalize(player_angle - 0.523599);
   if (fov_finishing_angle >= fov_starting_angle)

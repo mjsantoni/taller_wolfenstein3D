@@ -26,8 +26,8 @@ class ObjectDrawer {
   std::vector<double>& angles_list;
   ClientMap& map;
   ObjectDrawingAssistant drawing_assistant;
-  bool shouldDraw(double player_angle, double os_angle, double of_angle,
-                  double& diff_angle);
+  bool isInsidePlayersFOV(double player_angle, double os_angle, double of_angle,
+                          double& diff_angle);
   bool shouldDraw_borderCase(double os_angle, double of_angle,
                              double fov_starting_angle,
                              double fov_finishing_angle, double& diff_angle);
@@ -36,8 +36,8 @@ class ObjectDrawer {
                                          double player_angle);
   double calculateObjectStartingXPos(double os_angle, double of_angle,
                                      double diff_angle);
-  void renderObject(int x_pos, int y_pos, double player_angle,
-                    double object_angle, double x_prop, Drawable& object);
+  void renderObject(double player_angle, double object_angle,
+                    double x_prop, Drawable &object);
   double getGammaAngle(double player_angle, double object_angle);
   bool blockedByWall(double angle, double distance);
   std::vector<Drawable> getMapObjects(int x, int y);
