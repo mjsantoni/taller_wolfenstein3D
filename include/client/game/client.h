@@ -22,9 +22,9 @@ class Client {
   ConfigParser config_parser;
  public:
   explicit Client(NetworkConnection& skt, const std::string& config_file);
+  ~Client();
   void startGame(const std::string& map_name);
   void stop();
-  bool isRunning();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_H

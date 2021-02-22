@@ -106,10 +106,6 @@ void ClientMap::removeObject(int object_id) {
   drawables_by_position.erase(object_position);
 }
 
-Drawable& ClientMap::getObjectById(int object_id) {
-  return objects.at(object_id);
-}
-
 void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
   Drawable door(UNLOCKED_DOOR);
   board.updateUnlockedDoor(door, object_id, x_pos, y_pos);

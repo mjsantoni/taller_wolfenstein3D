@@ -43,10 +43,6 @@ class UIDrawer {
   void drawBox(const std::string& message, int value);
   void fillArea(Area area, int r, int g, int b, int a);
   void fillAreaWithBorder(Area area, int r, int g, int b, int a);
-  void fillTextArea(TTF_Font* font, const std::string& message,
-                    Area& screen_area);
-  void putTextureAt(SDL_Texture* texture, Area src, Area dest);
-
  public:
   UIDrawer(ObjectInfoProvider& _info_provider, SdlWindow& _window);
   void setDimensions(int _starting_point, int _height, int _width);

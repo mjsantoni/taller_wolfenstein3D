@@ -31,7 +31,7 @@ class Drawable {
   int getMapWidth();
   void setMapWidth(int width);
   std::string getObjectName();
-  void setObjectName(std::string name);
+  void setObjectName(const std::string &name);
   void setMapPosition(std::pair<int, int> new_position);
   std::vector<int> moving_sprites{0, 1, 3, 4, 7};
   std::vector<int> shooting_sprite = {6};
@@ -39,12 +39,12 @@ class Drawable {
   int current_mov_sprite = 0;
   int current_sho_sprite = 0;
   int current_dying_sprite = 0;
-  int getSpriteAnimationNo();
+  int getSpriteAnimationNo() const;
   void setSpriteAnimationNo(int _sprite_animation_no);
   void setObjectType(int _object_type);
-  int getDuration();
+  int getDuration() const;
   void reduceDuration();
-  double getHitDistance();
+  double getHitDistance() const;
   void setHitDistance(double _hit_distance);
 };
 

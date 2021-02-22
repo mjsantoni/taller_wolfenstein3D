@@ -37,13 +37,6 @@ void SdlSprite::loadIndividualDimensions() {
   }
 }
 
-void SdlSprite::fillDimensions(Area& source_area, Area& empty_area) {
-  empty_area.setX(source_area.getX());
-  empty_area.setY(source_area.getY());
-  empty_area.setWidth(source_area.getWidth());
-  empty_area.setHeight(source_area.getHeight());
-}
-
 std::vector<Area> SdlSprite::getAllTheAreas() {
   return dimensions;
 }

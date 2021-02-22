@@ -4,21 +4,9 @@
 
 #include "client/game/statistics_manager.h"
 
-StatisticsManager::StatisticsManager() {
-  /*
-  top_killers_vector.resize(5);
-  top_shooters_vector.resize(5);
-  top_scorers_vector.resize(5);
-  top_killers_stats.resize(5);
-  top_shooters_stats.resize(5);
-  top_scorers_stats.resize(5);
-   */
-}
-
 void StatisticsManager::addStatistic(int statistic_type,
                                      int player_id,
-                                     int value,
-                                     int position) {
+                                     int value) {
   switch (statistic_type) {
     case TOP_KILLER:top_killers_vector.push_back(player_id);
       top_killers_stats.push_back(value);

@@ -51,27 +51,14 @@ SDL_Renderer* SdlWindow::getRenderer() const {
   return renderer;
 }
 
-SDL_Surface* SdlWindow::getSurface() const {
-  return SDL_GetWindowSurface(window);
-}
-
 void SdlWindow::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
   SDL_Rect sdlSrc = {
       src.getX(), src.getY(), src.getWidth(), src.getHeight()
   };
-  // donde se pega, y si hay diferencia de dimensiones
   SDL_Rect sdlDest = {
       dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
   };
   SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
-}
-
-void SdlWindow::fillArea(Area area, int r, int g, int b, int a) {
-  SDL_Rect rect = {
-      area.getX(), area.getY(), area.getWidth(), area.getHeight()
-  };
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderFillRect(renderer, &rect);
 }
 
 void SdlWindow::restore() {
@@ -99,10 +86,3 @@ void SdlWindow::loadImage(SDL_Texture* texture,
                           Area& screen_area) {
   putTextureAt(texture, image_area, screen_area);
 }
-
-Area SdlWindow::getFullScreenArea() {
-  return Area{0, 0, width, height};
-}
-
-
-

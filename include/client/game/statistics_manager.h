@@ -19,9 +19,7 @@ class StatisticsManager {
   std::vector<int> statistics_vector;
   int max_pos = 0;
  public:
-  StatisticsManager();
-  void addStatistic(int statistic_type, int player_id, int value,
-                    int position);
+  void addStatistic(int statistic_type, int player_id, int value);
   std::vector<std::vector<int>> getStatistics();
 
 };

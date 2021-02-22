@@ -50,8 +50,6 @@ void OffGameHandler::displayLoadingScreen() {
         skip_stats = true;
         return;
     }
-    //std::cout << "Player ready: " << player_ready << std::endl;
-    //std::cout << "Game started: " << game_started << std::endl;
   }
   std::cout << "TERMINA LA INTRO\n";
 }

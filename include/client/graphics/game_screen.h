@@ -37,15 +37,11 @@ class GameScreen {
  public:
   GameScreen(int width, int height, ClientMap& _map, ClientPlayer& _player,
              bool& _player_alive);
+  ~GameScreen();
   void render(bool render_background_and_objects);
   void displayDeadScreen();
   void displayRespawningScreen();
-  void close();
-  void displayIntro();
-  void displayMatchModeMenu();
-  void displayLevelSelectionMenu();
   std::vector<Area> getKeyScreenAreas();
-  void displayPlayerAttacking();
   void displayLoadingScreen(bool waiting_for_input);
   void displayStatistics(std::vector<std::vector<int>> statistics);
   void displayVictoryScreen();

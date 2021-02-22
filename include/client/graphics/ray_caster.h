@@ -44,7 +44,7 @@ class RayCaster {
                                            double beta, RayInfo& ray_info);
   void castProjectionLine_horizontal_left(int x, int y, double alpha,
                                           double beta, RayInfo& ray_info);
-  bool outOfBounds(ClientMap& map, int x_pos, bool is_vertical);
+  bool outOfBounds(int pos, bool is_vertical);
   void fillRayInfo(double beta, int x_pos, int y_pos, int delta_x,
                    int delta_y, RayInfo& ray_info, int x_factor,
                    int y_factor);

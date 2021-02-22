@@ -15,29 +15,26 @@ void Client::startGame(const std::string& map_name) {
     int screen_width = screen_res.first;
     int screen_height = screen_res.second;
   try {
-    ClientGame game(screen_width, screen_height, change_queue, event_queue);
-    server_updater.start();
-    server_listener.start();
-    try {
-      game.startGame(map_name);
-    }
-    catch (ConnectionException& e) {
-      game.displayConnectionErrorScreen();
-    }
-    game.displayStatistics();
-    server_updater.stop();
-    server_listener.stop();
-    server_updater.join();
-    server_listener.join();
+      ClientGame game(screen_width, screen_height, change_queue, event_queue);
+      server_updater.start();
+      server_listener.start();
+      try {
+          game.startGame(map_name);
+      }
+      catch (ConnectionException& e) {
+          game.displayConnectionErrorScreen();
+      }
+      game.displayStatistics();
   }
   catch (SdlException& e) {
-    std::cout << e.what() << std::endl;
+      std::cout << e.what() << std::endl;
   }
   running = false;
 }
 
-void Client::stop() {}
-
-bool Client::isRunning() {
-  return running;
+Client::~Client() {
+    server_updater.stop();
+    server_listener.stop();
+    server_updater.join();
+    server_listener.join();
 }

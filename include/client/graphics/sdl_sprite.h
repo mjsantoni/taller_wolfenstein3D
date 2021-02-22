@@ -28,7 +28,6 @@ class SdlSprite : public SdlTexture {
   std::map<int, Area> dimensions_map;
   int current_pos = 0;
   void loadIndividualDimensions();
-  void fillDimensions(Area& source_area, Area& empty_area);
 
  public:
   SdlSprite(SdlWindow& window, ObjectInfo& object_info);

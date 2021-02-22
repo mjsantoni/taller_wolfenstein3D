@@ -41,7 +41,6 @@ void SdlMessage::renderMessage(SdlWindow& window,
   SDL_Rect sdlSrc = {
       src.getX(), src.getY(), src.getWidth(), src.getHeight()
   };
-  // donde se pega, y si hay diferencia de dimensiones
   SDL_Rect sdlDest = {
       dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
   };

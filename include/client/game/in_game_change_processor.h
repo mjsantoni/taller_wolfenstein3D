@@ -14,6 +14,7 @@
 #include "off_game_change_processor.h"
 #include "statistics_manager.h"
 #include <client/game/client_map_generator.h>
+#include <client/game/timed_events.h>
 
 class InGameChangeProcessor {
  private:
@@ -52,9 +53,7 @@ class InGameChangeProcessor {
   void processChange(Change& change);
   void stop();
   void processInGameChanges();
-
   void updateMandatoryRenderingTurns(int new_value);
-
   void playAttackingSound(int players_weapon, double distance_ratio);
 };
 

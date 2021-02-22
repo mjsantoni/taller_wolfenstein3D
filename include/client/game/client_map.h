@@ -60,7 +60,6 @@ public:
     std::vector<Drawable> getAllDrawables();
     void removeObject(int object_id);
     void moveEnemy(int object_id, int new_x, int new_y);
-    Drawable& getObjectById(int object_id);
     void putObjectAt(int object_type, int x_pos, int y_pos);
     void putObjectAt(int object_id, int object_type, int x_pos, int y_pos);
     void updateUnlockedDoor(int object_id, int x_pos, int y_pos);
@@ -87,7 +86,6 @@ public:
     int getEnemiesAlive();
     void processRPGMissile(int object_id, int new_x, int new_y);
     void createRPGMissile(int object_id, int new_x, int new_y);
-
     void updatePlayerPosition(int x_pos, int y_pos);
 };
 

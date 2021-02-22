@@ -5,12 +5,14 @@
 #include "client/graphics/ray_caster_drawing_assistant.h"
 
 RayCasterDrawingAssistant::RayCasterDrawingAssistant(SdlWindow& _window,
-                                                     TextureManager& _texture_manager) :
+                                             TextureManager& _texture_manager) :
     window(_window),
     texture_manager(_texture_manager) {
 }
 
-void RayCasterDrawingAssistant::drawFloor(int x_pos, int wall_posY, int wall_height) {
+void RayCasterDrawingAssistant::drawFloor(int x_pos,
+                                          int wall_posY,
+                                          int wall_height) {
   int fsp_for_column = wall_posY + wall_height;
   int fh_for_column = screen_height - fsp_for_column;
   Area area(x_pos, fsp_for_column, 1, fh_for_column);
@@ -28,12 +30,12 @@ void RayCasterDrawingAssistant::setDimensions(int width, int height) {
   proj_plane_distance = (int) (((double) screen_width / 2) / tan(FOV / 2));
 }
 
-double RayCasterDrawingAssistant::findWallHeight(double distance) {
+double RayCasterDrawingAssistant::findWallHeight(double distance) const {
   auto height_proportion = (double) WALL_HEIGHT / distance;
   return (height_proportion * proj_plane_distance); // altura muro
 }
 
-int RayCasterDrawingAssistant::findWallStartingPoint(double wall_height) {
+int RayCasterDrawingAssistant::findWallStartingPoint(double wall_height) const {
   return (int(screen_height / 2) - int(wall_height / 2));
 }
 
@@ -47,7 +49,8 @@ void RayCasterDrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
   texture->render(image_area, screen_area);
 }
 
-Area RayCasterDrawingAssistant::assembleScreenArea(int ray_no, ObjectInfo& object_info) {
+Area RayCasterDrawingAssistant::assembleScreenArea(int ray_no,
+                                                ObjectInfo& object_info) const {
   double distance = object_info.getHitDistance();
   double wall_height = findWallHeight(distance);
   int wall_starting_point = findWallStartingPoint(wall_height);

@@ -60,12 +60,6 @@ int ImageManager::getImageNumberFromWeapon(int weapon_number) {
   return weapon_number + WEAPON_ENEMY_DELTA;
 }
 
-int ImageManager::getAttackingAnimationForWeapon(int weapon_number) {
-  if (weapon_number == WEAPON_MACHINE_GUN)
-    return 3;
-  return 2;
-}
-
 void ImageManager::setMovingAnimationForEnemy(Drawable& drawable,
                                               int current_animation) {
   int object_type = drawable.getObjectType();

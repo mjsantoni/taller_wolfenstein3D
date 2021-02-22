@@ -21,7 +21,6 @@ void UIDrawer::setDimensions(int _starting_point,
 }
 
 void UIDrawer::drawPlayerUI(ClientPlayer& player) {
-  //drawPlayersWeapon(player.getEquippedWeapon());
   TTF_Init();
   Area ui_rect_area(0, starting_point, width, ui_height);
   fillArea(ui_rect_area, 3, 69, 64, 0);
@@ -70,14 +69,12 @@ void UIDrawer::drawPlayersImage(double health_ratio) {
   int sprite_no = (int) (health_ratio * (PLAYER_FACE_SPRITE_IMAGES - 1));
   ObjectInfo face_info = info_provider.getObjectInfo(UI_PLAYER_FACE);
   SdlSprite player_face(window, face_info);
-  //window.loadImage(player_face, img_area, screen_area);
   player_face.render(screen_area, sprite_no);
   box_starting_point += width / 10;
   text_starting_point += width / 10 - h_padding;
 }
 
 void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
-  //box_starting_point += h_padding;
   Area rect_area(box_starting_point, starting_point + 10,
                  4 * width / 10, ui_height - 20);
   fillAreaWithBorder(rect_area, 8, 2, 175, 0);
@@ -87,7 +84,6 @@ void UIDrawer::drawPlayersWeaponIcon(int players_weapon) {
   Area image_area = weapon_icon.getTextureArea();
   Area screen_area(text_starting_point, starting_point + 15,
                    (4 * width / 10) - 2 * h_padding, ui_height - 30);
-  //window.loadImage(weapon_icon, image_area, screen_area);
   weapon_icon.render(image_area, screen_area);
 }
 
@@ -140,27 +136,6 @@ void UIDrawer::fillAreaWithBorder(Area area, int r, int g, int b, int a) {
   SDL_RenderFillRect(window.getRenderer(), &border);
   SDL_SetRenderDrawColor(window.getRenderer(), r, g, b, a);
   SDL_RenderFillRect(window.getRenderer(), &rect);
-}
-
-void UIDrawer::fillTextArea(TTF_Font* font,
-                            const std::string& message,
-                            Area& screen_area) {
-  int text_width;
-  int text_height;
-  TTF_SizeText(font, message.c_str(), &text_width, &text_height);
-  screen_area.setX(screen_area.getX() + (screen_area.getWidth() - text_width) / 2);
-  screen_area.setWidth(text_width);
-}
-
-void UIDrawer::putTextureAt(SDL_Texture* texture, Area src, Area dest) {
-  SDL_Rect sdlSrc = {
-      src.getX(), src.getY(), src.getWidth(), src.getHeight()
-  };
-  // donde se pega, y si hay diferencia de dimensiones
-  SDL_Rect sdlDest = {
-      dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
-  };
-  SDL_RenderCopy(window.getRenderer(), texture, &sdlSrc, &sdlDest);
 }
 
 void UIDrawer::renderDeadMode() {

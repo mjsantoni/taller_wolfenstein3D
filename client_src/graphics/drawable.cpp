@@ -46,7 +46,7 @@ void Drawable::setMapPosition(std::pair<int, int> new_position) {
   map_position = new_position;
 }
 
-void Drawable::setObjectName(std::string name) {
+void Drawable::setObjectName(const std::string &name) {
   object_name = name;
 }
 
@@ -58,7 +58,7 @@ void Drawable::setId(int _id) {
   id = _id;
 }
 
-int Drawable::getSpriteAnimationNo() {
+int Drawable::getSpriteAnimationNo() const {
   return sprite_animation_no;
 }
 
@@ -74,11 +74,11 @@ void Drawable::reduceDuration() {
   --duration_on_map;
 }
 
-int Drawable::getDuration() {
+int Drawable::getDuration() const {
   return duration_on_map;
 }
 
-double Drawable::getHitDistance() {
+double Drawable::getHitDistance() const {
   return hit_distance;
 }
 

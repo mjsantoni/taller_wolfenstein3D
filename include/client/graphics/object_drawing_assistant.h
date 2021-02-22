@@ -30,10 +30,10 @@ class ObjectDrawingAssistant {
   ObjectDrawingAssistant(SdlWindow& _window, TextureManager& _texture_manager);
   void put3DObject(ObjectInfo& object_info, double pl_ob_angle);
   Area assembleScreenArea(ObjectInfo& object_info, double pl_ob_angle);
-  Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle);
+  Area findObjectProportions(ObjectInfo& object_info, double pl_ob_angle) const;
   void setDimensions(int width, int height);
-  double findObjectHeight(double distance);
-  int findObjectStartingPoint(double object_height);
+  double findObjectHeight(double distance) const;
+  int findObjectStartingPoint(double object_height) const;
 };
 
 #endif //TP_WOLFENSTEIN_OBJECT_DRAWING_ASSISTANT_H

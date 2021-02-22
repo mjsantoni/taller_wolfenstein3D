@@ -16,17 +16,12 @@ class AudioManager {
   SdlAudioPlayer audio_player;
   std::string files_path = CLIENT_SOUNDS_ROUTE;
  public:
-  void playSong();
-  void stopSong();
-  void stopSound();
-  void displayPlayerAttackingSound(int equipped_weapon);
   void displayKnifeStabbingSound();
   void displayPlayerPistolSound(double volume_ratio);
   void displayEmptyGunSound();
   void displayExplosionSound(double volume_ratio);
   void displayPlayerLosingHealthSound();
   std::string getFilePath(const std::string& file_name);
-  void displayEnemyShot(double volume_ratio);
   void displayDyingEnemy(double volume_ratio);
   void displayDogAttackingSound(double volume_ratio);
   void displayDogGettingHit(double volume_ratio);

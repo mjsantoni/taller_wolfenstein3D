@@ -22,7 +22,6 @@ void OffGameChangeProcessor::processOffGameChanges() {
   Change change = change_queue.pop();
   if (change.isInvalid())
     return;
-  //std::cout << "Se procesa cambio previo al juego: " << change.getChangeID() << std::endl;
   int player_id = change.getPlayerID();
   switch (change.getChangeID()) {
     case MAP_INITIALIZER: {
@@ -38,21 +37,18 @@ void OffGameChangeProcessor::processOffGameChanges() {
       player_ready = true;
     }
     case (TOTAL_PLAYERS_CONNECTED): {
-      map.updateTotalPlayers(player_id); // el id es el numero de jugadores en realidad
-      // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
+      map.updateTotalPlayers(player_id);
       break;
     }
     case (GAME_START): {
       std::cout << "Se recibe cambio para iniciar el juego\n";
       map.addEnemies(player.getId());
       game_started = true;
-      // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
       break;
     }
     case (GAME_OVER): {
       std::cout << "Se recibe cambio para iniciar el juego\n";
       server_down = true;
-      // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
       break;
 }
   }

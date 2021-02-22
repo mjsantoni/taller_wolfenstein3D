@@ -6,21 +6,6 @@
 
 #define MAX_VOLUME 128
 
-void AudioManager::playSong() {
-  std::unique_lock<std::mutex> lock(m);
-  audio_player.playMusic(getFilePath("intro_music.wav"));
-}
-
-void AudioManager::stopSong() {
-  std::unique_lock<std::mutex> lock(m);
-  audio_player.stopSound();
-}
-
-void AudioManager::stopSound() {
-  std::unique_lock<std::mutex> lock(m);
-  audio_player.stopSound();
-}
-
 void AudioManager::displayEmptyGunSound() {
   std::unique_lock<std::mutex> lock(m);
   audio_player.playSound(getFilePath("empty_gun.mp3"), 200000);
@@ -40,10 +25,6 @@ void AudioManager::displayExplosionSound(double volume_ratio) {
 
 void AudioManager::displayDyingEnemy(double volume_ratio) {
   audio_player.playSound(getFilePath("dead_enemy.mp3"), volume_ratio);
-}
-
-void AudioManager::displayEnemyShot(double volume_ratio) {
-  audio_player.playSound(getFilePath("enemy_shot.mp3"), volume_ratio);
 }
 
 void AudioManager::displayPlayerLosingHealthSound() {

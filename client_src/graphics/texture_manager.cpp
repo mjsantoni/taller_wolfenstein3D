@@ -48,16 +48,6 @@ Area TextureManager::getImageAreaFromObjectType(int object_type) {
   return areas_vector[object_type][0];
 }
 
-Area TextureManager::getAreaForEnemySprite(int object_type,
-                                           int current_animation_no) {
-  return areas_vector[object_type][current_animation_no];
-}
-
-Area TextureManager::getAreaForWeapon(int object_type,
-                                      int current_animation_no) {
-  return areas_vector[object_type][current_animation_no];
-}
-
 TextureManager::~TextureManager() {
   for (auto* texture : textures) {
     free(texture);

@@ -26,12 +26,12 @@ class RayCasterDrawingAssistant {
   RayCasterDrawingAssistant(SdlWindow& _window, TextureManager& _texture_manager);
   void drawFloor(int x_pos, int wall_posY, int wall_height);
   void drawCeiling(int x_pos, int y_pos);
-  double findWallHeight(double distance);
+  double findWallHeight(double distance) const;
   void putWall(int ray_no, ObjectInfo& object_info);
   void setDimensions(int width, int height);
-  Area assembleScreenArea(int ray_no, ObjectInfo& object_info);
+  Area assembleScreenArea(int ray_no, ObjectInfo& object_info) const;
   void putFloorAndCeiling(int ray_no, ObjectInfo& object_info);
-  int findWallStartingPoint(double wall_height);
+  int findWallStartingPoint(double wall_height) const;
 };
 
 #endif //TP_WOLFENSTEIN_RAY_CASTER_DRAWING_ASSISTANT_H

@@ -24,7 +24,6 @@ void WeaponDrawer::drawPlayersWeapon(int weapon_number, int sprite_no) {
   if (sprite_no > 3)
     sprite_no = 3;
   Area screen_area = assembleScreenWeaponArea(object_info);
-  //window.loadImage(texture, image_area, screen_area);
   texture->render(screen_area, sprite_no);
 }
 

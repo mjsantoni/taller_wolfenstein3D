@@ -24,8 +24,6 @@ class MenusDrawer {
  public:
   explicit MenusDrawer(SdlWindow& _window);
   void displayIntro();
-  void fillTextArea(TTF_Font* font, const std::string& message,
-                    Area& screen_area);
   void displayFullImage(SdlTexture& texture);
   std::vector<Area> getKeyAreas();
   void displayLoadingScreen(bool waiting_for_input);

@@ -1,14 +1,10 @@
 
+
 #include "client/game/in_game_change_processor.h"
 
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 25
-#define MAX_WEAPON_TURNS 3
-#define MAX_MACHINE_GUN_TURNS 20
-#define ENEMY_DEATH_ANIMATION 1
-#define ENEMY_ATTACKING_ANIMATION 1
-#define BLOOD_EFFECT_ANIMATION 3
-#define EXPLOSION_ANIMATION 3
+
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -49,8 +45,6 @@ void InGameChangeProcessor::processChange(Change& change) {
   if (!player_alive || game_over)
     return processPostGameChanges(change);
 
-  //std::cout<< "Se procesa el cambio " << change_id << " con id " << id << " y valores " << value1 << " y " << value2 << std::endl;
-  // render ray_caster, render object_drawer, render ui_drawer
   switch (change_id) {
     case (REMOVE_POSITIONABLE): {
       return processObjectRemoval(id, value1);
@@ -111,7 +105,6 @@ void InGameChangeProcessor::processChange(Change& change) {
       break;
     }
     case (RESPAWN_PLAYER): {
-      std::cout << "RESPAWNING\n";
       if (player.getId() == id) {
         player.respawn();
         screen.displayRespawningScreen();
@@ -128,50 +121,41 @@ void InGameChangeProcessor::processChange(Change& change) {
     }
     case (ADD_BULLETS_AT): {
       map.putObjectAt(id, ITEM_BULLETS, value1, value2);
-      // id: nuevo id_bullets - value1: new_x - value2: new_y
       break;
     }
     case (ADD_BLOOD_PUDDLE_AT): {
       map.putObjectAt(id, ITEM_BLOOD, value1, value2);
-      // id: nuevo id_bullets - value1: new_x - value2: new_y
       break;
     }
     case (ADD_KEY_AT): {
       map.putObjectAt(id, ITEM_KEY, value1, value2);
-      // id: nuevo id_key - value1: new_x - value2: new_y
       break;
     }
     case (ADD_MACHINE_GUN_AT): {
       map.putObjectAt(id, ITEM_MACHINE_GUN, value1, value2);
-      // id: nuevo id_gun - value1: new_x - value2: new_y
       break;
     }
     case (ADD_CHAIN_GUN_AT): {
       map.putObjectAt(id, ITEM_CHAIN_CANNON, value1, value2);
-      // id: nuevo id_gun - value1: new_x - value2: new_y
       break;
     }
     case (ADD_RPG_GUN_AT): {
       map.putObjectAt(id, ITEM_ROCKET_LAUNCHER, value1, value2);
-      // id: nuevo id_gun - value1: new_x - value2: new_y
       break;
     }
     case (ADD_UNLOCKED_DOOR): {
       map.updateUnlockedDoor(id, value1, value2);
-      // id: new_item_id - value1: new_x - value2: new_y (viene de cerrar puerta)
       break;
     }
     case (RPG_MOVE_TO): {
       map.processRPGMissile(id, value1, value2);
-      // id: mismo rpg_id - value1: new_x - value2: new_y (utilizar los viejos x,y para hacer la animacion)
       break;
     }
     case (RPG_EXPLODE_AT): {
       double distance_ratio =
           map.setRPGMissileExplosion(id, value1, value2);
       audio_manager.displayExplosionSound(distance_ratio);
-      updateMandatoryRenderingTurns(EXPLOSION_ANIMATION+1);
-      // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
+      updateMandatoryRenderingTurns(EXPLOSION_ANIMATION_TURNS + 1);
       break;
     }
     case (GAME_OVER): {
@@ -184,14 +168,6 @@ void InGameChangeProcessor::processChange(Change& change) {
        skip_stats = true;
        game_running = false;
       }
-      /*
-      case (TOTAL_PLAYERS_CONNECTED): {
-          map.addPlayers(id, player.getId());
-          render_vector = std::vector<int>{0, 1, 0};
-          // id: mismo rpg_id - value1: new_x - value2: new_y (explota en esa x,y)
-          break;
-      }
-       */
     case (CL_UPDATE_DIRECTION): {
       player.updateDirection(value2);
       break;
@@ -200,7 +176,6 @@ void InGameChangeProcessor::processChange(Change& change) {
       break;
     }
   }
-  //std::cout << "pos del jugador: (" << player.getXPosition() << "," << player.getYPosition() << ")\n";
 }
 
 void InGameChangeProcessor::processInGameChanges() {
@@ -220,14 +195,7 @@ void InGameChangeProcessor::processInGameChanges() {
   if (mandatory_rendering_turns > 0)
     --mandatory_rendering_turns;
 }
-/*
-void InGameChangeProcessor::processInGameChanges(std::vector<Change> changes) {
-    for (auto& change : changes) {
-        std::cout << "Se procesa un cambio " << change.getChangeID() << std::endl;
-        processChange(change);
-    }
-}
-*/
+
 void InGameChangeProcessor::stop() {
   game_over = false;
 }
@@ -244,7 +212,7 @@ void InGameChangeProcessor::processPostGameChanges(Change change) {
   int player_id = change.getPlayerID();
   int value = change.getFirstValue();
   int position = change.getSecondValue();
-  statistics_manager.addStatistic(change_id, player_id, value, position);
+  statistics_manager.addStatistic(change_id, player_id, value);
 }
 
 void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
@@ -258,7 +226,7 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
     return;
   }
   map.setEnemyAttacking(enemy_id);
-  updateMandatoryRenderingTurns(ENEMY_ATTACKING_ANIMATION + 1);
+  updateMandatoryRenderingTurns(ENEMY_ATTACKING_ANIMATION_TURNS + 1);
   double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
   int enemy_weapon = ImageManager::getWeaponNumberFromEnemy(enemy_type);
   if (enemy_type == ENEMY_DOG)
@@ -271,19 +239,19 @@ void InGameChangeProcessor::playAttackingSound(int players_weapon,
                                                double distance_ratio) {
   switch (players_weapon) {
     case WEAPON_KNIFE:audio_manager.displayKnifeStabbingSound();
-      mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+      mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
     case WEAPON_PISTOL:audio_manager.displayPlayerPistolSound(distance_ratio);
-      mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+      mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
     case WEAPON_MACHINE_GUN:audio_manager.displayMachineGunSound(1);
-      mandatory_rendering_turns = MAX_MACHINE_GUN_TURNS + 1;
+      mandatory_rendering_turns = MACHINE_GUN_ANIMATION_TURNS + 1;
       break;
     case WEAPON_ROCKET_LAUNCHER:audio_manager.displayRocketLauncherSound(distance_ratio);
-      mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+      mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
     default:audio_manager.displayPlayerPistolSound(distance_ratio);
-      mandatory_rendering_turns = MAX_WEAPON_TURNS + 1;
+      mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
   }
 }
@@ -296,12 +264,10 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
   } else if (delta == 0) {
     if (player.getEquippedWeapon() != 1) {
       audio_manager.displayEmptyGunSound();
-      //skip_rendering = true;
     } else {
       playAttackingSound(WEAPON_KNIFE, 1);
-      //screen.displayPlayerAttacking();
       screen.setPlayerAttacking(WEAPON_KNIFE);
-      updateMandatoryRenderingTurns(MAX_WEAPON_TURNS + 1);
+      updateMandatoryRenderingTurns(WEAPON_SHOOTING_ANIMATION_TURNS + 1);
     }
   }
   player.updateAmmo(delta);
@@ -318,7 +284,7 @@ void InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
       audio_manager.displayDogGettingHit(distance_ratio);
     else
       audio_manager.displayHumanGettingHit(distance_ratio);
-    updateMandatoryRenderingTurns(BLOOD_EFFECT_ANIMATION + 1);
+    updateMandatoryRenderingTurns(BLOOD_EFFECT_ANIMATION_TURNS + 1);
     return;
   }
   render_background_and_objects = false;
@@ -332,12 +298,10 @@ void InGameChangeProcessor::processPlayerHealthChange(int delta) {
 }
 
 void InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
-  std::cout << "AUDIO PERRO\n";
   map.respawnPlayer(enemy_id);
-  updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION + 1);
+  updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION_TURNS + 1);
   int enemy_type = map.getEnemyTypeFromId(enemy_id);
   double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
-  std::cout << "PASO\n";
   if (enemy_type == ENEMY_DOG)
     audio_manager.displayDyingDog(1 - distance_ratio);
   else
@@ -355,7 +319,7 @@ void InGameChangeProcessor::processEnemyDying(int enemy_id) {
   if (map.isLastPlayerStanding())
     game_over = true;
   else
-    updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION + 1);
+    updateMandatoryRenderingTurns(ENEMY_DEATH_ANIMATION_TURNS + 1);
 }
 
 void InGameChangeProcessor::processObjectRemoval(int object_id, int player_id) {

@@ -23,12 +23,12 @@ void ObjectDrawingAssistant::put3DObject(ObjectInfo& object_info,
     return;
   }
   image_area = texture_manager.getImageAreaFromObjectType(object_type);
-  image_area.setX((int) object_info.getHitGridPos() * image_area.getWidth());
-  texture->render(image_area, screen_area);
+  int x_pos = (int) (object_info.getHitGridPos() * image_area.getWidth());
+  texture->render(screen_area, x_pos);
 }
 
 Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
-                                                   double pl_ob_angle) {
+                                                   double pl_ob_angle) const {
   double distance = object_info.getHitDistance();
   distance *= cos(pl_ob_angle);
   double object_height = findObjectHeight(distance);
@@ -46,12 +46,12 @@ Area ObjectDrawingAssistant::findObjectProportions(ObjectInfo& object_info,
   return area;
 }
 
-double ObjectDrawingAssistant::findObjectHeight(double distance) {
+double ObjectDrawingAssistant::findObjectHeight(double distance) const {
   auto height_proportion = (double) OBJECT_HEIGHT / distance;
   return (height_proportion * proj_plane_distance);
 }
 
-int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) {
+int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) const{
   return (int(screen_height / 2) - int(object_height / 2));
 }
 

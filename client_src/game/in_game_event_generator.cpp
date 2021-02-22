@@ -36,36 +36,29 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
           break;
         case SDLK_s:event = Event(MOVE_PLAYER, player.getId(), MOVE_DOWN);
           break;
-          /*
-      case SDLK_p:
-          event = Event(PLAYER_READY, player.getId(), 0);
-          break;
-           */
         case SDLK_LEFT:event = Event(TURN_CAMERA, player.getId(), CAMERA_LEFT);
           event_handler.handleCameraTurn(CAMERA_LEFT);
           break;
         case SDLK_RIGHT:event = Event(TURN_CAMERA, player.getId(), CAMERA_RIGHT);
           event_handler.handleCameraTurn(CAMERA_RIGHT);
           break;
-          //case SDLK_ESCAPE:
-          // pausar juego
         case SDLK_e:event = Event(OPEN_DOOR, player.getId(), 0);
           break;
         case SDLK_f:event = Event(PUSH_WALL, player.getId(), 0);
           break;
-        case SDLK_1:std::cout << "Se envia evento de cambio de arma con valor " << 1 << std::endl;
+        case SDLK_1:
           event = Event(CHANGE_GUN, player.getId(), 1);
           break;
-        case SDLK_2:std::cout << "Se envia evento de cambio de arma con valor " << 2 << std::endl;
+        case SDLK_2:
           event = Event(CHANGE_GUN, player.getId(), 2);
           break;
-        case SDLK_3:std::cout << "Se envia evento de cambio de arma con valor " << 3 << std::endl;
+        case SDLK_3:
           event = Event(CHANGE_GUN, player.getId(), 3);
           break;
-        case SDLK_4:std::cout << "Se envia evento de cambio de arma con valor " << 4 << std::endl;
+        case SDLK_4:
           event = Event(CHANGE_GUN, player.getId(), 4);
           break;
-        case SDLK_5:std::cout << "Se envia evento de cambio de arma con valor " << 5 << std::endl;
+        case SDLK_5:
           event = Event(CHANGE_GUN, player.getId(), 5);
           break;
       }

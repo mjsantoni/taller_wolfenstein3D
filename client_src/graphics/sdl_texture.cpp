@@ -49,18 +49,29 @@ void SdlTexture::render(Area& dest) {
   SDL_Rect sdlSrc = {
       src.getX(), src.getY(), src.getWidth(), src.getHeight()
   };
-  // donde se pega, y si hay diferencia de dimensiones
   SDL_Rect sdlDest = {
       dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
   };
   SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
 }
 
+void SdlTexture::render(Area& dest, int image_x_pos) {
+    Area src = getTextureArea();
+    src.setX(image_x_pos);
+    SDL_Rect sdlSrc = {
+            src.getX(), src.getY(), src.getWidth(), src.getHeight()
+    };
+    SDL_Rect sdlDest = {
+            dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
+    };
+    SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
+}
+
+
 void SdlTexture::render(Area& src, Area& dest) {
   SDL_Rect sdlSrc = {
       src.getX(), src.getY(), src.getWidth(), src.getHeight()
   };
-  // donde se pega, y si hay diferencia de dimensiones
   SDL_Rect sdlDest = {
       dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
   };
@@ -72,9 +83,6 @@ Area SdlTexture::getTextureArea() {
   return Area{0, 0, width, height};
 }
 
-SDL_Texture* SdlTexture::getTexture() {
-  return texture;
-}
 SdlTexture::SdlTexture(SdlTexture&& other) noexcept {
   this->texture = other.texture;
   this->renderer = other.renderer;

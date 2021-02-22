@@ -3,7 +3,6 @@
 //
 
 #include <SDL_mixer.h>
-#include <zconf.h>
 #include <iostream>
 #include "client/game/sdl_audio_player.h"
 
@@ -46,11 +45,6 @@ void SdlAudioPlayer::playMusic(const std::string& file_name) {
   }
   Mix_PlayMusic(gMusic, -1);
   restoreVolume();
-}
-
-void SdlAudioPlayer::stopSound() {
-  std::unique_lock<std::mutex> lock(m);
-  Mix_HaltMusic();
 }
 
 void SdlAudioPlayer::setVolume(int volume_level) {

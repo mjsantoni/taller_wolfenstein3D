@@ -4,7 +4,6 @@
 
 #include <SDL_events.h>
 #include <iostream>
-#include <SDL_timer.h>
 #include <client/game/client_game.h>
 #include <client/communication/server_updater.h>
 

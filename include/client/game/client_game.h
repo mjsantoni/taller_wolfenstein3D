@@ -51,17 +51,11 @@ class ClientGame {
              BlockingQueue<Event>& event_queue);
   ~ClientGame();
   void startGame(const std::string& map_name);
-  void killPlayer();
-  void respawnPlayer();
-  bool isRunning();
   void initializePlayer();
-  void initializeMap();
   void displayConnectionErrorScreen();
   void processGame();
   void displayStatistics();
-
   void displayResultScreen(int game_result);
-
   int processGameResult();
 };
 

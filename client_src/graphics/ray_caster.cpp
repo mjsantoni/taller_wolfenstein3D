@@ -87,7 +87,7 @@ void RayCaster::castProjectionLine_vertical_up(int x,
   int x_inverter = (ray_pointing_left) ? -1 : 1;
   while (true) {
     int delta_x = Calculator::calculateDelta(delta_y, lambda) * x_inverter;
-    if (outOfBounds(map, y - delta_y, true))
+    if (outOfBounds(y - delta_y, true))
       return;
 
     int x_factor = calculateBorderFactor(ray_pointing_left, x + delta_x);
@@ -110,7 +110,7 @@ void RayCaster::castProjectionLine_vertical_down(int x,
   int x_inverter = (ray_pointing_right) ? -1 : 1;
   while (true) {
     int delta_x = Calculator::calculateDelta(delta_y, lambda) * x_inverter;
-    if (outOfBounds(map, y + delta_y, true))
+    if (outOfBounds(y + delta_y, true))
       return;
 
     int x_factor = calculateBorderFactor(ray_pointing_right, x + delta_x);
@@ -134,7 +134,7 @@ void RayCaster::castProjectionLine_horizontal_left(int x,
 
   while (true) {
     int delta_y = Calculator::calculateDelta(delta_x, lambda) * y_inverter;
-    if (outOfBounds(map, x - delta_x, false))
+    if (outOfBounds(x - delta_x, false))
       return;
 
     int y_factor = calculateBorderFactor(ray_pointing_up, y + delta_y);
@@ -158,7 +158,7 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
   int y_inverter = (ray_pointing_up) ? -1 : 1;
   while (true) {
     int delta_y = Calculator::calculateDelta(delta_x, lambda) * y_inverter;
-    if (outOfBounds(map, x + delta_x, false))
+    if (outOfBounds(x + delta_x, false))
       return;
 
     int y_factor = calculateBorderFactor(ray_pointing_up, y + delta_y);
@@ -170,7 +170,7 @@ void RayCaster::castProjectionLine_horizontal_right(int x,
   }
 }
 
-bool RayCaster::outOfBounds(ClientMap& map, int pos, bool is_vertical) {
+bool RayCaster::outOfBounds(int pos, bool is_vertical) {
   if (is_vertical)
     return map.outOfVerticalBounds(pos);
   return map.outOfHorizontalBounds(pos);

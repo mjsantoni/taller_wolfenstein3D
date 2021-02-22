@@ -4,8 +4,8 @@
 
 #include "client/graphics/game_screen.h"
 
-#define MAX_WEAPON_TURNS 3
-#define MAX_MACHINE_GUN_TURNS 20
+#define WEAPON_SHOOTING_ANIMATION_TURNS 3
+#define MACHINE_GUN_ANIMATION_TURNS 20
 
 GameScreen::GameScreen(int width,
                        int height,
@@ -35,12 +35,8 @@ void GameScreen::displayDeadScreen() {
   menus_drawer.displayDeadScreen();
 }
 
-void GameScreen::close() {
-  TTF_Quit();
-}
-
-void GameScreen::displayIntro() {
-  menus_drawer.displayIntro();
+GameScreen::~GameScreen() {
+    TTF_Quit();
 }
 
 std::vector<Area> GameScreen::getKeyScreenAreas() {
@@ -67,7 +63,6 @@ GameScreen::render(bool render_background_and_objects) {
   angles_list.clear();
   if (player_attacking) {
     player_weapon_animation++;
-    //player_weapon_animation %= (MAX_WEAPON_TURNS+1); // SOLO PARA ASEGURARME DE QUE NO SE PASE (NO DEBERIA)
   }
   if (player_weapon_animation > max_animation_turns) {
     player_attacking = false;
@@ -85,7 +80,7 @@ void GameScreen::displayRespawningScreen() {
 }
 
 void GameScreen::displayStatistics(std::vector<std::vector<int>> statistics) {
-  menus_drawer.displayStatistics(statistics);
+  menus_drawer.displayStatistics(std::move(statistics));
 }
 
 void GameScreen::displayVictoryScreen() {
@@ -104,9 +99,9 @@ void GameScreen::setPlayerAttacking(int weapon_no) {
   player_attacking = true;
   player_weapon_animation++;
   if (weapon_no == WEAPON_MACHINE_GUN)
-    max_animation_turns = MAX_MACHINE_GUN_TURNS;
+    max_animation_turns = MACHINE_GUN_ANIMATION_TURNS;
   else
-    max_animation_turns = MAX_WEAPON_TURNS;
+    max_animation_turns = WEAPON_SHOOTING_ANIMATION_TURNS;
 }
 
 void GameScreen::displayTimeOverScreen() {
