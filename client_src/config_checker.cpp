@@ -1,12 +1,10 @@
 #include <QtWidgets/QCommandLinkButton>
 #include "client/config_checker.h"
+#include "client_routes.h"
 #include "ui_connect.h"
 
 #define CREATE_GAME "0"
 #define JOIN_GAME "1"
-#define MAPS_PATH "../maps/"
-#define WINDOW_ICON_PATH "../client_src/resources/menus/windowIcon.png"
-#define BACKGROUND_PATH "../client_src/resources/menus/intro2.jpg"
 #define SUCCESS "2"
 #define ERROR "3"
 #define BACK "4"
@@ -96,7 +94,7 @@ void ConfigChecker::showParameters() {
   showWidget("createConfirmButton");
 
   try {
-    MapParser parser(MAPS_PATH + join_combo->currentText().toStdString());
+    MapParser parser(MAPS_PATH_FOLDER + join_combo->currentText().toStdString());
     int max_players_size = parser.getSpecificCategory("players").size();
     max_players_spin->setMinimum(1);
     bots_spin->setMaximum(max_players_size - 1);
@@ -195,7 +193,7 @@ void ConfigChecker::connectEvents() {
 
 QStringList ConfigChecker::readAllMaps() {
   QStringList maps_names;
-  if (auto dir = opendir(MAPS_PATH)) {
+  if (auto dir = opendir(MAPS_PATH_FOLDER)) {
     while (auto f = readdir(dir)) {
       if (f->d_name[0] == '.')
         continue;
@@ -230,7 +228,7 @@ void ConfigChecker::updateMaxPlayerMap() {
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
   QSpinBox* bots_spin = findChild<QSpinBox*>("botsSpin");
   QComboBox* map_box = findChild<QComboBox*>("mapCombo");
-  MapParser parser(MAPS_PATH + map_box->currentText().toStdString());
+  MapParser parser(MAPS_PATH_FOLDER + map_box->currentText().toStdString());
   int max_players_size = parser.getSpecificCategory("players").size();
   max_players_spin->setMaximum(max_players_size);
 

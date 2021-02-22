@@ -1,43 +1,28 @@
 #include "server/events/game_handler.h"
-
 #include <unistd.h>
 #include "common/network_acceptor.h"
 #include "common/network_error.h"
 #include "server/server.h"
+#include <sys/stat.h>
+#include <fstream>
+#include <iostream>
 
 #define STOP_CHAR "q"
 #define ARG_PORT 1
 #define ARG_AMOUNT 2
 
-/*
-int main(int argc, char* args[]) {
-
-    int min_players_in_lobby = std::stoi(args[1]);
-    int bots = std::stoi(args[2]);
-    int stop_after_seconds = std::stoi(args[3]);
-
-    GameHandler gameHandler("map.yaml", "../config/config.yaml", min_players_in_lobby, 8, bots, 0, 600);
-    gameHandler.start();
-    NetworkAcceptor networkAcceptor("8080");
-
-    int total_connected = 0;
-    while (total_connected < min_players_in_lobby) {
-        // Spawn clients
-        try {
-            NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
-            gameHandler.addNewPlayer(std::move(socket));
-            total_connected++;
-        } catch (const NetworkError& e) {
-            continue;
-        }
-    }
-    sleep(stop_after_seconds);
-    gameHandler.stop();
-    gameHandler.join();
-    return 0;
-}
-*/
 int main(int argc, char* argv[]) {
+  /*
+  struct stat sb;
+  if (!(stat("./maps", &sb) == 0 && S_ISDIR(sb.st_mode))) {
+    if (chdir("/usr/local/share/wolfenstein3d-server") < 0) {
+      std::cerr
+          << "FATAL ERROR: Game files not found."
+          << std::endl;
+      return -1;
+    }
+  }
+  */
   if (argc != ARG_AMOUNT) {
     std::cerr << "[Server] Incorrect parameter amount." << std::endl;
     return 1;

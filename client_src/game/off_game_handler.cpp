@@ -1,12 +1,7 @@
-//
-// Created by andy on 10/2/21.
-//
-
 #include <SDL_events.h>
 #include <SDL_timer.h>
 #include "client/game/off_game_handler.h"
-
-#define MAPS_PATH "../maps/"
+#include "client_routes.h"
 
 OffGameHandler::OffGameHandler(GameScreen& _screen,
                                ClientPlayer& player,
@@ -62,7 +57,7 @@ void OffGameHandler::displayLoadingScreen() {
 }
 
 void OffGameHandler::initializeMap(const std::string& map_name) {
-  std::string map_path = MAPS_PATH + map_name;
+  std::string map_path = MAPS_PATH_FOLDER + map_name;
   MapParser map_parser(map_path);
   ClientMapGenerator::create(map, map_parser);
 }
