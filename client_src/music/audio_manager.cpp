@@ -7,7 +7,6 @@
 #define MAX_VOLUME 128
 
 void AudioManager::displayEmptyGunSound() {
-  std::unique_lock<std::mutex> lock(m);
   audio_player.playSound(getFilePath("empty_gun.mp3"), 200000);
 }
 
@@ -56,12 +55,10 @@ std::string AudioManager::getFilePath(const std::string& file_name) {
 }
 
 void AudioManager::playVictorySong() {
-  std::unique_lock<std::mutex> lock(m);
   audio_player.playMusic(getFilePath("victory_song.mp3"));
 }
 
 void AudioManager::playDefeatSong() {
-  std::unique_lock<std::mutex> lock(m);
   audio_player.playMusic(getFilePath("defeat_song.mp3"));
 }
 
@@ -99,6 +96,5 @@ void AudioManager::setMusicVolume(int volume) {
 }
 
 void AudioManager::playTimeUpSong() {
-    std::unique_lock<std::mutex> lock(m);
     audio_player.playMusic(getFilePath("time_up.wav"));
 }

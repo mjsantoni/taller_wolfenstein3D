@@ -15,7 +15,6 @@ SdlAudioPlayer::SdlAudioPlayer() {
 }
 
 void SdlAudioPlayer::playSound(const std::string& file_name) {
-  std::unique_lock<std::mutex> lock(m);
   Mix_Chunk* sound = Mix_LoadWAV(file_name.c_str());
   if (!sound) {
     throw SdlException("Error en la carga del audio", Mix_GetError());
@@ -28,7 +27,6 @@ void SdlAudioPlayer::playSound(const std::string& file_name,
                                double volume_ratio) {
   int volume = (int) (volume_ratio * MIX_MAX_VOLUME);
   Mix_Volume(-1, volume);
-  std::unique_lock<std::mutex> lock(m);
   Mix_Chunk* sound = Mix_LoadWAV(file_name.c_str());
   if (!sound) {
     throw SdlException("Error en la carga del audio", Mix_GetError());
@@ -38,7 +36,6 @@ void SdlAudioPlayer::playSound(const std::string& file_name,
 }
 
 void SdlAudioPlayer::playMusic(const std::string& file_name) {
-  std::unique_lock<std::mutex> lock(m);
   Mix_Music* gMusic = Mix_LoadMUS(file_name.c_str());
   if (!gMusic) {
     throw SdlException("Error en la carga del audio", Mix_GetError());
@@ -48,7 +45,6 @@ void SdlAudioPlayer::playMusic(const std::string& file_name) {
 }
 
 void SdlAudioPlayer::setVolume(int volume_level) {
-  std::unique_lock<std::mutex> lock(m);
   Mix_Volume(1, volume_level);
 }
 
@@ -57,7 +53,6 @@ void SdlAudioPlayer::restoreVolume() {
 }
 
 void SdlAudioPlayer::playMusic(const std::string& file_name, int volume) {
-  std::unique_lock<std::mutex> lock(m);
   Mix_Music* gMusic = Mix_LoadMUS(file_name.c_str());
   if (!gMusic) {
     throw SdlException("Error en la carga del audio", Mix_GetError());
@@ -67,7 +62,6 @@ void SdlAudioPlayer::playMusic(const std::string& file_name, int volume) {
 }
 
 void SdlAudioPlayer::stopMusic() {
-  std::unique_lock<std::mutex> lock(m);
   Mix_HaltMusic();
 }
 

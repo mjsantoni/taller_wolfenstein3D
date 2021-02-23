@@ -12,7 +12,6 @@
 
 class AudioManager {
  private:
-  std::mutex m;
   SdlAudioPlayer audio_player;
   std::string files_path = CLIENT_SOUNDS_ROUTE;
  public:

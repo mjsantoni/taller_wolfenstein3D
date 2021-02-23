@@ -10,8 +10,6 @@
 #include "client/sdl_exception.h"
 
 class SdlAudioPlayer {
-private:
-  std::mutex m;
  public:
   SdlAudioPlayer();
   void playSound(const std::string& file_name);
