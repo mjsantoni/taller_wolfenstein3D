@@ -38,5 +38,4 @@ void Server::closeHandlers() {
     }
 }
 
-
 Server::~Server() {}
