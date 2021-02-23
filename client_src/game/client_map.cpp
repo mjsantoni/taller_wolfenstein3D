@@ -273,35 +273,47 @@ double ClientMap::getEnemyDistanceRatio(int enemy_id) {
 }
 
 void ClientMap::updateEvents() {
-  std::vector<int> effects_to_erase;
-  for (auto& pair : effects) {
-    if (effects.empty()) // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
-      break;
-    int id = pair.first;
-    Drawable& effect = pair.second;
-    effect.reduceDuration();
-    if (effect.getDuration() == 0)
-      effects_to_erase.push_back(id);
-  }
-  for (auto& id : effects_to_erase)
-    effects.erase(id);
-  for (auto& id : enemies_to_swipe) {
-    if (enemies_to_swipe.empty())
-      break;
-    enemies.erase(id);
-    enemies_to_swipe.erase(id);
-  }
-  for (auto& id : enemies_to_respawn) {
-    if (enemies_to_respawn.empty())
-      break;
-    std::pair<int, int> respawn_position = player_spawns[id];
-    Drawable& enemy = enemies.at(id);
-    enemy.setObjectType(ENEMY_GUARD);
-    enemy.setMapPosition(respawn_position.first, respawn_position.second);
-    ImageManager::setMovingAnimationForEnemy(enemy,
-                                             enemy.getSpriteAnimationNo());
-    enemies_to_respawn.erase(id);
-  }
+  updateEffects();
+  updateDeadEnemies();
+  updateRespawnedEnemies();
+}
+
+void ClientMap::updateEffects() {
+    std::vector<int> effects_to_erase;
+    for (auto& pair : effects) {
+        if (effects.empty())
+            break;
+        int id = pair.first;
+        Drawable& effect = pair.second;
+        effect.reduceDuration();
+        if (effect.getDuration() == 0)
+            effects_to_erase.push_back(id);
+    }
+    for (auto& id : effects_to_erase)
+        effects.erase(id);
+}
+
+void ClientMap::updateDeadEnemies() {
+    for (auto& id : enemies_to_swipe) {
+        if (enemies_to_swipe.empty())
+            break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
+        enemies.erase(id);
+        enemies_to_swipe.erase(id);
+    }
+}
+
+void ClientMap::updateRespawnedEnemies() {
+    for (auto& id : enemies_to_respawn) {
+        if (enemies_to_respawn.empty())
+            break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
+        std::pair<int, int> respawn_position = player_spawns[id];
+        Drawable& enemy = enemies.at(id);
+        enemy.setObjectType(ENEMY_GUARD);
+        enemy.setMapPosition(respawn_position.first, respawn_position.second);
+        ImageManager::setMovingAnimationForEnemy(enemy,
+                                                 enemy.getSpriteAnimationNo());
+        enemies_to_respawn.erase(id);
+    }
 }
 
 void ClientMap::killPlayer(int player_id) {

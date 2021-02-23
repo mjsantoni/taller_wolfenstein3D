@@ -87,6 +87,9 @@ public:
     void processRPGMissile(int object_id, int new_x, int new_y);
     void createRPGMissile(int object_id, int new_x, int new_y);
     void updatePlayerPosition(int x_pos, int y_pos);
+    void updateEffects();
+    void updateDeadEnemies();
+    void updateRespawnedEnemies();
 };
 
 #endif //TP_WOLFENSTEIN_CLIENT_MAP_H
