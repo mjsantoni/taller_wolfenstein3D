@@ -92,19 +92,17 @@ void ClientGame::displayResultScreen(int game_result) {
 }
 
 void ClientGame::displayStatistics() {
-  audio_manager.stopGameSong();
-  if (skip_stats)
-    return;
-  int game_result = processGameResult();
-  displayResultScreen(game_result);
-  while (true) {
-    usleep(TICK_DURATION_MS);
+    audio_manager.stopGameSong();
+    if (skip_stats)
+        return;
+    int game_result = processGameResult();
+    displayResultScreen(game_result);
     screen.displayStatistics(statistics_manager.getStatistics());
     SDL_Event event;
-    if (SDL_PollEvent(&event) == 0) {
-      continue;
+    while (true) {
+        usleep(TICK_DURATION_MS);
+        SDL_WaitEvent(&event);
+        if (event.type == SDL_QUIT)
+            return;
     }
-    if (event.type == SDL_QUIT)
-      return;
-  }
 }
