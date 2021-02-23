@@ -9,6 +9,8 @@ class HitHandler {
  public:
   HitHandler();
 
+ /* Procesa todos los eventos sucedidos durante un disparo, incluyendo
+  * muerte, gastar balas, etc. */
   void processHit(Hit& hit_event,
                   std::vector<Change>& changes,
                   int players_alive);

@@ -9,6 +9,7 @@ class EventFactory {
   SharedQueue<Event>& eventQueue;
 
  public:
+  /* Constructor de la clase que desserializa los eventos y pushea a la cola de eventos. */
   explicit EventFactory(SharedQueue<Event>& _event_queue);
 
   void createAndPushFromBytes(char* bytes);

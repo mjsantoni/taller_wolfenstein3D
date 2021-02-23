@@ -15,7 +15,10 @@ class ClientHandler : public Thread {
   int player_id;
 
  public:
+  /* Constructor de la clase que se ocupa de recibir eventos, desserializarlos
+   * y enviarlos a la cola de eventos. Recibe una referencia al socket que utiliza. */
   explicit ClientHandler(NetworkConnection& _skt, SharedQueue<Event>& event_queue, int id);
+
   ~ClientHandler();
 
   void run() override;

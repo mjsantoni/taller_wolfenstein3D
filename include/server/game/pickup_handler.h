@@ -12,6 +12,8 @@ class PickUpHandler {
   ScoreHandler& scoreHandler;
 
  public:
+  /* Clase que se ocupa de procesar el pickup de items de un player,
+   * aplicandole sus efectos correspondientes. */
   PickUpHandler(const std::string& config_path, ScoreHandler& _sh);
 
   bool pickUp(Positionable& item, Player& player);

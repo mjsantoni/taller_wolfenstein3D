@@ -14,15 +14,20 @@ class ClientsManager {
   std::mutex m;
 
  public:
+
+  /* Constructor de la clase contenedora de clientes. */
   ClientsManager();
 
+  /* Añade un nuevo Client creandolo con el socket y su cola de eventos. */
   void addNewPlayer(NetworkConnection socket, int id,
                     SharedQueue<Event>& eventQueue,
                     std::unordered_map<Coordinate,
                                        Positionable, Coordinate::HashFunction> map);
 
+  /* Notifica a todos los clientes del cambio recibido por parametro. */
   void notifyClients(Change& change);
 
+  /* Destructor de los clientes. */
   void killPlayers();
 
   ~ClientsManager();

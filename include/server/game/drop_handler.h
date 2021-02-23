@@ -13,6 +13,7 @@ class DropHandler {
  public:
   DropHandler(const std::string& config_path, Map& _map);
 
+  /* Procesa y aplica los drops generados por una muerte en el mapa. */
   void processDrops(const std::vector<Drop>& drops);
 
   ~DropHandler();

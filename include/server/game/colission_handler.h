@@ -14,12 +14,19 @@ class ColissionHandler {
   int safe_distance = SAFE_DISTANCE;
 
  public:
+  /* Clase principal de manejo de colisiones. */
   explicit ColissionHandler(Map& _map);
+
+  /* Recibe una coordenada actual y el angulo y devuelve una nueva coordenada
+   * a la que el player se moverá, contemplando colisiones con objetos. */
   Coordinate moveToPosition(const Coordinate& actual_pos, double angle);
 
+  /* Obtiene los posicionables que se encuentran en el recorrido de movimiento
+   * de una coordenada a otra de un player. */
   std::vector<std::pair<Coordinate, Positionable>>
   getCloseItems(const Coordinate& old_pos, const Coordinate& new_pos);
 
+  /* Obtiene paredes o puertas cercanas a donde mire el player. */
   Coordinate getCloseBlocking(const Coordinate& pos, double angle, const std::string& category);
 };
 

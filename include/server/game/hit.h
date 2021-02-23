@@ -15,6 +15,7 @@ class Hit {
   std::vector<Drop> drops;
 
  public:
+  /* Clase contenedora de todos los datos producidos por un evento de disparo. */
   Hit(int _player_id, int _bullets_shot,
       std::vector<std::pair<int, int>> _enemy_dmg_done, bool _used_all_ammo);
 
