@@ -9,7 +9,7 @@ CONFIG_DIR := $(PROJECT_SOURCE_DIR)/config/
 BIN_FILE := $(SERVER_SOURCE_DIR)/build/wolfenstein3d-server
 
 PACKAGE_NAME := wolfenstein3d-server
-VERSION := 0.1
+VERSION := 1.0
 REVISION := 1
 
 PACKAGE_DIR := ./$(PACKAGE_NAME)_$(VERSION)
@@ -62,12 +62,14 @@ copy_files: create_package_dirs
 	cp -rf $(CONFIG_DIR) $(PACKAGE_DIR)/usr/local/share/wolfenstein3d-server
 	cp -f $(BIN_FILE) $(PACKAGE_DIR)/usr/local/bin
 
-install: generate_package
+install-all: generate_package
+	sudo dpkg --install $(PACKAGE_FILENAME)
+
+install: 
 	sudo dpkg --install $(PACKAGE_FILENAME)
 
 remove:
 	sudo apt-get remove ${PACKAGE_NAME}
-	rm -rf ${PACKAGE_FILENAME}
 
 clean: 
 	rm -rf $(PACKAGE_DIR) $(PACKAGE_FILENAME)
