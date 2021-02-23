@@ -14,23 +14,26 @@ int main(int argc, char* args[]) {
             return -1;
         }
     }
+  
+  try {
+    QApplication app(argc, args);
+    QFile file_main(EDITOR_MAIN_QSS);
+    file_main.open(QFile::ReadOnly);
+    QString style_sheet_main = QLatin1String(file_main.readAll());
+    file_main.close();
 
-  QApplication app(argc, args);
-  QFile file_main(EDITOR_MAIN_QSS);
-  file_main.open(QFile::ReadOnly);
-  QString style_sheet_main = QLatin1String(file_main.readAll());
-  file_main.close();
-
-    std::string path;
-    RecentPopup popup(path);
-    popup.showLastModifiedFiles();
-    popup.show();
-    app.exec();
-    app.setStyleSheet(style_sheet_main);
-    Editor editor(path);
-    editor.show();
-    app.exec();
-
+      std::string path;
+      RecentPopup popup(path);
+      popup.showLastModifiedFiles();
+      popup.show();
+      app.exec();
+      app.setStyleSheet(style_sheet_main);
+      Editor editor(path);
+      editor.show();
+      app.exec();    
+  } catch (const YAML::BadFile& e) {
+    std::cerr << "Game files not found. " << e.what() << std::endl;
+  }
   return 0;
 }
 
