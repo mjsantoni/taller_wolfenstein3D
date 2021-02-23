@@ -93,7 +93,6 @@ void InGameEventGenerator::generateInGameEvents() {
           break;
         case SDL_QUIT:game_running = false;
           skip_stats = true;
-          puts("Saliendo");
           return;
         }
         if (event_counter >= MAX_EVENTS)
