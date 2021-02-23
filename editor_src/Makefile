@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := build
 
 build: clean
 	mkdir build && \
@@ -12,10 +12,6 @@ compile:
 	make install -j 4
 
 run: compile
-	cd build && \
-	./wolfenstein3d-editor
-
-all: build
 	cd build && \
 	./wolfenstein3d-editor
 
