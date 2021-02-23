@@ -77,6 +77,43 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
   event_queue.push(event);
 }
 
+Event InGameEventGenerator::generateInGameEvent(int key) {
+    switch (key) {
+        case SDL_SCANCODE_A:
+            return Event{MOVE_PLAYER, player.getId(), MOVE_LEFT};
+        case SDL_SCANCODE_D:
+            return Event{MOVE_PLAYER, player.getId(), MOVE_RIGHT};
+        case SDL_SCANCODE_W:
+            return Event{MOVE_PLAYER, player.getId(), MOVE_UP};
+        case SDL_SCANCODE_SPACE:
+            return Event{SHOOT, player.getId(), 0};
+        case SDL_SCANCODE_S:
+            return Event{MOVE_PLAYER, player.getId(), MOVE_DOWN};
+        case SDL_SCANCODE_LEFT:
+            event_handler.handleCameraTurn(CAMERA_LEFT);
+            return Event{TURN_CAMERA, player.getId(), CAMERA_LEFT};
+        case SDL_SCANCODE_RIGHT:
+            event_handler.handleCameraTurn(CAMERA_RIGHT);
+            return Event{TURN_CAMERA, player.getId(), CAMERA_RIGHT};
+        case SDL_SCANCODE_E:
+            return Event{OPEN_DOOR, player.getId(), 0};
+        case SDL_SCANCODE_F:
+            return Event{PUSH_WALL, player.getId(), 0};
+        case SDL_SCANCODE_1:
+            return Event{CHANGE_GUN, player.getId(), 1};
+        case SDL_SCANCODE_2:
+            return Event{CHANGE_GUN, player.getId(), 2};
+        case SDL_SCANCODE_3:
+            return Event{CHANGE_GUN, player.getId(), 3};
+        case SDL_SCANCODE_4:
+            return Event{CHANGE_GUN, player.getId(), 4};
+        case SDL_SCANCODE_5:
+            return Event{CHANGE_GUN, player.getId(), 5};
+        default:
+            return Event{INVALID, player.getId(), 0};
+    }
+}
+/*
 void InGameEventGenerator::generateInGameEvents() {
   SDL_Event event;
   if (SDL_PollEvent(&event) == 0) {
@@ -94,4 +131,38 @@ void InGameEventGenerator::generateInGameEvents() {
       puts("Saliendo");
       return;
   }
+}
+*/
+void InGameEventGenerator::generateInGameEvents() {
+    if (!player_alive)
+        return;
+    SDL_Event event;
+    if (SDL_PollEvent(&event) == 0) {
+        return;
+    }
+    std::vector<Event> events;
+    processMouseEvent(event, events);
+    const Uint8* keyboard_state =  SDL_GetKeyboardState(nullptr);
+
+    for (auto& key : important_keys) {
+        if (keyboard_state[key]) {
+            Event each_event = generateInGameEvent(key);
+            if (!each_event.isInvalid())
+                events.push_back(each_event);
+        }
+    }
+    for (auto& each_event : events) {
+        event_queue.push(each_event);
+    }
+}
+
+void InGameEventGenerator::processMouseEvent(SDL_Event& event,
+                                             std::vector<Event>& events) {
+    if (event.type != SDL_MOUSEBUTTONDOWN)
+        return;
+    auto& mouse_button_event = (SDL_MouseButtonEvent&) event;
+    if (mouse_button_event.button != SDL_BUTTON_LEFT)
+        return;
+    Event game_event(SHOOT, player.getId(), 0);
+    events.push_back(game_event);
 }

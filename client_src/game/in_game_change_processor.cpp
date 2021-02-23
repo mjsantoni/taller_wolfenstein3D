@@ -108,7 +108,7 @@ void InGameChangeProcessor::processChange(Change& change) {
       if (player.getId() == id) {
         player.respawn();
         screen.displayRespawningScreen();
-        sleep(2);
+        sleep(1);
       } else {
         return processEnemyRespawning(id);
       }

@@ -21,6 +21,12 @@ class InGameEventGenerator {
   ClientPlayer& player;
   InGameEventHandler& event_handler;
   BlockingQueue<Event>& event_queue;
+  std::vector<int> important_keys{SDL_SCANCODE_A, SDL_SCANCODE_D,SDL_SCANCODE_W,
+                                  SDL_SCANCODE_S, SDL_SCANCODE_SPACE,
+                                  SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT,
+                                  SDL_SCANCODE_E, SDL_SCANCODE_F,SDL_SCANCODE_1,
+                                  SDL_SCANCODE_2, SDL_SCANCODE_3,
+                                  SDL_SCANCODE_4, SDL_SCANCODE_5};
  public:
   InGameEventGenerator(ClientPlayer& _player,
                        InGameEventHandler& _event_handler,
@@ -31,8 +37,9 @@ class InGameEventGenerator {
   //Event parseEvent(SDL_Event event);
   void generateInGameEvent(SDL_Event sdl_event);
   void generateInGameEvents();
-
   bool playerQuitted();
+  Event generateInGameEvent(int key);
+  void processMouseEvent(SDL_Event &event, std::vector<Event> &events);
 };
 
 #endif //TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H

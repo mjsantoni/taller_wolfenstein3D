@@ -97,3 +97,8 @@ void AudioManager::stopGameSong() {
 void AudioManager::setMusicVolume(int volume) {
   audio_player.setMusicVolume(volume);
 }
+
+void AudioManager::playTimeUpSong() {
+    std::unique_lock<std::mutex> lock(m);
+    audio_player.playMusic(getFilePath("time_up.wav"));
+}

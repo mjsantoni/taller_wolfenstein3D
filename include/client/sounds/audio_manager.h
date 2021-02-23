@@ -38,6 +38,7 @@ class AudioManager {
   void playGameSong();
   void stopGameSong();
   void setMusicVolume(int volume);
+  void playTimeUpSong();
 };
 
 #endif //TP_WOLFENSTEIN_AUDIO_MANAGER_H

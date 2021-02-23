@@ -76,6 +76,7 @@ void ClientGame::displayResultScreen(int game_result) {
         sleep(4);
       break;
     case 0:
+        audio_manager.playTimeUpSong();
         screen.displayTimeOverScreen();
         sleep(2);
       break;
@@ -96,6 +97,7 @@ void ClientGame::displayStatistics() {
   int game_result = processGameResult();
   displayResultScreen(game_result);
   while (true) {
+    usleep(TICK_DURATION*1000000);
     screen.displayStatistics(statistics_manager.getStatistics());
     SDL_Event event;
     if (SDL_PollEvent(&event) == 0) {
