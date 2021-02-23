@@ -213,7 +213,6 @@ void InGameChangeProcessor::processPostGameChanges(Change change) {
     return;
   int player_id = change.getPlayerID();
   int value = change.getFirstValue();
-  int position = change.getSecondValue();
   statistics_manager.addStatistic(change_id, player_id, value);
 }
 
