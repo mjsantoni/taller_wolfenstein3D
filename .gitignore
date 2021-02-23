@@ -35,3 +35,12 @@
 .idea/
 cmake-build-debug/
 .vscode/settings.json
+client_src/build
+client_src/maps
+client_src/config
+server_src/build
+server_src/maps
+server_src/config
+editor_src/build
+editor_src/maps
+editor_src/config
