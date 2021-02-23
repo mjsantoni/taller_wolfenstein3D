@@ -27,7 +27,8 @@ ConfigChecker::ConfigChecker(std::string& _map_data, QMainWindow* parent)
   hideWidget("parametersWidget");
   hideWidget("createConfirmButton");
   hideWidget("joinConfirmButton");
-  hideWidget("backButton");
+  hideWidget("backJoinButton");
+  hideWidget("backCreateButton");
   hideWidget("joinWidget");
   connectEvents();
 }
@@ -90,14 +91,14 @@ void ConfigChecker::showParameters() {
   QSpinBox* min_players_spin = findChild<QSpinBox*>("minPlayersSpin");
   QSpinBox* bots_spin = findChild<QSpinBox*>("botsSpin");
 
-  if (!backed) join_combo->addItems(readAllMaps());
+  if (!backed_create) join_combo->addItems(readAllMaps());
   if (join_combo->currentText().toStdString().empty()) {
     showError("No maps to create a game");
     sk.send_msg(BACK);
     return;
   }
 
-  showWidget("backButton");
+  showWidget("backCreateButton");
   hideWidget("connectionWidget");
   showWidget("parametersWidget");
   showWidget("createConfirmButton");
@@ -120,25 +121,26 @@ void ConfigChecker::showParameters() {
 
 
 void ConfigChecker::showIdSelection() {
-  hideWidget("connectionWidget");
+    try {
+        sk.send_msg(JOIN_GAME);
+    } catch (NetworkError) {
+        showError("Server currently down");
+        return;
+    }
+
+    hideWidget("connectionWidget");
   hideWidget("createConfirmButton");
   showWidget("joinWidget");
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
-  showWidget("backButton");
-  try {
-    sk.send_msg(JOIN_GAME);
-  } catch (NetworkError) {
-      showError("Server currently down");
-      return;
-  }
-
+  showWidget("backJoinButton");
+  
     std::string games;
     sk.recv_msg(games);
     QStringList maps_names;
 
     while (games != SUCCESS) {
-      if (!backed) {
+      if (!backed_join) {
           maps_names << games.c_str();
       }
       games.clear();
@@ -193,7 +195,8 @@ void ConfigChecker::connectEvents() {
   QCommandLinkButton* join_confirm_button = findChild<QCommandLinkButton*>("joinConfirmButton");
   QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
   QPushButton* ok_button = findChild<QPushButton*>("okButton");
-  QPushButton* back_button = findChild<QPushButton*>("backButton");
+  QPushButton* back_join_button = findChild<QPushButton*>("backJoinButton");
+    QPushButton* back_create_button = findChild<QPushButton*>("backCreateButton");
   QPushButton* create_button = findChild<QPushButton*>("createButton");
   QPushButton* join_button = findChild<QPushButton*>("joinButton");
   QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
@@ -203,7 +206,8 @@ void ConfigChecker::connectEvents() {
 
   connect(join_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::joinGame);
   connect(create_confirm_button, &QCommandLinkButton::clicked, this, &ConfigChecker::createNewGame);
-  connect(back_button, &QCommandLinkButton::clicked, this, &ConfigChecker::backToMenu);
+  connect(back_create_button, &QCommandLinkButton::clicked, this, std::bind(&ConfigChecker::backToMenu, this, true));
+  connect(back_join_button, &QCommandLinkButton::clicked, this, std::bind(&ConfigChecker::backToMenu, this, false));
   connect(ok_button, SIGNAL(clicked()), error_widget, SLOT(close()));
   connect(connect_button, &QPushButton::clicked, this, &ConfigChecker::lookForServer);
   connect(create_button, &QPushButton::clicked, this, &ConfigChecker::showParameters);
@@ -291,7 +295,7 @@ void ConfigChecker::updateMaximums() {
 
 }
 
-void ConfigChecker::backToMenu() {
+void ConfigChecker::backToMenu(bool backed_from_connect) {
   hideWidget("configWidget");
   hideWidget("errorWidget");
   hideWidget("creationError");
@@ -299,10 +303,15 @@ void ConfigChecker::backToMenu() {
   hideWidget("createConfirmButton");
   hideWidget("joinConfirmButton");
   hideWidget("joinWidget");
-  hideWidget("backButton");
   showWidget("connectionWidget");
 
-  backed = true;
+  if (backed_from_connect) {
+      backed_create = true;
+      hideWidget("backCreateButton");
+  } else {
+      backed_join = true;
+      hideWidget("backJoinButton");
+  }
 
   sk.send_msg(BACK);
 }

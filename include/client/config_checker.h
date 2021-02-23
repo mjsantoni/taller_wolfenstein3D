@@ -17,8 +17,8 @@ class ConfigChecker : public QMainWindow {
 
   std::string& map_data;
   NetworkConnection sk;
-  bool backed = false;
-
+  bool backed_join = false;
+  bool backed_create = false;
  public:
 
   explicit ConfigChecker(std::string& _map_data, QMainWindow* parent = 0);
@@ -51,7 +51,7 @@ class ConfigChecker : public QMainWindow {
 
   void showError(const char* string);
 
-  void backToMenu();
+  void backToMenu(bool backed_from_connect);
 
   NetworkConnection getConnection();
 

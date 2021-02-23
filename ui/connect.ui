@@ -458,7 +458,41 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QCommandLinkButton" name="backButton">
+   <widget class="QCommandLinkButton" name="backCreateButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>520</y>
+      <width>80</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>80</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>80</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="backJoinButton">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -500,7 +534,8 @@
    <zorder>createConfirmButton</zorder>
    <zorder>joinConfirmButton</zorder>
    <zorder>joinWidget</zorder>
-   <zorder>backButton</zorder>
+   <zorder>backCreateButton</zorder>
+   <zorder>backJoinButton</zorder>
   </widget>
  </widget>
  <resources/>

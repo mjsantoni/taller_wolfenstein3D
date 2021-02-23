@@ -11,6 +11,7 @@ RecentPopup::RecentPopup(std::string& _path, QMainWindow* parent) : path(_path),
     QCommandLinkButton* open_button = findChild<QCommandLinkButton*>("openButton");
     connect(open_button, &QPushButton::clicked, this, &RecentPopup::close);
     this->setStyleSheet("background-image:url(\"../resources/intro_background.png\"); ");
+    open_button->setStyleSheet("background-image:url();color:white;font-size:18px");
 }
 
 bool cmp(std::pair<const char *, QDateTime> n1, std::pair<const char *, QDateTime> n2) {
@@ -35,7 +36,7 @@ void RecentPopup::showLastModifiedFiles() {
 
     QVBoxLayout* recents_layout = findChild<QVBoxLayout*>("recentsLayout");
     QWidget* recents_widget = findChild<QWidget*>("recentsWidget");
-    recents_widget->setStyleSheet("background-image:url("");background-color:#5C241F; ");
+    recents_widget->setStyleSheet("background-image:url("");background-color:#48494B;color:white");
 
     for (int i = 0; i < LAST_FILES_QUANT; ++i) {
         QPushButton* file_button = new QPushButton();
@@ -43,7 +44,7 @@ void RecentPopup::showLastModifiedFiles() {
         file_button->setText(QString(files_names[i].first));
         recents_layout->addWidget(file_button);
         file_button->setCheckable(true);
-        file_button->setStyleSheet("background-image:url("");");
+        file_button->setStyleSheet("background-image:url(""); color:#B9BBB6;");
         connect(file_button, &QPushButton::clicked, this, &RecentPopup::changeFileToOpen);
     }
     recents_widget->show();

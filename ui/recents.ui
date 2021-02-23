@@ -44,7 +44,7 @@
       <x>160</x>
       <y>300</y>
       <width>261</width>
-      <height>291</height>
+      <height>261</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -56,12 +56,15 @@
        <x>30</x>
        <y>30</y>
        <width>191</width>
-       <height>231</height>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="recentsLayout"/>
     </widget>
     <widget class="QLabel" name="label">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -69,6 +72,13 @@
        <width>211</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Umpush</family>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Recent files...</string>
@@ -81,17 +91,17 @@
    <widget class="QCommandLinkButton" name="openButton">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>540</y>
-      <width>101</width>
-      <height>31</height>
+      <x>440</x>
+      <y>510</y>
+      <width>111</width>
+      <height>41</height>
      </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
     </property>
     <property name="text">
      <string>Open</string>
+    </property>
+    <property name="default">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
