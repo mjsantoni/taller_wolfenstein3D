@@ -20,31 +20,22 @@ void Server::run() {
       NetworkConnection socket = std::move(networkAcceptor.acceptConnection());
       while (true) {
         std::string player_choice;
+        std::string answer;
         socket.recv_msg(player_choice); // Recibo el tipo de evento
 
         if (player_choice == CREATE_GAME) {
-          std::string options;
-          socket.recv_msg(options);
-          std::cout << "Me paso estas opciones: " << options << "\n";
-          if (options == BACK) continue;
-
-          std::vector<int> game_options = split(options); // minimos/maximos/bots/duracion
-          std::string map_path;
-          socket.recv_msg(map_path);
-          int new_game_id = createGame(map_path, game_options[0],
-                                       game_options[1], game_options[2],
-                                       game_options[3]);
-          socket.send_msg(SUCCESS);
-          joinGame(new_game_id, std::move(socket));
+          socket.recv_msg(answer);
+          if (answer == BACK) continue;
+          int id = createGame(socket, answer);
+          joinGame(id, std::move(socket));
           break;
 
         } else if (player_choice == JOIN_GAME){
           killDead();
           sendGames(socket);
-          std::string game_choice;
-          socket.recv_msg(game_choice);
-          if (game_choice == BACK) continue;
-          int game_id_to_connect = std::stoi(game_choice);
+          socket.recv_msg(answer);
+          if (answer == BACK) continue;
+          int game_id_to_connect = std::stoi(answer);
           if (matches[game_id_to_connect]->canJoinPlayer()) {
             socket.send_msg(SUCCESS);
             joinGame(game_id_to_connect, std::move(socket));
@@ -55,11 +46,7 @@ void Server::run() {
     killDead();
     usleep(100000);
   }
-  for (auto& th_game : matches) {
-    th_game->stop();
-    th_game->join();
-    delete th_game;
-  }
+  stopGames();
   std::cout << "[Server] Finished all in-progress games\n";
 }
 
@@ -80,15 +67,27 @@ void Server::killDead() {
                 matches.end());
 }
 
-int Server::createGame(std::string& map, int min_players, int max_players, int bots, int time) {
+void Server::stopGames() {
+  for (auto& th_game : matches) {
+    th_game->stop();
+    th_game->join();
+    delete th_game;
+  }
+}
+
+int Server::createGame(NetworkConnection& skt, std::string& options) {
+
+  std::vector<int> game_options = split(options); // minimos/maximos/bots/duracion
+  std::string map_path;
+  skt.recv_msg(map_path);
+  auto new_game = new GameHandler(map_path, CONFIG_PATH, game_options[0],
+                                  game_options[1], game_options[2],
+                                  matches.size(),game_options[3]*60);
+
+  skt.send_msg(SUCCESS);
   std::cout << "[Server] New Game created with id: " << matches.size() << "\n";
-  auto new_game = new GameHandler(map, CONFIG_PATH,
-                                  min_players, max_players,
-                                  bots, matches.size(), time * 60);
-  // pasarle game duration tambien
   new_game->start();
   matches.push_back(new_game);
-  usleep(100000);
   return matches.size() - 1;
 }
 
@@ -97,13 +96,9 @@ bool Server::joinGame(int game_id, NetworkConnection socket) {
     try {
       matches[game_id]->addNewPlayer(std::move(socket));
       std::cout << "[Server] New player connected to game " << game_id << "\n";
-    } catch (const NetworkError& e) {
-      return false;
-    }
-    usleep(100000);
+    } catch (const NetworkError& e) { return false; }
     return true;
-  }
-  return false;
+  } return false;
 }
 
 std::vector<int> Server::split(const std::string& bytes) {
