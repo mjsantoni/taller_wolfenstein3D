@@ -42,10 +42,10 @@ int main(int argc, char* argv[]) {
     server.join();
   } catch (const NetworkError& e) {
     std::cerr << e.what();
-  } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
   } catch (const YAML::BadFile& e) {
     std::cerr << "Game files not found. " << e.what() << std::endl;
+  } catch (const std::exception& e) {
+    std::cerr << e.what() << std::endl;
   } catch (...) {
     std::cerr << "Unknown error." << std::endl;
   }

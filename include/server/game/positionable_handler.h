@@ -7,11 +7,11 @@
 class PositionableHandler {
 
  public:
+  /* Clase que genera los posicionables a poner en el mapa. */
   PositionableHandler();
 
   Positionable createBlockingItem(const std::string& type, int id);
   Positionable createItem(const std::string& type, int id);
-  //Positionable createSpawns(std::string type);
 
   ~PositionableHandler() {}
 };

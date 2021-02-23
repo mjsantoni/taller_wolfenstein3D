@@ -78,7 +78,6 @@ class Map {
   void putBlockingItemAt(Coordinate coordinate, const Positionable& positionable);
   void putBlockingItemAtCenter(Coordinate coordinates, const Positionable& blocking);
   void putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable);
-
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

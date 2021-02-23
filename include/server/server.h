@@ -20,6 +20,7 @@ class Server : public Thread {
   std::atomic<bool> accepting_connections;
 
  public:
+  /* Clase principal que se ocupa aceptar conexiones entrantes. */
   Server(NetworkAcceptor socket);
   ~Server() override;
 

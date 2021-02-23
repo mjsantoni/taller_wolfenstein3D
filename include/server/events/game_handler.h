@@ -36,17 +36,25 @@ class GameHandler : public Thread {
   int game_duration;
 
  public:
+  /* Constructor de la clase principal del flujo de una partida.
+   * Recibe paths a config y mapa y parametros predefinidos por el menu de incio.*/
   GameHandler(const std::string& map_path, const std::string& config_path, int _min_players_in_lobby,
               int _max_players, int _max_bots, int _game_id, int _game_duration);
 
+  /* Flujo principal del juego. Finaliza al concluir la partida o por
+   * una llamada a stop. */
   void run() override;
 
+  /* Agrega un nuevo player a la partida a traves del ClientsManager. Se mueve el socket
+   * de la conexion. */
   void addNewPlayer(NetworkConnection fd);
 
   void stop();
 
+  /* Notifica a todos los clientes de cambios. */
   void notifyClients(std::vector<Change>& changes);
 
+  /* Metodo que espera hasta completar el lobby y luego empezar la partida. */
   void waitInLobby();
 
   void sendTops();
@@ -59,6 +67,7 @@ class GameHandler : public Thread {
 
   bool ended();
 
+  /* Funcion final del juego que envia tops a los clientes. */
   void endGame();
 
   std::string getInformation();

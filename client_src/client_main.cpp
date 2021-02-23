@@ -49,4 +49,5 @@ int main(int argc, char* args[]) {
   catch (...) {
     std::cerr << "Unknown error." << std::endl;
   }
+  return 0;
 }

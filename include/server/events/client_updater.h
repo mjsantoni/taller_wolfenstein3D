@@ -22,6 +22,9 @@ class ClientUpdater : public Thread {
   std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map;
 
  public:
+
+  /* Constructor de la clase que se ocupa de recibir eventos, desserializarlos
+ * y enviarlos a la cola de eventos. Recibe una referencia al socket que utiliza. */
   explicit ClientUpdater(NetworkConnection& _sk,
                          int i,
                          std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map);
@@ -31,10 +34,13 @@ class ClientUpdater : public Thread {
 
   void stop();
 
+  /* Envia cambios al cliente a traves del socket,
+   * se libera de su bloqueo por cv. */
   void update(Change change);
 
   int getPlayerId() const;
 
+  /* Envio de mapa completo previo al inicio de la partida. */
   void sendMap();
 };
 
