@@ -28,6 +28,7 @@ GameScreen::GameScreen(int width,
   object_drawer.setDimensions(width, (int) (0.8 * height));
   ui_drawer.setDimensions((int) (0.8 * height), (int) (0.2 * height), width);
   weapon_drawer.setDimensions((int) (0.8 * height), width);
+  window.setWindowIcon();
   TTF_Init();
 }
 

@@ -13,6 +13,7 @@
 #include "client/map_info.h"
 #include "client/sdl_exception.h"
 #include "client/drawable.h"
+#include <client_routes.h>
 
 class SdlWindow {
  private:
@@ -36,6 +37,7 @@ class SdlWindow {
   int getHeight();
   void drawRectangle(Area& area, int r, int g, int b, int a);
   void loadImage(SDL_Texture* texture, Area& image_area, Area& screen_area);
+  void setWindowIcon();
 };
 
 #endif //TP_WOLFENSTEIN_SDLWINDOW_H

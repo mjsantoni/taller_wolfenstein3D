@@ -3,6 +3,8 @@
 //
 
 #include <SDL.h>
+#include <SDL_image.h>
+
 #include "client/graphics/sdl_window.h"
 
 #define PROJECTION_PLANE_width 320
@@ -85,4 +87,10 @@ void SdlWindow::loadImage(SDL_Texture* texture,
                           Area& image_area,
                           Area& screen_area) {
   putTextureAt(texture, image_area, screen_area);
+}
+
+void SdlWindow::setWindowIcon() {
+    SDL_Surface* surface = IMG_Load(WINDOW_ICON_PATH);
+    SDL_SetWindowIcon(window, surface);
+    SDL_FreeSurface(surface);
 }
