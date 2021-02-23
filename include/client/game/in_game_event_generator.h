@@ -37,9 +37,6 @@ class InGameEventGenerator {
   //Event parseEvent(SDL_Event event);
   void generateInGameEvent(SDL_Event sdl_event);
   void generateInGameEvents();
-  bool playerQuitted();
-  Event generateInGameEvent(int key);
-  void processMouseEvent(SDL_Event &event, std::vector<Event> &events);
 };
 
 #endif //TP_WOLFENSTEIN_IN_GAME_EVENT_GENERATOR_H

@@ -7,7 +7,8 @@
 #include <client/game/client_game.h>
 #include <client/communication/server_updater.h>
 
-#define TICK_DURATION 0.03
+#define TICK_DURATION_SC 0.03
+#define TICK_DURATION_MS 30000
 #define IN_GAME_VOLUME 20
 
 ClientGame::ClientGame(int screen_width,
@@ -54,7 +55,7 @@ void ClientGame::processGame() {
     event_generator.generateInGameEvents();
     auto final_time = std::chrono::system_clock::now();
     std::chrono::duration<double> delta_t = final_time - initial_time;
-    double reminder = TICK_DURATION - delta_t.count();
+    double reminder = TICK_DURATION_SC - delta_t.count();
     reminder = (reminder > 0) ? reminder : 0;
     usleep(reminder);
   }
@@ -97,7 +98,7 @@ void ClientGame::displayStatistics() {
   int game_result = processGameResult();
   displayResultScreen(game_result);
   while (true) {
-    usleep(TICK_DURATION*1000000);
+    usleep(TICK_DURATION_MS);
     screen.displayStatistics(statistics_manager.getStatistics());
     SDL_Event event;
     if (SDL_PollEvent(&event) == 0) {
