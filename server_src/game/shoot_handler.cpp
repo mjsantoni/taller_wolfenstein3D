@@ -6,7 +6,7 @@
 
 #define ENEMY_DIES (-1)
 #define RPG_UNITS_MOVE_PER_TURN 5
-#define RPG_EXPLOSION_RADIUS 15     // esto viene del config
+#define RPG_EXPLOSION_RADIUS 15
 #define SHOOT_AMPLITUDE 35
 
 std::pair<Hit, std::vector<Change>> ShootHandler::shoot(Player& player, double angle, std::vector<Player>& players) {
@@ -88,7 +88,6 @@ Hit ShootHandler::travelAndExplodeAllRPGS(std::vector<Player>& players, std::vec
   for (auto& rpg_id : exploded_rpgs) {
     rpgs.erase(rpg_id);
   }
-
   return Hit(-1, 0, enemy_dmg_done, false);
 }
 
@@ -100,11 +99,8 @@ Hit ShootHandler::travelAndExplodeRPG(RPG& rpg, int bullets_to_shoot,
   Player& player = players[rpg.getPlayerId()];
   int end_pos = position + RPG_UNITS_MOVE_PER_TURN;
   for (; (position < rpg_path.size() - 1) && (position < end_pos); position++) {
-    //std::cout << "Current pos " << position << " - "; rpg_path[position].show();
-
     std::vector<int> players_found = playersInArea(rpg_path[position], RPG_EXPLOSION_RADIUS, rpg.getPlayerId());
     if (map.isABlockingItemAt(rpg_path[position]) || !players_found.empty()) {
-      //std::cout << "Encontre alguien en la position " << position << "\n";
       hitPlayersWithRPG(players_found, player, rpg_path[position], enemy_dmg_done, players);
       rpg.explode();
       break;
@@ -127,9 +123,6 @@ void ShootHandler::hitPlayersWithRPG(std::vector<int>& players_found, Player& pl
     Player& enemy = players[player_id];
     bool enemy_dies = false;
     Coordinate player_hit_position = map.getPlayerPosition(player_id);
-    //std::cout << "----------------\n";
-    //std::cout << "Shoot de RPG con (daño random): " << damage << "\n";
-    //std::cout << "Le va a pegar a Player " << player_id << "\n";
     int final_damage = dmg_calculator.calculateDamageRPG(player, damage, explosion_center,
                                                          player_hit_position, RPG_EXPLOSION_RADIUS);
     int damage_done = hit(player, enemy, final_damage, enemy_dies);
@@ -144,7 +137,6 @@ std::vector<int> ShootHandler::playersInArea(Coordinate& coord, int units, int i
     for (int j = coord.y - units; j <= coord.y + units; j++) {
       Coordinate pos(i, j);
       if (map.isAPlayerAt(pos) && map.getPlayerIDAtPosition(pos) != id) {
-        //std::cout << "Encontre en el area cercana a player: " << map.getPlayerIDAtPosition(pos) << "\n";
         players_found.push_back(map.getPlayerIDAtPosition(pos));
       }
     }
@@ -192,8 +184,6 @@ bool ShootHandler::hitAtPos(std::vector<Coordinate>& positions, std::vector<Play
     if (enemy.isDead()) continue;
     int damage = player.getGun().getDamage();
     bool enemy_dies = false;
-    //std::cout << "----------------\n";
-    //std::cout << "Nuevo tiro, intento shootear con (daño random): " << damage << "\n";
     damage = dmg_calculator.calculateDmg(player, damage, pos_travelled, is_adjacent);
     int damage_done = hit(player, enemy, damage, enemy_dies);
     enemy_dmg_done.emplace_back(enemy.getID(), damage_done);
@@ -235,6 +225,6 @@ std::vector<Coordinate> ShootHandler::getAdjacents(Coordinate& pos, double angle
       adjacents.emplace_back(pos.x, pos.y - i);
       adjacents.emplace_back(pos.x, pos.y + i);
     }
-  } else { std::cout << "No hay ninguna posicion alrededor, algo raro paso.\n"; } // Exception
+  } else { return adjacents; }
   return adjacents;
 }

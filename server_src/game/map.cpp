@@ -221,29 +221,3 @@ void Map::putPositionableAtCenter(Coordinate coordinates, const Positionable& po
   board[coordinates] = positionable;
   itemsPositions.insert(coordinates);
 }
-
-/* MAP PRINT */
-
-void Map::show() {
-  //std::cout << "---------------------------------------------------------------" << "\n";
-  //std::cout << "Board\nCurrent Global ID: " << global_id << "\n";
-  for (auto& elem : board) {
-    std::cout << "Coord: (" << elem.first.x << ", " << elem.first.y
-              << ") - Elem: " << elem.second.getCategory() << " - "
-              << elem.second.getType() << " - " << elem.second.getId() << "\n";
-  }
-  std::cout << "Player Spawns\n";
-  int i = 0;
-  for (auto& spawn : player_spawns) {
-    std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
-    i++;
-  }
-  std::cout << "Player Positions\n";
-  i = 0;
-  for (auto& spawn : player_positions) {
-    std::cout << "Player " << i << " -> (" << spawn.x << ", " << spawn.y << ")\n";
-    i++;
-  }
-  std::cout << "---------------------------------------------------------------\n";
-}
-

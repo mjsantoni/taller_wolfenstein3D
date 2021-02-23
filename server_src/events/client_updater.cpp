@@ -1,5 +1,4 @@
 #include "server/events/client_updater.h"
-#include <unistd.h>
 
 ClientUpdater::ClientUpdater(NetworkConnection& _sk,
                              int id,
@@ -37,7 +36,6 @@ void ClientUpdater::run() {
     if (change.isGlobal() || change.getPlayerID() == player_id) {
       try {
         skt.send_msg(change.serialize());
-        std::cout << "Server sends " << change.serialize() << std::endl;
       } catch (NetworkError& e) { break; }
     }
   }

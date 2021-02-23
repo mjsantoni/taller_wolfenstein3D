@@ -1,6 +1,5 @@
 #include <algorithm>
 #include "server/server.h"
-#include "server_routes.h"
 
 Server::Server(NetworkAcceptor socket) :
     networkAcceptor(std::move(socket)),
@@ -22,7 +21,7 @@ void Server::run() {
   }
   closeHandlers();
   matches.stopGames();
-  std::cout << "[Server] Finished all in-progress games\n";
+  std::cout << "[Server] Finished all in-progress games.\n";
 }
 
 void Server::stop() {
@@ -31,6 +30,7 @@ void Server::stop() {
 }
 
 void Server::closeHandlers() {
+  std::cout << "[Server] Closing Menu Handlers.\n";
     for (auto& handler : handlers) {
         handler->stop();
         handler->join();

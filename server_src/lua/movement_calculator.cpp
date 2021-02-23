@@ -50,7 +50,7 @@ MovementCalculator::moveToPosition(const Coordinate& actual_pos, double angle, l
   int y_factor = (y_move < 0) ? -1 : 1;
   int i = 0;
   int j = 0;
-  bool is_y = abs(x_move) <= abs(y_move); // abs(x_move) > abs(y_move) ? false : true;
+  bool is_y = abs(x_move) <= abs(y_move);
   int for_limit = (is_y) ? abs(y_move) : abs(x_move);
   int for_limit_oposite = (is_y) ? abs(x_move) : abs(y_move);
   int coord_base = (is_y) ? actual_pos.y : actual_pos.x;
@@ -68,7 +68,6 @@ MovementCalculator::moveToPosition(const Coordinate& actual_pos, double angle, l
       new_position.x = move_temp;
       new_position.y = coord_oposite;
     }
-    //if (!map.isABlockingItemAt(new_position)) continue;
     bool is_blocking = botIsABlockingItemAt(L, new_position, stack_position);
     if (!is_blocking) continue;
     else {
@@ -86,7 +85,6 @@ MovementCalculator::moveToPosition(const Coordinate& actual_pos, double angle, l
       new_position.x = coord_base;
       new_position.y = move_temp;
     }
-    //if (!map.isABlockingItemAt(new_position)) continue;
     bool is_blocking = botIsABlockingItemAt(L, new_position, stack_position);
     if (!is_blocking) continue;
     else {

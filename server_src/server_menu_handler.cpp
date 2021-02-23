@@ -4,6 +4,7 @@ ServerMenuHandler::ServerMenuHandler(NetworkConnection _socket, Matches& _matche
 socket(std::move(_socket)), matches(_matches) {}
 
 void ServerMenuHandler::run() {
+  std::cout << "[ServerMenuHandler] Started.\n";
     try {
         while (true) {
             std::string player_choice;
@@ -29,6 +30,7 @@ void ServerMenuHandler::run() {
             }
         }
     } catch (NetworkError& e) { return; }
+    std::cout << "[ServerMenuHandler] Stopping.\n";
 }
 
 int ServerMenuHandler::createGame(NetworkConnection& skt, std::string& options) {
@@ -41,17 +43,19 @@ int ServerMenuHandler::createGame(NetworkConnection& skt, std::string& options) 
                                     matches.getSize(),game_options[3]*60);
 
     skt.send_msg(SUCCESS);
-    std::cout << "[Server] New Game created with id: " << matches.getSize() << "\n";
+    std::string newGameCreated = "[Server] New Game created with id: " + std::to_string(matches.getSize()) + "\n";
+    std::cout << newGameCreated;
     new_game->start();
     matches.addNewMatch(new_game);
     return matches.getSize() - 1;
 }
 
 bool ServerMenuHandler::joinGame(int game_id, NetworkConnection socket) {
-    if (matches.canJoinPlayer(game_id)) { // Ya esta afuera esta logica
+    if (matches.canJoinPlayer(game_id)) {
         try {
             matches.addNewPlayer(game_id, std::move(socket));
-            std::cout << "[Server] New player connected to game " << game_id << "\n";
+            std::string newPlayerConnectedToGame = "[Server] New player connected to game " + std::to_string(game_id) + "\n";
+            std::cout << newPlayerConnectedToGame;
         } catch (const NetworkError& e) { return false; }
         return true;
     } return false;

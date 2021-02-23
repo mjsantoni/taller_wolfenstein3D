@@ -25,7 +25,6 @@ Change ChangeFactory::createFromBytes(char* bytes) {
   Change change(buffer[CHANGE_ID], buffer[ID], buffer[VALUE_1],
                 buffer[VALUE_2]);
   return change;
-  //std::cout << "El cliente pushea a la cola de cambios el cambio " << change.getChangeID() << std::endl;
 }
 
 /* test only */

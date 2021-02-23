@@ -31,7 +31,7 @@ int ConfigParser::getSpecificCategory(const std::string& category, const std::st
   else if (category == "hp_item") return hp_items[type];
   else if (category == "bullets") return bullets[type];
   else if (category == "player") return players[type];
-  else return -1; // Aca pusiste algo que no existe
+  else return -1;
 }
 
 std::unordered_map<std::string, int> ConfigParser::getCategory(const std::string& node) {

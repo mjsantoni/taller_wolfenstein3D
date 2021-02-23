@@ -55,11 +55,11 @@ int LuaEngine::isInSight(lua_State* L) {
   for (auto& coord : path) {
     bool is_blocking = isABlockingItemAt(L, coord, 5);
     if (is_blocking) {
-      lua_pushnumber(L, 0); // cargo un 0 para indicar q encontre un blocking
+      lua_pushnumber(L, 0); // Cargo un 0 para indicar que encontre un blocking
       return 1;
     }
   }
-  lua_pushnumber(L, 1); // no hay paredes en el medio
+  lua_pushnumber(L, 1); // No hay paredes en el medio
   return 1;
 }
 

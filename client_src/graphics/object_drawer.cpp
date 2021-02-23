@@ -66,7 +66,6 @@ void ObjectDrawer::renderObject(double player_angle, double object_angle,
       object_info_provider.getObjectInfo(object.getObjectType());
   object_info.setHitDistance(object.getHitDistance());
   object_info.setHitGridPos(x_prop);
-  //std::cout << "sprite no: " << object.getSpriteAnimationNo() << std::endl;
   object_info.setSpriteAnimationNo(object.getSpriteAnimationNo());
   drawing_assistant.put3DObject(object_info, pl_ob_angle);
 }

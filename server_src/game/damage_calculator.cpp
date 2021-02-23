@@ -26,12 +26,9 @@ int DamageCalculator::calculateDamageRPG(Player& player, int base_damage,
                                          Coordinate& player_position,
                                          int explosion_radius) {
   int distance = explosion_center.distanceTo(player_position);
-  std::cout << "El RPG le pega a player " << player.getID() << " a (distancia): " << distance << "\n";
   // Recta que hace que en el lugar mas alejado pegue la mitad del daño y en el centro
   // sea 100% => y = -50/n * x + 100. Donde N es el radio de golpe
   float dmg_multiplier = (float) ((float) -50 / explosion_radius * (float) distance + (float) 100);
   float final_damage = (float) base_damage * dmg_multiplier / 100;
-  std::cout << "Final dmg sin redondeo: " << final_damage << "\n";
-  std::cout << "Final dmg con redondeo: " << std::round(final_damage) << "\n";
   return std::round(final_damage);
 }

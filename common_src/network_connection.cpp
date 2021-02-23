@@ -8,8 +8,6 @@
 #include "common/network_error.h"
 #include <string.h>
 #include <string>
-#include <iostream>
-#include <sstream>
 #include <vector>
 
 NetworkConnection::NetworkConnection(int fd) : file_descriptor(fd) {}
@@ -70,25 +68,6 @@ void NetworkConnection::connectTo(struct addrinfo* addr_results) {
   }
   freeaddrinfo(addr_results);
 }
-/*
-void NetworkConnection::sendMsg(const std::string& message) {
-    sendMsg(message.c_str(), message.size());
-}
-
-void NetworkConnection::sendMsg(const char* message, size_t message_length) {
-    size_t total_bytes_sent = 0;
-    while (total_bytes_sent < message_length) {
-        ssize_t bytes_sent = send(this->file_descriptor, 
-                                 &message[total_bytes_sent], 
-                                 message_length - total_bytes_sent,
-                                 MSG_NOSIGNAL);
-        if (bytes_sent == 0) { return; }
-        if (bytes_sent == -1) {
-            throw NetworkError("Error sending: %s\n", strerror(errno));
-        }
-        total_bytes_sent += bytes_sent;
-    }
-}*/
 
 void NetworkConnection::send_size(std::uint32_t len) {
   int total_bytes = 0;
@@ -157,37 +136,6 @@ int NetworkConnection::recv_msg(std::string& buffer) {
   }
   return 0;
 }
-
-/*
-std::string NetworkConnection::recvMsg() {
-    ssize_t bytes_recv = -1;
-    std::string message;
-    char buffer[BUFFER_LENGTH];
-    memset(&buffer, 0, BUFFER_LENGTH);
-
-    while ((bytes_recv = recvMsg(buffer, BUFFER_LENGTH)) != 0) {
-        message.append(buffer, bytes_recv);
-        memset(&buffer, 0, BUFFER_LENGTH);
-    }
-    return message;
-}
-
-size_t NetworkConnection::recvMsg(char* message, size_t buff_length) {
-    size_t total_bytes_recv = 0;
-    while (total_bytes_recv < buff_length) {
-        printf("Toy dentro del while del skt\n");
-        ssize_t bytes_recv = recv(this->file_descriptor, 
-                                 &message[total_bytes_recv], 
-                                 buff_length - total_bytes_recv, 0);
-        if (bytes_recv == 0) return total_bytes_recv;
-        if (bytes_recv == -1) {
-            throw NetworkError("Error receiving: %s\n",
-                                      strerror(errno));
-        }
-        total_bytes_recv += bytes_recv;
-    }
-    return total_bytes_recv;
-}*/
 
 bool NetworkConnection::isValid() const {
   return this->file_descriptor != -1;

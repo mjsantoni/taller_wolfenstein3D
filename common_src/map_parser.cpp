@@ -31,5 +31,5 @@ std::unordered_map<std::string,
   if (category == "items") return items;
   else if (category == "players") return players;
   else if (category == "scenarios") return scenarios;
-  else return getCategory(category); // No deberia entrar aca
+  else return getCategory(category);
 }

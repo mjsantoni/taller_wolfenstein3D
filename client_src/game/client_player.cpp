@@ -62,7 +62,6 @@ int ClientPlayer::getAmmo() {
 }
 
 void ClientPlayer::updatePosition(int new_x, int new_y) {
-  //std::cout << "Actualizo pos\n";
   map_position = {new_x, new_y};
 }
 
@@ -163,7 +162,6 @@ void ClientPlayer::setRespawningPosition(std::pair<int, int> _respawn_position) 
 }
 
 double ClientPlayer::getHealthRatio() {
-  //std::cout << "Health ratio: "  << double (health)/ double (max_health) << std::endl;
   return 1 - (double(health) / double(max_health));
 }
 

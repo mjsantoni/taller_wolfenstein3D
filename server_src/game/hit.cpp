@@ -23,22 +23,18 @@ int Hit::getBulletsShot() const {
 bool Hit::usedAllAmmo() const {
   return used_all_ammo;
 }
-//Esta funcion podria ser mejorada para no recorrer muchas veces el vector de daño
-//en caso de que hitee mucha gente (poco probable)
+
 std::vector<std::pair<int, int>> Hit::getEnemyDmgDone(int max_players) {
-  std::vector<std::pair<int, int>> total_dmg; //Vector de (id, dañototal)
+  std::vector<std::pair<int, int>> total_dmg; // Vector de (id, dañototal)
   int total = 0;
-  //std::cout << "----------------\n";
   for (int i = 0; i < max_players; i++) {
     for (auto& dmg : enemy_dmg_done) {
       if (dmg.first == i) {
         if (dmg.second == -1) continue;
-        //std::cout << "Sumo " << dmg.second << " dmg\n";
         total += dmg.second;
       }
     }
     if (total == 0) continue;
-    //std::cout << "Daño total hecho a player " << i << ": " << total << "\n";
     total_dmg.emplace_back(i, total);
     total = 0;
   }

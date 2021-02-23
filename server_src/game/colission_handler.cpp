@@ -16,7 +16,7 @@ Coordinate ColissionHandler::moveToPosition(const Coordinate& actual_pos, double
   int y_factor = (y_move < 0) ? -1 : 1;
   int i = 0;
   int j = 0;
-  bool is_y = abs(x_move) <= abs(y_move); // abs(x_move) > abs(y_move) ? false : true;
+  bool is_y = abs(x_move) <= abs(y_move);
   int for_limit = (is_y) ? abs(y_move) : abs(x_move);
   int for_limit_oposite = (is_y) ? abs(x_move) : abs(y_move);
   int coord_base = (is_y) ? actual_pos.y : actual_pos.x;
@@ -77,13 +77,11 @@ ColissionHandler::getCloseItems(const Coordinate& old_pos,
   PositionsCalculator ph;
   std::vector<Coordinate> walked_positions = ph.straightLine(old_pos, new_pos);
   for (auto& pos : walked_positions) {
-    //std::cout << "Pos walked: (" << pos.x << ", " << pos.y << ")\n";
     Coordinate item_pos_aux = map.closePositionable(UNITS_TO_CHECK, pos, found_positionables);
     item_in_pos.x = item_pos_aux.x;
     item_in_pos.y = item_pos_aux.y;
     if (item_in_pos != no_item_pos &&
         map.getPositionableAt(item_in_pos).getType() != "water_puddle") {
-      //std::cout << "Pickupeo un: " << map.getPositionableAt(item_in_pos).getType() << "\n";
       std::pair<Coordinate, Positionable>
           item_to_pickup(item_in_pos, map.getPositionableAt(item_in_pos));
       positionables.push_back(item_to_pickup);

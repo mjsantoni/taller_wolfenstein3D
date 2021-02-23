@@ -38,7 +38,6 @@ void DropHandler::processDrops(const std::vector<Drop>& drops) {
       default: {
         break;
       }
-
     }
   }
 }

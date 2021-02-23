@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
       std::cerr
           << "FATAL ERROR: Game files not found."
           << std::endl;
-      return -1;
+      return 1;
     }
   }
 
@@ -44,6 +44,8 @@ int main(int argc, char* argv[]) {
     std::cerr << e.what();
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
+  } catch (const YAML::BadFile& e) {
+    std::cerr << "Game files not found. " << e.what() << std::endl;
   } catch (...) {
     std::cerr << "Unknown error." << std::endl;
   }

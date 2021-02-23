@@ -18,10 +18,6 @@ bool Coordinate::operator!=(const Coordinate& c) const {
   return x != c.x || y != c.y;
 }
 
-void Coordinate::show() const {
-  std::cout << "Coord: (" << x << ", " << y << ")\n";
-}
-
 bool Coordinate::isValid() const { return x != -1 && y != -1; }
 
 int Coordinate::distanceTo(const Coordinate& other) const {

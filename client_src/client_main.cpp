@@ -34,16 +34,19 @@ int main(int argc, char* args[]) {
       Client client(sk, config_file);
       client.startGame(map_name);
   }
-  catch(SdlException& e) {
-      std::cout << "Error de SDL: " << e.what() << std::endl;
+  catch (SdlException& e) {
+      std::cerr << "SDL Error: " << e.what() << std::endl;
   }
-  catch(YAML::ParserException& e) {
-      std::cout << "Error en el archivo YAML: " << e.what() << std::endl;
+  catch (YAML::ParserException& e) {
+      std::cerr << "Error parsing YAML file: " << e.what() << std::endl;
   }
-  catch(NetworkError& e) {
-      std::cout << "Error de conexion: " << e.what() << std::endl;
+  catch (NetworkError& e) {
+      std::cerr << "Connection error. " << e.what() << std::endl;
   }
-  catch(std::exception& e) {
-      std::cout << "Ha ocurrido un error inesperado: " << e.what() << std::endl;
+  catch (std::exception& e) {
+      std::cerr << "Unexpected error: " << e.what() << std::endl;
+  }
+  catch (...) {
+    std::cerr << "Unknown error." << std::endl;
   }
 }

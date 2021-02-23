@@ -6,7 +6,7 @@
 #include <vector>
 #include "server/events/game_handler.h"
 #include "common/network_connection.h"
-#include "menu_events.h"
+#include "server/menu_events.h"
 
 class Matches {
  private:

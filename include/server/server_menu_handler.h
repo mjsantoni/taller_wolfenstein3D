@@ -10,7 +10,7 @@
 #include "common/thread.h"
 #include "server/matches.h"
 #include "server_routes.h"
-#include "menu_events.h"
+#include "server/menu_events.h"
 
 class ServerMenuHandler : public Thread{
   NetworkConnection socket;

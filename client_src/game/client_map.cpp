@@ -328,7 +328,6 @@ void ClientMap::setEnemyAttacking(int enemy_id) {
 }
 
 void ClientMap::setBloodEffectForEnemy(int enemy_id) {
-  //std::cout << "Se agrega efecto de sangre\n";
   Drawable& enemy = enemies.at(enemy_id);
   std::pair<int, int> enemy_pos = enemy.getMapPosition();
   int enemy_type = enemy.getObjectType();

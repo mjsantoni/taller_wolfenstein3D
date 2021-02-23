@@ -8,8 +8,8 @@
 #include "common/network_error.h"
 #include "common/network_connection.h"
 #include "common/thread.h"
-#include "server_menu_handler.h"
-#include "matches.h"
+#include "server/server_menu_handler.h"
+#include "server/matches.h"
 
 class Server : public Thread {
  private:
@@ -26,18 +26,6 @@ class Server : public Thread {
   void run() override;
 
   void stop();
-
-  bool joinGame(int game_id, NetworkConnection socket);
-
-  int createGame(NetworkConnection& skt, std::string& options);
-
-  void killDead();
-
-  void stopGames();
-
-  std::vector<int> split(const std::string& bytes);
-
-  void sendGames(NetworkConnection& socket);
 
   void closeHandlers();
 };

@@ -1,8 +1,7 @@
 #include "server/game/game.h"
 #include <iostream>
-#include <algorithm>
 
-#define MAX_DOOR_OPEN 80 // aprox 5seg con un tickrate de 0,6
+#define MAX_DOOR_OPEN 80 // aprox 5 seg con un tickrate de 0,06
 #define TURN_ANGLE (M_PI/20)
 #define DROP_DISTANCE 5
 
@@ -43,7 +42,6 @@ std::pair<int, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunc
   players.push_back(player);
   players_ids++;
   players_alive++;
-  std::cout << "Player " << player.getID() << " connected to game.\n";
   std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> board = map.getBoard();
   return std::make_pair(player.getID(), board);
 }
@@ -91,20 +89,15 @@ std::pair<bool, int> Game::openDoor(int id) {
   /* No hay puertas cerca */
   if (!door_to_open.isValid()) return std::make_pair(false, -1);
 
-  std::cout << "Hay una puerta valida\n";
   int player_keys_before = players[id].getKeys();
-
 
   /* Intento abrir la puerta */
   int door_id = blockingItemHandler.openDoor(door_to_open, players[id]);
   if (door_id == -1) return std::make_pair(false, -1);
 
-  std::cout << "Ahora veo si perdi llave o no\n";
   /* Exito al abrir la puerta (estaba abierta o gaste llave) */
   doors_to_close[map.getNormalizedCoordinate(door_to_open)] = MAX_DOOR_OPEN;
   bool player_use_key = (player_keys_before != players[id].getKeys());
-  if (player_use_key) std::cout << "PERSDI UNA LLAVE\n";
-  else std::cout << "NADA SE GASTO\n";
   return std::make_pair(player_use_key, door_id);
 }
 
@@ -140,10 +133,11 @@ int Game::getPlayerGun(int id) {
 bool Game::isOver() {
   std::unique_lock<std::mutex> lock(m);
   if (players_alive <= 1) return true;
+
   /* Se termina por tiempo */
   auto current_time = std::chrono::system_clock::now();
   std::chrono::duration<double> elapsed_seconds = current_time - time_start;
-  if (elapsed_seconds.count() >= game_duration) return true; // debe ser >= minutos que dura el game
+  if (elapsed_seconds.count() >= game_duration) return true; // debe ser >= segundos que dura el game
   return false;
 }
 
@@ -167,24 +161,24 @@ bool Game::isReady() {
 
 void Game::playerDies(Hit& hit) {
   std::unique_lock<std::mutex> lock(m);
-  std::vector<std::pair<int, bool>> dead_respawn_players; //(id, muere y respawnea o no) (para clientes)
+  std::vector<std::pair<int, bool>> dead_respawn_players; //<id, muere y respawnea o no> (para clientes)
   for (auto& dead_player : hit.getDeadPlayers()) {
     scoreHandler.addKill(hit.getPlayerId(), 1);
     if (players[dead_player].dieAndRespawn()) {
       std::pair<std::string, bool> drops = players[dead_player].getDropsFromDeath();
       addDropsToHitEvent(drops, hit, map.getPlayerPosition(dead_player));
-      // carga todos los drops de la muerte del player enemigo para enviar a clientes
+      // Carga todos los drops de la muerte del player enemigo para enviar a clientes
 
-      map.respawnPlayer(dead_player); // respawnea en el sv
+      map.respawnPlayer(dead_player); // Respawnea en el sv
       dead_respawn_players.emplace_back(dead_player, true);
     } else {
-      map.removePlayer(dead_player); // le pone pos = -1,-1 en el sv
+      map.removePlayer(dead_player); // Le pone Pos = invalida en el sv
       players_alive--;
       dead_respawn_players.emplace_back(dead_player, false);
     }
   }
   dropHandler.processDrops(hit.getDrops());
-  // carga en el mapa del sv esos drops
+  // Carga en el mapa del sv esos drops
   hit.setPlayersDeaths(dead_respawn_players);
 }
 
@@ -225,16 +219,11 @@ void Game::closeDoors(std::vector<Change>& changes) {
 std::vector<Change> Game::passTime() {
   std::vector<Change> changes;
   closeDoors(changes);
-  //std::cout << "PASSING TIME\n";
   Hit rpg_explosions = shootHandler.travelAndExplodeAllRPGS(players, changes);
   if (rpg_explosions.playerDied()) playerDies(rpg_explosions);
   hitHandler.processHit(rpg_explosions, changes, getPlayersAlive());
   return changes;
 }
-
-/* GAME PRINT */
-
-void Game::show() { map.show(); }
 
 std::vector<std::pair<int, int>> Game::getTop(const std::string& type, int n) {
   if (type == "kills") return scoreHandler.getTopFraggers(n);

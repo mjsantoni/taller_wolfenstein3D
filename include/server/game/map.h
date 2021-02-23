@@ -51,6 +51,8 @@ class Map {
   Coordinate getPlayerPosition(int id);
   int getPlayerIDAtPosition(const Coordinate& coord);
   std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> getBoard();
+  Coordinate closeBlocking(int units, const Coordinate& coord, double self_angle);
+  Coordinate getCenteredCoordinate(const Coordinate& coordinates);
 
   /* ERASERS */
 
@@ -77,12 +79,6 @@ class Map {
   void putBlockingItemAtCenter(Coordinate coordinates, const Positionable& blocking);
   void putPositionableAtCenter(Coordinate coordinates, const Positionable& positionable);
 
-  /* MAP PRINT */
-  void show();
-
-  Coordinate closeBlocking(int units, const Coordinate& coord, double self_angle);
-
-  Coordinate getCenteredCoordinate(const Coordinate& coordinates);
 };
 
 #endif //TP_WOLFENSTEIN_MAP_H

@@ -71,22 +71,20 @@ class Game {
   int getPlayersAlive();
   bool isPlayerAlive(int id);
   bool isReady();
-
   int getPlayerGun(int id);
+
   /* GAME CHANGERS */
   void playerDies(Hit& hit);
   void addDropsToHitEvent(const std::pair<std::string, bool>& drops,
                           Hit& hit, const Coordinate& pos);
   void closeDoors(std::vector<Change>& vector);
-
   std::vector<Change> passTime();
-  /* GAME PRINT */
-  void show();
 
+  /* OTHERS */
   std::vector<std::pair<int, int>> getTop(const std::string& type, int n);
+
   /* LUA SCRIPT */
   void addBot();
-
   void releaseBots();
 };
 

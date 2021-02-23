@@ -12,8 +12,6 @@ class EventFactory {
   explicit EventFactory(SharedQueue<Event>& _event_queue);
 
   void createAndPushFromBytes(char* bytes);
-
-  void pushNewEvent(Event& event);
 };
 
 #endif //TP_WOLFENSTEIN_EVENT_FACTORY_H

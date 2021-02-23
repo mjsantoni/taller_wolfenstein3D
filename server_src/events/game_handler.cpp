@@ -23,12 +23,15 @@ GameHandler::GameHandler(const std::string& map_path, const std::string& config_
 }
 
 void GameHandler::run() {
-  std::cout << "[Game Handler " << id << "] Started.\n";
+  std::string started = "[Game Handler " + std::to_string(id) + "] Started.\n";
+  std::cout << started;
   waitInLobby();
   addBots();
-  std::cout << "[Game Handler " << id << "] Game startGame.\n";
+  std::string startGame = "[Game Handler " + std::to_string(id) + "] Game startGame.\n";
+  std::cout << startGame;
   Change change(GAME_START, INVALID, INVALID, INVALID, true);
   clientsManager.notifyClients(change);
+
   while (!game.isOver() && alive) {
     auto start = std::chrono::system_clock::now();
     int total_events = 0;
@@ -47,7 +50,9 @@ void GameHandler::run() {
     if (time > TICK_RATE) continue;
     usleep(TICK_RATE - time);
   }
-  std::cout << "[Game Handler " << id << "] Game end. Displaying top scores.\n";
+
+  std::string gameEnd = "[Game Handler " + std::to_string(id) + "] Game end. Displaying top scores.\n";
+  std::cout << gameEnd;
   endGame();
 }
 
@@ -58,7 +63,8 @@ void GameHandler::notifyClients(std::vector<Change>& changes) {
 }
 
 void GameHandler::addBots() {
-  std::cout << "[Game Handler " << id << "] Adding bots.\n";
+  std::string gameEnd = "[Game Handler " + std::to_string(id) + "] Adding bots.\n";
+  std::cout << gameEnd;
   for (int i = 0; i < max_bots; i++) {
     game.addBot();
   }
@@ -67,7 +73,9 @@ void GameHandler::addBots() {
 }
 
 void GameHandler::waitInLobby() {
-  std::cout << "[Game Handler " << id << "] Lobby started.\n";
+  std::string lobbyStart = "[Game Handler " + std::to_string(id) + "] Lobby started.\n";
+  std::cout << lobbyStart;
+
   while (!game.isReady() && alive) {
     Event event = eventQueue.pop();
     usleep(TICK_RATE);
@@ -76,8 +84,10 @@ void GameHandler::waitInLobby() {
     std::vector<Change> changes = eventProcessor.process(event);
     notifyClients(changes);
   }
+
   can_join_player = false;
-  std::cout << "[Game Handler " << id << "] Lobby finished.\n";
+  std::string lobbyEnd = "[Game Handler " + std::to_string(id) + "] Lobby finished.\n";;
+  std::cout << lobbyEnd;
 }
 
 void GameHandler::notifyTop(std::vector<std::pair<int, int>> top, int change_id) {
@@ -100,10 +110,11 @@ void GameHandler::sendTops() {
 
 void GameHandler::addNewPlayer(NetworkConnection socket) {
   std::pair<int, std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction>> data = game.connectPlayer();
-  int id = data.first;
-  std::cout << "[Game Handler " << id << "] New Player connected -> Id: " << id << std::endl;
+  int player_id = data.first;
+  std::string newConnected = "[Game Handler " + std::to_string(id) + "] New Player connected -> Id: " + std::to_string(player_id);
+  std::cout << newConnected;
   std::unordered_map<Coordinate, Positionable, Coordinate::HashFunction> map = data.second;
-  clientsManager.addNewPlayer(std::move(socket), id, eventQueue, map);
+  clientsManager.addNewPlayer(std::move(socket), player_id, eventQueue, map);
 }
 
 void GameHandler::endGame() {
@@ -111,7 +122,8 @@ void GameHandler::endGame() {
   Change change(GAME_OVER, 0, 0, 0, true);
   clientsManager.notifyClients(change);
   clientsManager.killPlayers();
-  std::cout << "[Game Handler " << id << "] Stopping.\n";
+  std::string stopping = "[Game Handler " + std::to_string(id) + "] Stopping.\n";
+  std::cout << stopping;
   alive = false;
 }
 
