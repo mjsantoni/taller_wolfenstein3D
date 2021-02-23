@@ -1,7 +1,5 @@
-#include
-<algorithm>
-#include
-"server/server.h"
+#include <algorithm>
+#include "server/server.h"
 
 Server::Server(NetworkAcceptor socket) :
 networkAcceptor(std::move(socket)),
