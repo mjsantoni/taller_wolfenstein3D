@@ -25,6 +25,8 @@ public:
     explicit RecentPopup(std::string& _path, QMainWindow* parent = 0);
     void showLastModifiedFiles();
     void changeFileToOpen();
+    void resetButtons();
+    void mousePressEvent(QMouseEvent* event);
 };
 
 
