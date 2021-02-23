@@ -10,14 +10,12 @@ int DamageCalculator::calculateDmg(Player& player, int base_damage,
   bool hit = prob(precision);
   if (!hit || pos_travelled > range) { return 0; }
 
-  // Recta que hace que al rango maximo pegue 30% del daño y daño maximo al inicio
-  // sea 100% => y = -7/(n/10) * x + 100. Donde N es el rango y X la distancia
-  float dmg_multiplier = (float) ((float) -7 / ((float) range / (float) 10) * (float) pos_travelled + (float) 100);
+  // Recta que hace que al rango maximo pegue 20% del daño y daño maximo al inicio
+  // sea 100% => y = -8/(n/10) * x + 100. Donde N es el rango y X la distancia
+  float dmg_multiplier = (float) ((float) -8 / ((float) range / (float) 10) * (float) pos_travelled + (float) 100);
 
   final_damage = (float) base_damage * dmg_multiplier / 100;
-  if (is_adjacent) {
-    final_damage *= 0.75; // el 0.75 deberia ser una cte de config
-  }
+  if (is_adjacent) { final_damage *= 0.75; }
   return std::round(final_damage);
 }
 
