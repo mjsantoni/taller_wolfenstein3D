@@ -14,24 +14,30 @@
 
 /*Class that extends a window from QT making an intro/configuration of the game*/
 class ConfigChecker : public QMainWindow {
-
   std::string& map_data;
   NetworkConnection sk;
   bool backed_join = false;
   bool backed_create = false;
+
  public:
 
   explicit ConfigChecker(std::string& _map_data, QMainWindow* parent = 0);
 
   ~ConfigChecker();
 
+  /* Connects the buttons with their actions */
   void connectEvents();
 
   void lookForServer();
 
+  /* Sends the configuration of the game to
+   * the server, if an error occurs a error message displays */
   void createNewGame();
 
   void joinGame();
+
+  /* Returns a valid NetworkConnection for the client to use */
+  NetworkConnection getConnection();
 
   std::string getLineContent(const char* lineName);
 
@@ -43,6 +49,7 @@ class ConfigChecker : public QMainWindow {
 
   void showParameters();
 
+  /* Shows the games that are available to join */
   void showIdSelection();
 
   std::string getComboContent(const char* combo_name);
@@ -51,11 +58,10 @@ class ConfigChecker : public QMainWindow {
 
   void updateMinSpin();
 
+  /* Displays an error message with the string passed by parameter */
   void showError(const char* string);
 
   void backToMenu(bool backed_from_connect);
-
-  NetworkConnection getConnection();
 
  public slots:
 

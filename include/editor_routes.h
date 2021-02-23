@@ -1,9 +1,11 @@
 #ifndef WOLFENSTEIN3D_SERVER_EDITOR_ROUTES_H
 #define WOLFENSTEIN3D_SERVER_EDITOR_ROUTES_H
 
-#define EDITOR_QSS "../resources/editor.qss"
+#define EDITOR_MAIN_QSS "../resources/editor_main.qss"
+#define WINDOW_EDITOR_ICON "../resources/editor_logo.png"
 #define UNTITLED_MAP_PATH "../maps/untitled.yaml"
 #define MAP_FOLDER_PATH "../maps/"
+#define INTRO_BACKGROUND "../resources/intro_background.png"
 
 #define EMPTY_PATH "../resources/empty.png"
 #define WOOD_WALL_PATH "../resources/walls/brown_wall.png"

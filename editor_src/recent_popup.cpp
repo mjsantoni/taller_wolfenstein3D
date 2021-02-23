@@ -1,17 +1,21 @@
 #include "editor/recent_popup.h"
+#include "editor_routes.h"
 #include "editor/editor.h"
 
 #define LAST_FILES_QUANT 4
-#define MAP_FOLDER_PATH "../maps/"
-#define INTRO_BACKGROUND "../resources/intro_background.png"
+//#define MAP_FOLDER_PATH "../maps/"
 
 RecentPopup::RecentPopup(std::string& _path, QMainWindow* parent) : path(_path), QMainWindow(parent){
     Ui::RecentPopup recent;
     recent.setupUi(this);
     QCommandLinkButton* open_button = findChild<QCommandLinkButton*>("openButton");
     connect(open_button, &QPushButton::clicked, this, &RecentPopup::close);
-    this->setStyleSheet("background-image:url(\"../resources/intro_background.png\"); ");
-    open_button->setStyleSheet("background-image:url();color:white;font-size:18px");
+    std::string bkgd_img_path =  INTRO_BACKGROUND;
+    std::string bkgd_img_format = "background-image:url(";
+    bkgd_img_format += bkgd_img_path + ");";
+    this->setStyleSheet(bkgd_img_format.c_str());
+    this->setWindowIcon(QIcon(WINDOW_EDITOR_ICON));
+    open_button->setStyleSheet("background-image:url("");color:white;font-size:18px");
 }
 
 bool cmp(std::pair<const char *, QDateTime> n1, std::pair<const char *, QDateTime> n2) {
@@ -36,7 +40,7 @@ void RecentPopup::showLastModifiedFiles() {
 
     QVBoxLayout* recents_layout = findChild<QVBoxLayout*>("recentsLayout");
     QWidget* recents_widget = findChild<QWidget*>("recentsWidget");
-    recents_widget->setStyleSheet("background-image:url("");background-color:#48494B;color:white");
+    recents_widget->setStyleSheet("background-image:url("");background-color:#48494B;color:white;");
 
     for (int i = 0; i < LAST_FILES_QUANT; ++i) {
         QPushButton* file_button = new QPushButton();

@@ -39,7 +39,6 @@ Editor::Editor(std::string& path, QMainWindow* parent) : QMainWindow(parent) {
   Ui::Editor editor;
   editor.setupUi(this);
   setAcceptDrops(true);
-  // showLastModifiedFiles();
   auto* load = new QAction("Load map", this);
   auto* save = new QAction("Save Map", this);
   auto* quit = new QAction("Quit", this);
@@ -53,6 +52,7 @@ Editor::Editor(std::string& path, QMainWindow* parent) : QMainWindow(parent) {
   connect(quit, &QAction::triggered, this, QApplication::quit);
   connect(load, &QAction::triggered, this, std::bind(&Editor::loadMap, this, ""));
   connect(save, &QAction::triggered, this, &Editor::exportMap);
+    this->setWindowIcon(QIcon(WINDOW_EDITOR_ICON));
     connectEvents();
     createMapGrid();
     createTextureGrid();

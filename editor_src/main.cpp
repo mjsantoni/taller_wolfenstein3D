@@ -1,14 +1,8 @@
-#include <QApplication>
 #include "editor/editor.h"
 #include "editor/recent_popup.h"
-#include <QDebug>
-#include <QStyle>
-#include <QStyleFactory>
-#include <sys/stat.h>
-#include <fstream>
-#include <iostream>
-#include <unistd.h>
 #include "editor_routes.h"
+#include <unistd.h>
+#include <sys/stat.h>
 
 int main(int argc, char* args[]) {
     struct stat sb;
@@ -22,16 +16,17 @@ int main(int argc, char* args[]) {
     }
 
   QApplication app(argc, args);
-  QFile file(EDITOR_QSS);
-  file.open(QFile::ReadOnly);
-  QString styleSheet = QLatin1String(file.readAll());
+  QFile file_main(EDITOR_MAIN_QSS);
+  file_main.open(QFile::ReadOnly);
+  QString style_sheet_main = QLatin1String(file_main.readAll());
+  file_main.close();
 
-  app.setStyleSheet(styleSheet);
-  std::string path;
-  RecentPopup popup(path);
-  popup.showLastModifiedFiles();
+    std::string path;
+    RecentPopup popup(path);
+    popup.showLastModifiedFiles();
     popup.show();
     app.exec();
+    app.setStyleSheet(style_sheet_main);
     Editor editor(path);
     editor.show();
     app.exec();

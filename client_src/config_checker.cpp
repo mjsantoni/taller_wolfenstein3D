@@ -60,7 +60,6 @@ void ConfigChecker::showWidget(const char* widgetName) {
 }
 
 void ConfigChecker::createNewGame() {
-  "Ingrese jugadores/bots/tiempo/id_mapa: ";
   std::string data;
   data =
       getSpinContent("minPlayersSpin") + "/" + getSpinContent("maxPlayersSpin") + "/" + getSpinContent("botsSpin") + "/"
@@ -123,7 +122,7 @@ void ConfigChecker::showParameters() {
 void ConfigChecker::showIdSelection() {
     try {
         sk.send_msg(JOIN_GAME);
-    } catch (NetworkError) {
+    } catch (NetworkError& error) {
         showError("Server currently down");
         return;
     }
@@ -312,8 +311,12 @@ void ConfigChecker::backToMenu(bool backed_from_connect) {
       backed_join = true;
       hideWidget("backJoinButton");
   }
-
-  sk.send_msg(BACK);
+    try {
+        sk.send_msg(BACK);
+    } catch (NetworkError& error) {
+        showError("Server currently down");
+        return;
+    }
 }
 
 NetworkConnection ConfigChecker::getConnection() {
