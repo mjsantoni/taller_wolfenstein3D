@@ -32,7 +32,7 @@ class OffGameHandler {
                    BlockingQueue<Event>& event_queue,
                    bool& _skip_stats, bool& _game_running);
     void displayLoadingScreen();
-    void displayMenus(const std::string& map_name);
+    void handleOffGame(const std::string& map_name);
     void initializeMap(const std::string& map_name);
 };
 

@@ -17,20 +17,24 @@ int main(int argc, char* args[]) {
       return -1;
     }
   }
-
-  std::string map_name;
-  QApplication app(argc, args);
-  ConfigChecker checker(map_name);
-  QFile file(QSS_PATH);
-  file.open(QFile::ReadOnly);
-  QString styleSheet = QLatin1String(file.readAll());
-  app.setStyleSheet(styleSheet);
-  checker.show();
-  app.exec();
-  NetworkConnection sk(std::move(checker.getConnection()));
-  app.quit();
-  if (map_name.empty()) return 0;
-  std::string config_file = CONFIG_PATH;
-  Client client(sk, config_file);
-  client.startGame(map_name);
+  try {
+      std::string map_name;
+      QApplication app(argc, args);
+      ConfigChecker checker(map_name);
+      QFile file(QSS_PATH);
+      file.open(QFile::ReadOnly);
+      QString styleSheet = QLatin1String(file.readAll());
+      app.setStyleSheet(styleSheet);
+      checker.show();
+      app.exec();
+      NetworkConnection sk(std::move(checker.getConnection()));
+      app.quit();
+      if (map_name.empty()) return 0;
+      std::string config_file = CONFIG_PATH;
+      Client client(sk, config_file);
+      client.startGame(map_name);
+  }
+  catch(SdlException& e) {
+      std::cout << e.what() << std::endl;
+  }
 }

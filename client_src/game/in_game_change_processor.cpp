@@ -4,7 +4,7 @@
 
 #define MAX_CHANGES 5
 #define MAX_ITERATIONS 25
-
+#define SPRITES_UPDATE_TURNS 10
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
  * Por ejemplo del lado del eventProcessor recibe el objeto Game y
@@ -188,7 +188,7 @@ void InGameChangeProcessor::processInGameChanges() {
   }
   if (!skip_rendering || mandatory_rendering_turns != 0)
     screen.render(render_background_and_objects);
-  if (counter % 10 == 0)
+  if (counter % SPRITES_UPDATE_TURNS == 0)
     map.updateEnemiesSprites();
   map.updateEvents();
   ++counter;
@@ -285,19 +285,18 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
 
 void InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
                                                      int delta) {
-
-  if (delta < 0) {
-    map.setBloodEffectForEnemy(enemy_id);
-    int enemy_type = map.getEnemyTypeFromId(enemy_id);
-    double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
-    if (enemy_type == ENEMY_DOG)
-      audio_manager.displayDogGettingHit(distance_ratio);
-    else
-      audio_manager.displayHumanGettingHit(distance_ratio);
-    updateMandatoryRenderingTurns(BLOOD_EFFECT_ANIMATION_TURNS + 1);
-    return;
+  if (delta >= 0) {
+      render_background_and_objects = false;
+      return;
   }
-  render_background_and_objects = false;
+  map.setBloodEffectForEnemy(enemy_id);
+  int enemy_type = map.getEnemyTypeFromId(enemy_id);
+    double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+  if (enemy_type == ENEMY_DOG)
+    audio_manager.displayDogGettingHit(distance_ratio);
+  else
+    audio_manager.displayHumanGettingHit(distance_ratio);
+  updateMandatoryRenderingTurns(BLOOD_EFFECT_ANIMATION_TURNS + 1);
 }
 
 void InGameChangeProcessor::processPlayerHealthChange(int delta) {
@@ -313,9 +312,9 @@ void InGameChangeProcessor::processEnemyRespawning(int enemy_id) {
   int enemy_type = map.getEnemyTypeFromId(enemy_id);
   double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
   if (enemy_type == ENEMY_DOG)
-    audio_manager.displayDyingDog(1 - distance_ratio);
+    audio_manager.displayDyingDog(distance_ratio);
   else
-    audio_manager.displayDyingEnemy(1 - distance_ratio);
+    audio_manager.displayDyingEnemy(distance_ratio);
 }
 
 void InGameChangeProcessor::processEnemyDying(int enemy_id) {

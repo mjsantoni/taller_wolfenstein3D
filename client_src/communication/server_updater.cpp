@@ -15,7 +15,6 @@ void ServerUpdater::run() {
     if (event.isInvalid()) continue;
     try { skt.send_msg(event.serialize()); }
     catch (NetworkError& e) { break; }
-    //std::cout << "El mensaje " << event.serialize() << " se envio al socket\n";
   }
 }
 

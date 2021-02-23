@@ -79,7 +79,6 @@ void ImageManager::setMovingAnimationForEnemy(Drawable& drawable,
     if (!animation_found)
       drawable.setSpriteAnimationNo(possible_animations[0]);
   }
-  //std::cout << "El enemigo se mueve, animacion: " << drawable.getSpriteAnimationNo() << std::endl;
 }
 
 std::vector<int> ImageManager::getMovingAnimationsForEnemy(int object_type) {

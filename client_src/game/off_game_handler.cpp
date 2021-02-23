@@ -19,7 +19,7 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
         game_running(_game_running) {
 }
 
-void OffGameHandler::displayMenus(const std::string& map_name) {
+void OffGameHandler::handleOffGame(const std::string& map_name) {
   initializeMap(map_name);
   displayLoadingScreen();
 }

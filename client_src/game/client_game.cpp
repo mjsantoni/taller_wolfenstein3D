@@ -31,7 +31,7 @@ ClientGame::ClientGame(int screen_width,
 
 void ClientGame::startGame(const std::string& map_name) {
   initializePlayer();
-  off_game_handler.displayMenus(map_name);
+    off_game_handler.handleOffGame(map_name);
   if (!game_running)
      return;
   screen.render(true);
