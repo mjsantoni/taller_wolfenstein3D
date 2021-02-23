@@ -1,4 +1,4 @@
-# Taller de Programacion I - [75.42/95.08]
+# Taller de Programación I - [75.42/95.08]
 
 ## Alumnos - Grupo 8
 
@@ -7,7 +7,7 @@
 - SANTONI, Mauro - msantoni@fi.uba.ar - 102654
 - FERNÁNDEZ, Andrés - andyfer@fi.uba.ar - 102220 
 
-# Instalacion Basica
+# Instalación Básica
 
 ## Servidor
 
@@ -34,7 +34,6 @@
 ```bash 
  wolfenstein3d-client
 ```
-
 
 ## Editor
 
