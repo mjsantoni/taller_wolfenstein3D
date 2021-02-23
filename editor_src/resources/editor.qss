@@ -2,15 +2,10 @@ QMenu {
     border: 1px solid black;
 }
 
-QWidget {
-    font-family: Samanata;
-}
-
 QGridButton {
     border-style: outset;
     border-width: 2px;
     border-color: gray;
-    font-family: Samanata;
 }
 
 QPushButton:hover{
@@ -25,7 +20,6 @@ QLineEdit {
 
 QLabel {
     font-size: 30px;
-    font-family: Samanata;
 }
 
 QGridLayout {
@@ -39,9 +33,4 @@ QScrollArea {
 
 QMainWindow {
     background-color: slategray;
-    font-family: Samanata;
-}
-
-QApp {
-    font-family: Samanata;
 }

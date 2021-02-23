@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "editor/editor.h"
+#include "editor/recent_popup.h"
 #include <QDebug>
 #include <QStyle>
 #include <QStyleFactory>
@@ -26,9 +27,14 @@ int main(int argc, char* args[]) {
   QString styleSheet = QLatin1String(file.readAll());
 
   app.setStyleSheet(styleSheet);
-  Editor editor;
-  editor.show();
-  app.exec();
+  std::string path;
+  RecentPopup popup(path);
+  popup.showLastModifiedFiles();
+    popup.show();
+    app.exec();
+    Editor editor(path);
+    editor.show();
+    app.exec();
 
   return 0;
 }

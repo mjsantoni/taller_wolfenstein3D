@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <QDebug>
 #include <QFileDialog>
+#include <algorithm>
+#include <dirent.h>
 #include "QGridButton.h"
 #include "yaml-cpp/yaml.h"
 #include "common/map_parser.h"
@@ -28,7 +30,10 @@ class Editor : public QMainWindow {
 
 public:
 
-    explicit Editor(QMainWindow* parent = 0);
+    explicit Editor(std::string &path, QMainWindow* parent = 0);
+    
+    /*Loads the map from the file obtained in getYamlPath*/
+    void loadMap(std::string path);
 
 private:
     /* Attribute to know whats the current texture name in te cursor */
@@ -58,8 +63,7 @@ private:
     /*Connect the majority of the buttons to their action*/
     void connectEvents();
 
-    /*Loads the map from the file obtained in getYamlPath*/
-    void loadMap(std::string path);
+    
 
     std::string getYamlPath();
 
@@ -92,6 +96,8 @@ private:
 
     /*Deletes all the widgets within a layout*/
     void deleteWidgets(QGridLayout* layout);
+
+    void showLastModifiedFiles();
 };
 
 #endif //TP_WOLFENSTEIN_EDITOR_H

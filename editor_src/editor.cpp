@@ -1,3 +1,4 @@
+#include <QDateTime>
 #include "editor/editor.h"
 #include "editor_routes.h"
 
@@ -7,6 +8,7 @@
 #define TEXTURES_GRID_WIDTH 4
 #define BUTTON_MAXIMUM_SIZE 70
 #define BUTTON_MINIMUM_SIZE 50
+#define LAST_FILES_QUANT 4
 
 #define WOOD_WALL_STRING "wood_wall"
 #define STONE_WALL_STRING "stone_wall"
@@ -32,10 +34,12 @@
 #define PLAYER_STRING "player"
 
 
-Editor::Editor(QMainWindow* parent) : QMainWindow(parent) {
+
+Editor::Editor(std::string& path, QMainWindow* parent) : QMainWindow(parent) {
   Ui::Editor editor;
   editor.setupUi(this);
   setAcceptDrops(true);
+  // showLastModifiedFiles();
   auto* load = new QAction("Load map", this);
   auto* save = new QAction("Save Map", this);
   auto* quit = new QAction("Quit", this);
@@ -49,9 +53,10 @@ Editor::Editor(QMainWindow* parent) : QMainWindow(parent) {
   connect(quit, &QAction::triggered, this, QApplication::quit);
   connect(load, &QAction::triggered, this, std::bind(&Editor::loadMap, this, ""));
   connect(save, &QAction::triggered, this, &Editor::exportMap);
-  createMapGrid();
-  createTextureGrid();
-  connectEvents();
+    connectEvents();
+    createMapGrid();
+    createTextureGrid();
+    if (!path.empty()) loadMap(path);
 }
 
 void Editor::dragEnterEvent(QDragEnterEvent* e) {

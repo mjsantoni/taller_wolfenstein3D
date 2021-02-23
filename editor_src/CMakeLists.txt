@@ -17,6 +17,7 @@ set(CMAKE_CXX_STANDARD 11)
 qt5_wrap_ui(UIS_HEADERS
         ../ui/editor.ui
         ../ui/connect.ui
+        ../ui/recents.ui
         )
 
 file(GLOB EDITOR_SRC
