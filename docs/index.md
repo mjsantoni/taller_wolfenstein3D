@@ -11,7 +11,7 @@
 
 ## Servidor
 
-- Descargar el [server.deb](link.al.deb)
+- Descargar el [server.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-server_1.0.deb)
 - Ingresar a la carpeta de descarga
 - Instalar mediante:
 ```bash 
@@ -24,7 +24,7 @@
 
 ## Cliente
 
-- Descargar el [client.deb](link.al.deb)
+- Descargar el [client.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-client_1.0.deb)
 - Ingresar a la carpeta de descarga.
 - Instalar mediante:
 ```bash 
@@ -38,7 +38,7 @@
 
 ## Editor
 
-- Descargar el [editor.deb](link.al.deb)
+- Descargar el [editor.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-editor_1.0.deb)
 - Ingresar a la carpeta de descarga.
 - Instalar mediante:
 ```bash 
