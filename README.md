@@ -1,37 +1,59 @@
-## Welcome to GitHub Pages
+# Wolfenstein3D - Grupo 8
 
-You can use the editor on GitHub to maintain and preview the content for your website in Markdown files.
+### Trabajo Práctico Final de Taller de Programación I [75.42/95.08] - Grupo 8 - FIUBA.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Link a la página con documentación y descargas: [Wolfenstein3D].
 
-### Markdown
+[Wolfenstein3D]: https://mjsantoni.github.io/taller_wolfenstein3D/
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+---
 
-```markdown
-Syntax highlighted code block
+## Integrantes del Grupo 8
 
-# Header 1
-## Header 2
-### Header 3
+- BERTOLOTTO, Francisco - fbertolotto@fi.uba.ar - 102671
+- LÓPEZ NÚÑEZ, Agustín - alopezn@fi.uba.ar - 101826
+- SANTONI, Mauro - msantoni@fi.uba.ar - 102654
+- FERNÁNDEZ, Andrés - andyfer@fi.uba.ar - 102220 
 
-- Bulleted
-- List
+---
 
-1. Numbered
-2. List
+## Instalación Básica
 
-**Bold** and _Italic_ and `Code` text
+### Servidor
 
-[Link](url) and ![Image](src)
+- Descargar el [server.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-server_1.0.deb)
+- Ingresar a la carpeta de descarga
+- Instalar mediante:
+```bash 
+ sudo apt install ./wolfenstein3d-server_1.0.deb
+```
+- Ejecutar:
+```bash 
+ wolfenstein3d-server <puerto>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Cliente
 
-### Jekyll Themes
+- Descargar el [client.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-client_1.0.deb)
+- Ingresar a la carpeta de descarga.
+- Instalar mediante:
+```bash 
+ sudo apt install ./wolfenstein3d-client_1.0.deb
+```
+- Ejecutar:
+```bash 
+ wolfenstein3d-client
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your repository settings. The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Editor
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- Descargar el [editor.deb](https://github.com/mjsantoni/taller_wolfenstein3D/releases/download/1.0/wolfenstein3d-editor_1.0.deb)
+- Ingresar a la carpeta de descarga.
+- Instalar mediante:
+```bash 
+ sudo apt install ./wolfenstein3d-editor_1.0.deb
+```
+- Ejecutar:
+```bash 
+ wolfenstein3d-editor
+```
