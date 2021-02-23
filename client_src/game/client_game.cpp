@@ -101,8 +101,9 @@ void ClientGame::displayStatistics() {
     SDL_Event event;
     while (true) {
         usleep(TICK_DURATION_MS);
-        SDL_WaitEvent(&event);
-        if (event.type == SDL_QUIT)
-            return;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT)
+                return;
+        }
     }
 }
