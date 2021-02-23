@@ -121,19 +121,20 @@ void ConfigChecker::showParameters() {
 
 
 void ConfigChecker::showIdSelection() {
-  hideWidget("connectionWidget");
+    try {
+        sk.send_msg(JOIN_GAME);
+    } catch (NetworkError) {
+        showError("Server currently down");
+        return;
+    }
+
+    hideWidget("connectionWidget");
   hideWidget("createConfirmButton");
   showWidget("joinWidget");
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
   showWidget("backJoinButton");
-  try {
-    sk.send_msg(JOIN_GAME);
-  } catch (NetworkError) {
-      showError("Server currently down");
-      return;
-  }
-
+  
     std::string games;
     sk.recv_msg(games);
     QStringList maps_names;
