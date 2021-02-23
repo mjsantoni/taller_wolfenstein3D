@@ -8,10 +8,14 @@
 #include "common/network_error.h"
 #include "common/network_connection.h"
 #include "common/thread.h"
+#include "server_menu_handler.h"
+#include "matches.h"
 
 class Server : public Thread {
  private:
-  std::vector<GameHandler*> matches;
+
+  Matches matches;
+  std::vector<ServerMenuHandler*> handlers;
   NetworkAcceptor networkAcceptor;
   std::atomic<bool> accepting_connections;
 
@@ -34,6 +38,8 @@ class Server : public Thread {
   std::vector<int> split(const std::string& bytes);
 
   void sendGames(NetworkConnection& socket);
+
+  void closeHandlers();
 };
 
 #endif //TP_WOLFENSTEIN_SERVER_H
