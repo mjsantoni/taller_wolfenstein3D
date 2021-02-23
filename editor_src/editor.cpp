@@ -590,3 +590,14 @@ void Editor::deleteWidgets(QGridLayout* layout) {
   }
 }
 
+Editor::~Editor() {
+    if (centralWidget()->layout()) {
+        QLayoutItem* p_item;
+        while ((p_item = centralWidget()->layout()->takeAt( 0)) != nullptr) {
+            delete p_item->widget();
+            delete p_item;
+        }
+        delete centralWidget()->layout();
+    }
+}
+

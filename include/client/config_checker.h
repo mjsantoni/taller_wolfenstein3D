@@ -23,6 +23,8 @@ class ConfigChecker : public QMainWindow {
 
   explicit ConfigChecker(std::string& _map_data, QMainWindow* parent = 0);
 
+  ~ConfigChecker();
+
   void connectEvents();
 
   void lookForServer();

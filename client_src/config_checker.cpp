@@ -134,7 +134,7 @@ void ConfigChecker::showIdSelection() {
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
   showWidget("backJoinButton");
-  
+
     std::string games;
     sk.recv_msg(games);
     QStringList maps_names;
@@ -318,4 +318,15 @@ void ConfigChecker::backToMenu(bool backed_from_connect) {
 
 NetworkConnection ConfigChecker::getConnection() {
   return std::move(sk);
+}
+
+ConfigChecker::~ConfigChecker() {
+    if (centralWidget()->layout()) {
+        QLayoutItem* p_item;
+        while ((p_item = centralWidget()->layout()->takeAt( 0)) != nullptr) {
+            delete p_item->widget();
+            delete p_item;
+        }
+        delete centralWidget()->layout();
+    }
 }

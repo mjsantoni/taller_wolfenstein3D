@@ -31,6 +31,8 @@ class Editor : public QMainWindow {
 public:
 
     explicit Editor(std::string &path, QMainWindow* parent = 0);
+
+    ~Editor();
     
     /*Loads the map from the file obtained in getYamlPath*/
     void loadMap(std::string path);
