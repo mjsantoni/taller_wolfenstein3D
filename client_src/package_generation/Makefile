@@ -66,7 +66,8 @@ install: generate_package
 	sudo dpkg --install $(PACKAGE_FILENAME)
 
 remove:
-	sudo apt-get remove ${PACKAGE_NAME}	
+	sudo apt-get remove ${PACKAGE_NAME}
+	rm -rf $(PACKAGE_FILENAME)
 
 clean: 
 	rm -rf $(PACKAGE_DIR) $(PACKAGE_FILENAME)
