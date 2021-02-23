@@ -2,8 +2,7 @@
 
 #include "client/game/in_game_change_processor.h"
 
-#define MAX_CHANGES 5
-#define MAX_ITERATIONS 25
+#define MAX_CHANGES 10
 #define SPRITES_UPDATE_TURNS 10
 
 /* Recibe lo necesario para poder aplicar los cambios sobre la vista.
@@ -180,41 +179,52 @@ void InGameChangeProcessor::processChange(Change& change) {
   }
 }
 
+void InGameChangeProcessor::processPostGameChanges(Change change) {
+    int change_id = change.getChangeID();
+    if (change_id == GAME_OVER) {
+        map.updateEvents();
+        game_running = false;
+        return;
+    }
+    if (change_id < TOP_KILLER || change_id > TOP_SCORER)
+        return;
+    int player_id = change.getPlayerID();
+    int value = change.getFirstValue();
+    statistics_manager.addStatistic(change_id, player_id, value);
+}
+
 void InGameChangeProcessor::processInGameChanges() {
-  Change change = change_queue.pop();
-    processChange(change);
-  if (game_over) {
-    return;
-  }
-  if (!skip_rendering || mandatory_rendering_turns != 0)
-    screen.render(render_background_and_objects);
-  if (counter % SPRITES_UPDATE_TURNS == 0)
-    map.updateEnemiesSprites();
-  map.updateEvents();
-  ++counter;
-  render_background_and_objects = true;
-  skip_rendering = false;
-  if (mandatory_rendering_turns > 0)
-    --mandatory_rendering_turns;
+    Change change = change_queue.pop();
+    int change_counter = 0;
+    while (!change.isInvalid()) {
+        ++change_counter;
+        processChange(change);
+        if (game_over)
+            return;
+        if (change_counter >= MAX_CHANGES)
+            break;
+        change = change_queue.pop();
+    }
+    updateGame();
+}
+
+void InGameChangeProcessor::updateGame() {
+    if (!skip_rendering || mandatory_rendering_turns != 0)
+        screen.render(render_background_and_objects);
+    if (counter % SPRITES_UPDATE_TURNS == 0)
+        map.updateEnemiesSprites();
+    map.updateEvents();
+    ++counter;
+    render_background_and_objects = true;
+    skip_rendering = false;
+    if (mandatory_rendering_turns > 0)
+        --mandatory_rendering_turns;
 }
 
 void InGameChangeProcessor::stop() {
   game_over = false;
 }
 
-void InGameChangeProcessor::processPostGameChanges(Change change) {
-  int change_id = change.getChangeID();
-  if (change_id == GAME_OVER) {
-    map.updateEvents();
-    game_running = false;
-    return;
-  }
-  if (change_id < TOP_KILLER || change_id > TOP_SCORER)
-    return;
-  int player_id = change.getPlayerID();
-  int value = change.getFirstValue();
-  statistics_manager.addStatistic(change_id, player_id, value);
-}
 
 void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
   if (value > 0) {

@@ -4,6 +4,8 @@
 
 #include "client/game/in_game_event_generator.h"
 
+#define MAX_EVENTS 10
+
 InGameEventGenerator::InGameEventGenerator(ClientPlayer& _player,
                                            InGameEventHandler& _event_handler,
                                            BlockingQueue<Event>& _event_queue,
@@ -79,19 +81,22 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
 
 void InGameEventGenerator::generateInGameEvents() {
   SDL_Event event;
-  if (SDL_PollEvent(&event) == 0) {
-    return;
-  }
-  switch (event.type) {
-    case SDL_KEYDOWN: {
-      generateInGameEvent(event);
-      break;
+  int event_counter = 0;
+  while (SDL_PollEvent(&event)) {
+      ++event_counter;
+      switch (event.type) {
+        case SDL_KEYDOWN: {
+          generateInGameEvent(event);
+          break;
+        }
+        case SDL_MOUSEBUTTONDOWN:generateInGameEvent(event);
+          break;
+        case SDL_QUIT:game_running = false;
+          skip_stats = true;
+          puts("Saliendo");
+          return;
+        }
+        if (event_counter >= MAX_EVENTS)
+            return;
     }
-    case SDL_MOUSEBUTTONDOWN:generateInGameEvent(event);
-      break;
-    case SDL_QUIT:game_running = false;
-      skip_stats = true;
-      puts("Saliendo");
-      return;
-  }
 }
