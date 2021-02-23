@@ -15,14 +15,14 @@ class ImageParser {
  private:
   static void processLine(std::vector<ObjectInfo>& vector,
                           const std::string& line, int object_type);
-    static std::string getCorrectDoubleValue(const std::string& complete_value);
-    static std::string parseFormat(std::string value);
-    static std::string getCorrectValue(const std::string& complete_value);
-    static void getSpriteInfo(ObjectInfo &object_info,
-                              const std::string &dimensions,
-                              const std::string &padding);
-    static void addFakeObject(std::vector<ObjectInfo> &vector);
-    static std::string getStringValue(const std::string& complete_value);
+  static std::string getCorrectDoubleValue(const std::string& complete_value);
+  static std::string parseFormat(std::string value);
+  static std::string getCorrectValue(const std::string& complete_value);
+  static void getSpriteInfo(ObjectInfo& object_info,
+                            const std::string& dimensions,
+                            const std::string& padding);
+  static void addFakeObject(std::vector<ObjectInfo>& vector);
+  static std::string getStringValue(const std::string& complete_value);
  public:
   void fillImageVector(std::vector<ObjectInfo>& vector);
 };

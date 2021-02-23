@@ -18,33 +18,33 @@ int main(int argc, char* args[]) {
     }
   }
   try {
-      std::string map_name;
-      QApplication app(argc, args);
-      ConfigChecker checker(map_name);
-      QFile file(QSS_PATH);
-      file.open(QFile::ReadOnly);
-      QString styleSheet = QLatin1String(file.readAll());
-      app.setStyleSheet(styleSheet);
-      checker.show();
-      app.exec();
-      NetworkConnection sk(std::move(checker.getConnection()));
-      app.quit();
-      if (map_name.empty()) return 0;
-      std::string config_file = CONFIG_PATH;
-      Client client(sk, config_file);
-      client.startGame(map_name);
+    std::string map_name;
+    QApplication app(argc, args);
+    ConfigChecker checker(map_name);
+    QFile file(QSS_PATH);
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    app.setStyleSheet(styleSheet);
+    checker.show();
+    app.exec();
+    NetworkConnection sk(std::move(checker.getConnection()));
+    app.quit();
+    if (map_name.empty()) return 0;
+    std::string config_file = CONFIG_PATH;
+    Client client(sk, config_file);
+    client.startGame(map_name);
   }
   catch (SdlException& e) {
-      std::cerr << "SDL Error: " << e.what() << std::endl;
+    std::cerr << "SDL Error: " << e.what() << std::endl;
   }
   catch (YAML::ParserException& e) {
-      std::cerr << "Error parsing YAML file: " << e.what() << std::endl;
+    std::cerr << "Error parsing YAML file: " << e.what() << std::endl;
   }
   catch (NetworkError& e) {
-      std::cerr << "Connection error. " << e.what() << std::endl;
+    std::cerr << "Connection error. " << e.what() << std::endl;
   }
   catch (std::exception& e) {
-      std::cerr << "Unexpected error: " << e.what() << std::endl;
+    std::cerr << "Unexpected error: " << e.what() << std::endl;
   }
   catch (...) {
     std::cerr << "Unknown error." << std::endl;

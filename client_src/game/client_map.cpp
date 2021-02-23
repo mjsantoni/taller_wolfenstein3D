@@ -113,30 +113,30 @@ void ClientMap::updateUnlockedDoor(int object_id, int x_pos, int y_pos) {
 }
 
 void ClientMap::processRPGMissile(int object_id,
-                                 int new_x,
-                                 int new_y) {
-    if (objects.find(object_id) == objects.end())
-        return createRPGMissile(object_id, new_x, new_y);
-    updateRPGMissile(object_id, new_x, new_y);
+                                  int new_x,
+                                  int new_y) {
+  if (objects.find(object_id) == objects.end())
+    return createRPGMissile(object_id, new_x, new_y);
+  updateRPGMissile(object_id, new_x, new_y);
 }
 
 void ClientMap::createRPGMissile(int object_id,
                                  int new_x,
                                  int new_y) {
-    Drawable missile(EFFECT_MISSILE);
-    int delta_x = new_x - player_coord.first;
-    int delta_y = new_y - player_coord.second;
-    double distance = Calculator::calculateDistance(delta_x, delta_y);
-    if (distance > grid_size)
-        missile =  Drawable(EFFECT_INCOMING_MISSILE);
-    missile.setMapPosition(new_x, new_y);
-    missile.setId(object_id);
-    objects.insert(std::pair<int, Drawable>(object_id, missile));
+  Drawable missile(EFFECT_MISSILE);
+  int delta_x = new_x - player_coord.first;
+  int delta_y = new_y - player_coord.second;
+  double distance = Calculator::calculateDistance(delta_x, delta_y);
+  if (distance > grid_size)
+    missile = Drawable(EFFECT_INCOMING_MISSILE);
+  missile.setMapPosition(new_x, new_y);
+  missile.setId(object_id);
+  objects.insert(std::pair<int, Drawable>(object_id, missile));
 }
 
 void ClientMap::updateRPGMissile(int object_id, int new_x, int new_y) {
-    Drawable& missile = objects.at(object_id);
-    missile.setMapPosition(new_x, new_y);
+  Drawable& missile = objects.at(object_id);
+  missile.setMapPosition(new_x, new_y);
 }
 
 double ClientMap::setRPGMissileExplosion(int object_id, int exp_x, int exp_y) {
@@ -279,41 +279,41 @@ void ClientMap::updateEvents() {
 }
 
 void ClientMap::updateEffects() {
-    std::vector<int> effects_to_erase;
-    for (auto& pair : effects) {
-        if (effects.empty())
-            break;
-        int id = pair.first;
-        Drawable& effect = pair.second;
-        effect.reduceDuration();
-        if (effect.getDuration() == 0)
-            effects_to_erase.push_back(id);
-    }
-    for (auto& id : effects_to_erase)
-        effects.erase(id);
+  std::vector<int> effects_to_erase;
+  for (auto& pair : effects) {
+    if (effects.empty())
+      break;
+    int id = pair.first;
+    Drawable& effect = pair.second;
+    effect.reduceDuration();
+    if (effect.getDuration() == 0)
+      effects_to_erase.push_back(id);
+  }
+  for (auto& id : effects_to_erase)
+    effects.erase(id);
 }
 
 void ClientMap::updateDeadEnemies() {
-    for (auto& id : enemies_to_swipe) {
-        if (enemies_to_swipe.empty())
-            break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
-        enemies.erase(id);
-        enemies_to_swipe.erase(id);
-    }
+  for (auto& id : enemies_to_swipe) {
+    if (enemies_to_swipe.empty())
+      break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
+    enemies.erase(id);
+    enemies_to_swipe.erase(id);
+  }
 }
 
 void ClientMap::updateRespawnedEnemies() {
-    for (auto& id : enemies_to_respawn) {
-        if (enemies_to_respawn.empty())
-            break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
-        std::pair<int, int> respawn_position = player_spawns[id];
-        Drawable& enemy = enemies.at(id);
-        enemy.setObjectType(ENEMY_GUARD);
-        enemy.setMapPosition(respawn_position.first, respawn_position.second);
-        ImageManager::setMovingAnimationForEnemy(enemy,
-                                                 enemy.getSpriteAnimationNo());
-        enemies_to_respawn.erase(id);
-    }
+  for (auto& id : enemies_to_respawn) {
+    if (enemies_to_respawn.empty())
+      break; // NO SE POR QUE TENGO QUE AGREGAR ESTOS BREAKS, PERO NO FUNCIONA BIEN EL FOR
+    std::pair<int, int> respawn_position = player_spawns[id];
+    Drawable& enemy = enemies.at(id);
+    enemy.setObjectType(ENEMY_GUARD);
+    enemy.setMapPosition(respawn_position.first, respawn_position.second);
+    ImageManager::setMovingAnimationForEnemy(enemy,
+                                             enemy.getSpriteAnimationNo());
+    enemies_to_respawn.erase(id);
+  }
 }
 
 void ClientMap::killPlayer(int player_id) {
@@ -348,6 +348,6 @@ int ClientMap::getEnemiesAlive() {
 }
 
 void ClientMap::updatePlayerPosition(int x_pos, int y_pos) {
-    player_coord.first = x_pos;
-    player_coord.second = y_pos;
+  player_coord.first = x_pos;
+  player_coord.second = y_pos;
 }

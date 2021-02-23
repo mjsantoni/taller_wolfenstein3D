@@ -62,8 +62,8 @@ void ClientMapBoard::setDimensions(int _width, int _height) {
 void ClientMapBoard::loadWallInfo(RayInfo& ray_info,
                                   std::pair<int, int> grid_coordinates) {
   Drawable drawable = drawables_by_position.at(grid_coordinates);
-    ray_info.setObjectType(drawable.getObjectType());
-    ray_info.setMapStartingPosition(drawable.getMapPosition());
+  ray_info.setObjectType(drawable.getObjectType());
+  ray_info.setMapStartingPosition(drawable.getMapPosition());
 }
 
 void ClientMapBoard::putWallAt(std::pair<int, int> coordinates,

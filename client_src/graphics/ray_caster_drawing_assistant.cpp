@@ -5,7 +5,7 @@
 #include "client/graphics/ray_caster_drawing_assistant.h"
 
 RayCasterDrawingAssistant::RayCasterDrawingAssistant(SdlWindow& _window,
-                                             TextureManager& _texture_manager) :
+                                                     TextureManager& _texture_manager) :
     window(_window),
     texture_manager(_texture_manager) {
 }
@@ -50,7 +50,7 @@ void RayCasterDrawingAssistant::putWall(int ray_no, ObjectInfo& object_info) {
 }
 
 Area RayCasterDrawingAssistant::assembleScreenArea(int ray_no,
-                                                ObjectInfo& object_info) const {
+                                                   ObjectInfo& object_info) const {
   double distance = object_info.getHitDistance();
   double wall_height = findWallHeight(distance);
   int wall_starting_point = findWallStartingPoint(wall_height);

@@ -55,7 +55,7 @@ std::string ImageParser::parseFormat(std::string value) {
 }
 
 std::string
-        ImageParser::getCorrectDoubleValue(const std::string& complete_value) {
+ImageParser::getCorrectDoubleValue(const std::string& complete_value) {
   std::string aux = complete_value.substr(complete_value.find(':') + 1);
   if (aux[aux.length() - 1] == ',') {
     return parseFormat(aux.substr(0, aux.length() - 1));
@@ -69,8 +69,8 @@ std::string ImageParser::getStringValue(const std::string& complete_value) {
 }
 
 void ImageParser::getSpriteInfo(ObjectInfo& object_info,
-                                const std::string &dimensions,
-                                const std::string &padding) {
+                                const std::string& dimensions,
+                                const std::string& padding) {
   object_info.setSpriteRows(stoi(dimensions.substr(dimensions.find(':')
                                                        + 1, dimensions.find('x'))));
   object_info.setSpriteCols(stoi(dimensions.substr(dimensions.find('x')

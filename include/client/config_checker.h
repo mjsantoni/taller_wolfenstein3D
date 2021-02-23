@@ -11,7 +11,6 @@
 #include <common/network_connection.h>
 #include <common/network_error.h>
 
-
 /*Class that extends a window from QT making an intro/configuration of the game*/
 class ConfigChecker : public QMainWindow {
   std::string& map_data;

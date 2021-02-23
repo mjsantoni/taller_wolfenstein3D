@@ -78,12 +78,12 @@ void ConfigChecker::createNewGame() {
 }
 
 void ConfigChecker::showParameters() {
-    try {
-        sk.send_msg(CREATE_GAME);
-    } catch (NetworkError) {
-        showError("Server currently down");
-        return;
-    }
+  try {
+    sk.send_msg(CREATE_GAME);
+  } catch (NetworkError) {
+    showError("Server currently down");
+    return;
+  }
 
   QComboBox* join_combo = findChild<QComboBox*>("mapCombo");
   QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
@@ -107,9 +107,9 @@ void ConfigChecker::showParameters() {
     int max_players_size = parser.getSpecificCategory("players").size();
     max_players_spin->setMinimum(1);
     if (max_players_size > 0) {
-        min_players_spin->setMaximum(max_players_size);
-        bots_spin->setMaximum(max_players_size - 1);
-        max_players_spin->setMaximum(max_players_size);
+      min_players_spin->setMaximum(max_players_size);
+      bots_spin->setMaximum(max_players_size - 1);
+      max_players_spin->setMaximum(max_players_size);
     }
   } catch (YAML::ParserException) {
     showError("Error parsing the map");
@@ -118,37 +118,36 @@ void ConfigChecker::showParameters() {
   }
 }
 
-
 void ConfigChecker::showIdSelection() {
-    try {
-        sk.send_msg(JOIN_GAME);
-    } catch (NetworkError& error) {
-        showError("Server currently down");
-        return;
-    }
+  try {
+    sk.send_msg(JOIN_GAME);
+  } catch (NetworkError& error) {
+    showError("Server currently down");
+    return;
+  }
 
-    hideWidget("connectionWidget");
+  hideWidget("connectionWidget");
   hideWidget("createConfirmButton");
   showWidget("joinWidget");
   showWidget("joinConfirmButton");
   QComboBox* id_combo = findChild<QComboBox*>("idCombo");
   showWidget("backJoinButton");
 
-    std::string games;
+  std::string games;
+  sk.recv_msg(games);
+  QStringList maps_names;
+
+  while (games != SUCCESS) {
+    if (!backed_join) {
+      maps_names << games.c_str();
+    }
+    games.clear();
     sk.recv_msg(games);
-    QStringList maps_names;
+  }
 
-    while (games != SUCCESS) {
-      if (!backed_join) {
-          maps_names << games.c_str();
-      }
-      games.clear();
-      sk.recv_msg(games);
-    }
-
-    if (maps_names.size() > 0) {
-      id_combo->addItems(maps_names);
-    }
+  if (maps_names.size() > 0) {
+    id_combo->addItems(maps_names);
+  }
 
 }
 
@@ -195,7 +194,7 @@ void ConfigChecker::connectEvents() {
   QCommandLinkButton* create_confirm_button = findChild<QCommandLinkButton*>("createConfirmButton");
   QPushButton* ok_button = findChild<QPushButton*>("okButton");
   QPushButton* back_join_button = findChild<QPushButton*>("backJoinButton");
-    QPushButton* back_create_button = findChild<QPushButton*>("backCreateButton");
+  QPushButton* back_create_button = findChild<QPushButton*>("backCreateButton");
   QPushButton* create_button = findChild<QPushButton*>("createButton");
   QPushButton* join_button = findChild<QPushButton*>("joinButton");
   QSpinBox* max_players_spin = findChild<QSpinBox*>("maxPlayersSpin");
@@ -284,13 +283,12 @@ void ConfigChecker::updateMaximums() {
   int value_max = max_players_spin->value();
 
   if (value_max > 0) {
-      if (value_max == min_players_spin->value()){
-          bots_spin->setValue(bots_spin->value() - 1);
-      }
-      bots_spin->setMaximum(value_max - 1);
-      min_players_spin->setMaximum(value_max);
+    if (value_max == min_players_spin->value()) {
+      bots_spin->setValue(bots_spin->value() - 1);
+    }
+    bots_spin->setMaximum(value_max - 1);
+    min_players_spin->setMaximum(value_max);
   }
-
 
 }
 
@@ -305,18 +303,18 @@ void ConfigChecker::backToMenu(bool backed_from_connect) {
   showWidget("connectionWidget");
 
   if (backed_from_connect) {
-      backed_create = true;
-      hideWidget("backCreateButton");
+    backed_create = true;
+    hideWidget("backCreateButton");
   } else {
-      backed_join = true;
-      hideWidget("backJoinButton");
+    backed_join = true;
+    hideWidget("backJoinButton");
   }
-    try {
-        sk.send_msg(BACK);
-    } catch (NetworkError& error) {
-        showError("Server currently down");
-        return;
-    }
+  try {
+    sk.send_msg(BACK);
+  } catch (NetworkError& error) {
+    showError("Server currently down");
+    return;
+  }
 }
 
 NetworkConnection ConfigChecker::getConnection() {
@@ -324,12 +322,12 @@ NetworkConnection ConfigChecker::getConnection() {
 }
 
 ConfigChecker::~ConfigChecker() {
-    if (centralWidget()->layout()) {
-        QLayoutItem* p_item;
-        while ((p_item = centralWidget()->layout()->takeAt( 0)) != nullptr) {
-            delete p_item->widget();
-            delete p_item;
-        }
-        delete centralWidget()->layout();
+  if (centralWidget()->layout()) {
+    QLayoutItem* p_item;
+    while ((p_item = centralWidget()->layout()->takeAt(0)) != nullptr) {
+      delete p_item->widget();
+      delete p_item;
     }
+    delete centralWidget()->layout();
+  }
 }

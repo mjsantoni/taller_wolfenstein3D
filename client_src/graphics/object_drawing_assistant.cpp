@@ -51,7 +51,7 @@ double ObjectDrawingAssistant::findObjectHeight(double distance) const {
   return (height_proportion * proj_plane_distance);
 }
 
-int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) const{
+int ObjectDrawingAssistant::findObjectStartingPoint(double object_height) const {
   return (int(screen_height / 2) - int(object_height / 2));
 }
 

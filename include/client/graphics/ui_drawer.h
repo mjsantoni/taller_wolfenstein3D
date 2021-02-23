@@ -21,7 +21,7 @@
 class UIDrawer {
  private:
   SdlWindow& window;
-    ObjectInfoProvider& info_provider;
+  ObjectInfoProvider& info_provider;
   int starting_point;
   int window_height;
   int ui_height;

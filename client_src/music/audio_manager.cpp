@@ -96,5 +96,5 @@ void AudioManager::setMusicVolume(int volume) {
 }
 
 void AudioManager::playTimeUpSong() {
-    audio_player.playMusic(getFilePath("time_up.wav"));
+  audio_player.playMusic(getFilePath("time_up.wav"));
 }

@@ -21,16 +21,16 @@ void ServerListener::run() {
       break;
     }
     Change change =
-            change_factory.createFromBytes(const_cast<char*>(msg.c_str()));
+        change_factory.createFromBytes(const_cast<char*>(msg.c_str()));
     if (change.getChangeID() == GAME_OVER)
-        stop();
+      stop();
     change_queue.push(change);
   }
 }
 
 void ServerListener::stop() {
-    alive = false;
-    skt.shutdownRecv();
+  alive = false;
+  skt.shutdownRecv();
 }
 
 

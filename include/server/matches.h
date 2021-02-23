@@ -16,8 +16,8 @@ class Matches {
  public:
   /* Constructor por default de la clase contenedora de partidas.
    * Funciona como monitor. */
-    Matches();
-    ~Matches();
+  Matches();
+  ~Matches();
 
   void addNewMatch(GameHandler* match);
 

@@ -33,8 +33,6 @@
 #define WATER_STRING "water_puddle"
 #define PLAYER_STRING "player"
 
-
-
 Editor::Editor(std::string& path, QMainWindow* parent) : QMainWindow(parent) {
   Ui::Editor editor;
   editor.setupUi(this);
@@ -52,11 +50,11 @@ Editor::Editor(std::string& path, QMainWindow* parent) : QMainWindow(parent) {
   connect(quit, &QAction::triggered, this, QApplication::quit);
   connect(load, &QAction::triggered, this, std::bind(&Editor::loadMap, this, ""));
   connect(save, &QAction::triggered, this, &Editor::exportMap);
-    this->setWindowIcon(QIcon(WINDOW_EDITOR_ICON));
-    connectEvents();
-    createMapGrid();
-    createTextureGrid();
-    if (!path.empty()) loadMap(path);
+  this->setWindowIcon(QIcon(WINDOW_EDITOR_ICON));
+  connectEvents();
+  createMapGrid();
+  createTextureGrid();
+  if (!path.empty()) loadMap(path);
 }
 
 void Editor::dragEnterEvent(QDragEnterEvent* e) {
@@ -230,7 +228,7 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   QMenu* menu_walls = new QMenu("Scenario");
   QMenu* menu_weapons = new QMenu("Weapons");
   QMenu* menu_items = new QMenu("Items");
-  QMenu* menu_players= new QMenu("Players");
+  QMenu* menu_players = new QMenu("Players");
 
   menu_walls->setIcon(wood_icon);
   menu_weapons->setIcon(rpg_icon);
@@ -265,17 +263,25 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   menu->addMenu(menu_weapons);
   menu->addMenu(menu_players);
 
-  connect(wood_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, wood_icon, WOOD_WALL_STRING));
+  connect(wood_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, wood_icon, WOOD_WALL_STRING));
   connect(rock_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, rock_icon, STONE_WALL_STRING));
-  connect(blue_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, blue_icon, BLUE_WALL_STRING));
+  connect(blue_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, blue_icon, BLUE_WALL_STRING));
   connect(stone_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, stone_icon, STONE_WALL_STRING));
   connect(rpg_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, rpg_icon, RPG_STRING));
-    connect(fake_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, fake_icon, FAKE_WALL_STRING));
-    connect(unlocked_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, unlocked_icon, UNLOCKED_STRING));
+  connect(fake_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, fake_icon, FAKE_WALL_STRING));
+  connect(unlocked_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, unlocked_icon, UNLOCKED_STRING));
   connect(chain_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, chain_icon, CHAIN_STRING));
@@ -288,23 +294,35 @@ QMenu* Editor::createGridButtonMenu(QGridButton* button) {
   connect(barrel_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, barrel_icon, BARREL_STRING));
-  connect(table_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, table_icon, TABLE_STRING));
+  connect(table_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, table_icon, TABLE_STRING));
   connect(bullets_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, bullets_icon, BULLETS_STRING));
-  connect(chest_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, chest_icon, CHEST_STRING));
-  connect(cross_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, cross_icon, CROSS_STRING));
-  connect(crown_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, crown_icon, CROWN_STRING));
+  connect(chest_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, chest_icon, CHEST_STRING));
+  connect(cross_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, cross_icon, CROSS_STRING));
+  connect(crown_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, crown_icon, CROWN_STRING));
   connect(goblet_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, goblet_icon, GOBLET_STRING));
   connect(food_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, food_icon, FOOD_STRING));
   connect(key_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, key_icon, KEY_STRING));
-  connect(medic_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, medic_icon, MEDKIT_STRING));
+  connect(medic_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, medic_icon, MEDKIT_STRING));
   connect(water_action,
           &QAction::triggered,
           std::bind(&Editor::updateGridButton, this, button, water_icon, WATER_STRING));
-    connect(player_action, &QAction::triggered, std::bind(&Editor::updateGridButton, this, button, player_icon, PLAYER_STRING));
+  connect(player_action,
+          &QAction::triggered,
+          std::bind(&Editor::updateGridButton, this, button, player_icon, PLAYER_STRING));
 
   return menu;
 }
@@ -325,7 +343,7 @@ void Editor::exportMap() {
   if (height.empty()) height = "14";
   if (width.empty()) width = "14";
 
-  std::unordered_map<std::string, std::vector<std::pair <int, int>>> positions;
+  std::unordered_map<std::string, std::vector<std::pair<int, int>>> positions;
 
   std::vector<std::pair<int, int>> wood_positions;
   std::vector<std::pair<int, int>> rock_positions;
@@ -371,20 +389,18 @@ void Editor::exportMap() {
   positions[BARREL_STRING] = barrel_positions;
   positions[TABLE_STRING] = table_positions;
   positions[WATER_STRING] = water_positions;
-  positions [PLAYER_STRING] = player_positions;
+  positions[PLAYER_STRING] = player_positions;
 
   QGridLayout* map_grid = findChild<QGridLayout*>("mapGrid");
   for (int i = 0; i < map_grid->rowCount(); ++i) {
     for (int j = 0; j < map_grid->columnCount(); ++j) {
       QGridButton* button_grid = qobject_cast<QGridButton*>(map_grid->itemAtPosition(j, i)->widget());
       std::string variantTexture = button_grid->property("texture").toString().toStdString();
-      if (positions.find(variantTexture) != positions.end()){
-          positions[button_grid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
+      if (positions.find(variantTexture) != positions.end()) {
+        positions[button_grid->property("texture").toString().toStdString().c_str()].emplace_back(i, j);
       }
     }
   }
-
-
 
   MapExporter exporter(width, height, positions);
 
@@ -591,13 +607,13 @@ void Editor::deleteWidgets(QGridLayout* layout) {
 }
 
 Editor::~Editor() {
-    if (centralWidget()->layout()) {
-        QLayoutItem* p_item;
-        while ((p_item = centralWidget()->layout()->takeAt( 0)) != nullptr) {
-            delete p_item->widget();
-            delete p_item;
-        }
-        delete centralWidget()->layout();
+  if (centralWidget()->layout()) {
+    QLayoutItem* p_item;
+    while ((p_item = centralWidget()->layout()->takeAt(0)) != nullptr) {
+      delete p_item->widget();
+      delete p_item;
     }
+    delete centralWidget()->layout();
+  }
 }
 

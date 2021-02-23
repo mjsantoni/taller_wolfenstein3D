@@ -48,7 +48,7 @@ void OffGameChangeProcessor::processOffGameChanges() {
     case (GAME_OVER_NETWORK_ERROR): {
       server_down = true;
       break;
-}
+    }
   }
 }
 

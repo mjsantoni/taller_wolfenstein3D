@@ -56,17 +56,16 @@ void SdlTexture::render(Area& dest) {
 }
 
 void SdlTexture::render(Area& dest, int image_x_pos) {
-    Area src = getTextureArea();
-    src.setX(image_x_pos);
-    SDL_Rect sdlSrc = {
-            src.getX(), src.getY(), src.getWidth(), src.getHeight()
-    };
-    SDL_Rect sdlDest = {
-            dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
-    };
-    SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
+  Area src = getTextureArea();
+  src.setX(image_x_pos);
+  SDL_Rect sdlSrc = {
+      src.getX(), src.getY(), src.getWidth(), src.getHeight()
+  };
+  SDL_Rect sdlDest = {
+      dest.getX(), dest.getY(), dest.getWidth(), dest.getHeight()
+  };
+  SDL_RenderCopy(renderer, texture, &sdlSrc, &sdlDest);
 }
-
 
 void SdlTexture::render(Area& src, Area& dest) {
   SDL_Rect sdlSrc = {

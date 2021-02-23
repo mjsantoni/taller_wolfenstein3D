@@ -15,25 +15,25 @@
 
 class OffGameHandler {
  private:
-    GameScreen& screen;
-    ClientMap& map;
-    AudioManager audio_manager;
-    OffGameChangeProcessor change_processor;
-    bool player_ready = false;
-    bool game_started = false;
-    OffGameEventGenerator event_generator;
-    bool& skip_stats;
-    bool& game_running;
-    bool server_down = false;
-    int handleLoadingScreenEvent(SDL_Event event);
+  GameScreen& screen;
+  ClientMap& map;
+  AudioManager audio_manager;
+  OffGameChangeProcessor change_processor;
+  bool player_ready = false;
+  bool game_started = false;
+  OffGameEventGenerator event_generator;
+  bool& skip_stats;
+  bool& game_running;
+  bool server_down = false;
+  int handleLoadingScreenEvent(SDL_Event event);
  public:
-    OffGameHandler(GameScreen& _screen, ClientPlayer& player, ClientMap& _map,
-                   SharedQueue<Change>& change_queue,
-                   BlockingQueue<Event>& event_queue,
-                   bool& _skip_stats, bool& _game_running);
-    void displayLoadingScreen();
-    void handleOffGame(const std::string& map_name);
-    void initializeMap(const std::string& map_name);
+  OffGameHandler(GameScreen& _screen, ClientPlayer& player, ClientMap& _map,
+                 SharedQueue<Change>& change_queue,
+                 BlockingQueue<Event>& event_queue,
+                 bool& _skip_stats, bool& _game_running);
+  void displayLoadingScreen();
+  void handleOffGame(const std::string& map_name);
+  void initializeMap(const std::string& map_name);
 };
 
 #endif //TP_WOLFENSTEIN_OFF_GAME_HANDLER_H

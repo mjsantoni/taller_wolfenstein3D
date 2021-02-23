@@ -31,7 +31,7 @@ class Drawable {
   int getMapWidth();
   void setMapWidth(int width);
   std::string getObjectName();
-  void setObjectName(const std::string &name);
+  void setObjectName(const std::string& name);
   void setMapPosition(std::pair<int, int> new_position);
   std::vector<int> moving_sprites{0, 1, 3, 4, 7};
   std::vector<int> shooting_sprite = {6};

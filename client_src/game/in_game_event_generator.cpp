@@ -12,12 +12,12 @@ InGameEventGenerator::InGameEventGenerator(ClientPlayer& _player,
                                            bool& _player_alive,
                                            bool& _game_running,
                                            bool& skip_stats) :
-        player(_player),
-        event_handler(_event_handler),
-        event_queue(_event_queue),
-        player_alive(_player_alive),
-        game_running(_game_running),
-        skip_stats(skip_stats) {
+    player(_player),
+    event_handler(_event_handler),
+    event_queue(_event_queue),
+    player_alive(_player_alive),
+    game_running(_game_running),
+    skip_stats(skip_stats) {
 }
 
 void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
@@ -48,20 +48,15 @@ void InGameEventGenerator::generateInGameEvent(SDL_Event sdl_event) {
           break;
         case SDLK_f:event = Event(PUSH_WALL, player.getId(), 0);
           break;
-        case SDLK_1:
-          event = Event(CHANGE_GUN, player.getId(), 1);
+        case SDLK_1:event = Event(CHANGE_GUN, player.getId(), 1);
           break;
-        case SDLK_2:
-          event = Event(CHANGE_GUN, player.getId(), 2);
+        case SDLK_2:event = Event(CHANGE_GUN, player.getId(), 2);
           break;
-        case SDLK_3:
-          event = Event(CHANGE_GUN, player.getId(), 3);
+        case SDLK_3:event = Event(CHANGE_GUN, player.getId(), 3);
           break;
-        case SDLK_4:
-          event = Event(CHANGE_GUN, player.getId(), 4);
+        case SDLK_4:event = Event(CHANGE_GUN, player.getId(), 4);
           break;
-        case SDLK_5:
-          event = Event(CHANGE_GUN, player.getId(), 5);
+        case SDLK_5:event = Event(CHANGE_GUN, player.getId(), 5);
           break;
       }
     }
@@ -83,19 +78,19 @@ void InGameEventGenerator::generateInGameEvents() {
   SDL_Event event;
   int event_counter = 0;
   while (SDL_PollEvent(&event)) {
-      ++event_counter;
-      switch (event.type) {
-        case SDL_KEYDOWN: {
-          generateInGameEvent(event);
-          break;
-        }
-        case SDL_MOUSEBUTTONDOWN:generateInGameEvent(event);
-          break;
-        case SDL_QUIT:game_running = false;
-          skip_stats = true;
-          return;
-        }
-        if (event_counter >= MAX_EVENTS)
-            return;
+    ++event_counter;
+    switch (event.type) {
+      case SDL_KEYDOWN: {
+        generateInGameEvent(event);
+        break;
+      }
+      case SDL_MOUSEBUTTONDOWN:generateInGameEvent(event);
+        break;
+      case SDL_QUIT:game_running = false;
+        skip_stats = true;
+        return;
     }
+    if (event_counter >= MAX_EVENTS)
+      return;
+  }
 }

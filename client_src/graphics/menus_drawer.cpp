@@ -115,7 +115,7 @@ void MenusDrawer::displayNetworkConnectingErrorScreen() {
   Area screen_area(0, 0, window_width, window_height);
   window.drawRectangle(screen_area, 0, 0, 0, 0);
   std::string message_text = "ERROR WHILE CONNECTING TO THE SERVER: EXITING";
-  screen_area = Area(window_width / 4, window_height / 3, window_width/2,
+  screen_area = Area(window_width / 4, window_height / 3, window_width / 2,
                      window_height / 6);
   Area msg_area;
   SDL_Color gray_color{224, 224, 224};
@@ -165,7 +165,7 @@ void MenusDrawer::displayStatisticsHeaders() {
   Area header_area_3;
   Area screen_area_1 = Area(window_width / 10, 0, window_width / 5,
                             window_height / 12);
-  Area screen_area_2 = Area(4*window_width/10, 0, window_width / 5,
+  Area screen_area_2 = Area(4 * window_width / 10, 0, window_width / 5,
                             window_height / 12);
   Area screen_area_3 = Area(7 * window_width / 10, 0,
                             window_width / 5, window_height / 12);
@@ -205,7 +205,7 @@ void MenusDrawer::displayTopShooters(std::vector<int> top_shooters,
     std::string msg_text = "Player " + std::to_string(top_shooters[i]) +
         ": " + std::to_string(top_shooters_stats[i]);
     Area msg_area;
-    Area screen_area = Area(4* window_width/10, (2 + 2 * i) * window_height/ 12,
+    Area screen_area = Area(4 * window_width / 10, (2 + 2 * i) * window_height / 12,
                             window_width / 5, window_height / 12);
     renderMessage(msg_text, msg_area, screen_area);
   }
@@ -217,7 +217,7 @@ void MenusDrawer::displayTopScorers(std::vector<int> top_scorers,
     std::string msg_text = "Player " + std::to_string(top_scorers[i]) +
         ": " + std::to_string(top_scorers_stats[i]);
     Area msg_area;
-    Area screen_area = Area(7 * window_width/10, (2 + 2 * i) * window_height/12,
+    Area screen_area = Area(7 * window_width / 10, (2 + 2 * i) * window_height / 12,
                             window_width / 5, window_height / 12);
     renderMessage(msg_text, msg_area, screen_area);
   }

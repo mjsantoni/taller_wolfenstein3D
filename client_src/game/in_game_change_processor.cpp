@@ -18,16 +18,16 @@ InGameChangeProcessor::InGameChangeProcessor(GameScreen& _screen,
                                              bool& _player_alive,
                                              bool& _game_running,
                                              bool& _skip_stats) :
-        screen(_screen),
-        map(_map),
-        player(_player),
-        change_queue(_change_queue),
-        game_over(false),
-        audio_manager(_audio_manager),
-        statistics_manager(_statistics_manager),
-        player_alive(_player_alive),
-        game_running(_game_running),
-        skip_stats(_skip_stats){
+    screen(_screen),
+    map(_map),
+    player(_player),
+    change_queue(_change_queue),
+    game_over(false),
+    audio_manager(_audio_manager),
+    statistics_manager(_statistics_manager),
+    player_alive(_player_alive),
+    game_running(_game_running),
+    skip_stats(_skip_stats) {
 }
 
 /* Ejecuta los cambios */
@@ -162,13 +162,13 @@ void InGameChangeProcessor::processChange(Change& change) {
       game_running = false;
       break;
     }
-     case (GAME_OVER_NETWORK_ERROR): {
-       screen.displayNetworkConnectionErrorScreen();
-       sleep(2);
-       skip_stats = true;
-       game_running = false;
-       break;
-      }
+    case (GAME_OVER_NETWORK_ERROR): {
+      screen.displayNetworkConnectionErrorScreen();
+      sleep(2);
+      skip_stats = true;
+      game_running = false;
+      break;
+    }
     case (CL_UPDATE_DIRECTION): {
       player.updateDirection(value2);
       break;
@@ -180,51 +180,50 @@ void InGameChangeProcessor::processChange(Change& change) {
 }
 
 void InGameChangeProcessor::processPostGameChanges(Change change) {
-    int change_id = change.getChangeID();
-    if (change_id == GAME_OVER) {
-        map.updateEvents();
-        game_running = false;
-        return;
-    }
-    if (change_id < TOP_KILLER || change_id > TOP_SCORER)
-        return;
-    int player_id = change.getPlayerID();
-    int value = change.getFirstValue();
-    statistics_manager.addStatistic(change_id, player_id, value);
+  int change_id = change.getChangeID();
+  if (change_id == GAME_OVER) {
+    map.updateEvents();
+    game_running = false;
+    return;
+  }
+  if (change_id < TOP_KILLER || change_id > TOP_SCORER)
+    return;
+  int player_id = change.getPlayerID();
+  int value = change.getFirstValue();
+  statistics_manager.addStatistic(change_id, player_id, value);
 }
 
 void InGameChangeProcessor::processInGameChanges() {
-    Change change = change_queue.pop();
-    int change_counter = 0;
-    while (!change.isInvalid()) {
-        ++change_counter;
-        processChange(change);
-        if (game_over)
-            return;
-        if (change_counter >= MAX_CHANGES)
-            break;
-        change = change_queue.pop();
-    }
-    updateGame();
+  Change change = change_queue.pop();
+  int change_counter = 0;
+  while (!change.isInvalid()) {
+    ++change_counter;
+    processChange(change);
+    if (game_over)
+      return;
+    if (change_counter >= MAX_CHANGES)
+      break;
+    change = change_queue.pop();
+  }
+  updateGame();
 }
 
 void InGameChangeProcessor::updateGame() {
-    if (!skip_rendering || mandatory_rendering_turns != 0)
-        screen.render(render_background_and_objects);
-    if (counter % SPRITES_UPDATE_TURNS == 0)
-        map.updateEnemiesSprites();
-    map.updateEvents();
-    ++counter;
-    render_background_and_objects = true;
-    skip_rendering = false;
-    if (mandatory_rendering_turns > 0)
-        --mandatory_rendering_turns;
+  if (!skip_rendering || mandatory_rendering_turns != 0)
+    screen.render(render_background_and_objects);
+  if (counter % SPRITES_UPDATE_TURNS == 0)
+    map.updateEnemiesSprites();
+  map.updateEvents();
+  ++counter;
+  render_background_and_objects = true;
+  skip_rendering = false;
+  if (mandatory_rendering_turns > 0)
+    --mandatory_rendering_turns;
 }
 
 void InGameChangeProcessor::stop() {
   game_over = false;
 }
-
 
 void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
   if (value > 0) {
@@ -249,28 +248,22 @@ void InGameChangeProcessor::processEnemyAmmoChange(int enemy_id, int value) {
 void InGameChangeProcessor::playAttackingSound(int players_weapon,
                                                double distance_ratio) {
   switch (players_weapon) {
-    case WEAPON_KNIFE:
-      audio_manager.displayKnifeStabbingSound();
+    case WEAPON_KNIFE:audio_manager.displayKnifeStabbingSound();
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_PISTOL:
-      audio_manager.displayPlayerPistolSound(distance_ratio);
+    case WEAPON_PISTOL:audio_manager.displayPlayerPistolSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_MACHINE_GUN:
-        audio_manager.displayMachineGunSound(distance_ratio);
+    case WEAPON_MACHINE_GUN:audio_manager.displayMachineGunSound(distance_ratio);
       mandatory_rendering_turns = MACHINE_GUN_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_ROCKET_LAUNCHER:
-      audio_manager.displayRocketLauncherSound(distance_ratio);
+    case WEAPON_ROCKET_LAUNCHER:audio_manager.displayRocketLauncherSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
-    case WEAPON_CHAIN_CANNON:
-      audio_manager.displayMachineGunSound(distance_ratio);
+    case WEAPON_CHAIN_CANNON:audio_manager.displayMachineGunSound(distance_ratio);
       mandatory_rendering_turns = MACHINE_GUN_ANIMATION_TURNS + 1;
       break;
-    default:
-      audio_manager.displayPlayerPistolSound(distance_ratio);
+    default:audio_manager.displayPlayerPistolSound(distance_ratio);
       mandatory_rendering_turns = WEAPON_SHOOTING_ANIMATION_TURNS + 1;
       break;
   }
@@ -296,12 +289,12 @@ void InGameChangeProcessor::processPlayerAmmoChange(int delta) {
 void InGameChangeProcessor::processEnemyHealthChange(int enemy_id,
                                                      int delta) {
   if (delta >= 0) {
-      render_background_and_objects = false;
-      return;
+    render_background_and_objects = false;
+    return;
   }
   map.setBloodEffectForEnemy(enemy_id);
   int enemy_type = map.getEnemyTypeFromId(enemy_id);
-    double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
+  double distance_ratio = map.getEnemyDistanceRatio(enemy_id);
   if (enemy_type == ENEMY_DOG)
     audio_manager.displayDogGettingHit(distance_ratio);
   else

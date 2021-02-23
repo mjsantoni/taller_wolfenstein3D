@@ -56,7 +56,7 @@ class InGameChangeProcessor {
   void updateMandatoryRenderingTurns(int new_value);
   void playAttackingSound(int players_weapon, double distance_ratio);
 
-    void updateGame();
+  void updateGame();
 };
 
 #endif //TP_WOLFENSTEIN_IN_GAME_CHANGE_PROCESSOR_H

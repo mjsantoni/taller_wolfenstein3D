@@ -187,7 +187,7 @@ void RayCaster::fillRayInfo(double beta,
   double final_distance = Calculator::calculateDistance(delta_x, delta_y)
       * cos(beta);
   if (final_distance >= ray_info.getHitDistance()
-                                            && ray_info.getHitDistance() != 0)
+      && ray_info.getHitDistance() != 0)
     return;
   ray_info.setHitDistance(final_distance);
   map.getMapInfoForWall(ray_info, x_pos + delta_x, y_pos + delta_y,
@@ -195,7 +195,7 @@ void RayCaster::fillRayInfo(double beta,
   double hit_grid_pos = ((x_pos + delta_x) % GRID_SIZE == 0) ?
                         double((y_pos + delta_y) % GRID_SIZE) / GRID_SIZE :
                         double((x_pos + delta_x) % GRID_SIZE) / GRID_SIZE;
-   ray_info.setHitGridPosition(hit_grid_pos);
+  ray_info.setHitGridPosition(hit_grid_pos);
 }
 
 int RayCaster::calculateBorderFactor(bool should_decrease, int position) {

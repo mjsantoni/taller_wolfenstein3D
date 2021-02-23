@@ -37,7 +37,7 @@ void GameScreen::displayDeadScreen() {
 }
 
 GameScreen::~GameScreen() {
-    TTF_Quit();
+  TTF_Quit();
 }
 
 std::vector<Area> GameScreen::getKeyScreenAreas() {

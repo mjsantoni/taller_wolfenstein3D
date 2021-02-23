@@ -23,9 +23,9 @@ class BotsManager {
    */
   BotsManager(SharedQueue<Event>& sq);
 
-   /* Añade un bot creandolo a partir del script y le da una referencia a
-    * la clase Player de donde obtiene informacion actual de si mismo.
-    */
+  /* Añade un bot creandolo a partir del script y le da una referencia a
+   * la clase Player de donde obtiene informacion actual de si mismo.
+   */
   void addBot(Player& player, double angle_turn);
 
   void sendMapToBot(LuaBot* bot, Map& map, std::vector<Player>& players);

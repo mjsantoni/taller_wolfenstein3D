@@ -37,7 +37,7 @@ class ObjectDrawer {
   double calculateObjectStartingXPos(double os_angle, double of_angle,
                                      double diff_angle);
   void renderObject(double player_angle, double object_angle,
-                    double x_prop, Drawable &object);
+                    double x_prop, Drawable& object);
   double getGammaAngle(double player_angle, double object_angle);
   bool blockedByWall(double angle, double distance, int object_type);
   std::vector<Drawable> getMapObjects(int x, int y);

@@ -90,7 +90,7 @@ void SdlWindow::loadImage(SDL_Texture* texture,
 }
 
 void SdlWindow::setWindowIcon() {
-    SDL_Surface* surface = IMG_Load(WINDOW_ICON_PATH);
-    SDL_SetWindowIcon(window, surface);
-    SDL_FreeSurface(surface);
+  SDL_Surface* surface = IMG_Load(WINDOW_ICON_PATH);
+  SDL_SetWindowIcon(window, surface);
+  SDL_FreeSurface(surface);
 }

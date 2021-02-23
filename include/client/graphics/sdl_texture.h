@@ -13,14 +13,14 @@
 #include <client/object_info.h>
 
 class SdlTexture {
-private:
-    int width = 0;
-    int height = 0;
-    SDL_Texture* loadTexture(const std::string& file_name);
-protected:
-    std::string file_name;
-    SDL_Texture* texture;
-    SDL_Renderer* renderer;
+ private:
+  int width = 0;
+  int height = 0;
+  SDL_Texture* loadTexture(const std::string& file_name);
+ protected:
+  std::string file_name;
+  SDL_Texture* texture;
+  SDL_Renderer* renderer;
  public:
   SdlTexture(SdlTexture&) = delete;
   SdlTexture(SdlTexture&&) noexcept;
@@ -32,7 +32,7 @@ protected:
   SdlTexture& operator=(SdlTexture&&) noexcept;
   void render(Area& src, Area& dest);
   void render(Area& dest);
-  void render(Area &dest, int image_x_pos);
+  void render(Area& dest, int image_x_pos);
 };
 
 #endif //TP_WOLFENSTEIN_SDL_TEXTURE_H

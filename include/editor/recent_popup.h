@@ -20,14 +20,13 @@
 #include "ui_recents.h"
 
 class RecentPopup : public QMainWindow {
-    std::string& path;
-public:
-    explicit RecentPopup(std::string& _path, QMainWindow* parent = 0);
-    void showLastModifiedFiles();
-    void changeFileToOpen();
-    void resetButtons();
-    void mousePressEvent(QMouseEvent* event);
+  std::string& path;
+ public:
+  explicit RecentPopup(std::string& _path, QMainWindow* parent = 0);
+  void showLastModifiedFiles();
+  void changeFileToOpen();
+  void resetButtons();
+  void mousePressEvent(QMouseEvent* event);
 };
-
 
 #endif //WOLFENSTEIN3D_EDITOR_RECENT_POPUP_H

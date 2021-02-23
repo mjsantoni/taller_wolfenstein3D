@@ -10,20 +10,19 @@ OffGameHandler::OffGameHandler(GameScreen& _screen,
                                BlockingQueue<Event>& event_queue,
                                bool& _skip_stats,
                                bool& _game_running) :
-        screen(_screen),
-        map(_map),
-        change_processor(_map, player, change_queue, game_started, player_ready,
+    screen(_screen),
+    map(_map),
+    change_processor(_map, player, change_queue, game_started, player_ready,
                      server_down),
-        event_generator(event_queue, player),
-        skip_stats(_skip_stats),
-        game_running(_game_running) {
+    event_generator(event_queue, player),
+    skip_stats(_skip_stats),
+    game_running(_game_running) {
 }
 
 void OffGameHandler::handleOffGame(const std::string& map_name) {
   initializeMap(map_name);
   displayLoadingScreen();
 }
-
 
 void OffGameHandler::displayLoadingScreen() {
   screen.displayLoadingScreen(true);
@@ -39,15 +38,15 @@ void OffGameHandler::displayLoadingScreen() {
       screen.displayLoadingScreen(false);
     }
     if (skip_stats) {
-        game_running = false;
-        return;
+      game_running = false;
+      return;
     }
     if (server_down) {
-        screen.displayNetworkConnectionErrorScreen();
-        sleep(2);
-        game_running = false;
-        skip_stats = true;
-        return;
+      screen.displayNetworkConnectionErrorScreen();
+      sleep(2);
+      game_running = false;
+      skip_stats = true;
+      return;
     }
   }
 }
@@ -59,16 +58,16 @@ void OffGameHandler::initializeMap(const std::string& map_name) {
 }
 
 int OffGameHandler::handleLoadingScreenEvent(SDL_Event event) {
-    if (event.type == SDL_QUIT) {
-        skip_stats = true;
-        return 0;
-    }
-    if (event.type != SDL_KEYDOWN)
-        return 0;
-    auto& key_event = (SDL_KeyboardEvent&) event;
-    if (key_event.keysym.sym == SDLK_p)
-        return 1;
+  if (event.type == SDL_QUIT) {
+    skip_stats = true;
     return 0;
+  }
+  if (event.type != SDL_KEYDOWN)
+    return 0;
+  auto& key_event = (SDL_KeyboardEvent&) event;
+  if (key_event.keysym.sym == SDLK_p)
+    return 1;
+  return 0;
 }
 
 
