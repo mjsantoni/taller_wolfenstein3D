@@ -25,9 +25,11 @@ class Server : public Thread {
 
   bool joinGame(int game_id, NetworkConnection socket);
 
-  int createGame(std::string& map, int min_players, int max_players, int bots, int time);
+  int createGame(NetworkConnection& skt, std::string& options);
 
   void killDead();
+
+  void stopGames();
 
   std::vector<int> split(const std::string& bytes);
 
