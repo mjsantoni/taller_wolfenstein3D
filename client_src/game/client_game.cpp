@@ -55,7 +55,7 @@ void ClientGame::processGame() {
     event_generator.generateInGameEvents();
     auto final_time = std::chrono::system_clock::now();
     std::chrono::duration<double> delta_t = final_time - initial_time;
-    double reminder = TICK_DURATION_SC - delta_t.count();
+    double reminder = TICK_DURATION_MS - delta_t.count();
     reminder = (reminder > 0) ? reminder : 0;
     usleep(reminder);
   }
